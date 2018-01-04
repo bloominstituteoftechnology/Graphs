@@ -1,3 +1,6 @@
+/**
+ * Edge
+ */
 export class Edge {
 	constructor(destination, weight=1) {
 		this.destination = destination;
@@ -5,6 +8,9 @@ export class Edge {
 	}
 }
 
+/**
+ * Vertex
+ */
 export class Vertex {
 	constructor(value='vertex') {
 		this.value = value;
@@ -12,11 +18,17 @@ export class Vertex {
 	}
 }
 
+/**
+ * Graph
+ */
 export class Graph {
 	constructor() {
 		this.vertexes = [];
 	}
 
+	/**
+	 * Create a random graph
+	 */
 	randomize(width, height, pxBox, probability=0.6) {
 		// Helper function to set up two-way edges
 		function connectVerts(v0, v1) {
@@ -80,6 +92,9 @@ export class Graph {
 		}
 	}
 
+	/**
+	 * Dump graph data to the console
+	 */
 	dump() {
 		let s;
 
@@ -97,6 +112,9 @@ export class Graph {
 		}
 	}
 
+	/**
+	 * BFS
+	 */
 	bfs(start, reset=true) {
 		const component = [];
 		const queue = [];
@@ -131,6 +149,9 @@ export class Graph {
 		return component;
 	}
 
+	/**
+	 * Get the connected components
+	 */
 	getConnectedComponents() {
 		const componentsList = [];
 

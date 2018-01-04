@@ -1,3 +1,6 @@
+/**
+ * Edge class
+ */
 class Edge {
 	constructor(destination, weight=1) {
 		this.destination = destination;
@@ -5,6 +8,9 @@ class Edge {
 	}
 }
 
+/**
+ * Vertex class
+ */
 class Vertex {
 	constructor(value='vertex') {
 		this.value = value;
@@ -12,11 +18,17 @@ class Vertex {
 	}
 }
 
+/**
+ * Graph class
+ */
 class Graph {
 	constructor() {
 		this.vertexes = [];
 	}
 
+	/**
+	 * Breadth-First search from a starting vertex
+	 */
 	bfs(start) {
 		const queue = [];
 
@@ -46,6 +58,11 @@ class Graph {
 		}
 	}
 
+	/**
+	 * Find a vertex by its value
+	 * 
+	 * Return null if the vertex isn't found
+	 */
 	findVertex(value) {
 		for (let v of this.vertexes) {
 			if (v.value == value) {
@@ -56,6 +73,10 @@ class Graph {
 		return null;
 	}
 
+	/**
+	 * Print out the route from the start vert back along the parent
+	 * pointers (set in the previous BFS)
+	 */
 	route(start) {
 		let p = start;
 		let s = '';

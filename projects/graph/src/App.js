@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
+// Define the size of the random graph
 const xCount = 5;
 const yCount = 5;
 const boxSize = 150;
 const probability = 0.6;
 
+// Figure out the canvas size
 const canvasWidth = boxSize * xCount;
 const canvasHeight = boxSize * yCount;
 const radius = boxSize / 8;
@@ -15,14 +17,23 @@ const radius = boxSize / 8;
  * GraphView
  */
 class GraphView extends Component {
+  /**
+   * On mount
+   */
   componentDidMount() {
     this.updateCanvasConnectedComponents();
   }
 
+  /**
+   * On state update
+   */
   componentDidUpdate() {
     this.updateCanvasConnectedComponents();
   }
 
+  /**
+   * Draw the given verts
+   */
   drawVerts(vertexes, color='blue', clear=true) {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
@@ -67,12 +78,18 @@ class GraphView extends Component {
     }
   }
   
+  /**
+   * Draw the entire graph
+   */
   updateCanvasEntireGraph() {
     const g = this.props.graph;
     this.drawVerts(g.vertexes);
     //g.dump();
   }
 
+  /**
+   * Draw the connected components
+   */
   updateCanvasConnectedComponents() {
     function randomHexColor() {
       let color = ((Math.random() * 240)|0).toString(16);
@@ -98,6 +115,9 @@ class GraphView extends Component {
     }
   }
 
+  /**
+   * Render
+   */
   render() {
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
@@ -119,6 +139,9 @@ class App extends Component {
     this.state.graph.randomize(xCount, yCount, boxSize, probability);
   }
 
+  /**
+   * Handle the button press
+   */
   onButton() {
     const state = {
       graph: new Graph()

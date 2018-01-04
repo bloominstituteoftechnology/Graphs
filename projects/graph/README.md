@@ -104,3 +104,9 @@ This is a necessary step in figuring out the connected components.
 
 It's likely the random graphs have multiple connected components. Choose
 a random color for the edges of connected component.
+
+## Phase 6: Add a UI Button to Generate a new Graph
+
+Instead of hitting reload, it would be nice to have a button that you
+could press to generate a new random graph and show the connected
+components.
