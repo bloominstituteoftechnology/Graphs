@@ -6,8 +6,8 @@ export class Edge {
 }
 
 export class Vertex {
-	constructor() {
-		this.value = 'vertex'; // User can override
+	constructor(value='vertex') {
+		this.value = value;
 		this.edges = [];
 	}
 }
