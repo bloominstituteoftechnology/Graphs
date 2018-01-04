@@ -13,6 +13,11 @@ the exact same procedure could be used to:
 * route an AI through a level
 * etc.
 
+## Map of the Internet
+
+This is what is in the boilerplate:
+
+![Network Map](img/internet.png)
 
 ## Modified BFS
 
