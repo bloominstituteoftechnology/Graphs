@@ -36,3 +36,7 @@ for v in graph.vertexes:
     component = bfs(v)
 	connected_components.push(component);
 ```
+
+## Exercises
+
+Draw a graph of 8 vertexes with 3 connected components.
