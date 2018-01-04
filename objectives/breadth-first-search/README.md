@@ -1,4 +1,4 @@
-# Breadth First Search (DFS)
+# Breadth First Search (BFS)
 
 ## Objective
 
