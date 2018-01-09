@@ -49,6 +49,23 @@ If a cycle can be formed (e.g. you can follow the edges and arrive again
 at an already-visited vert), the graph is _cyclic_. Otherwise it is
 _acyclic_
 
+### Weighted Graphs
+
+Graphs with values (_weights_) associated with the edges are called
+_weighted graphs_.
+
+The meaning of the weight is dependent on the type of graph. A graph of
+road network segments might have weight represent the length of the
+road. The higher the total weight of a route on the graph, the longer
+the trip is. The weights can be used to help decide if a particular
+route should be chosen over another.
+
+Weights can be further modified. For example, if one were building a
+bicycle map, roads with bad car traffic or very steep uphills could be
+given unnaturally large weights so a routing algorithm would be unlikely
+to take them. (This is how Google Maps avoids freeways when you ask it
+for walking directions.)
+
 ### Directed Acyclic Graphs (DAGs)
 
 A _directed acyclic graph_ (_DAG_) has a number of applications. From
