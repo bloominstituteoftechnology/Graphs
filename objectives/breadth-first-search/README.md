@@ -25,6 +25,18 @@ followed since their destination nodes had already been visited.)
 (Of course, the exact order will vary depending on which branches get
 taken first and which vertex is the starting vertex.)
 
+## Uses of BFS
+
+* Pathfinding, Routing 
+* Find neighbor nodes in a P2P network like Bittorrent 
+* Web crawlers 
+* Finding people n connections away on a social site 
+* Find neighboring locations on graph 
+* Broadcasting in a network 
+* Cycle detection in a graph 
+* Finding [Connected Components](https://en.wikipedia.org/wiki/Connected_component_(graph_theory))
+* Solving a number of theoretical graph problems 
+
 ## Coloring Vertexes
 
 As the graph is explored, it's useful to color verts as you arrive at
