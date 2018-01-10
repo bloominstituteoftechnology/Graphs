@@ -25,6 +25,14 @@ followed since their destination nodes had already been visited.)
 (Of course, the exact order will vary depending on which branches get
 taken first and which vertex is the starting vertex.)
 
+## Applications of DFS
+
+* Finding [Minimum Spanning Trees](https://en.wikipedia.org/wiki/Minimum_spanning_tree) of weighted graphs
+* Path finding
+* Detecting cycles in graphs
+* [Topological sorting](https://en.wikipedia.org/wiki/Topological_sorting), useful for scheduling sequences of dependent jobs
+* Solving and generating mazes
+
 ## Coloring Vertexes
 
 As the graph is explored, it's useful to color verts as you arrive at
