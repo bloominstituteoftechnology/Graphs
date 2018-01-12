@@ -95,25 +95,3 @@ graph.vertexes.push(vertE);
 graph.vertexes.push(vertF);
 graph.vertexes.push(vertG);
 graph.vertexes.push(vertH);
-
-// Look up the hosts passed on the command line by name to see if we can
-// find them.
-
-const hostAVert = graph.findVertex(args[0]);
-
-if (hostAVert === null) {
-	console.error('routing: could not find host: ' + args[0]);
-	process.exit(2);
-}
-
-const hostBVert = graph.findVertex(args[1]);
-
-if (hostBVert === null) {
-	console.error('routing: could not find host: ' + args[1]);
-	process.exit(2);
-}
-
-// Route from one host to another
-
-graph.bfs(hostBVert);
-graph.route(hostAVert);
