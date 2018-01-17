@@ -110,3 +110,32 @@ a random color for the edges of connected component.
 Instead of hitting reload, it would be nice to have a button that you
 could press to generate a new random graph and show the connected
 components.
+
+## Stretch 1:
+
+Add random edge weights, integers from 1-10. Draw the weight near the center of the edge.
+
+> Hint: the center of a line is at point _x_,_y_, where _x_ is the average of
+> the x coordinates of the endpoints of the line, and _y_ is the average of the
+> y coordinates of the endpoints of the line.
+
+Even though there are two edges between each connected vertex on the graph,
+there should only be one label (since the edges are effectively a single,
+non-directed edge.)
+
+
+## Stretch 2:
+
+Figure out which vertex a user is clicking on when they click with a mouse.
+`console.log` the vertex value when they do to test.
+
+Allow the user to select two verts: starting and ending.
+
+
+## Stretch 3:
+
+Implement [Dijkstra's
+Algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) to find the
+shortest route between starting and ending points from Stretch 2.
+
+Highlight the route.
