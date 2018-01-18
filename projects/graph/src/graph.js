@@ -1,21 +1,32 @@
 /**
  * Edge
  */
-export class Edge {
-	// !!! IMPLEMENT ME
+// export class Edge {
+class Edge {
+	constructor(destination, weight=1) {
+		this.destination = destination;
+		this.weight = weight;
+	}
+
+
 }
 
 /**
  * Vertex
  */
-export class Vertex {
-	// !!! IMPLEMENT ME
+// export class Vertex {
+class Vertex {
+	constructor(value) {
+		this.value = value;
+		this.edges = [];
+	}
 }
 
 /**
  * Graph
  */
-export class Graph {
+// export class Graph {
+class Graph {
 	constructor() {
 		this.vertexes = [];
 	}
@@ -110,13 +121,88 @@ export class Graph {
 	 * BFS
 	 */
 	bfs(start) {
-		// !!! IMPLEMENT ME
+		// set all vertieces to white
+		for (let v of this.vertexes) {
+			v.color = 'white';
+		}
+
+		// set start vertex color to gray
+		start.color = 'gray';
+		start.parent = null;
+		// instantiate the queue with the start vertex
+		let comp = [];
+		let q = [start];
+		// let visited = [start.value]
+
+		while (q.length > 0) {
+			let peekVertex = q[0];
+
+			// console.log(`peeking at ${peekVertex.value}`);
+
+			peekVertex.edges.forEach(edge => {
+				const v = edge.destination;
+				if (v.color === 'white') {
+					v.parent = peekVertex;
+					v.color = 'gray';
+					q.push(v);
+				}
+				// console.log(edge.destination);
+				// if (!(visited.filter(v => v === edge.destination.value).length > 0)) {
+				// 	// console.log(edge.destination.value);
+				// 	visited.push(edge.destination.value)
+				// 	q.push(edge.destination);
+				// }
+				// q.push(edge.destination);
+			})
+
+			q.shift();
+			peekVertex.color = 'black';
+			// console.log(peekVertex);
+			comp.push(peekVertex);
+		}
+		return comp;
 	}
 
 	/**
 	 * Get the connected components
 	 */
 	getConnectedComponents() {
-		// !!! IMPLEMENT ME
+		// keep calling bfs with different starting points until there is no more vertexes left
+		let unusedVertexes = this.vertexes;
+		let components = [];
+		// console.log(unusedVertexes)
+
+		while(unusedVertexes.length > 0) {
+			let randomVertex = unusedVertexes[Math.floor(Math.random() * unusedVertexes.length)];
+			// console.log(randomVertex);
+			const component = this.bfs(randomVertex);
+			// console.log(component);
+			components.push(component);
+			// remove get difference of unusedVertexs and the vertexes in component just found.
+			component.forEach(v => {
+				// console.log(v)
+				if (unusedVertexes.filter(v1 => v1.value === v.value).length > 0) {
+					// remove object
+					const removeIndex = unusedVertexes.map((i) => { return i.value; }).indexOf(v.value);
+					unusedVertexes.splice(removeIndex, 1);
+				}
+			})
+		}
+		// console.log(components);
+		return components;
 	}
 }
+
+// let g = new Graph();
+
+// g.randomize(3, 3, 2);
+// g.randomize();
+// g.dump();
+// g.getConnectedComponents().forEach(comp => console.log(comp));
+// g.bfs(g.vertexes[0]);
+// g.vertexes.forEach(v => {
+// 	console.log(`vertex ${v}`)
+// 	v.edges.forEach(e => console.log(e.destination))
+// });
+
+module.exports = {Edge, Vertex, Graph}
