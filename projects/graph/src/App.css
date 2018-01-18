@@ -23,6 +23,23 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.random-button {
+  height: 50px;
+  color: white;
+  background-color: skyblue;
+  text-align: center;
+  padding: 20px 15px;
+  padding-bottom: 0;
+  width: 200px;
+  font-size: 1.5em;
+  /* display: block; */
+  margin: 15px auto;
 }
