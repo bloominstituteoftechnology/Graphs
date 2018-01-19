@@ -80,6 +80,7 @@ BFS(graph, startVert):
 
 ## Exercises
 
-* Build a random graph and show a vertex visitation order for BFS.
-
-* One more for good measure.
+* [Build a random graph and show a vertex visitation order for BFS.](graph1.png)
+  * Order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
+* [One more for good measure.](graph2.png)
+  * Order: 1 -> 2 -> 3 -> 4 -> 5 -> 6

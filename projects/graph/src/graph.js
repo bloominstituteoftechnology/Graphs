@@ -2,14 +2,22 @@
  * Edge
  */
 export class Edge {
-	// !!! IMPLEMENT ME
+  // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+    this.weight = Math.floor(Math.random() * 10 ) + 1;
+	}
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-	// !!! IMPLEMENT ME
+  // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.color = "white";
+	}
 }
 
 /**
@@ -110,13 +118,35 @@ export class Graph {
 	 * BFS
 	 */
 	bfs(start) {
-		// !!! IMPLEMENT ME
+    const queue = [];
+		const visitedNodes = [];
+		start.color = "gray";
+		queue.push(start);
+		while (queue.length > 0) {
+      const head = queue.shift();
+      for(let i = 0; i < head.edges.length; i++) {
+        const neighbor =  head.edges[i].destination;
+        if(neighbor.color === "white") {
+          neighbor.color = "gray";
+          queue.push(neighbor);
+        }
+      }
+      head.color = "black";
+      visitedNodes.push(head);
+		}
+		return visitedNodes;
 	}
 
 	/**
 	 * Get the connected components
 	 */
 	getConnectedComponents() {
-		// !!! IMPLEMENT ME
+		const componentList = [];
+    for(let i = 0; i < this.vertexes.length; i++) {
+      if (this.vertexes[i].color === "white") {
+				componentList.push(this.bfs(this.vertexes[i]));
+			}
+    }
+		return componentList;
 	}
 }

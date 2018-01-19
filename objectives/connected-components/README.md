@@ -39,4 +39,4 @@ for v in graph.vertexes:
 
 ## Exercises
 
-Draw a graph of 8 vertexes with 3 connected components.
+[Draw a graph of 8 vertexes with 3 connected components.](components.png)

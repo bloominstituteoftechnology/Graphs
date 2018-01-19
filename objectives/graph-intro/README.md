@@ -95,7 +95,7 @@ A _directed acyclic graph_ (_DAG_) has a number of applications. From
 
 Draw examples of the following:
 
-* Undirected graph of 4 verts.
-* Directed graph of 5 verts.
-* Cyclic directed graph of 6 verts.
-* DAG of 7 verts.
+* [Undirected graph of 4 verts.](graph1.png)
+* [Directed graph of 5 verts.](graph2.png)
+* [Cyclic directed graph of 6 verts.](graph3.png)
+* [DAG of 7 verts.](graph4.png)
