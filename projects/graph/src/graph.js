@@ -148,5 +148,5 @@ export class Graph {
       }
     }
     return componentList;
-	}
+  }
 }
