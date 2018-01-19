@@ -17,7 +17,7 @@ export class Vertex {
   constructor() {
     this.edges = [];
     this.color = "white";
-	}
+  }
 }
 
 /**
@@ -117,12 +117,12 @@ export class Graph {
 	/**
 	 * BFS
 	 */
-	bfs(start) {
+  bfs(start) {
     const queue = [];
-		const visitedNodes = [];
-		start.color = "gray";
-		queue.push(start);
-		while (queue.length > 0) {
+    const visitedNodes = [];
+    start.color = "gray";
+    queue.push(start);
+    while (queue.length > 0) {
       const head = queue.shift();
       for(let i = 0; i < head.edges.length; i++) {
         const neighbor =  head.edges[i].destination;
@@ -133,20 +133,20 @@ export class Graph {
       }
       head.color = "black";
       visitedNodes.push(head);
-		}
-		return visitedNodes;
-	}
+    }
+    return visitedNodes;
+  }
 
 	/**
 	 * Get the connected components
 	 */
 	getConnectedComponents() {
-		const componentList = [];
+    const componentList = [];
     for(let i = 0; i < this.vertexes.length; i++) {
       if (this.vertexes[i].color === "white") {
-				componentList.push(this.bfs(this.vertexes[i]));
-			}
+        componentList.push(this.bfs(this.vertexes[i]));
+      }
     }
-		return componentList;
+    return componentList;
 	}
 }
