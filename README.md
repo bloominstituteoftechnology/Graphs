@@ -1,13 +1,11 @@
-# Graphs
+# Graphs (Solution Branch)
 
-## Objectives
-
-* [Graph Intro](objectives/graph-intro)
-* [Breadth First Search](objectives/breadth-first-search)
-
-* [Depth First Search](objectives/depth-first-search)
-* [Connected Components](objectives/connected-components)
+_Switch to the `master` branch for instructions._
 
 ## Projects
 
 * [Drawing Connected Components](projects/graph)
+
+## Other
+
+* [Animated BFS example code](projects/bfsanim)
