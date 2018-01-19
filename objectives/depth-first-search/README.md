@@ -84,6 +84,8 @@ DFS_visit(v):
 
 ## Exercises
 
-* Build a random graph and show a vertex visitation order for DFS.
+* [Build a random graph and show a vertex visitation order for DFS.](graph1.png)
+  * Order: 1 -> 2 -> 4 -> 5 -> 3 -> 6 -> 7
 
-* One more for good measure.
+* [One more for good measure.](graph2.png)
+  * Order: 1 -> 2 -> 4 -> 3 -> 5 -> 6
