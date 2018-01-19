@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Graph } from "./graph";
 import "./App.css";
 
-const canvasWidth = 820;
-const canvasHeight = 640;
+const canvasWidth = 860;
+const canvasHeight = 720;
 
 function getRandomColor() {
   const r = Math.round(Math.random() * 255);
@@ -51,6 +51,7 @@ class GraphView extends Component {
     };
     state.hitCanvas.setAttribute("height", canvasHeight);
     state.hitCanvas.setAttribute("width", canvasWidth);
+
     await this.setState(state);
     this.setColorHash();
     this.updateCanvas();
@@ -164,14 +165,14 @@ class GraphView extends Component {
           (this.state.path && this.state.path.includes(v))
         ) {
           ctx.beginPath();
-          ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
+          ctx.arc(v.pos.x, v.pos.y, 15, 0, 2 * Math.PI);
           ctx.strokeStyle = "yellow";
           ctx.stroke();
           ctx.fillStyle = "yellow";
           ctx.fill();
         } else {
           ctx.beginPath();
-          ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
+          ctx.arc(v.pos.x, v.pos.y, 15, 0, 2 * Math.PI);
           ctx.strokeStyle = "skyblue";
           ctx.stroke();
           ctx.fillStyle = "skyblue";
@@ -179,7 +180,7 @@ class GraphView extends Component {
 
           // Draw vertexes with unique colors to hidden hitCanvas.
           hitCtx.beginPath();
-          hitCtx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
+          hitCtx.arc(v.pos.x, v.pos.y, 15, 0, 2 * Math.PI);
           hitCtx.strokeStyle = v.colorKey;
           hitCtx.stroke();
           hitCtx.fillStyle = v.colorKey;
@@ -187,7 +188,7 @@ class GraphView extends Component {
         }
 
         ctx.fillStyle = "black";
-        ctx.font = "15px sans-serif";
+        ctx.font = "12px sans-serif";
         ctx.fillText(v.value, v.pos.x, v.pos.y + 5);
       });
     });
@@ -195,10 +196,10 @@ class GraphView extends Component {
 
   handleClick = async e => {
     e.preventDefault();
-    let canvas = this.refs.canvas;
+    let canvasRect = this.refs.canvas.getBoundingClientRect();
     const mousePos = {
-      x: e.clientX - canvas.offsetLeft,
-      y: e.clientY - canvas.offsetTop
+      x: e.clientX - canvasRect.left,
+      y: e.clientY - canvasRect.top
     };
 
     // Get the color of the pixel that was clicked on in the hidden canvas, check colorHash
@@ -233,6 +234,7 @@ class GraphView extends Component {
     return (
       <canvas
         ref="canvas"
+        id="display-canvas"
         width={canvasWidth}
         height={canvasHeight}
         onClick={this.handleClick}
@@ -252,7 +254,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    this.state.graph.randomize(7, 6, 100, 0.6);
+    this.state.graph.randomize(7, 6, 110, 0.6);
   }
 
   render() {
@@ -263,7 +265,7 @@ class App extends Component {
           className="random-button"
           onClick={() => {
             const newState = { graph: new Graph() };
-            newState.graph.randomize(7, 6, 100, 0.6);
+            newState.graph.randomize(7, 6, 110, 0.6);
             this.setState(newState);
           }}
         >
