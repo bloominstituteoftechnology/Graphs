@@ -20,6 +20,30 @@ export class Vertex {
       x: null,
       y: null
     };
+    this.minDistance = null;
+  }
+}
+
+class PriorityQueue {
+  constructor() {
+    this.data = [];
+  }
+
+  enqueue(item, priority) {
+    this.data.push([item, priority]);
+    this.sort();
+  }
+
+  dequeue() {
+    return this.data.shift()[0];
+  }
+
+  isEmpty() {
+    return !this.data.length;
+  }
+
+  sort() {
+    this.data.sort((a, b) => a[1] - b[1]);
   }
 }
 
@@ -143,6 +167,53 @@ export class Graph {
     }
 
     return visited;
+  }
+
+  dijkstraShortestPath(start, end) {
+    const q = new PriorityQueue();
+    const distances = {};
+    const prev = {};
+    let path = [];
+
+    distances[start.value] = 0;
+
+    for (let v of this.vertexes) {
+      if (v !== start) {
+        distances[v.value] = Number.POSITIVE_INFINITY;
+      }
+      prev[v.value] = null;
+      q.enqueue(v, distances[v.value]);
+    }
+
+    while (!q.isEmpty()) {
+      let smallest = q.dequeue();
+      if (smallest === end) {
+        path = [];
+
+        while (prev[smallest.value]) {
+          path.push(smallest);
+          smallest = prev[smallest.value];
+        }
+
+        break;
+      }
+
+      if (!smallest || distances[smallest.value] === Number.POSITIVE_INFINITY) {
+        continue;
+      }
+
+      for (let adj of smallest.edges) {
+        let alt = distances[smallest.value] + adj.weight;
+        if (alt < distances[adj.destination.value]) {
+          distances[adj.destination.value] = alt;
+          prev[adj.destination.value] = smallest;
+
+          q.enqueue(adj.destination, alt);
+        }
+      }
+    }
+
+    return path;
   }
 
   /**

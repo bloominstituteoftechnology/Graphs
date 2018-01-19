@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Graph } from "./graph";
 import "./App.css";
 
-// !!! IMPLEMENT ME
 const canvasWidth = 820;
 const canvasHeight = 640;
 
@@ -26,6 +25,7 @@ class GraphView extends Component {
       hitCanvas: null,
       startV: null,
       endV: null,
+      path: null,
       colorHash: {}
     };
   }
@@ -34,7 +34,8 @@ class GraphView extends Component {
     await this.setState({
       components: nextProps.graph.getConnectedComponents(),
       startV: null,
-      endV: null
+      endV: null,
+      path: null
     });
     this.setColorHash();
   }
@@ -139,20 +140,38 @@ class GraphView extends Component {
       }
     }
 
+    if (this.state.path) {
+      this.state.path.forEach((v, i, arr) => {
+        if (i === arr.length - 1) {
+          return;
+        }
+        ctx.beginPath();
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(arr[i + 1].pos.x, arr[i + 1].pos.y);
+        ctx.strokeStyle = "yellow";
+        ctx.lineWidth = 5;
+        ctx.stroke();
+      });
+    }
+
     // draw verts
     // draw vert values (labels)
     this.state.components.forEach(c => {
       c.forEach(v => {
-        if (v === this.state.startV || v === this.state.endV) {
+        if (
+          v === this.state.startV ||
+          v === this.state.endV ||
+          (this.state.path && this.state.path.includes(v))
+        ) {
           ctx.beginPath();
-          ctx.arc(v.pos.x, v.pos.y, 20, 0, 2 * Math.PI);
+          ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
           ctx.strokeStyle = "yellow";
           ctx.stroke();
-          ctx.fillStyle = "skyblue";
+          ctx.fillStyle = "yellow";
           ctx.fill();
         } else {
           ctx.beginPath();
-          ctx.arc(v.pos.x, v.pos.y, 20, 0, 2 * Math.PI);
+          ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
           ctx.strokeStyle = "skyblue";
           ctx.stroke();
           ctx.fillStyle = "skyblue";
@@ -160,7 +179,7 @@ class GraphView extends Component {
 
           // Draw vertexes with unique colors to hidden hitCanvas.
           hitCtx.beginPath();
-          hitCtx.arc(v.pos.x, v.pos.y, 20, 0, 2 * Math.PI);
+          hitCtx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
           hitCtx.strokeStyle = v.colorKey;
           hitCtx.stroke();
           hitCtx.fillStyle = v.colorKey;
@@ -174,7 +193,7 @@ class GraphView extends Component {
     });
   }
 
-  handleClick = e => {
+  handleClick = async e => {
     e.preventDefault();
     let canvas = this.refs.canvas;
     const mousePos = {
@@ -191,10 +210,19 @@ class GraphView extends Component {
 
     if (v) {
       if (!this.state.startV) {
-        this.setState({ startV: v });
+        await this.setState({ startV: v });
       } else if (!this.state.endV) {
-        this.setState({ endV: v });
+        await this.setState({ endV: v });
       }
+    }
+
+    if (this.state.startV && this.state.endV) {
+      let path = this.props.graph
+        .dijkstraShortestPath(this.state.startV, this.state.endV)
+        .reverse();
+
+      path.unshift(this.state.startV);
+      this.setState({ path });
     }
   };
 
@@ -224,7 +252,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    this.state.graph.randomize(5, 4, 150, 0.4);
+    this.state.graph.randomize(7, 6, 100, 0.6);
   }
 
   render() {
@@ -235,7 +263,7 @@ class App extends Component {
           className="random-button"
           onClick={() => {
             const newState = { graph: new Graph() };
-            newState.graph.randomize(5, 4, 150, 0.4);
+            newState.graph.randomize(7, 6, 100, 0.6);
             this.setState(newState);
           }}
         >
