@@ -2,14 +2,19 @@
  * Edge
  */
 export class Edge {
-	// !!! IMPLEMENT ME
+	constructor(vertex, weight = 1) {
+		this.destination = vertex;
+		this.weight = weight
+	}
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-	// !!! IMPLEMENT ME
+	constructor(edges = []) {
+		this.edges = edges
+	}
 }
 
 /**
@@ -26,8 +31,9 @@ export class Graph {
 	randomize(width, height, pxBox, probability=0.6) {
 		// Helper function to set up two-way edges
 		function connectVerts(v0, v1) {
-			v0.edges.push(new Edge(v1));
-			v1.edges.push(new Edge(v0));
+			const weight = Math.floor(Math.random() * 11)
+			v0.edges.push(new Edge(v1, weight));
+			v1.edges.push(new Edge(v0, weight));
 		}
 
 		let count = 0;
@@ -110,13 +116,79 @@ export class Graph {
 	 * BFS
 	 */
 	bfs(start) {
-		// !!! IMPLEMENT ME
+		let queue = []
+		start.color = 'gray'
+  
+		queue.push(start)
+  
+		while (queue.length > 0) {
+			let u = queue[0]
+			if (!u.edges) {
+				return
+			}
+			for (let v = 0; v < u.edges.length; v++) {
+				if (u.edges[v].destination.color === 'white') {
+				u.edges[v].destination.color = 'gray'
+				queue.push(u.edges[v].destination)
+				}
+			}
+			queue.shift()
+			u.color = 'black'
+		  
+		}
+		return 
+	}
+
+	dfs(start) {
+		let stack = []
+		start.color = 'gray'
+  
+		stack.push(start)
+  
+		
+		  for (let v = 0; v < start.edges.length; v++) {
+			if (start.edges[v].destination.color === 'white') {
+			  start.edges[v].destination.parent = start
+			  this.dfs(start.edges[v].destination)
+			}
+		  }
+		  start.color = 'black'
+		  
+		return 
 	}
 
 	/**
 	 * Get the connected components
 	 */
 	getConnectedComponents() {
-		// !!! IMPLEMENT ME
+		let connectedGraph = []
+		let usedVerts = []
+		for (let v = 0; v < this.vertexes.length; v++) {
+				this.vertexes[v].color = 'white'
+		}
+		for (let b = 0; b < this.vertexes.length; b++) {
+			let used = false;
+			for (let v = 0; v < usedVerts.length; v++) {
+				if (this.vertexes[b] === usedVerts[v]) {
+					used = true;
+				}
+			}
+			if (used) {
+				continue
+			}
+			for (let v = 0; v < this.vertexes.length; v++) {
+				this.vertexes[v].color = 'white'
+			}
+			this.dfs(this.vertexes[b]);
+			let arr = []
+			for (let c = 0; c < this.vertexes.length; c++) {
+				if (this.vertexes[c].color === 'black') {
+					arr.push(this.vertexes[c])
+					usedVerts.push(this.vertexes[c])
+				}
+			}
+			connectedGraph.push(arr)
+		}
+		return connectedGraph
 	}
 }
