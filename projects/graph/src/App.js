@@ -36,18 +36,28 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     let array = this.props.graph.vertexes;
     for ( let i = 0; i < array.length; i++) {
-        let pointx = array[i].pos.x;
-        let pointy = array[i].pos.y;
+        let pointX = array[i].pos.x;
+        let pointY = array[i].pos.y;
         ctx.beginPath();
-        ctx.arc(pointx, pointy, 1, 0, 2 * Math.PI, false);
+        ctx.arc(pointX, pointY, 5, 0, 2 * Math.PI, false);
         ctx.fillStyle = 'green';
         ctx.fill();
         ctx.lineWidth = 5;
         ctx.strokeStyle = '#003300';
         ctx.stroke();
         ctx.save();
+        let edgy = array[i].edges;
+        for (let j = 0; j < edgy.length; j++){
+        ctx.beginPath();
+        ctx.moveTo(pointX, pointY);
+        console.log(edgy[j].weight);
+        ctx.lineTo(edgy[j].destination.pos.x, edgy[j].destination.pos.y);
+        ctx.lineWidth = 5;
+        ctx.stroke();
+        ctx.save();
+        }
     }
-    
+  
   }
   
   /**
@@ -69,7 +79,7 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
- const g = new Graph();
+ const g = this.state.graph;
  g.randomize(5, 4, 150, 0.6);
   // !!! IMPLEMENT ME
     // use the graph randomize() method
