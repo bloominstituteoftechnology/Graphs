@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = (window.innerWidth-20);
+const canvasHeight = (window.innerHeight-20);
 
 /**
  * GraphView
@@ -24,29 +23,63 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+  stack = [];
+
   /**
    * Render the canvas
    */
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
-    // Clear it
-    ctx.fillStyle = 'white';
+    ctx.clearRect(0,0,canvasWidth,canvasHeight);
+    ctx.fillStyle = '#FFCD7D';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    this.props.graph.vertexes.forEach((vertex) => {
+      vertex.edges.forEach((edge) => {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.stroke();
+        // this.stack.push(`
+        //   ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        //   ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        //   ctx.lineWidth = 5;
+        //   ctx.strokeStyle = '#FFFFFF';
+        //   ctx.stroke();`
+        // )
+      })
+    })
+    this.props.graph.vertexes.forEach((vertex) => {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 20, 0, Math.PI * 2, true);
+      ctx.strokeStyle = '#EB9D20'; // EB9D20
+      ctx.stroke();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.font = '14px Georgia';
+      ctx.fontStyle = 'bold';
+      ctx.fillStyle = '#975D00';
+      ctx.fillText(vertex.value, vertex.pos.x-7, vertex.pos.y+4);
+      ctx.fill();
+    })
   }
   
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+      <div>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+        <button onClick = {() => {
+            this.props.graph.vertexes = [];
+            this.props.graph.randomize(3,3,150);
+            this.updateCanvas();
+          }}>New Graph</button>
+      </div>
+    );
   }
 }
 
@@ -62,8 +95,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
+    this.state.graph.randomize(3,3,150);
   }
 
   render() {
