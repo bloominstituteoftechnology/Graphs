@@ -3,9 +3,8 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination, weight) {
+  constructor(destination) {
     this.destination = destination;
-    this.weight = weight;
   }
 }
 
@@ -16,6 +15,9 @@ export class Vertex {
   // !!! IMPLEMENT ME
   constructor() {
     this.edges = [];
+    this.visited = false;
+    this.color = 'white';
+    this.value = null;
   }
 }
 
@@ -119,7 +121,9 @@ export class Graph {
   bfs(start) {
     // !!! IMPLEMENT ME 
     const g = new Graph();
-    g.randomize(5, 4, 150, 0.6);
+    g.randomize(800, 600, 1);
+
+    
   }
 
   /**
