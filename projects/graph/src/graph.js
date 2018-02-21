@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.value = null;
+  }
 }
 
 /**
@@ -26,6 +34,7 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
+      console.log(v0, v1);
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
     }
