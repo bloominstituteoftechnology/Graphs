@@ -17,6 +17,7 @@ export class Vertex {
   constructor() {
     this.edges = [];
     this.parent = null;
+    this.color = 'white';
   }
 }
 
@@ -31,7 +32,7 @@ export class Graph {
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -59,14 +60,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -120,7 +121,52 @@ export class Graph {
    * BFS
    */
   bfs(start) {
+    // BFS(graph, startVert):
+    // for v of graph.vertexes:
+    //   v.color = white
+
+    // startVert.color = gray
+    // queue.enqueue(startVert)
+
+    // while !queue.isEmpty():
+    //   u = queue[0]  
+    // Peek at head of queue, but do not dequeue!
+
+    //   for v of u.neighbors:
+    //     if v.color == white:
+    //       v.color = gray
+    //       queue.enqueue(v)
+
+    //   queue.dequeue()
+    //   u.color = black
     // !!! IMPLEMENT ME
+    start = this.vertexes[0];
+
+    const stack = [];
+    this.vertexes.forEach(v => {
+      v.color = 'white';
+    })
+
+    start.color = 'grey';
+    stack.push(start);
+    // console.log(stack)
+
+    while (stack.length > 0) {
+      let u = stack[0];
+      u.edges.forEach(e => {
+        let vert = e.destination;
+        if (vert.color === 'white') {
+          console.log(vert.value);
+          vert.color = 'grey';
+          stack.push(vert);
+        }
+        stack.shift();
+        vert.color = 'black';
+      })
+
+    }
+
+
   }
 
   /**

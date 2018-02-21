@@ -32,7 +32,7 @@ class GraphView extends Component {
   //   let ctx = canvas.getContext('2d');
 
   //   let radius = 25;
-    
+
   //   // Clear it
   //   ctx.fillStyle = '#cccccc';
   //   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -45,10 +45,10 @@ class GraphView extends Component {
   //   // draw verts
   //   ctx.lineWidth = 1;
   //   ctx.strokeStyle = 'black';
-    
+
   //   this.props.graph.vertexes.forEach(v => {
   //     // draw vert values (labels)
-      
+
   //     // draw edges
   //     if (v.edges) {
   //       v.edges.forEach(e => {
@@ -58,7 +58,7 @@ class GraphView extends Component {
   //           ctx.lineTo(d.destination.pos.x,d.destination.pos.y);
   //           ctx.stroke();
   //         })
-          
+
   //       })
   //     }
   //     ctx.beginPath();
@@ -75,7 +75,7 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // Clear it
     ctx.fillStyle = '#7a9cd3';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -103,11 +103,11 @@ class GraphView extends Component {
       ctx.font = '16px Georgia';
       ctx.fontStyle = 'bold';
       ctx.fillStyle = '#324056';
-      ctx.fillText(vertex.value, vertex.pos.x-7, vertex.pos.y+4);
+      ctx.fillText(vertex.value, vertex.pos.x - 7, vertex.pos.y + 4);
       ctx.fill();
     })
   }
-  
+
   /**
    * Render
    */
@@ -131,9 +131,10 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
-    this.state.graph.dump();
+    // this.state.graph.dump();
+    this.state.graph.bfs();
   }
-  
+
   handleRandomize = (e) => {
     console.log('randomize')
     this.state.graph.randomize(5, 4, 150, 0.6);
