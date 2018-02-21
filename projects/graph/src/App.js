@@ -41,13 +41,6 @@ class GraphView extends Component {
         ctx.lineWidth = 5;
         ctx.strokeStyle = '#FFFFFF';
         ctx.stroke();
-        // this.stack.push(`
-        //   ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        //   ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        //   ctx.lineWidth = 5;
-        //   ctx.strokeStyle = '#FFFFFF';
-        //   ctx.stroke();`
-        // )
       })
     })
     this.props.graph.vertexes.forEach((vertex) => {
@@ -75,9 +68,12 @@ class GraphView extends Component {
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
         <button onClick = {() => {
             this.props.graph.vertexes = [];
-            this.props.graph.randomize(3,3,150);
+            this.props.graph.randomize(5,5,150);
             this.updateCanvas();
           }}>New Graph</button>
+        <button onClick = {() => {
+          console.log(this.props.graph.bfs(this.props.graph.vertexes[0]));
+        }}>BFS</button>
       </div>
     );
   }
@@ -95,7 +91,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    this.state.graph.randomize(3,3,150);
+    this.state.graph.randomize(5,5,150);
   }
 
   render() {

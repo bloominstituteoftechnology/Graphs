@@ -115,8 +115,28 @@ export class Graph {
   /**
    * BFS
    */
+
   bfs(start) {
-    // !!! IMPLEMENT ME
+    let queue = [];
+    queue.push(start.value);
+    const search = (startPoint) => {
+      let currentLevel = startPoint;
+      while (currentLevel.length > 0) {
+        let nextLevel = [];
+        currentLevel.forEach((vertex) => {
+          vertex.edges.forEach((edge) => {
+            if (queue.includes(edge.destination.value) === false) {
+              queue.push(edge.destination.value);
+              nextLevel.push(edge.destination);
+            }
+          })
+        })
+        currentLevel = nextLevel;
+        search(currentLevel);
+      }
+    }
+    search([start]);
+    return queue;
   }
 
   /**
