@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    // this.weight = weight; do later
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.parent = null;
+  }
 }
 
 /**
@@ -93,6 +101,7 @@ export class Graph {
     let s;
 
     for (let v of this.vertexes) {
+      // console.log(v);
       if (v.pos) {
         s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
       } else {
@@ -100,6 +109,7 @@ export class Graph {
       }
 
       for (let e of v.edges) {
+        // console.log(e);
         s += ` ${e.destination.value}`;
       }
       console.log(s);
