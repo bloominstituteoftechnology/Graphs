@@ -160,9 +160,9 @@ export class Graph {
           vert.color = 'grey';
           stack.push(vert);
         }
-        stack.shift();
-        vert.color = 'black';
       })
+      u.color = 'black';
+      stack.shift();
 
     }
 
