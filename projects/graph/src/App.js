@@ -33,13 +33,13 @@ class GraphView extends Component {
     let circles = (x, y) => {
       ctx.beginPath();
       ctx.arc(x, y, 22, 0, 2 * Math.PI, false);
-      ctx.fillStyle = "white";
+      ctx.fillStyle = "purple";
       ctx.fill();
       ctx.stroke();
     }
     let numbers = (x, y) => {
       ctx.beginPath();
-      ctx.fillStyle = '#000';
+      ctx.fillStyle = '#0FF';
       ctx.fill();
       ctx.font = "30px Georgia";
       ctx.fillText(index, x - 10, y + 10);
@@ -53,7 +53,7 @@ class GraphView extends Component {
       ctx.stroke();
     }
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'yellow';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     for (let v of this.props.graph.vertexes) {
@@ -66,7 +66,7 @@ class GraphView extends Component {
       }
     }
 
-    let index = 0;
+    let index = 1;
     for (let v of this.props.graph.vertexes) {
       let x = v.pos.x;
       let y = v.pos.y;
@@ -109,7 +109,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    this.state.graph.randomize(5, 3, 150, 0.6);
+    this.state.graph.randomize(5, 4, 150, 0.6);
     //console.log(this.state.graph.vertexes);
   }
 
