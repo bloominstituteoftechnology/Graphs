@@ -26,7 +26,9 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    this.stack = [];
     this.vertexes = [];
+    this.currentNode = '';
   }
 
   /**
@@ -47,7 +49,6 @@ export class Graph {
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
-        //v.value = 'v' + x + ',' + y;
         v.value = 'v' + count++;
         row.push(v);
       }
@@ -102,7 +103,6 @@ export class Graph {
     let s;
 
     for (let v of this.vertexes) {
-      // console.log(v);
       if (v.pos) {
         s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
       } else {
@@ -110,7 +110,6 @@ export class Graph {
       }
 
       for (let e of v.edges) {
-        // console.log(e);
         s += ` ${e.destination.value}`;
       }
       console.log(s);
@@ -120,53 +119,22 @@ export class Graph {
   /**
    * BFS
    */
+
+
   bfs(start) {
-    // BFS(graph, startVert):
-    // for v of graph.vertexes:
-    //   v.color = white
-
-    // startVert.color = gray
-    // queue.enqueue(startVert)
-
-    // while !queue.isEmpty():
-    //   u = queue[0]  
-    // Peek at head of queue, but do not dequeue!
-
-    //   for v of u.neighbors:
-    //     if v.color == white:
-    //       v.color = gray
-    //       queue.enqueue(v)
-
-    //   queue.dequeue()
-    //   u.color = black
-    // !!! IMPLEMENT ME
     start = this.vertexes[0];
-
-    const stack = [];
-    this.vertexes.forEach(v => {
-      v.color = 'white';
+    let stack = this.stack;
+    if (this.stack.length === 0) stack.push(start);
+    let u = stack[0];
+    u.edges.forEach(e => {
+      let vert = e.destination;
+      if (vert.color === 'white') {
+        vert.color = 'grey';
+        stack.push(vert);
+      }
     })
-
-    start.color = 'grey';
-    stack.push(start);
-    // console.log(stack)
-
-    while (stack.length > 0) {
-      let u = stack[0];
-      u.edges.forEach(e => {
-        let vert = e.destination;
-        if (vert.color === 'white') {
-          console.log(vert.value);
-          vert.color = 'grey';
-          stack.push(vert);
-        }
-      })
-      u.color = 'black';
-      stack.shift();
-
-    }
-
-
+    u.color = 'black';
+    stack.shift();
   }
 
   /**
