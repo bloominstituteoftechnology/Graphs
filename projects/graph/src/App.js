@@ -36,28 +36,27 @@ class GraphView extends Component {
    * handle BFS
    */
   handleBFS = () => {
-    // a simple implementation of drawing bfs-> 
-    // not sure how to clearTimeout here on graphChange btn click
     const bfsPos = this.props.graph.bfs(this.state.graph[0]);
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    const drawBFS = (pos, interval) => {
-      setTimeout(() => {
-          ctx.beginPath();
-          ctx.arc(pos.x, pos.y, 22, 0, 2 * Math.PI, false);
-          const grd = ctx.createLinearGradient(0,500,0, 0);
-          grd.addColorStop(0, 'salmon');
-          grd.addColorStop(1, '#40d6a5');
-          ctx.fillStyle = grd;
-          ctx.fill();
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = '#000';
-          ctx.stroke();
-      }, interval);
-    }
-    for (let i = 0; i < bfsPos.length; i++) {
-      drawBFS(bfsPos[i], i * 1000);
-    }
+    this.bfsInterval = setInterval(() => {
+      if (bfsPos.length !== 0) {
+        const pos = bfsPos.shift();
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 22, 0, 2 * Math.PI, false);
+        const grd = ctx.createLinearGradient(0,500,0, 0);
+        grd.addColorStop(0, 'salmon');
+        grd.addColorStop(1, '#40d6a5');
+        ctx.fillStyle = grd;
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#000';
+        ctx.stroke();
+        console.log('test')
+      } else {
+        clearInterval(this.bfsInterval);
+      }
+    }, 1000);
   }
   /**
    * Render the canvas
@@ -144,8 +143,10 @@ class GraphView extends Component {
     return (
       <div>
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
-        <button className="btn" onClick={
-          this.props.changeGraph        
+        <button className="btn" onClick={() => {
+            clearInterval(this.bfsInterval);
+            this.props.changeGraph();
+          }
         }>New Graph</button>
         <button className="bfs-btn" onClick={
           this.handleBFS
