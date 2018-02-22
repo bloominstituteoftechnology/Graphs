@@ -14,18 +14,8 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
+    this.props.graph.getConnectedComponents()
     this.updateCanvas();
-    let refresh = setInterval(() => {
-      action();
-    }, 2000);
-    let action = () => {
-      this.props.graph.bfs();
-      this.updateCanvas();
-      console.log(this.props.graph)
-      if (this.props.graph.stack.length === 0) {
-        clearInterval(refresh);
-      }
-    }
   }
 
   /**

@@ -14,6 +14,7 @@ export class Edge {
  */
 export class Vertex {
   constructor() {
+    this.visited = false;
     this.edges = [];
     this.parent = null;
     this.color = 'white';
@@ -25,10 +26,25 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    this.currentIndex = 0;
     this.stack = [];
+    this.visited = [];
     this.vertexes = [];
+
   }
 
+
+  startBFS() {
+    let refresh = setInterval(() => {
+      action();
+    }, 1000);
+    let action = () => {
+      this.bfs(this.currentIndex);
+      if (this.stack.length === 0) {
+        clearInterval(refresh);
+      }
+    }
+  }
   /**
    * Create a random graph
    */
@@ -120,12 +136,15 @@ export class Graph {
 
 
   bfs(start) {
+
     if (start === undefined) {
       start = this.vertexes[0];
     } else {
       start = this.vertexes[start];
     }
-
+    console.log(this)
+    // this.state.updateCanvas();
+    console.log('start', this.vertexes[start])
     let stack = this.stack;
     if (this.stack.length === 0) stack.push(start);
     let u = stack[0];
@@ -136,19 +155,24 @@ export class Graph {
         stack.push(vert);
       }
     })
+    u.visited = true;
     u.color = 'black';
     stack.shift();
-    if (this.stack.length === 0) this.getConnectedComponents()
+    if (this.stack.length === 0) this.getConnectedComponents() //color edges
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    this.vertexes.forEach((v, i) => {
-      if (v.color === 'white') {
-        return this.bfs(i);
+    console.log('getting connected components');
+    for (var i = 0; i < this.vertexes.length; i++) {
+      if (this.vertexes[i].visited === false) {
+        this.currentIndex = i;
+        console.log(this)
+        this.startBFS();
+        return;
       }
-    });
+    }
   }
 }
