@@ -15,7 +15,6 @@ export class Vertex {
   // !!! IMPLEMENT ME
   constructor() {
     this.edges = [];
-    this.visited = false;
     this.color = 'white';
     this.value = null;
   }
@@ -118,33 +117,44 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME 
+  bfs(vertexes, ctx) {
+    //holds the vertexes 
+    let queue = [];
+    let startVert = vertexes[0];
+    ctx.fillStyle = 'grey';
+    ctx.beginPath();
+    ctx.arc(startVert.pos.x, startVert.pos.y, 10, 0, 2 * Math.PI);
+    ctx.fill();
+    startVert.color = 'grey';
+    queue.push(startVert);
 
-    console.log(start);
-
-    //let queue = []
-/*
-    BFS(graph, startVert):
-  for v of graph.vertexes:
-    v.color = white
-
-  startVert.color = gray
-  queue.enqueue(startVert)
-
-  while !queue.isEmpty():
-    u = queue[0]  // Peek at head of queue, but do not dequeue!
-
-    for v of u.neighbors:
-      if v.color == white:
-        v.color = gray
-        queue.enqueue(v)
-    
-    queue.dequeue()
-    u.color = black
-
-    */
-    
+    while(queue.length !== 0) {
+    console.log(queue[0])
+    for (let i = 0; i < queue[0].edges.length; i++) {
+      if (queue[0].edges[i].destination.color === 'white') {
+          const x = queue[0].edges[i].destination.pos.x;
+          const y = queue[0].edges[i].destination.pos.y;
+          ctx.fillStyle = 'grey';
+          ctx.beginPath();
+          ctx.arc(x, y, 10, 0, 2 * Math.PI);
+          ctx.fill();
+          queue[0].edges[i].destination.color = 'grey'; 
+          // add the vertexes that are neighbors to the queue and not already explored
+          for (let j = 0; j < vertexes.length; j++) {
+            if (vertexes[j].value === queue[0].edges[i].destination.value && 
+              queue[0].edges[i].destination.color !== 'black') {
+              queue.push(vertexes[j]);
+            }
+          } 
+        }
+      }
+      ctx.fillStyle = 'black';
+      ctx.beginPath();
+      ctx.arc(queue[0].pos.x, queue[0].pos.y, 10, 0, 2 * Math.PI);
+      ctx.fill();
+      queue[0].color = 'black';
+      queue.shift();
+    }
   }
 
   /**
