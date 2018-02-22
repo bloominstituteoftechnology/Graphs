@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value) {
+    this.value = value;
+    this.edges = [];
+  }
 }
 
 /**
@@ -19,15 +27,16 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
-
+  
   /**
    * Create a random graph
    */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const w = Math.floor(Math.random() * 10 + 1);
+      v0.edges.push(new Edge(v1, w));
+      v1.edges.push(new Edge(v0, w));
     }
 
     let count = 0;
@@ -111,12 +120,85 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [];
+    let complete = [];
+
+    // for (let i = 0; i < this.vertexes.length; i++) {
+    //   this.vertexes[i].color = 'white';
+    // }
+
+    start.color = 'gray';
+    queue.push(start);
+    
+    while (queue.length > 0) {
+      let u = queue[0];
+      if (u.edges.length === 0) {
+        u.color = 'black';
+        complete.push(queue.shift());
+        return(complete);
+      }
+
+      for (let j = 0; j < u.edges.length; j++) {
+        if (u.edges[j].destination.color === 'white') {
+          u.edges[j].destination.color = 'gray';
+          // console.log(u.edges[j].destination.value);        
+          queue.push(u.edges[j].destination);
+        }
+      }
+
+      complete.push(queue.shift());
+      // console.log(u.value);
+      u.color = 'black';
+    }
+    // for (let i = 0; i < complete.length; i++){
+    //   console.log(complete[i].value);
+    // }
+    return(complete);
   }
+  
+  dfsVisit(v) {
+    v.color = 'gray';
+    for (let j = 0; j < v.edges.length; j++) {
+      if (v.edges[j].color === 'white') {
+        v.edges[j].parent = v;
+        this.dfsVisit(v.edges[j]);
+      }
+    }
+    v.color = 'black';
+  }
+
+  dfs(graph) {
+    for (let i = 0; i < this.vertexes.length; i++) {
+      this.vertexes[i].color = 'white';
+      this.vertexes[i].parent = null;
+    }
+    for (let i = 0; i < this.vertexes.length; i++) {
+      if (this.vertexes[i].color === 'white') {
+        this.dfsVisit(this.vertexes[i]);
+      }
+    }
+  }
+
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let connectedComponents = []
+
+    for (let i = 0; i < this.vertexes.length; i++) {
+      this.vertexes[i].color = 'white';
+    }
+
+    for (let i = 0; i < this.vertexes.length; i++) {
+      if (this.vertexes[i].color === 'white') {
+        let component = this.bfs(this.vertexes[i]);
+        connectedComponents.push(component);
+      }
+    }
+
+    console.log(connectedComponents);
+    return connectedComponents;
   }
 }
