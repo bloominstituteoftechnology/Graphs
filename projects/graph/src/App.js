@@ -19,13 +19,13 @@ class GraphView extends Component {
       action();
     }, 1000);
     let action = () => {
-      this.props.graph.bfs();
+      this.props.graph.getConnectedComponents();
       this.updateCanvas();
       console.log(this.props.graph)
       if (this.props.graph.stack.length === 0) {
         clearInterval(refresh);
       }
-    };
+    }
   }
 
   /**
@@ -88,7 +88,7 @@ class App extends Component {
     };
 
     this.state.graph.randomize(5, 4, 150, 0.6);
-    this.state.graph.bfs();
+    this.state.graph.getConnectedComponents();
   }
 
   handleRandomize = (e) => {

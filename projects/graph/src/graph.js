@@ -13,7 +13,6 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
   constructor() {
     this.edges = [];
     this.parent = null;
@@ -28,7 +27,6 @@ export class Graph {
   constructor() {
     this.stack = [];
     this.vertexes = [];
-    this.currentNode = '';
   }
 
   /**
@@ -122,7 +120,7 @@ export class Graph {
 
 
   bfs(start) {
-    start = this.vertexes[0];
+    start = this.vertexes[start];
     let stack = this.stack;
     if (this.stack.length === 0) stack.push(start);
     let u = stack[0];
@@ -141,6 +139,10 @@ export class Graph {
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    this.vertexes.forEach((v, i) => {
+      if (v.color === 'white') {
+        this.bfs(i);
+      }
+    });
   }
 }
