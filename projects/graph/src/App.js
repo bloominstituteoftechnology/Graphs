@@ -40,18 +40,17 @@ class GraphView extends Component {
         let pointY = array[i].pos.y;
         ctx.beginPath();
         ctx.arc(pointX, pointY, 5, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'green';
+        ctx.fillStyle = 'red';
         ctx.fill();
         ctx.lineWidth = 5;
-        ctx.strokeStyle = '#003300';
+        ctx.strokeStyle = 'red';
         ctx.stroke();
         ctx.save();
         let edgy = array[i].edges;
-        for (let j = 0; j < edgy.length; j++){
+          for (let j = 0; j < edgy.length; j++){
         ctx.beginPath();
         ctx.moveTo(pointX, pointY);
-        console.log(edgy[j].weight);
-        ctx.lineTo(edgy[j].destination.pos.x, edgy[j].destination.pos.y);
+        ctx.lineTo(edgy[j].weight.pos.x, edgy[j].weight.pos.y);
         ctx.lineWidth = 5;
         ctx.stroke();
         ctx.save();
@@ -81,8 +80,7 @@ class App extends Component {
     };
  const g = this.state.graph;
  g.randomize(5, 4, 150, 0.6);
-  // !!! IMPLEMENT ME
-    // use the graph randomize() method
+ const connected_comps = g.getConnectedComponents();
   }
 
   render() {
