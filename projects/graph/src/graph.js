@@ -120,7 +120,12 @@ export class Graph {
 
 
   bfs(start) {
-    start = this.vertexes[start];
+    if (start === undefined) {
+      start = this.vertexes[0];
+    } else {
+      start = this.vertexes[start];
+    }
+
     let stack = this.stack;
     if (this.stack.length === 0) stack.push(start);
     let u = stack[0];
@@ -133,6 +138,7 @@ export class Graph {
     })
     u.color = 'black';
     stack.shift();
+    if (this.stack.length === 0) this.getConnectedComponents()
   }
 
   /**
@@ -141,7 +147,7 @@ export class Graph {
   getConnectedComponents() {
     this.vertexes.forEach((v, i) => {
       if (v.color === 'white') {
-        this.bfs(i);
+        return this.bfs(i);
       }
     });
   }
