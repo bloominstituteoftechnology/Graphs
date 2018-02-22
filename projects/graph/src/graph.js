@@ -15,6 +15,7 @@ export class Vertex {
   constructor(value) {
     this.value = value;
     this.edges = [];
+    this.color = 'white';
   }
 }
 
@@ -118,16 +119,18 @@ export class Graph {
 
   bfs(start) {
     let queue = [];
-    queue.push(start.value);
+    queue.push(start);
+    start.color = 'black';
     const search = (startPoint) => {
       let currentLevel = startPoint;
       while (currentLevel.length > 0) {
         let nextLevel = [];
         currentLevel.forEach((vertex) => {
           vertex.edges.forEach((edge) => {
-            if (queue.includes(edge.destination.value) === false) {
-              queue.push(edge.destination.value);
+            if (queue.includes(edge.destination) === false) {
+              queue.push(edge.destination);
               nextLevel.push(edge.destination);
+              edge.destination.color = 'black';
             }
           })
         })

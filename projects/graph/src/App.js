@@ -54,9 +54,36 @@ class GraphView extends Component {
       ctx.font = '14px Georgia';
       ctx.fontStyle = 'bold';
       ctx.fillStyle = '#975D00';
-      ctx.fillText(vertex.value, vertex.pos.x-7, vertex.pos.y+4);
+      if (vertex.value.length < 3) {
+        ctx.fillText(vertex.value, vertex.pos.x-9, vertex.pos.y+5);
+      } else {
+        ctx.fillText(vertex.value, vertex.pos.x-12, vertex.pos.y+5);
+      }
       ctx.fill();
     })
+  }
+
+  bfsRender(start = 0) {
+    let canvas = this.refs.canvas;
+    let ctx = canvas.getContext('2d');
+    let queue = this.props.graph.bfs(this.props.graph.vertexes[start]);
+    let newQueue = [];
+    queue.forEach((item) => {
+      ctx.beginPath();
+      ctx.arc(item.pos.x, item.pos.y, 20, 0, Math.PI * 2, true);
+      ctx.strokeStyle = '#000000'; // EB9D20
+      ctx.stroke();
+    })
+    this.props.graph.vertexes.forEach((vertex) => {
+      if (vertex.color === 'white') {
+        newQueue.push(vertex);
+      }
+    })
+    if (newQueue.length > 0) {
+      let nextStart = parseInt(newQueue[0].value.substr(1));
+      let _this = this;
+      setTimeout(function() { _this.bfsRender(nextStart); }, 3000);
+    }
   }
   
   /**
@@ -72,7 +99,7 @@ class GraphView extends Component {
             this.updateCanvas();
           }}>New Graph</button>
         <button onClick = {() => {
-          console.log(this.props.graph.bfs(this.props.graph.vertexes[0]));
+          this.bfsRender();
         }}>BFS</button>
       </div>
     );
