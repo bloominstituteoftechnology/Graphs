@@ -45,7 +45,6 @@ class GraphView extends Component {
     // graph passed from the App class through this.props
     const { vertexes } = this.props.graph;
     console.log(vertexes[0].edges[0]);
-
     // step to drawing a simple line from one coordinate to the nexts   
  
     for (let i = 0; i < vertexes.length; i++) {
@@ -76,10 +75,50 @@ class GraphView extends Component {
       ctx.arc(e.pos.x, e.pos.y, 10, 0, 2 * Math.PI);
       ctx.fill();
     }
-    
-    // x, y, radius, start angle, end angle, anticlockwise(defaults to clockwise)
   
+    const graphClass = new Graph();
+    graphClass.bfs(vertexes);
+    let queue = []
+
+    let startVert = vertexes[0];
+    ctx.fillStyle = 'grey';
+    ctx.beginPath();
+    ctx.arc(startVert.pos.x, startVert.pos.y, 10, 0, 2 * Math.PI);
+    ctx.fill();
+    queue.push(startVert);
+    console.log(queue[0].edges[0].destination.pos.x);
+    console.log(vertexes[1]);
+  
+  while(queue[0] !== undefined) {
+    //console.log(startVert.edges[0].destination.color);
+      for (let i = 0; i < queue[0].edges.length; i++) {
+        if (queue[0].edges[i].destination.color === 'white'){
+            console.log(queue[0].edges[0].destination.pos.x);
+            const x = queue[0].edges[i].destination.pos.x;
+            const y = queue[0].edges[i].destination.pos.y;
+            ctx.fillStyle = 'grey';
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.fill();
+            queue[0].edges[i].destination.color = 'grey';
+           // queue.push(queue[0].edges[i].destination);
+            for (let j = 0; j < vertexes.length; j++) {
+              if (vertexes[j].value === queue[0].edges[i].destination.value) {
+                console.log("hello")
+                queue.push(vertexes[i])
+              }
+            }
+        }
+      }
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(queue[0].pos.x, queue[0].pos.y, 10, 0, 2 * Math.PI);
+        ctx.fill();
+     
+    queue.shift();
   }
+ // console.log(queue[0].pos.x)
+}
   
   /**
    * Render
@@ -106,6 +145,7 @@ class App extends Component {
    this.state.graph.randomize(5, 4, 150);
     //this.state.graph.dump();
    // console.log(this.state.graph.vertexes[2].edges[1])
+   //this.state.graph.bfs('start');
   }
 
   render() {
