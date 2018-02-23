@@ -73,18 +73,20 @@ class GraphView extends Component {
     }
     // creating new graph class instance to access breadth first search algorithm function
     const graphClass = new Graph();
-    graphClass.bfs(vertexes, ctx);
+    graphClass.bfs(vertexes);
     // compute connected components
-    graphClass.getConnectedComponents(vertexes, ctx);
-
+    let connectedComp = graphClass.getConnectedComponents(vertexes, ctx);
+  
     //update node after component edges have been drawn 
     for (let e of vertexes) {
       ctx.fillStyle = e.color;
       ctx.beginPath();
       ctx.arc(e.pos.x, e.pos.y, 10, 0, 2 * Math.PI);
       ctx.fill();
-    }
+    } 
   }
+
+  
 
   /**
    * Render

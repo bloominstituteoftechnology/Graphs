@@ -119,14 +119,10 @@ export class Graph {
    * BFS
    */
   
-  bfs(vertexes, ctx) {
+  bfs(vertexes) {
     //holds the vertexes
     let queue = [];
     let startVert = vertexes[0];
-    ctx.fillStyle = 'grey';
-    ctx.beginPath();
-    ctx.arc(startVert.pos.x, startVert.pos.y, 10, 0, 2 * Math.PI);
-    ctx.fill();
     startVert.color = 'grey';
     queue.push(startVert);
 
@@ -137,10 +133,6 @@ export class Graph {
         if (queue[0].edges[i].destination.color === 'green') {
           const x = queue[0].edges[i].destination.pos.x;
           const y = queue[0].edges[i].destination.pos.y;
-          ctx.fillStyle = 'grey';
-          ctx.beginPath();
-          ctx.arc(x, y, 10, 0, 2 * Math.PI);
-          ctx.fill();
           queue[0].edges[i].destination.color = 'grey'; 
           // add the vertexes that are neighbors to the queue and not already explored
           for (let j = 0; j < vertexes.length; j++) {
@@ -154,10 +146,6 @@ export class Graph {
       // change node color to black and pop it off the queue when neighbors all have been reached 
       // and added to queue
       queue[0].color = 'black';
-      ctx.fillStyle = queue[0].color;
-      ctx.beginPath();
-      ctx.arc(queue[0].pos.x, queue[0].pos.y, 10, 0, 2 * Math.PI);
-      ctx.fill();
       queue.shift();
     }
   }
@@ -174,9 +162,9 @@ export class Graph {
       // only start a bfs if node hasn't been explored yet 
       if (!vertexes[i].visited) {
         // randome color values
-        let red = Math.floor(Math.random()* 255).toString();
-        let green = Math.floor(Math.random()* 255).toString();
-        let blue = Math.floor(Math.random()* 255).toString();
+        let red = Math.floor(Math.random()* 255);
+        let green = Math.floor(Math.random()* 255);
+        let blue = Math.floor(Math.random()* 255);
         // begin bfs
         queue[0] = vertexes[i];
         component.push(queue[0]);
