@@ -142,12 +142,14 @@ export class Graph {
     } else {
       start = this.vertexes[start];
     }
-    console.log(this)
+    //console.log(this)
     // this.state.updateCanvas();
     console.log('start', this.vertexes[start])
     let stack = this.stack;
     if (this.stack.length === 0) stack.push(start);
     let u = stack[0];
+    console.log(u.edges[0])
+    //if (u.edges) {
     u.edges.forEach(e => {
       let vert = e.destination;
       if (vert.color === 'white') {
@@ -155,10 +157,13 @@ export class Graph {
         stack.push(vert);
       }
     })
+    //} else {
     u.visited = true;
     u.color = 'black';
+    this.visited.push(stack[0]);
     stack.shift();
     if (this.stack.length === 0) this.getConnectedComponents() //color edges
+    //}
   }
 
   /**
@@ -169,7 +174,7 @@ export class Graph {
     for (var i = 0; i < this.vertexes.length; i++) {
       if (this.vertexes[i].visited === false) {
         this.currentIndex = i;
-        console.log(this)
+        console.log(this);
         this.startBFS();
         return;
       }
