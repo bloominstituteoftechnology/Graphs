@@ -1,8 +1,13 @@
+import Queue from './queue'
 /**
  * Edge
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+	}
 }
 
 /**
@@ -10,6 +15,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value) {
+		this.value = value;
+    this.edges = [];
+    this.color = 'white';
+	}
 }
 
 /**
@@ -23,11 +33,12 @@ export class Graph {
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
-    function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+    const connectVerts = (v0, v1) => {
+      const weightRand = Math.floor(Math.random() * 10) + 1;
+      v0.edges.push(new Edge(v1, weightRand));
+      v1.edges.push(new Edge(v0, weightRand));
     }
 
     let count = 0;
@@ -65,7 +76,7 @@ export class Graph {
     }
 
     // Last pass, set the x and y coordinates for drawing
-    const boxBuffer = 0.8;
+    const boxBuffer = 0.6;
     const boxInner = pxBox * boxBuffer;
     const boxInnerOffset = (pxBox - boxInner) / 2;
 
@@ -107,16 +118,68 @@ export class Graph {
   }
 
   /**
+   * BFS for animation
+   */
+  bfsA(start) {
+    const bfsPos = [];
+
+    for (let i = 0; i < this.vertexes.length; i ++) {
+      this.vertexes[i].color = 'white';
+    }
+
+    start.color = 'gray';
+    const queue = new Queue();
+    queue.enqueue(start)
+    while (!queue.isEmpty()) {
+    const u = queue.storage[0];
+    for (let k = 0; k < u.edges.length; k++) {
+      if (u.edges[k].destination.color === 'white') {
+        u.edges[k].destination.color = 'gray';
+        queue.enqueue(u.edges[k].destination);
+      }
+    }
+    queue.dequeue();
+    bfsPos.push(u.pos);
+    u.color = 'black';
+    }
+    return bfsPos;
+  }
+  /**
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const bfsPos = [];
+
+    start.color = 'gray';
+    const queue = new Queue();
+    queue.enqueue(start)
+
+    while (!queue.isEmpty()) {
+      const u = queue.storage[0];
+        for (let k = 0; k < u.edges.length; k++) {
+          if (u.edges[k].destination.color === 'white') {
+            u.edges[k].destination.color = 'gray';
+            queue.enqueue(u.edges[k].destination);
+          }
+        }
+      queue.dequeue();
+      bfsPos.push(u);
+      u.color = 'black';
+    }
+    return bfsPos;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const connected_components = [];
+    for (let i = 0; i < this.vertexes.length; i++) {
+      if (this.vertexes[i].color === 'white') {
+        const component = this.bfs(this.vertexes[i]);
+        connected_components.push(component);
+      }
+    }
+    return connected_components;
   }
 }
