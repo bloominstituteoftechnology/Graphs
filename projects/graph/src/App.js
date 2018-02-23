@@ -38,16 +38,16 @@ class GraphView extends Component {
     // graph passed from the App class through this.props
     const { vertexes } = this.props.graph;
     
-    //drawing the edges
     for (let i = 0; i < vertexes.length; i++) {
       // vertexes have position properties of x and y
       const x = vertexes[i].pos.x;
       const y = vertexes[i].pos.y;
+      //drawing the edges
       for (let j = 0; j < vertexes[i].edges.length; j++ ) {
         // destination has properties x and y as well 
         const x2 = vertexes[i].edges[j].destination.pos.x;
         const y2 = vertexes[i].edges[j].destination.pos.y;
-
+  
         // use begin path inside for loop rather than outside of it.
         ctx.beginPath();
         // initial point 
@@ -59,8 +59,9 @@ class GraphView extends Component {
       }
     }
     // drawing the nodes
-    ctx.fillStyle = 'green';
     for (let e of vertexes) {
+      // default color has been set to green
+      ctx.fillStyle = e.color;
       ctx.beginPath();
       ctx.arc(e.pos.x, e.pos.y, 10, 0, 2 * Math.PI);
       ctx.fill();
@@ -68,16 +69,23 @@ class GraphView extends Component {
     // drawing the text
     for (let i of vertexes) {
       ctx.font = '20px serif';
-      ctx.fillText(i.value, i.pos.x, i.pos.y-15);
+      ctx.fillText(i.value, i.pos.x + 15, i.pos.y);
     }
     // creating new graph class instance to access breadth first search algorithm function
     const graphClass = new Graph();
     graphClass.bfs(vertexes, ctx);
-    graphClass.getConnectedComponents(vertexes);
-    // !!! IMPLEMENT ME
     // compute connected components
+    graphClass.getConnectedComponents(vertexes, ctx);
+
+    //update node after component edges have been drawn 
+    for (let e of vertexes) {
+      ctx.fillStyle = e.color;
+      ctx.beginPath();
+      ctx.arc(e.pos.x, e.pos.y, 10, 0, 2 * Math.PI);
+      ctx.fill();
+    }
   }
-  
+
   /**
    * Render
    */
@@ -85,7 +93,6 @@ class GraphView extends Component {
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
-
 
 /**
  * App
@@ -97,18 +104,18 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-
-    // !!! IMPLEMENT ME
+    this.onRefresh = this.onRefresh.bind(this);
     // use the graph randomize() method
    this.state.graph.randomize(5, 4, 150);
-    //this.state.graph.dump();
-   // console.log(this.state.graph.vertexes[2].edges[1])
-   //this.state.graph.bfs(this.state.graph);
+  }
+  onRefresh() {
+    window.location = 'http://localhost:3000/';  
   }
 
   render() {
     return (
       <div className="App">
+        <button className='buttonRefresh' onClick={this.onRefresh}>Refresh</button>
         <GraphView graph={this.state.graph}></GraphView>
       </div>
     );

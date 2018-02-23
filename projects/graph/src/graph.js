@@ -15,7 +15,7 @@ export class Vertex {
   // !!! IMPLEMENT ME
   constructor() {
     this.edges = [];
-    this.color = 'white';
+    this.color = 'green';
     this.value = null;
     this.visited = false;
   }
@@ -120,16 +120,6 @@ export class Graph {
    */
   
   bfs(vertexes, ctx) {
-    /*
-    console.log(vertexes);
-    setTimeout(() => {
-      for (let i = 0; i < vertexes.length; i++) {
-        if (vertexes.length != 0) { 
-          console.log(vertexes[i]);
-        }
-      }
-    }, 3000)
-    */
     //holds the vertexes
     let queue = [];
     let startVert = vertexes[0];
@@ -141,8 +131,10 @@ export class Graph {
     queue.push(startVert);
 
     while(queue.length !== 0) {
+      //grab the first item off queue
       for (let i = 0; i < queue[0].edges.length; i++) { 
-        if (queue[0].edges[i].destination.color === 'white') {
+        // if node color is green, change it to grey
+        if (queue[0].edges[i].destination.color === 'green') {
           const x = queue[0].edges[i].destination.pos.x;
           const y = queue[0].edges[i].destination.pos.y;
           ctx.fillStyle = 'grey';
@@ -159,11 +151,13 @@ export class Graph {
           } 
         }
       }
-      ctx.fillStyle = 'black';
+      // change node color to black and pop it off the queue when neighbors all have been reached 
+      // and added to queue
+      queue[0].color = 'black';
+      ctx.fillStyle = queue[0].color;
       ctx.beginPath();
       ctx.arc(queue[0].pos.x, queue[0].pos.y, 10, 0, 2 * Math.PI);
       ctx.fill();
-      queue[0].color = 'black';
       queue.shift();
     }
   }
@@ -171,37 +165,54 @@ export class Graph {
   /**
    * Get the connected components
    */
-  getConnectedComponents(vertexes) {
-    // !!! IMPLEMENT ME
+  getConnectedComponents(vertexes, ctx) {
+    // holds connected components in each index
     let connectedComponents = [];
-    let component = [];
-    let queue = [];
     for (let i = 0; i < vertexes.length; i++) {
       let component = [];
       let queue = [];
+      // only start a bfs if node hasn't been explored yet 
       if (!vertexes[i].visited) {
-        console.log(i)
+        // randome color values
+        let red = Math.floor(Math.random()* 255).toString();
+        let green = Math.floor(Math.random()* 255).toString();
+        let blue = Math.floor(Math.random()* 255).toString();
+        // begin bfs
         queue[0] = vertexes[i];
         component.push(queue[0]);
         while(queue.length !== 0) {
           for (let i = 0; i < queue[0].edges.length; i++) {
+            let x = queue[0].pos.x;
+            let y = queue[0].pos.y;
+            let x2 = queue[0].edges[i].destination.pos.x;
+            let y2 = queue[0].edges[i].destination.pos.y;
+            ctx.strokeStyle = `rgb(${red}, ${blue}, ${green})`;
+            ctx.beginPath();
+            // initial point 
+            ctx.moveTo(x, y);
+            // second point 
+            ctx.lineTo(x2, y2);
+            // draw the line itself 
+            ctx.stroke(); 
+            //if node hasn't been visited and add vertex directly to the queue
             if (!queue[0].edges[i].destination.visited) {
-              // add the vertexes that are neighbors to the queue and not already explored
               for (let j = 0; j < vertexes.length; j++) {
-                if (vertexes[j].value === queue[0].edges[i].destination.value && 
-                  !queue[0].edges[i].destination.visited) {
+                if (vertexes[j].value === queue[0].edges[i].destination.value && !queue[0].edges[i]      .destination.visited) {
                   queue.push(vertexes[j]);
                   component.push(vertexes[j]);
-                  queue[0].edges[i].destination.visited = true; 
+                  // helps prevent revisting same nodes again 
+                  queue[0].edges[i].destination.visited = true;            
                 }
               } 
             }
           }  
+          // prevent node from being visited again
           queue[0].visited = true;
           queue.shift();
         }
-        connectedComponents.push(component)
-      }
+        // completed component added as a index to the array
+        connectedComponents.push(component);
+      } 
     }
     console.log(connectedComponents);
     return connectedComponents;
