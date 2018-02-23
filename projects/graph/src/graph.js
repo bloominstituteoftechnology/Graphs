@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.color = 'green';
+    this.value = null;
+    this.visited = false;
+  }
 }
 
 /**
@@ -109,14 +118,93 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME
+  
+  bfs(vertexes) {
+    //holds the vertexes
+    let queue = [];
+    let startVert = vertexes[0];
+    startVert.color = 'grey';
+    queue.push(startVert);
+
+    while(queue.length !== 0) {
+      //grab the first item off queue
+      for (let i = 0; i < queue[0].edges.length; i++) { 
+        // if node color is green, change it to grey
+        if (queue[0].edges[i].destination.color === 'green') {
+          const x = queue[0].edges[i].destination.pos.x;
+          const y = queue[0].edges[i].destination.pos.y;
+          queue[0].edges[i].destination.color = 'grey'; 
+          // add the vertexes that are neighbors to the queue and not already explored
+          for (let j = 0; j < vertexes.length; j++) {
+            if (vertexes[j].value === queue[0].edges[i].destination.value && 
+              queue[0].edges[i].destination.color !== 'black') {
+              queue.push(vertexes[j]);
+            }
+          } 
+        }
+      }
+      // change node color to black and pop it off the queue when neighbors all have been reached 
+      // and added to queue
+      queue[0].color = 'black';
+      queue.shift();
+    }
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
+  getConnectedComponents(vertexes, ctx) {
+    // holds connected components in each index
+    let connectedComponents = [];
+    for (let i = 0; i < vertexes.length; i++) {
+      let component = [];
+      let queue = [];
+      // only start a bfs if node hasn't been explored yet 
+      if (!vertexes[i].visited) {
+        // randome color values
+        let red = Math.floor(Math.random()* 255);
+        let green = Math.floor(Math.random()* 255);
+        let blue = Math.floor(Math.random()* 255);
+        // begin bfs
+        queue[0] = vertexes[i];
+        component.push(queue[0]);
+        queue[0].color = 'brown';
+        while(queue.length !== 0) {
+          for (let i = 0; i < queue[0].edges.length; i++) { 
+            let x = queue[0].pos.x;
+            let y = queue[0].pos.y;
+            let x2 = queue[0].edges[i].destination.pos.x;
+            let y2 = queue[0].edges[i].destination.pos.y;
+            ctx.strokeStyle = `rgb(${red}, ${blue}, ${green})`;
+            ctx.beginPath();
+            // initial point 
+            ctx.moveTo(x, y);
+            // second point 
+            ctx.lineTo(x2, y2);
+            // draw the line itself 
+            ctx.stroke(); 
+            //if node hasn't been visited and add vertex directly to the queue
+            if (!queue[0].edges[i].destination.visited) {
+              for (let j = 0; j < vertexes.length; j++) {
+                if (vertexes[j].value === queue[0].edges[i].destination.value && !queue[0].edges[i]      .destination.visited) {
+                  queue.push(vertexes[j]);
+                  component.push(vertexes[j]);
+                  // helps prevent revisting same nodes again 
+                  queue[0].edges[i].destination.visited = true;
+                  queue[0].edges[i].destination.color = 'brown';     
+                }
+              } 
+            }
+          }  
+          // prevent node from being visited again
+          queue[0].visited = true;
+          queue.shift();
+        }
+        // completed component added as a index to the array
+        connectedComponents.push(component);
+      } 
+    }
+    console.log(connectedComponents);
+    return connectedComponents;
   }
 }
