@@ -25,6 +25,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.connected = null;
   }
 
   /**
