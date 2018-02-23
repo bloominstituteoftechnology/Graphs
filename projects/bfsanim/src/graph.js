@@ -15,6 +15,7 @@ export class Vertex {
     constructor(value='vertex') {
         this.value = value;
         this.edges = [];
+        this.color = 'white';
     }
 }
 
@@ -115,6 +116,8 @@ export class Graph {
 
     /**
      * BFS
+     *
+     * This is a stock BFS, but it is NOT USED in this code. See bfsStep, below.
      */
     bfs(start) {
         const queue = [];
@@ -149,14 +152,17 @@ export class Graph {
     /**
      * BFS step
      */
-    bfsStep(start=null) {
-        if (start !== null) {
-            this.bfsQueue = [];
-            this.bfsCurrent = start;
-
+    bfsStep(start=null, reset=false) {
+        if (reset) {
             for (let v of this.vertexes) {
                 v.color = 'white';
             }
+        }
+
+        if (start !== null) {
+            this.bfsQueue = [];
+            this.bfsCurrent = start;
+            this.bfsComponent = [];
 
             start.color = 'gray';
             start.parent = null;
@@ -178,13 +184,10 @@ export class Graph {
         this.bfsQueue.shift();
         u.color = 'black';
 
-        return this.bfsQueue.length === 0;
-    }
+        this.bfsComponent.push(u);
 
-    /**
-     * Get the connected components
-     */
-    getConnectedComponents() {
-        // !!! IMPLEMENT ME
+        // If we're done, return this connected component. Otherwise return
+        // null.
+        return this.bfsQueue.length === 0? this.bfsComponent: null;
     }
 }

@@ -9,9 +9,20 @@ const prob = 0.6;
 
 const canvasWidth = xCount * boxSize;
 const canvasHeight = yCount * boxSize;
-const radius = boxSize / 12;
+const radius = boxSize / 8;
 
-const STOP_AFTER_BFS = false; // false to keep restarting on new graphs
+const colors = [];
+
+const genColorWidth = 192;
+const genColorOffset = 32;
+
+// Make as many colors as we might need
+for (let i = 0; i < xCount * yCount; i++) {
+  let r = (Math.random() * genColorWidth + genColorOffset)|0;
+  let g = (Math.random() * genColorWidth + genColorOffset)|0; // |0 (bitwise-OR with 0) converts to integer
+  let b = (Math.random() * genColorWidth + genColorOffset)|0;
+  colors.push(`rgb(${r},${g},${b})`);
+}
 
 /**
  * GraphView
@@ -37,8 +48,13 @@ class GraphView extends Component {
    * Reset the BFS to start over on the next pass
    */
   resetBFS() {
+    /*
     const index = (Math.random() * this.props.graph.vertexes.length)|0;
     this.startNode = this.props.graph.vertexes[index];
+    */
+   this.resetGraph = true;
+   this.startNodeIndex = 0;
+   this.ccColorIndex = 0;
   }
 
   /**
@@ -47,36 +63,46 @@ class GraphView extends Component {
   start() {
     // If we're not animating, start the animation
     if (!this.intervalHandle) {
+      let firstPass = true;
 
       // This gets called every animation frame (interval)
-      let onAnimEvent = () => {
+      let onAnimEvent = (() => {
 
-        if (this.props.graph.bfsStep(this.startNode)) {
+        let startNode = this.props.graph.vertexes[this.startNodeIndex];
 
+        let component = this.props.graph.bfsStep(firstPass? startNode: null, this.resetGraph);
+
+        this.resetGraph = false; // Don't do this again
+
+        if (component !== null) {
+
+          console.log(component);
           // bfsStep() returns true if we're done with the BFS
 
-          if (STOP_AFTER_BFS) {
-            this.stop();
+          this.stop();
 
-          } else {
-            // Notify parent component that we're done
-            this.props.onDone();
-
-            // Reset the starting node
-            this.resetBFS();
+          // At this point, we have the connected component in component. Loop
+          // through and set the colors for each node.
+          for (let i = 0; i < component.length; i++) {
+            let v = component[i];
+            v.drawColor = colors[this.ccColorIndex];
           }
+          this.ccColorIndex++;
+
+          this.updateCanvas();
+
         } else {
           // If we're not done, we want to set startNode to null for subsequent
           // calls to bfsStep() (so that it doesn't restart the BFS every time)
-          this.startNode = null;
+          firstPass = false;
         }
 
         // And now draw everything
         this.updateCanvas();
-      };
+      });//.bind(this);
 
       // Fire off a draw command every so many ms
-      this.intervalHandle = setInterval(onAnimEvent, 20);
+      this.intervalHandle = setInterval(onAnimEvent, 40);
     }
   }
 
@@ -87,8 +113,26 @@ class GraphView extends Component {
     clearInterval(this.intervalHandle);
     this.intervalHandle = null;
 
-    // Reset the starting node for the next time the interval timer fires up
-    this.resetBFS();
+    let foundWhite = false;
+    let g = this.props.graph;
+
+    // Search through the verts for anything else that is white. If found, BFS
+    // on it. This is the part that effectively colors connected components
+    // differently.
+    for (let i = this.startNodeIndex + 1; i < g.vertexes.length && !foundWhite; i++) {
+      if (g.vertexes[i].color === 'white') {
+        this.startNodeIndex = i;
+        this.start();
+
+        foundWhite = true; // stop iterating in the loop
+      }
+    }
+
+    if (!foundWhite) {
+      // We're all done. Reset the color
+      this.ccColorIndex = 0;
+      this.resetGraph = true;
+    }
   }
 
   /**
@@ -132,7 +176,18 @@ class GraphView extends Component {
     // Draw verts
     for (let v of this.props.graph.vertexes) {
       // Color the verts based on their current BFS color (white, gray, black)
-      ctx.fillStyle = v.color;
+      //ctx.fillStyle = v.color;
+      let fillColor;
+
+      if (v.drawColor === undefined) {
+        fillColor = v.color;
+      } else {
+        fillColor = v.drawColor;
+      }
+
+      ctx.fillStyle = fillColor;
+      ctx.strokeStyle = '#00f';
+      ctx.lineWidth = 1;
 
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
@@ -176,15 +231,7 @@ class App extends Component {
     // use the graph randomize() method
     this.state.graph.randomize(xCount, yCount, boxSize, prob);
 
-    this.onDone = this.onDone.bind(this);
     this.onRandomButton = this.onRandomButton.bind(this);
-  }
-
-  /**
-   * Callback when the GraphView has finished animating
-   */
-  onDone() {
-    this.state.graph.randomize(xCount, yCount, boxSize, prob);
   }
 
   /**
@@ -208,7 +255,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GraphView ref="graphView" graph={this.state.graph} onDone={this.onDone}></GraphView>
+        <GraphView ref="graphView" graph={this.state.graph}></GraphView>
         <div>
           <button onClick={this.onRandomButton}>Random</button>
         </div>
