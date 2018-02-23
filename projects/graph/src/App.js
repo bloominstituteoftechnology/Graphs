@@ -83,7 +83,7 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.arc(e.pos.x, e.pos.y, 10, 0, 2 * Math.PI);
       ctx.fill();
-    } 
+    }
   }
 
   

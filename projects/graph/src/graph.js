@@ -168,8 +168,9 @@ export class Graph {
         // begin bfs
         queue[0] = vertexes[i];
         component.push(queue[0]);
+        queue[0].color = 'brown';
         while(queue.length !== 0) {
-          for (let i = 0; i < queue[0].edges.length; i++) {
+          for (let i = 0; i < queue[0].edges.length; i++) { 
             let x = queue[0].pos.x;
             let y = queue[0].pos.y;
             let x2 = queue[0].edges[i].destination.pos.x;
@@ -189,7 +190,8 @@ export class Graph {
                   queue.push(vertexes[j]);
                   component.push(vertexes[j]);
                   // helps prevent revisting same nodes again 
-                  queue[0].edges[i].destination.visited = true;            
+                  queue[0].edges[i].destination.visited = true;
+                  queue[0].edges[i].destination.color = 'brown';     
                 }
               } 
             }
