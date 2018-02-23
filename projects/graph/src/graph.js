@@ -17,6 +17,7 @@ export class Vertex {
     this.edges = [];
     this.color = 'white';
     this.value = null;
+    this.visited = false;
   }
 }
 
@@ -117,8 +118,19 @@ export class Graph {
   /**
    * BFS
    */
+  
   bfs(vertexes, ctx) {
-    //holds the vertexes 
+    /*
+    console.log(vertexes);
+    setTimeout(() => {
+      for (let i = 0; i < vertexes.length; i++) {
+        if (vertexes.length != 0) { 
+          console.log(vertexes[i]);
+        }
+      }
+    }, 3000)
+    */
+    //holds the vertexes
     let queue = [];
     let startVert = vertexes[0];
     ctx.fillStyle = 'grey';
@@ -129,9 +141,8 @@ export class Graph {
     queue.push(startVert);
 
     while(queue.length !== 0) {
-    console.log(queue[0])
-    for (let i = 0; i < queue[0].edges.length; i++) {
-      if (queue[0].edges[i].destination.color === 'white') {
+      for (let i = 0; i < queue[0].edges.length; i++) { 
+        if (queue[0].edges[i].destination.color === 'white') {
           const x = queue[0].edges[i].destination.pos.x;
           const y = queue[0].edges[i].destination.pos.y;
           ctx.fillStyle = 'grey';
@@ -160,7 +171,39 @@ export class Graph {
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
+  getConnectedComponents(vertexes) {
     // !!! IMPLEMENT ME
+    let connectedComponents = [];
+    let component = [];
+    let queue = [];
+    for (let i = 0; i < vertexes.length; i++) {
+      let component = [];
+      let queue = [];
+      if (!vertexes[i].visited) {
+        console.log(i)
+        queue[0] = vertexes[i];
+        component.push(queue[0]);
+        while(queue.length !== 0) {
+          for (let i = 0; i < queue[0].edges.length; i++) {
+            if (!queue[0].edges[i].destination.visited) {
+              // add the vertexes that are neighbors to the queue and not already explored
+              for (let j = 0; j < vertexes.length; j++) {
+                if (vertexes[j].value === queue[0].edges[i].destination.value && 
+                  !queue[0].edges[i].destination.visited) {
+                  queue.push(vertexes[j]);
+                  component.push(vertexes[j]);
+                  queue[0].edges[i].destination.visited = true; 
+                }
+              } 
+            }
+          }  
+          queue[0].visited = true;
+          queue.shift();
+        }
+        connectedComponents.push(component)
+      }
+    }
+    console.log(connectedComponents);
+    return connectedComponents;
   }
 }

@@ -73,7 +73,7 @@ class GraphView extends Component {
     // creating new graph class instance to access breadth first search algorithm function
     const graphClass = new Graph();
     graphClass.bfs(vertexes, ctx);
-
+    graphClass.getConnectedComponents(vertexes);
     // !!! IMPLEMENT ME
     // compute connected components
   }
