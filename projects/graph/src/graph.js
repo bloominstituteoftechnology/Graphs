@@ -33,6 +33,14 @@ export class Graph {
 
   }
 
+  randomColor = () => {
+    const maxColor = 25;
+    const smallColor = Math.floor(Math.random() * 3);
+    const colors = [];
+    for (let i = 0; i < 3; i++)
+      colors[i] = Math.round(Math.random() * ((i === smallColor) ? maxColor : 0xff));
+    return `rgb(${colors[0]}, ${colors[1]}, ${colors[2]})`
+  }
 
   startBFS() {
     let refresh = setInterval(() => {
@@ -160,7 +168,6 @@ export class Graph {
     //} else {
     u.visited = true;
     u.color = 'black';
-    this.visited.push(stack[0]);
     stack.shift();
     if (this.stack.length === 0) this.getConnectedComponents() //color edges
     //}
@@ -171,11 +178,16 @@ export class Graph {
    */
   getConnectedComponents() {
     console.log('getting connected components');
+    let total = this.vertexes
+      .map(function (b) { return b.visited; })
+      .reduce(function (p, c) { return p + c; });
+    if (total === 20) {
+      this.complete = true;
+    }
     for (var i = 0; i < this.vertexes.length; i++) {
       if (this.vertexes[i].visited === false) {
         this.currentIndex = i;
         console.log(this);
-        this.startBFS();
         return;
       }
     }

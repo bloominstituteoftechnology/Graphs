@@ -18,12 +18,14 @@ class GraphView extends Component {
     this.updateCanvas();
     let refresh = setInterval(() => {
       action();
-    }, 1000);
+    }, 500);
     let action = () => {
       this.props.graph.bfs(this.props.graph.currentIndex);
       this.updateCanvas()
-      if (this.props.graph.stack.length === 0) {
+      console.log("# vertexes", this.props.graph.vertexes.length - 1)
+      if (this.props.graph.complete === true) {
         clearInterval(refresh);
+        this.updateCanvas()
 
       }
     }
@@ -41,6 +43,7 @@ class GraphView extends Component {
 
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    let color = this.props.graph.randomColor;
 
     ctx.fillStyle = '#7a9cd3';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -50,7 +53,8 @@ class GraphView extends Component {
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
       })
       ctx.lineWidth = 4;
-      ctx.strokeStyle = '#FFFFFF';
+      console.log(color())
+      ctx.strokeStyle = color();
       ctx.stroke();
     })
     this.props.graph.vertexes.forEach((vertex) => {
