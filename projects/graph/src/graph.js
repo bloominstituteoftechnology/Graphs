@@ -17,7 +17,8 @@ export class Vertex {
   // !!! IMPLEMENT ME
   constructor(value) {
 		this.value = value;
-		this.edges = [];
+    this.edges = [];
+    this.color = 'white';
 	}
 }
 
@@ -117,11 +118,11 @@ export class Graph {
   }
 
   /**
-   * BFS
+   * BFS for animation
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME
+  bfsA(start) {
     const bfsPos = [];
+
     for (let i = 0; i < this.vertexes.length; i ++) {
       this.vertexes[i].color = 'white';
     }
@@ -129,17 +130,40 @@ export class Graph {
     start.color = 'gray';
     const queue = new Queue();
     queue.enqueue(start)
+    while (!queue.isEmpty()) {
+    const u = queue.storage[0];
+    for (let k = 0; k < u.edges.length; k++) {
+      if (u.edges[k].destination.color === 'white') {
+        u.edges[k].destination.color = 'gray';
+        queue.enqueue(u.edges[k].destination);
+      }
+    }
+    queue.dequeue();
+    bfsPos.push(u.pos);
+    u.color = 'black';
+    }
+    return bfsPos;
+  }
+  /**
+   * BFS
+   */
+  bfs(start) {
+    const bfsPos = [];
+
+    start.color = 'gray';
+    const queue = new Queue();
+    queue.enqueue(start)
 
     while (!queue.isEmpty()) {
       const u = queue.storage[0];
-      for (let k = 0; k < u.edges.length; k++) {
-        if (u.edges[k].destination.color === 'white') {
-          u.edges[k].destination.color = 'gray';
-          queue.enqueue(u.edges[k].destination);
+        for (let k = 0; k < u.edges.length; k++) {
+          if (u.edges[k].destination.color === 'white') {
+            u.edges[k].destination.color = 'gray';
+            queue.enqueue(u.edges[k].destination);
+          }
         }
-      }
       queue.dequeue();
-      bfsPos.push(u.pos);
+      bfsPos.push(u);
       u.color = 'black';
     }
     return bfsPos;
@@ -149,7 +173,13 @@ export class Graph {
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
-    return this.vertexes.filter(vertex => vertex.edges.length !== 0);
+    const connected_components = [];
+    for (let i = 0; i < this.vertexes.length; i++) {
+      if (this.vertexes[i].color === 'white') {
+        const component = this.bfs(this.vertexes[i]);
+        connected_components.push(component);
+      }
+    }
+    return connected_components;
   }
 }
