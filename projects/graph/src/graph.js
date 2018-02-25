@@ -1,7 +1,10 @@
 const Queue = require('./storage/queue');
 const maxColor = 0x90;
 const colors = { black: ["black", "white"], white: ["white", "black"], grey: ["gray", "green"] }
-const timeout = 500;
+const timeout = 100;
+const startColors = ['blue', 'green', 'orange', 'purple', 'brown']
+let startColorIndex = -1;
+let black = colors.black;
 /**
  * Edge
  */
@@ -46,7 +49,7 @@ export class Vertex {
     this.color = colors.white;
   }
   get isBlack() {
-    return this.color === colors.black;
+    return this.color === colors.black || (this.color in startColors);
   }  
 }
 
@@ -177,7 +180,7 @@ export class Graph {
   bfsIterate(q, cv) {
     while (!q.isEmpty) {
       const parent = q.dequeue();
-      parent.color = colors.black;
+      parent.color = black;
       parent.edges.forEach(edge => {
         if (edge.destination.color === colors.white) {
           edge.destination.color = colors.grey;
@@ -190,7 +193,7 @@ export class Graph {
   bfsStep() {
     if (!this.q.isEmpty) {
       const parent = this.q.dequeue();
-      parent.color = colors.black;
+      parent.color = black;
       parent.edges.forEach(edge => {
         if (edge.destination.color === colors.white) {
           edge.destination.color = colors.grey;
@@ -202,38 +205,58 @@ export class Graph {
       return true;
     } else return false;
   }
+  getNewStart = () => {
+    for (let i = 0;i<this.vertexes.length;i++)
+      if (this.vertexes[i].color === colors.white)
+        return this.vertexes[i];
+    return null;
+  }
   /**
    * BFS
    */
-  bfs(start, update) {
+  bfs(start, update, getConnected = false) {
     this.update = update;
+    black = colors.black;
     const q = this.q.clear();
     this.cv = (v) => {}; //this.dumpVertex;
     this.vertexes.forEach(v => v.color = colors.white);
     start.color = colors.grey;
     q.enqueue(start);
     this.cv(start);
+    this.update();
     // console.log(`number of edges ${start.edges.length}`);
     // nodes = 1;
     //this.bfsIterate(q, this.dumpVertex);
-    // while(this.bfsStep());h
+    // while(this.bfsStep());
+    setTimeout(() => {
     let handle = setInterval(() => {
-
       if (!this.bfsStep()) {
         this.update();
+        start = this.getNewStart();
         // console.log('done');
-        this.dump();
-        clearInterval(handle);
+        // this.dump();
+        if (start === null || !getConnected)
+          clearInterval(handle);
+        else {
+          start.color = colors.grey;
+          q.enqueue(start);
+          this.cv(start);
+          startColorIndex++;
+          if (startColorIndex === startColors.length)
+            startColorIndex = 0;
+          black = startColors[startColorIndex];
+        }
       }
     },timeout);
+  },timeout);
     // console.log('exitig bfs');
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
+  getConnectedComponents = (update) => {
+    this.bfs(this.vertexes[0], update, true);
   }
 }
 // const g = new Graph();

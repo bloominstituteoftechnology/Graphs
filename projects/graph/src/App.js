@@ -11,7 +11,7 @@ const boxSize = canvasHeight / 4;
 const randomProbability = 0.6;
 Math.toDegrees = function () {
   if (arguments.length !== 1) return 0;
-  return arguments[0] * 180 / Math.beginPath;
+  return arguments[0] * 180 / Math.PI;
 }
 /*
 function relMouseCoords(event) {
@@ -38,6 +38,13 @@ HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
  * GraphView
  */
 class GraphView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      starting: "",
+      ending: ""
+    }
+  }
   /**
    * On mount
    */
@@ -49,7 +56,8 @@ class GraphView extends Component {
   }
   runBfs = () => {
     // console.log(`calling runBfs`);
-    this.props.graph.bfs(this.props.graph.vertexes[0], () => this.updateCanvas())
+    // this.props.graph.bfs(this.props.graph.vertexes[0], () => this.updateCanvas())
+    this.props.graph.getConnectedComponents(() => this.updateCanvas());
   }
 
   /**
@@ -136,8 +144,8 @@ class GraphView extends Component {
           this.drawArrow(ctx, v.pos.x + rx, v.pos.y + ry, e.destination.pos.x - rx, e.destination.pos.y - ry);
           ctx.beginPath();
           ctx.save();
-          ctx.translate(v.pos.x + (e.destination.pos.x - v.pos.x) / 2 - 7, v.pos.y + (e.destination.pos.y - v.pos.y) / 2);
-          ctx.rotate(angle > Math.PI ? angle - 0 : angle);
+          ctx.translate((e.destination.pos.x + v.pos.x) / 2, (e.destination.pos.y + v.pos.y) / 2);
+          ctx.rotate(Math.toDegrees(angle));
           ctx.textAlign = "center";
           ctx.font = '34px serif';
           ctx.fillStyle = "black"
@@ -156,12 +164,21 @@ class GraphView extends Component {
       // if (v.isBlack)
       //   console.log(`v.value: ${v.value} back color: ${v.color[0].toString(16)}  forcolor: ${v.color[1].toString(16)} `);
       ctx.beginPath();
-      ctx.fillStyle = v.color[0];
+      let backColor, forColor; 
+      if (Array.isArray(v.color)) {
+        backColor = v.color[0];
+        forColor = v.color[1];
+      } 
+      else {
+        backColor = v.color;
+        forColor = "white"
+      }
+      ctx.fillStyle = backColor;
       ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI);
       ctx.fill();
 
       ctx.font = '24px serif';
-      ctx.strokeStyle = v.color[1];
+      ctx.strokeStyle = forColor;
       ctx.strokeText(v.value.substring(1), v.pos.x - radius / 2, v.pos.y + radius / 2, radius);
       ctx.stroke();
 
@@ -208,9 +225,26 @@ ctx.fill()
       (y > v.pos.y - radius) && (y < v.pos.y + radius));
     if (vertexes.length > 0) {
       const v = vertexes[0];
-      console.log(`you clicked vertex ${v.value}`);
+      // console.log(`you clicked vertex ${v.value}`);
+      if (this.target === 'starting' || this.target === undefined) {
+        this.setState({
+          starting: `starting: ${v.value}`
+        });
+        this.target = "ending";
+      } else {
+        this.setState({
+          ending: `ending: ${v.value}`
+        });
+        this.target = "starting";
+      }
     }
-
+  }
+  clear = () => {
+    this.setState({
+      starting: "",
+      ending: ""
+    });
+    this.target = "starting"
   }
   // /**
   //  * Render
@@ -219,6 +253,8 @@ ctx.fill()
     return (
       <div>
       <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+      <span><h4 className="in">{this.state.starting}</h4> <h4 className="in">{this.state.ending}</h4>
+      <button id="clear" type="button" className="in" onClick={this.clear}>clear</button></span>
       </div>
     );
   }
