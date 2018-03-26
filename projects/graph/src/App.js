@@ -34,10 +34,19 @@ class GraphView extends Component {
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        // !!! IMPLEMENT ME
         // compute connected components
+        const connectedComponents = this.props.graph.getConnectedComponents();
         // draw edges
+        this.props.graph.vertexes.forEach(vertex => {
+            ctx.strokeStyle = 'blue';
+            vertex.edges.forEach(edge => {
+                ctx.moveTo(vertex.pos.x, vertex.pos.y);
+                ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+            });
+            ctx.stroke();
+        });
         // draw verts
+        this.props.graph.vertexes.forEach(vertex => {});
         // draw vert values (labels)
     }
 
@@ -62,8 +71,10 @@ class App extends Component {
             graph: new Graph()
         };
 
-        // !!! IMPLEMENT ME
         // use the graph randomize() method
+        this.state.graph.randomize(5, 5, 100, 0.6);
+        let start = this.state.graph.vertexes[0];
+        this.state.graph.bfs(start);
     }
 
     render() {
