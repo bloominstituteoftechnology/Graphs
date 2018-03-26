@@ -135,7 +135,7 @@ export class Graph {
         start.color = 'gray';
         queue.push(start);
 
-        while (!queue.length) {
+        while (queue.length > 0) {
             let nextVertex = queue[0];
             for (let e of nextVertex.edges) {
                 let v = e.destination;
@@ -146,10 +146,7 @@ export class Graph {
             }
             queue.shift();
             nextVertex.color = 'black';
-
-            connectedComponents.push(nextVertex);
         }
-        return connectedComponents;
     }
 
     /**

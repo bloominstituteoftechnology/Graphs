@@ -48,8 +48,8 @@ class GraphView extends Component {
                 ctx.lineWidth = 2;
                 ctx.moveTo(vertex.pos.x, vertex.pos.y);
                 ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+                ctx.stroke();
             });
-            ctx.stroke();
         });
         // draw verts
         this.props.graph.vertexes.forEach(vertex => {
@@ -58,7 +58,7 @@ class GraphView extends Component {
             ctx.strokeStyle = 'green';
             ctx.lineWidth = 4;
             ctx.stroke();
-            ctx.fillStyle = vertex.color;
+            ctx.fillStyle = 'green';
             ctx.fill();
             ctx.beginPath();
             ctx.font = '10px sans-serif';
@@ -103,8 +103,6 @@ class App extends Component {
 
         // use the graph randomize() method
         this.state.graph.randomize(numX, numY, pxBox, probability);
-        let start = this.state.graph.vertexes[0];
-        this.state.graph.bfs(start);
     }
 
     render() {
