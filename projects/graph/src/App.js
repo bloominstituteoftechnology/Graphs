@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-const canvasWidth = window.innerWidth - 10;
-const canvasHeight = window.innerHeight - 10;
+const numX = 5;
+const numY = 5;
+const pxBox = 150;
+const probability = 0.6;
+const canvasWidth = numX * pxBox;
+const canvasHeight = numY * pxBox;
 
 /**
  * GraphView
@@ -98,7 +102,7 @@ class App extends Component {
         };
 
         // use the graph randomize() method
-        this.state.graph.randomize(5, 5, 150, 0.6);
+        this.state.graph.randomize(numX, numY, pxBox, probability);
         let start = this.state.graph.vertexes[0];
         this.state.graph.bfs(start);
     }
