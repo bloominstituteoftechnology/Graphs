@@ -2,7 +2,7 @@
  * Edge
  */
 export class Edge {
-    constructor(destination, weight) {
+    constructor(destination, weight = 1) {
         this.destination = destination;
         this.weight = weight;
     }
