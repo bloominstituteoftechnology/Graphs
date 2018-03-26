@@ -30,7 +30,10 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+
     
+
+    /*
     // sky
     ctx.fillStyle = 'blue';
     var gradient = ctx.createLinearGradient(0, 120, 0, 400);
@@ -76,6 +79,7 @@ class GraphView extends Component {
       ctx.lineTo(4 * j, 400);
     }
     ctx.stroke();
+    */
 
 
     // !!! IMPLEMENT ME
