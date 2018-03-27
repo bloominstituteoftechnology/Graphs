@@ -109,25 +109,24 @@ export class Graph {
 
   /**
    * BFS
+   * @param start represents the root vertex of a relational graph
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
     const returnArray = [start];
     let inclusion = { [`${start.value}`]: 1 };
-
+    // two closures are defined and initialized with the first vertex
     let loop_extract = (vertex) => {
       let { edges } = vertex;
-
+      // if the key for this value hasn't been encountered before it will not be 1
       edges.forEach(edge => {
-        // If the Destination is not already included in our return array
-        // Ensuring that we do not have loops
         if (inclusion[`${edge.destination.value}`] === undefined) {
-          returnArray.push(edge.destination); // Vertex is Pushed in the Array
+          returnArray.push(edge.destination);
           inclusion[`${edge.destination.value}`] = 1;
-          loop_extract(edge.destination);
-        }
-      });
+          // recurse on every offspring of the parent
+          loop_extract(edge.destination)}}
+        );
     };
+    // Call and return everything above is setup
     loop_extract(start);
     return returnArray;
   }
