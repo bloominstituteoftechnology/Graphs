@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
+// imports for jsdoc/intellisense
+import { Vertex, Edge } from './graph'; 
+
 const xCount = 8;
 const yCount = 8;
 const boxSize = 150;
@@ -33,6 +36,38 @@ class GraphView extends Component {
   }
 
   /**
+   * Renders all edges of a given vertex.
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Vertex} parentVertex
+   */
+  drawEdges(ctx, parentVertex) {
+    for (const edge of parentVertex.edges) {
+      ctx.moveTo(parentVertex.pos.x, parentVertex.pos.y);
+      ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+      ctx.stroke();
+    }
+  }
+
+  /**
+   * Renders a single vertex with its text centered.
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Vertex} vertex
+   */
+  drawVertex(ctx, vertex) {
+    ctx.moveTo(vertex.pos.x, vertex.pos.y);
+    ctx.beginPath();
+    ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // add text to middle of node
+    ctx.fillStyle = 'red';
+    ctx.textAlign = 'center';
+    ctx.font = '10px Arial';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+  }
+
+  /**
    * Render the canvas
    */
   updateCanvas() {
@@ -43,28 +78,9 @@ class GraphView extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // draw edges of vertexes
-    for (const parentVert of this.props.graph.vertexes) {
-      for (const debugEdge of parentVert.edges) {
-        ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
-        ctx.lineTo(debugEdge.destination.pos.x, debugEdge.destination.pos.y);
-        ctx.stroke();
-      }
-    }
-
-    // draw vertexes 
     for (const vertex of this.props.graph.vertexes) {
-      ctx.moveTo(vertex.pos.x, vertex.pos.y);
-      ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // add text to middle of node
-      ctx.fillStyle = 'red';
-      ctx.textAlign = 'center';
-      ctx.font = '10px Arial';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      this.drawEdges(ctx, vertex);
+      this.drawVertex(ctx, vertex);
     }
 
   }
