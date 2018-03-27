@@ -112,20 +112,22 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    const returnArray = [];
+    const returnArray = [start];
+    let inclusion = { [`${start.value}`]: 1 };
+
     let loop_extract = (vertex) => {
       let { edges } = vertex;
-      while (edges.length !== 0) {
-        edges.forEach(edge => {
-          if (!(returnArray.includes(edge.destination))) {
-            returnArray.push(edge.destination); // Vertex is Pushed in the Array
-            console.log(`${edge.value} <----> ${edge.destination.value}`);
-            loop_extract(edge.destination);
-          }
-        });
-      };
-    };
 
+      edges.forEach(edge => {
+        // If the Destination is not already included in our return array
+        // Ensuring that we do not have loops
+        if (inclusion[`${edge.destination.value}`] === undefined) {
+          returnArray.push(edge.destination); // Vertex is Pushed in the Array
+          inclusion[`${edge.destination.value}`] = 1;
+          loop_extract(edge.destination);
+        }
+      });
+    };
     loop_extract(start);
     return returnArray;
   }
