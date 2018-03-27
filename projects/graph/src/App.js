@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
+import './graph';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 800;
-const canvasHeight = 500;
+const canvasWidth = 750;
+const canvasHeight = 600;
+const vertexRadius = 20;
 
 /**
  * GraphView
@@ -63,17 +65,58 @@ class GraphView extends Component {
 //       ctx.strokeStyle= `rgb(${r},${g},${b})`;
 //       ctx.stroke();
 //     }
-    ctx.beginPath();
-    ctx.arc(95,50,40,0,2*Math.PI);
-    ctx.lineTo(200, 150);
-    for (let i = 0; i < canvasWidth; i++) {
-      ctx.lineTo(22 * i, 50);
-      ctx.lineTo(1000 / i, 500);
-      let r = Math.floor(Math.random() * 8) * i + 50;
-      let g = Math.floor((Math.random() * 2)) * i;
-      let b = Math.floor(Math.random() * i);
-      ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+//     ctx.beginPath();
+//     ctx.arc(95,50,40,0,2*Math.PI);
+//     ctx.lineTo(200, 150);
+//     for (let i = 0; i < canvasWidth; i++) {
+//       ctx.lineTo(22 * i, 50);
+//       ctx.lineTo(1000 / i, 500);
+//       let r = Math.floor(Math.random() * 8) * i + 50;
+//       let g = Math.floor((Math.random() * 2)) * i;
+//       let b = Math.floor(Math.random() * i);
+//       ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+//       ctx.stroke();
+//     }
+
+    // test
+    console.log("updating canvas");
+    console.log(this.props.graph.vertexes);
+
+    console.log("edge", this.props.graph.vertexes[0].edges[0]);
+    // REMEMBER: Draw lines first!
+    //let parentVert = this.props.graph.vertexes[0];
+    //let debugEdge = this.props.graph.vertexes[0].edges[0];
+    for (let vertex of this.props.graph.vertexes)
+    {
+      for (let edge of vertex.edges)
+      {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+    //we know our data is here :D
+    // let's draw it!
+
+    //var debugNode = this.props.graph.vertexes[0];
+    // iterate over vertex array to draw them
+    for (let vertex of this.props.graph.vertexes)
+    {
+      // draw the circle
+      ctx.moveTo(vertex.pos.x,  vertex.pos.y);
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
       ctx.stroke();
+
+      // fill node white
+      ctx.fillStyle = "white";
+      ctx.fill();
+      //draw text on screen
+      ctx.font = "10px Arial"; // TODO: Do we want stroke
+      ctx.fillStyle = "black";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
 
 
@@ -106,8 +149,16 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.randomizeGraph = this.randomizeGraph.bind(this);
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    // this.state.graph.debugCreateTestData();
   }
 
+  randomizeGraph() {
+    const newGraph = new Graph();
+    newGraph.randomize(5, 4, 150, 0.6);
+    this.setState({graph: newGraph});
+  }
   render() {
     return (
       <div className="App">
