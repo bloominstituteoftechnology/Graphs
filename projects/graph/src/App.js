@@ -5,6 +5,10 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = 700;
 const canvasHeight = 700;
+const xsize = 5;
+const ysize = 4;
+const jitter = 150;
+const vRadius = 20;
 
 /**
  * GraphView
