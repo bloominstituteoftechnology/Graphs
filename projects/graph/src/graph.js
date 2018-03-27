@@ -144,6 +144,17 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let returnArray = [];
+    // Loop over all vertices in the graph
+    // If the vertex.edges array contains anything
+        // Push it inside the returnArray
+    this.vertexes.forEach(vertex => {
+      if (vertex.edges.length >= 1) {
+        returnArray.push(vertex);
+      }
+    });
+    // Return an array of vertices that contain connections.
+    return returnArray;
   }
 }
 
