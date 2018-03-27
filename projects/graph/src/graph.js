@@ -125,13 +125,17 @@ export class Graph {
     let loop_extract = (vertex) => {
       // While the edges array of the vertex passed in is not empty
       let { edges } = vertex;
-      do {
+      while (edges.length !== 0) {
         edges.forEach(edge => {
-          returnArray.push(edge.destination);
-          loop_extract(edge.destination);
+          // If the Destination is not already included in our return array
+          // Ensuring that we do not have loops
+          if (!(returnArray.includes(edge.destination))) {
+            returnArray.push(edge.destination); // Vertex is Pushed in the Array
+            console.log(`${edge.value} <----> ${edge.destination.value}`);
+            loop_extract(edge.destination);
+          }          
         });
-      }
-      while (edges.length !== 0);
+      };      
     };
 
     loop_extract(start);
