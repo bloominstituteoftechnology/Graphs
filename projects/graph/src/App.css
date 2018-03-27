@@ -26,3 +26,20 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+.refreshWrapper {
+  margin-top: 2em;
+}
+
+.refreshButton {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 140px;
+  height: 40px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  user-select: none;
+  background-color: rgb(0, 75, 136);
+}
