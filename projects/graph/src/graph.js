@@ -12,9 +12,9 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-    constructor(value) {
+    constructor(value = 'vertex', pos = { x: null, y: null }) {
         this.edges = [];
-        this.pos = {};
+        this.pos = pos;
         this.value = value;
     }
 }
@@ -136,34 +136,36 @@ export class Graph {
         queue.push(start);
 
         while (queue.length > 0) {
-            let nextVertex = queue[0];
-            for (let e of nextVertex.edges) {
-                let v = e.destination;
-                if (v.color === 'white') {
-                    v.color = 'gray';
-                    queue.push(v);
+            const nextVertex = queue[0];
+            for (let edge of nextVertex.edges) {
+                const vertex = edge.destination;
+                if (vertex.color === 'white') {
+                    vertex.color = 'gray';
+                    queue.push(vertex);
                 }
             }
             queue.shift();
             nextVertex.color = 'black';
+            connectedComponents.push(nextVertex);
         }
+        return connectedComponents;
     }
 
     /**
      * Get the connected components
      */
     getConnectedComponents() {
-        const connectedComponents = [];
-        for (let v of this.vertexes) {
-            v.color = 'white';
+        const connectedComponentsList = [];
+        for (let vertex of this.vertexes) {
+            vertex.color = 'white';
         }
 
-        for (let v of this.vertexes) {
-            if (v.color === 'white') {
-                let component = this.bfs(v);
-                connectedComponents.push(component);
+        for (let vertex of this.vertexes) {
+            if (vertex.color === 'white') {
+                const connectedComponent = this.bfs(vertex);
+                connectedComponentsList.push(connectedComponent);
             }
         }
-        return connectedComponents;
+        return connectedComponentsList;
     }
 }

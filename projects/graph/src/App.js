@@ -8,6 +8,7 @@ const pxBox = 150;
 const probability = 0.6;
 const canvasWidth = numX * pxBox;
 const canvasHeight = numY * pxBox;
+const radius = 10;
 
 /**
  * GraphView
@@ -54,19 +55,20 @@ class GraphView extends Component {
         // draw verts
         this.props.graph.vertexes.forEach(vertex => {
             ctx.beginPath();
-            ctx.arc(vertex.pos.x, vertex.pos.y, 10, 0, Math.PI * 2, true);
+            ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, Math.PI * 2, true);
             ctx.strokeStyle = 'green';
             ctx.lineWidth = 4;
             ctx.stroke();
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = 'white';
             ctx.fill();
             ctx.beginPath();
             ctx.font = '10px sans-serif';
             ctx.fillStyle = 'black';
-            ctx.fillText(vertex.value, vertex.pos.x - 8, vertex.pos.y + 4);
-            ctx.fill();
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
         });
-        // draw vert values (labels)
+        // draw edge weights (labels)
         this.props.graph.vertexes.forEach(vertex => {
             ctx.beginPath();
             ctx.fillStyle = 'black';
@@ -76,7 +78,6 @@ class GraphView extends Component {
                 let y = (edge.destination.pos.y + vertex.pos.y) / 2;
                 ctx.fillText(edge.weight, x, y);
             });
-            ctx.fill();
         });
     }
 
@@ -105,10 +106,17 @@ class App extends Component {
         this.state.graph.randomize(numX, numY, pxBox, probability);
     }
 
+    handleClick = () => {
+        const graph = new Graph();
+        graph.randomize(numX, numY, pxBox, probability);
+        this.setState({ graph });
+    };
+
     render() {
         return (
             <div className="App">
                 <GraphView graph={this.state.graph} />
+                <button onClick={this.handleClick}>Generate Graph</button>
             </div>
         );
     }
