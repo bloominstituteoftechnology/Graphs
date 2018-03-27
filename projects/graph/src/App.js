@@ -6,6 +6,8 @@ import './App.css';
 const canvasWidth = 500;
 const canvasHeight = 500;
 
+const vertexRadius = 20;
+
 /**
  * GraphView
  */
@@ -31,8 +33,39 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    
+    //create canvas background
+    ctx.fillStyle = "lightgray";
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    // check to see we have our vertexes
+    console.log(this.props.graph.vertexes);
+    console.log(this.props.graph.vertexes[0].edges[0]);
+
+    //draw the edge
+    for (let parentVert of this.props.graph.vertexes){
+      for (let debugEdge of parentVert.edges) {
+        ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
+        ctx.lineTo(debugEdge.destination.pos.x, debugEdge.destination.pos.y);    
+        ctx.stroke();
+      }
+    }
+    // create nodes from debug creator in graph.js
+    for (const debugVert of this.props.graph.vertexes) {
+      ctx.moveTo(debugVert.pos.x, debugVert.pos.y);
+      ctx.beginPath();
+      ctx.arc(debugVert.pos.x, debugVert.pos.y, vertexRadius, 0, 2*Math.PI);  
+      ctx.stroke();
+      ctx.fillStyle = "white"
+      ctx.fill();
+      ctx.font = "12px Arial";
+      ctx.fillStyle = "black"
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center"
+      ctx.fillText(debugVert.value, debugVert.pos.x, debugVert.pos.y);
+     
+    }
+   
+    
     /*
     // sky
     ctx.fillStyle = 'blue';
@@ -79,8 +112,7 @@ class GraphView extends Component {
       ctx.lineTo(4 * j, 400);
     }
     ctx.stroke();
-    */
-
+*/
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -107,10 +139,12 @@ class App extends Component {
 
     this.state = {
       graph: new Graph()
+
     };
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
