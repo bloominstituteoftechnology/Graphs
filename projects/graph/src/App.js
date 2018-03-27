@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
-
+const canvasWidth = 1280;
+const canvasHeight = 720;
+const vertexRadius = 10;
 /**
  * GraphView
+ * @extends {Component<{graph: Graph}, State>}
+ * 
  */
 class GraphView extends Component {
+  constructor() {
+    super();
+  }
   /**
    * On mount
    */
@@ -28,18 +32,37 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
-    
-    // Clear it
+    /** @type {CanvasRenderingContext2D} */
+    let ctx = this.refs.canvas.getContext('2d');
+
+    // initialize canvas
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    // draw edges of vertexes
+    for (const parentVert of this.props.graph.vertexes) {
+      for (const debugEdge of parentVert.edges) {
+        ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
+        ctx.lineTo(debugEdge.destination.pos.x, debugEdge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    // draw vertexes 
+    for (const vertex of this.props.graph.vertexes) {
+      ctx.moveTo(vertex.pos.x, vertex.pos.y);
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // add text to middle of node
+      ctx.fillStyle = 'red';
+      ctx.textAlign = 'center';
+      ctx.font = '10px Arial';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
+
   }
   
   /**
@@ -55,15 +78,16 @@ class GraphView extends Component {
  * App
  */
 class App extends Component {
+  state = {
+    graph: new Graph()
+  };
+
   constructor(props) {
     super(props);
 
-    this.state = {
-      graph: new Graph()
-    };
-
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
