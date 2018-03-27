@@ -97,8 +97,8 @@ text on top of the vert circle.
 
 
 ## Phase 4: Implement Breadth-First Search (or Depth-First Search)
-
 This is a necessary step in figuring out the connected components.
+
 
 ## Phase 5: Color the Connected Components Differently
 

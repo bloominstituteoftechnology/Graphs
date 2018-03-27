@@ -120,26 +120,22 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    const returnArray = [];
+    const returnArray = [start];
+    let inclusion = { [`${start.value}`]: 1 };
 
     let loop_extract = (vertex) => {
-      // While the edges array of the vertex passed in is not empty
       let { edges } = vertex;
-      while (edges.length !== 0) {
-        edges.forEach(edge => {
-          // If the Destination is not already included in our return array
-          // Ensuring that we do not have loops
-          if (!(returnArray.includes(edge.destination))) {
-            returnArray.push(edge.destination); // Vertex is Pushed in the Array
-            console.log(`${edge.value} <----> ${edge.destination.value}`);
-            loop_extract(edge.destination);
-          }          
-        });
-      };      
+
+      edges.forEach(edge => {
+        // Ensuring that we do not have loops
+        if (inclusion[`${edge.destination.value}`] === undefined) {
+          returnArray.push(edge.destination); // Vertex is Pushed in the Array
+          inclusion[`${edge.destination.value}`] = 1;
+          loop_extract(edge.destination);
+        }
+      });
     };
-
     loop_extract(start);
-
     return returnArray;
   }
 
@@ -150,3 +146,19 @@ export class Graph {
     // !!! IMPLEMENT ME
   }
 }
+
+let mg = new Graph();
+
+mg.randomize(3, 3, 20);
+
+mg.dump();
+
+let mgArr = mg.bfs(mg.vertexes[0]);
+mgArr.forEach(item => {
+  console.log('Item: ', item.value);
+});
+
+let myConnected = mg.getConnectedComponents();
+myConnected.forEach(item => {
+  console.log('Connected: ', item);
+});
