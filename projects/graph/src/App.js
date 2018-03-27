@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
 const canvasWidth = window.innerWidth;
-const canvasHeight = (window.innerWidth * .80 | 0);
+const canvasHeight = window.innerHeight;
 
 /**
  * GraphView
  */
 class GraphView extends Component {
+  constructor(props) {
+    super();
+    // let vertex = new Graph();
+
+  }
   /**
    * On mount
    */
@@ -41,34 +45,31 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
+    let canvas = document.getElementById('LS');//this.ref.canvas;
     let c = canvas.getContext('2d');
     
     // Clear it
-    c.fillStyle = '#000000';
+    c.fillStyle = 'blue';
     c.fillRect(0, 0, canvasWidth, canvasHeight);
-    let i = 0;
-    
-    // console.log(c.strokeStyle);
-    
-    
-    let stroke = (() => {
-      do {
-        c.beginPath();
-        c.moveTo(i * 2, i / 2);
-        c.strokeStyle = this.randomRGBA(i, i, i, 0.1);
-        c.lineTo(i < canvasWidth ? canvasWidth / 2: 0, i < canvasHeight ? canvasHeight / 2 : i / 2);//, (Math.random() * canvasHeight) + 1)|0;
-        c.stroke();
-        i += 1;
-      } while (i <=  127);
-      })();
 
-      stroke;
-      stroke;
+    // const root = this.props.graph.vertexes;
+    // console.log(root);
+    let x = 0;
+    let y = 0;
+    let j = 0;
+    for (let j = 0; j < 10; j++) {
+      
+      x += j;//root[j].pos.x;
+      y += j;//root[j].pos.y;
+      // c.moveTo(0, 0);
+      c.beginPath();
+      c.arc(x, y, 20, 0, Math.PI * 2);
+      c.closePath();
+      c.stroke();
+      c.fillStyle = this.randomRGBA(0,0,0,0.6);
+      c.fill();
+    }
 
-
-
-    // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
@@ -79,7 +80,7 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas id="LS" ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
 
@@ -91,12 +92,13 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      graph: new Graph()
-    };
+    this.state = { graph: new Graph() };
+  }
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    componentDidMount() {
+      this.state.graph = this.state.graph.randomize(2, 2);
   }
 
   render() {

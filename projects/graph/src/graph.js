@@ -25,12 +25,8 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
-
   }
 
-  /**
-   * Create a random graph
-   */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
@@ -94,9 +90,6 @@ export class Graph {
     }
   }
 
-  /**
-   * Dump graph data to the console
-   */
   dump() {
     let s;
     for (let v of this.vertexes) {
@@ -112,23 +105,23 @@ export class Graph {
    * @param start represents the root vertex of a relational graph
    */
   bfs(start) {
-    const returnArray = [start];
-    let inclusion = { [`${start.value}`]: 1 };
+    const closure = [start];
+    const hash = { [`${start.value}`]: 1 };
     // two closures are defined and initialized with the first vertex
     let loop_extract = (vertex) => {
       let { edges } = vertex;
       // if the key for this value hasn't been encountered before it will not be 1
       edges.forEach(edge => {
-        if (inclusion[`${edge.destination.value}`] === undefined) {
-          returnArray.push(edge.destination);
-          inclusion[`${edge.destination.value}`] = 1;
+        if (!hash[`${edge.destination.value}`]) {
+          closure.push(edge.destination);
+          hash[`${edge.destination.value}`] = 1;
           // recurse on every offspring of the parent
           loop_extract(edge.destination)}}
         );
     };
     // Call and return everything above is setup
     loop_extract(start);
-    return returnArray;
+    return closure;
   }
 
   /**
