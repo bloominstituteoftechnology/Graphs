@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.weight = weight;
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = '', pos = { x: -1, y: -1 }) {
+    this.value = value;
+    this.pos = pos;
+    this.edges = [];
+  }
 }
 
 /**
@@ -23,7 +32,7 @@ export class Graph {
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -51,14 +60,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -111,6 +120,23 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const returnArray = [];
+
+    let loop_extract = (vertex) => {
+      // While the edges array of the vertex passed in is not empty
+      let { edges } = vertex;
+      do {
+        edges.forEach(edge => {
+          returnArray.push(edge.destination);
+          loop_extract(edge.destination);
+        });
+      }
+      while (edges.length !== 0);
+    };
+
+    loop_extract(start);
+
+    return returnArray;
   }
 
   /**
