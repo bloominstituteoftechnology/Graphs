@@ -29,29 +29,6 @@ export class Graph {
     this.vertexes = [];
   }
 
-  // debugCreateTestData() {
-  //   console.log("Debug: Ran debugCreateTestData()");
-
-  //   // new verts
-  //   let debugVert1 = new Vertex('dv1', { x: 50, y: 20 });
-  //   let debugVert2 = new Vertex('dv2', { x: 100, y: 100 });
-  //   let debugVert3 = new Vertex('dv3', { x: 50, y: 200 });
-  //   let debugVert4 = new Vertex('dv3', { x: 40, y: 500 });
-  //   let debugVert5 = new Vertex('dv3', { x: 500, y: 40 });
-  //   let debugVert6 = new Vertex('dv3', { x: 20, y: 600 });
-  //   let debugVert7 = new Vertex('dv3', { x: 250, y: 450 });
-
-  //   // new edge
-  //   let edge1 = new Edge(debugVert2);
-  //   let edge2 = new Edge(debugVert4);
-  //   let edge3 = new Edge(debugVert7);
-  //   debugVert1.edges.push(edge1);
-  //   debugVert2.edges.push(edge2);
-  //   debugVert3.edges.push(edge3);
-
-  //   this.vertexes.push(debugVert1, debugVert2, debugVert3, debugVert4, debugVert5, debugVert6, debugVert7);
-  // }
-
   /**
    * Create a random graph
    */

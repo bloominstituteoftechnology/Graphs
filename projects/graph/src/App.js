@@ -36,15 +36,8 @@ class GraphView extends Component {
     ctx.fillStyle = "lightgray";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    console.log("this.props", this.props);
-    // console.log("updating canvas");
-    // console.log(this.props.graph.vertexes);
-    console.log("edge", this.props.graph.vertexes[0].edges[0]);
-    // var vertex = this.props.graph.vertexes[0];
+    console.log("this.props.graph.vertexes", this.props.graph.vertexes);
 
-    // let parentVert = this.props.graph.vertexes[0];
-    let debugEdge = this.props.graph.vertexes[0].edges[0];
-    console.log("debugEdge is", debugEdge);
 
     for (let parentVert of this.props.graph.vertexes) {
       for (let debugEdge of parentVert.edges) {
@@ -70,41 +63,6 @@ class GraphView extends Component {
       ctx.font = "10px Helvetica";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
-
-    // // line 1
-    // ctx.moveTo(50, 50);
-    // ctx.lineTo(100, 100);
-    // ctx.stroke();
-
-    // // node 1
-    // ctx.beginPath();
-    // ctx.moveTo(60, 50);
-    // ctx.arc(50, 50, 10, 0, 2 * Math.PI, true);
-    // ctx.fill();
-    // ctx.stroke();
-
-    // // num 1
-    // ctx.beginPath();
-    // ctx.font = "10px Helvetica";
-    // ctx.strokeText("1", 48, 53);
-    // ctx.stroke();
-
-    // // node 2
-    // ctx.arc(100, 100, 10, 0, 2 * Math.PI, true);
-    // ctx.fill();
-    // ctx.stroke();
-
-    // // num 2
-    // ctx.font = "10px Helvetica";
-    // ctx.strokeStyle = "black";
-    // ctx.strokeText("2", 98, 102);
-    // ctx.stroke();
-
   }
 
   /**
@@ -129,7 +87,11 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    // this.state.graph.debugCreateTestData();
+
+    console.log(this.state.graph.randomize);
+
+    this.state.graph.randomize(5, 4, 150);
   }
 
   render() {
