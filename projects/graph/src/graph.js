@@ -2,14 +2,21 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.weight = weight;
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value, x = 0, y = 0) {
+    this.value = value;
+    this.pos = {x: 0, y: 0};
+    this.edges = [];
+  }
 }
 
 /**
@@ -18,6 +25,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+
   }
 
   /**
@@ -111,6 +119,22 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const returnArray = [];
+    let loop_extract = (vertex) => {
+      // While the edges array of the vertex passed in is not empty
+      let { edges } = vertex;
+      while (edges.length !== 0) {
+          edges.forEach(edge => {
+            returnArray.push(edge.destination);
+            console.log(edge.destination);
+            if (!(returnArray.includes(edge.destination))) loop_extract(edge.destination);
+          });
+        }
+    };
+
+    loop_extract(start);
+
+    return returnArray;
   }
 
   /**

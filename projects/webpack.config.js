@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: './graph/src/index.js'
+    app: './graph/src/test.js'
   },
   output: {
     path: path.resolve(__dirname, 'public'),
