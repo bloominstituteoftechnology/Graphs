@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 500;
-const canvasHeight = 500;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
 const vertexRadius = 20;
 
@@ -43,17 +43,17 @@ class GraphView extends Component {
 
     //draw the edge
     for (let parentVert of this.props.graph.vertexes){
-      for (let debugEdge of parentVert.edges) {
+      for (let parentEdges of parentVert.edges) {
         ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
-        ctx.lineTo(debugEdge.destination.pos.x, debugEdge.destination.pos.y);    
+        ctx.lineTo(parentEdges.destination.pos.x, parentEdges.destination.pos.y);    
         ctx.stroke();
       }
     }
     // create nodes from debug creator in graph.js
-    for (const debugVert of this.props.graph.vertexes) {
-      ctx.moveTo(debugVert.pos.x, debugVert.pos.y);
+    for (const parentVert of this.props.graph.vertexes) {
+      ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
       ctx.beginPath();
-      ctx.arc(debugVert.pos.x, debugVert.pos.y, vertexRadius, 0, 2*Math.PI);  
+      ctx.arc(parentVert.pos.x, parentVert.pos.y, vertexRadius, 0, 2*Math.PI);  
       ctx.stroke();
       ctx.fillStyle = "white"
       ctx.fill();
@@ -61,7 +61,7 @@ class GraphView extends Component {
       ctx.fillStyle = "black"
       ctx.textBaseline = "middle";
       ctx.textAlign = "center"
-      ctx.fillText(debugVert.value, debugVert.pos.x, debugVert.pos.y);
+      ctx.fillText(parentVert.value, parentVert.pos.x, parentVert.pos.y);
      
     }
    
@@ -144,7 +144,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    //this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
