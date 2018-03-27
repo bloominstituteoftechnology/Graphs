@@ -147,7 +147,7 @@ export class Graph {
     let returnArray = [];
     // Loop over all vertices in the graph
     // If the vertex.edges array contains anything
-        // Push it inside the returnArray
+    // Push it inside the returnArray
     this.vertexes.forEach(vertex => {
       if (vertex.edges.length >= 1) {
         returnArray.push(vertex);
@@ -158,18 +158,18 @@ export class Graph {
   }
 }
 
-let mg = new Graph();
+// let mg = new Graph();
 
-mg.randomize(3, 3, 20);
+// mg.randomize(3, 3, 20);
 
-mg.dump();
+// mg.dump();
 
-let mgArr = mg.bfs(mg.vertexes[0]);
-mgArr.forEach(item => {
-  console.log('Item: ', item.value);
-});
+// let mgArr = mg.bfs(mg.vertexes[0]);
+// mgArr.forEach(item => {
+//   console.log('Item: ', item.value);
+// });
 
-let myConnected = mg.getConnectedComponents();
-myConnected.forEach(item => {
-  console.log('Connected: ', item);
-});
+// let myConnected = mg.getConnectedComponents();
+// myConnected.forEach(item => {
+//   console.log('Connected: ', item);
+// });
