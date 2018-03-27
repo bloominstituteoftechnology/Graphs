@@ -50,12 +50,12 @@ class GraphView extends Component {
     //let debugNode = this.props.graph.vertexes[0];
     //console.log(debugNode.pos.x);
 
-    for (let debugNode of this.props.graph.vertexes) {
+    for (let vertex of this.props.graph.vertexes) {
       
       // draw node first, so make a circle
-      ctx.moveTo(debugNode.pos.x, debugNode.pos.y);
+      ctx.moveTo(vertex.pos.x, vertex.pos.y);
       ctx.beginPath();
-      ctx.arc(debugNode.pos.x, debugNode.pos.y, vertexRadius, 0, Math.PI * 2);
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
       ctx.stroke();
 
       //draw the fill
@@ -67,7 +67,7 @@ class GraphView extends Component {
       ctx.textAlign = 'center';
       ctx.textBaseLine = 'middle';
       ctx.font = '10px Arial'; //TODO: Do we want stroke text or fill text?
-      ctx.fillText(debugNode.value, debugNode.pos.x, debugNode.pos.y);
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
     
 
