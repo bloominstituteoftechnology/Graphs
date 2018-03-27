@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 800;
+const canvasHeight = 500;
 
 /**
  * GraphView
@@ -32,8 +32,50 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = "grey";
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight); // (x, y, width, height) origin -- top left
+//     ctx.moveTo(0,0);
+//     ctx.lineTo(200,100);
+//     ctx.moveTo(200,100);
+//     ctx.lineTo(130,480);
+//     ctx.lineTo(320,75);
+//     ctx.stroke();
+//
+//     ctx.beginPath();
+//     ctx.arc(95,50,40,0,2*Math.PI);
+//     ctx.stroke();
+//
+//     // Create gradient
+//     var grd=ctx.createLinearGradient(300,300,150,0);
+//     grd.addColorStop(0,"red");
+//     grd.addColorStop(1,"white");
+//
+// // Fill with gradient
+//     ctx.fillStyle=grd;
+//     ctx.fillRect(300,100,150,80);
+//
+//     for(var i = 0; i < 300; i++) {
+//       ctx.moveTo(2*i, 20);
+//       ctx.lineTo(3*i, 250);
+//       let r = i+100;
+//       let g = 30*i*i;
+//       let b = i * 10;
+//       ctx.strokeStyle= `rgb(${r},${g},${b})`;
+//       ctx.stroke();
+//     }
+    ctx.beginPath();
+    ctx.arc(95,50,40,0,2*Math.PI);
+    ctx.lineTo(200, 150);
+    for (let i = 0; i < canvasWidth; i++) {
+      ctx.lineTo(22 * i, 50);
+      ctx.lineTo(1000 / i, 500);
+      let r = Math.floor(Math.random() * 8) * i + 50;
+      let g = Math.floor((Math.random() * 2)) * i;
+      let b = Math.floor(Math.random() * i);
+      ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+      ctx.stroke();
+    }
+
 
     // !!! IMPLEMENT ME
     // compute connected components
