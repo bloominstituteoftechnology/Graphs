@@ -99,17 +99,10 @@ export class Graph {
    */
   dump() {
     let s;
-
     for (let v of this.vertexes) {
-      if (v.pos) {
-        s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
-      } else {
-        s = v.value + ':';
-      }
-
-      for (let e of v.edges) {
-        s += ` ${e.destination.value}`;
-      }
+      if (v.pos) { s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
+      } else { s = v.value + ':'; }
+      for (let e of v.edges) { s += ` ${e.destination.value}`; }
       console.log(s);
     }
   }
@@ -121,19 +114,19 @@ export class Graph {
     // !!! IMPLEMENT ME
     const returnArray = [];
     let loop_extract = (vertex) => {
-      // While the edges array of the vertex passed in is not empty
       let { edges } = vertex;
       while (edges.length !== 0) {
-          edges.forEach(edge => {
-            returnArray.push(edge.destination);
-            console.log(edge.destination);
-            if (!(returnArray.includes(edge.destination))) loop_extract(edge.destination);
-          });
-        }
+        edges.forEach(edge => {
+          if (!(returnArray.includes(edge.destination))) {
+            returnArray.push(edge.destination); // Vertex is Pushed in the Array
+            console.log(`${edge.value} <----> ${edge.destination.value}`);
+            loop_extract(edge.destination);
+          }
+        });
+      };
     };
 
     loop_extract(start);
-
     return returnArray;
   }
 
