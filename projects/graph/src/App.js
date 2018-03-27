@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 480;
+const canvasWidth = 700;
 const canvasHeight = 480;
+
+const vertexRadius = 10;
 
 /**
  * GraphView
@@ -30,38 +32,44 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // Clear it
-    ctx.fillStyle = 'gray';
+    ctx.strokeStyle = "black";
+    ctx.fillStyle = 'lightgray';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    ctx.fillStyle = 'red';
-    ctx.fillRect(10,10,20,20);
 
-    ctx.moveTo(25, 299);
-    ctx.lineTo(400, 300);
-    ctx.lineTo(452, 378);
-    ctx.moveTo(0, 0);
-    ctx.lineTo(255, 255);
+    console.log("Updating Canvas");
+    console.log(this.props.graph.vertexes);
+
+    console.log("edge", this.props.graoh.vertexes[0], edges[0]);
+
+
+    // remember to draw lines
+    for (let parentVert of this.props.graph.vertexes)
+    {
+    for (let debugEdge of parentVert.edges)
+    {
+    ctx.moveTo(debugNode.pos.x, debugNode.pos.y);
+    ctx.beginPath();
+    ctx.arc(debugNode.pos.x, debugNode.pos.y, vertexRadius, 0, Math.PI * 2);
     ctx.stroke();
-
-    let grd = ctx.createLinearGradient(0, 0, 200, 0);
-    grd.addColorStop(0, "red");
-    grd.addColorStop(1, "white");
-
-    ctx.fillStyle = grd;
-    ctx.fillRect(10,10, 150, 80);
-    ctx.stroke();
-
-    // !!! IMPLEMENT ME
+    // !!! IMPLEMENT ME;
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
-    
+    //draw the fill
+    ctx.fillStyle = "white";
+    ctx.fill();
 
-  
+    //Draw the label
+    ctx.fillstyle = "black";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "10px Arial";
+    ctx.fillText(debugNode.value, debugNode.pos.x, debugNode.pos.y);
   }
-  
+    
   /**
    * Render
    */
@@ -84,6 +92,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
