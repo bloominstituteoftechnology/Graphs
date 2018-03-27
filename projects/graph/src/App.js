@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
- const canvasWidth = 700;
- const canvasHeight = 480;
+const canvasWidth = 750;
+const canvasHeight = 600;
+ 
+const vertexRadius = 10;
 
 /**
  * GraphView
@@ -32,13 +34,49 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth,  canvasHeight);
-    stroke();
+
+    ctx.strokeStyle = 'black';
+    ctx.fillStyle = 'lightgray';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    
+    console.log("updating canvasa");
+    console.log(this.props.graph.vertexes);
+
+    //REMEMBER: Draw lines first!
+
+    // we know our data is here :D
+    // lets draw it!
+
+    //let debugNode = this.props.graph.vertexes[0];
+    //console.log(debugNode.pos.x);
+
+    for (let debugNode of this.props.graph.vertexes) {
+      
+      // draw node first, so make a circle
+      ctx.moveTo(debugNode.pos.x, debugNode.pos.y);
+      ctx.beginPath();
+      ctx.arc(debugNode.pos.x, debugNode.pos.y, vertexRadius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      //draw the fill
+      ctx.fillStyle = 'white';
+      ctx.fill();
+
+      //draw the label or text
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'center';
+      ctx.textBaseLine = 'middle';
+      ctx.font = '10px Arial'; //TODO: Do we want stroke text or fill text?
+      ctx.fillText(debugNode.value, debugNode.pos.x, debugNode.pos.y);
+    }
+    
 
 
 
-   
+
+
+
+
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -54,6 +92,14 @@ class GraphView extends Component {
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
+// function to get random colors : Might use or not?
+
+// function getRandomColor() {
+//   let r = 255 * Math.random() | 0,
+//     g = 255 * Math.random() | 0,
+//     b = 255 * Math.random() | 0;
+//   return 'rgb(' + r + ',' + g + ',' + b + ')';
+// }
 
 
 /**
@@ -69,6 +115,10 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    // since our eventual goal is to implement randomiz here
+    // this is probably a good place to try our test function and see
+    // what happens and figure out how it works
+    this.state.graph.randomize(5,4,150);
   }
 
   render() {
@@ -81,3 +131,8 @@ class App extends Component {
 }
 
 export default App;
+
+// step 1 draw edges
+// step 2 draw the node (vertex)
+// step 3 draw text on top of node (value)
+// step 4 draw weights of the edges (stretch goal)
