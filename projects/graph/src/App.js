@@ -40,43 +40,56 @@ class GraphView extends Component {
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
         // compute connected components
-        const connectedComponents = this.props.graph.getConnectedComponents();
-        // draw edges
-        this.props.graph.vertexes.forEach(vertex => {
-            ctx.beginPath();
-            ctx.strokeStyle = 'green';
-            vertex.edges.forEach(edge => {
-                ctx.lineWidth = 2;
-                ctx.moveTo(vertex.pos.x, vertex.pos.y);
-                ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-                ctx.stroke();
+        const connectedComponentsList = this.props.graph.getConnectedComponents();
+        connectedComponentsList.forEach(component => {
+            let randomColor = '#000000'.replace(/0/g, () => {
+                return (~~(Math.random() * 16)).toString(16);
             });
-        });
-        // draw verts
-        this.props.graph.vertexes.forEach(vertex => {
-            ctx.beginPath();
-            ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, Math.PI * 2, true);
-            ctx.strokeStyle = 'green';
-            ctx.lineWidth = 4;
-            ctx.stroke();
-            ctx.fillStyle = 'white';
-            ctx.fill();
-            ctx.beginPath();
-            ctx.font = '10px sans-serif';
-            ctx.fillStyle = 'black';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-        });
-        // draw edge weights (labels)
-        this.props.graph.vertexes.forEach(vertex => {
-            ctx.beginPath();
-            ctx.fillStyle = 'black';
-            ctx.font = '15px sans-serif';
-            vertex.edges.forEach(edge => {
-                let x = (edge.destination.pos.x + vertex.pos.x) / 2;
-                let y = (edge.destination.pos.y + vertex.pos.y) / 2;
-                ctx.fillText(edge.weight, x, y);
+
+            // draw edges
+            component.forEach(vertex => {
+                ctx.beginPath();
+                ctx.strokeStyle = randomColor;
+                vertex.edges.forEach(edge => {
+                    ctx.lineWidth = 2;
+                    ctx.moveTo(vertex.pos.x, vertex.pos.y);
+                    ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+                    ctx.stroke();
+                });
+            });
+            // draw verts
+            component.forEach(vertex => {
+                ctx.beginPath();
+                ctx.arc(
+                    vertex.pos.x,
+                    vertex.pos.y,
+                    radius,
+                    0,
+                    Math.PI * 2,
+                    true
+                );
+                ctx.strokeStyle = randomColor;
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                ctx.fillStyle = 'white';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.font = '10px sans-serif';
+                ctx.fillStyle = 'black';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+            });
+            // draw edge weights (labels)
+            component.forEach(vertex => {
+                ctx.beginPath();
+                ctx.fillStyle = 'black';
+                ctx.font = '15px sans-serif';
+                vertex.edges.forEach(edge => {
+                    let x = (edge.destination.pos.x + vertex.pos.x) / 2;
+                    let y = (edge.destination.pos.y + vertex.pos.y) / 2;
+                    ctx.fillText(edge.weight, x, y);
+                });
             });
         });
     }
