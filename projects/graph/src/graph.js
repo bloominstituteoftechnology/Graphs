@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  addEdge(fromVertex, toVertex) {
+    if (!this.fromVertex.edges.includes(toVertex)) fromVertex.pushToEdges(toVertex);
+    if (!this.toVertex.edges.inlcudes(fromVertex)) toVertex.pushTOEdges(fromVertex);
+  }
 }
 
 /**
@@ -109,8 +113,19 @@ export class Graph {
   /**
    * BFS
    */
+ 
   bfs(start) {
     // !!! IMPLEMENT ME
+    breadthFirstForEach(cb) {
+      const queue = [];
+      queue.push(this);
+      for (let i = 0; i < queue.length; i++) {
+        cb(queue[i].value);
+        if (queue[i].left) queue.push(queue[i].left);
+        if (queue[i].right) queue.push(queue[i].right);
+        }
+      }
+    }
   }
 
   /**
