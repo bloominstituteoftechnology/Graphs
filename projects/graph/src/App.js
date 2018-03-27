@@ -3,10 +3,15 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
-const canvasHeight = 1000;
+const canvasWidth = 750;
+const canvasHeight = 600;
+// Styling the Vertices
 const xpadding = 8;
 const ypadding = 4;
+// Sizing the Graph
+const xsize = 5;
+const ysize = 4;
+const jitter = 150;
 
 /**
  * GraphView
@@ -24,6 +29,10 @@ class GraphView extends Component {
    */
   componentDidUpdate() {
     this.updateCanvas();
+  }
+
+  getRandomColor() {
+    return "#" + ((1 << 24) * Math.random() | 0).toString(16);
   }
 
   /**
@@ -70,13 +79,24 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.moveTo(vertex.pos.x, vertex.pos.y);
       ctx.arc(vertex.pos.x, vertex.pos.y, 20, 0, 2 * Math.PI, true);
-      ctx.fill()
-      // Write their Values
+      ctx.fill();
+      // Change the Color of the Connected Ones
+      let connected = this.props.graph.bfs(vertex);
+      ctx.fillStyle = this.getRandomColor();
+      connected.forEach(connectedVertex => {
+        ctx.beginPath();
+        ctx.moveTo(connectedVertex.pos.x, connectedVertex.pos.y);
+        ctx.arc(connectedVertex.pos.x, connectedVertex.pos.y, 20, 0, 2 * Math.PI, true);
+        ctx.fill();
+      });
+    })
+    this.props.graph.vertexes.forEach(vertex => {
+      // Write each Vertex Values
       ctx.strokeStyle = 'black';
       ctx.font = '14px serif';
       ctx.beginPath();
       ctx.moveTo(vertex.pos.x, vertex.pos.y);
-      ctx.strokeText(vertex.value, vertex.pos.x-xpadding, vertex.pos.y+ypadding)
+      ctx.strokeText(vertex.value, vertex.pos.x - xpadding, vertex.pos.y + ypadding)
     })
     // draw vert values (labels)
   }
@@ -103,7 +123,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(8, 8, 100);
+    this.state.graph.randomize(xsize, ysize, jitter);
   }
 
   render() {
