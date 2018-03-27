@@ -58,9 +58,9 @@ export class Graph {
   
   /**
    * Create a random graph
-   * @param {Number} width
-   * @param {Number} height
-   * @param {any} pxBox
+   * @param {Number} width xCount rendering multiplier
+   * @param {Number} height yCount rendering multiplier
+   * @param {Number} pxBox size of the canvas rendering box
    * @param {number} probability
    */
   randomize(width, height, pxBox, probability=0.6) {

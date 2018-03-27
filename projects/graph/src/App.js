@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-const canvasWidth = 1280;
-const canvasHeight = 720;
-const vertexRadius = 10;
+const xCount = 8;
+const yCount = 8;
+const boxSize = 150;
+
+const canvasWidth = boxSize * xCount;
+const canvasHeight = boxSize * yCount;
+const vertexRadius = boxSize / 8;
 /**
  * GraphView
  * @extends {Component<{graph: Graph}, State>}
@@ -87,7 +91,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(xCount, yCount, boxSize);
   }
 
   render() {
