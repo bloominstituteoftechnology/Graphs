@@ -34,7 +34,9 @@ let debugVert1 = new Vertex('dV1', {x: 10, y: 20});
 let debugVert2 = new Vertex('dv2', {x: 100, y:100});
 
 let edge1 = new Edge(debugVert2);
+let edge2 = new Edge(debugVert4)
 debugVert1.edges.push(edge1);
+
 
 this.vertexes.push(debugVert1);
 this.vertexes.push(debugVert2);
