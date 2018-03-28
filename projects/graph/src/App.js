@@ -67,19 +67,21 @@ class GraphView extends Component {
     this.ctx.strokeStyle = 'black';
     this.ctx.fillStyle = 'lightgrey';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    this.clearScreen();
+    //this.clearScreen();
     this.props.graph.randomize(this.canvas.width, this.canvas.height, 50);
     
     for(let vert of this.props.graph.vertexes){
-      /*
+      
       if(vert.edges[0] !== undefined && vert.edges[0].destination !== undefined){
+        vert.edges.forEach(edge => {
         this.ctx.moveTo(vert.pos.x, vert.pos.y);
-        this.ctx.lineTo(vert.edges[0].destination.pos.x, vert.edges[0].destination.pos.y);
+        this.ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         this.ctx.strokeStyle = this.getRandomHexColor(); 
         this.ctx.stroke();
+        });
       }
       
-      */
+      
      // draw verts
       this.drawCircle(vert.pos, 10, 10);      
       // draw vert values (labels)
