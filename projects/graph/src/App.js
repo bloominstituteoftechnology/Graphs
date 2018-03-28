@@ -42,8 +42,19 @@ class GraphView extends Component {
     console.log("updating canvasa");
     console.log(this.props.graph.vertexes);
 
-    //REMEMBER: Draw lines first!
+    console.log('edge ', this.props.graph.vertexes[0].edges[0]);
 
+    //REMEMBER: Draw lines first!
+    // let parentVert = this.props.graph.vertexes[0];
+    // let debugEdge = this.props.graph.vertexes[0].edges[0];
+
+    for (let parentVert of this.props.graph.vertexes) {
+      for (let debugEdge of parentVert.edges) {
+        ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
+        ctx.lineTo(debugEdge.destination.pos.x, debugEdge.destination.pos.y);
+        ctx.stroke();
+      }  
+    }
     // we know our data is here :D
     // lets draw it!
 

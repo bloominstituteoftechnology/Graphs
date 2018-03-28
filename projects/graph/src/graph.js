@@ -39,6 +39,16 @@ export class Graph {
     let debugVert1 = new Vertex('dv1', { x: 10, y: 20 });
     let debugVert2 = new Vertex("dv2", { x: 100, y: 100 });
 
+    // to test our edges let's make a debug edge arbitrarily
+    // that connects node 1 and node 2
+    // to do that, we need to create an edge that belongs to debugVert1
+    // and has a destination of debugVert2, which by our definition of our
+    // edge class, is all we need to say that you go from 1 to 2
+
+    let edge1 = new Edge(debugVert2);
+    debugVert2.edges.push(edge1);
+    //console.log check>>>
+
     this.vertexes.push(debugVert1); // TODO: Can I do comma's here?
     this.vertexes.push(debugVert2);
   }
