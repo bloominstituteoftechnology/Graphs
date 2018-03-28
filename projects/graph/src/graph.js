@@ -140,18 +140,18 @@ export class Graph {
     const queueToVisit = queue;
     const nodesVisited = visited;
     
-    visited.push(start);
+    nodesVisited.push(start);
     
     for (let edge of start.edges) {
-      if (queueToVisit.indexOf(edge) === -1 && visited.indexOf(edge) === -1) {
-        queueToVisit.push(edge);
+      if (queueToVisit.indexOf(edge.destination) === -1 && visited.indexOf(edge.destination) === -1) {
+        queueToVisit.push(edge.destination);
       }
     }
 
-    if (queueToVisit){
-      return this.bfs(queueToVisit[0], queueToVisit, nodesVisited);
+    if (queueToVisit.length > 0){
+      return this.bfs(queueToVisit[0], queueToVisit.slice(1), nodesVisited);
     } else {
-      return;
+      return nodesVisited;
     }
   }
 

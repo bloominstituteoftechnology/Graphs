@@ -38,8 +38,8 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // check to see we have our vertexes
-    console.log(this.props.graph.vertexes);
-    console.log(this.props.graph.vertexes[0].edges[0]);
+    //console.log(this.props.graph.vertexes);
+    //console.log(this.props.graph.vertexes[0].edges[0]);
 
     //draw the edge
     for (let parentVert of this.props.graph.vertexes){
@@ -87,7 +87,10 @@ class App extends Component {
     };
 
     //this.state.graph.debugCreateTestData();
-    this.state.graph.randomize(10, 8, 80, 0.46);
+    this.state.graph.randomize(3, 3, 80, 1);
+    let ans = this.state.graph.bfs(this.state.graph.vertexes[0]);
+    console.log(ans);
+
   }
 
   render() {
