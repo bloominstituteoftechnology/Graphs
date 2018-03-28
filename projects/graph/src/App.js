@@ -63,20 +63,16 @@ class GraphView extends Component {
     let y = 0;
 
     for (let j = 0; j < this.connected.length; j++) {
-      
-
-      // x = Math.random() * canvasWidth;
-      // y = Math.random() * canvasHeight;
 
       x = this.connected[j].pos.x; 
       y = this.connected[j].pos.y; // this.connected[j].pos.y * 
-      // c.moveTo(0, 0);
+
       c.beginPath();
       c.arc(x, y, 40, 0, Math.PI * 2);
       c.closePath();
-      c.fillStyle = this.randomRGBA(0,0,0,0.6);
+      c.fillStyle = this.randomRGBA(0,0,0,0.2);
       c.fill();
-      // this.connected[j].edges
+
       this.connected[j].edges.forEach(edge => {
         c.moveTo(x, y);
         c.lineTo(edge.destination.pos.x, edge.destination.pos.y);
@@ -84,6 +80,7 @@ class GraphView extends Component {
         c.closePath();
         c.stroke();
       });
+
       c.font = "10px Arial";
       c.strokeStyle = 'black';
       c.textAlign = "center";
@@ -94,11 +91,6 @@ class GraphView extends Component {
       c.stroke(); 
 
     }
-    console.log(this.connected)
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
   }
   
   /**
