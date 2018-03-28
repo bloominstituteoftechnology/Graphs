@@ -66,6 +66,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    graph.randomize(width, height, pxBox, probability)
   }
 
   render() {

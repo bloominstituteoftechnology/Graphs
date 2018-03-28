@@ -2,37 +2,44 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
-  constructor() {
-    this.edges = [];
-  }
+  constructor(destination, weight=1) {
+    this.destination = destination;
+    this.weight = weight;
+    }
 }
 
 /**
- * Vertex
- */
+* Vertex
+*/
 export class Vertex {
-  // !!! IMPLEMENT ME
+constructor(value='vertex', pos = { x: -1, y: -1}) {
+  this.value = value;
+  this.edges = [];
+  this.pos = pos;
+  this.groupID = -1;
+  this.parentVertex = null;
+  }
 }
 
 /**
- * Graph
- */
+* Graph
+*/
 export class Graph {
-  constructor() {
-    this.vertexes = [];
+constructor() {
+  this.vertexes = [];
   }
-
+}
   /**
    * Create a random graph
    */
+  const g = new Graph
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
     }
-
+  
     let count = 0;
 
     // Build a grid of verts
@@ -166,4 +173,5 @@ export class Graph {
 
     return componentsList;
   }
+
 }
