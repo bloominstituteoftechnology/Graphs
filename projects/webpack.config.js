@@ -6,7 +6,7 @@ module.exports = {
     app: './graph/src/index.js'
   },
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'graph', 'public'),
     filename: './index.js'
   },
   module: {

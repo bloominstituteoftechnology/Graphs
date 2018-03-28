@@ -3,7 +3,7 @@ import { Graph } from './graph';
 import './App.css';
 
 const canvasWidth = window.innerWidth;
-const canvasHeight = window.innerHeight;
+const canvasHeight = window.innerHeight - 8;
 
 /**
  * GraphView
@@ -11,7 +11,11 @@ const canvasHeight = window.innerHeight;
 class GraphView extends Component {
   constructor(props) {
     super();
-    // let vertex = new Graph();
+    this.graph = new Graph(canvasWidth, canvasHeight);
+    this.graph.randomize(8, 8);
+    this.connected = this.graph.bfs(this.graph.vertexes[0]);
+    this.graph.dump();
+    console.log("#No. of Verts: " + this.connected.length);
 
   }
   /**
@@ -45,31 +49,52 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = document.getElementById('LS');//this.ref.canvas;
+    let canvas = document.getElementById('LS');//this.ref.canvas;       
     let c = canvas.getContext('2d');
     
     // Clear it
-    c.fillStyle = 'blue';
+    c.fillStyle = '#112';
     c.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // const root = this.props.graph.vertexes;
+    // console.log(root.pos);
     // console.log(root);
     let x = 0;
     let y = 0;
-    let j = 0;
-    for (let j = 0; j < 10; j++) {
+
+    for (let j = 0; j < this.connected.length; j++) {
       
-      x += j;//root[j].pos.x;
-      y += j;//root[j].pos.y;
+
+      // x = Math.random() * canvasWidth;
+      // y = Math.random() * canvasHeight;
+
+      x = this.connected[j].pos.x; 
+      y = this.connected[j].pos.y; // this.connected[j].pos.y * 
       // c.moveTo(0, 0);
       c.beginPath();
-      c.arc(x, y, 20, 0, Math.PI * 2);
+      c.arc(x, y, 40, 0, Math.PI * 2);
       c.closePath();
-      c.stroke();
       c.fillStyle = this.randomRGBA(0,0,0,0.6);
       c.fill();
-    }
+      // this.connected[j].edges
+      this.connected[j].edges.forEach(edge => {
+        c.moveTo(x, y);
+        c.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        c.strokeStyle = c.fillStyle;
+        c.closePath();
+        c.stroke();
+      });
+      c.font = "10px Arial";
+      c.strokeStyle = 'black';
+      c.textAlign = "center";
+      c.textBaseline = "middle";
+      c.moveTo(x, y);
+      c.beginPath();
+      c.strokeText(this.connected[j].value, x, y);
+      c.stroke(); 
 
+    }
+    console.log(this.connected)
     // compute connected components
     // draw edges
     // draw verts

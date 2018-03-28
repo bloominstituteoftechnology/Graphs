@@ -14,7 +14,12 @@ export class Edge {
 export class Vertex {
   constructor(value, x = 0, y = 0) {
     this.value = value;
-    this.pos = {x: 0, y: 0};
+    this.pos = {};
+    // this.getStuff = (( x = Math.random(), y = Math.random() ) => (_x, _y) => {
+    //   this.pos.x = x * _x;
+    //   this.pos.y = y * _y;
+    // })();
+    // console.log(this.getStuff());
     this.edges = [];
   }
 }
@@ -23,8 +28,10 @@ export class Vertex {
  * Graph
  */
 export class Graph {
-  constructor() {
+  constructor(canvasWidth, canvasHeight) {
     this.vertexes = [];
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
   }
 
   randomize(width, height, pxBox, probability=0.6) {
@@ -42,7 +49,6 @@ export class Graph {
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
-        //v.value = 'v' + x + ',' + y;
         v.value = 'v' + count++;
         row.push(v);
       }
@@ -76,8 +82,10 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
-          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          // 'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          // 'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          'x': (Math.random() * this.canvasWidth),
+          'y': (Math.random() * this.canvasHeight)
         };
       }
     }
