@@ -135,8 +135,24 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, queue = [], visited = []) {
     // !!! IMPLEMENT ME
+    const queueToVisit = queue;
+    const nodesVisited = visited;
+    
+    visited.push(start);
+    
+    for (let edge of start.edges) {
+      if (queueToVisit.indexOf(edge) === -1 && visited.indexOf(edge) === -1) {
+        queueToVisit.push(edge);
+      }
+    }
+
+    if (queueToVisit){
+      return this.bfs(queueToVisit[0], queueToVisit, nodesVisited);
+    } else {
+      return;
+    }
   }
 
   /**

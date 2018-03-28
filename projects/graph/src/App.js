@@ -64,8 +64,42 @@ class GraphView extends Component {
       ctx.fillText(parentVert.value, parentVert.pos.x, parentVert.pos.y);
      
     }
-   
-    
+  }
+  
+  /**
+   * Render
+   */
+  render() {
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+  }
+}
+
+/**
+ * App
+ */
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      graph: new Graph()
+
+    };
+
+    //this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(10, 8, 80, 0.46);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <GraphView graph={this.state.graph}></GraphView>
+      </div>
+    );
+  }
+}
+
+export default App;
     /*
     // sky
     ctx.fillStyle = 'blue';
@@ -113,48 +147,3 @@ class GraphView extends Component {
     }
     ctx.stroke();
 */
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
-  }
-  
-  /**
-   * Render
-   */
-  render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
-  }
-}
-
-
-/**
- * App
- */
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      graph: new Graph()
-
-    };
-
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
-    //this.state.graph.debugCreateTestData();
-    this.state.graph.randomize(5, 4, 150, 0.6);
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
-      </div>
-    );
-  }
-}
-
-export default App;
