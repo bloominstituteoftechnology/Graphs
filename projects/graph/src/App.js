@@ -12,6 +12,10 @@ const vertexRadius = 10;
  * GraphView
  */
 class GraphView extends Component {
+  constructor(props) {
+    super()
+    this.connected = props.graph.bfs(props.graph.vertexes[0]);
+  }
   /**
    * On mount
    */
@@ -35,14 +39,14 @@ class GraphView extends Component {
     
     // Clear it
 
-    ctx.strokeStyle = 'black';
-    ctx.fillStyle = 'lightgray';
+    ctx.strokeStyle = 'white';
+    ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
-    console.log("updating canvasa");
-    console.log(this.props.graph.vertexes);
+    // console.log("updating canvasa");
+    // console.log(this.props.graph.vertexes);
 
-    console.log('edge ', this.props.graph.vertexes[0].edges[0]);
+    // console.log('edge ', this.props.graph.vertexes[0].edges[0]);
 
     //REMEMBER: Draw lines first!
     // let parentVert = this.props.graph.vertexes[0];
@@ -61,7 +65,9 @@ class GraphView extends Component {
     //let debugNode = this.props.graph.vertexes[0];
     //console.log(debugNode.pos.x);
 
-    for (let vertex of this.props.graph.vertexes) {
+    for (let vertex of this.connected) {
+
+      ctx.fillStyle = getRandomColor();
       
       // draw node first, so make a circle
       ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -70,24 +76,16 @@ class GraphView extends Component {
       ctx.stroke();
 
       //draw the fill
-      ctx.fillStyle = 'white';
       ctx.fill();
 
       //draw the label or text
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
       ctx.textBaseLine = 'middle';
       ctx.font = '10px Arial'; //TODO: Do we want stroke text or fill text?
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
     
-
-
-
-
-
-
-
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -103,15 +101,14 @@ class GraphView extends Component {
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
-// function to get random colors : Might use or not?
+// function to get random colors
 
-// function getRandomColor() {
-//   let r = 255 * Math.random() | 0,
-//     g = 255 * Math.random() | 0,
-//     b = 255 * Math.random() | 0;
-//   return 'rgb(' + r + ',' + g + ',' + b + ')';
-// }
-
+const getRandomColor = () => {
+  let r = 255 * Math.random() | 0,
+    g = 255 * Math.random() | 0,
+    b = 255 * Math.random() | 0;
+  return 'rgb(' + r + ',' + g + ',' + b + ')';
+}
 
 /**
  * App
@@ -129,7 +126,9 @@ class App extends Component {
     // since our eventual goal is to implement randomiz here
     // this is probably a good place to try our test function and see
     // what happens and figure out how it works
-    this.state.graph.randomize(5,4,150);
+    this.state.graph.randomize(5, 4, 150);
+    //this.connected = this.state.graph.bfs(this.state.graph.vertexes[0]);
+
   }
 
   render() {
