@@ -57,6 +57,9 @@ class GraphView extends Component {
     ctx.moveTo(vertex.pos.x, vertex.pos.y);
     ctx.beginPath();
     ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fillStyle = vertex.color;
+    ctx.fill();
     ctx.stroke();
 
     // add text to middle of node
@@ -104,13 +107,20 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+  }
 
+  componentDidMount() {
     this.randomize();
   }
 
   randomize = () => {
     const graph = new Graph();
     graph.randomize(xCount, yCount, boxSize);
+    for (const vertex of graph.vertexes) {
+      if (!vertex.color) { // no color == not touched
+        graph.bfs(vertex);
+      }
+    }
     this.setState({ graph });
   }
 

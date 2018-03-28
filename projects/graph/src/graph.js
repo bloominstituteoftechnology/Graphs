@@ -1,3 +1,4 @@
+import { getRandomColor } from './utils';
 /**
  * Edge
  */
@@ -21,10 +22,13 @@ export class Vertex {
    * @param {Object} pos
    * @param {number} pos.x
    * @param {number} pos.y
+   * @param {string} color inside color of the vertex 
    */
-  constructor(value = '', pos = { x: -1, y : -1}) {
+  constructor(value = '', pos = { x: -1, y : -1}, color) {
     this.value = value;
     this.pos = pos;
+    this.color = color;
+
     /** @type {Array<Edge>} */
     this.edges = [];
   }
@@ -146,11 +150,31 @@ export class Graph {
     }
   }
 
+
   /**
    * BFS
+   * @param {Vertex} start
+   * @returns {Array<Vertex>}
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const connected = [];
+    const queue = [start];
+    const color = getRandomColor();
+
+    while (queue.length) {
+      const current = queue.shift();
+
+      for (const { destination } of current.edges) {
+        if (!destination.color) { // no color == not touched yet
+          queue.push(destination);
+        }
+      }
+
+      current.color = color;
+      connected.push(current);
+    }
+
+    return connected;
   }
 
   /**
