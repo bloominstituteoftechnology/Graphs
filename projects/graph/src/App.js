@@ -31,7 +31,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'indigo';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -40,13 +40,16 @@ class GraphView extends Component {
     // draw edges
     // draw vert values (labels)
 
-    ctx.strokeStyle = 'white';
     ctx.lineWidth = '3';
     const { vertices } = this.props.graph;
     for (let i=0; i<vertices.length; i++) {
       const {x,y} = vertices[i].pos;
       vertices[i].edges.forEach(edge => {
         const {x:x2, y:y2} = edge.destination.pos;
+        let r = Math.round(Math.random()*255);
+        let g = Math.round(Math.random()*255);
+        let b = Math.round(Math.random()*255);
+        ctx.strokeStyle = `rgb(${r},${g},${b})`;
         ctx.beginPath();
         ctx.moveTo(x,y);
         ctx.lineTo(x2, y2);
@@ -56,7 +59,7 @@ class GraphView extends Component {
 
     ctx.fillStyle = 'white';
     ctx.lineWidth = 5;
-    ctx.strokeStyle = 'white';
+    ctx.strokeStyle = 'black';
 
     for (let i=0; i<vertices.length; i++) {
       const {x,y} = vertices[i].pos;
@@ -67,7 +70,7 @@ class GraphView extends Component {
     }
     
 
-    ctx.fillStyle = 'indigo';
+    ctx.fillStyle = 'black';
     ctx.font = '14pt Arial';
     ctx.textAlign = 'center';
 
@@ -98,15 +101,23 @@ class App extends Component {
       graph: new Graph()
     };
 
+    this.newGraph = this.newGraph.bind(this);
+
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.setState({graph: this.state.graph.randomize(5,4,150,0.6)});
+  }
+
+  newGraph = () => {
     this.state.graph.randomize(5,4,150,0.6);
+    this.updateCanvas();
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button className="Button" onClick={this.newGraph}>New Graph</button>
       </div>
     );
   }
