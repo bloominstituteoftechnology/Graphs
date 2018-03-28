@@ -14,10 +14,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = '', pos = { x: -1, y: -1 }) {
+  constructor(value = '', pos = { x: -1, y: -1 }, groupID = -1) {
     this.value = value;
     this.pos = pos;
     this.edges = [];
+    this.groupID = groupID;
+    this.parentVertex = null;
   }
 }
 
@@ -27,6 +29,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.groups = 0;
   }
 
   /**
@@ -36,7 +39,7 @@ export class Graph {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       let weights = Math.floor((Math.random() * 10)) + 1; // Randomly pick a weight from 1 - 10
-      v0.edges.push(new Edge(v1, weights)); 
+      v0.edges.push(new Edge(v1, weights));
       v1.edges.push(new Edge(v0, weights));
     }
 

@@ -17,6 +17,12 @@ const fontConf = '12px serif';
  * GraphView
  */
 class GraphView extends Component {
+  constructor() {
+    super();
+    this.state = {
+      selected: [],
+    }
+  }
   /**
    * On mount
    */
@@ -28,7 +34,19 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
-    this.updateCanvas();
+    //this.updateCanvas();
+    if (this.state.selected.length > 1) {
+      //Call Dijkstras function
+      this.shortestPath();
+    }
+  }
+
+  /**
+   * Dijkstra's Shortest Path
+  */
+  shortestPath = (start = this.state.selected[0], end = this.state.selected[1]) => {
+    console.log('There are 2 items in the selected array!', this.state.selected[0], this.state.selected[1]);
+    
   }
 
   // Get random color from a range.
@@ -192,7 +210,7 @@ class GraphView extends Component {
     let localXPos = event.clientX - canvasPosition.left;
     let localYPos = event.clientY - canvasPosition.top;
 
-    const clicked = []; // An array of clicked vertices.
+    const clicked = Array.from(this.state.selected); // An array of clicked vertices.
 
     this.props.graph.vertexes.forEach(vertex => {
       // subtract the larger of the 2 positions and calculate the difference
@@ -204,8 +222,7 @@ class GraphView extends Component {
         let ctx = event.target.getContext('2d'); // Get our canvas to use
         this.selectVertex(ctx, vertex);
         clicked.push(vertex); // Add our "clicked" vertex to the clicked array.
-
-        // TODO: Implement Dijkstras Algo for routing from clicked[0] to clicked[1]
+        this.setState({ selected: clicked });
       }
     })
   }
