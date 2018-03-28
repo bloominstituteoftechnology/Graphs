@@ -20,6 +20,8 @@ export class Vertex {
     this.value = value;
     this.edges = [];
     this.pos = pos;
+    this.groupID = -1;
+    this.prarentVertex = null;
   }
 }
 

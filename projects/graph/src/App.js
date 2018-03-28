@@ -5,7 +5,7 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = 750;
 const canvasHeight = 600;
-const vertexRadius = 20;
+const vertexRadius = 25;
 
 /**
  * GraphView
@@ -32,8 +32,10 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
-    ctx.strokeStyle ="black";
+    const colors = ["black", "green", "blue", "red", "yellow", "purple", "teal", "SteelBlue", "SpringGreen", "RebeccaPurple"];
+    const fillColors = ["Beige", "AliceBlue", "Lavender", "Linen", "MistyRose", "PowderBlue", "Thistle","SandyBrown","Salmon","SaddleBrown"];
+    ctx.strokeStyle =`${colors[Math.floor( Math.random() * 10 )]}`;
+    ctx.lineWidth = 10;
     ctx.fillStyle = "lightgrey";
     ctx.fillRect(0,0, canvasWidth, canvasHeight);
    
@@ -63,7 +65,9 @@ class GraphView extends Component {
     // ctx.textAlign = "center";
     // ctx.textBaseline = "middle";
     // ctx.fillText(debugNode.value, debugNode.pos.x, debugNode.pos.y);
-
+    // function RandColor(colors) {
+      
+    // }
     for(let vertex of this.props.graph.vertexes) {
       
       ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -71,13 +75,13 @@ class GraphView extends Component {
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
       ctx.stroke();
       
-      ctx.fillStyle = "white";
+      ctx.fillStyle = `${fillColors[Math.floor( Math.random() * 10 )]}`;
       ctx.fill();
     //draw lable
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "Black";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.font = "10px Arial";
+      ctx.font = "20px Comic Sans MS";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
     // Clear it
@@ -134,19 +138,20 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-   
+    this.updateGraph = this.updateGraph.bind(this);
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     // console.log(this.state.graph)
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(100, 12, 50, 0.6);
     // this.state.graph.debugCreateTestData();
-    this.updateGraph = this.updateGraph.bind(this);
    
   }
   updateGraph() {
-    this.setState({
+    const newState = {
       graph: new Graph()
-    })
+    }
+    newState.graph.randomize(5, 4, 150, 0.6);
+    this.setState(newState);
   }
 
   render() {
@@ -160,3 +165,6 @@ class App extends Component {
 }
 
 export default App;
+
+
+//BSF()
