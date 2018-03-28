@@ -2,27 +2,38 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.weight = weight;
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value, x = 0, y = 0) {
+    this.value = value;
+    this.pos = {};
+    // this.getStuff = (( x = Math.random(), y = Math.random() ) => (_x, _y) => {
+    //   this.pos.x = x * _x;
+    //   this.pos.y = y * _y;
+    // })();
+    // console.log(this.getStuff());
+    this.edges = [];
+  }
 }
 
 /**
  * Graph
  */
 export class Graph {
-  constructor() {
+  constructor(canvasWidth, canvasHeight) {
     this.vertexes = [];
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
   }
 
-  /**
-   * Create a random graph
-   */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
@@ -38,7 +49,6 @@ export class Graph {
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
-        //v.value = 'v' + x + ',' + y;
         v.value = 'v' + count++;
         row.push(v);
       }
@@ -72,8 +82,10 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
-          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          // 'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          // 'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          'x': (Math.random() * this.canvasWidth),
+          'y': (Math.random() * this.canvasHeight)
         };
       }
     }
@@ -86,31 +98,38 @@ export class Graph {
     }
   }
 
-  /**
-   * Dump graph data to the console
-   */
   dump() {
     let s;
-
     for (let v of this.vertexes) {
-      if (v.pos) {
-        s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
-      } else {
-        s = v.value + ':';
-      }
-
-      for (let e of v.edges) {
-        s += ` ${e.destination.value}`;
-      }
+      if (v.pos) { s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
+      } else { s = v.value + ':'; }
+      for (let e of v.edges) { s += ` ${e.destination.value}`; }
       console.log(s);
     }
   }
 
   /**
    * BFS
+   * @param start represents the root vertex of a relational graph
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const closure = [start];
+    const hash = { [`${start.value}`]: 1 };
+    // two closures are defined and initialized with the first vertex
+    let loop_extract = (vertex) => {
+      let { edges } = vertex;
+      // if the key for this value hasn't been encountered before it will not be 1
+      edges.forEach(edge => {
+        if (!hash[`${edge.destination.value}`]) {
+          closure.push(edge.destination);
+          hash[`${edge.destination.value}`] = 1;
+          // recurse on every offspring of the parent
+          loop_extract(edge.destination)}}
+        );
+    };
+    // Call and return everything above is setup
+    loop_extract(start);
+    return closure;
   }
 
   /**
