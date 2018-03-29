@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+// Define the size of the random graph
+const xCount = 5;
+const yCount = 4;
+const boxSize = 150;
+const probability = 0.6;
+
+// Figure out the canvas size
+const canvasWidth = boxSize * xCount;
+const canvasHeight = boxSize * yCount;
+const radius = boxSize / 8;
+
+let lastRandomIndex = -1;
 
 /**
  * GraphView
@@ -32,14 +41,55 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = '#eee';
+    ctx.textAlign = "center";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    
+    const { vertexes } = this.props.graph;
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    for (let i = 0; i < vertexes.length; i++) {
+
+      const vertex = vertexes[i];
+
+      for (let e = 0; e < vertex.edges.length; e++) {
+
+        const edge = vertex.edges[e];
+        
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#000';
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+
+        ctx.stroke();
+
+      }
+    }
+
+    for (let i = 0; i < vertexes.length; i++) {
+
+      const vertex = vertexes[i];
+
+      ctx.moveTo(vertex.pos.x, vertex.pos.y);
+      ctx.beginPath();
+
+      ctx.arc(vertex.pos.x, vertex.pos.y, 25, 0, 2 * Math.PI);
+      
+      ctx.fillStyle = vertex.fillColor;
+      ctx.strokeWidth = 5;
+      ctx.strokeStyle = (vertex.fillColor !== 'white') ? '#eee' : '#000';
+      ctx.fill();
+
+      ctx.font = 'bold 18px sans-serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = (vertex.fillColor !== 'white') ? 'white' : '#000';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+
+      ctx.stroke();
+
+    }
+
   }
   
   /**
@@ -61,15 +111,43 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
+    
+    this.state.graph.randomize(xCount, yCount, boxSize, probability);
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
+    
+  }
+
+  generateGraph = () => {
+
+    const state = {
+      graph: new Graph()
+    };
+
+    state.graph.randomize(xCount, yCount, boxSize, probability);
+
+    this.setState(state);
+
+  }
+
+  doBreadthFirstSearch = () => {
+
+    const state = {
+      graph: this.state.graph
+    };
+
+    this.setState(state);
+
+    this.state.graph.bfs(this.state.graph.vertexes[0]);
+
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={ this.state.graph }></GraphView>
+        <br/>
+        <button onClick={ this.generateGraph }>Re-generate Graph</button>
+        <button onClick={ this.doBreadthFirstSearch }>BFS Search Graph</button>
       </div>
     );
   }
