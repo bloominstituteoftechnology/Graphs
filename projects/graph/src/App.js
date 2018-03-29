@@ -36,7 +36,7 @@ class GraphView extends Component {
     ctx.fillStyle = "lightgray";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    console.log("this.props.graph.vertexes", this.props.graph.vertexes);
+    // console.log("this.props.graph", this.props.graph);
 
 
     for (let parentVert of this.props.graph.vertexes) {
@@ -87,11 +87,9 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    // this.state.graph.debugCreateTestData();
-
-    console.log(this.state.graph.randomize);
-
-    this.state.graph.randomize(5, 4, 150);
+    this.state.graph.debugCreateTestData();
+    // this.state.graph.randomize(5, 4, 150);
+    this.state.graph.bfs(0);
   }
 
   render() {
