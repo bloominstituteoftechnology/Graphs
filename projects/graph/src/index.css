@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
-canvas {
-  outline: 1px solid #f00;
+#mb {
+  position: absolute;
+  background: #00000000;
+  color: #fff;
+  top: 0px;
+  right: 0px;
 }

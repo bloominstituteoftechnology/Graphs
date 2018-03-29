@@ -13,9 +13,9 @@ class GraphView extends Component {
     super();
     this.graph = new Graph(canvasWidth, canvasHeight);
     this.graph.randomize(8, 8);
-    this.connected = this.graph.bfs(this.graph.vertexes[0]);
-    this.graph.dump();
-    console.log("#No. of Verts: " + this.connected.length);
+    this.connected = this.graph.bfs(this.graph.vertexes[(Math.random() * this.graph.vertexes.length) | 0]);
+    // this.graph.dump();
+    // console.log("#No. of Verts: " + this.connected.length);
 
   }
   /**
@@ -61,7 +61,7 @@ class GraphView extends Component {
     // console.log(root);
     let x = 0;
     let y = 0;
-
+    this.connected = this.graph.bfs(this.graph.vertexes[(Math.random() * this.graph.vertexes.length) | 0]);
     for (let j = 0; j < this.connected.length; j++) {
 
       x = this.connected[j].pos.x; 
@@ -97,7 +97,7 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas id="LS" ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <div><canvas id="LS" ref="canvas" width={canvasWidth} height={canvasHeight}></canvas><button id="mb" onClick={this.updateCanvas.bind(this)}>Select another grouping.</button></div>;
   }
 }
 
@@ -115,7 +115,7 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     componentDidMount() {
-      this.state.graph = this.state.graph.randomize(2, 2);
+      // this.state.graph = this.state.graph.randomize(2, 2);
   }
 
   render() {

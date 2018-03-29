@@ -18789,7 +18789,7 @@ exports = module.exports = __webpack_require__(14)(false);
 
 
 // module
-exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: sans-serif;\r\n}\r\n\r\ncanvas {\r\n  outline: 1px solid #f00;\r\n}", ""]);
+exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: sans-serif;\r\n}\r\n\r\n#mb {\r\n  position: absolute;\r\n  background: #00000000;\r\n  color: #fff;\r\n  top: 0px;\r\n  right: 0px;\r\n}", ""]);
 
 // exports
 
@@ -18933,11 +18933,11 @@ var GraphView = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (GraphView.__proto__ || Object.getPrototypeOf(GraphView)).call(this));
 
-    _this.graph = new _graph.Graph();
+    _this.graph = new _graph.Graph(canvasWidth, canvasHeight);
     _this.graph.randomize(8, 8);
-    _this.connected = _this.graph.bfs(_this.graph.vertexes[0]);
-    _this.graph.dump();
-    console.log("#No. of Verts: " + _this.connected.length);
+    _this.connected = _this.graph.bfs(_this.graph.vertexes[Math.random() * _this.graph.vertexes.length | 0]);
+    // this.graph.dump();
+    // console.log("#No. of Verts: " + this.connected.length);
 
     return _this;
   }
@@ -18996,26 +18996,35 @@ var GraphView = function (_Component) {
       // console.log(root);
       var x = 0;
       var y = 0;
-
+      this.connected = this.graph.bfs(this.graph.vertexes[Math.random() * this.graph.vertexes.length | 0]);
       for (var j = 0; j < this.connected.length; j++) {
 
-        x = Math.random() * canvasWidth;
-        y = Math.random() * canvasHeight; // this.connected[j].pos.y * 
-        // c.moveTo(0, 0);
+        x = this.connected[j].pos.x;
+        y = this.connected[j].pos.y; // this.connected[j].pos.y * 
+
         c.beginPath();
         c.arc(x, y, 40, 0, Math.PI * 2);
         c.closePath();
-        c.fillStyle = this.randomRGBA(0, 0, 0, 0.6);
+        c.fillStyle = this.randomRGBA(0, 0, 0, 0.2);
         c.fill();
-        // this.connected[j].edges.forEach(() => {
 
-        // });
+        this.connected[j].edges.forEach(function (edge) {
+          c.moveTo(x, y);
+          c.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+          c.strokeStyle = c.fillStyle;
+          c.closePath();
+          c.stroke();
+        });
+
+        c.font = "10px Arial";
+        c.strokeStyle = 'black';
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+        c.moveTo(x, y);
+        c.beginPath();
+        c.strokeText(this.connected[j].value, x, y);
+        c.stroke();
       }
-      console.log(this.connected);
-      // compute connected components
-      // draw edges
-      // draw verts
-      // draw vert values (labels)
     }
 
     /**
@@ -19025,7 +19034,16 @@ var GraphView = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('canvas', { id: 'LS', ref: 'canvas', width: canvasWidth, height: canvasHeight });
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('canvas', { id: 'LS', ref: 'canvas', width: canvasWidth, height: canvasHeight }),
+        _react2.default.createElement(
+          'button',
+          { id: 'mb', onClick: this.updateCanvas.bind(this) },
+          'Select another grouping.'
+        )
+      );
     }
   }]);
 
@@ -19056,7 +19074,7 @@ var App = function (_Component2) {
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.state.graph = this.state.graph.randomize(2, 2);
+      // this.state.graph = this.state.graph.randomize(2, 2);
     }
   }, {
     key: 'render',
@@ -19130,10 +19148,12 @@ var Vertex = exports.Vertex = function Vertex(value) {
 
 
 var Graph = exports.Graph = function () {
-  function Graph() {
+  function Graph(canvasWidth, canvasHeight) {
     _classCallCheck(this, Graph);
 
     this.vertexes = [];
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
   }
 
   _createClass(Graph, [{
@@ -19188,8 +19208,10 @@ var Graph = exports.Graph = function () {
       for (var _y2 = 0; _y2 < height; _y2++) {
         for (var _x6 = 0; _x6 < width; _x6++) {
           grid[_y2][_x6].pos = {
-            'x': _x6 * pxBox + boxInnerOffset + Math.random() * boxInner | 0,
-            'y': _y2 * pxBox + boxInnerOffset + Math.random() * boxInner | 0
+            // 'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+            // 'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+            'x': Math.random() * this.canvasWidth,
+            'y': Math.random() * this.canvasHeight
           };
         }
       }
