@@ -46,7 +46,46 @@ class GraphView extends Component {
   */
   shortestPath = (start = this.state.selected[0], end = this.state.selected[1]) => {
     console.log('There are 2 items in the selected array!', this.state.selected[0], this.state.selected[1]);
-    
+    const maxCost = 100000000
+
+    this.props.graph.vertexes.forEach(vertex => {
+      visited = { ...visited, [`${vertex.value}`]: { cost: maxCost, bestRoute: [vertex] } };
+    })
+
+    let visited = { ...visited, [`${start.value}`]: { cost: 0, bestRoute: [start] } };
+
+    console.log(visited);
+
+    const exploreCosts = (vertex) => {
+      vertex.edges.forEach(edge => {
+        // Calculate the cost to Destination
+        // Add cost to destination value
+        // Concat the Destination Route Array with Source's Route Array
+        let destination = edge.destination.value;
+
+        //console.log('destination value is ', destination)
+        // If edge cost has not been calculated, updated
+        let currentCost;
+        if (visited[vertex.value].cost !== maxCost) {
+          currentCost = edge.weight + visited[vertex.value].cost;
+        } else {
+          currentCost = edge.weight;
+        }
+        console.log("destination cost is ", visited[destination].cost, "and current cost is ", currentCost)
+        if (visited[destination].cost > currentCost) {
+          visited[destination].cost = currentCost;
+          visited[destination].bestRoute = [vertex, ...visited[vertex.value].bestRoute];
+        }
+      })
+    }
+
+    const groupVs = this.props.graph.bfs(start);
+
+    this.props.graph.vertexes.forEach(vertex => {
+      exploreCosts(vertex);
+    });
+
+    console.log("visitead after cost explore", visited);
   }
 
   // Get random color from a range.

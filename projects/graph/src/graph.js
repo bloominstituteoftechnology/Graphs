@@ -127,7 +127,7 @@ export class Graph {
     const returnArray = [start];
     let inclusion = { [`${start.value}`]: 1 };
 
-    let loop_extract = (vertex) => {
+    const loop_extract = (vertex) => {
       let { edges } = vertex;
 
       edges.forEach(edge => {
