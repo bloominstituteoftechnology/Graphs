@@ -156,6 +156,26 @@ export class Graph {
     }
   }
 
+  dfs(start, stack = [], visited = []) {
+    const stackToVisit = stack;
+    const nodesVisited = visited;
+
+    nodesVisited.push(start);
+    start.fillColor = this.getRandomColor();
+
+    for (let edge of start.edges) {
+      if (stackToVisit.indexOf(edge.destination) === 1 && nodesVisited.indexOf(edge.destination) === -1) {
+        stackToVisit.push(edge.destination);
+      }
+    }
+
+    if (stackToVisit.length > 1) {
+      return this.dfs(stackToVisit.pop(), stackToVisit, nodesVisited);
+    } else {
+      return nodesVisited;
+    }
+  }
+
   getRandomColor() {
     const r = Math.random() * 255 | 0;
     const g = Math.random() * 255 | 0;

@@ -88,11 +88,11 @@ class App extends Component {
 
     //this.state.graph.debugCreateTestData();
     this.state.graph.randomize(3, 3, 80, .45);
-    let ans = this.state.graph.bfs(this.state.graph.vertexes[0]);
+    let ans = this.state.graph.dfs(this.state.graph.vertexes[0]);
     if (ans.length < this.state.graph.vertexes.length) {
       for (let vertex of this.state.graph.vertexes) {
         if (vertex.fillColor === "white") {
-          ans = this.state.graph.bfs(vertex);
+          ans = this.state.graph.dfs(vertex);
         }
       }
     }
