@@ -1,8 +1,26 @@
 /**
+ * 
+ * Helper Function
+ * Generated HexColorCode
+ */
+function getRandomColor(hex = '') {
+  if (hex.length === 6) return '#' + hex;
+
+  const hexPart = ((Math.random() * 240) | 0).toString(16);
+  hex += (hexPart.length === 1) ? '0' + hexPart : hexPart;
+
+  return getRandomColor(hex);
+}
+
+/**
  * Edge
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +28,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.fillColor = 'white';
+    this.parent = null;
+    this.visited = false;
+  }
 }
 
 /**
@@ -110,7 +134,83 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    /**
+      Pick somewhere to start -> start at first vertex
+      in the list and push it to the queue and list
+      of places we’ve been
+
+      group is 0
+
+      Our process
+      1. go to first item in queue 
+      2 explore where it connects for each edge
+          in this vertex
+          a. Adding the destination to the
+          bottom of the queue IF not visited
+          b.  Add the destination to our visited
+          list and
+                c. mark it as being in this group
+          d. In the destination node, mark
+          this node as being the parent
+          e.  If we have processed every edge, 
+              go to step 3, otherwise, cont.
+              With next edge.
+      3 Remove the current node from queue
+      4 Call our process for the next node 
+          A.  If the queue is empty, call for the
+          next vertex in the list 
+          THAT IS UNVISITED if we don’t 
+          have anywhere else to
+          go, then increment group
+          B.  But if we do have something in the
+          queue, go to the first item
+
+
+      We are done when the array of all
+      vertexes has been visited
+     */
+    const queue = [start];
+
+    let currentGroup = getRandomColor();
+
+    while (queue.length > 0) {
+
+      const currentNode = queue[0];
+
+      if (currentNode.fillColor === 'white')
+        currentNode.fillColor = currentGroup;
+
+      currentNode.edges.forEach(edge => {
+        const { destination } = edge;
+
+        if (destination.fillColor === 'white') {
+          queue.push(destination);
+          destination.fillColor = currentGroup;
+        }
+
+        destination.parent = currentNode;
+
+      });
+
+      queue.shift();
+      
+      if (queue.length === 0) {
+
+        for (let e = 0; e < this.vertexes.length; e++) {
+          if (this.vertexes[e].fillColor === 'white') {
+            currentGroup = getRandomColor();
+            queue.push(this.vertexes[e]);
+            break;
+          }
+        }
+
+      }
+
+      // break;
+      
+
+    }
+
   }
 
   /**
