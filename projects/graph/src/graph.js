@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination,weight=1){
+    this.destination = destination;
+    this.weight = weight
+  }
 }
 
 /**
@@ -10,6 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value){
+    this.value = value;
+    this.edges = [];
+  }
 }
 
 /**
@@ -111,6 +119,8 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [];
+    
   }
 
   /**
