@@ -1,0 +1,12 @@
+
+@font-face {
+    font-family: 'zengodemo';
+    src: url('zengo_demo-webfont.eot');
+    src: url('zengo_demo-webfont.eot?#iefix') format('embedded-opentype'),
+         url('zengo_demo-webfont.woff2') format('woff2'),
+         url('zengo_demo-webfont.woff') format('woff'),
+         url('zengo_demo-webfont.ttf') format('truetype'),
+         url('zengo_demo-webfont.svg#zengodemo') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

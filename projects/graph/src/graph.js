@@ -1,3 +1,4 @@
+const { Queue } = require('./queue-helper');
 /**
  * Edge
  */
@@ -12,28 +13,31 @@ export class Edge {
 * Vertex
 */
 export class Vertex {
-constructor(value='vertex', pos = { x: -1, y: -1}) {
-  this.value = value;
-  this.edges = [];
-  this.pos = pos;
-  this.groupID = -1;
-  this.parentVertex = null;
-  }
+  constructor(value='vertex', pos = { x: -1, y: -1}) {
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+    this.groupID = -1;
+    this.parentVertex = null;
+    this.adjacentList.set(this.value, this.edges);
+    }
 }
 
 /**
 * Graph
 */
 export class Graph {
-constructor() {
-  this.vertexes = [];
+  constructor() {
+    this.vertexes = [];
+    this.adjacentList = new Map();
   }
 }
+
   /**
    * Create a random graph
    */
-  const g = new Graph
-  randomize(width, height, pxBox, probability=0.6) {
+  export const { g }  = new Graph();
+  export function randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -73,7 +77,6 @@ constructor() {
         }
       }
     }
-
     // Last pass, set the x and y coordinates for drawing
     const boxBuffer = 0.8;
     const boxInner = pxBox * boxBuffer;
@@ -84,7 +87,7 @@ constructor() {
         grid[y][x].pos = {
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
-        };
+        }
       }
     }
 
@@ -99,7 +102,7 @@ constructor() {
   /**
    * Dump graph data to the console
    */
-  dump() {
+ export  function dump() {
     let s;
 
     for (let v of this.vertexes) {
@@ -119,45 +122,59 @@ constructor() {
   /**
    * BFS
    */
+  // function to performs BFS
+  //we will call on queue helper file as per datastructuresI for enqueue, dequeue
+ export function bfs(startingNode) {
  
-  bfs(start, reset=true) {
-    const component = [];
-    const queue = [];
-
-    if (reset) {
-      for (let v of this.vertexes) {
-        v.color = 'white';
-      }
+    // create a visited array
+    let visited = [];
+    for (let i = 0; i < this.vertexes; i++)
+        visited[i] = false;
+        
+    // Create an object for queue
+    const q = new Queue();
+    startingNode.color = 'gray';
+    // add the starting node to the queue
+    visited[startingNode] = true;
+    q.enqueue(startingNode);
+ 
+    // loop until queue is element
+    while (!q.isEmpty()) {
+        // get the element from the queue
+        const getQueueElement = q.dequeue();
+ 
+        // passing the current vertex to callback funtion
+        console.log(getQueueElement);
+ 
+        // get the adjacent list for current vertex
+        const get_List = this.adjacentList.get(getQueueElement);
+ 
+        // loop through the list and add the elemnet to the
+        // queue if it is not processed yet
+        for (let i in get_List) {
+          const neighbor = get_List[i];
+          if (visited[neighbor]) {
+            for (let v of this.vertexes) {
+              v.color = 'white';
+          
+            
+ 
+            if (!visited[neighbor]) {
+              visited[neighbor] = true;
+              if (v.color === 'white') {
+                v.color = 'gray'; 
+                q.enqueue(neighbor);
+              }
+            }
+          }
+      }   
     }
-
-    start.color = 'gray';
-
-    queue.push(start);
-
-    while (queue.length > 0) {
-      const u = queue[0];
-
-      for (let e of u.edges) {
-        const v = e.destination;
-        if (v.color === 'white') {
-          v.color = 'gray';
-          queue.push(v);
-        }
-      }
-
-      queue.shift(); // de-queue
-      u.color = 'black';
-
-      component.push(u);
-    }
-
-    return component;
   }
-
+} 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
+export  function getConnectedComponents() {
     const componentsList = [];
 
     let needReset = true;
@@ -174,4 +191,4 @@ constructor() {
     return componentsList;
   }
 
-}
+
