@@ -38,7 +38,7 @@ class GraphView extends Component {
 
     // console.log("this.props.graph", this.props.graph);
 
-
+    // edges
     for (let parentVert of this.props.graph.vertexes) {
       for (let debugEdge of parentVert.edges) {
         ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
@@ -47,21 +47,25 @@ class GraphView extends Component {
       }
     }
 
-    for (let vertex of this.props.graph.vertexes) {
-      // node 1
-      ctx.moveTo(vertex.pos.x, vertex.pos.y);
+    // nodes
+    for (let node of this.props.graph.vertexes) {
+
+      // fill
+      ctx.moveTo(node.pos.x, node.pos.y);
       ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
+      ctx.arc(node.pos.x, node.pos.y, vertexRadius, 0, Math.PI * 2);
       ctx.stroke();
 
-      // value 1
-      ctx.fillStyle = "white";
+      // fill
+      ctx.fillStyle = node.fillColor;
       ctx.fill();
+
+      // label
       ctx.fillStyle = "black";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle"
       ctx.font = "10px Helvetica";
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.fillText(node.value, node.pos.x, node.pos.y);
     }
   }
 
@@ -84,18 +88,34 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
-    // this.state.graph.randomize(5, 4, 150);
-    this.state.graph.bfs(0);
+    // this.state.graph.debugCreateTestData();
+    // this.state.graph.bfs(this.state.graph.vertexes[0]);
+    this.state.graph.randomize(3, 3, 100);
+    this.state.graph.getConnectedComponents();
+  }
+
+  /**
+  * Render Button
+  */
+  handleClick() {
+    console.log("button clicked");
+    this.setState({
+      graph: new Graph()
+    });
+    console.log("graph", this.state.graph.randomize);
+    this.state.graph.randomize(3, 3, 100);
+    this.state.graph.getConnectedComponents();
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.handleClick.bind(this)}>
+          Reload
+        </button>
       </div>
     );
   }
