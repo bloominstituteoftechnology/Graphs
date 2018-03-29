@@ -18,6 +18,7 @@ export class Vertex {
     this.value = value;
     this.edges = [];
     this.pos = pos;
+    this.fillColor = "white";
   }
 }
 
@@ -136,11 +137,11 @@ export class Graph {
    * BFS
    */
   bfs(start, queue = [], visited = []) {
-    // !!! IMPLEMENT ME
     const queueToVisit = queue;
     const nodesVisited = visited;
     
     nodesVisited.push(start);
+    start.fillColor = this.getRandomColor(); //get random color
     
     for (let edge of start.edges) {
       if (queueToVisit.indexOf(edge.destination) === -1 && visited.indexOf(edge.destination) === -1) {
@@ -150,9 +151,16 @@ export class Graph {
 
     if (queueToVisit.length > 0){
       return this.bfs(queueToVisit[0], queueToVisit.slice(1), nodesVisited);
-    } else {
+    } else { //get the first unconnected next node
       return nodesVisited;
     }
+  }
+
+  getRandomColor() {
+    const r = Math.random() * 255 | 0;
+    const g = Math.random() * 255 | 0;
+    const b = Math.random() * 255 | 0;
+    return 'rgb(' + r + ", " + g +", " + b + ')';
   }
 
   /**

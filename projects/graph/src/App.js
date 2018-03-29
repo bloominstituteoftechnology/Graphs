@@ -55,7 +55,7 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.arc(parentVert.pos.x, parentVert.pos.y, vertexRadius, 0, 2*Math.PI);  
       ctx.stroke();
-      ctx.fillStyle = "white"
+      ctx.fillStyle = parentVert.fillColor;
       ctx.fill();
       ctx.font = "12px Arial";
       ctx.fillStyle = "black"
@@ -87,9 +87,15 @@ class App extends Component {
     };
 
     //this.state.graph.debugCreateTestData();
-    this.state.graph.randomize(3, 3, 80, 1);
+    this.state.graph.randomize(3, 3, 80, .45);
     let ans = this.state.graph.bfs(this.state.graph.vertexes[0]);
-    console.log(ans);
+    if (ans.length < this.state.graph.vertexes.length) {
+      for (let vertex of this.state.graph.vertexes) {
+        if (vertex.fillColor === "white") {
+          ans = this.state.graph.bfs(vertex);
+        }
+      }
+    }
 
   }
 
