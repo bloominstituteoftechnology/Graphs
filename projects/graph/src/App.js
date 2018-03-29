@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // Define the size of the random graph
-const xCount = 5;
-const yCount = 4;
+const xCount = 2;
+const yCount = 2;
 const boxSize = 150;
 const probability = 0.6;
 
@@ -54,10 +54,7 @@ class GraphView extends Component {
       for (let e = 0; e < vertex.edges.length; e++) {
 
         const edge = vertex.edges[e];
-        edge.weight = Math.floor(Math.random() * 10);
         
-        console.log(edge.weight);
-
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineWidth = 2;
@@ -82,7 +79,6 @@ class GraphView extends Component {
         ctx.textBaseline = "middle";
         ctx.fillStyle = '#000';
         ctx.fillText(edge.weight, weightPosX, weightPosY);
-
 
       }
     }
@@ -114,10 +110,35 @@ class GraphView extends Component {
   }
   
   /**
+   * MouseClick
+   */
+  handleClick = e => {
+
+    const { vertexes } = this.props.graph;
+
+    const mouse = {
+      x: e.clientX - e.target.offsetLeft,
+      y: e.clientY - e.target.offsetTop,
+    };
+
+    for (let i = 0; i < vertexes.length; i++) {
+      const vertex = vertexes[i];
+      
+      if ((mouse.x > (vertex.pos.x - 25)) && (mouse.x < (vertex.pos.x + 25))) {
+        if ((mouse.y > (vertex.pos.y - 25)) && (mouse.y < (vertex.pos.y + 25))) {
+          console.log(mouse, vertex.value);
+        }
+      }
+
+    }
+
+  }
+
+  /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={ canvasWidth } height={ canvasHeight } onClick={ this.handleClick } ></canvas>;
   }
 }
 
