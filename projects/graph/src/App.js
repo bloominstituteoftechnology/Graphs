@@ -121,13 +121,24 @@ class App extends Component {
         graph.bfs(vertex);
       }
     }
+    console.log(graph.vertexes);
     this.setState({ graph });
+  }
+
+  /**
+   * @param {React.MouseEvent<HTMLElement>} e
+   */
+  handleClick(e) {
+    e.preventDefault();
+    this.state.graph.findNode(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <div onClick={this.handleClick.bind(this)}>
+          <GraphView graph={this.state.graph}></GraphView>
+        </div>
         <br />
         <button onClick={this.randomize}>Randomize</button>
       </div>

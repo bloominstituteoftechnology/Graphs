@@ -43,22 +43,40 @@ export class Graph {
     this.vertexes = [];
   }
 
-  debugCreateTestData() {
-    const debugVert1 = new Vertex('dv1', {x: 10, y: 10});
-    const debugVert2 = new Vertex('dv2', {x: 100, y: 100});
-    const debugVert3 = new Vertex('dv3', { x: 50, y: 200});
-    const debugVert4 = new Vertex('dv4', { x: 40, y: 500});
-    const debugVert5 = new Vertex('dv5', { x: 500, y: 40});
-    const debugVert6 = new Vertex('dv6', { x: 20, y: 600});
-    const debugVert7 = new Vertex('dv7', { x: 250, y: 450});
-    const edge1 = new Edge(debugVert2);
-    const edge2 = new Edge(debugVert4);
-    const edge3 = new Edge(debugVert7);
-    debugVert1.edges.push(edge1);
-    debugVert2.edges.push(edge2);
-    debugVert3.edges.push(edge3);
-    this.vertexes.push(debugVert1, debugVert2, debugVert3, debugVert4, debugVert5, debugVert6, debugVert7);
+  /**
+   * Look for a node based on the coordinates of a mouse click event. If it is found, console.log it out.
+   * @param {number} x
+   * @param {number} y
+   */
+  findNode(x, y) {
+    const vertexRadius = 19; //pixels
+    const isBetweenX = vertex => (
+      vertex.pos.x + vertexRadius >= x && vertex.pos.x - vertexRadius <= x
+    );
+    const isBetweenY = vertex => (
+      vertex.pos.y + vertexRadius >= y && vertex.pos.y - vertexRadius <= y
+    );
+
+    const vertex = this.vertexes.find(vertex => isBetweenX(vertex) && isBetweenY(vertex));
+
+    console.log(vertex || 'No vertex found.');
   }
+  // debugCreateTestData() {
+  //   const debugVert1 = new Vertex('dv1', {x: 10, y: 10});
+  //   const debugVert2 = new Vertex('dv2', {x: 100, y: 100});
+  //   const debugVert3 = new Vertex('dv3', { x: 50, y: 200});
+  //   const debugVert4 = new Vertex('dv4', { x: 40, y: 500});
+  //   const debugVert5 = new Vertex('dv5', { x: 500, y: 40});
+  //   const debugVert6 = new Vertex('dv6', { x: 20, y: 600});
+  //   const debugVert7 = new Vertex('dv7', { x: 250, y: 450});
+  //   const edge1 = new Edge(debugVert2);
+  //   const edge2 = new Edge(debugVert4);
+  //   const edge3 = new Edge(debugVert7);
+  //   debugVert1.edges.push(edge1);
+  //   debugVert2.edges.push(edge2);
+  //   debugVert3.edges.push(edge3);
+  //   this.vertexes.push(debugVert1, debugVert2, debugVert3, debugVert4, debugVert5, debugVert6, debugVert7);
+  // }
   
   /**
    * Create a random graph
