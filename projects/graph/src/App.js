@@ -4,6 +4,7 @@ import './App.css';
 
 // imports for jsdoc/intellisense
 import { Vertex, Edge } from './graph'; 
+import { max, min } from './utils';
 
 const xCount = 8;
 const yCount = 8;
@@ -42,9 +43,17 @@ class GraphView extends Component {
    */
   drawEdges(ctx, parentVertex) {
     for (const edge of parentVertex.edges) {
+      // draw the edge
       ctx.moveTo(parentVertex.pos.x, parentVertex.pos.y);
       ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
       ctx.stroke();
+
+      // draw the weight of the edge
+      ctx.fillStyle = 'darkred';
+      ctx.font = '20px Arial';
+      const edgeX = (parentVertex.pos.x + edge.destination.pos.x) / 2;
+      const edgeY = (parentVertex.pos.y + edge.destination.pos.y) / 2;
+      ctx.fillText(edge.weight, edgeX, edgeY);
     }
   }
 
@@ -113,7 +122,7 @@ class App extends Component {
     this.randomize();
   }
 
-  randomize = () => {
+  randomize() {
     const graph = new Graph();
     graph.randomize(xCount, yCount, boxSize);
     for (const vertex of graph.vertexes) {
@@ -140,7 +149,7 @@ class App extends Component {
           <GraphView graph={this.state.graph}></GraphView>
         </div>
         <br />
-        <button onClick={this.randomize}>Randomize</button>
+        <button onClick={this.randomize.bind(this)}>Randomize</button>
       </div>
     );
   }
