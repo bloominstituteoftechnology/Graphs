@@ -54,7 +54,10 @@ class GraphView extends Component {
       for (let e = 0; e < vertex.edges.length; e++) {
 
         const edge = vertex.edges[e];
+        edge.weight = Math.floor(Math.random() * 10);
         
+        console.log(edge.weight);
+
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineWidth = 2;
@@ -62,6 +65,24 @@ class GraphView extends Component {
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
 
         ctx.stroke();
+        
+        const weightPosX = (vertex.pos.x + edge.destination.pos.x) / 2;
+        const weightPosY = (vertex.pos.y + edge.destination.pos.y) / 2;
+
+        ctx.beginPath();
+        ctx.moveTo(weightPosX, weightPosY);
+
+        ctx.arc(weightPosX, weightPosY, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = '#eee';
+        ctx.strokeStyle =  '#eee';
+        ctx.fill();
+
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = '#000';
+        ctx.fillText(edge.weight, weightPosX, weightPosY);
+
 
       }
     }
