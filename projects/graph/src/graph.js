@@ -155,9 +155,6 @@ export class Graph {
      */
     getConnectedComponents() {
         const connectedComponentsList = [];
-        for (let vertex of this.vertexes) {
-            vertex.color = 'white';
-        }
 
         for (let vertex of this.vertexes) {
             if (vertex.color === 'white') {
@@ -165,6 +162,7 @@ export class Graph {
                 connectedComponentsList.push(connectedComponent);
             }
         }
+        console.log(connectedComponentsList);
         return connectedComponentsList;
     }
 }
