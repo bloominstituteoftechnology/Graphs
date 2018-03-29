@@ -2,7 +2,7 @@
  * Edge
  */
 export class Edge {
-    constructor(destination, weight = 1) {
+    constructor(destination, weight = null) {
         this.destination = destination;
         this.weight = weight;
     }
@@ -16,6 +16,8 @@ export class Vertex {
         this.edges = [];
         this.pos = pos;
         this.value = value;
+        this.color = 'white';
+        this.isSelected = false;
     }
 }
 
@@ -33,7 +35,8 @@ export class Graph {
     randomize(width, height, pxBox, probability = 0.6) {
         // Helper function to set up two-way edges
         function connectVerts(v0, v1) {
-            v0.edges.push(new Edge(v1));
+            let randomWeight = Math.floor(Math.random() * 10) + 1;
+            v0.edges.push(new Edge(v1, randomWeight));
             v1.edges.push(new Edge(v0));
         }
 
@@ -127,10 +130,6 @@ export class Graph {
     bfs(start) {
         const queue = [];
         const connectedComponents = [];
-
-        for (let v of this.vertexes) {
-            v.color = 'white';
-        }
 
         start.color = 'gray';
         queue.push(start);

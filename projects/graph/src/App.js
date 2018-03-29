@@ -29,6 +29,10 @@ class GraphView extends Component {
     }
 
     /**
+     * Draw graph with vertexes and edges
+     */
+
+    /**
      * Render the canvas
      */
     updateCanvas() {
@@ -88,18 +92,65 @@ class GraphView extends Component {
                 vertex.edges.forEach(edge => {
                     let x = (edge.destination.pos.x + vertex.pos.x) / 2;
                     let y = (edge.destination.pos.y + vertex.pos.y) / 2;
-                    ctx.fillText(edge.weight, x, y);
+                    if (edge.weight) ctx.fillText(edge.weight, x, y);
                 });
             });
         });
     }
+
+    handleClick = e => {
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext('2d');
+        const rect = canvas.getBoundingClientRect();
+
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        const vertexes = this.props.graph.vertexes;
+        const selected = vertexes.find(vertex => {
+            return (
+                Math.abs(vertex.pos.x - x) <= radius &&
+                Math.abs(vertex.pos.y - y) <= radius
+            );
+        });
+
+        if (selected) {
+            ctx.beginPath();
+            ctx.arc(
+                selected.pos.x,
+                selected.pos.y,
+                radius,
+                0,
+                Math.PI * 2,
+                true
+            );
+            ctx.fillStyle = selected.isSelected ? 'white' : 'yellowgreen';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.font = '10px sans-serif';
+            ctx.fillStyle = 'black';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(selected.value, selected.pos.x, selected.pos.y);
+            selected.isSelected = !selected.isSelected;
+            console.log(
+                `Vertex ${selected.value} is selected: ${selected.isSelected}.`,
+                `Coordinates is x: ${selected.pos.x} y: ${selected.pos.y}`
+            );
+        }
+    };
 
     /**
      * Render
      */
     render() {
         return (
-            <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />
+            <canvas
+                ref="canvas"
+                width={canvasWidth}
+                height={canvasHeight}
+                onClick={this.handleClick}
+            />
         );
     }
 }
