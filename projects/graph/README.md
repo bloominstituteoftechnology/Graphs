@@ -98,6 +98,36 @@ text on top of the vert circle.
 
 ## Phase 4: Implement Breadth-First Search (or Depth-First Search)
 
+// see https://www.youtube.com/watch?v=Sxc0tHO_f_A&feature=youtu.be for white board 
+// discussion and pseudocode generation 
+
+/* pick somewhere to start -> start at the first vertex in the list an push it to the queue and list of place we've been to 
+
+set group to 0
+
+process
+select first item in queue
+if it has edges
+ for each edge
+   if not visited
+     add them to the end of our place to go queue
+     and them to visited queue
+     mark it as part of the group
+     and parent node to the dest node
+remove the item from the places to go queue
+if places to queue is empty get next unvisited vertex and push it on places to visit and loop over process
+if it's not empty select the the next item on the queu and loop over the process
+
+note the program finished when all vertexes are looped over and 
+
+*/
+
+
+
+
+
+
+
 This is a necessary step in figuring out the connected components.
 
 ## Phase 5: Color the Connected Components Differently

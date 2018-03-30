@@ -38,15 +38,15 @@ class GraphView extends Component {
     ctx.fillStyle = "lightgray";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    console.log(this.props.graph.vertexes);
-    console.log("edge", this.props.graph.vertexes[0].edges[0]);
+    //console.log(this.props.graph.vertexes);
+    //console.log("edge", this.props.graph.vertexes[0].edges[0]);
 
     //draw the edge
     for (let parentVert of this.props.graph.vertexes) {
       //let parentVert = this.props.graph.vertexes[0];
       //let debugEdge = this.props.graph.vertexes[0].edges[0];
       for (let debugEdge of parentVert.edges) {
-        console.log("debug line is ", debugEdge);
+        //console.log("debug line is ", debugEdge);
         ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
         ctx.lineTo(debugEdge.destination.pos.x, debugEdge.destination.pos.y);
         ctx.stroke();
@@ -63,7 +63,7 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
       ctx.stroke();
-      ctx.fillStyle = "white";
+      ctx.fillStyle = vertex.fillColor;
       ctx.fill();
 
       // draw the label
@@ -107,6 +107,9 @@ class App extends Component {
     // using randomize 
     //this.state.graph.debugCreateTestData();
     this.state.graph.randomize(5,4,150,0.6);
+
+    //after the graph is made do bfs
+    this.state.graph.bfs(this.state.graph.vertexes[0]);
   }
 
   render() {
