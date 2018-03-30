@@ -20,6 +20,7 @@ export class Vertex {
     this.value = value;
     this.edges = [];
     this.pos = pos;
+    this.fillColor = "white";
     this.groupID = -1;
     this.prarentVertex = null;
   }
@@ -142,6 +143,25 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [];
+    queue.push(start);
+    console.log("BSF",queue[0])
+
+    let currentGroup = "red";
+
+    while(queue.length > 0) {
+      let current = queue[0];
+      console.log("current", current);
+      for(let edge of current.edges) {
+        console.log("in the loop, edge is: ", edge)
+        if(edge.destination.fillColor == 'white') {
+          queue.push(edge.destination);
+          edge.destination.fillColor = currentGroup;
+        }
+
+      }
+      queue.shift();
+    }
   }
 
   /**
