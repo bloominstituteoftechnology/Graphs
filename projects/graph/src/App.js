@@ -3,7 +3,7 @@ import { Graph } from './graph';
 import './App.css';
 
 // imports for jsdoc/intellisense
-import { Vertex, Edge } from './graph'; 
+import { Vertex, Edge } from './graph';
 import { max, min } from './utils';
 
 const xCount = 8;
@@ -16,7 +16,7 @@ const vertexRadius = boxSize / 8;
 /**
  * GraphView
  * @extends {Component<{graph: Graph}, State>}
- * 
+ *
  */
 class GraphView extends Component {
   constructor() {
@@ -63,8 +63,8 @@ class GraphView extends Component {
    * @param {Vertex} vertex
    */
   drawVertex(ctx, vertex) {
-    ctx.moveTo(vertex.pos.x, vertex.pos.y);
     ctx.beginPath();
+    ctx.moveTo(vertex.pos.x, vertex.pos.y);
     ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = vertex.color;
@@ -94,24 +94,22 @@ class GraphView extends Component {
       this.drawEdges(ctx, vertex);
       this.drawVertex(ctx, vertex);
     }
-
   }
-  
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }
-
 
 /**
  * App
  */
 class App extends Component {
   state = {
-    graph: new Graph()
+    graph: new Graph(),
   };
 
   constructor(props) {
@@ -126,7 +124,8 @@ class App extends Component {
     const graph = new Graph();
     graph.randomize(xCount, yCount, boxSize);
     for (const vertex of graph.vertexes) {
-      if (!vertex.color) { // no color == not touched
+      if (!vertex.color) {
+        // no color == not touched
         graph.bfs(vertex);
       }
     }
@@ -146,7 +145,7 @@ class App extends Component {
     return (
       <div className="App">
         <div onClick={this.handleClick.bind(this)}>
-          <GraphView graph={this.state.graph}></GraphView>
+          <GraphView graph={this.state.graph} />
         </div>
         <br />
         <button onClick={this.randomize.bind(this)}>Randomize</button>
