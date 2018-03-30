@@ -2,119 +2,101 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// Define the size of the random graph
-const xCount = 5;
-const yCount = 5;
-const boxSize = 150;
-const probability = 0.6;
+// imports for jsdoc/intellisense
+import { Vertex, Edge } from './graph'; 
+import { max, min } from './utils';
 
-// Figure out the canvas size
+const xCount = 8;
+const yCount = 8;
+const boxSize = 150;
+
 const canvasWidth = boxSize * xCount;
 const canvasHeight = boxSize * yCount;
-const radius = boxSize / 8;
-
+const vertexRadius = boxSize / 8;
 /**
  * GraphView
+ * @extends {Component<{graph: Graph}, State>}
+ * 
  */
 class GraphView extends Component {
+  constructor() {
+    super();
+  }
   /**
    * On mount
    */
   componentDidMount() {
-    this.updateCanvasConnectedComponents();
+    this.updateCanvas();
   }
 
   /**
    * On state update
    */
   componentDidUpdate() {
-    this.updateCanvasConnectedComponents();
+    this.updateCanvas();
   }
 
   /**
-   * Draw the given verts
+   * Renders all edges of a given vertex.
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Vertex} parentVertex
    */
-  drawVerts(vertexes, color='blue', clear=true) {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
-    
-    // Clear it
-    if (clear) {
-      ctx.fillStyle = 'white';
-      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    }
-
-    // Draw the edges
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = color;
-
-    for (let v of vertexes) { // From this vert
-      for (let e of v.edges) { // To all these verts
-        const v2 = e.destination;
-        ctx.beginPath();
-        ctx.moveTo(v.pos.x, v.pos.y);
-        ctx.lineTo(v2.pos.x, v2.pos.y);
-        ctx.stroke();
-      }
-    }
-
-    // Draw the verts on top
-    ctx.fillStyle = '#77f'; // light blue
-
-    for (let v of vertexes) {
-      ctx.beginPath();
-      ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+  drawEdges(ctx, parentVertex) {
+    for (const edge of parentVertex.edges) {
+      // draw the edge
+      ctx.moveTo(parentVertex.pos.x, parentVertex.pos.y);
+      ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
       ctx.stroke();
-      ctx.fill();
-    }
 
-    // Draw the vert names
-    ctx.font = '10px sans-serif';
+      // draw the weight of the edge
+      ctx.fillStyle = 'darkred';
+      ctx.font = '20px Arial';
+      const edgeX = (parentVertex.pos.x + edge.destination.pos.x) / 2;
+      const edgeY = (parentVertex.pos.y + edge.destination.pos.y) / 2;
+      ctx.fillText(edge.weight, edgeX, edgeY);
+    }
+  }
+
+  /**
+   * Renders a single vertex with its text centered.
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Vertex} vertex
+   */
+  drawVertex(ctx, vertex) {
+    ctx.moveTo(vertex.pos.x, vertex.pos.y);
+    ctx.beginPath();
+    ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fillStyle = vertex.color;
+    ctx.fill();
+    ctx.stroke();
+
+    // add text to middle of node
+    ctx.fillStyle = 'red';
     ctx.textAlign = 'center';
-    ctx.fillStyle = 'white';
+    ctx.font = '10px Arial';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+  }
 
-    for (let v of vertexes) {
-      ctx.fillText(v.value, v.pos.x, v.pos.y + 4);
+  /**
+   * Render the canvas
+   */
+  updateCanvas() {
+    /** @type {CanvasRenderingContext2D} */
+    let ctx = this.refs.canvas.getContext('2d');
+
+    // initialize canvas
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    for (const vertex of this.props.graph.vertexes) {
+      this.drawEdges(ctx, vertex);
+      this.drawVertex(ctx, vertex);
     }
+
   }
   
-  /**
-   * Draw the entire graph
-   */
-  updateCanvasEntireGraph() {
-    const g = this.props.graph;
-    this.drawVerts(g.vertexes);
-    //g.dump();
-  }
-
-  /**
-   * Draw the connected components
-   */
-  updateCanvasConnectedComponents() {
-    function randomHexColor() {
-      let color = ((Math.random() * 240)|0).toString(16);
-
-      if (color.length === 1) {
-        color = '0' + color; // leading zero for values less than 0x10
-      }
-
-      return color;
-    }
-
-    const g = this.props.graph;
-    const connectedComponents = g.getConnectedComponents();
-
-    let clear = true;
-
-    for (let component of connectedComponents) {
-      // Color just like in CSS
-      const curColor = '#' + randomHexColor() + randomHexColor() + randomHexColor();
-
-      this.drawVerts(component, curColor, clear);
-      clear = false;
-    }
-  }
-
   /**
    * Render
    */
@@ -128,35 +110,46 @@ class GraphView extends Component {
  * App
  */
 class App extends Component {
+  state = {
+    graph: new Graph()
+  };
+
   constructor(props) {
     super(props);
-    this.onButton = this.onButton.bind(this);
+  }
 
-    this.state = {
-      graph: new Graph()
-    };
+  componentDidMount() {
+    this.randomize();
+  }
 
-    this.state.graph.randomize(xCount, yCount, boxSize, probability);
+  randomize() {
+    const graph = new Graph();
+    graph.randomize(xCount, yCount, boxSize);
+    for (const vertex of graph.vertexes) {
+      if (!vertex.color) { // no color == not touched
+        graph.bfs(vertex);
+      }
+    }
+    console.log(graph.vertexes);
+    this.setState({ graph });
   }
 
   /**
-   * Handle the button press
+   * @param {React.MouseEvent<HTMLElement>} e
    */
-  onButton() {
-    const state = {
-      graph: new Graph()
-    };
-
-    state.graph.randomize(xCount, yCount, boxSize, probability);
-
-    this.setState(state);
+  handleClick(e) {
+    e.preventDefault();
+    this.state.graph.findNode(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
   }
 
   render() {
     return (
       <div className="App">
-        <button onClick={this.onButton}>Random</button>
-        <GraphView graph={this.state.graph}></GraphView>
+        <div onClick={this.handleClick.bind(this)}>
+          <GraphView graph={this.state.graph}></GraphView>
+        </div>
+        <br />
+        <button onClick={this.randomize.bind(this)}>Randomize</button>
       </div>
     );
   }
