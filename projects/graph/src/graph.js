@@ -3,6 +3,12 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  //need to know start end
+  //start is taken care of. edge will belong to vertex
+  constructor(destination, weight = 1){
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +16,14 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = {x: -1, y: -1}) {
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+    this.fillColor = "white";
+    this.groupID = -1;
+    this.prarentVertex = null;
+  }
 }
 
 /**
@@ -18,6 +32,24 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+  debugCreateTestData() {
+    console.log("Debug: Ran debug(createTestData)");
+    let debugVert1 = new Vertex('dv1', {x: 50, y: 20});
+    let debugVert2 = new Vertex('dv2', {x: 100, y: 100});
+    let debugVert3 = new Vertex('dv3', {x: 50, y: 200});
+    let debugVert4 = new Vertex('dv4', {x: 40, y: 500});
+    let debugVert5 = new Vertex('dv5', {x: 500, y: 40});
+    let debugVert6 = new Vertex('dv6', {x: 20, y: 600});
+    let debugVert7 = new Vertex('dv7', {x: 250, y: 450});
+
+    let edge1 = new Edge(debugVert2);
+    let edge2 = new Edge(debugVert4);
+    let edge3 = new Edge(debugVert7);
+    debugVert1.edges.push(edge1);
+    debugVert2.edges.push(edge2);
+    debugVert3.edges.push(edge3);
+    this.vertexes.push(debugVert1,debugVert2,debugVert3,debugVert4,debugVert5,debugVert6, debugVert7);
   }
 
   /**
@@ -111,6 +143,25 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [];
+    queue.push(start);
+    console.log("BSF",queue[0])
+
+    let currentGroup = "red";
+
+    while(queue.length > 0) {
+      let current = queue[0];
+      console.log("current", current);
+      for(let edge of current.edges) {
+        console.log("in the loop, edge is: ", edge)
+        if(edge.destination.fillColor == 'white') {
+          queue.push(edge.destination);
+          edge.destination.fillColor = currentGroup;
+        }
+
+      }
+      queue.shift();
+    }
   }
 
   /**
