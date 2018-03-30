@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 700;
-const canvasHeight = 480;
+const canvasWidth = 600;
+const canvasHeight = 600;
 const vertexRadius = 10;
 
 /**
@@ -105,7 +105,8 @@ class App extends Component {
     // use the graph randomize() method
     // we can use our test data here to see if it's working before 
     // using randomize 
-    this.state.graph.debugCreateTestData();
+    //this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5,4,150,0.6);
   }
 
   render() {
