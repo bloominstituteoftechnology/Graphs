@@ -48,114 +48,138 @@ class GraphView extends Component {
     //   ctx.lineTo(canvasWidth, y);
     //   ctx.stroke();
     // }
+
+    const midX = canvasWidth / 2;
+    const midY = canvasHeight / 2;
+    const pi = Math.PI;
     
     ctx.fillStyle = '#000000';
     // head
     ctx.beginPath();
-    ctx.arc(canvasWidth / 2, canvasHeight / 2, 100, 0, 2 * Math.PI);
+    ctx.arc(midX, midY, 100, 0, 2 * pi);
     ctx.fill();
     ctx.stroke();
     // left ear
     ctx.beginPath();
-    ctx.arc(canvasWidth / 2 - 100, canvasHeight / 2 - 110, 60, .43 * Math.PI, .1 * Math.PI);
+    ctx.arc(midX - 100, midY - 110, 60, .43 * pi, .1 * pi);
     ctx.stroke();
     ctx.fill();
     // right ear
     ctx.beginPath();
-    ctx.arc(canvasWidth / 2 + 100, canvasHeight / 2 - 110, 60, .9 * Math.PI, .57 * Math.PI);
+    ctx.arc(midX + 100, midY - 110, 60, .9 * pi, .57 * pi);
     ctx.stroke();
     ctx.fill();
     // chin
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.arc(canvasWidth / 2, canvasHeight / 2 + 70, 50, 0, 2 * Math.PI);
+    ctx.arc(midX, midY + 70, 50, 0, 2 * pi);
     ctx.stroke();
     ctx.fill();
     // left cheek
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 - 50, canvasHeight / 2 + 60, 65, 30, 1.20 * Math.PI, 0, 2 * Math.PI);
+    ctx.ellipse(midX - 50, midY + 60, 65, 30, 1.20 * pi, 0, 2 * pi);
     ctx.stroke();
     ctx.fill();
     // right cheek
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 + 50, canvasHeight / 2 + 60, 65, 30, .8 * Math.PI, 0, 2 * Math.PI);
+    ctx.ellipse(midX + 50, midY + 60, 65, 30, .8 * pi, 0, 2 * pi);
     ctx.stroke();
     ctx.fill();
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.arc(canvasWidth / 2, canvasHeight / 2 + 20, 50, 0, 2 * Math.PI);
+    ctx.arc(midX, midY + 20, 50, 0, 2 * pi);
     ctx.fill();
     // chin
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.arc(canvasWidth / 2, canvasHeight / 2 + 70, 49, 0, 2 * Math.PI);
+    ctx.arc(midX, midY + 70, 49, 0, 2 * pi);
     // ctx.stroke();
     ctx.fill();
     // left eye background
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 - 27, canvasHeight / 2, 50, 85, 1.97 * Math.PI, 0, 2 * Math.PI);
+    ctx.ellipse(midX - 27, midY, 50, 85, 1.97 * pi, 0, 2 * pi);
     // ctx.stroke();
     ctx.fill();
     // right eye background
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 + 27, canvasHeight / 2, 50, 85, .03 * Math.PI, 0, 2 * Math.PI);
+    ctx.ellipse(midX + 27, midY, 50, 85, .03 * pi, 0, 2 * pi);
     // ctx.stroke();
     ctx.fill();
     // left eye white
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 - 16, canvasHeight / 2 - 20, 10, 30, 1.98 * Math.PI, 0, 2 * Math.PI);
+    ctx.ellipse(midX - 16, midY - 20, 10, 30, 1.98 * pi, 0, 2 * pi);
     ctx.stroke();
     ctx.fill();
     // right eye white
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 + 16, canvasHeight / 2 - 20, 10, 30, .02 * Math.PI, 0, 2 * Math.PI);
+    ctx.ellipse(midX + 16, midY - 20, 10, 30, .02 * pi, 0, 2 * pi);
     ctx.stroke();
     ctx.fill();
     // left eye black
     ctx.fillStyle = '#000000';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 - 13, canvasHeight / 2 - 4, 7, 14, 0, 0, 2 * Math.PI);
+    ctx.ellipse(midX - 13, midY - 4, 7, 14, 0, 0, 2 * pi);
     ctx.stroke();
     ctx.fill();
     // right eye black
     ctx.fillStyle = '#000000';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 + 15, canvasHeight / 2 - 4, 7, 14, 0, 0, 2 * Math.PI);
+    ctx.ellipse(midX + 15, midY - 4, 7, 14, 0, 0, 2 * pi);
     ctx.stroke();
     ctx.fill();
     // above-nose arch
     ctx.beginPath();
-    ctx.arc(canvasWidth / 2, canvasHeight / 2 + 58, 50, 1.36 * Math.PI, 1.64 * Math.PI);
+    ctx.arc(midX, midY + 58, 50, 1.36 * pi, 1.64 * pi);
     ctx.stroke();
     // lower mouth
     ctx.fillStyle = '#000000';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2, canvasHeight / 2 + 50, 40, 55, 0, .15 * Math.PI, .85 * Math.PI);
+    ctx.ellipse(midX, midY + 42, 50, 65, 0, .15 * pi, .85 * pi);
     ctx.fill();
-    // mouth
+    // upper mouth
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2, canvasHeight / 2 + 20, 85, 60, 0, 0.1 * Math.PI, 0.9 * Math.PI);
+    ctx.ellipse(midX, midY + 20, 85, 60, 0, 0.05 * pi, 0.95 * pi);
     ctx.stroke();
     ctx.fill();
+    // tongue left
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.ellipse(midX - 12, midY + 98, 20, 10, .1 * pi, 0, 2 * pi);
+    ctx.fill();
+    // tongue right
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.ellipse(midX + 16, midY + 99, 18, 10, .1 * pi, 0, 2 * pi);
+    ctx.fill();
+    // tongue cleft
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.ellipse(midX - 12, midY + 98, 20, 10, .1 * pi, 1 * pi, 1.75 * pi);
+    ctx.stroke();
+    // lower mouth outline
+    ctx.fillStyle = '#000000';
+    ctx.beginPath();
+    ctx.ellipse(midX, midY + 42, 50, 65, 0, .15 * pi, .85 * pi);
+    ctx.stroke();
     // nose
     ctx.fillStyle = '#000000';
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2, canvasHeight / 2 + 30, 25, 12, 0, 0, 2 * Math.PI);
+    ctx.ellipse(midX, midY + 30, 25, 12, 0, 0, 2 * pi);
     ctx.fill();
     // left cheek arch
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 - 76, canvasHeight / 2 + 42, 12, 5, 0, 1.1 * Math.PI, 1.6 * Math.PI);
+    ctx.ellipse(midX - 80, midY + 33, 14, 5, 0, 1.1 * pi, 1.625 * pi);
     ctx.stroke();
     // right cheek arch
     ctx.beginPath();
-    ctx.ellipse(canvasWidth / 2 + 76, canvasHeight / 2 + 42, 12, 5, 0, 1.4 * Math.PI, 1.9 * Math.PI);
+    ctx.ellipse(midX + 80, midY + 33, 14, 5, 0, 1.325 * pi, 1.9 * pi);
     ctx.stroke();
 
   }
