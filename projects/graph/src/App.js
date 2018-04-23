@@ -77,11 +77,10 @@ class GraphView extends Component {
     ctx.beginPath();
     ctx.arc(midX, midY + 20, 50, 0, 2 * pi);
     ctx.fill();
-    // chin
+    // chin outline
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
     ctx.arc(midX, midY + 70, 49, 0, 2 * pi);
-    // ctx.stroke();
     ctx.fill();
     // left eye background
     ctx.fillStyle = '#FFFFFF';
