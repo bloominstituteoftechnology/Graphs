@@ -31,27 +31,13 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     
-    // Clear it
-    ctx.fillStyle = 'lightblue';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    // graph paper - vertical lines
-    // for (let x = 20; x < canvasWidth; x += 20) {
-    // ctx.moveTo(x, 0);
-    // ctx.lineTo(x, canvasHeight);
-    // ctx.stroke();
-    // }
-
-    // graph paper - horizontal lines
-    // for (let y = 20; y < canvasHeight; y += 20) {
-    //   ctx.moveTo(0, y);
-    //   ctx.lineTo(canvasWidth, y);
-    //   ctx.stroke();
-    // }
-
     const midX = canvasWidth / 2;
     const midY = canvasHeight / 2;
     const pi = Math.PI;
+
+    // Clear it
+    ctx.fillStyle = 'lightblue';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
     ctx.fillStyle = '#000000';
     // head
@@ -145,7 +131,7 @@ class GraphView extends Component {
     // upper mouth
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.ellipse(midX, midY + 20, 85, 60, 0, 0.05 * pi, 0.95 * pi);
+    ctx.ellipse(midX, midY + 20, 85, 60, 0, 0.075 * pi, 0.925 * pi);
     ctx.stroke();
     ctx.fill();
     // tongue left
@@ -175,13 +161,12 @@ class GraphView extends Component {
     ctx.fill();
     // left cheek arch
     ctx.beginPath();
-    ctx.ellipse(midX - 80, midY + 33, 14, 5, 0, 1.1 * pi, 1.625 * pi);
+    ctx.ellipse(midX - 78, midY + 38, 14, 5, 1.95 * pi, 1.1 * pi, 1.625 * pi);
     ctx.stroke();
     // right cheek arch
     ctx.beginPath();
-    ctx.ellipse(midX + 80, midY + 33, 14, 5, 0, 1.325 * pi, 1.9 * pi);
+    ctx.ellipse(midX + 78, midY + 38, 14, 5, .05 * pi, 1.325 * pi, 1.9 * pi);
     ctx.stroke();
-
   }
   
   /**
