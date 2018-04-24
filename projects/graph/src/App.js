@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = window.innerWidth;
-const canvasHeight = window.innerHeight;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -31,10 +31,43 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    // Clear it
-    ctx.fillStyle = '#21FA90';
+    // !!! IMPLEMENT ME
+    // compute connected components
+    // draw edges
+    // draw verts
+    // draw vert values (labels)
+    ctx.fillStyle = '#43C59E';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    const vertexes = this.props.graph.vertexes;
+    const radius = 10;
+
+    for (let vertex of vertexes) {//Todo - Optimization: loop through vertex twice to resolve a draw problem
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    for (let vertex of vertexes) {
+      ctx.beginPath();
+      ctx.strokeStyle="black";
+      ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2*Math.PI);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.font = "10px Arial";
+      ctx.fillStyle = 'black';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x ,vertex.pos.y);
+    }
+
+    //**********************Matrix Code************************
+    //*********************************************************
     // const matrixText =  "123456789田由甲申甴电甶男甸甹町画甼甽甾甿畀畁NEO畄畅畆畇畈畉畊GUELMIS畍畎畏畐畑";
     // matrixText.split('');
 
@@ -65,61 +98,57 @@ class GraphView extends Component {
 
     // setInterval(draw, 40);
 
-    ctx.fillStyle = '#020122';
-    ctx.fillRect(0, 21, canvasWidth, 700);
+    //*********************************************************
+    //*********************************************************
 
-    for (let i = 0; i < 100; i++) {
-      ctx.beginPath();
-      ctx.moveTo(0,24);
-      ctx.strokeStyle='rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
-      ctx.lineTo(70 * i, 200 + i);
-      ctx.stroke();
-    }
+    // ctx.fillStyle = '#020122';
+    // ctx.fillRect(0, 21, canvasWidth, 700);
 
-    for (let j = 0; j < 100; j++) {
-      ctx.beginPath();
-      ctx.moveTo(canvasWidth, 24);
-      ctx.strokeStyle='rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
-      ctx.lineTo(70 * j, 200 + j);
-      ctx.stroke();
-    }
+    // for (let i = 0; i < 100; i++) {
+    //   ctx.beginPath();
+    //   ctx.moveTo(0,24);
+    //   ctx.strokeStyle='rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+    //   ctx.lineTo(70 * i, 200 + i);
+    //   ctx.stroke();
+    // }
 
-    for (let j = 0; j < 100; j++) {
-      ctx.beginPath();
-      ctx.moveTo(700, 50);
-      ctx.strokeStyle='rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
-      ctx.lineTo(70 * j, 200 + j);
-      ctx.stroke();
-    }
+    // for (let j = 0; j < 100; j++) {
+    //   ctx.beginPath();
+    //   ctx.moveTo(canvasWidth, 24);
+    //   ctx.strokeStyle='rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+    //   ctx.lineTo(70 * j, 200 + j);
+    //   ctx.stroke();
+    // }
 
-    for (let j = 0; j < 100; j++) {
-      ctx.beginPath();
-      ctx.moveTo(700, 50);
-      ctx.strokeStyle='rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
-      ctx.lineTo(70 * j, 200 + j);
-      ctx.stroke();
-    }
+    // for (let j = 0; j < 100; j++) {
+    //   ctx.beginPath();
+    //   ctx.moveTo(700, 50);
+    //   ctx.strokeStyle='rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+    //   ctx.lineTo(70 * j, 200 + j);
+    //   ctx.stroke();
+    // }
 
-    for (let j = 0; j < 500; j++) {
-      ctx.beginPath();
-      ctx.strokeStyle="white";
-      ctx.arc(200 + j ,120 + j,90,0,2*Math.PI);
-      ctx.stroke();
-    }
+    // for (let j = 0; j < 100; j++) {
+    //   ctx.beginPath();
+    //   ctx.moveTo(700, 50);
+    //   ctx.strokeStyle='rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+    //   ctx.lineTo(70 * j, 200 + j);
+    //   ctx.stroke();
+    // }
 
-    for (let j = 0; j < 500; j++) {
-      ctx.beginPath();
-      ctx.strokeStyle="white";
-      ctx.arc(1300 - j ,120 + j,90,0,2*Math.PI);
-      ctx.stroke();
-    }
+    // for (let j = 0; j < 500; j++) {
+    //   ctx.beginPath();
+    //   ctx.strokeStyle="white";
+    //   ctx.arc(200 + j ,120 + j,90,0,2*Math.PI);
+    //   ctx.stroke();
+    // }
 
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    // for (let j = 0; j < 500; j++) {
+    //   ctx.beginPath();
+    //   ctx.strokeStyle="white";
+    //   ctx.arc(1300 - j ,120 + j,90,0,2*Math.PI);
+    //   ctx.stroke();
+    // }
   }
 
   /**
@@ -144,6 +173,11 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
+
+    // this.state.graph.debugCreateTestData();
+    // console.log("in app constructor: ", this);
+    // this.state.graph.dump();
   }
 
   render() {
