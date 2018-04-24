@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-const canvasWidth = 640;
-const canvasHeight = 480;
+const canvasWidth = 750;
+const canvasHeight = 600;
+const vertexRadius = 10;
 
 /**
  * GraphView
@@ -35,127 +35,34 @@ class GraphView extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    const factor = 10;
-    // let grid = {};
-    const num_items = 10;
-    // const delay = 5;
+    // !!! IMPLEMENT ME
+    // compute connected components
 
-    const colors = {
-      0: 'red',
-      1: 'blue',
-      2: 'green',
-      3: '#b3e0f2',
-      4: 'yellow',
-    };
-
-    const getRandomRGB = _ => {
-      return colors[Math.floor(Math.random() * Object.keys(colors).length)];
-      // console.log(`rgb(${num1}, ${num2}, ${num3}`);
-      // return `rgb(${num1}, ${num2}, ${num3}`;
-    };
-
-    const getRandomPos = max => {
-      return Math.floor(Math.random() * max);
-    };
-
-    const drawRandomCircle = _ => {
-      const r = factor;
-
-      ctx.beginPath();
-      ctx.arc(
-        getRandomPos(canvasWidth),
-        getRandomPos(canvasHeight),
-        r,
-        0,
-        2 * Math.PI,
-      );
-      ctx.stroke();
-      ctx.fillStyle = getRandomRGB();
-      ctx.fill();
-    };
-
-    const drawRandomRect = _ => {
-      const w = factor * 2;
-      const h = factor * 2;
-
-      ctx.rect(getRandomPos(canvasWidth), getRandomPos(canvasHeight), w, h);
-      ctx.stroke();
-      ctx.fillStyle = getRandomRGB();
-      ctx.fill();
-    };
-
-    const drawRandomTriangle = _ => {
-      const b = factor * 2;
-      const h = 3 ** 0.5 * factor;
-
-      const x_pos = getRandomPos(canvasWidth);
-      const y_pos = getRandomPos(canvasHeight);
-
-      ctx.beginPath();
-      ctx.fillStyle = getRandomRGB();
-      ctx.fill();
-      ctx.moveTo(x_pos, y_pos);
-      ctx.moveTo(x_pos, y_pos + -h / 2);
-      ctx.lineTo(x_pos + -b / 2, y_pos + h / 2);
-      ctx.lineTo(x_pos + b / 2, y_pos + h / 2);
-      ctx.lineTo(x_pos, y_pos - h / 2);
-    };
-
-    const getRandomInt = max => {
-      return Math.floor(Math.random() * max);
-    };
-
-    // let count = 0;
-
-    // var counter = setInterval(_ => {
-    //   const num = getRandomInt(3);
-    //   switch (num) {
-    //     case 0:
-    //       drawRandomCircle();
-    //       break;
-    //     case 1:
-    //       drawRandomRect();
-    //       break;
-    //     case 2:
-    //       drawRandomTriangle();
-    //       break;
-
-    //     default:
-    //       console.log('default');
-    //   }
-    //   count++;
-    // }, delay);
-
-    // while (1) {
-    //   if (count > num_items) {
-    //     clearInterval(counter);
-    //     break;
-    //   }
-    // }
-
-    for (let i = 0; i < num_items; i++) {
-      const num = getRandomInt(3);
-      switch (num) {
-        case 0:
-          drawRandomCircle();
-          break;
-        case 1:
-          drawRandomRect();
-          break;
-        case 2:
-          drawRandomTriangle();
-          break;
-
-        default:
-          console.log('default');
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
       }
     }
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    for (let vertex of this.props.graph.vertexes) {
+      const posX = vertex.pos.x;
+      const posY = vertex.pos.y;
+
+      ctx.beginPath();
+      ctx.arc(posX, posY, vertexRadius, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fillStyle = 'green';
+      ctx.fill();
+
+      ctx.fillStyle = 'white';
+      ctx.font = '11px Courier  ';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vertex.value, posX, posY);
+    }
   }
 
   /**
@@ -179,6 +86,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.8);
   }
 
   render() {
