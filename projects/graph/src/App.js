@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-const canvasWidth = 750;
-const canvasHeight = 600;
-const vertexRadius = 19;
-const prob = 0.7;
+const width = 10;
+const height = 7;
+const jitter = 120;
+const vertexRadius = 14;
+const font = 'Courier';
+const prob = 0.25;
+
+const canvasWidth = width * jitter;
+const canvasHeight = height * jitter;
 
 const colors = {
-  0: 'black',
+  0: '#000000',
   1: '#808080',
   2: '#a9a9a9',
   3: '#d3d3d3',
@@ -23,6 +28,18 @@ const colors = {
   12: '#ffc0cb',
   13: '#ff1493',
   14: '#ff69b4',
+  15: '#df25d5',
+};
+
+const getRandomColor = _ => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+
+  return color;
 };
 
 /**
@@ -58,7 +75,7 @@ class GraphView extends Component {
 
     for (let i = 0; i < connectedComponents.length; i++) {
       const cluster = connectedComponents[i];
-      const color = colors[i];
+      const color = colors[i] || getRandomColor();
 
       for (let vertex of cluster) {
         for (let edge of vertex.edges) {
@@ -76,12 +93,13 @@ class GraphView extends Component {
 
         ctx.beginPath();
         ctx.arc(posX, posY, vertexRadius, 0, 2 * Math.PI);
+        ctx.strokeStyle = color;
         ctx.stroke();
         ctx.fillStyle = color;
         ctx.fill();
 
         ctx.fillStyle = 'white';
-        ctx.font = `${vertexRadius}px Courier`;
+        ctx.font = `${vertexRadius}px ${font}`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(vertex.value, posX, posY);
@@ -108,7 +126,7 @@ class App extends Component {
       graph: new Graph(),
     };
 
-    this.state.graph.randomize(5, 4, 150, prob);
+    this.state.graph.randomize(width, height, jitter, prob);
   }
 
   render() {
