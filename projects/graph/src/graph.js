@@ -2,14 +2,21 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = {x: 50, y: 50}) {
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+  }
 }
 
 /**
@@ -111,6 +118,22 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [start];
+    let visited = [];
+    let current;
+    while (queue.length > 0) {
+      current = queue.shift();
+      visited[current] = true;
+      if (this.vertexes[current].edges) {
+        for (let i = 0; i < this.vertexes[current].edges.length; i++) {
+          const destination = parseInt(this.vertexes[current].edges[i].destination.value.slice(1));
+          if (!visited[destination]) {
+            queue.push(destination);
+          }
+        }
+      }
+    }
+    console.log('Visited vertexes: ', visited);
   }
 
   /**

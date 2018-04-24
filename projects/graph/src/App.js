@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 640;
-const canvasHeight = 480;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -31,14 +31,45 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     
-    const midX = canvasWidth / 2;
-    const midY = canvasHeight / 2;
-    const pi = Math.PI;
-
+    
     // Clear it
     ctx.fillStyle = 'lightblue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
+    const vertexes = this.props.graph.vertexes;
+    const radius = 15;
+    
+    // draw all the edges first
+    for (let vertex of vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+    
+    // draw all the vertexes second to hide edge overlap on vertexes
+    for (let vertex of vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.stroke();
+      
+      ctx.font = '12px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = 'black';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
+    
+    
+    /* MICKEY MOUSE!
+    const midX = canvasWidth / 2;
+    const midY = canvasHeight / 2;
+    const pi = Math.PI;
+
     ctx.fillStyle = '#000000';
     // head
     ctx.beginPath();
@@ -166,6 +197,7 @@ class GraphView extends Component {
     ctx.beginPath();
     ctx.ellipse(midX + 78, midY + 38, 14, 5, .05 * pi, 1.325 * pi, 1.9 * pi);
     ctx.stroke();
+    */
   }
   
   /**
@@ -190,6 +222,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.bfs(0);
   }
 
   render() {
