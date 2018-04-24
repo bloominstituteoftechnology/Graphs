@@ -35,39 +35,37 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
+    
     // !!! IMPLEMENT ME
-    let matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+    let matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()";
+    
+    
+
+    let font_size = 10;
+    let columns = canvasWidth/font_size; 
+    let drops = [];
 
 
-matrix = matrix.split("");
+    for( let x = 0; x < columns; x++)
+      drops[x] = 1;
 
 
-let font_size = 10;
-let columns = canvasWidth/font_size; 
-let drops = [];
+    function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.04)"; 
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight); 
+
+    ctx.fillStyle = "#0F0"; 
+    ctx.font = font_size + "px arial";
 
 
-for( let x = 0; x < columns; x++)
-    drops[x] = 1;
+    for(let i = 0; i < drops.length; i++) {
+    let text = matrix[Math.floor(Math.random()*matrix.length)]; 
+    ctx.fillText(text, i*font_size, drops[i]*font_size); 
 
 
-function draw() {
-ctx.fillStyle = "rgba(0, 0, 0, 0.04)"; 
-ctx.fillRect(0, 0, canvasWidth, canvasHeight); 
-
-ctx.fillStyle = "#0F0"; 
-ctx.font = font_size + "px arial";
-
-
-for(let i = 0; i < drops.length; i++) {
-let text = matrix[Math.floor(Math.random()*matrix.length)]; 
-ctx.fillText(text, i*font_size, drops[i]*font_size); 
-
-
-if(drops[i]*font_size > canvasHeight && Math.random() > 0.975)
-    drops[i] = 0;
-drops[i]++; 
+    if(drops[i]*font_size > canvasHeight && Math.random() > 0.975)
+        drops[i] = 0;
+    drops[i]++; 
     }
 }
 
