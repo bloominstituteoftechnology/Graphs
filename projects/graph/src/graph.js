@@ -46,7 +46,8 @@ export class Graph {
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
         //v.value = 'v' + x + ',' + y;
-        v.value = 'v' + count++;
+        // v.value = 'v' + count++;
+        v.value = '' + count++;
         row.push(v);
       }
       grid.push(row);
@@ -117,13 +118,46 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const q = [];
+    const v = [];
+
+    q.push(start);
+    v.push(start);
+
+    while (q.length > 0) {
+      const vertex = q[0];
+
+      for (let edge of vertex.edges) {
+        const edgeV = edge.destination;
+
+        if (!v.includes(edgeV)) {
+          q.push(edgeV);
+          v.push(edgeV);
+        }
+      }
+
+      q.shift();
+    }
+
+    return v;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const connectedComps = [];
+    const visitedV = [];
+
+    for (let vertex of this.vertexes) {
+      if (!visitedV.find(v => v === vertex)) {
+        const cluster = this.bfs(vertex);
+
+        visitedV.push(...cluster);
+        connectedComps.push(cluster);
+      }
+    }
+
+    return connectedComps;
   }
 }
