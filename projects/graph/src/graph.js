@@ -137,12 +137,9 @@ export class Graph {
         }
       }
     }
-    console.log("Visited vertexes: ", visited);
   }
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
-  }
+  getConnectedComponents() {}
 }

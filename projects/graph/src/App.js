@@ -24,6 +24,16 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+  randomizeColor(hex = "") {
+
+    if (hex.length === 6) return "#" + hex;
+
+    const hexRandom = ((Math.random() * 240) | 0).toString(16);
+    hex += hexRandom.length === 1 ? "0" + hexRandom : hexRandom;
+
+    return this.randomizeColor(hex);
+  }
+
   /**
    * Render the canvas
    */
@@ -44,6 +54,7 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.strokeStyle = this.randomizeColor();
         ctx.stroke();
       }
     }
@@ -52,7 +63,7 @@ class GraphView extends Component {
     for (let vertex of vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = "black";
+      ctx.fillStyle = this.randomizeColor();
       ctx.fill();
       ctx.stroke();
 
