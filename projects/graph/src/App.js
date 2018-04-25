@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Graph } from './graph';
-import './App.css';
+import React, { Component } from "react";
+import { Graph } from "./graph";
+import "./App.css";
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 752;
+const canvasHeight = 650;
 
 /**
  * GraphView
@@ -29,11 +29,39 @@ class GraphView extends Component {
    */
   updateCanvas() {
     let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
-    
+    let ctx = canvas.getContext("2d");
+
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "#d1fff4";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    const vertexes = this.props.graph.vertexes;
+    const radius = 15;
+
+    // draw all the edges first
+    for (let vertex of vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    // draw all the vertexes second to hide edge overlap on vertexes
+    for (let vertex of vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = "black";
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.font = "12px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "white";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -41,15 +69,14 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
   }
-  
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }
-
 
 /**
  * App
@@ -62,14 +89,14 @@ class App extends Component {
       graph: new Graph()
     };
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.bfs(0);
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} />
       </div>
     );
   }
