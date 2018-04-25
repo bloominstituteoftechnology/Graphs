@@ -117,29 +117,60 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
-    let queue = [start];
-    let visited = [];
-    let current;
-    while (queue.length > 0) {
+    let queue = [start];          // initialize queue with start vertex value
+    let knownVertexes = [start];  // initialize knownVertexes vertex list with start vertex value
+    let current;                  // tracker for current vertex
+
+    while (queue.length > 0) {    // while there are still vertexes to check in the queue
       current = queue.shift();
-      visited[current] = true;
-      if (this.vertexes[current].edges) {
+      if (this.vertexes[current].edges) {   // if the current vertex has edges
         for (let i = 0; i < this.vertexes[current].edges.length; i++) {
-          const destination = parseInt(this.vertexes[current].edges[i].destination.value.slice(1));
-          if (!visited[destination]) {
-            queue.push(destination);
+          // get the edge's destination value
+          const destination = parseInt(this.vertexes[current].edges[i].destination.value.slice(1), 10);
+          if (!knownVertexes.includes(destination)) {  // if the destination hasn't been seen yet
+            queue.push(destination);          // add destination to the queue
+            knownVertexes.push(destination);  // add destination to the knownVertexes list
           }
         }
       }
     }
-    console.log('Visited vertexes: ', visited);
+    return knownVertexes;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    let vertex = 0;                   // vertex tracker, starting search from zero
+    let componentCount = 0;           // number of components
+    let masterVisitedVertexes = [];   // vertexes in all explored components
+    let newVisitedVertexes = [];      // vertexes in last explored component
+    let connectedComponentsList = []; // array to store components found
+    let allVertexesVisited = false;   // boolean used to control loop, exits when all are visited
+
+    // main loop to traverse all vertexes
+    do {
+      // do a bfs of component starting from current vertex value
+      newVisitedVertexes = this.bfs(vertex);
+
+      // copy the newly explored component into the components found array
+      connectedComponentsList[componentCount++] = newVisitedVertexes;
+
+      // update master list of visited vertexes with vertexes in most recent component
+      for (let i = 0; i < newVisitedVertexes.length; i++) {
+        masterVisitedVertexes[newVisitedVertexes[i]] = true;
+      }
+      // set control status then check for unvisited vertexes
+      allVertexesVisited = true;
+      for (let i = 0; i < this.vertexes.length; i++) {
+        if (masterVisitedVertexes[i] !== true) {
+          allVertexesVisited = false;
+          vertex = i;
+          break;
+        }
+      }
+    } while (!allVertexesVisited);
+
+    return connectedComponentsList;
   }
 }
