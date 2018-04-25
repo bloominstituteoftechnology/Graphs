@@ -104,10 +104,17 @@ class App extends Component {
     this.state.graph.bfs(0);
   }
 
+  onHandleClick = () => {
+    const graph = new Graph();
+    graph.randomize(5, 4, 150, 0.6);
+    this.setState({ graph });
+  }
+
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <button onClick={this.onHandleClick}>Spawn New Graph</button>
       </div>
     );
   }
