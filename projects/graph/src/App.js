@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Graph } from './graph';
+import ReloadButton from './components/reload';
 import './App.css';
 
-const width = 10;
+const width = 12;
 const height = 7;
-const jitter = 120;
+const jitter = 125;
 const vertexRadius = 14;
 const font = 'Courier';
-const prob = 0.25;
+const prob = 0.55;
 
 const canvasWidth = width * jitter;
 const canvasHeight = height * jitter;
@@ -57,6 +58,9 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
+    if (this.props.graph.vertexes.length === 0)
+      this.props.graph.randomize(width, height, jitter, prob);
+
     this.updateCanvas();
   }
 
@@ -129,10 +133,16 @@ class App extends Component {
     this.state.graph.randomize(width, height, jitter, prob);
   }
 
+  reloadButtonClicked = _ => {
+    this.setState({ graph: new Graph() });
+  };
+
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+
+        <ReloadButton reloadButtonClicked={this.reloadButtonClicked} />
       </div>
     );
   }
