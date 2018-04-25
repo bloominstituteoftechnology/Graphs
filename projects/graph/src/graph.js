@@ -118,9 +118,10 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    let queue = [start]
-    let visited = []
-    let curr
+    const queue = [start];
+
+    let visited = [];
+    let curr;
 
     while (queue.length > 0) {
       curr = queue.shift();
