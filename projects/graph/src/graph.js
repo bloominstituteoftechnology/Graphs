@@ -27,6 +27,8 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.visited = [];
+    this.queue = [];
   }
 
   debugCreateTestData() {
@@ -137,6 +139,25 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    // console.log("inside bfs start: ", start);
+    // console.log("queue: ", this.queue);
+    // console.log("visited: ", this.visited);
+    this.queue.push(start);
+    this.visited.push(start);
+    // console.log("after push queue: ", this.queue);
+    // console.log("after push visited: ", this.visited);
+    for (let edge of start.edges) {
+      // console.log("in for loop edge: ", edge)
+      const destVisited = this.visited.find((element) => element.value === edge.destination.value);
+      if (!destVisited) {
+        this.queue.push(edge.destination);
+        this.visited.push(edge.destination);
+        // console.log("in for loop push queue: ", this.queue);
+        // console.log("in for loop push visited: ", this.visited);
+      }
+    }
+    this.queue.shift();
+    if (this.queue.length !== 0) this.bfs(this.queue[0]);
   }
 
   /**
@@ -144,5 +165,15 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    for (let vertex of this.vertexes) {
+      console.log("inside loop in getConnectedComponents")
+      console.log("vertex: ", vertex)
+      const foundVertex = this.visited.find((element) => {
+        // console.log("element: ", element);
+        return element.value === vertex.value;
+      });
+      // console.log("vertex in visited: ", foundVertex);
+      if (!foundVertex) this.bfs(vertex);
+    }
   }
 }
