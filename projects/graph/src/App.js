@@ -3,13 +3,14 @@ import { Graph } from './graph';
 import ReloadButton from './components/reload';
 import './App.css';
 
-const width = 8;
-const height = 5;
+const width = 7;
+const height = 3;
 const jitter = 150;
 const vertexRadius = 14;
 const font = 'Courier';
 const prob = 0.55;
 const backgroundColor = 'white';
+const fontColor = 'white';
 
 const canvasWidth = width * jitter;
 const canvasHeight = height * jitter;
@@ -48,6 +49,11 @@ const getRandomColor = _ => {
  * GraphView
  */
 class GraphView extends Component {
+  state = {
+    vA: null,
+    vB: null,
+  };
+
   /**
    * On mount
    */
@@ -61,6 +67,9 @@ class GraphView extends Component {
   componentDidUpdate() {
     if (this.props.graph.vertexes.length === 0)
       this.props.graph.randomize(width, height, jitter, prob);
+
+    if (this.state.vB !== null && this.state.vB !== null)
+      this.findShortestPath();
 
     this.updateCanvas();
   }
@@ -122,7 +131,7 @@ class GraphView extends Component {
         ctx.fillStyle = color;
         ctx.fill();
 
-        ctx.fillStyle = backgroundColor;
+        ctx.fillStyle = fontColor;
         ctx.font = `${vertexRadius}px ${font}`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -131,11 +140,54 @@ class GraphView extends Component {
     }
   }
 
+  canvasClickedHandler = e => {
+    const offset = (window.innerWidth - canvasWidth) / 2;
+
+    const pointX = e.clientX - offset;
+    const pointY = e.clientY;
+
+    for (let vertex of this.props.graph.vertexes) {
+      const posX = vertex.pos.x;
+      const posY = vertex.pos.y;
+
+      const sqDist = (pointX - posX) ** 2 + (pointY - posY) ** 2;
+      const sqRad = vertexRadius ** 2;
+
+      if (sqDist <= sqRad) {
+        if (this.state.vA === null) {
+          this.setState({ vA: vertex });
+        } else if (this.state.vB === null) {
+          this.setState({ vB: vertex });
+        } else {
+          /* for unexpected errors */
+          console.error(
+            'vA and vB not null (check GraphView state reset func)',
+          );
+        }
+      }
+    }
+  };
+
+  findShortestPath = _ => {
+    console.log('dij lago');
+    console.log(`vA: ${this.state.vA.value} - vB: ${this.state.vB.value}`);
+
+    /* reset after finding shortest path*/
+    this.setState({ vA: null, vB: null });
+  };
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
+    return (
+      <canvas
+        ref="canvas"
+        width={canvasWidth}
+        height={canvasHeight}
+        onClick={e => this.canvasClickedHandler(e)}
+      />
+    );
   }
 }
 
