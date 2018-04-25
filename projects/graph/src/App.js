@@ -3,12 +3,13 @@ import { Graph } from './graph';
 import ReloadButton from './components/reload';
 import './App.css';
 
-const width = 12;
-const height = 7;
-const jitter = 125;
+const width = 8;
+const height = 5;
+const jitter = 150;
 const vertexRadius = 14;
 const font = 'Courier';
 const prob = 0.55;
+const backgroundColor = 'white';
 
 const canvasWidth = width * jitter;
 const canvasHeight = height * jitter;
@@ -72,7 +73,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
 
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     const connectedComponents = this.props.graph.getConnectedComponents();
@@ -88,6 +89,25 @@ class GraphView extends Component {
           ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
           ctx.strokeStyle = color;
           ctx.stroke();
+
+          const averagePosX = (vertex.pos.x + edge.destination.pos.x) / 2;
+          const averagePosY = (vertex.pos.y + edge.destination.pos.y) / 2;
+
+          const weightWidth = vertexRadius * 1.2;
+          const weightHeight = vertexRadius * 1.2;
+          ctx.fillStyle = backgroundColor;
+          ctx.fillRect(
+            averagePosX - weightWidth / 2,
+            averagePosY - weightHeight / 2,
+            weightWidth,
+            weightHeight,
+          );
+
+          ctx.fillStyle = 'black';
+          ctx.font = `${vertexRadius}px ${font}`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(edge.weight, averagePosX, averagePosY);
         }
       }
 
@@ -102,7 +122,7 @@ class GraphView extends Component {
         ctx.fillStyle = color;
         ctx.fill();
 
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = backgroundColor;
         ctx.font = `${vertexRadius}px ${font}`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
