@@ -8,7 +8,7 @@ const height = 5;
 const jitter = 150;
 const vertexRadius = 12;
 const font = 'Courier';
-const prob = 0.85;
+const prob = 0.45;
 const backgroundColor = 'white';
 const fontColor = 'white';
 

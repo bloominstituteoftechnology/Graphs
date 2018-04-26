@@ -145,6 +145,34 @@ export class Graph {
   }
 
   /**
+   * DFS
+   */
+  dfs(start) {
+    const q = [];
+    const v = [];
+
+    q.push(start);
+    v.push(start);
+
+    while (q.length > 0) {
+      const vertex = q[q.length - 1];
+
+      q.pop();
+
+      for (let edge of vertex.edges) {
+        const edgeV = edge.destination;
+
+        if (!v.includes(edgeV)) {
+          q.push(edgeV);
+          v.push(edgeV);
+        }
+      }
+    }
+
+    return v;
+  }
+
+  /**
    * Get the connected components
    */
   getConnectedComponents() {
@@ -153,7 +181,8 @@ export class Graph {
 
     for (let vertex of this.vertexes) {
       if (!visitedV.find(v => v === vertex)) {
-        const cluster = this.bfs(vertex);
+        const cluster =
+          +vertex.value % 2 === 0 ? this.bfs(vertex) : this.dfs(vertex);
 
         visitedV.push(...cluster);
         connectedComps.push(cluster);
