@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,13 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = "vertex", pos = {x: 50, y:50}) {
+    this.value = value;
+    this.edges = [];
+    this.pos = pos // draw position
+    this.visited = false;
+    this.color = "white";
+  }
 }
 
 /**
@@ -18,6 +29,16 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  debugCreateTestData() {
+    let testVertex1 = new Vertex('t1', {x:100, y:100});
+    let testVertex2 = new Vertex('t2', {x:200, y:200});
+
+    let testEdge1 = new Edge(testVertex2);
+    testVertex1.edges.push(testEdge1);
+
+    this.vertexes.push(testVertex1, testVertex2);
   }
 
   /**
@@ -111,6 +132,35 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [];
+
+    function getRndColor() {
+      var r = 255*Math.random()|0,
+          g = 255*Math.random()|0,
+          b = 255*Math.random()|0;
+      return 'rgb(' + r + ',' + g + ',' + b + ')';
+    }
+
+    let color = getRndColor();
+    queue.push(start);
+    start.visited = true;
+
+    while(queue.length > 0) {
+      let vertex = queue[0];
+      console.log(start);
+      vertex.color = color;
+  
+      for (let edge of vertex.edges) {
+        if(!edge.destination.visited) {
+          queue.push(edge.destination);
+          edge.destination.visited = true;
+        }
+  
+      }
+      queue.shift();
+
+    }
+
   }
 
   /**
@@ -118,5 +168,11 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+
+    for (let vert of this.vertexes) {
+      if (!vert.visited) {
+        this.bfs(vert);
+      }
+    }
   }
 }
