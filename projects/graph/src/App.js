@@ -3,8 +3,12 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 900;
-const canvasHeight = 900;
+const xNum = 4;
+const yNum = 4;
+const boxSize = 200;
+const probability = 0.6;
+const canvasWidth = xNum * boxSize;
+const canvasHeight = yNum * boxSize;
 
 /**
  * GraphView
@@ -36,6 +40,16 @@ class GraphView extends Component {
 
     const radius = 10;
     const vertexes = this.props.graph.vertexes;
+    
+    for (let v of vertexes) {
+      for (let edge of v.edges) {
+        ctx.beginPath();
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.fillStyle = v.color;
+        ctx.stroke();
+      }
+    }
 
     for (let v of vertexes) {
       ctx.beginPath();
@@ -44,20 +58,11 @@ class GraphView extends Component {
       ctx.fill();
       ctx.stroke();
 
-      ctx.font = '12px Arial';
-      ctx.fillStyle = 'black';
+      ctx.font = '11px Arial';
+      ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
-      ctx.fillText(v.value, v.pos.x + 10, v.pos.y - 10);
+      ctx.fillText(v.value, v.pos.x, v.pos.y + 4);
 
-      for (let v of vertexes) {
-        for (let edge of v.edges) {
-          ctx.beginPath();
-          ctx.moveTo(v.pos.x, v.pos.y);
-          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-          ctx.fillStyle = v.color;
-          ctx.stroke();
-        }
-      }
     }
     
     // Clear it
@@ -131,7 +136,7 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
 
-    this.state.graph.randomize(3, 3, 300, 0.6);
+    this.state.graph.randomize(xNum, yNum, boxSize, probability);
     this.state.graph.getConnectedComponents();
     // this.state.graph.dump();
   }
@@ -140,7 +145,7 @@ class App extends Component {
         graph: new Graph()
       };
 
-      state.graph.randomize(3, 3, 300, 0.6);
+      state.graph.randomize(xNum, yNum, boxSize, probability);
       state.graph.getConnectedComponents();
 
       this.setState(state);
