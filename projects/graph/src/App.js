@@ -5,8 +5,9 @@ import './App.css';
 // !!! IMPLEMENT ME
 // const canvasWidth = 
 // const canvasHeight = 
-const canvasWidth = window.innerHeight;
-const canvasHeight = window.innerWidth;
+const canvasWidth = 750;
+const canvasHeight = 800;
+const vertexRadius = 20
 /**
  * GraphView
  */
