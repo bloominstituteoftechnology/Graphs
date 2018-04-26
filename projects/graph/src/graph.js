@@ -45,6 +45,9 @@ export class Graph {
    * Create a random graph
    */
   randomize(width, height, pxBox, probability=0.6) {
+    // reset for new graph button
+    this.vertexes = [];
+
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -145,15 +148,16 @@ export class Graph {
     queue.push(start);
     start.visited = true;
 
+    
     while(queue.length > 0) {
       let vertex = queue[0];
-      console.log(start);
+      // console.log(start);
       vertex.color = color;
-  
+      
       for (let edge of vertex.edges) {
         if(!edge.destination.visited) {
           queue.push(edge.destination);
-          edge.destination.visited = true;
+          edge.destination.visited = true;            
         }
   
       }

@@ -50,21 +50,19 @@ class GraphView extends Component {
 
 
     for(let vertex in vertexes) {
-      
+
       ctx.beginPath();
       ctx.arc(vertexes[vertex].pos.x, vertexes[vertex].pos.y, radius, 0, 2*Math.PI);
       ctx.fillStyle = vertexes[vertex].color;
       ctx.fill();
       ctx.stroke();
-
+      
+      
       ctx.font = "30 px Arial";
       ctx.fillStyle = "black";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(vertexes[vertex].value, vertexes[vertex].pos.x, vertexes[vertex].pos.y);
-
-
-
     }
 
     // ctx.font = "30px Arial";
@@ -84,7 +82,11 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+  return (
+    <div>
+      <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+    </div>
+  );
   }
 }
 
@@ -104,13 +106,21 @@ class App extends Component {
     // use the graph randomize() method
     this.state.graph.randomize(5,4,150,0.6);
     this.state.graph.getConnectedComponents();
+  }
+  
 
+  newGraph = () => {
+    this.state.graph.randomize(5,4,150,0.6);
+    this.state.graph.getConnectedComponents();
+    this.setState(this);
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <br />
+        <button onClick={this.newGraph}>New Graph</button>
       </div>
     );
   }
