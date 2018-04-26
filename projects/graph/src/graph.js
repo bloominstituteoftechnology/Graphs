@@ -109,7 +109,9 @@ export class Graph {
   }
 
   getRandomColor() {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    return "hsl(" + 360 * Math.random() + ',' +
+    (40 + 40 * Math.random()) + '%,' + 
+    (40 + 20 * Math.random()) + '%)';
   }
 
   /**
@@ -149,9 +151,10 @@ export class Graph {
         if (!edge.destination.visited) {
           queue.push(edge.destination);
           edge.destination.visited = true;
+          edge.destination.color = color;
         }
       }
-      
+
       queue.shift(); 
     }
 

@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
-const canvasHeight = 800;
+const canvasWidth = 900;
+const canvasHeight = 900;
 
 /**
  * GraphView
@@ -31,47 +31,33 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    ctx.fillStyle = 'cyan';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     const radius = 10;
     const vertexes = this.props.graph.vertexes;
-    // ctx.beginPath();
-    // ctx.arc(vertexes[0].pos.x, vertexes[0].pos.y, radius, 0, 2*Math.PI);
-    // ctx.fillStyle = 'white';
-    // ctx.fill();
-    // ctx.stroke();
 
-    // ctx.font = '12px Arial';
-    // ctx.fillStyle = 'black';
-    // ctx.fillText(vertexes[0].value, vertexes[0].pos.x, vertexes[0].pos.y);
-
-    for (let i = 0; i < vertexes.length; i++) {
+    for (let v of vertexes) {
       ctx.beginPath();
-      ctx.arc(vertexes[i].pos.x, vertexes[i].pos.y, radius, 0, 2*Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.arc(v.pos.x, v.pos.y, radius, 0, 2*Math.PI);
+      ctx.fillStyle = v.color;
       ctx.fill();
       ctx.stroke();
 
       ctx.font = '12px Arial';
       ctx.fillStyle = 'black';
-      ctx.fillText(vertexes[i].value, vertexes[i].pos.x, vertexes[i].pos.y - radius);
+      ctx.textAlign = 'center';
+      ctx.fillText(v.value, v.pos.x + 10, v.pos.y - 10);
 
-      console.log("EDGES", vertexes[i].edges);
-      for (let j = 0; j < vertexes[i].edges.length; j++) {
-        ctx.beginPath();
-        ctx.moveTo(vertexes[i].pos.x, vertexes[i].pos.y);
-        ctx.lineTo(vertexes[i].edges[j].destination.pos.x, vertexes[i].edges[j].destination.pos.y);
-        ctx.fillStyle = 'black';
-        ctx.stroke();
+      for (let v of vertexes) {
+        for (let edge of v.edges) {
+          ctx.beginPath();
+          ctx.moveTo(v.pos.x, v.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+          ctx.fillStyle = v.color;
+          ctx.stroke();
+        }
       }
-      // if (vertexes[i + 1]) {
-      //   ctx.beginPath();
-      //   ctx.moveTo(vertexes[i].pos.x + radius, vertexes[i].pos.y)
-      //   ctx.lineTo(vertexes[i + 1].pos.x, vertexes[i + 1].pos.y);
-      //   ctx.fillStyle = 'black';
-      //   ctx.stroke();
-      // }
     }
     
     // Clear it
@@ -124,7 +110,7 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
   }
 }
 
@@ -135,6 +121,7 @@ class GraphView extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
+    this.buttonHandler = this.buttonHandler.bind(this);
 
     this.state = {
       graph: new Graph()
@@ -144,15 +131,26 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
 
-    this.state.graph.randomize(5, 4, 200, 0.6);
+    this.state.graph.randomize(3, 3, 300, 0.6);
     this.state.graph.getConnectedComponents();
-    this.state.graph.dump();
+    // this.state.graph.dump();
   }
+    buttonHandler() {
+      const state = {
+        graph: new Graph()
+      };
 
+      state.graph.randomize(3, 3, 300, 0.6);
+      state.graph.getConnectedComponents();
+
+      this.setState(state);
+    }
+  
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick = {this.buttonHandler}>Randomize</button>
       </div>
     );
   }
