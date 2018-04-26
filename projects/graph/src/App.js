@@ -106,7 +106,7 @@ class App extends Component {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
-        <button onClick={this.onHandleClick}>Generate New Graph</button>
+        <p><button onClick={this.onHandleClick}>Generate New Graph</button></p>
       </div>
     );
   }
