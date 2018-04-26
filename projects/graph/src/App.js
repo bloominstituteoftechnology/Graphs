@@ -3,12 +3,12 @@ import { Graph } from './graph';
 import ReloadButton from './components/reload';
 import './App.css';
 
-const width = 7;
-const height = 3;
+const width = 8;
+const height = 5;
 const jitter = 150;
-const vertexRadius = 14;
+const vertexRadius = 12;
 const font = 'Courier';
-const prob = 0.55;
+const prob = 0.75;
 const backgroundColor = 'white';
 const fontColor = 'white';
 
@@ -50,8 +50,8 @@ const getRandomColor = _ => {
  */
 class GraphView extends Component {
   state = {
-    vA: null,
-    vB: null,
+    vS: null,
+    vT: null,
   };
 
   /**
@@ -65,25 +65,27 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
-    if (this.props.graph.vertexes.length === 0)
+    if (this.props.graph.vertexes.length === 0) {
       this.props.graph.randomize(width, height, jitter, prob);
-
-    if (this.state.vB !== null && this.state.vB !== null)
+      this.updateCanvas();
+    } else if (this.state.vT !== null && this.state.vT !== null)
       this.findShortestPath();
-
-    this.updateCanvas();
+    // else this.updateCanvas();
   }
 
   /**
    * Render the canvas
    */
-  updateCanvas() {
+  updateCanvas(highlightCluster = []) {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
     // Clear it
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    const highlightColor =
+      '#f2c977'; /* http://www.colourlovers.com/color/F2C977/Honey_Mustard */
 
     const connectedComponents = this.props.graph.getConnectedComponents();
 
@@ -96,7 +98,11 @@ class GraphView extends Component {
           ctx.beginPath();
           ctx.moveTo(vertex.pos.x, vertex.pos.y);
           ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-          ctx.strokeStyle = color;
+          ctx.strokeStyle =
+            highlightCluster.includes(edge.destination) &&
+            highlightCluster.includes(vertex)
+              ? highlightColor
+              : color;
           ctx.stroke();
 
           const averagePosX = (vertex.pos.x + edge.destination.pos.x) / 2;
@@ -126,9 +132,13 @@ class GraphView extends Component {
 
         ctx.beginPath();
         ctx.arc(posX, posY, vertexRadius, 0, 2 * Math.PI);
-        ctx.strokeStyle = color;
+        ctx.strokeStyle = highlightCluster.includes(vertex)
+          ? highlightColor
+          : color;
         ctx.stroke();
-        ctx.fillStyle = color;
+        ctx.fillStyle = highlightCluster.includes(vertex)
+          ? highlightColor
+          : color;
         ctx.fill();
 
         ctx.fillStyle = fontColor;
@@ -154,14 +164,14 @@ class GraphView extends Component {
       const sqRad = vertexRadius ** 2;
 
       if (sqDist <= sqRad) {
-        if (this.state.vA === null) {
-          this.setState({ vA: vertex });
-        } else if (this.state.vB === null) {
-          this.setState({ vB: vertex });
+        if (this.state.vS === null) {
+          this.setState({ vS: vertex });
+        } else if (this.state.vT === null) {
+          this.setState({ vT: vertex });
         } else {
           /* for unexpected errors */
           console.error(
-            'vA and vB not null (check GraphView state reset func)',
+            'vS and vT not null (check GraphView state reset func)',
           );
         }
       }
@@ -169,11 +179,98 @@ class GraphView extends Component {
   };
 
   findShortestPath = _ => {
-    console.log('dij lago');
-    console.log(`vA: ${this.state.vA.value} - vB: ${this.state.vB.value}`);
+    /* check if v_target is in same connected component as v_source */
+    const cluster = this.props.graph
+      .getConnectedComponents()
+      .find(cl => cl.includes(this.state.vS));
 
-    /* reset after finding shortest path*/
-    this.setState({ vA: null, vB: null });
+    if (cluster.find(v => v === this.state.vT) === undefined) {
+      // convert to React comp
+      window.alert(
+        `target vertex (${this.state.vT.value}) not found in source vertex (${
+          this.state.vS.value
+        }) cluster`,
+      );
+    } else if (this.state.vS === this.state.vT) {
+      window.alert(
+        `target and source vertex are the same (${this.state.vT.value})`,
+      );
+    } else {
+      const shortestPath = this.dijkstra(cluster);
+      this.updateCanvas(shortestPath);
+    }
+
+    /* reset after finding shortest path */
+    this.setState({ vS: null, vT: null });
+  };
+
+  dijkstra = graph => {
+    /* got a lot of help from https://medium.com/basecs/finding-the-shortest-path-with-a-little-help-from-dijkstra-613149fbdc8e */
+
+    const q = [];
+    let qVisited = 0;
+
+    for (let v of graph) {
+      const d = {
+        vertex: v,
+        shortestDist: v === this.state.vS ? 0 : 1000000 /* 1 million */,
+        previousVertex: null,
+        visited: false,
+      };
+
+      q.push(d);
+    }
+
+    while (qVisited < q.length) {
+      let currentV;
+
+      /* find vertex with smallest known cost/distance */
+      for (let v of q) {
+        if (!currentV && v.visited === false) currentV = v;
+        else if (currentV) {
+          if (v.shortestDist < currentV.shortestDist && v.visited === false) {
+            currentV = v;
+          }
+        }
+      }
+
+      currentV.visited = true;
+
+      /* calc edge weights of current vertex edges that are unvisited */
+      for (let edge of currentV.vertex.edges) {
+        const edgeDestination = edge.destination;
+        const edgeWeight = edge.weight;
+
+        const qTblVert = q.find(el => el.vertex === edgeDestination);
+
+        /* check if current vertex + edge weight is smaller than current shortest dist in q
+           only if neighbor is not visited
+         */
+        if (
+          currentV.shortestDist + edgeWeight < qTblVert.shortestDist &&
+          qTblVert.visited === false
+        ) {
+          qTblVert.shortestDist = currentV.shortestDist + edgeWeight;
+          qTblVert.previousVertex = currentV.vertex;
+        }
+      }
+
+      qVisited++;
+    }
+
+    const shortestPath = [];
+    let vertexToPush = this.state.vT;
+
+    while (1) {
+      shortestPath.unshift(vertexToPush);
+
+      // eslint-disable-next-line
+      const qTblRow = q.find(r => r.vertex === vertexToPush);
+      if (qTblRow.previousVertex === null) break;
+      vertexToPush = qTblRow.previousVertex;
+    }
+
+    return shortestPath;
   };
 
   /**
