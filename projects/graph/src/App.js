@@ -3,14 +3,15 @@ import { Graph } from './graph';
 import ReloadButton from './components/reload';
 import './App.css';
 
-const width = 8;
+const width = 12;
 const height = 5;
 const jitter = 150;
 const vertexRadius = 12;
 const font = 'Courier';
-const prob = 0.45;
+const prob = 0.4;
 const backgroundColor = 'white';
 const fontColor = 'white';
+// const delay = 0;
 
 const canvasWidth = width * jitter;
 const canvasHeight = height * jitter;
@@ -53,7 +54,7 @@ class GraphView extends Component {
   componentDidMount() {
     this.updateCanvas();
     window.alert(
-      'You cannot find shortest route when scrolling. Try zooming out when clicking on nodes (then zoom back in).',
+      'It may be difficult to click on nodes when scrolling. Try zooming out when clicking on nodes (then zoom back in).',
     );
   }
 
@@ -86,6 +87,7 @@ class GraphView extends Component {
     const connectedComponents = this.props.graph.getConnectedComponents();
 
     for (let i = 0; i < connectedComponents.length; i++) {
+      // setTimeout(_ => {
       const cluster = connectedComponents[i];
       const color = colors[i] || getRandomColor();
 
@@ -143,6 +145,7 @@ class GraphView extends Component {
         ctx.textBaseline = 'middle';
         ctx.fillText(vertex.value, posX, posY);
       }
+      // }, delay * (i + 1));
     }
   }
 
