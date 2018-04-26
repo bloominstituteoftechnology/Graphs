@@ -8,7 +8,7 @@ const height = 5;
 const jitter = 150;
 const vertexRadius = 12;
 const font = 'Courier';
-const prob = 0.75;
+const prob = 0.85;
 const backgroundColor = 'white';
 const fontColor = 'white';
 
@@ -35,14 +35,7 @@ const colors = {
 };
 
 const getRandomColor = _ => {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-
-  return color;
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
 };
 
 /**
@@ -59,6 +52,9 @@ class GraphView extends Component {
    */
   componentDidMount() {
     this.updateCanvas();
+    window.alert(
+      'You cannot find shortest route when scrolling. Try zooming out when clicking on nodes (then zoom back in).',
+    );
   }
 
   /**
@@ -68,9 +64,9 @@ class GraphView extends Component {
     if (this.props.graph.vertexes.length === 0) {
       this.props.graph.randomize(width, height, jitter, prob);
       this.updateCanvas();
-    } else if (this.state.vT !== null && this.state.vT !== null)
+    } else if (this.state.vS !== null && this.state.vT !== null)
       this.findShortestPath();
-    // else this.updateCanvas();
+    else if (this.state.vS !== null) this.updateCanvas([this.state.vS]);
   }
 
   /**
@@ -191,10 +187,12 @@ class GraphView extends Component {
           this.state.vS.value
         }) cluster`,
       );
+      this.updateCanvas();
     } else if (this.state.vS === this.state.vT) {
       window.alert(
         `target and source vertex are the same (${this.state.vT.value})`,
       );
+      this.updateCanvas();
     } else {
       const shortestPath = this.dijkstra(cluster);
       this.updateCanvas(shortestPath);
