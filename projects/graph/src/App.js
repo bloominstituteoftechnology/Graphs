@@ -6,6 +6,16 @@ import './App.css';
 const canvasWidth = 750;
 const canvasHeight = 600;
 
+// Get a random color
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 /**
  * GraphView
  */
@@ -33,36 +43,49 @@ class GraphView extends Component {
     
     
     // Clear it
-    ctx.fillStyle = 'lightblue';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
     const vertexes = this.props.graph.vertexes;
     const radius = 15;
     
     // draw all the edges first
-    for (let vertex of vertexes) {
-      for (let edge of vertex.edges) {
+    // loop over components and set a random color for each component
+    for (let component of this.props.connectedComponents) {
+      const color = getRandomColor();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 4;
+      // loop through each vertex in the component
+      for (let i = 0; i < component.length; i++) {
+        const vertex = vertexes[component[i]];
+        // draw its edges in the selected color
+        for (let edge of vertex.edges) {
+          ctx.beginPath();
+          ctx.moveTo(vertex.pos.x, vertex.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+          ctx.stroke();
+        }
+      }
+      // draw all the vertexes second to hide edge overlap on vertexes
+      // ctx.strokeStyle = 'black';
+      ctx.lineWidth = 3;
+      // for (let vertex of vertexes) {
+      for (let i = 0; i < component.length; i++) {
+        const vertex = vertexes[component[i]];
         ctx.beginPath();
-        ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = 'white';
+        ctx.fill();
         ctx.stroke();
+        
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'black';
+        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       }
     }
     
-    // draw all the vertexes second to hide edge overlap on vertexes
-    for (let vertex of vertexes) {
-      ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
-      ctx.fill();
-      ctx.stroke();
-      
-      ctx.font = '12px Arial';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = 'black';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-    }
     
     
     /* MICKEY MOUSE!
@@ -217,21 +240,22 @@ class App extends Component {
     super(props);
 
     this.state = {
-      graph: new Graph()
+      graph: new Graph(),
+      connectedComponents: [],
     };
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
-    let connectedComponents = this.state.graph.getConnectedComponents();
-    console.log(`Returned ${connectedComponents.length} connected components.`);
-    console.log(connectedComponents);
+    this.state.connectedComponents = this.state.graph.getConnectedComponents();
+    // console.log(`Returned ${this.state.connectedComponents.length} connected components.`);
+    // console.log(this.state.connectedComponents);
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} connectedComponents={this.state.connectedComponents}></GraphView>
       </div>
     );
   }
