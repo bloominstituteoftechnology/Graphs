@@ -38,6 +38,8 @@ class GraphView extends Component {
     const vertexes = this.props.graph.vertexes;
     const radius = 10;
 
+    let labels = [];
+
     for(let vertex in vertexes) {
       for(let edge of vertexes[vertex].edges) {
         ctx.beginPath();
@@ -45,6 +47,19 @@ class GraphView extends Component {
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.strokeStyle = vertexes[vertex].color;
         ctx.stroke();
+
+        let xaxis = (vertexes[vertex].pos.x + edge.destination.pos.x)/2;
+        let yaxis = (vertexes[vertex].pos.y + edge.destination.pos.y)/2;
+
+        // ctx.font = "50 px Arial";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "end";
+        let randomNum = Math.floor(Math.random() * 10)
+
+        if (!labels.includes(xaxis+yaxis)) {
+          ctx.fillText(randomNum, xaxis, yaxis);
+          labels.push(xaxis + yaxis);
+        }
       }
     }
 
@@ -77,6 +92,24 @@ class GraphView extends Component {
     // ctx.stroke();
 
   }
+
+  vert = (event) => {
+    // let xaxis = event.screenX;
+    // console.log(xaxis);
+    // let yaxis = event.screenY;
+    // console.log(yaxis);
+    // this.props.graph.vertexes.forEach(vert => {
+    //   let posx = vert.pos.x;
+    //   console.log(posx);
+    //   let posy = vert.pos.y;
+    //   if (xaxis >= (posx - 10) && xaxis <= (posx + 10)) {
+    //     if (yaxis >= (posy - 10) && yaxis <= (posy + 10)) {
+    //       console.log(vert);
+    //     }
+    //   }
+      
+    // });
+  }
   
   /**
    * Render
@@ -84,7 +117,7 @@ class GraphView extends Component {
   render() {
   return (
     <div>
-      <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+      <canvas ref="canvas" width={canvasWidth} height={canvasHeight} onClick={this.vert}></canvas>
     </div>
   );
   }
