@@ -55,12 +55,12 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.strokeStyle="black";
       ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2*Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = vertex.color;
       ctx.fill();
       ctx.stroke();
 
       ctx.font = "10px Arial";
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = 'white';
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(vertex.value, vertex.pos.x ,vertex.pos.y);

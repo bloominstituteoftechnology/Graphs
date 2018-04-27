@@ -18,6 +18,8 @@ export class Vertex {
     this.value = value;
     this.edges = [];
     this.pos = pos;
+    this.visited = false;
+    this.color = 'white';
   }
 }
 
@@ -27,8 +29,6 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
-    this.visited = [];
-    this.queue = [];
   }
 
   debugCreateTestData() {
@@ -134,30 +134,31 @@ export class Graph {
     }
   }
 
+  getRandomColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  }
+
   /**
    * BFS
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    // console.log("inside bfs start: ", start);
-    // console.log("queue: ", this.queue);
-    // console.log("visited: ", this.visited);
-    this.queue.push(start);
-    this.visited.push(start);
-    // console.log("after push queue: ", this.queue);
-    // console.log("after push visited: ", this.visited);
-    for (let edge of start.edges) {
-      // console.log("in for loop edge: ", edge)
-      const destVisited = this.visited.find((element) => element.value === edge.destination.value);
-      if (!destVisited) {
-        this.queue.push(edge.destination);
-        this.visited.push(edge.destination);
-        // console.log("in for loop push queue: ", this.queue);
-        // console.log("in for loop push visited: ", this.visited);
+    let color = this.getRandomColor();
+    let queue = [];
+    queue.push(start);
+    start.visited = true;
+
+    while (queue.length > 0) {
+      const vertex = queue[0];
+      vertex.color = color;
+      for (let edge of vertex.edges) {
+        if (!edge.destination.visited) {
+          queue.push(edge.destination);
+          edge.destination.visited = true;
+        }
       }
+      queue.shift();
     }
-    this.queue.shift();
-    if (this.queue.length !== 0) this.bfs(this.queue[0]);
   }
 
   /**
@@ -166,14 +167,7 @@ export class Graph {
   getConnectedComponents() {
     // !!! IMPLEMENT ME
     for (let vertex of this.vertexes) {
-      console.log("inside loop in getConnectedComponents")
-      console.log("vertex: ", vertex)
-      const foundVertex = this.visited.find((element) => {
-        // console.log("element: ", element);
-        return element.value === vertex.value;
-      });
-      // console.log("vertex in visited: ", foundVertex);
-      if (!foundVertex) this.bfs(vertex);
+      if (!vertex.visited) this.bfs(vertex);
     }
   }
 }
