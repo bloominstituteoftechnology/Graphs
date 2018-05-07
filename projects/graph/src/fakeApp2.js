@@ -51,11 +51,14 @@ function makeTri(x, y, distance, ctx) {
   this.point1 = point1;
   this.point2 = point2;
   this.point3 = point3;
+}
+
+function drawTri(obj, ctx) {
   ctx.strokeStyle = 'black';
-  ctx.moveTo(point1.x, point1.y);
-  ctx.lineTo(point2.x, point2.y);
-  ctx.lineTo(point3.x, point3.y);
-  ctx.lineTo(point1.x, point1.y);
+  ctx.moveTo(obj.point1.x, obj.point1.y);
+  ctx.lineTo(obj.point2.x, obj.point2.y);
+  ctx.lineTo(obj.point3.x, obj.point3.y);
+  ctx.lineTo(obj.point1.x, obj.point1.y);
   // var grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
   // // light blue
   // grd.addColorStop(0, `rgba(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)},.75)`);   
@@ -63,6 +66,22 @@ function makeTri(x, y, distance, ctx) {
   // grd.addColorStop(1, `rgba(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)},.75)`);
   // ctx.fillStyle = grd;
   // ctx.fill();
+  ctx.stroke();
+}
+
+function drawBall(ball, ctx) {
+  ctx.strokeStyle = 'black';    
+  ctx.beginPath();    
+  // for (let i = 0; i < 360;) {
+  // ctx.moveTo(canvasWidth/2, canvasHeight/2);      
+  ctx.arc(ball.x, ball.y, ball.size, 0, 2*Math.PI);
+  var grd = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
+  grd.addColorStop(0, `rgba(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)},.75)`);   
+  grd.addColorStop(1, `rgba(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)},.75)`);
+  ctx.fillStyle = grd;
+  ctx.fill();
+    // i += 360/60
+  // }
   ctx.stroke();
 }
 
