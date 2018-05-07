@@ -30,9 +30,10 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    let radius = 50;
 
     // Clear it
-    ctx.fillStyle = 'purple';
+    ctx.fillStyle = 'green';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -40,15 +41,26 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
-    ctx.fillStyle = 'pink';
-    ctx.fillRect(0, 0, 500, 20);
+    ctx.fillStyle = '#3BB9FF';
+    ctx.fillRect(0, 0, 500, 200);
 
-    const grd = ctx.createLinearGradient(0, 0, 170, 0)
-    grd.addColorStop(0, "black");
-    grd.addColorStop(1, "white");
+    // const grd = ctx.createLinearGradient(0, 0, 500, 0)
+    // grd.addColorStop(0, "purple");
+    // grd.addColorStop(1, "pink");
 
-    ctx.fillStyle = grd;
-    ctx.fillRect(20, 20, 150, 100);
+    ctx.fillStyle = 'yellow';
+    ctx.arc(800 / 2, 150 / 2, radius, 0, 2 * Math.PI, false); 
+    ctx.fill();
+
+
+    ctx.fillStyle = 'ivory';
+    ctx.fillRect(80, 150, 200, 200);
+    
+    ctx.fillStyle = 'brown';
+    ctx.fillRect(100, 170, 50, 50);
+    
+    ctx.fillStyle = 'brown';
+    ctx.fillRect(210, 170, 50, 50);
   }
 
   /**
