@@ -47,6 +47,8 @@ class GraphView extends Component {
     // }
     // -------------------------------------------
 
+
+    // ------------ Space thing ---------------------------------------------
     ctx.beginPath();
     for(let x = 0; x < canvasWidth; x++) {
       for(let y = 0; y < canvasHeight; y++) {
@@ -60,7 +62,7 @@ class GraphView extends Component {
     }
 
     ctx.globalAlpha = 0.01;
-    ctx.lineWidth=0.5;
+    ctx.lineWidth=1;
     // for(let i = 0; i < 50; i++) {
     //   // ctx.beginPath();
     //   // ctx.fillStyle = 'black';
@@ -70,15 +72,16 @@ class GraphView extends Component {
     //   ctx.stroke();
     //   ctx.closePath();
     // }
-    ctx.beginPath();
-    for(let i = 0; i < 50; i++) {
-      // ctx.fillStyle = 'black';
-      ctx.strokeStyle = 'rgb(200, 50, 100)';
-      ctx.arc((i*i)/2, i*10, Math.sqrt(i), 0, Math.PI * 2);
-      // ctx.fill();
-      ctx.stroke();
-      ctx.closePath();
-    }
+    // ctx.beginPath();
+    // for(let i = 0; i < 50; i++) {
+    //   // ctx.fillStyle = 'black';
+    //   ctx.strokeStyle = 'rgb(200, 50, 100)';
+    //   ctx.arc((i*i)/2, i*10, Math.sqrt(i), 0, Math.PI * 2);
+    //   // ctx.fill();
+    //   ctx.stroke();
+    //   ctx.closePath();
+    // }
+
     ctx.beginPath();
     for(let i = 0; i < 50; i++) {
       // ctx.fillStyle = 'black';
@@ -88,14 +91,22 @@ class GraphView extends Component {
       ctx.stroke();
       ctx.closePath();
     }
-
+    ctx.globalAlpha = 1;
+    ctx.lineWidth=0.5;
     ctx.beginPath();
-    ctx.fillStyle = 'white';
-    ctx.strokeStyle = 'black';
-    ctx.arc(canvasWidth/2, canvasHeight/2, 10, 0, Math.PI * 2);
+    // ctx.fillStyle = 'white';
+    ctx.strokeStyle = 'white';
+    const radgrad = ctx.createRadialGradient(canvasWidth/2, canvasHeight/2, 100, canvasWidth/2, canvasWidth/2, 1);
+    radgrad.addColorStop(0, 'rgba(0,0,0,0)');
+    radgrad.addColorStop(1, '#70002C');
+    // radgrad.addColorStop(1, 'white');
+    ctx.fillStyle = radgrad;
+    ctx.arc(canvasWidth/2, canvasHeight/2, 70, 0, Math.PI * 2);
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
+
+    // -------------------------------------------------------
 
     // !!! IMPLEMENT ME
     // compute connected components
