@@ -49,8 +49,8 @@ class GraphView extends Component {
 				n++;
 			}
 		}
-		drawLines(-7, 3, 0, 0, "lemonchiffon");
-		drawLines(3, 7, 0, 0, "lemonchiffon");
+		drawLines(-7, 3, -100, -100, "lemonchiffon");
+		drawLines(3, 7, -120, -100, "lemonchiffon");
 		// sun	
 		ctx.beginPath();
 		ctx.moveTo(0,0);
