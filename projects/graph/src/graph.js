@@ -2,14 +2,21 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight = null) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value = "vertex", pos = { x: 50, y: 50 }) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -23,7 +30,7 @@ export class Graph {
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -39,7 +46,7 @@ export class Graph {
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
         //v.value = 'v' + x + ',' + y;
-        v.value = 'v' + count++;
+        v.value = "v" + count++;
         row.push(v);
       }
       grid.push(row);
@@ -51,14 +58,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -72,8 +79,8 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
-          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          x: (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          y: (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
       }
     }
@@ -94,9 +101,9 @@ export class Graph {
 
     for (let v of this.vertexes) {
       if (v.pos) {
-        s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
+        s = v.value + " (" + v.pos.x + "," + v.pos.y + "):";
       } else {
-        s = v.value + ':';
+        s = v.value + ":";
       }
 
       for (let e of v.edges) {
@@ -111,12 +118,28 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-  }
+    const queue = [start];
 
+    let visited = [];
+    let curr;
+
+    while (queue.length > 0) {
+      curr = queue.shift();
+      visited[curr] = true;
+      if (this.vertexes[curr].edges) {
+        for (let i = 0; i < this.vertexes[curr].edges.length; i++) {
+          const destination = parseInt(
+            this.vertexes[curr].edges[i].destination.value.slice(1)
+          );
+          if (!visited[destination]) {
+            queue.push(destination);
+          }
+        }
+      }
+    }
+  }
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
-  }
+  getConnectedComponents() {}
 }
