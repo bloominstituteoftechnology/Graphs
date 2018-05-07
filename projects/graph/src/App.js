@@ -61,6 +61,9 @@ class GraphView extends Component {
     
     ctx.fillStyle = 'brown';
     ctx.fillRect(210, 170, 50, 50);
+
+    ctx.fillStyle = 'gray';
+    ctx.fillRect(153, 250, 50, 100);
   }
 
   /**
