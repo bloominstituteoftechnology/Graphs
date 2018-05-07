@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 800;
+const canvasHeight = 800;
 
 /**
  * GraphView
@@ -32,7 +32,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'lightblue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -40,6 +40,47 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+
+    ctx.beginPath();
+    ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(700, 50, 40, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(700, 400, 40, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(95, 400, 40, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(135, 50);
+    ctx.lineTo(660, 50);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(95, 90);
+    ctx.lineTo(95, 360);
+    ctx.stroke();    
+
+    ctx.beginPath();
+    ctx.moveTo(95, 90);
+    ctx.lineTo(95, 360);
+    ctx.stroke();  
+
+    ctx.beginPath();
+    ctx.moveTo(135, 400);
+    ctx.lineTo(660, 400);
+    ctx.stroke();  
+
+    ctx.beginPath();
+    ctx.moveTo(700, 360);
+    ctx.lineTo(700, 90);
+    ctx.stroke();  
   }
   
   /**
