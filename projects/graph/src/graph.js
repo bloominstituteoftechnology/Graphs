@@ -1,35 +1,49 @@
+const { Queue } = require('./queue-helper');
 /**
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight=1) {
+    this.destination = destination;
+    this.weight = weight;
+    }
 }
 
 /**
- * Vertex
- */
+* Vertex
+*/
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value='vertex', pos = { x: -1, y: -1}) {
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+    this.groupID = -1;
+    this.parentVertex = null;
+    this.adjacentList.set(this.value, this.edges);
+    }
 }
 
 /**
- * Graph
- */
+* Graph
+*/
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.adjacentList = new Map();
   }
+}
 
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  export const { g }  = new Graph();
+  export function randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
     }
-
+  
     let count = 0;
 
     // Build a grid of verts
@@ -63,7 +77,6 @@ export class Graph {
         }
       }
     }
-
     // Last pass, set the x and y coordinates for drawing
     const boxBuffer = 0.8;
     const boxInner = pxBox * boxBuffer;
@@ -74,7 +87,7 @@ export class Graph {
         grid[y][x].pos = {
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
-        };
+        }
       }
     }
 
@@ -89,7 +102,7 @@ export class Graph {
   /**
    * Dump graph data to the console
    */
-  dump() {
+ export  function dump() {
     let s;
 
     for (let v of this.vertexes) {
@@ -109,14 +122,73 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME
+  // function to performs BFS
+  //we will call on queue helper file as per datastructuresI for enqueue, dequeue
+ export function bfs(startingNode) {
+ 
+    // create a visited array
+    let visited = [];
+    for (let i = 0; i < this.vertexes; i++)
+        visited[i] = false;
+        
+    // Create an object for queue
+    const q = new Queue();
+    startingNode.color = 'gray';
+    // add the starting node to the queue
+    visited[startingNode] = true;
+    q.enqueue(startingNode);
+ 
+    // loop until queue is element
+    while (!q.isEmpty()) {
+        // get the element from the queue
+        const getQueueElement = q.dequeue();
+ 
+        // passing the current vertex to callback funtion
+        console.log(getQueueElement);
+ 
+        // get the adjacent list for current vertex
+        const get_List = this.adjacentList.get(getQueueElement);
+ 
+        // loop through the list and add the elemnet to the
+        // queue if it is not processed yet
+        for (let i in get_List) {
+          const neighbor = get_List[i];
+          if (visited[neighbor]) {
+            for (let v of this.vertexes) {
+              v.color = 'white';
+          
+            
+ 
+            if (!visited[neighbor]) {
+              visited[neighbor] = true;
+              if (v.color === 'white') {
+                v.color = 'gray'; 
+                q.enqueue(neighbor);
+              }
+            }
+          }
+      }   
+    }
   }
-
+} 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
+export  function getConnectedComponents() {
+    const componentsList = [];
+
+    let needReset = true;
+
+    for (let v of this.vertexes) {
+      if (needReset || v.color === 'white') {
+        const component = this.bfs(v, needReset);
+        needReset = false;
+
+        componentsList.push(component);
+      }
+    }
+
+    return componentsList;
   }
-}
+
+
