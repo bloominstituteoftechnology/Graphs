@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor( value = 'vertex', pos = { x: -1, y: -1} ) {
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+    this.fillColor = "white";
+  }
 }
 
 /**
@@ -19,7 +29,24 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+  
+  debugCreateTestData(){
+    let debugVert1 = new Vertex('dV1', {x: 250, y: 20});
+    let debugVert2 = new Vertex('dV2', {x: 200, y: 100});
+    let debugVert3 = new Vertex('dV3', {x: 300, y: 100});
+    let debugVert4 = new Vertex('dV4', {x: 175, y: 200});
+    let debugVert5 = new Vertex('dV5', {x: 225, y: 200});
+    
+    let debugEdge1 = new Edge(debugVert2);
+    let debugEdge2 = new Edge(debugVert3);
+    let debugEdge3 = new Edge(debugVert4);
+    let debugEdge4 = new Edge(debugVert5);
+    debugVert1.edges.push(debugEdge1, debugEdge2);
+    debugVert2.edges.push(debugEdge3, debugEdge4);
 
+    this.vertexes.push(debugVert1, debugVert2, debugVert3, debugVert4, debugVert5);
+
+  }
   /**
    * Create a random graph
    */
@@ -109,10 +136,55 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, queue = [], visited = []) {
     // !!! IMPLEMENT ME
+    const queueToVisit = queue;
+    const nodesVisited = visited;
+    
+    nodesVisited.push(start);
+    start.fillColor = this.getRandomColor(); //get random color
+    
+    for (let edge of start.edges) {
+      if (queueToVisit.indexOf(edge.destination) === -1 && visited.indexOf(edge.destination) === -1) {
+        queueToVisit.push(edge.destination);
+      }
+    }
+
+    if (queueToVisit.length > 0){
+      return this.bfs(queueToVisit[0], queueToVisit.slice(1), nodesVisited);
+    } else { //get the first unconnected next node
+      return nodesVisited;
+    }
+  }
+  /**
+   * DFS
+   */
+  dfs(start, stack = [], visited = []) {
+    const stackToVisit = stack;
+    const nodesVisited = visited;
+
+    nodesVisited.push(start);
+    start.fillColor = this.getRandomColor();
+
+    for (let edge of start.edges) {
+      if (stackToVisit.indexOf(edge.destination) === 1 && nodesVisited.indexOf(edge.destination) === -1) {
+        stackToVisit.push(edge.destination);
+      }
+    }
+
+    if (stackToVisit.length > 1) {
+      return this.dfs(stackToVisit.pop(), stackToVisit, nodesVisited);
+    } else {
+      return nodesVisited;
+    }
   }
 
+  getRandomColor() {
+    const r = Math.random() * 255 | 0;
+    const g = Math.random() * 255 | 0;
+    const b = Math.random() * 255 | 0;
+    return 'rgb(' + r + ", " + g +", " + b + ')';
+  }
   /**
    * Get the connected components
    */
