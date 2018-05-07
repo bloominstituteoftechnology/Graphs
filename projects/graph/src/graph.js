@@ -54,7 +54,7 @@ export class Graph {
     }
 
     // Go through the grid randomly hooking up edges
-    for (let y = 0; y < height; y++) {
+    for (let y = 0; y < height; y) {
       for (let x = 0; x < width; x++) {
         // Connect down
         if (y < height - 1) {
