@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 800
-const canvasHeight = 800
+const canvasWidth = 800;
+const canvasHeight = 800;
 
 /**
  * GraphView
@@ -30,15 +30,12 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-
+    
     function getRandomInt(max) {
       return Math.floor(Math.random() * Math.floor(max));
     }
     function getNeg() {
       return getRandomInt(10) % 2 === 0 ? 1 : -1;
-    }
-    function getDistance(x,y) {
-      return Math.sqrt(Math.pow(400-x,2) + Math.pow(400-y,2));
     }
     function makeCirc(x,y,size) {
       ctx.strokeStyle = 'black';    
@@ -75,15 +72,16 @@ class GraphView extends Component {
       ctx.lineTo(point2.x, point2.y);
       ctx.lineTo(point3.x, point3.y);
       ctx.lineTo(point1.x, point1.y);
-      // var grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      // // light blue
-      // grd.addColorStop(0, `rgba(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)},.75)`);   
-      // // dark blue
-      // grd.addColorStop(1, `rgba(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)},.75)`);
-      // ctx.fillStyle = grd;
-      // ctx.fill();
+      var grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      // light blue
+      grd.addColorStop(0, `rgba(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)},.75)`);   
+      // dark blue
+      grd.addColorStop(1, `rgba(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)},.75)`);
+      ctx.fillStyle = grd;
+      ctx.fill();
       ctx.stroke();
     }
+
     
     // Clear it
     ctx.fillStyle = 'black';
@@ -92,22 +90,46 @@ class GraphView extends Component {
     ctx.fillRect(2, 2, canvasWidth-4, canvasHeight-4);
 
     // !!! IMPLEMENT ME
-    ctx.moveTo(400,400);
-
-    ctx.strokeStyle = 'black';
+    // ctx.fillStyle = 'blue';
+    ctx.strokeStyle = 'blue';
     ctx.beginPath();
-    for (let i=0; i< 100000; i++) {
-      let angle;
-      if (i <= 300) {
-        angle = 2 * i;
-      } else {
-        angle = .6 * i;        
-      }
-      let x= 400 +(1+angle)*Math.cos(angle);
-      let y= 400 +(1+angle)*Math.sin(angle);
-      getNeg() === -1 ? makeCirc(x,y,getRandomInt(20)) : ( getDistance(x,y) > 200 ? makeTri(x,y, getRandomInt(50)) : makeCirc(x,y,getRandomInt(20)) );
+    for(let i = 0; i < 500; i++) {
+      ctx.moveTo(canvasWidth/2, canvasHeight/2);
+      ctx.lineTo(Math.sin(i*4*Math.PI), 30*i);
     }
     ctx.stroke();
+
+    ctx.strokeStyle = 'orange';
+    ctx.beginPath();
+    for(let i = 0; i < 500; i++) {
+      ctx.moveTo(canvasWidth/2, canvasHeight/2);
+      ctx.lineTo(-Math.sin(i*4*Math.PI), -30*i);
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = 'purple';
+    ctx.beginPath();
+    for(let i = 0; i < 500; i++) {
+      ctx.moveTo(canvasWidth/2, canvasHeight/2);
+      ctx.lineTo(800+Math.sin(i*4*Math.PI), -30*i);
+    }
+    ctx.stroke();
+
+    
+    ctx.strokeStyle = 'red';
+    ctx.beginPath();
+    for(let i = 0; i < 500; i++) {
+      ctx.moveTo(canvasWidth/2, canvasHeight/2);
+      ctx.lineTo(800+Math.cos(i*4*Math.PI), 25*i);
+    }
+    ctx.stroke();
+
+    for(let i = 0; i < getRandomInt(600); i++) {
+      makeCirc(getRandomInt(800),getRandomInt(750),getRandomInt(100));
+    }
+    for(let i = 0; i < getRandomInt(1000); i++) {
+      makeTri(getRandomInt(780),getRandomInt(800),getRandomInt(350));
+    }
 
 
     // compute connected components
