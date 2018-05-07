@@ -2,14 +2,20 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(dest, weight) {
+    this.dest = dest;
+    this.weight = weight;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value) {
+    this.value = value;
+    this.edges = [];
+  }
 }
 
 /**
