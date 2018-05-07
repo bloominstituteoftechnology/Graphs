@@ -14,7 +14,7 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    this.updateCanvas();
+    this.updateCanvas(); 
   }
 
   /**
