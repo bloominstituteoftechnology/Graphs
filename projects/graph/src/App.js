@@ -6,6 +6,8 @@ import './App.css';
 const canvasWidth = 750;
 const canvasHeight = 600;
 
+const g = new Graph();
+
 /**
  * GraphView
  */
@@ -30,6 +32,8 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+
+
     
     // Clear it
     ctx.fillStyle = 'gray';
@@ -39,11 +43,15 @@ class GraphView extends Component {
     ctx.beginPath();
     ctx.arc(100,100,40,0,2*Math.PI);
     ctx.stroke();
+    ctx.fillStyle="red";
 
     //draw line
     ctx.moveTo(100,150);
     ctx.lineTo(150,150);
     ctx.stroke();
+    ctx.font = "30px Arial";
+    ctx.strokeText("Hello World",100,500);
+
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -74,6 +82,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    
   }
 
   render() {
