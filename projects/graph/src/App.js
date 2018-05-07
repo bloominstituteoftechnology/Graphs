@@ -30,9 +30,9 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // Clear it
-    ctx.fillStyle = 'pink';
+    ctx.fillStyle = 'purple';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -40,8 +40,17 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+    ctx.fillStyle = 'pink';
+    ctx.fillRect(0, 0, 500, 20);
+
+    const grd = ctx.createLinearGradient(0, 0, 170, 0)
+    grd.addColorStop(0, "black");
+    grd.addColorStop(1, "white");
+
+    ctx.fillStyle = grd;
+    ctx.fillRect(20, 20, 150, 100);
   }
-  
+
   /**
    * Render
    */
