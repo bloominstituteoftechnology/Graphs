@@ -32,10 +32,10 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'lightgreen';
+    ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
-    ctx.fillStyle = 'lightblue';
+    ctx.fillStyle = 'lightgreen';
     ctx.fillRect(30, 30, 90, 90);
 
     ctx.lineTo(100, 300);
@@ -53,6 +53,15 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.moveTo(0,Math.cos(i) * 600);
       ctx.arc(350, 150, 40, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = 'orange';
+
+    for(let i = 0; i < 200; i++) {
+      ctx.beginPath();
+      ctx.moveTo(Math.tan(i) * 600, 0);
+      ctx.arc(50, 300, 40, 0, 2 * Math.PI);
       ctx.stroke();
     }
     // !!! IMPLEMENT ME
