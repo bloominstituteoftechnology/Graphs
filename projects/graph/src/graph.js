@@ -2,14 +2,21 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight = 0) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value = '', pos = { x:0, y:0 }) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -20,6 +27,23 @@ export class Graph {
     this.vertexes = [];
   }
 
+  debugCreateDummyData() {
+    let dumbVertex1 = new Vertex ('d1', { x:100, y:100 });
+    let dumbVertex2 = new Vertex ('d2', { x:200, y:200 });
+
+    this.vertexes.push(dumbVertex1, dumbVertex2);
+
+    let dumbEdge1 = new Edge (dumbVertex2);
+
+    dumbVertex1.edges.push(dumbEdge1);
+    
+    console.log({ 'dumbVertex1.edges': dumbVertex1.edges })
+    
+    // this.vertexes.map(vertex => {
+    //   let edge = new Edge (vertex.pos)
+    //   vertex.edges.push(edge);
+    // });
+  }
   /**
    * Create a random graph
    */
