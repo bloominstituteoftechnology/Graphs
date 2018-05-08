@@ -37,7 +37,7 @@ export class Graph {
 
     let e1 = new Edge(d2);
 
-    d2.edges.push(e1);
+    d1.edges.push(e1);
 
     this.vertexes.push(d1, d2);
 

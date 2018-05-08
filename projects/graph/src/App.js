@@ -28,6 +28,11 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
+    function random(min, max) {
+      let int = Math.random() * (max - min) + min;
+      return Math.floor(int);
+    }
+
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
@@ -113,11 +118,6 @@ class GraphView extends Component {
       w += 10;
     }
 
-    function random(min, max) {
-      let int = Math.random() * (max - min) + min;
-      return Math.floor(int);
-    }
-
     for (let i = 0; i < 10000; i++) {
       ctx.beginPath();
       ctx.fillStyle = `rgba(10, 10, 10, ${Math.random()})`;
@@ -125,16 +125,25 @@ class GraphView extends Component {
       ctx.closePath();
     }
 
-    console.log(this.props.graph.vertexes);
     this.props.graph.vertexes.forEach(v => {
-      ctx.beginPath();
+      // Draw edges
+      v.edges.forEach(e => {
+        ctx.beginPath();
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+        ctx.strokeStyle = 'white';
+        ctx.stroke();
+        ctx.closePath();
+      });
 
+      ctx.beginPath();
+      // Draw vertex circles
       ctx.strokeStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, 20, 0, 2*Math.PI);
       ctx.fillStyle = 'black';
       ctx.fill();
       ctx.stroke();
-
+      // Draw vertex labels
       ctx.fillStyle = 'white';
       ctx.font = '20px Georgia';
       ctx.textAlign = 'center';
@@ -142,7 +151,7 @@ class GraphView extends Component {
       ctx.fillText(v.value, v.pos.x, v.pos.y);
 
       ctx.closePath();
-    })
+    });
   }
 
 
