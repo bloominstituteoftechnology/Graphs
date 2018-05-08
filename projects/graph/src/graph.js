@@ -27,6 +27,10 @@ export class Graph {
     this.vertexes = [];
   }
 
+  refresh = () => {
+    this.vertexes = [];
+  }
+
   /**
    * Create a random graph
    */

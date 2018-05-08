@@ -19,11 +19,17 @@ class GraphView extends Component {
     this.boundingBox = null;
     this.offsetX = null;
     this.offsetY = null;
+
+    this.canvas = null;
+    this.ctx = null;
   }
   /**
    * On mount
    */
   componentDidMount() {
+    this.canvas = this.refs.canvas;
+    this.ctx = this.canvas.getContext('2d');
+    this.clearCanvas();
     this.updateCanvas();
     // window.requestAnimationFrame(this.updateCanvas);
   }
@@ -32,9 +38,10 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
+    this.clearCanvas();
     this.updateCanvas();
   }
-
+  recUPx2Uh
   mouseDown = (e) => {
     e.preventDefault();
 
@@ -80,12 +87,19 @@ class GraphView extends Component {
     }
   }
 
+  clearCanvas = () => {
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+  }
+
   /**
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
+    // let canvas = this.refs.canvas;
+    // let ctx = canvas.getContext('2d');
+    let canvas = this.canvas;
+    let ctx = this.ctx;
 
     this.boundingBox = canvas.getBoundingClientRect();
     this.offsetX = this.boundingBox.left;
@@ -96,8 +110,10 @@ class GraphView extends Component {
     canvas.onmousemove = this.mouseMove;
 
     // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    // ctx.fillStyle = 'white';
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    this.clearCanvas();
 
     // ------------ Graph -----------------------------
     ctx.lineWidth=2;
@@ -246,7 +262,12 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+      <React.Fragment>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+        <button onClick={this.props.regenerate}>Regenerate</button>
+      </React.Fragment>
+    );
   }
 }
 
@@ -259,18 +280,23 @@ class App extends Component {
     super(props);
 
     this.state = {
-      graph: new Graph()
+      graph: new Graph(),
     };
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(6, 5, 130, 10);
+    this.state.graph.randomize(6, 5, 130);
+  }
+  regenerate = () => {
+    this.state.graph.refresh();
+    this.state.graph.randomize(6, 5, 130);
+    this.forceUpdate();
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} regenerate={this.regenerate}></GraphView>
       </div>
     );
   }
