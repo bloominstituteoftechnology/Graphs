@@ -13,6 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'value', x = 0, y = 0) {
+    this.edges = [];
+    this.value = value;
+    this.pos = { x, y };
+  }
 }
 
 /**
