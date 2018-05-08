@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.weight = weight;
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +14,13 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = '', pos = { x: -1, y: -1 }, groupID = -1) {
+    this.value = value;
+    this.pos = pos;
+    this.edges = [];
+    this.groupID = groupID;
+    this.parentVertex = null;
+  }
 }
 
 /**
@@ -18,16 +29,18 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.groups = 0;
   }
 
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      let weights = Math.floor((Math.random() * 10)) + 1; // Randomly pick a weight from 1 - 10
+      v0.edges.push(new Edge(v1, weights));
+      v1.edges.push(new Edge(v0, weights));
     }
 
     let count = 0;
@@ -51,14 +64,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -111,6 +124,23 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const returnArray = [start];
+    let inclusion = { [`${start.value}`]: 1 };
+
+    const loop_extract = (vertex) => {
+      let { edges } = vertex;
+
+      edges.forEach(edge => {
+        // Ensuring that we do not have loops
+        if (inclusion[`${edge.destination.value}`] === undefined) {
+          returnArray.push(edge.destination); // Vertex is Pushed in the Array
+          inclusion[`${edge.destination.value}`] = 1;
+          loop_extract(edge.destination);
+        }
+      });
+    };
+    loop_extract(start);
+    return returnArray;
   }
 
   /**
@@ -118,5 +148,32 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let returnArray = [];
+    // Loop over all vertices in the graph
+    // If the vertex.edges array contains anything
+    // Push it inside the returnArray
+    this.vertexes.forEach(vertex => {
+      if (vertex.edges.length >= 1) {
+        returnArray.push(vertex);
+      }
+    });
+    // Return an array of vertices that contain connections.
+    return returnArray;
   }
 }
+
+// let mg = new Graph();
+
+// mg.randomize(3, 3, 20);
+
+// mg.dump();
+
+// let mgArr = mg.bfs(mg.vertexes[0]);
+// mgArr.forEach(item => {
+//   console.log('Item: ', item.value);
+// });
+
+// let myConnected = mg.getConnectedComponents();
+// myConnected.forEach(item => {
+//   console.log('Connected: ', item);
+// });
