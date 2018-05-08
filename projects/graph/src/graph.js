@@ -3,7 +3,7 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination, weight = 0) {
+  constructor(destination, weight = 1) {
     this.destination = destination;
     this.weight = weight;
   }
@@ -14,9 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = '') {
+  constructor(value = 'vertex', pos = { x: 0, y: 0 }) {
     this.value = value;
     this.edges = [];
+    this.pos = pos;
   }
 }
 
@@ -26,6 +27,15 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  debugger() {
+    let newVert = new Vertex('chimp', { x: 315, y: 120 });
+    this.vertexes.push(newVert);
+
+    this.vertexes.push(new Vertex('banana', { x: 235, y: 490 }));
+
+    this.vertexes[0].edges.push(new Edge(this.vertexes[1]));
   }
 
   /**
