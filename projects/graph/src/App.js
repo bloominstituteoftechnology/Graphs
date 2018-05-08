@@ -41,15 +41,19 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
 
+    let visited = {};
     for (let vertex of this.props.graph.vertexes) {
       const edges = vertex.edges;
       console.log('vertex is', vertex);
       for (let i = 0; i < edges.length; i++) {
-        ctx.beginPath();
-        ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        ctx.lineTo(edges[i].destination.pos.x, edges[i].destination.pos.y);
-        ctx.stroke();
+        if (!visited[edges[i].destination.value]) {
+          ctx.beginPath();
+          ctx.moveTo(vertex.pos.x, vertex.pos.y);
+          ctx.lineTo(edges[i].destination.pos.x, edges[i].destination.pos.y);
+          ctx.stroke();
+        }
       }
+      visited[vertex.value] = 1;
     }
 
     for (let vertex of this.props.graph.vertexes) {
