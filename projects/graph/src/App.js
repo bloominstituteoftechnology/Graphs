@@ -44,6 +44,8 @@ class GraphView extends Component {
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
       }
+    }
+    for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.fillStyle = 'green';
@@ -56,23 +58,6 @@ class GraphView extends Component {
       ctx.textBaseline = 'middle';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
-
-    // ctx.beginPath(); // begin path
-    // ctx.arc(250, 200, 35, 0, 2 * Math.PI); // x, y, radius, start angle, end angle
-    // ctx.fillStyle = 'yellow';
-    // ctx.fill();
-    // ctx.strokeStyle = 'black';
-    // ctx.stroke();
-
-    // ctx.beginPath();
-    // ctx.arc(250, 188, 30, 1.35, 0.80 * Math.PI);
-    // ctx.strokeStyle = 'black';
-    // ctx.stroke();
-
-    // ctx.beginPath();
-    // ctx.moveTo(250, 235);
-    // ctx.lineTo(250, 285);
-    // ctx.stroke();
 
     // function getRandomColor() {
     //   var letters = '0123456789ABCDEF';
