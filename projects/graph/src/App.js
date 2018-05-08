@@ -35,27 +35,29 @@ class GraphView extends Component {
     ctx.fillStyle = canvasGradient;
 		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 		
-		console.log({'this.props.graph': this.props.graph})	
-
 		this.props.graph.vertexes.map((vertex) => {
 
 			vertex.edges.map((edge) => {
 
+				let { x, y } = vertex.pos;
+				let { x: destination_x, y: destination_y } = edge.destination.pos;
 				ctx.beginPath();
-				ctx.moveTo(vertex.pos.x, vertex.pos.y);
-				ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+				ctx.moveTo(x, y);
+				ctx.lineTo(destination_x, destination_y);
 				ctx.strokeStyle="black";
 				ctx.stroke();
 
-				return edge;
+				return 0;
 			});
-			return vertex;
+			return 0;
 		});
 		
 		this.props.graph.vertexes.map((vertex) => {
 
+			let { x, y } = vertex.pos;
+			let { value } = vertex, radius = vertexRadius;
 			ctx.beginPath();
-			ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+			ctx.arc(x, y, radius, 0, 2 * Math.PI);
 			ctx.fillStyle="gainsboro";
 			ctx.fill();
 			ctx.stroke();
@@ -63,9 +65,9 @@ class GraphView extends Component {
 			ctx.strokeStyle="black";
 			ctx.textAlign = "center";
 			ctx.textBaseline = "middle";
-			ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
+			ctx.strokeText(value, x, y);
 
-			return vertex;
+			return 0;
 		});
   }
   
@@ -83,7 +85,8 @@ class App extends Component {
       graph: new Graph()
     };
 
-		this.state.graph.randomize(5, 4, 150, 0.6);
+		let { graph } = this.state;
+		graph.randomize(5, 4, 150);
 		// this.state.graph.debugCreateDummyData();
   }
 
