@@ -40,13 +40,13 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
-
     let w = 1000;
     let h = 700;
     for (let i = 0; i < 100; i++) {
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.lineTo(w, h);
+      ctx.lineWidth = 1;
       ctx.strokeStyle = '#AA0000';
       ctx.stroke();
       ctx.closePath();
@@ -125,23 +125,24 @@ class GraphView extends Component {
       ctx.closePath();
     }
 
-    // for (let i = 0; i < 200; i++) {
-    //   ctx.beginPath();
-    //   ctx.arc(random(100, 900), random(100, 600), random(1, 30), 0, 360);
-    //   ctx.strokeStyle = `rgba(21, 0, 0, ${Math.random() * (0.2) + 0.1})`;
-    //   ctx.lineWidth = 4;
-    //   ctx.stroke();
-    //   ctx.closePath();
-    // }
-
-    for (let i = 0; i < 1000; i++) {
+    console.log(this.props.graph.vertexes);
+    this.props.graph.vertexes.forEach(v => {
       ctx.beginPath();
-      ctx.font='30px sans-serif';
-      ctx.strokeStyle = `rgba(0, 250, 0, ${Math.random()})`;
-      ctx.strokeText(`${String.fromCharCode(random(65, 85))}`, random(100, 900), random(100, 700));
-      ctx.rotate(random(0, 360)*Math.PI/180);
+
+      ctx.strokeStyle = 'white';
+      ctx.arc(v.pos.x, v.pos.y, 20, 0, 2*Math.PI);
+      ctx.fillStyle = 'black';
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = 'white';
+      ctx.font = '20px Georgia';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+
       ctx.closePath();
-    }
+    })
   }
 
 
@@ -166,6 +167,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateVertex();
   }
 
   render() {
