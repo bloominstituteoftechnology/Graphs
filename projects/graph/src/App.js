@@ -36,10 +36,14 @@ class GraphView extends Component {
     ctx.fillStyle = 'rgba(0, 0, 0, 0';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // console.log('in update canvas, vertex data is: ', this.props.graph);
-
+    // console.log('vertex data', this.props.graph.vertexes);
     for (let vertex of this.props.graph.vertexes) {
-      // console.log('vertex names', vertex.value);
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.fillStyle = 'green';
@@ -109,7 +113,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
