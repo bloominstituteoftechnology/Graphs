@@ -152,6 +152,7 @@ class GraphView extends Component {
 
       ctx.closePath();
     });
+    console.log(this.props.graph);
   }
 
 
@@ -176,7 +177,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateVertex();
+    // this.state.graph.debugCreateVertex();
+    this.state.graph.randomize(5, 4, 150);
   }
 
   render() {
