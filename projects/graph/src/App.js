@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 400;
-const canvasHeight = 300;
+const canvasWidth = 750;
+const canvasHeight = 600;
 const vertexRadius = 15;
 
 /**
@@ -54,6 +54,9 @@ class GraphView extends Component {
         ctx.lineTo(edge.destinationVertex.pos.x, edge.destinationVertex.pos.y);
         ctx.stroke();
       }
+    }
+    
+    for(let vertex of this.props.graph.vertexes){
 
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
@@ -68,6 +71,7 @@ class GraphView extends Component {
       ctx.textBaseline = "middle";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
+
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
@@ -97,7 +101,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    // this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5,4,150, .6);
   }
 
   render() {
