@@ -30,28 +30,22 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    ctx.filter = 'blur(0.5px)';
     
     // Clear it
     ctx.fillStyle = 'lightgrey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
-
-    //console.log('Update Canvas, vertex data: ', this.props);
-
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
-        ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.beginPath();
-        ctx.lineTo(vertex.pos.x, vertex.pos.y);
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
       }
-      
+    }
+
+    for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.fillStyle = 'white';
@@ -65,7 +59,7 @@ class GraphView extends Component {
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
   }
-  
+
   /**
    * Render
    */
