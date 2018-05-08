@@ -117,7 +117,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(4, 5, 200, 0.5);
+    this.state.graph.randomize(4, 5, 200, 0.8);
     this.state.connectedComponents = this.state.graph.getConnectedComponents();
   }
 

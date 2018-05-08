@@ -131,7 +131,26 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [start];
+    let savedVertexes = [start];
+    let tracker;
 
+    while (queue.length > 0) {
+      tracker = queue.shift();
+      if (this.vertexes[tracker].edges) {
+        for (let i = 0; i < this.vertexes[tracker].edges.length; i++) {
+          const destination = parseInt(
+            this.vertexes[tracker].edges[i].destination.value.slice(1),
+            10
+          );
+          if (!savedVertexes.includes(destination)) {
+            queue.push(destination);
+            savedVertexes.push(destination);
+          }
+        }
+      }
+    }
+    return savedVertexes;
   }
 
   /**
@@ -152,6 +171,7 @@ export class Graph {
       for (let i = 0; i < newVertexes.length; i++) {
         foundVertexes[newVertexes[i]] = true;
       }
+      
       isConnected = true;
       for (let i = 0; i < this.vertexes.length; i++) {
         if (foundVertexes[i] !== true) {
