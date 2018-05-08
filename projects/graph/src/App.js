@@ -122,17 +122,17 @@ class GraphView extends Component {
 
     //
     // ───────────────────────────────────────────────── SPACE ART ─────
-    ctx.beginPath();
-    for(let x = 0; x < canvasWidth; x++) {
-      for(let y = 0; y < canvasHeight; y++) {
-        const r = Math.cos((Math.sqrt(y)*Math.tan(x)*-x)) % 255;
-        const b = Math.tan((Math.sqrt(y)*Math.tan(x)*x)) % 255;
-        const g = (b + (r + (Math.PI/2))) % 255;
+    // ctx.beginPath();
+    // for(let x = 0; x < canvasWidth; x++) {
+    //   for(let y = 0; y < canvasHeight; y++) {
+    //     const r = Math.cos((Math.sqrt(y)*Math.tan(x)*-x)) % 255;
+    //     const b = Math.tan((Math.sqrt(y)*Math.tan(x)*x)) % 255;
+    //     const g = (b + (r + (Math.PI/2))) % 255;
 
-        ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-        ctx.fillRect(x, y, 1, 1);
-      }
-    }
+    //     ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+    //     ctx.fillRect(x, y, 1, 1);
+    //   }
+    // }
 
     // ctx.beginPath();
     // for(let i = 0; i < 50; i++) {
@@ -155,17 +155,18 @@ class GraphView extends Component {
     //
 
     // !!! IMPLEMENT ME
-    let x = 0;
     let nodeSize = 20;
 
     for (let vertex of this.props.graph.vertexes) {
       if (vertex.edges.length) {
         for (let i = 0; i < vertex.edges.length; i++) {
-          console.log("how many times do you run: ", i);
           ctx.beginPath();
           ctx.moveTo(vertex.pos.x, vertex.pos.y);
-          ctx.lineTo(vertex.edges[i].destination.pos.x, vertex.edges[i].destination.pos.y);
-          ctx.strokeStyle = "white";
+          ctx.lineTo(
+            vertex.edges[i].destination.pos.x,
+            vertex.edges[i].destination.pos.y
+          );
+          ctx.strokeStyle = 'white';
           ctx.stroke();
         }
       }
@@ -207,10 +208,10 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    //this.state.graph.randomize(3, 3, 3);
+    this.state.graph.randomize(5, 4, 150, 0.6);
 
     //Call debugger
-    this.state.graph.debugger();
+    //this.state.graph.debugger();
   }
 
   render() {
