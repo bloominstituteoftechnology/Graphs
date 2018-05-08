@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 400;
-const canvasHeight = 300;
+const canvasWidth = 750;
+const canvasHeight = 600;
 const vertexRadius = 10;
 
 /**
@@ -40,10 +40,17 @@ class GraphView extends Component {
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    console.log('In update canvas, vertex data is: ', this.props.graph);
 
     for (let vertex of this.props.graph.vertexes) {
-      console.log('vertex names: ', vertex.value);
+      const edges = vertex.edges;
+      for (let i = 0; i < edges.length; i++) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edges[i].destination.pos.x, edges[i].destination.pos.y);
+        ctx.stroke();
+      }
+    }
+    for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2*Math.PI);
       ctx.fillStyle = 'green';
@@ -54,7 +61,7 @@ class GraphView extends Component {
       ctx.fillStyle = 'black';
       ctx.font = "10px Arial";
       ctx.textAlign = "center";
-      ctx.textBaseLine = "middle";
+      ctx.textBaseline = "middle";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
 
@@ -87,7 +94,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    // this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5, 4, 150);
   }
 
   render() {
