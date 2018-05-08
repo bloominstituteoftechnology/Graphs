@@ -62,12 +62,20 @@ class GraphView extends Component {
     //console.log('in update canvas, vertex data is: ', this.props.graph);
 
     for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    for (let vertex of this.props.graph.vertexes) {
       //console.log('vertex names', vertex.value);
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.fillStyle = 'green';
       ctx.fill();
-      // ctx.strokeStyle = 'blue'; //Todo optimize code for stoke and fill may not need all
       ctx.stroke();
 
       ctx.fillStyle = 'black';
@@ -76,13 +84,6 @@ class GraphView extends Component {
       ctx.textBaseline = 'middle';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
-
-    //   for (let edge of vertex.edges) {
-    //     ctx.moveTo(edge.destination);
-    //     ctx.lineTo(edge.destination);
-    //     ctx.stroke();
-    //   }
-    // }
 
     // !!! IMPLEMENT ME
     // compute connected components
