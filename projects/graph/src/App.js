@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 800;
+const canvasHeight = 800;
 
 /**
  * GraphView
@@ -30,10 +30,22 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'lightblue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // Line
+    let xcomp = 10;
+    let ycomp = 10;
+    for (let i = 0; i < 100; i++) {
+      ctx.beginPath(); // Indicator for Canvas: we want to start a path, don't connect to anything preceding it
+      ctx.moveTo(xcomp, ycomp);
+      ctx.lineTo(xcomp + 600, ycomp + 200);
+      ctx.stroke();
+      xcomp += 50;
+      ycomp += 50;
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -41,7 +53,7 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
   }
-  
+
   /**
    * Render
    */
