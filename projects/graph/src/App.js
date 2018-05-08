@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 400;
+const canvasHeight = 400;
 
 /**
  * GraphView
@@ -30,12 +30,30 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+
+
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
+    console.log('hey', this.props.graphs.vertexes);
+    for (let vertex of this.props.graphs.vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 10, 0, 2 * Math.PI);
+      ctx.fillStyle = 'green';
+      ctx.fill();
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+      
+      ctx.fillStyle = 'black';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseLine = 'middle';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
+    
     // compute connected components
     // draw edges
     // draw verts
