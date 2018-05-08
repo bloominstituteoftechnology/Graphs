@@ -57,6 +57,9 @@ const grd = ctx.createLinearGradient(0, 0, 500, 0)
       ctx.textBaseline = "middle";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
+
+
+    for (let component of this.props.connectedComponents)
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
@@ -124,7 +127,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph} connectedComponents={this.state.graph.getConnectedComponents}></GraphView>
+        <GraphView 
+        graph={this.state.graph} 
+        connectedComponents={this.state.connectedComponents}/>{" "}
       </div>
     );
   }
