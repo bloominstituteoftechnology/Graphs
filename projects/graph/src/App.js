@@ -32,33 +32,41 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
 
     // Clear it
-    ctx.fillStyle = 'lightblue';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.save();
 
     let x = 100;
-    let y = 500;
+    let y = 300;
     let newStart = 10;
-
-    for (let i = 0; i < 60; i++) {
-
+    let color = '';
+    const colors = [
+      'rgba(255, 0, 0, .5)',
+      'rgba(0,255,0,.5)',
+      'rgba(0,0,255,.5)',
+      'rgba(255,0,255,.5)',
+    ];
+    let count = 0;
+    for (let i = 0; i < 100; i++) {
       for (let j = 0; j < 10; j++) {
         // if (j % 2 === 0) x = x + 30;
-        ctx.strokeStyle = 0x02031;
-        ctx.strokeRect(x, y, 50, 50)
-        ctx.rotate(((100 * Math.random()) / 2));
-        x = x*.3;
-        y = y *1;
-      }
-      if(newStart % 2 === 0) {
-        newStart = newStart * 5;
-        x = ~x * 1000;
-        y = ~y;
+        color = colors[count];
+        if (count === 4) count = 0;
+        count++;
+        ctx.strokeStyle = color;
+        ctx.strokeRect(x, y, 75, 75);
 
+        ctx.rotate(10 * Math.random() / 3);
+
+        x = x * 0.4567;
       }
-      else { 
-        newStart = newStart;
-        x = newStart;
+      if (newStart % 2 === 0) {
+        newStart = newStart * 5;
+        x = x * 3000;
+        y = y * 0.3;
+      } else {
+
+        x = newStart * 100;
       }
       // y = y*i-50;
     }
