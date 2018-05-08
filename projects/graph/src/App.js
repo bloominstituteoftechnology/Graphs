@@ -3,10 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 500;
-const canvasHeight = 500;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
-const vertexRadius = 15;
+const vertexRadius = 10;
 
 /**
  * GraphView
@@ -96,7 +96,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    this.state.graph.randomize(5, 5, 100, 0.6);
+    this.state.graph.randomize(5, 4, 150, 0.6);
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
