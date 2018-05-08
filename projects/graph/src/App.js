@@ -55,6 +55,13 @@ class GraphView extends Component {
       ctx.fill();
       ctx.strokeStyle = 'black';
       ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vert.value, vert.pos.x, vert.pos.y);
+    })
     // draw edges
     // draw verts
     // draw vert values (labels)
