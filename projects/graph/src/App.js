@@ -4,6 +4,7 @@ import './App.css';
 
 const canvasWidth = 800;
 const canvasHeight = 600;
+const vertexRadius = 10;
 
 /**
  * GraphView
@@ -31,7 +32,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'lightgrey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -40,41 +41,21 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
 
-    function getRandomColor() {
-      return Math.floor(Math.random() * (255 - 0 + 1)) + 0;
+    //console.log('Update Canvas, vertex data: ', this.props);
+
+    for (let vertex of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = 'green';
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.font = "11px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
-
-    ctx.lineWidth = 3;
-    ctx.shadowColor = 'black';
-    ctx.shadowOffsetX = 6;
-    ctx.shadowBlur = 10;
-
-    // ctx.beginPath();
-    // for (let i = 0; i < canvasHeight; i++) {
-    //   ctx.lineTo(i, Math.floor(Math.random() * canvasHeight) * i);
-    //   ctx.lineTo(Math.floor(Math.random() * canvasWidth) * i, i);
-    //   ctx.stroke();
-    //   ctx.strokeStyle = `rgb(${getRandomColor()}, ${getRandomColor()}, ${getRandomColor()})`;
-    // }
-
-    //const intervalID = window.setInterval(cb, 1);
-
-    // ctx.beginPath();
-    // for (let i = 0; i < canvasWidth; i++) {
-    //   ctx.strokeStyle = `rgb(${getRandomColor()}, ${getRandomColor()}, ${getRandomColor()})`;
-    //   ctx.arc(Math.floor(Math.random() * canvasHeight) * i, Math.floor(Math.random() * canvasHeight) / i, Math.floor(Math.random() * canvasHeight), Math.floor(Math.random() * canvasHeight), Math.floor(Math.random() * canvasHeight), false);
-    //   ctx.stroke();
-    // }
-
-    let i = 0;
-
-    // function cb() {
-    //   ctx.fillStyle = 'white';
-    //   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    //   ctx.fillStyle = 'black';
-    //   ctx.fillRect(70,0,100,30);
-    //   ctx.rotate(45 * Math.PI / i++);
-    // }
 
   }
   
@@ -100,6 +81,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
