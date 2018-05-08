@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 400;
+const canvasHeight = 300;
+
+const vertexRadius = 10;
 
 /**
  * GraphView
@@ -34,6 +36,27 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.font = "30px Arial";
+    ctx.fillText('Hello World', 10, 50);
+
+    //console.log('in update canvas, vertex data is: ', this.props.graph);
+
+    for(let vertex of this.props.graph.vertexes) {
+      // console.log('vertex names', vertex.value);
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = 'green';
+      ctx.fill();
+      ctx.strokeStyle = 'black'; //TODO: Optimize, many calls for stroke and fill style.
+      ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.font = "10px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseLine = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y - vertexRadius);
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
