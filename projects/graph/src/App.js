@@ -3,9 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
-
+const canvasWidth = 500;
+const canvasHeight = 400;
+const vertexRadius = 10;
 /**
  * GraphView
  */
@@ -32,8 +32,53 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // console.log('in update canvas, vertex data is: ', this.props.graph);
+
+    for (let vertex of this.props.graph.vertexes) {
+      // console.log('vertex names', vertex.value);
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = 'green';
+      ctx.fill();
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+
+      ctx.fillStyle='black';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
+
+    // ctx.beginPath(); // begin path
+    // ctx.arc(250, 200, 35, 0, 2 * Math.PI); // x, y, radius, start angle, end angle
+    // ctx.fillStyle = 'yellow';
+    // ctx.fill();
+    // ctx.strokeStyle = 'black';
+    // ctx.stroke();
+
+    // ctx.beginPath();
+    // ctx.arc(250, 188, 30, 1.35, 0.80 * Math.PI);
+    // ctx.strokeStyle = 'black';
+    // ctx.stroke();
+
+    // ctx.beginPath();
+    // ctx.moveTo(250, 235);
+    // ctx.lineTo(250, 285);
+    // ctx.stroke();
+
+    // function getRandomColor() {
+    //   var letters = '0123456789ABCDEF';
+    //   var color = '#';
+    //   for (var i = 0; i < 6; i++) {
+    //     color += letters[Math.floor(Math.random() * 16)];
+    //   }
+    //   return color;
+    // }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -64,6 +109,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
