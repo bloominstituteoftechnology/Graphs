@@ -3,13 +3,20 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight=1) {
+    this.weight = weight;
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.parent = null;
+  }
 }
 
 /**
