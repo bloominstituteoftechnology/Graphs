@@ -75,13 +75,14 @@ class GraphView extends Component {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-
-      for (let edge of vertex.edges) {
-        ctx.moveTo(edge.destination);
-        ctx.lineTo(edge.destination);
-        ctx.stroke();
-      }
     }
+
+    //   for (let edge of vertex.edges) {
+    //     ctx.moveTo(edge.destination);
+    //     ctx.lineTo(edge.destination);
+    //     ctx.stroke();
+    //   }
+    // }
 
     // !!! IMPLEMENT ME
     // compute connected components
