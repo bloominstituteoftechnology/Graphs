@@ -33,9 +33,9 @@ class GraphView extends Component {
     let radius = 50;
 
 
-const grd = ctx.createLinearGradient(0, 0, 500, 0)
-    grd.addColorStop(0, "purple");
-    grd.addColorStop(1, "pink");
+    const grd = ctx.createLinearGradient(0, 0, 500, 0)
+    grd.addColorStop(0, "black");
+    grd.addColorStop(1, "blue");
 
 
     // Clear it
@@ -45,7 +45,7 @@ const grd = ctx.createLinearGradient(0, 0, 500, 0)
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, 10, 0, 2 * Math.PI);
-      ctx.fillStyle = 'lightpink';
+      ctx.fillStyle = 'white';
       ctx.fill();
       ctx.strokeStyle = 'blue';
       ctx.stroke();
@@ -58,8 +58,24 @@ const grd = ctx.createLinearGradient(0, 0, 500, 0)
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
 
+    const vertexes = this.props.graph.vertexes;
 
-    for (let component of this.props.connectedComponents)
+    for (let component of this.props.connectedComponents) {
+      ctx.strokeStyle = "black";
+      ctx.lineWidth =1;
+
+      //Each vertex gets looped through
+      for (let i = 0; i < component.length; i++) {
+        const vertex = vertexes[component[i]];
+        for (let edge of vertex.edges) {
+          ctx.beginPath();
+          ctx.moveTo(vertex.pos.x, vertex.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+          ctx.stroke();
+        }
+      }
+
+    }
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
@@ -68,7 +84,7 @@ const grd = ctx.createLinearGradient(0, 0, 500, 0)
     // ctx.fillStyle = '#3BB9FF';
     // ctx.fillRect(0, 0, 500, 200);
 
-    
+
 
     // ctx.fillStyle = 'yellow';
     // ctx.arc(800 / 2, 150 / 2, radius, 0, 2 * Math.PI, false); 
@@ -77,17 +93,17 @@ const grd = ctx.createLinearGradient(0, 0, 500, 0)
 
     // ctx.fillStyle = 'ivory';
     // ctx.fillRect(80, 150, 200, 200);
-    
+
     // ctx.fillStyle = 'brown';
     // ctx.fillRect(100, 170, 50, 50);
-    
+
     // ctx.fillStyle = 'brown';
     // ctx.fillRect(210, 170, 50, 50);
 
     // ctx.fillStyle = 'gray';
     // ctx.fillRect(153, 250, 50, 100);
 
-    
+
     // let sWidth = 500;
     // let sHeight = 500;
     // let path=new Path2D();
@@ -127,9 +143,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GraphView 
-        graph={this.state.graph} 
-        connectedComponents={this.state.connectedComponents}/>{" "}
+        <GraphView
+          graph={this.state.graph}
+          connectedComponents={this.state.connectedComponents} />{" "}
       </div>
     );
   }
