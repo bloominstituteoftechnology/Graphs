@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-const canvasWidth = 800;
+const canvasWidth = 750;
 const canvasHeight = 600;
 const vertexRadius = 10;
 
@@ -51,7 +51,7 @@ class GraphView extends Component {
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
       }
-
+      
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.fillStyle = 'white';
@@ -88,7 +88,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
