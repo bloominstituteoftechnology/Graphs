@@ -37,6 +37,13 @@ class GraphView extends Component {
 
     // !!! IMPLEMENT ME
     // compute connected components
+    this.props.graph.vertexes.forEach(vert => {
+      vert.edges.forEach(edge => {
+        ctx.moveTo(vert.pos.x, vert.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
+        ctx.stroke();
+      })
+    })
     // draw edges
     // draw verts
     // draw vert values (labels)
