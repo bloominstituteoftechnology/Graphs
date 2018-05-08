@@ -31,18 +31,40 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
 
     // Clear it
-    ctx.fillStyle = 'lightpink';
+    ctx.fillStyle = 'yellow';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    let seen = [];
+
+    function includes(arr,el) {
+      for(let i = 0; i < arr.length; i++) {
+        if(arr[i][0] === el[0] && arr[i][1] === el[1]) return true;
+      }
+      return false;
+    }
+
 
     // Draw Edges
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
       let vertex = this.props.graph.vertexes[i];
       if (vertex.edges.length) {
-        for (let j = 0; j < vertex.edges.length; j++) {
-          let edge = vertex.edges[j].destination.position;
+        let edge = vertex.edges[0].destination.position;
+        let midpoint = [(edge.x + vertex.position.x) / 2, (edge.y + vertex.position.y) / 2];
+        console.log("SEEN: ", seen);
+        console.log("MID: ", midpoint);
+        console.log("INCLUDES: ", includes(seen,midpoint));
+        if (includes(seen, midpoint) === false) {
           ctx.beginPath();
           ctx.moveTo(vertex.position.x, vertex.position.y);
           ctx.lineTo(edge.x, edge.y);
+          ctx.stroke();
+          //*Broken* Draw Weights
+          let weight = vertex.edges[0].weight;
+          ctx.strokeStyle = 'white';
+          ctx.font = '12px Arial';
+          ctx.fillStyle = 'black';
+          ctx.fillText(weight, (edge.x + vertex.position.x) / 2, (edge.y + vertex.position.y) / 2);
+          seen.push(midpoint);
           ctx.stroke();
         }
       }
@@ -90,10 +112,27 @@ class App extends Component {
     this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
+  refreshPage() {
+    window.location.reload();
+  }
+
   render() {
+    let style = {
+      color: 'red',
+      background: 'black',
+      width: 200,
+      height: 50,
+      fontSize: 20,
+    };
+
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <div>
+          <button type="button" style={style} onClick={this.refreshPage}>
+            Refresh{' '}
+          </button>
+        </div>
       </div>
     );
   }

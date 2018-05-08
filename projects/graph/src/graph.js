@@ -3,7 +3,7 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination, weight = 1) {
+  constructor(destination, weight = Math.floor(Math.random() * 10 + 1)) {
     this.destination = destination;
     this.weight = weight;
   }
@@ -29,16 +29,16 @@ export class Graph {
     this.vertexes = [];
   }
 
-  debugCreateTestData() {
-    let debugVertex1 = new Vertex('A', { x: 100, y: 100 });
-    let debugVertex2 = new Vertex('B', { x: 200, y: 200 });
-    let debugEdge1 = new Edge(debugVertex2, 10);
+  // debugCreateTestData() {
+  //   let debugVertex1 = new Vertex('A', { x: 100, y: 100 });
+  //   let debugVertex2 = new Vertex('B', { x: 200, y: 200 });
+  //   let debugEdge1 = new Edge(debugVertex2, 10);
 
-    debugVertex1.edges.push(debugEdge1);
+  //   debugVertex1.edges.push(debugEdge1);
 
-    this.vertexes.push(debugVertex1);
-    this.vertexes.push(debugVertex2);
-  }
+  //   this.vertexes.push(debugVertex1);
+  //   this.vertexes.push(debugVertex2);
+  // }
 
   /**
    * Create a random graph
@@ -129,9 +129,7 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME
-  }
+  bfs(start) {}
 
   /**
    * Get the connected components
