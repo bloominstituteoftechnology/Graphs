@@ -36,6 +36,8 @@ debugCreateTestData() {
   let debugEdge1 = new Edge(debugVertex2);
 
   debugVertex1.edges.push(debugEdge1);
+
+  this.vertexes.push(debugVertex1, debugVertex2);
 }
 
   /**

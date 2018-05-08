@@ -36,8 +36,19 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     for (let vertex of this.props.graph.vertexes) {
+      ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, 10, 0, 2 * Math.PI);
+      ctx.fillStyle = 'green';
+      ctx.fill();
+      ctx.strokeStyle = 'black';
       ctx.stroke();
+
+
+      ctx.fillStyle = 'black';
+      ctx.font = "10px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
     // !!! IMPLEMENT ME
     // compute connected components
