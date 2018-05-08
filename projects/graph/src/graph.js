@@ -14,8 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor() {
+  constructor(value = 'v', pos = {x: 0, y: 0}) {
     this.edges = [];
+    this.value = value;
+    this.pos = pos;
   }
 }
 
@@ -25,6 +27,14 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  testing(){
+    const v1 = new Vertex('v1', {x: 100, y: 100});
+    const v2 = new Vertex('v2', {x: 200, y: 200});
+    v1.edges.push(new Edge(v2));
+    v2.edges.push(new Edge(v1));
+    this.vertexes.push(v1, v2);
   }
 
   /**
