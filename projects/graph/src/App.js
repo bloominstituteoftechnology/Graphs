@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1250;
-const canvasHeight = 300;
+const canvasWidth = 750
+const canvasHeight = 600
 
 /**
  * GraphView
@@ -28,32 +28,32 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
+    const g = new Graph();
+    g.randomize(5, 14, 150, 1);
+    const verticies = g.vertexes;
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+ 
     
     // Clear it
-    
-    ctx.fillStyle = 'tan' 
-    ctx.fillRect(0, 0, 480, 450)
-    ctx.fillStyle = 'grey'
-    ctx.fillRect(10, 10, 460, 275)
+    ctx.fillStyle = 'purple';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = 'gold';
 
-    const X = 85, W = 60, G = 30
-    ctx.lineWidth = 10
-    const colors = ['blue', 'black', 'red', 'yellow', 'green']
-    const args = [
-        [X,X,W],
-        [X+W+W+G,X,W],
-        [X+W+W+G+W+W+G,X,W],
-        [X+W+G/2,X+W,W],
-        [X+W+G/2+W+W+G,X+W,W]]
 
-    while (colors.length > 0) {
-        ctx.strokeStyle = colors.shift()
-        ctx.beginPath()
-        ctx.arc.apply(ctx, args.shift().concat([0,Math.PI*2,true]))
-        ctx.stroke()
-    }
+    verticies.map(vertex => {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 10,0,2*Math.PI)
+      ctx.fill();
+      vertex.edges.map(edge => {
+        const vertexPair = edge.destination;
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(vertexPair.pos.x, vertexPair.pos.y);
+        ctx.stroke();
+      })
+    })
+
 
     // !!! IMPLEMENT ME
     // compute connected components
