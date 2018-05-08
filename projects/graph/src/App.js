@@ -35,7 +35,7 @@ class GraphView extends Component {
     // Clear it
     let grd = ctx.createLinearGradient(canvasWidth / 2, 0, canvasWidth / 2, canvasHeight);
     grd.addColorStop(0, "lightyellow");
-    grd.addColorStop(1, "lightblue");
+    grd.addColorStop(1, "skyblue");
     
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -50,6 +50,7 @@ class GraphView extends Component {
           ctx.beginPath();
           ctx.moveTo(vertex.pos.x, vertex.pos.y);
           ctx.lineTo(edges[i].destination.pos.x, edges[i].destination.pos.y);
+          ctx.strokeStyle = 'lightslategray';
           ctx.stroke();
         }
       }
@@ -59,9 +60,9 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2*Math.PI);
-      ctx.fillStyle = 'green';
+      ctx.fillStyle = 'gold';
       ctx.fill();
-      ctx.strokeStyle= 'black'; // TODO: Optimize this code. Many calls for stroke and fill
+      ctx.strokeStyle= 'dodgerblue'; // TODO: Optimize this code. Many calls for stroke and fill
       ctx.stroke();
 
       ctx.fillStyle = 'black';
