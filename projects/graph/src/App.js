@@ -3,12 +3,12 @@ import {Graph} from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 300;
+const canvasWidth = 400;
 const canvasHeight = 400;
 
 /**
  * GraphView
- */2
+ */
 class GraphView extends Component {
     /**
      * On mount
@@ -31,39 +31,38 @@ class GraphView extends Component {
         let canvas = this.refs.canvas;
         let ctx = canvas.getContext('2d');
 
-        // Clear it
-        ctx.fillStyle = 'lightblue';
+        ctx.fillStyle = 'gray';
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        // ctx.beginPath();
-        // ctx.arc(80,120,10,0,2*Math.PI);
-        // ctx.stroke();
+        // !!! IMPLEMENT ME
+        // compute connected components
+        this.props.graph.vertexes.forEach(vert => {
+            vert.edges.forEach(edge => {
+                ctx.moveTo(vert.pos.x, vert.pos.y);
+                ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
+                ctx.stroke();
+            })
+        });
 
-        ctx.beginPath();
-        // ctx.arc(80,75,10,0,2*Math.PI);
-        ctx.stroke();
+        this.props.graph.vertexes.forEach(vert => {
+            ctx.beginPath();
+            ctx.arc(vert.pos.x, vert.pos.y, 10, 0, 2 * Math.PI);
+            // ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+            let r = Math.floor(Math.random() * 155) + 100;
+            let g = Math.floor(Math.random() * 155) + 100;
+            let b = Math.floor(Math.random() * 155) + 100;
+            ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+            ctx.fill();
+            ctx.strokeStyle = 'blue';
+            ctx.stroke();
 
-        ctx.beginPath();
-        ctx.arc(150, 75, 10, 0, 2*Math.PI);
-        ctx.arc(80,  75, 10, 0, 2*Math.PI);
-        ctx.arc(80, 120, 10, 0, 2*Math.PI);
-        ctx.stroke();
+            ctx.fillStyle = 'black';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(vert.value, vert.pos.x, vert.pos.y);
+        })
 
-
-        // Create gradient
-        const grd=ctx.createLinearGradient(10,0,200,0);
-        grd.addColorStop(0,"red");
-        grd.addColorStop(1,"white");
-
-        // Fill with gradient
-        ctx.fillStyle=grd;
-        ctx.fillRect(10,200,150,80);
-
-        ctx.font = "15px Arial";
-        ctx.fillText("a",75,80);
-
-        ctx.font = "15px";
-        ctx.fillText("b",150,80);
     }
 
     /**
@@ -81,13 +80,11 @@ class GraphView extends Component {
 class App extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             graph: new Graph()
         };
 
-        // !!! IMPLEMENT ME
-        // use the graph randomize() method
+        this.state.graph.randomize(3, 3, 80);
     }
 
     render() {
