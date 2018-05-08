@@ -89,6 +89,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 5, 100);
   }
 
   render() {
