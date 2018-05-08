@@ -41,22 +41,21 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     //draw circle
-    for(let v of this.props.graph.vertexes ){
-      const { x, y} = v.pos;
+    for(let v of this.props.graph.vertexes){
+      const vx = v.pos.x;
+      const vy = v.pos.y;
       ctx.beginPath();
-      ctx.arc(x,y,40,0,2*Math.PI);
+      ctx.arc(vx,vy,40,0,2*Math.PI);
       ctx.stroke();
-    }
-    
-    
-
-    //draw line
-    // ctx.moveTo(100,150);
-    // ctx.lineTo(150,150);
-    // ctx.stroke();
-    // ctx.font = "30px Arial";
-    // ctx.strokeText("Hello World",100,500);
-
+      for(let e of v.edges){
+        //draw line
+        const dx = e.destination.pos.x;
+        const dy = e.destination.pos.y;
+        ctx.moveTo(vx, vy);
+        ctx.lineTo(dx, dy);
+        ctx.stroke();
+      }
+     }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -87,8 +86,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.testing();
-    console.log('this state graph', this.state.graph.vertexes);
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    console.log('this state random graph', this.state.graph.vertexes);
   }
 
   render() {
