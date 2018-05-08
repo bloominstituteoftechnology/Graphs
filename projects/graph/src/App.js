@@ -3,14 +3,17 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-let canvasWidth = 200;
-let canvasHeight = 200;
+let canvasWidth = 0;
+let canvasHeight = 0;
 const nodeSize = 15;
 
 /**
  * GraphView
  */
 class GraphView extends Component {
+  state = {
+    update: true,
+  };
   /**
    * On mount
    */
@@ -24,6 +27,12 @@ class GraphView extends Component {
   componentDidUpdate() {
     this.updateCanvas();
   }
+
+  randomize = () => {
+    this.props.graph.randomize();
+    this.setState({ update: !this.state.update });
+    console.log(this.state.update);
+  };
 
   /**
    * Render the canvas
@@ -200,13 +209,6 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    // Find the required canvas size
-    for (let vertex of this.props.graph.vertexes) {
-      if (vertex.pos.x > canvasWidth) canvasWidth = vertex.pos.x;
-      if (vertex.pos.y > canvasHeight) canvasHeight = vertex.pos.y;
-    }
-    canvasWidth += (nodeSize * 3);
-    canvasHeight += (nodeSize * 3);
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }
@@ -220,24 +222,46 @@ class App extends Component {
 
     this.state = {
       graph: new Graph(),
+      reRender: true,
     };
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
-
-    //Call debugger
-    //this.state.graph.debugger();
   }
 
+  randomize = () => {
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.setState({ reRender: !this.state.reRender });
+  };
+
   render() {
-    // Dump it
+    // Dump console data
     this.state.graph.dump();
-    //
+
+    // Find the required canvas size
+    canvasWidth = 0;
+    canvasHeight = 0;
+    for (let vertex of this.state.graph.vertexes) {
+      if (vertex.pos.x > canvasWidth) canvasWidth = vertex.pos.x;
+      if (vertex.pos.y > canvasHeight) canvasHeight = vertex.pos.y;
+    }
+    canvasWidth += nodeSize * 3;
+    canvasHeight += nodeSize * 3;
 
     return (
-      <div className="App">
-        <GraphView graph={this.state.graph} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+        className="App"
+      >
+        <div style={{ width: canvasWidth }}>
+          <GraphView graph={this.state.graph} />
+        </div>
+        <button style={{ width: canvasWidth }} onClick={this.randomize}>
+          Randomize
+        </button>
       </div>
     );
   }

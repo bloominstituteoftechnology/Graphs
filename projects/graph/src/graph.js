@@ -29,19 +29,12 @@ export class Graph {
     this.vertexes = [];
   }
 
-  debugger() {
-    let vert = new Vertex('chimp', { x: 315, y: 120 });
-    this.vertexes.push(vert);
-    vert = new Vertex('banana', { x: 235, y: 490 });
-    this.vertexes.push(vert);
-
-    this.vertexes[0].edges.push(new Edge(this.vertexes[1]));
-  }
-
   /**
    * Create a random graph
    */
   randomize(width, height, pxBox, probability = 0.6) {
+    this.vertexes = [];
+
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
