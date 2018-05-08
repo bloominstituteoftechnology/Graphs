@@ -106,7 +106,7 @@ class GraphView extends Component {
           // console.log(checkIntersect(mousePoint, circle));
           if (checkIntersect(mousePoint, circle)) {
             // alert('click on circle: ' + circle.value);
-            console.log(circle);
+            // console.log(circle);
             this.setState({ currentVertex: circle });
           }
         });
@@ -154,8 +154,21 @@ class GraphView extends Component {
       <div>
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
     {this.state.currentVertex === null ?
-        <div>null</div> : 
-        <div>Vertex:{vert.value} X: {vert.pos.x} Y: {vert.pos.y}</div>}
+        null : 
+        <div>
+          <div>
+            {vert.value}
+          </div>
+          <div>
+            X: {vert.pos.x} Y: {vert.pos.y}
+          </div>
+          <div>
+            EDGES: {vert.edges.length > 0 ? vert.edges.map((elem) => {
+              return [` ${elem.destination.value} `];
+            }) : 'None'
+            }
+          </div>
+        </div>}
       </div>
     )
   }
