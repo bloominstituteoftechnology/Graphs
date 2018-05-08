@@ -44,9 +44,17 @@ class GraphView extends Component {
     for(let v of this.props.graph.vertexes){
       const vx = v.pos.x;
       const vy = v.pos.y;
+      ctx.fillStyle="yellow";
       ctx.beginPath();
-      ctx.arc(vx,vy,40,0,2*Math.PI);
+      ctx.arc(vx, vy, 15, 0, 2*Math.PI);
       ctx.stroke();
+      ctx.fill();
+
+      ctx.font = "13px Comic Sans MS";
+      ctx.fillStyle = "blue";
+      ctx.textAlign= "center";
+      ctx.textBaseline="middle";
+      ctx.fillText(v.value, vx, vy);
       for(let e of v.edges){
         //draw line
         const dx = e.destination.pos.x;
