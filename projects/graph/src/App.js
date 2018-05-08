@@ -35,17 +35,6 @@ class GraphView extends Component {
     ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    let color = ['orange','yellow','blue','green'];
-     setInterval(function() {
-       for(let j=0; j < 100; j++){
-           ctx.strokeStyle = color[j%4];
-           //ctx.moveTo(400,400);
-           ctx.arc(500,500,50,10,1);
-           ctx.stroke();
-           ctx.rotate(2);
-       }
-     }, 500);
-
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
@@ -75,7 +64,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    Graph.randomize();
+    this.state.graph.randomize();
   }
 
   render() {
