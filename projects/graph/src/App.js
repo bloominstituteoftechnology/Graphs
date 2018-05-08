@@ -6,6 +6,7 @@ import './App.css';
 const canvasWidth = 800;
 const canvasHeight = 800;
 const radius = 20;
+let limitListenerCreation = false;
 
 function drawLine(startx, starty, finx, finy, ctx) {
   ctx.strokeStyle = 'black';
@@ -16,11 +17,15 @@ function drawLine(startx, starty, finx, finy, ctx) {
 function drawCircle(vertex, ctx) {
   ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2*Math.PI);
   var grd = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
-  chooseAColor(vertex, ctx);
+  fillColor(vertex, ctx);
   writeTheText(vertex, ctx);
 }
 
-function chooseAColor(vertex, ctx) {
+function checkIntersect(point, vertex) {
+  return Math.sqrt(Math.pow(point.x - vertex.pos.x, 2) + Math.pow(point.y - vertex.pos.y, 2)) < radius;
+}
+
+function fillColor(vertex, ctx) {
   let color = 'white';
   const len = vertex.edges.length;
   switch (true) {
@@ -66,6 +71,9 @@ function getRandomInt(max) {
  * GraphView
  */
 class GraphView extends Component {
+  state = {
+    currentVertex: null
+  }
   /**
    * On mount
    */
@@ -86,6 +94,24 @@ class GraphView extends Component {
    */
   updateCanvas() {
     let canvas = this.refs.canvas;
+    if (!limitListenerCreation) {
+      limitListenerCreation = true;
+      canvas.addEventListener('click', (e) => {
+        var rect = canvas.getBoundingClientRect();
+        const mousePoint = {
+          x: (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+          y: (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+        };
+        this.props.graph.vertexes.forEach(circle => {
+          // console.log(checkIntersect(mousePoint, circle));
+          if (checkIntersect(mousePoint, circle)) {
+            // alert('click on circle: ' + circle.value);
+            console.log(circle);
+            this.setState({ currentVertex: circle });
+          }
+        });
+      });
+    }
     let ctx = canvas.getContext('2d');
     
     // Clear it
@@ -123,7 +149,15 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    const vert = this.state.currentVertex;
+    return (
+      <div>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    {this.state.currentVertex === null ?
+        <div>null</div> : 
+        <div>Vertex:{vert.value} X: {vert.pos.x} Y: {vert.pos.y}</div>}
+      </div>
+    )
   }
 }
 
