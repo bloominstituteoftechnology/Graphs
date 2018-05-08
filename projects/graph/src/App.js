@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 800;
-const canvasHeight = 800;
+const canvasWidth = 750;
+const canvasHeight = 600;
+const circleRadius = 15;
 
 /**
  * GraphView
@@ -37,50 +38,31 @@ class GraphView extends Component {
 
     // !!! IMPLEMENT ME
     // compute connected components
+    console.log(this.props.graph)
     // draw edges
     // draw verts
     // draw vert values (labels)
+    for (let vertex of this.props.graph.vertexes){
+      for (let edge of vertex.edges){
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
 
-    ctx.beginPath();
-    ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-    ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = "lightgreen";
+      ctx.fill();
+      ctx.strokeStyle = "red";
+      ctx.stroke();
 
-    ctx.beginPath();
-    ctx.arc(700, 50, 40, 0, 2 * Math.PI);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(700, 400, 40, 0, 2 * Math.PI);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(95, 400, 40, 0, 2 * Math.PI);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(135, 50);
-    ctx.lineTo(660, 50);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(95, 90);
-    ctx.lineTo(95, 360);
-    ctx.stroke();    
-
-    ctx.beginPath();
-    ctx.moveTo(95, 90);
-    ctx.lineTo(95, 360);
-    ctx.stroke();  
-
-    ctx.beginPath();
-    ctx.moveTo(135, 400);
-    ctx.lineTo(660, 400);
-    ctx.stroke();  
-
-    ctx.beginPath();
-    ctx.moveTo(700, 360);
-    ctx.lineTo(700, 90);
-    ctx.stroke();  
+      ctx.fillStyle = "black";
+      ctx.font = "12px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseLine = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
   }
   
   /**
@@ -104,6 +86,7 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
+    this.state.graph.createTestData();
     // use the graph randomize() method
   }
 
