@@ -32,16 +32,22 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     let radius = 50;
 
+
+const grd = ctx.createLinearGradient(0, 0, 500, 0)
+    grd.addColorStop(0, "purple");
+    grd.addColorStop(1, "pink");
+
+
     // Clear it
-    ctx.fillStyle = 'green';
+    ctx.fillStyle = grd;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, 10, 0, 2 * Math.PI);
-      ctx.fillStyle = 'green';
+      ctx.fillStyle = 'lightpink';
       ctx.fill();
-      ctx.strokeStyle = 'black';
+      ctx.strokeStyle = 'blue';
       ctx.stroke();
 
 
@@ -59,9 +65,7 @@ class GraphView extends Component {
     // ctx.fillStyle = '#3BB9FF';
     // ctx.fillRect(0, 0, 500, 200);
 
-    // const grd = ctx.createLinearGradient(0, 0, 500, 0)
-    // grd.addColorStop(0, "purple");
-    // grd.addColorStop(1, "pink");
+    
 
     // ctx.fillStyle = 'yellow';
     // ctx.arc(800 / 2, 150 / 2, radius, 0, 2 * Math.PI, false); 
