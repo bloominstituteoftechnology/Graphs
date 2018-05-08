@@ -14,10 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(/*value = 'vertex', pos = {x: 0, y: 0}*/) {
+  constructor(value = 'vertex', pos = { x: 0, y: 0 }) {
     this.edges = [];
-    // this.value = value;
-    // this.pos = pos;
+    this.value = value;
+    this.pos = pos;
   }
 }
 
@@ -29,16 +29,16 @@ export class Graph {
     this.vertexes = [];
   }
 
-debugCreateTestData() {
-  let debugVertex1 = new Vertex('debug1', {x: 100, y: 100});
-  let debugVertex2 = new Vertex('debug2', {x: 200, y: 200});
+  debugCreateTestData() {
+    let debugVertex1 = new Vertex('debug1', { x: 100, y: 100 });
+    let debugVertex2 = new Vertex('debug2', { x: 200, y: 200 });
 
-  let debugEdge1 = new Edge(debugVertex2);
+    let debugEdge1 = new Edge(debugVertex2);
 
-  debugVertex1.edges.push(debugEdge1);
+    debugVertex1.edges.push(debugEdge1);
 
-  this.vertexes.push(debugVertex1, debugVertex2);
-}
+    this.vertexes.push(debugVertex1, debugVertex2);
+  }
 
   /**
    * Create a random graph
@@ -131,6 +131,7 @@ debugCreateTestData() {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+
   }
 
   /**
@@ -138,5 +139,28 @@ debugCreateTestData() {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let isConnected = false;
+    let newVertexes = [];
+    let vertex = 0;
+    let foundVertexes = [];
+    let trackedCount = 0;
+    let connectedVertexes = [];
+
+    do {
+      newVertexes = this.bfs(vertex);
+      connectedVertexes[trackedCount++] = newVertexes;
+      for (let i = 0; i < newVertexes.length; i++) {
+        foundVertexes[newVertexes[i]] = true;
+      }
+      isConnected = true;
+      for (let i = 0; i < this.vertexes.length; i++) {
+        if (foundVertexes[i] !== true) {
+          isConnected = false;
+          vertex = i;
+          break;
+        }
+      }
+    } while (!isConnected);
+    return connectedVertexes;
   }
 }
