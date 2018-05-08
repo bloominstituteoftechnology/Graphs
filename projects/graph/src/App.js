@@ -36,7 +36,7 @@ class GraphView extends Component {
     ctx.fillStyle = 'rgba(0, 0, 0, 0';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // console.log('vertex data', this.props.graph.vertexes);
+    console.log('vertex data', this.props.graph.vertexes);
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
         ctx.beginPath();
@@ -48,7 +48,6 @@ class GraphView extends Component {
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.fillStyle = 'green';
       ctx.fill();
-      ctx.strokeStyle = 'black';
       ctx.stroke();
 
       ctx.fillStyle='black';
