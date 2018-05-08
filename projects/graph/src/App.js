@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 400;
+const canvasHeight = 300;
+const vertexRadius = 10;
 
 /**
  * GraphView
@@ -32,8 +33,30 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    let grd = ctx.createLinearGradient(canvasWidth / 2, 0, canvasWidth / 2, canvasHeight);
+    grd.addColorStop(0, "lightyellow");
+    grd.addColorStop(1, "lightblue");
+    
+    ctx.fillStyle = grd;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    console.log('In update canvas, vertex data is: ', this.props.graph);
+
+    for (let vertex of this.props.graph.vertexes) {
+      console.log('vertex names: ', vertex.value);
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2*Math.PI);
+      ctx.fillStyle = 'green';
+      ctx.fill();
+      ctx.strokeStyle= 'black'; // TODO: Optimize this code. Many calls for stroke and fill
+      ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.font = "10px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseLine = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -64,6 +87,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
