@@ -3,13 +3,11 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 500;
-const canvasHeight = 500;
+const canvasWidth = 1000;
+const canvasHeight = 1000;
 
 function recur(num) {
-  function fibonacci(num, memo) {
-    memo = memo || {};
-
+  function fibonacci(num, memo = {}) {
     if (memo[num]) return memo[num];
     if (num <= 1) return 1;
 
@@ -51,29 +49,31 @@ class GraphView extends Component {
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    for (let i = 0; i < 100; i++) {
-      ctx.strokeStyle = 'white';
-      let x = recur(i);
-      ctx.lineWidth = 1;
-      ctx.moveTo(x, x);
-      ctx.bezierCurveTo(i, i, x * i, x / i, x * x, x * Math.PI);
-      ctx.lineTo(x + i, x + i);
-      ctx.lineTo(x * i, x * i);
-      ctx.lineTo(x - i, x - i);
-      ctx.lineTo(x / i, x / i);
-      ctx.stroke();
-      ctx.bezierCurveTo(x, x, x, x, x, x * Math.PI);
-      ctx.moveTo(i + 200, i + 200);
-      ctx.stroke();
-      ctx.bezierCurveTo(x, x, x, x, x, x * Math.PI);
-      ctx.moveTo(i + 300, i + 300);
-      ctx.stroke();
-      ctx.bezierCurveTo(x, x, x, x, x, x * Math.PI);
-      ctx.moveTo(i + 400, i + 400);
-      ctx.stroke();
-      ctx.bezierCurveTo(x, x, x, x, x, x * Math.PI);
-      ctx.stroke();
-    }
+      // for (let i = 0; i < 100; i++) {
+      //   ctx.strokeStyle = 'white';
+      //   let x = recur(i);
+      //   ctx.lineWidth = 1;
+      //   ctx.moveTo(100 + i, i);
+      //   ctx.bezierCurveTo(i, i, x, x, x, x * Math.PI);
+      //   ctx.lineTo(x * i, x * i);
+      //   ctx.stroke();
+      //   ctx.strokeStyle = 'blue';
+      //   ctx.bezierCurveTo(i, i, -x, x, x, x * Math.PI);
+      //   ctx.stroke();
+      // }
+      for (let i = 0; i < 100; i++) {
+        let x = recur(i);
+        ctx.beginPath();
+        ctx.moveTo(i * x, i * x);
+        ctx.arc(x, x, i, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.lineTo(x + x, i * x);
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+        ctx.closePath();
+      }
 
     // !!! IMPLEMENT ME
     // compute connected components
