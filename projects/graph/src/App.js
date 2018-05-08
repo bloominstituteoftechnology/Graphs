@@ -44,9 +44,17 @@ class GraphView extends Component {
     //console.log('Update Canvas, vertex data: ', this.props);
 
     for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.beginPath();
+        ctx.lineTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'green';
+      ctx.fillStyle = 'white';
       ctx.fill();
       ctx.stroke();
 
@@ -56,7 +64,6 @@ class GraphView extends Component {
       ctx.textBaseline = "middle";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
-
   }
   
   /**

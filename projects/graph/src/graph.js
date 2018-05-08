@@ -30,9 +30,12 @@ export class Graph {
   debugCreateTestData() {
     const debugVertex1 = new Vertex('d1', {x: 100, y: 100});
     const debugVertex2 = new Vertex('d2', {x: 200, y: 200});
+    const debugVertex3 = new Vertex('d3', {x: 350, y: 148});
     const debugEdge1 = new Edge(debugVertex2);
+    const debugEdge2 = new Edge(debugVertex3);
     debugVertex1.edges.push(debugEdge1);
-    this.vertexes.push(debugVertex1, debugVertex2);
+    debugVertex1.edges.push(debugEdge2);
+    this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
   }
 
   /**
