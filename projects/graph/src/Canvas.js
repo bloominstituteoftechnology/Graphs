@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Graph } from './src/graph';
-import './src/App.css';
+import { Graph } from './graph';
+import './App.css';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 400;
