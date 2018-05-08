@@ -6,6 +6,10 @@ import './App.css';
 let canvasWidth = 0;
 let canvasHeight = 0;
 const nodeSize = 15;
+const randomizeFuncWidth = 5;
+const randomizeFuncHeight = 5;
+const randomizeFuncPxBox = 150;
+const randomizeFuncProbability = 0.6;
 
 /**
  * GraphView
@@ -27,12 +31,6 @@ class GraphView extends Component {
   componentDidUpdate() {
     this.updateCanvas();
   }
-
-  randomize = () => {
-    this.props.graph.randomize();
-    this.setState({ update: !this.state.update });
-    console.log(this.state.update);
-  };
 
   /**
    * Render the canvas
@@ -225,11 +223,21 @@ class App extends Component {
       reRender: true,
     };
 
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(
+      randomizeFuncWidth,
+      randomizeFuncHeight,
+      randomizeFuncPxBox,
+      randomizeFuncProbability
+    );
   }
 
   randomize = () => {
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(
+      randomizeFuncWidth,
+      randomizeFuncHeight,
+      randomizeFuncPxBox,
+      randomizeFuncProbability
+    );
     this.setState({ reRender: !this.state.reRender });
   };
 
