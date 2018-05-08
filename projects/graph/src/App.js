@@ -44,6 +44,17 @@ class GraphView extends Component {
         ctx.stroke();
       })
     })
+    this.props.graph.vertexes.forEach(vert => {
+      ctx.beginPath();
+      ctx.arc(vert.pos.x, vert.pos.y, 10, 0, 2 * Math.PI);
+      // ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+      let r = Math.floor(Math.random() * 155) + 100;
+      let g = Math.floor(Math.random() * 155) + 100;
+      let b = Math.floor(Math.random() * 155) + 100;
+      ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+      ctx.fill();
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
     // draw edges
     // draw verts
     // draw vert values (labels)
