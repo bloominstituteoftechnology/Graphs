@@ -131,8 +131,8 @@ export class Graph {
             10
           );
           if (!savedVertexes.includes(destination)) {
-            queue.push(destination); 
-            savedVertexes.push(destination); 
+            queue.push(destination);
+            savedVertexes.push(destination);
           }
         }
       }
@@ -144,5 +144,27 @@ export class Graph {
    * Get the connected components
    */
   getConnectedComponents() {
-    
+    let isConnected = false;
+    let newVertexes = [];
+    let vertex = 0;
+    let foundVertexes = [];
+    let trackedCount = 0;
+    let connectedVertexes = [];
+    do {
+      newVertexes = this.bfs(vertex);
+      connectedVertexes[trackedCount++] = newVertexes;
+      for (let i = 0; i < newVertexes.length; i++) {
+        foundVertexes[newVertexes[i]] = true;
+      }
+      isConnected = true;
+      for (let i = 0; i < this.vertexes.length; i++) {
+        if (foundVertexes[i] !== true) {
+          isConnected = false;
+          vertex = i;
+          break;
+        }
+      }
+    } while (!isConnected);
+    return connectedVertexes;
+  }
 }
