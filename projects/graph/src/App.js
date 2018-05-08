@@ -43,6 +43,7 @@ class GraphView extends Component {
 
     for (let vertex of this.props.graph.vertexes) {
       const edges = vertex.edges;
+      console.log('vertex is', vertex);
       for (let i = 0; i < edges.length; i++) {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -50,6 +51,7 @@ class GraphView extends Component {
         ctx.stroke();
       }
     }
+
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2*Math.PI);
@@ -64,12 +66,6 @@ class GraphView extends Component {
       ctx.textBaseline = "middle";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
   }
   
   /**
@@ -98,9 +94,15 @@ class App extends Component {
     this.state.graph.randomize(5, 4, 150);
   }
 
+  onButtonClick = () => {
+    this.state.graph.randomize(5, 4, 150);
+    this.setState({ graph: this.state.graph });
+  }
+
   render() {
     return (
       <div className="App">
+        <button onClick={this.onButtonClick}>REGEN</button>
         <GraphView graph={this.state.graph}></GraphView>
       </div>
     );

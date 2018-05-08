@@ -98,6 +98,7 @@ export class Graph {
       }
     }
 
+    if (this.vertexes.length > 0) this.vertexes = [];
     // Finally, add everything in our grid to the vertexes in this Graph
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
