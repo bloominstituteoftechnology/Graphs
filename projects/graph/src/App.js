@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
-const canvasHeight = 1000;
+let canvasWidth = 200;
+let canvasHeight = 200;
+const nodeSize = 15;
 
 /**
  * GraphView
@@ -154,9 +155,8 @@ class GraphView extends Component {
     // ─────────────────────────────────────────────────────── END ─────
     //
 
-    // !!! IMPLEMENT ME
-    let nodeSize = 20;
-
+    //
+    // ────────────────────────────────────────────── DRAW LINES ─────
     for (let vertex of this.props.graph.vertexes) {
       if (vertex.edges.length) {
         for (let i = 0; i < vertex.edges.length; i++) {
@@ -170,10 +170,17 @@ class GraphView extends Component {
           ctx.stroke();
         }
       }
-
+    }
+    //
+    // ──────────────────────────────────────────────── DRAW NODES ─────
+    let r, g, b;
+    for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, nodeSize, 0, Math.PI * 2);
-      ctx.fillStyle = 'white';
+      r = Math.floor(Math.random() * 155) + 100;
+      g = Math.floor(Math.random() * 155) + 100;
+      b = Math.floor(Math.random() * 155) + 100;
+      ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
       ctx.fill();
 
       ctx.strokeStyle = 'black';
@@ -186,11 +193,20 @@ class GraphView extends Component {
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
   }
+  // ────────────────────────────────────────────────────────────────────── END ─────
+  //
 
   /**
    * Render
    */
   render() {
+    // Find the required canvas size
+    for (let vertex of this.props.graph.vertexes) {
+      if (vertex.pos.x > canvasWidth) canvasWidth = vertex.pos.x;
+      if (vertex.pos.y > canvasHeight) canvasHeight = vertex.pos.y;
+    }
+    canvasWidth += (nodeSize * 3);
+    canvasHeight += (nodeSize * 3);
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }

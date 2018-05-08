@@ -30,10 +30,10 @@ export class Graph {
   }
 
   debugger() {
-    let newVert = new Vertex('chimp', { x: 315, y: 120 });
-    this.vertexes.push(newVert);
-
-    this.vertexes.push(new Vertex('banana', { x: 235, y: 490 }));
+    let vert = new Vertex('chimp', { x: 315, y: 120 });
+    this.vertexes.push(vert);
+    vert = new Vertex('banana', { x: 235, y: 490 });
+    this.vertexes.push(vert);
 
     this.vertexes[0].edges.push(new Edge(this.vertexes[1]));
   }
@@ -64,7 +64,7 @@ export class Graph {
     }
 
     // Go through the grid randomly hooking up edges
-    for (let y = 0; y < height; y) {
+    for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         // Connect down
         if (y < height - 1) {
