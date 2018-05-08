@@ -2,14 +2,26 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
+let canvasWidth = window.innerWidth;
+let canvasHeight = window.innerHeight;
 // !!! IMPLEMENT ME
-const canvasWidth = 16 * 50;
-const canvasHeight = 9 * 50;
 
 /**
  * GraphView
  */
 class GraphView extends Component {
+  state = {
+    canvasWidth: window.outerWidth,
+    canvasHeight: window.outerHeight
+  };
+  updateSize = (() => {
+    setTimeout(window.addEventListener('resize', () => {
+      this.setState({
+        canvasWidth: window.outerWidth,
+        canvasHeight: window.outerHeight,
+      });
+    }), 500);
+  })();
   /**
    * On mount
    */
@@ -30,38 +42,68 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-
     // Clear it
-    ctx.fillStyle = 'lightblue';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    ctx.save();
 
-    let x = 100;
-    let y = 500;
-    let newStart = 10;
+    var gradient = ctx.createLinearGradient(
+      canvasWidth / 2,
+      0,
+      canvasWidth / 2,
+      canvasHeight
+    );
+    gradient.addColorStop(0, '#a18cd1');
+    gradient.addColorStop(1, '#fbc2eb');
 
-    for (let i = 0; i < 60; i++) {
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, this.state.canvasWidth, this.state.canvasHeight);
 
-      for (let j = 0; j < 10; j++) {
-        // if (j % 2 === 0) x = x + 30;
-        ctx.strokeStyle = 0x02031;
-        ctx.strokeRect(x, y, 50, 50)
-        ctx.rotate(((100 * Math.random()) / 2));
-        x = x*.3;
-        y = y *1;
+    const radius = 20;
+
+    const drawEdges = (edge, start) => {
+      let { x, y } = edge.destination.pos;
+      ctx.strokeStyle = 'white';
+      ctx.beginPath();
+      ctx.moveTo(start.x, start.y);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      if (edge.destination.edges.length > 0) {
+        mapEdges(edge.destination.edges);
       }
-      if(newStart % 2 === 0) {
-        newStart = newStart * 5;
-        x = ~x * 1000;
-        y = ~y;
+    };
 
+    const mapEdges = (edges, pos) => {
+      if (pos !== undefined) {
+        edges.map((edge) => {
+          drawEdges(edge, pos);
+        });
       }
-      else { 
-        newStart = newStart;
-        x = newStart;
-      }
-      // y = y*i-50;
-    }
+    };
+    const draw = (() => {
+      this.props.graph.vertexes.map((vertex, i) => {
+        if (vertex.edges.length > 0) {
+          mapEdges(vertex.edges, vertex.pos);
+        }
+      });
+      this.props.graph.vertexes.map((vertex, i) => {
+        let count = 0;
+        if(count < 1) {
+          console.log(vertex);
+        }
+        count++;
+        // Circle
+        const ep = Math.PI * 2;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 255, 255, .5';
+        ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, ep, false);
+        ctx.fill();
+        ctx.stroke();
+        // Text
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = '12px sans-serif';
+        ctx.fillStyle = 'black';
+        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      });
+    })();
     // !!! IMPLEMENT ME
     // compute connected components
 
@@ -74,7 +116,7 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
+    return <canvas ref="canvas" width={this.state.canvasWidth} height={this.state.canvasHeight} />;
   }
 }
 
@@ -91,6 +133,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(30, 30, 150, 0.6);
   }
 
   render() {

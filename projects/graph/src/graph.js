@@ -2,7 +2,10 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor (value = 'vertex', pos = {x : 0, y : 0}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -18,6 +26,20 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  debugData() {
+    let vertex1 = new Vertex('debug1', {x:100, y:100});
+    let vertex2 = new Vertex('debug2', {x:200, y:200});
+    let vertex3 = new Vertex('debug3', {x:300, y:200});
+    let vertex4 = new Vertex('debug4', {x:700, y:10});
+
+    let edge1 = new Edge('debug2');
+    let edge2 = new Edge('debug1');
+    let edge3 = new Edge('debug4');
+    vertex1.edges.push(edge1);
+    vertex3.edges.push(edge2, edge1, edge3)
+    this.vertexes.push(vertex1, vertex2, vertex3, vertex4);
   }
 
   /**
