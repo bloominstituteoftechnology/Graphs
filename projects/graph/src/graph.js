@@ -40,7 +40,7 @@ export class Graph {
     console.log({ 'dumbVertex1.edges': dumbVertex1.edges })
     
     // this.vertexes.map(vertex => {
-    //   let edge = new Edge (vertex.pos)
+    //   let edge = new Edge (vertex)
     //   vertex.edges.push(edge);
     // });
   }
