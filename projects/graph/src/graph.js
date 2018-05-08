@@ -2,14 +2,21 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+    this.weight = 0;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value) {
+    this.value = value;
+    this.edges = [];
+    this.color = 'white';
+  }
 }
 
 /**
@@ -109,8 +116,30 @@ export class Graph {
   /**
    * BFS
    */
+
   bfs(start) {
-    // !!! IMPLEMENT ME
+    let queue = [];
+    queue.push(start);
+    start.color = 'black';
+    const search = (startPoint) => {
+      let currentLevel = startPoint;
+      while (currentLevel.length > 0) {
+        let nextLevel = [];
+        currentLevel.forEach((vertex) => {
+          vertex.edges.forEach((edge) => {
+            if (queue.includes(edge.destination) === false) {
+              queue.push(edge.destination);
+              nextLevel.push(edge.destination);
+              edge.destination.color = 'black';
+            }
+          })
+        })
+        currentLevel = nextLevel;
+        search(currentLevel);
+      }
+    }
+    search([start]);
+    return queue;
   }
 
   /**
