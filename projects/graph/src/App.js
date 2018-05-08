@@ -90,13 +90,14 @@ class GraphView extends Component {
     for (let v of this.props.graph.vertexes) {
       ctx.moveTo(v.pos.x, v.pos.y);
       ctx.beginPath();
-      ctx.arc(v.pos.x, v.pos.y, 10, 0, Math.Pi * 2);//creates an arc/curve
+      ctx.arc(v.pos.x, v.pos.y, 20, 0, 10);//creates an arc/curve
       ctx.stroke();
+      ctx.fill();
 
       //Text for graph
-      ctx.fillStyle = 'blue';
+      ctx.fillStyle = 'grey';
       ctx.textAlign = 'center';
-      ctx.font = '14px serif';
+      ctx.font = '14px sans-serif';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     }
 
