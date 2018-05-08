@@ -40,10 +40,10 @@ class GraphView extends Component {
     ctx.font = "30px Arial";
     ctx.fillText('Hello World', 10, 50);
 
-    //console.log('in update canvas, vertex data is: ', this.props.graph);
+    // console.log('in update canvas, vertex data is: ', this.props.graph);
 
     for(let vertex of this.props.graph.vertexes) {
-      // console.log('vertex names', vertex.value);
+      console.log('vertex names', vertex.value);
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.fillStyle = 'green';
@@ -87,6 +87,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
