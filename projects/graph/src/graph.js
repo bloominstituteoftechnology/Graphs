@@ -29,14 +29,6 @@ export class Graph {
     this.vertexes = [];
   }
 
-  testing(){
-    const v1 = new Vertex('v1', {x: 100, y: 100});
-    const v2 = new Vertex('v2', {x: 200, y: 200});
-    v1.edges.push(new Edge(v2));
-    v2.edges.push(new Edge(v1));
-    this.vertexes.push(v1, v2);
-  }
-
   /**
    * Create a random graph
    */
