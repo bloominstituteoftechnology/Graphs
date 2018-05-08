@@ -33,8 +33,14 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'lightblue';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // ctx.fillStyle = 'lightblue';
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    let gradient = ctx.createRadialGradient(75, 50, 5, 90, 60, 100);
+    gradient.addColorStop(0, "lightblue");
+    gradient.addColorStop(1, "grey");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(10, 10, canvasWidth, canvasHeight)
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -88,6 +94,7 @@ class App extends Component {
     // !!! IMPLEMENT ME
     this.state.graph.createTestData();
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
