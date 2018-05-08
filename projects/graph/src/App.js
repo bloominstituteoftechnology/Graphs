@@ -75,6 +75,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    Graph.randomize();
   }
 
   render() {
