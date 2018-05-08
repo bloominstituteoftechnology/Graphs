@@ -1,0 +1,50 @@
+  let num = 5;
+  let rotation = 0;
+  let balls = [];
+
+function Ball() {
+  this.r = 20;
+  this.x = Math.random() * 200;
+  this.y = Math.random() * 150;
+
+}
+
+(function init() {
+
+  ctx.clearRect(0, 0, ctx.width, ctx.height);
+  ctx.fillStyle = "lightblue";
+
+  for (let i = 0; i < num; i++) {
+    balls[i] = new Ball()
+  }
+  requestAnimationFrame(draw);
+
+})();
+
+function draw() {
+
+  // reset transforms before clearing
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // tramslate and rotate an absolute rotation value
+  ctx.translate(300, 300);
+  ctx.rotate(rotation);
+
+  // draw arcs
+  for (let i = 0; i < num; i++) {
+    var Ball = balls[i];
+    ctx.beginPath();
+    ctx.arc(Ball.x, Ball.y, Ball.r, 0, 2 * Math.PI, false);
+    //ctx.stroke();
+    ctx.fill();
+  }
+  ctx.beginPath();
+  ctx.arc(0, 0, 240, 0, Math.PI * 2, false);
+  ctx.lineWidth = 8;
+  ctx.stroke();
+
+  // update rotation value and request new frame
+  rotation += 0.04;
+  requestAnimationFrame(draw)
+}
