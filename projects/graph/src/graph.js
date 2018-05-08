@@ -121,18 +121,18 @@ export class Graph {
     let savedVertexes = [start]; // saved vertexes to start
     let tracker;
     while (queue.length > 0) {
+      //checks to see if the array is empty
       tracker = queue.shift();
       if (this.vertexes[tracker].edges) {
-        // if the tracker vertex has edges
+        // if the tracker vertex has edges then get the destination value and parse it into an integer
         for (let i = 0; i < this.vertexes[tracker].edges.length; i++) {
-          // get the edge's destination value
           const destination = parseInt(
             this.vertexes[tracker].edges[i].destination.value.slice(1),
             10
           );
           if (!savedVertexes.includes(destination)) {
-            queue.push(destination); //
-            savedVertexes.push(destination); //
+            queue.push(destination); 
+            savedVertexes.push(destination); 
           }
         }
       }
