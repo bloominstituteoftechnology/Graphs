@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 500;
-const canvasHeight = 500;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -79,18 +79,32 @@ class GraphView extends Component {
     // draw edges
     for (let v of this.props.graph.vertexes) {
       for (let e of v.edges) {
-        ctx.moveTo(e.pos.x, e.pos.y);
-        ctx.lineTo(e.pos.destination.pos.x, e.pos.destination.pos.y);
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
         ctx.stroke(); //draws the path defined w/ moveTo() & lineTo()
       }
     }
 
 
     // draw verts
+    for (let v of this.props.graph.vertexes) {
+      ctx.moveTo(v.pos.x, v.pos.y);
+      ctx.beginPath();
+      ctx.arc(v.pos.x, v.pos.y, 10, 0, Math.Pi * 2);//creates an arc/curve
+      ctx.stroke();
 
+      //Text for graph
+      ctx.fillStyle = 'blue';
+      ctx.textAlign = 'center';
+      ctx.font = '14px serif';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    }
 
 
     // draw vert values (labels)
+
+
+
   }
   
   /**
@@ -115,6 +129,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
