@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
@@ -106,17 +107,20 @@ class App extends Component {
     super(props);
 
     this.state = {
-      graph: new Graph()
+      graph: new Graph(),
+      connectedComponents: []
     };
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(4, 5, 200, 0.5);
+    this.state.connectedComponents = this.state.graph.getConnectedComponents();
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} connectedComponents={this.state.graph.getConnectedComponents}></GraphView>
       </div>
     );
   }
