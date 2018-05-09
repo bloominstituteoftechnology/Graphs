@@ -125,6 +125,10 @@ export class Graph {
     // console.log("here is the queue member that is about to break everything:", queue[0].edges);
 
     while (queue.length > 0) { //while the queue still has something in it
+      if (queue[0].edges.length === 0) {
+        result.push(queue[0]); // add it to the results array, so we know it's part of this iteration's group        
+      }
+
       for (let i = 0; i < queue[0].edges.length; i++) { // loop through the queue's first vertex's edges
         if (queue[0].edges[i].destination.found === undefined) { //if the edge is not yet found
           queue[0].edges[i].destination.found = true; // mark it as found
