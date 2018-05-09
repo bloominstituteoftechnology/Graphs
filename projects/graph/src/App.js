@@ -91,8 +91,10 @@ class GraphView extends Component {
       ctx.moveTo(v.pos.x, v.pos.y);
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, 20, 0, 10);//creates an arc/curve
-      ctx.stroke();
+      ctx.closePath();
+      ctx.fillStyle = 'white';
       ctx.fill();
+      ctx.stroke();
 
       //Text for graph
       ctx.fillStyle = 'grey';
