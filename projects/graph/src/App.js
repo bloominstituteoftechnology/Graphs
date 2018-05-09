@@ -7,16 +7,19 @@ const canvasWidth = 800;
 const canvasHeight = 800;
 const radius = 20;
 let limitListenerCreation = false;
+let color;
 
 function drawLine(startx, starty, finx, finy, ctx) {
-  ctx.strokeStyle = 'black';
+  // ctx.strokeStyle = 'black';
+  ctx.strokeStyle = color;
   ctx.moveTo(startx, starty)
   ctx.lineTo(finx, finy);
 }
 
 function drawCircle(vertex, ctx) {
+  ctx.strokeStyle = 'black';  
   ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2*Math.PI);
-  var grd = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
+  // var grd = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
   fillColor(vertex, ctx);
   writeTheText(vertex, ctx);
 }
@@ -26,31 +29,31 @@ function checkIntersect(point, vertex) {
 }
 
 function fillColor(vertex, ctx) {
-  let color = 'white';
-  const len = vertex.edges.length;
-  switch (true) {
-    case len === 0:
-      color = 'maroon';
-      break;
-    case len === 1:
-      color = 'lightblue';
-      break;
-    case len === 2:
-      color = 'lightskyblue';
-      break;
-    case len === 3:
-      color = 'dodgerblue';
-      break;
-    case len === 4:
-      color = 'blue';
-      break;
-    case len >= 5:
-      color = 'purple';
-      break;
-    default:
-      color = 'orange';
-      break;      
-  }
+  // let color = 'white';
+  // const len = vertex.edges.length;
+  // switch (true) {
+  //   case len === 0:
+  //     color = 'maroon';
+  //     break;
+  //   case len === 1:
+  //     color = 'lightblue';
+  //     break;
+  //   case len === 2:
+  //     color = 'lightskyblue';
+  //     break;
+  //   case len === 3:
+  //     color = 'dodgerblue';
+  //     break;
+  //   case len === 4:
+  //     color = 'blue';
+  //     break;
+  //   case len >= 5:
+  //     color = 'purple';
+  //     break;
+  //   default:
+  //     color = 'orange';
+  //     break;      
+  // }
   ctx.fillStyle = color;
   ctx.fill();
 }
@@ -92,7 +95,7 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    console.log(this.props.graph.getConnectedComponents(this.props.graph.vertexes));
+    const groups = this.props.graph.getConnectedComponents(this.props.graph.vertexes);
     let canvas = this.refs.canvas;
     if (!limitListenerCreation) {
       limitListenerCreation = true;
@@ -120,21 +123,27 @@ class GraphView extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(2, 2, canvasWidth-4, canvasHeight-4);
     ctx.lineWidth = 5;
-    
-    for (let vertex of this.props.graph.vertexes) {
-      // console.log(vertex);
-      ctx.beginPath();
-      for (let edge of vertex.edges) {
-        drawLine(vertex.pos.x, vertex.pos.y, edge.destination.pos.x, edge.destination.pos.y, ctx);
+
+    groups.forEach((group) => {
+      color = `rgb(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)})`;  
+      
+      for (let vertex of group) {
+        // console.log(vertex);
+        ctx.beginPath();
+        for (let edge of vertex.edges) {
+          drawLine(vertex.pos.x, vertex.pos.y, edge.destination.pos.x, edge.destination.pos.y, ctx);
+        }
+        ctx.stroke();
       }
-      ctx.stroke();
-    }
-    ctx.lineWidth = 3;
-    for (let vertex of this.props.graph.vertexes) {
-      ctx.beginPath()
-      drawCircle(vertex, ctx);
-      ctx.stroke();
-    }
+
+      ctx.lineWidth = 3;
+      for (let vertex of group) {
+        ctx.beginPath()
+        drawCircle(vertex, ctx);
+        ctx.stroke();
+      }
+    });
+    
 
     // !!! IMPLEMENT ME
 
