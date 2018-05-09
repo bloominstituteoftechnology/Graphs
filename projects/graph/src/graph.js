@@ -3,13 +3,21 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = {x: 50, y: 50}) {
+    this.value = value;
+    this.edges = [];
+    this.pos = pos; //draw position
+  }
 }
 
 /**
@@ -18,6 +26,19 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  debugCreateTestData() {
+    let testVertex1 = new Vertex('testVertex1', {x: 100, y: 100});
+    console.log("in app constructor, this", this);
+    let testVertex2 = new Vertex('testVertex2', {x: 200, y: 200});
+
+    let edge1 = new Edge(testVertex2);
+
+    testVertex1.edges.push(edge1);
+
+    this.vertexes.push(testVertex1, testVertex2)
+
   }
 
   /**
@@ -90,6 +111,7 @@ export class Graph {
    * Dump graph data to the console
    */
   dump() {
+    // console.log("Colled Dump()");
     let s;
 
     for (let v of this.vertexes) {
@@ -111,6 +133,24 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [start];
+    let visited = [];
+    let current; 
+
+    while (queue.length > 0) {
+      current = queue.shift();
+      visited[current] = true;
+      if (this.vertexes[current].edges) {
+        for (let i = 0; i < this.vertexes[current].edges.length; i++) {
+          const destination = parseInt (
+            this.vertexes[current].edges[i].destination.value.slice(1)
+          );
+          if (!visited[destination]) {
+            queue.push(destination);
+          }
+        }
+      }
+    }
   }
 
   /**
