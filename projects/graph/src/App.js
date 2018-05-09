@@ -41,11 +41,7 @@ class GraphView extends Component {
     ctx.fillStyle = 'rgb(10, 10, 10)';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    // Draw background
     let w = 1000;
     let h = 700;
     for (let i = 0; i < 100; i++) {
@@ -130,45 +126,87 @@ class GraphView extends Component {
       );
       ctx.closePath();
     }
+    // End draw background
 
-    this.props.graph.vertexes.forEach(v => {
-      // Draw edges
-      v.edges.forEach(e => {
+    // Draw Graph
+
+    let colors = [
+      'black',
+      'darkgreen',
+      'maroon',
+      'darkblue',
+      'purple',
+      'darkorange',
+      'lightblue'
+    ];
+
+    this.props.graph.connectedComponents.forEach((component, i) => {
+      component.forEach(v => {
+        v.edges.forEach(e => {
+          ctx.beginPath();
+          ctx.moveTo(v.pos.x, v.pos.y);
+          ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+          ctx.strokeStyle = 'rgba(100, 100, 100)';
+          ctx.lineWidth = 5;
+          ctx.stroke();
+          ctx.closePath();
+        });
+      });
+
+      component.forEach(v => {
         ctx.beginPath();
-        ctx.moveTo(v.pos.x, v.pos.y);
-        ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
-        ctx.strokeStyle = 'rgba(100, 100, 100)';
-        ctx.lineWidth = 5;
+        // Draw vertex circles
+        ctx.strokeStyle = 'rgb(100, 100, 100)';
+        ctx.arc(v.pos.x, v.pos.y, 25, 0, 2 * Math.PI);
+        ctx.fillStyle = colors[i];
+        ctx.fill();
         ctx.stroke();
+        // Draw vertex labels
+        ctx.fillStyle = 'rgb(200, 200, 200)';
+        ctx.font = '20px Georgia';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(v.value, v.pos.x, v.pos.y);
+
         ctx.closePath();
       });
     });
-
-    this.props.graph.vertexes.forEach(v => {
-      ctx.beginPath();
-      // Draw vertex circles
-      ctx.strokeStyle = 'rgb(100, 100, 100)';
-      ctx.arc(v.pos.x, v.pos.y, 25, 0, 2 * Math.PI);
-      ctx.fillStyle = 'black';
-      ctx.fill();
-      ctx.stroke();
-      // Draw vertex labels
-      ctx.fillStyle = 'rgb(200, 200, 200)';
-      ctx.font = '20px Georgia';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(v.value, v.pos.x, v.pos.y);
-
-      ctx.closePath();
-    });
-    console.log(this.props.graph);
   }
+
+  regenerateHandler = () => {
+    // this.setState({ state: this.state });
+    this.props.graph.reset();
+
+    this.props.graph.randomize(
+      Math.floor(canvasWidth / pxBox),
+      Math.floor(canvasHeight / pxBox),
+      pxBox,
+      0.6
+    );
+
+    this.props.graph.getConnectedComponents();
+
+    this.updateCanvas();
+
+    console.log('BANG');
+  };
 
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
+    return (
+      <div>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />
+        <button
+          onClick={() => {
+            this.regenerateHandler();
+          }}
+        >
+          REGENERATE
+        </button>
+      </div>
+    );
   }
 }
 
@@ -183,15 +221,16 @@ class App extends Component {
       graph: new Graph()
     };
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
-    // this.state.graph.debugCreateVertex();
     this.state.graph.randomize(
-      Math.floor( canvasWidth / pxBox ),
-      Math.floor( canvasHeight / pxBox ),
-      pxBox, 1
+      Math.floor(canvasWidth / pxBox),
+      Math.floor(canvasHeight / pxBox),
+      pxBox,
+      0.6
     );
+
+    this.state.graph.getConnectedComponents();
   }
+
 
   render() {
     return (

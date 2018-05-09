@@ -14,9 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value='v') {
+  constructor(value = 'v') {
     this.value = value;
     this.edges = [];
+    this.color = 'black';
   }
 }
 
@@ -26,27 +27,32 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.connectedComponents = [];
   }
 
   debugCreateVertex() {
     let d1 = new Vertex('d1');
     let d2 = new Vertex('d2');
 
-    d1.pos = {x: 200, y: 200};
-    d2.pos = {x: 100, y: 100};
+    d1.pos = { x: 200, y: 200 };
+    d2.pos = { x: 100, y: 100 };
 
     let e1 = new Edge(d2);
 
     d1.edges.push(e1);
 
     this.vertexes.push(d1, d2);
+  }
 
+  reset() {
+    this.vertexes = [];
+    this.connectedComponents = [];
   }
 
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -74,14 +80,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[ y ][ x ], grid[ y + 1 ][ x ]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[ y ][ x ], grid[ y ][ x + 1 ]);
           }
         }
       }
@@ -94,9 +100,9 @@ export class Graph {
 
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        grid[y][x].pos = {
-          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+        grid[ y ][ x ].pos = {
+          x: (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          y: (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
       }
     }
@@ -104,7 +110,7 @@ export class Graph {
     // Finally, add everything in our grid to the vertexes in this Graph
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        this.vertexes.push(grid[y][x]);
+        this.vertexes.push(grid[ y ][ x ]);
       }
     }
   }
@@ -132,14 +138,48 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME
+  bfs(start, reset = true) {
+    let component = [];
+    let queue = [];
+    if (reset) {
+      for (let v of this.vertexes) {
+        v.color = 'white';
+      }
+    }
+
+    start.color = 'grey';
+
+    queue.push(start);
+
+    while (queue.length > 0) {
+      let current = queue[ 0 ];
+
+      for (let edge of current.edges) {
+        if (edge.destination.color === 'white') {
+          edge.destination.color = 'grey';
+          queue.push(edge.destination);
+        }
+      }
+
+      queue.shift();
+      current.color = 'black';
+      component.push(current);
+    }
+    return component;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    let reset = true;
+
+    for (let v of this.vertexes) {
+      if (v.color === 'white' || reset) {
+        let component = this.bfs(v, reset);
+        reset = false;
+        this.connectedComponents.push(component);
+      }
+    }
   }
 }
