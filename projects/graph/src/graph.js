@@ -2,14 +2,21 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+ constructor(weight, destination) {
+   this.weight = weight;
+   this.destination = destination;
+ }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.parent = null;
+    this.color = 'red';
+  }
 }
 
 /**
@@ -18,6 +25,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.connected = null;
   }
 
   /**
@@ -110,13 +118,41 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+   const queue = [];
+   const finished = [];
+    start.color = 'yellow';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      let u = queue[0];
+      console.log(u.value)
+      let neighbors = u.edges;
+      for (let i = 0; i < neighbors.length; i++){
+        let here = neighbors[i].weight
+        if (here.color === 'red'){
+          here.color = 'yellow';
+          queue.push(here);
+        }
+      }
+      u.color = 'green'; 
+      finished.push(u);
+      queue.shift();
+    }
+    return finished;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+   const connected = [];
+    let v = this.vertexes;
+    for ( let i = 0; i < v.length; i++ ) {
+      let vert = v[i];
+      if (vert.color === "red") {
+          connected.push(this.bfs(v[i]));
+      }
+    }
+    return connected;
   }
 }
