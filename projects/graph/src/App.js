@@ -68,8 +68,16 @@ class GraphView extends Component {
     //   return color;
     // }
 
+    // Drawing psuedocode
+      // for each subarray, 
+        // generate a random color
+        // loop through and draw the edges
+        // loop through and draw the vertexes
+
     // !!! IMPLEMENT ME
     // compute connected components
+    const connectedComponents = this.props.graph.getConnectedComponents();
+    console.log(connectedComponents);
     // draw edges
     // draw verts
     // draw vert values (labels)

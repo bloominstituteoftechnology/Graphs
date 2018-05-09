@@ -126,11 +126,43 @@ export class Graph {
     }
   }
 
+  // need to get found arrays out of functions
+  // have bfs return an array and have getConnectedComponents return an array of arrays
+  // declare our array of arrays in graph and change it directly
+
   /**
    * BFS
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+    const found = [];
+
+    queue.push(start);
+    found.push(start);
+    
+    while (queue.length > 0) {
+      let firstVertex = queue[0];
+      
+      for (let edge of firstVertex.edges) {
+        const neighborEdge = edge.destination;
+        
+        if (!found.includes(neighborEdge)) {
+          queue.push(neighborEdge);
+          found.push(neighborEdge);
+        }
+      }
+      queue.shift();
+    }
+    return found;
+    // add the start vertex to the queue
+    // add the start vertex to the current found array
+    // go to the first item in the queue
+      // if queue is empty, stop
+    // check the first vertex for neighbors
+      // for each new neighbor found, add to current found array and queue
+    // dequeue the first item in the queue
+    // goto 3
   }
 
   /**
@@ -138,5 +170,14 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let connectedComponents = [];
+    // loop through the list of vertex, for each unfound vertex
+    // do BFS for that item (start)
+    for (let vertex of this.vertexes) {
+      if (!vertex.found) {
+        connectedComponents.push(this.bfs(vertex));
+      }
+    }
+    return connectedComponents;
   }
 }
