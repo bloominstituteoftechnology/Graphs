@@ -43,34 +43,40 @@ class GraphView extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    this.props.graph.vertexes.forEach(vert => {
-      vert.edges.forEach(edge => {
-        ctx.moveTo(vert.pos.x, vert.pos.y);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
-        ctx.stroke();
-      })
-    })
-    this.props.graph.vertexes.forEach(vert => {
-      ctx.beginPath();
-      ctx.arc(vert.pos.x, vert.pos.y, 10, 0, 2 * Math.PI);
-      // ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
-      let r = Math.floor(Math.random() * 155) + 100;
-      let g = Math.floor(Math.random() * 155) + 100;
-      let b = Math.floor(Math.random() * 155) + 100;
-      ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-      ctx.fill();
-      ctx.strokeStyle = 'black';
-      ctx.stroke();
+    const connectedGroups = this.props.graph.getConnectedComponents();
 
-      ctx.fillStyle = 'black';
-      ctx.font = '10px Arial';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(vert.value, vert.pos.x, vert.pos.y);
+    // !!! IMPLEMENT ME
+    this.props.graph.dump();
+    connectedGroups.forEach(group => {
+      const groupColor = this.getRandomColor();
+      group.forEach(vert => {
+        vert.edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.moveTo(vert.pos.x, vert.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
+          ctx.strokeStyle = groupColor;
+          ctx.stroke();
+        })
+      })
+      
+      group.forEach(vert => {
+        ctx.beginPath();
+        ctx.arc(vert.pos.x, vert.pos.y, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = groupColor;
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+  
+        ctx.fillStyle = 'black';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(vert.value, vert.pos.x, vert.pos.y);
+      })
+
     })
     // draw edges
+
     // draw verts
     // draw vert values (labels)
   }
