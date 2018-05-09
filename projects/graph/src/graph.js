@@ -129,6 +129,22 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const vertex = queue[0];
+
+
+      for (let edge of vertex.edges) {
+        if (!vertex.includes(edge.destination)) {
+          queue.push(edge.destination);
+        }
+      }
+
+      queue.shift();
+    }
   }
 
   /**
