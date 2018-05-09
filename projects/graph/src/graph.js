@@ -118,12 +118,41 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [start];
+    const result = [];
+    // let counter = 0;
+
+    // console.log("here is the queue member that is about to break everything:", queue[0].edges);
+
+    while (queue.length > 0) { //while the queue still has something in it
+      for (let i = 0; i < queue[0].edges.length; i++) { // loop through the queue's first vertex's edges
+        if (queue[0].edges[i].destination.found === undefined) { //if the edge is not yet found
+          queue[0].edges[i].destination.found = true; // mark it as found
+          queue.push(queue[0].edges[i].destination); // add it to the queue, so we can cycle through its edges
+          result.push(queue[0].edges[i].destination); // add it to the results array, so we know it's part of this iteration's group
+        }
+      }
+      queue.shift(); // remove the item from the queue;
+      // counter++;
+    }
+
+    return result; //return the array containing all vertices in the group;
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
+  getConnectedComponents(list) {
     // !!! IMPLEMENT ME
+    const groups = [];
+
+    // console.log("we were given this list", list);
+    list.forEach((vertex) => {
+      if (vertex.found === undefined) {
+        groups.push(this.bfs(vertex));
+      }
+    });
+
+    return groups;
   }
 }

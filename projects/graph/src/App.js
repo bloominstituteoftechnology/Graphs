@@ -78,7 +78,6 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    this.props.graph.randomize(5, 5, 150, 0.6);
     this.updateCanvas();
   }
 
@@ -93,6 +92,7 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
+    console.log(this.props.graph.getConnectedComponents(this.props.graph.vertexes));
     let canvas = this.refs.canvas;
     if (!limitListenerCreation) {
       limitListenerCreation = true;
@@ -188,6 +188,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 5, 150, 0.6);    
   }
 
   render() {
