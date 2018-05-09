@@ -105,6 +105,7 @@ export class Graph {
         this.vertexes.push(grid[y][x]);
       }
     }
+    console.log('vertexes is', this.vertexes);
   }
 
   /**
@@ -132,6 +133,7 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+
   }
 
   /**
@@ -141,3 +143,37 @@ export class Graph {
     // !!! IMPLEMENT ME
   }
 }
+
+
+/*
+BFS Pseudocode
+1. Add the first unfound vertex in the list of all vertexes to the queue
+2. Add the first unfound vertex to the current found array
+3. Go to the first item in the queue
+  a. If queue is empty, add new found subarray and make that the current one
+  b. Go to Step 1
+4. Check the first vertex for neighbors
+  a. For each new neighbor found, add it to current found array and queue
+5. Dequeue the first item in the queue
+6. Go to Step 3
+
+Drawing Pseudocode
+1. For each subarray, 
+  a. Generate a random color
+  b. Loop through and draw the edges
+  c. Loop through and draw the vertexes
+
+BFS Pseudocode actual implementation
+1. Add the start vertex to the queue
+2. Add the start vertex to the current found array
+3. Go to the first item in the queue
+  a. If queue is empty, stop
+4. Check the first vertex for neighbors
+  a. For each new neighbor found, add it to current found array and queue
+5. Dequeue the first item in the queue
+6. Go to Step 3
+
+getConnectedComponents()
+1. Loop through the list of vertexes, for each unfound vertex, do BFS for that item (start)
+2. Go to Step 1
+*/

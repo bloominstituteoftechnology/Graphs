@@ -106,9 +106,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <button onClick={this.onButtonClick}>REGEN</button>
+      <div className="App" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.onButtonClick} style={{ width: '100px' }}>REGEN</button>
       </div>
     );
   }
