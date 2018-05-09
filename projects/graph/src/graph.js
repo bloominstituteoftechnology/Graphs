@@ -27,7 +27,6 @@ export class Vertex {
 export class Graph {
     constructor() {
         this.vertexes = [];
-        this.foundV   = [];
         this.queue    = [];
     }
 
@@ -143,8 +142,10 @@ export class Graph {
             for (let edge of vertx.edges) {
 
                 if (!edge.destination.visited) {
-                    
-                    console.log('push this dstination', edge.destination);
+
+                    this.queue.push(edge.destination);
+
+                    edge.destination.visited = true;
 
                 }
             }
