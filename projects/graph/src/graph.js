@@ -118,11 +118,10 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    const queue = [];
+    const queue = [start];
     const found = [];
 
     start.found = true;
-    queue.push(start);
 
     while (queue.length > 0) {
       const head = queue[0];
