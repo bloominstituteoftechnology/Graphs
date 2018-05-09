@@ -145,13 +145,14 @@ export class Graph {
   bfs(start) {
     // !!! IMPLEMENT ME
     const queue = [];
+    let randomColor = getRandomColor();
 
     queue.push(start);
     start.visited = true;
 
     while (queue.length > 0) {
       const vertex = queue[0];
-      vertex.color = getRandomColor();
+      vertex.color = randomColor;
 
 
       for (let edge of vertex.edges) {
