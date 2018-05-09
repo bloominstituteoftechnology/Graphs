@@ -14,10 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value, pos = {x: 1, y : 1}) {
+  constructor(value, pos = {x: 1, y : 1}, color) {
     this.value = value;
     this.pos = pos;
     this.edges = [];
+    this.color = color;
   }
 }
 
@@ -119,7 +120,27 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    //Random color generator
+    function ranColor() {
+      let letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    const arr = [];
+    const queue = [start];
+    while (queue.length) {
+      let current = queue.shift();
+      for (let { destination } of current.edges) {
+        if (!destination.color) queue.push(destination);
+      }
+      current.color = ranColor();
+      arr.push(current);
+    }
+    return arr;
   }
 
   /**

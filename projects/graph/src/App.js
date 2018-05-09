@@ -130,15 +130,25 @@ class App extends Component {
       graph: new Graph()
     };
 
-    // !!! IMPLEMENT ME
+
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
+
   }
+
+  random = () => {
+    const graph = new Graph();
+    graph.randomize(5, 4, 150, 0.6);
+    this.setState({ graph });
+  };
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <div>
+          <GraphView graph={this.state.graph}></GraphView>
+        </div>
+        <button onClick={this.random}>Randomize</button>
       </div>
     );
   }
