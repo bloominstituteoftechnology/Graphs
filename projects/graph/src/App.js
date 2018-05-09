@@ -5,6 +5,7 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = 1000;
 const canvasHeight = 700;
+const pxBox = 150;
 
 /**
  * GraphView
@@ -121,7 +122,12 @@ class GraphView extends Component {
     for (let i = 0; i < 10000; i++) {
       ctx.beginPath();
       ctx.fillStyle = `rgba(10, 10, 10, ${Math.random()})`;
-      ctx.fillRect(random(10, 1000), random(10, 700), random(1, 10), random(1, 10));
+      ctx.fillRect(
+        random(10, 1000),
+        random(10, 700),
+        random(1, 10),
+        random(1, 10)
+      );
       ctx.closePath();
     }
 
@@ -131,20 +137,23 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(v.pos.x, v.pos.y);
         ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = 'rgba(100, 100, 100)';
+        ctx.lineWidth = 5;
         ctx.stroke();
         ctx.closePath();
       });
+    });
 
+    this.props.graph.vertexes.forEach(v => {
       ctx.beginPath();
       // Draw vertex circles
-      ctx.strokeStyle = 'white';
-      ctx.arc(v.pos.x, v.pos.y, 20, 0, 2*Math.PI);
+      ctx.strokeStyle = 'rgb(100, 100, 100)';
+      ctx.arc(v.pos.x, v.pos.y, 25, 0, 2 * Math.PI);
       ctx.fillStyle = 'black';
       ctx.fill();
       ctx.stroke();
       // Draw vertex labels
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = 'rgb(200, 200, 200)';
       ctx.font = '20px Georgia';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -154,7 +163,6 @@ class GraphView extends Component {
     });
     console.log(this.props.graph);
   }
-
 
   /**
    * Render
@@ -178,7 +186,11 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     // this.state.graph.debugCreateVertex();
-    this.state.graph.randomize(5, 4, 150);
+    this.state.graph.randomize(
+      Math.floor( canvasWidth / pxBox ),
+      Math.floor( canvasHeight / pxBox ),
+      pxBox, 1
+    );
   }
 
   render() {
