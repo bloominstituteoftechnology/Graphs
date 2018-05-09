@@ -36,15 +36,15 @@ class GraphView extends Component {
     ctx.fillStyle = 'rgba(0, 0, 0, 0';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    console.log('vertex data', this.props.graph.vertexes);
-    for (let vertex of this.props.graph.vertexes) {
-      for (let edge of vertex.edges) {
-        ctx.beginPath();
-        ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        ctx.stroke();
-      }
-    }
+    // console.log('vertex data', this.props.graph.vertexes);
+    // for (let vertex of this.props.graph.vertexes) {
+    //   for (let edge of vertex.edges) {
+    //     ctx.beginPath();
+    //     ctx.moveTo(vertex.pos.x, vertex.pos.y);
+    //     ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+    //     ctx.stroke();
+    //   }
+    // }
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
@@ -59,14 +59,14 @@ class GraphView extends Component {
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
 
-    // function getRandomColor() {
-    //   var letters = '0123456789ABCDEF';
-    //   var color = '#';
-    //   for (var i = 0; i < 6; i++) {
-    //     color += letters[Math.floor(Math.random() * 16)];
-    //   }
-    //   return color;
-    // }
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
 
     // Drawing psuedocode
       // for each subarray, 
@@ -77,12 +77,40 @@ class GraphView extends Component {
     // !!! IMPLEMENT ME
     // compute connected components
     const connectedComponents = this.props.graph.getConnectedComponents();
-    console.log(connectedComponents);
     // draw edges
+    connectedComponents.forEach(vertexArray => {
+      let randomEdgeColor = getRandomColor();
+      for (let vertex of vertexArray) {
+        for (let edge of vertex.edges) {
+          ctx.beginPath();
+          ctx.moveTo(vertex.pos.x, vertex.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+          ctx.strokeStyle = randomEdgeColor;
+          ctx.stroke();
+        }
+      }
+    })
+    
     // draw verts
-    // draw vert values (labels)
+    connectedComponents.forEach(vertexArray => {
+      let randomVertexColor = getRandomColor();
+      for (let vertex of vertexArray) {
+        ctx.beginPath();
+        ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+        ctx.fillStyle = randomVertexColor;
+        ctx.fill();
+        ctx.stroke();
+        
+        // draw vert values (labels)
+        ctx.fillStyle = 'black';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      }
+    })
   }
-  
+
   /**
    * Render
    */
