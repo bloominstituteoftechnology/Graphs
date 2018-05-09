@@ -92,12 +92,12 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, 20, 0, 10);//creates an arc/curve
       ctx.closePath();
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = v.color;
       ctx.fill();
       ctx.stroke();
 
       //Text for graph
-      ctx.fillStyle = 'grey';
+      ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
       ctx.font = '14px sans-serif';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
@@ -131,14 +131,17 @@ class App extends Component {
     };
 
 
-    // use the graph randomize() method
-    this.state.graph.randomize(5, 4, 150, 0.6);
 
   }
 
   random = () => {
     const graph = new Graph();
     graph.randomize(5, 4, 150, 0.6);
+    for (let vertex of graph.vertexes) {
+      if (!vertex.color) {
+        graph.bfs(vertex);
+      }
+    }
     this.setState({ graph });
   };
 

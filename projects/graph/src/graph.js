@@ -147,6 +147,7 @@ export class Graph {
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+
   }
+
 }
