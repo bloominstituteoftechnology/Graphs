@@ -120,6 +120,21 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const connectedQueue = [start];
+    const connectedVerts = [];
+
+    while (connectedQueue.length > 0) {
+      const currentVert = connectedQueue.shift();
+      if (currentVert.found) continue;
+      else {
+        currentVert.found = true;
+        connectedVerts.push(currentVert);
+        currentVert.edges.forEach(edge => {
+          connectedQueue.push(edge.destination);
+        })
+      }
+    }
+    return connectedVerts;
   }
 
   /**
