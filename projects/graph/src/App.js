@@ -38,13 +38,13 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    let radius = 50;
+    //let radius = 50;
 
     const color = getRandomColor();
 
     const grd = ctx.createLinearGradient(0, 0, 500, 0)
     grd.addColorStop(0, color);
-    grd.addColorStop(1, color);
+    grd.addColorStop(1, 'black');
 
 
     // Clear it
@@ -140,13 +140,21 @@ class App extends Component {
 
     this.state = {
       graph: new Graph(),
-      connectedComponents: []
+      connectedComponents: [],
+      isToggleOn: true
     };
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(4, 5, 200, 0.8);
+    this.state.isToggleOn = this.state.graph.randomize(4, 5, 200, 0.7);
     this.state.connectedComponents = this.state.graph.getConnectedComponents();
+    this.generateNewGraph = this.generateNewGraph.bind(this);
+  }
+
+  generateNewGraph() {
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
   }
 
   render() {
@@ -155,6 +163,11 @@ class App extends Component {
         <GraphView
           graph={this.state.graph}
           connectedComponents={this.state.connectedComponents} />{" "}
+          <p>Click for a new graph</p>
+          <button onClick={this.generateNewGraph}>
+          Generate
+          {this.state.isToggleOn}
+          </button>
       </div>
     );
   }
