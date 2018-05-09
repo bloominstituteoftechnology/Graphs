@@ -132,6 +132,15 @@ export class Graph {
      */
     bfs(start) {
 
+        this.queue.push(start);
+        start.visited = true;
+
+        while (this.queue.length > 0) {
+            const vertx = this.queue[0];
+
+            console.log(vertx);
+        }
+
     }
 
     /**
