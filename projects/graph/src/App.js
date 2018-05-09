@@ -35,16 +35,7 @@ class GraphView extends Component {
     ctx.fillStyle = 'skyblue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    ctx.fillStyle = 'black';
-
-    ctx.moveTo(0, 0);
-    ctx.lineTo(200, 200);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(200, 200, 10, 0, 2*Math.PI);
-    ctx.moveTo(200, 200);
-    ctx.stroke();
+    console.log("vertex data: ", this.props.graph);
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -75,6 +66,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.degubCreateTestData();
   }
 
   render() {
