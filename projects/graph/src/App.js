@@ -6,6 +6,8 @@ import './App.css';
 const canvasWidth = 400; 
 const canvasHeight = 400;
 
+const vertexRadius = 15;
+
 /**
  * GraphView
  */
@@ -32,36 +34,31 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
+    ctx.fillStyle = 'lightblue';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    ctx.beginPath();
-    ctx.arc(200,200,190,0,2*Math.PI);
-    ctx.fillStyle = '#f2f000';
-    ctx.lineWidth = 10;
-    ctx.fill();
-    ctx.stroke();
+    //ctx.fillStyle = 'black';
 
-    ctx.beginPath();
-    ctx.arc(210,120,10,0,2*Math.PI);
-    ctx.fillStyle = 'black';
-    ctx.lineWidth = 10;
-    ctx.fill();
-    ctx.stroke();
+    //ctx.font = "30px Arial";
+    //ctx.fillText("Hello World",10,50);
 
-    ctx.beginPath();
-    ctx.moveTo(400, 400);
-    ctx.lineTo(200, 200);
-    ctx.lineTo(400, 20);
-    ctx.fillStyle = 'white';
-    ctx.lineWidth = 10;
-    ctx.fill();
-    ctx.stroke();
+    //console.log('in update canvas, vertex data is: ', this.props.graph);
+    
+    for(let vertex of this.props.graph.vertexes){
+      //console.log('vertex names', vertex.value);
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = 'green';
+      ctx.fill();
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
 
-    ctx.fillStyle = 'white';
-    ctx.fillRect(342, 0, 70, 100);
-
-    ctx.fillStyle = 'white';
-    ctx.fillRect(335, 320, 70, 100);
-
+      ctx.fillStyle = 'black';
+      ctx.font = '10px Arial';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -92,6 +89,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
