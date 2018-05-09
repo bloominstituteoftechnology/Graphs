@@ -16,8 +16,28 @@ export class Vertex {
     this.value = value;
     this.edges = [];
     this.pos = pos;
+    this.visited = false;
+    this.color = 'white';
+    // this.selected = false;
   }
+
+  setColor(color) {
+    this.color = color;
+  }
+
+  visit() {
+    this.visited = true;
+  }
+
+  // toggleSelect() {
+  //   this.selected = !this.selected;
+  // }
 }
+
+function randomColor() {
+  return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+}
+
 
 /**
  * Graph
@@ -25,6 +45,8 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.queue = [];
+    this.found = [];
   }
 
   refresh = () => {
@@ -33,12 +55,13 @@ export class Graph {
 
   /**
    * Create a random graph
-   */
+  */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      let randomWeight = (Math.floor(Math.random()*10) + 1);
+      v0.edges.push(new Edge(v1, randomWeight));
+      v1.edges.push(new Edge(v0, randomWeight));
     }
 
     let count = 0;
@@ -122,6 +145,25 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    this.queue.push(start);
+    start.visit();
+
+    let color = randomColor();
+
+    while(this.queue.length > 0) {
+      const vertex = this.queue[0];
+      vertex.setColor(color);
+
+      for(let edge of vertex.edges) {
+        if(!edge.destination.visited) {
+          this.queue.push(edge.destination);
+          edge.destination.visit();
+        }
+      }
+
+      this.queue.shift();
+    }
+
   }
 
   /**
@@ -129,5 +171,11 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+
+    for(let vertex of this.vertexes) {
+      if(!vertex.visited) {
+        this.bfs(vertex);
+      }
+    }
   }
 }

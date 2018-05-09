@@ -5,7 +5,7 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = 1000;
 const canvasHeight = 800;
-const vertexRadius = 30;
+const vertexRadius = 25;
 
 /**
  * GraphView
@@ -19,6 +19,8 @@ class GraphView extends Component {
     this.boundingBox = null;
     this.offsetX = null;
     this.offsetY = null;
+
+    this.selected = [];
 
     this.canvas = null;
     this.ctx = null;
@@ -41,7 +43,7 @@ class GraphView extends Component {
     this.clearCanvas();
     this.updateCanvas();
   }
-  recUPx2Uh
+
   mouseDown = (e) => {
     e.preventDefault();
 
@@ -54,10 +56,20 @@ class GraphView extends Component {
       const dy = vert.pos.y-mouseY;
       if((dx * dx) + (dy * dy) < (vertexRadius * vertexRadius)) {
         this.drag = vert.value;
+        this.select(vert.value);
+        this.updateCanvas();
       }
     }
     this.startX = mouseX;
     this.startY = mouseY;
+  }
+
+  select = (vert) => {
+    if(this.selected.length >= 2) {
+      this.selected = [];
+    } else {
+      this.selected.push(vert);
+    }
   }
 
   mouseUp = (e) => {
@@ -78,6 +90,7 @@ class GraphView extends Component {
         if(this.drag === vert.value) {
           vert.pos.x += dx;
           vert.pos.y += dy;
+          this.selected = this.selected.filter(elem => elem !== vert.value);
         }
       }
 
@@ -116,12 +129,14 @@ class GraphView extends Component {
     this.clearCanvas();
 
     // ------------ Graph -----------------------------
+    this.props.graph.getConnectedComponents();
     ctx.lineWidth=2;
     for(let vertex of this.props.graph.vertexes) {
       for(let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.strokeStyle = vertex.color;
         ctx.stroke();
       }
     }
@@ -129,18 +144,18 @@ class GraphView extends Component {
     for(let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2*Math.PI);
-      ctx.fillStyle = 'rgb(150, 200, 250)';
+      ctx.fillStyle = vertex.color;
       ctx.fill();
-      ctx.strokeStyle = 'black';
-      ctx.stroke();
+      if(this.selected.includes(vertex.value)) {
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+      }
 
       ctx.fillStyle = 'black';
-      ctx.font = '10px Arial';
+      ctx.font = '12px Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-
-
     }
 
     // ----------------------------------------------------
@@ -285,12 +300,17 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(6, 5, 130);
+    this.randomize();
   }
+
   regenerate = () => {
     this.state.graph.refresh();
-    this.state.graph.randomize(6, 5, 130);
+    this.randomize();
     this.forceUpdate();
+  }
+
+  randomize = () => {
+    this.state.graph.randomize(6, 5, 130, 0.5);
   }
 
   render() {
