@@ -83,17 +83,18 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    groupsSet = true;
     this.updateCanvas();
+    groupsSet = true;
   }
 
   /**
    * On state update
    */
   componentDidUpdate() {
-    if(!groupsSet){
+    // if(!groupsSet){
+      console.log("fine, we are updating", this.state.groups);
       this.updateCanvas();
-    }
+    // }
   }
 
   /**
@@ -130,32 +131,34 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    ctx.fillStyle = 'white';
-    ctx.fillRect(2, 2, canvasWidth-4, canvasHeight-4);
-    ctx.lineWidth = 5;
+    if (!groupsSet) {
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+      ctx.fillStyle = 'white';
+      ctx.fillRect(2, 2, canvasWidth-4, canvasHeight-4);
+      ctx.lineWidth = 5;
 
-    console.log(this.state.groups);
-    this.state.groups.forEach((group) => {
-      color = `rgb(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)})`;  
-      
-      for (let vertex of group) {
-        // console.log(vertex);
-        ctx.beginPath();
-        for (let edge of vertex.edges) {
-          drawLine(vertex.pos.x, vertex.pos.y, edge.destination.pos.x, edge.destination.pos.y, ctx);
+      console.log(this.state.groups);
+      this.state.groups.forEach((group) => {
+        color = `rgb(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)})`;  
+        
+        for (let vertex of group) {
+          // console.log(vertex);
+          ctx.beginPath();
+          for (let edge of vertex.edges) {
+            drawLine(vertex.pos.x, vertex.pos.y, edge.destination.pos.x, edge.destination.pos.y, ctx);
+          }
+          ctx.stroke();
         }
-        ctx.stroke();
-      }
 
-      ctx.lineWidth = 3;
-      for (let vertex of group) {
-        ctx.beginPath()
-        drawCircle(vertex, ctx);
-        ctx.stroke();
-      }
-    });
+        ctx.lineWidth = 3;
+        for (let vertex of group) {
+          ctx.beginPath()
+          drawCircle(vertex, ctx);
+          ctx.stroke();
+        }
+      });
+    }
     
 
     // !!! IMPLEMENT ME
@@ -174,7 +177,7 @@ class GraphView extends Component {
     const vert = this.state.currentVertex;
     return (
       <div>
-        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
     {this.state.currentVertex === null ?
         null : 
         <div>
@@ -191,6 +194,14 @@ class GraphView extends Component {
             }
           </div>
         </div>}
+        <button onClick={() => {
+          groupsSet = false;
+          const newGraph = new Graph();
+          newGraph.randomize(5, 5, 150, 0.6);
+          console.log("new graph:", newGraph.vertexes);
+          this.setState({groups: newGraph.getConnectedComponents(newGraph.vertexes), currentVertex: null});
+          }}
+        >New Graph</button>
       </div>
     )
   }
@@ -210,6 +221,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+
     this.state.graph.randomize(5, 5, 150, 0.6);    
   }
 
