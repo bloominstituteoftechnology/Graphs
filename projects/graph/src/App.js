@@ -163,41 +163,58 @@ class GraphView extends Component {
     //
 
     //
-    // ────────────────────────────────────────────── DRAW LINES ─────
-    for (let vertex of this.props.graph.vertexes) {
-      if (vertex.edges.length) {
-        for (let i = 0; i < vertex.edges.length; i++) {
-          ctx.beginPath();
-          ctx.moveTo(vertex.pos.x, vertex.pos.y);
-          ctx.lineTo(
-            vertex.edges[i].destination.pos.x,
-            vertex.edges[i].destination.pos.y
-          );
-          ctx.strokeStyle = 'white';
-          ctx.stroke();
-        }
-      }
-    }
-    //
-    // ──────────────────────────────────────────────── DRAW NODES ─────
+    // ────────────────────────────────────────────── GET RANDOM COLORS ─────
+    let connectedComponents = this.props.graph.getConnectedComponents();
+    let colors = [];
     let r, g, b;
-    for (let vertex of this.props.graph.vertexes) {
-      ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, nodeSize, 0, Math.PI * 2);
+    for (let a = 0; a < connectedComponents.length; a++) {
       r = Math.floor(Math.random() * 155) + 100;
       g = Math.floor(Math.random() * 155) + 100;
       b = Math.floor(Math.random() * 155) + 100;
-      ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-      ctx.fill();
+      colors.push({ r, g, b });
+    }
+    // ────────────────────────────────────────────── DRAW LINES ─────
+    for (let [i, vertexGroup] of connectedComponents.entries()) {
+      for (let vertex of vertexGroup) {
+        if (vertex.edges.length) {
+          for (let j = 0; j < vertex.edges.length; j++) {
+            ctx.beginPath();
+            ctx.moveTo(vertex.pos.x, vertex.pos.y);
+            ctx.lineTo(
+              vertex.edges[j].destination.pos.x,
+              vertex.edges[j].destination.pos.y
+            );
+            ctx.strokeStyle =
+              'rgb(' +
+              colors[i].r +
+              ', ' +
+              colors[i].g +
+              ', ' +
+              colors[i].b +
+              ')';
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    // ──────────────────────────────────────────────── DRAW NODES ─────
+    for (let [i, vertexGroup] of connectedComponents.entries()) {
+      for (let vertex of vertexGroup) {
+        ctx.beginPath();
+        ctx.arc(vertex.pos.x, vertex.pos.y, nodeSize, 0, Math.PI * 2);
+        ctx.fillStyle =
+          'rgb(' + colors[i].r + ', ' + colors[i].g + ', ' + colors[i].b + ')';
+        ctx.fill();
 
-      ctx.strokeStyle = 'black';
-      ctx.stroke();
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
 
-      ctx.fillStyle = 'black';
-      ctx.font = '10px Arial';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+        ctx.fillStyle = 'black';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      }
     }
   }
   // ────────────────────────────────────────────────────────────────────── END ─────

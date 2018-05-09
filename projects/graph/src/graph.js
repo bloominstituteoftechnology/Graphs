@@ -29,6 +29,8 @@ export class Graph {
     this.vertexes = [];
   }
 
+  found = [];
+
   /**
    * Create a random graph
    */
@@ -120,14 +122,60 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(vertex) {
     // !!! IMPLEMENT ME
+    // 1. Add the start vertex to the queue
+    // 2. Add the start vertex to the current found array
+    // 3. Go to the first item in the queue
+    //    a.  if queue if empty, stop
+    // 4. Check the first vertex for neighbors
+    //    a. for each new neighbor found, add it to current found array and the queue
+    // 5. Dequeue first item in queue
+    // 6.  Go to step 3.
+
+    let vertexConnections = [];
+    let queue = [];
+    queue.push(vertex);
+    this.found.push(vertex);
+
+    while (queue.length) {
+      for (let edge of queue[0].edges) {
+        let isNew = true;
+        for (let j = 0; j < this.found.length; j++) {
+          if (this.found[j].value === edge.destination.value) isNew = false;
+        }
+        if (isNew) {
+          queue.push(edge.destination);
+          this.found.push(edge.destination);
+        }
+        isNew = true;
+      }
+      vertexConnections.push(queue.shift());
+    }
+    return vertexConnections;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
+    this.found = [];
     // !!! IMPLEMENT ME
+    // 1. Loop through the list of vertexes, for each unfound vertex,
+    //    Do BFS for that item(start)
+    let allVertexConnections = [];
+    for (let vertex of this.vertexes) {
+      //globally scope found
+      let flag = true;
+      for (let i = 0; i < this.found.length; i++) {
+        if (this.found[i].value === vertex.value) flag = false;
+      }
+      if (flag) {
+        allVertexConnections.push(this.bfs(vertex));
+      }
+      flag = true;
+    }
+
+    return allVertexConnections;
   }
 }
