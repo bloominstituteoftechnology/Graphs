@@ -6,7 +6,7 @@ export class Edge {
   constructor(destination, weight = 1) {
     this.destination = destination;
     this.weight = weight;
-    console.log('used the edge ctor');
+    // console.log('used the edge ctor');
   }
 }
 
@@ -19,7 +19,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
-    console.log('used the vertex ctor');
+    // console.log('used the vertex ctor');
   }
 }
 
