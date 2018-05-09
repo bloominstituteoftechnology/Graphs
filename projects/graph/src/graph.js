@@ -12,11 +12,11 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(value = 'init', pos = {x: 0, y: 0}, color = 'white') {
+  constructor(value = 'init', pos = {x: 0, y: 0}, found = false) {
     this.edges = [];
     this.value = value;
     this.pos = pos;
-    this.color = color;
+    this.found = found;
   }
 }
 
@@ -121,21 +121,22 @@ export class Graph {
     const queue = [];
     const found = [];
 
-    start.color = 'gray';
+    start.found = true;
     queue.push(start);
 
     while (queue.length > 0) {
       const head = queue[0];
 
       for (let edge of head.edges) {
-        if (edge.color === 'white') {
-          edge.color = 'gray';
-          queue.push(edge);
+        const vert = edge.destination;
+        if (vert.found === false) {
+          vert.found = true;
+          queue.push(vert);
         }
       }
 
       queue.shift();
-      head.color = 'black';
+      head.found = undefined;
 
       found.push(head);
     }
@@ -149,7 +150,7 @@ export class Graph {
     const ccList = [];
 
     for (let vertex of this.vertexes) {
-      if (vertex.color === 'white') {
+      if (vertex.found === false) {
         ccList.push(this.bfs(vertex));
       }
     }

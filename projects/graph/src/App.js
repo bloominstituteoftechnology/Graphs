@@ -57,21 +57,6 @@ class GraphView extends Component {
       }
     }
 
-    // Now draw vertices and text
-    for (let vertex of this.props.graph.vertexes) {
-      ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = 'black';
-      ctx.font = "11px Arial";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-    }
-
     for (let item of connectedComponents) {
       item = item[0];
       const newColor = '#' + this.getRandomColor() + this.getRandomColor() + this.getRandomColor();
@@ -80,6 +65,21 @@ class GraphView extends Component {
       ctx.fillStyle = newColor;
       ctx.fill();
       ctx.stroke();
+    }
+
+    // Now draw vertices and text
+    for (let vertex of this.props.graph.vertexes) {
+      // ctx.beginPath();
+      // ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+      // ctx.fillStyle = 'white';
+      // ctx.fill();
+      // ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.font = "11px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
   }
 
