@@ -17,6 +17,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = { x, y };
+    this.found = false;
   }
 }
 
