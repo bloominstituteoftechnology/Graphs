@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 750;
+const canvasHeight = 600;
+
+const vertexRadius = 20;
 
 /**
  * GraphView
@@ -30,16 +32,38 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
-    // Clear it
-    ctx.fillStyle = 'white';
+
+    //create canvas background
+    ctx.fillStyle = "lightgray";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    // check to see we have our vertexes
+    //console.log(this.props.graph.vertexes);
+    //console.log(this.props.graph.vertexes[0].edges[0]);
+
+    //draw the edge
+    for (let parentVert of this.props.graph.vertexes){
+      for (let parentEdges of parentVert.edges) {
+        ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
+        ctx.lineTo(parentEdges.destination.pos.x, parentEdges.destination.pos.y);    
+        ctx.stroke();
+      }
+    }
+    // create nodes from debug creator in graph.js
+    for (const parentVert of this.props.graph.vertexes) {
+      ctx.moveTo(parentVert.pos.x, parentVert.pos.y);
+      ctx.beginPath();
+      ctx.arc(parentVert.pos.x, parentVert.pos.y, vertexRadius, 0, 2*Math.PI);  
+      ctx.stroke();
+      ctx.fillStyle = parentVert.fillColor;
+      ctx.fill();
+      ctx.font = "12px Arial";
+      ctx.fillStyle = "black"
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center"
+      ctx.fillText(parentVert.value, parentVert.pos.x, parentVert.pos.y);
+     
+    }
   }
   
   /**
@@ -50,7 +74,6 @@ class GraphView extends Component {
   }
 }
 
-
 /**
  * App
  */
@@ -60,10 +83,20 @@ class App extends Component {
 
     this.state = {
       graph: new Graph()
+
     };
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
+    //this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(3, 3, 80, .45);
+    let ans = this.state.graph.dfs(this.state.graph.vertexes[0]);
+    if (ans.length < this.state.graph.vertexes.length) {
+      for (let vertex of this.state.graph.vertexes) {
+        if (vertex.fillColor === "white") {
+          ans = this.state.graph.dfs(vertex);
+        }
+      }
+    }
+
   }
 
   render() {
