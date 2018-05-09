@@ -5,6 +5,7 @@ import './App.css';
 const canvasWidth = 750;
 const canvasHeight = 600;
 const vertexRadius = 12;
+const graphX = 5, graphY = 4, boxSize = 150, probability = 0.6;
 
 /**
  * GraphView
@@ -43,7 +44,7 @@ class GraphView extends Component {
     ctx.filter = 'blur(0.5px)';
     
     // Clear it
-    ctx.fillStyle = 'lightgrey';
+    ctx.fillStyle = 'darkgrey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     for (let node of connectedComponents) {
@@ -93,6 +94,7 @@ class GraphView extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
+    this.newGraph = this.newGraph.bind(this);
 
     this.state = {
       graph: new Graph()
@@ -100,13 +102,23 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(graphX, graphY, boxSize, probability);
+  }
+
+  newGraph() {
+    const state = {
+      graph: new Graph()
+    };
+    state.graph.randomize(graphX, graphY, boxSize, probability);
+
+    this.setState(state);
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.newGraph}>New Graph</button>
       </div>
     );
   }
