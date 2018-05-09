@@ -18,6 +18,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.visited = false;
   }
 }
 
@@ -27,6 +28,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.connectedComponents = [];
   }
 
   /**
@@ -118,8 +120,23 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(v) {
     // !!! IMPLEMENT ME
+    const found = [];
+    const queue = [];
+    found.push(v);
+    queue.push(v);
+    while(queue.length > 0){
+      queue[0].edges.forEach(e =>{
+        if(!e.destination.visited){
+          found.push(e.destination);
+          queue.push(e.destination);
+        }
+      });
+      queue[0].visited = true;
+      queue.shift();
+    }
+    return found;
   }
 
   /**
@@ -127,5 +144,10 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    this.vertexes.forEach(v => {
+      if(!v.visited){
+        this.connectedComponents.push(this.bfs(v));
+      }
+    });
   }
 }
