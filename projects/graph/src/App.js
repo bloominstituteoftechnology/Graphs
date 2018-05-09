@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
- const canvasWidth = 500;
- const canvasHeight = 500;
+ const canvasWidth = 700;
+ const canvasHeight = 700;
+ const vertexRadius = 10;
 
 /**
  * GraphView
@@ -30,39 +31,54 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
     // Clear it
-    ctx.fillStyle = 'green';
+    ctx.fillStyle = '#653333';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    console.log("update canvas:", this.props.graph);
 
-    // !!! IMPLEMENT ME
-    ctx.fillStyle = 'white';
-    // ctx.rect(20,20,150,100);
-    // ctx.stroke();
-    
-    // ctx.fillRect(125, 125, 40, 40);
-    // ctx.clearRect(45, 45, 60, 60);
-    // ctx.strokeRect(50, 50, 30, 30);
+    this.props.graph.vertexes.map(vertex => {
+      vertex.edges.map(edge => {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+        return edge;
+      });
+      return vertex;
+    });
 
-    
-    // ctx.lineTo(100,100);
-    // ctx.stroke();
-    ctx.fillStyle = 'red';
-    for(let i=0; i < 2; i++){
-        for(let j=0; j < 100; j++){
-          
-          //ctx.beginPath();
-          ctx.moveTo(150+i*150,150+i*150);
-          ctx.arc(150,150,100,50*j,20);
-          //ctx.lineTo(10,100);
-          ctx.stroke();
-          ctx.closePath();
-          //ctx.fill();
-          ctx.fillStyle = 'blue';
-        }
+    for(let vertex of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius,0,2*Math.PI);
+      ctx.fillStyle = "green";
+      ctx.fill();
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y); 
     }
   
-  }
+
+    // // !!! IMPLEMENT ME
+    // let color = ['green','white','yellow','blue'];
+    // for(let i=0; i<2; i++) {
+    //   setInterval(function() {
+    //     for(let j=0; j < 10; j++){
+    //         ctx.strokeStyle = color[j%4];
+    //         ctx.arc(500,500,50,10,1);
+    //         ctx.stroke();
+    //     }
+    //     ctx.rotate(2);
+    //   }, 1000);
+    // }
+      
+
+   
+
+   }
   
   /**
    * Render
@@ -86,6 +102,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
