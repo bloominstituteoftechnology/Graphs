@@ -36,15 +36,6 @@ class GraphView extends Component {
     ctx.fillStyle = 'rgba(0, 0, 0, 0';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // console.log('vertex data', this.props.graph.vertexes);
-    // for (let vertex of this.props.graph.vertexes) {
-    //   for (let edge of vertex.edges) {
-    //     ctx.beginPath();
-    //     ctx.moveTo(vertex.pos.x, vertex.pos.y);
-    //     ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-    //     ctx.stroke();
-    //   }
-    // }
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
@@ -79,37 +70,52 @@ class GraphView extends Component {
     const connectedComponents = this.props.graph.getConnectedComponents();
     // draw edges
     connectedComponents.forEach(vertexArray => {
-      let randomEdgeColor = getRandomColor();
+      let randomColor = getRandomColor();
       for (let vertex of vertexArray) {
         for (let edge of vertex.edges) {
           ctx.beginPath();
           ctx.moveTo(vertex.pos.x, vertex.pos.y);
           ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-          ctx.strokeStyle = randomEdgeColor;
+          ctx.strokeStyle = randomColor;
           ctx.stroke();
         }
       }
-    })
+        for (let vertex of vertexArray) {
+          ctx.beginPath();
+          ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+          ctx.fillStyle = randomColor;
+          ctx.fill();
+          ctx.stroke();
+          
+          // draw vert values (labels)
+          ctx.fillStyle = 'black';
+          ctx.font = '10px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+        }
+      })
+    }
     
     // draw verts
-    connectedComponents.forEach(vertexArray => {
-      let randomVertexColor = getRandomColor();
-      for (let vertex of vertexArray) {
-        ctx.beginPath();
-        ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
-        ctx.fillStyle = randomVertexColor;
-        ctx.fill();
-        ctx.stroke();
+  //   connectedComponents.forEach(vertexArray => {
+  //     let randomVertexColor = getRandomColor();
+  //     for (let vertex of vertexArray) {
+  //       ctx.beginPath();
+  //       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+  //       ctx.fillStyle = randomVertexColor;
+  //       ctx.fill();
+  //       ctx.stroke();
         
-        // draw vert values (labels)
-        ctx.fillStyle = 'black';
-        ctx.font = '10px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-      }
-    })
-  }
+  //       // draw vert values (labels)
+  //       ctx.fillStyle = 'black';
+  //       ctx.font = '10px Arial';
+  //       ctx.textAlign = 'center';
+  //       ctx.textBaseline = 'middle';
+  //       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+  //     }
+  //   })
+  // }
 
   /**
    * Render
@@ -128,7 +134,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      graph: new Graph()
+      graph: new Graph(),
     };
 
     // !!! IMPLEMENT ME
@@ -136,10 +142,15 @@ class App extends Component {
     this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
+  // clickHandler = () => {
+  //   this.setState({ graph: new Graph() });    
+  // }
+
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        {/* <button onClick={this.clickHandler()}>Generate New Graph</button> */}
       </div>
     );
   }
