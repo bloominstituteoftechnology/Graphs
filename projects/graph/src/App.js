@@ -8,6 +8,7 @@ const canvasHeight = 800;
 const radius = 20;
 let limitListenerCreation = false;
 let color;
+let groupsSet = false;
 
 function drawLine(startx, starty, finx, finy, ctx) {
   // ctx.strokeStyle = 'black';
@@ -75,12 +76,14 @@ function getRandomInt(max) {
  */
 class GraphView extends Component {
   state = {
-    currentVertex: null
+    currentVertex: null,
+    groups: this.props.graph.getConnectedComponents(this.props.graph.vertexes),
   }
   /**
    * On mount
    */
   componentDidMount() {
+    groupsSet = true;
     this.updateCanvas();
   }
 
@@ -88,14 +91,22 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
-    this.updateCanvas();
+    if(!groupsSet){
+      this.updateCanvas();
+    }
   }
 
   /**
    * Render the canvas
    */
+
+  // setGroups() {
+  //   console.log("the groups have been set!");
+  //   this.setState({groups: this.props.graph.getConnectedComponents(this.props.graph.vertexes)});
+  //   groupsSet = true;
+  // }
+
   updateCanvas() {
-    const groups = this.props.graph.getConnectedComponents(this.props.graph.vertexes);
     let canvas = this.refs.canvas;
     if (!limitListenerCreation) {
       limitListenerCreation = true;
@@ -105,6 +116,7 @@ class GraphView extends Component {
           x: (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
           y: (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
         };
+        // console.log(this.props.graph.vertexes);
         this.props.graph.vertexes.forEach(circle => {
           // console.log(checkIntersect(mousePoint, circle));
           if (checkIntersect(mousePoint, circle)) {
@@ -124,7 +136,8 @@ class GraphView extends Component {
     ctx.fillRect(2, 2, canvasWidth-4, canvasHeight-4);
     ctx.lineWidth = 5;
 
-    groups.forEach((group) => {
+    console.log(this.state.groups);
+    this.state.groups.forEach((group) => {
       color = `rgb(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)})`;  
       
       for (let vertex of group) {
