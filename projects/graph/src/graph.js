@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,13 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = {x: 50, y: 50}) {
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+    this.visited = false;
+    this.color = 'white';
+  }
 }
 
 /**
@@ -18,6 +29,23 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  debugCreateTestData() {
+    let testVertex1 = new Vertex('t1', {x: 100, y: 100});
+    let testVertex2 = new Vertex('t2', {x: 200, y: 200});
+    let testVertex3 = new Vertex('t3', {x: 300, y: 100});
+
+    let edge1 = new Edge(testVertex2);
+    let edge2 = new Edge(testVertex3);
+    let edge3 = new Edge(testVertex1);
+
+    testVertex1.edges.push(edge1);
+    testVertex2.edges.push(edge2);
+    testVertex3.edges.push(edge3);
+
+
+    this.vertexes.push(testVertex1, testVertex2, testVertex3);
   }
 
   /**
@@ -106,11 +134,31 @@ export class Graph {
     }
   }
 
+  getRandomColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  }
+
   /**
    * BFS
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let color = this.getRandomColor();
+    let queue = [];
+    queue.push(start);
+    start.visited = true;
+
+    while (queue.length > 0) {
+      const vertex = queue[0];
+      vertex.color = color;
+      for (let edge of vertex.edges) {
+        if (!edge.destination.visited) {
+          queue.push(edge.destination);
+          edge.destination.visited = true;
+        }
+      }
+      queue.shift();
+    }
   }
 
   /**
@@ -118,5 +166,8 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    for (let vertex of this.vertexes) {
+      if (!vertex.visited) this.bfs(vertex);
+    }
   }
 }
