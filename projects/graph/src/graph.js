@@ -2,8 +2,8 @@
  * Edge
  */
 export class Edge {
-  constructor(direction, weight = 1) {
-    this.direction = direction;
+  constructor(destination, weight = 1) {
+    this.destination = destination;
     this.weight = weight;
   }
 }
@@ -12,10 +12,11 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(value = 'vertex', pos = {x:0, y:0}) {
-    this.value = value;
+  constructor(value = 'init', pos = {x: 0, y: 0}, found = false) {
     this.edges = [];
-    this.position = pos;
+    this.value = value;
+    this.pos = pos;
+    this.found = found;
   }
 }
 
@@ -117,13 +118,41 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const queue = [start];
+    const found = [];
+
+    start.found = true;
+
+    while (queue.length > 0) {
+      const head = queue[0];
+
+      for (let edge of head.edges) {
+        const vert = edge.destination;
+        if (vert.found === false) {
+          vert.found = true;
+          queue.push(vert);
+        }
+      }
+
+      queue.shift();
+      head.found = undefined;
+
+      found.push(head);
+    }
+    return found;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const ccList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.found === false) {
+        ccList.push(this.bfs(vertex));
+      }
+    }
+    return ccList;
   }
 }
