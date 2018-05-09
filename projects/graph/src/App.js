@@ -33,6 +33,23 @@ class GraphView extends Component {
   }
 
   /**
+   * Function for determining mouse clicks on vertexes
+   */
+  isIntersect = (point, connectedComponents) => {
+    for (let vertexGroup of connectedComponents) {
+      for (let vertex of vertexGroup) {
+        if (
+          Math.sqrt(
+            (point.x - vertex.pos.x) ** 2 + (point.y - vertex.pos.y) ** 2
+          ) < nodeSize
+        )
+          return vertex.value;
+      }
+    }
+    return false;
+  };
+
+  /**
    * Render the canvas
    */
   updateCanvas() {
@@ -42,125 +59,6 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    //
-    // ─────────────────────────────────────────── FIBONACCI STUFF ─────
-
-    ////////////////
-    // Mod of Art //
-    ////////////////
-    // function fibonacci(num, memo) {
-    //   memo = memo || {};
-
-    //   if (memo[num]) return memo[num];
-    //   if (num <= 1) return 1;
-
-    //   return (memo[num] = fibonacci(num - 1, memo) + fibonacci(num - 2, memo));
-    // }
-
-    // let points = [];
-    // for (let i = 1; i <= 50; i++) {
-    //   points.push(fibonacci(i));
-    // }
-
-    // let a = 0;
-    // let c = 10;
-    // for (let x = 0; x < canvasWidth; x += 10) {
-    //   for (let y = 0; y < canvasHeight; y += 10) {
-    //     if (a === 10) a = 0;
-    //     if (c === 0) c = 10;
-    //     const r = Math.sqrt(y * (x / 20)) % 255;
-    //     const g = (Math.cos(x * y + Math.sin(y)) * 100) % 255;
-    //     const b = (r * (y / (Math.PI * r)) + g) % 255;
-    //     ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-    //     ctx.fillRect(x, y, points[a++], points[c--]);
-    //   }
-    // }
-    ////////////
-    // MOD END//
-    ////////////
-
-    // ////////////////
-    // // Fib Design //
-    // ////////////////
-    // let i = 0,
-    //   j = 0,
-    //   flag = true;
-    // for (let x = 0; x < canvasWidth; x += 10) {
-    //   for (let y = 0; y < canvasHeight; y += 10) {
-    //     if (flag === true) {
-    //       if (i > 40) i = 0;
-    //       const r = points[i] % 250;
-    //       const g = points[i + 1] % 250;
-    //       const b = points[i + 2] % 255;
-    //       ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-    //       ctx.fillRect(x, y, points[i + 1] % 100, points[i + 2] % 100);
-    //       i++;
-    //     } else {
-    //       const r = points[i + 2] % 255;
-    //       const g = points[i + 1] % 255;
-    //       const b = points[i] % 255;
-    //     }
-    //     j++;
-    //     if (j > 50) {
-    //       flag = !flag;
-    //       j = 0;
-    //     }
-    //   }
-    // }
-    // ////////////
-    // //FIB END//
-    // ////////////
-    // ─────────────────────────────────────────────────────── END ─────
-    //
-
-    //
-    // ───────────────────────────────────────────── BEAUTIFUL ART ─────
-    // for (let x = 0; x < canvasWidth; x++) {
-    //   for (let y = 0; y < canvasHeight; y++) {
-    //     const r = Math.sqrt(y * (x / 20)) % 255;
-    //     const g = (Math.cos(x * y + Math.sin(y)) * 100) % 255;
-    //     const b = (r * (y / (Math.PI * r)) + g) % 255;
-    //     ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-    //     ctx.fillRect(x, y, 1, 1);
-    //   }
-    // }
-    // ─────────────────────────────────────────────────────── END ─────
-    //
-
-    //
-    // ───────────────────────────────────────────────── SPACE ART ─────
-    // ctx.beginPath();
-    // for(let x = 0; x < canvasWidth; x++) {
-    //   for(let y = 0; y < canvasHeight; y++) {
-    //     const r = Math.cos((Math.sqrt(y)*Math.tan(x)*-x)) % 255;
-    //     const b = Math.tan((Math.sqrt(y)*Math.tan(x)*x)) % 255;
-    //     const g = (b + (r + (Math.PI/2))) % 255;
-
-    //     ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-    //     ctx.fillRect(x, y, 1, 1);
-    //   }
-    // }
-
-    // ctx.beginPath();
-    // for(let i = 0; i < 50; i++) {
-    //   ctx.strokeStyle = 'white';
-    //   let x = (Math.cos(i)*canvasWidth);
-    //   let y = (i)*10;
-    //   x++;
-    //   y++;
-    //   const r = Math.cos((Math.sqrt(y)*Math.tan(x)*-x)) % 255;
-    //   const g = 0;
-    //   const b = 0;
-    //   ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-
-    //   ctx.arc((Math.cos(i)*canvasWidth), (i)*10, i, 0, Math.PI * 2);
-    //   ctx.fill();
-    //   ctx.stroke();
-    //   ctx.closePath();
-    // }
-    // ─────────────────────────────────────────────────────── END ─────
-    //
 
     //
     // ────────────────────────────────────────────── GET RANDOM COLORS ─────
@@ -208,7 +106,6 @@ class GraphView extends Component {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(vertex.edges[j].weight, xWeightPos, yWeightPos);
-            console.log(vertex.edges[j].weight);
           }
         }
       }
@@ -232,9 +129,20 @@ class GraphView extends Component {
         ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       }
     }
+    // ────────────────────────────────────────────────────────────────────── END ─────
+    //
+
+    canvas.addEventListener('click', e => {
+      const x = e.clientX - canvas.offsetLeft;
+      const y = e.clientY - canvas.offsetTop;
+      const mousePoint = { x, y };
+
+      let clickedVertex = this.isIntersect(mousePoint, connectedComponents);
+      if (clickedVertex) {
+        console.log('SUCCESS: ', clickedVertex);
+      }
+    });
   }
-  // ────────────────────────────────────────────────────────────────────── END ─────
-  //
 
   /**
    * Render
@@ -309,3 +217,125 @@ class App extends Component {
 }
 
 export default App;
+
+//////////////////////////////////////////////
+// ARTWORK FOR INSIDE UPDATECANVAS FUNCTION //
+//////////////////////////////////////////////
+//
+// ─────────────────────────────────────────── FIBONACCI STUFF ─────
+
+////////////////
+// Mod of Art //
+////////////////
+// function fibonacci(num, memo) {
+//   memo = memo || {};
+
+//   if (memo[num]) return memo[num];
+//   if (num <= 1) return 1;
+
+//   return (memo[num] = fibonacci(num - 1, memo) + fibonacci(num - 2, memo));
+// }
+
+// let points = [];
+// for (let i = 1; i <= 50; i++) {
+//   points.push(fibonacci(i));
+// }
+
+// let a = 0;
+// let c = 10;
+// for (let x = 0; x < canvasWidth; x += 10) {
+//   for (let y = 0; y < canvasHeight; y += 10) {
+//     if (a === 10) a = 0;
+//     if (c === 0) c = 10;
+//     const r = Math.sqrt(y * (x / 20)) % 255;
+//     const g = (Math.cos(x * y + Math.sin(y)) * 100) % 255;
+//     const b = (r * (y / (Math.PI * r)) + g) % 255;
+//     ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+//     ctx.fillRect(x, y, points[a++], points[c--]);
+//   }
+// }
+////////////
+// MOD END//
+////////////
+
+// ////////////////
+// // Fib Design //
+// ////////////////
+// let i = 0,
+//   j = 0,
+//   flag = true;
+// for (let x = 0; x < canvasWidth; x += 10) {
+//   for (let y = 0; y < canvasHeight; y += 10) {
+//     if (flag === true) {
+//       if (i > 40) i = 0;
+//       const r = points[i] % 250;
+//       const g = points[i + 1] % 250;
+//       const b = points[i + 2] % 255;
+//       ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+//       ctx.fillRect(x, y, points[i + 1] % 100, points[i + 2] % 100);
+//       i++;
+//     } else {
+//       const r = points[i + 2] % 255;
+//       const g = points[i + 1] % 255;
+//       const b = points[i] % 255;
+//     }
+//     j++;
+//     if (j > 50) {
+//       flag = !flag;
+//       j = 0;
+//     }
+//   }
+// }
+// ////////////
+// //FIB END//
+// ////////////
+// ─────────────────────────────────────────────────────── END ─────
+//
+
+//
+// ───────────────────────────────────────────── BEAUTIFUL ART ─────
+// for (let x = 0; x < canvasWidth; x++) {
+//   for (let y = 0; y < canvasHeight; y++) {
+//     const r = Math.sqrt(y * (x / 20)) % 255;
+//     const g = (Math.cos(x * y + Math.sin(y)) * 100) % 255;
+//     const b = (r * (y / (Math.PI * r)) + g) % 255;
+//     ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+//     ctx.fillRect(x, y, 1, 1);
+//   }
+// }
+// ─────────────────────────────────────────────────────── END ─────
+//
+
+//
+// ───────────────────────────────────────────────── SPACE ART ─────
+// ctx.beginPath();
+// for(let x = 0; x < canvasWidth; x++) {
+//   for(let y = 0; y < canvasHeight; y++) {
+//     const r = Math.cos((Math.sqrt(y)*Math.tan(x)*-x)) % 255;
+//     const b = Math.tan((Math.sqrt(y)*Math.tan(x)*x)) % 255;
+//     const g = (b + (r + (Math.PI/2))) % 255;
+
+//     ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+//     ctx.fillRect(x, y, 1, 1);
+//   }
+// }
+
+// ctx.beginPath();
+// for(let i = 0; i < 50; i++) {
+//   ctx.strokeStyle = 'white';
+//   let x = (Math.cos(i)*canvasWidth);
+//   let y = (i)*10;
+//   x++;
+//   y++;
+//   const r = Math.cos((Math.sqrt(y)*Math.tan(x)*-x)) % 255;
+//   const g = 0;
+//   const b = 0;
+//   ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+
+//   ctx.arc((Math.cos(i)*canvasWidth), (i)*10, i, 0, Math.PI * 2);
+//   ctx.fill();
+//   ctx.stroke();
+//   ctx.closePath();
+// }
+// ─────────────────────────────────────────────────────── END ─────
+//
