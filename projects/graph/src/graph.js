@@ -14,7 +14,7 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = 'vertex', pos = { x: 0, y: 0 }) {
+  constructor(value = "vertex", pos = { x: 0, y: 0 }) {
     this.value = value;
     this.edges = [];
     this.pos = pos;
@@ -30,11 +30,9 @@ export class Graph {
   }
 
   debugger() {
-    let newVert = new Vertex('chimp', { x: 315, y: 120 });
+    let newVert = new Vertex("a", { x: 315, y: 120 });
     this.vertexes.push(newVert);
-
-    this.vertexes.push(new Vertex('banana', { x: 235, y: 490 }));
-
+    this.vertexes.push(new Vertex("b", { x: 235, y: 490 }));
     this.vertexes[0].edges.push(new Edge(this.vertexes[1]));
   }
 
@@ -57,14 +55,14 @@ export class Graph {
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
         //v.value = 'v' + x + ',' + y;
-        v.value = 'v' + count++;
+        v.value = "v" + count++;
         row.push(v);
       }
       grid.push(row);
     }
 
     // Go through the grid randomly hooking up edges
-    for (let y = 0; y < height; y) {
+    for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         // Connect down
         if (y < height - 1) {
@@ -112,9 +110,9 @@ export class Graph {
 
     for (let v of this.vertexes) {
       if (v.pos) {
-        s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
+        s = v.value + " (" + v.pos.x + "," + v.pos.y + "):";
       } else {
-        s = v.value + ':';
+        s = v.value + ":";
       }
 
       for (let e of v.edges) {
