@@ -24,10 +24,21 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+  getRandomColor() {
+    let color = ((Math.random() * 240)|0).toString(16);
+
+    if (color.length === 1) {
+      color = '0' + color;
+    }
+    return color;
+  }
+
   /**
    * Render the canvas
    */
   updateCanvas() {
+    const connectedComponents = this.props.graph.getConnectedComponents();
+
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     ctx.filter = 'blur(0.5px)';
@@ -36,6 +47,7 @@ class GraphView extends Component {
     ctx.fillStyle = 'lightgrey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    // Draw edges first
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
         ctx.beginPath();
@@ -45,6 +57,7 @@ class GraphView extends Component {
       }
     }
 
+    // Now draw vertices and text
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
@@ -57,6 +70,16 @@ class GraphView extends Component {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
+
+    for (let item of connectedComponents) {
+      item = item[0];
+      const newColor = '#' + this.getRandomColor() + this.getRandomColor() + this.getRandomColor();
+      ctx.beginPath();
+      ctx.arc(item.pos.x, item.pos.y, vertexRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = newColor;
+      ctx.fill();
+      ctx.stroke();
     }
   }
 

@@ -12,10 +12,11 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(value = 'init', pos = {x: 0, y: 0}) {
+  constructor(value = 'init', pos = {x: 0, y: 0}, color = 'white') {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = color;
   }
 }
 
@@ -117,13 +118,41 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const queue = [];
+    const found = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const head = queue[0];
+
+      for (let edge of head.edges) {
+        if (edge.color === 'white') {
+          edge.color = 'gray';
+          queue.push(edge);
+        }
+      }
+
+      queue.shift();
+      head.color = 'black';
+
+      found.push(head);
+    }
+    return found;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const ccList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.color === 'white') {
+        ccList.push(this.bfs(vertex));
+      }
+    }
+    return ccList;
   }
 }
