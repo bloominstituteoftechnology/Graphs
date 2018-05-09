@@ -192,7 +192,23 @@ class GraphView extends Component {
               ', ' +
               colors[i].b +
               ')';
+            ctx.lineWidth = vertex.edges[j].weight * 0.5;
             ctx.stroke();
+
+            ctx.beginPath();
+            let xWeightPos =
+              (vertex.pos.x + vertex.edges[j].destination.pos.x) / 2;
+            let yWeightPos =
+              (vertex.pos.y + vertex.edges[j].destination.pos.y) / 2;
+            ctx.arc(xWeightPos, yWeightPos, nodeSize / 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            ctx.fillStyle = 'black';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(vertex.edges[j].weight, xWeightPos, yWeightPos);
+            console.log(vertex.edges[j].weight);
           }
         }
       }
@@ -260,7 +276,7 @@ class App extends Component {
 
   render() {
     // Dump console data
-    this.state.graph.dump();
+    //this.state.graph.dump();
 
     // Find the required canvas size
     canvasWidth = 0;

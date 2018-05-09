@@ -39,8 +39,9 @@ export class Graph {
 
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      let randomWeight = (Math.floor(Math.random()*10) + 1);
+      v0.edges.push(new Edge(v1, randomWeight));
+      v1.edges.push(new Edge(v0, randomWeight));
     }
 
     let count = 0;
@@ -113,7 +114,7 @@ export class Graph {
       }
 
       for (let e of v.edges) {
-        s += ` ${e.destination.value}`;
+        s += ` ${e.destination.value}, weight: ${e.weight}`;
       }
       console.log(s);
     }
