@@ -138,7 +138,18 @@ export class Graph {
         while (this.queue.length > 0) {
             const vertx = this.queue[0];
 
-            console.log(vertx);
+            // console.log(vertx);
+
+            for (let edge of vertx.edges) {
+
+                if (!edge.destination.visited) {
+                    
+                    console.log('push this dstination', edge.destination);
+
+                }
+            }
+
+            this.queue.shift();
         }
 
     }
