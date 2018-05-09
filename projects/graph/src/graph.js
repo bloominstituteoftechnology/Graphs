@@ -142,5 +142,13 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const groups = [];
+    this.vertexes.forEach(vert => {
+      if (!vert.found) {
+        groups.push(this.bfs(vert));
+      } 
+    })
+    this.vertexes.forEach(vert => vert.found = false);
+    return groups;
   }
 }
