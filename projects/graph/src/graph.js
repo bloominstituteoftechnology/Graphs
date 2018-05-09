@@ -129,7 +129,34 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {}
+  bfs(start) {
+    const arrayOfQ= new Set([]);
+    const found= new Set([]); //singular connection
+    const foundConnections = new Set([]);
+
+    arrayOfQ.add(start[0]);
+    found.add(start[0]);
+
+    for (let i = 0; i < start.length; i++) {
+      for (let j = 0; j < start[i].edges.length; j++){
+        console.log("Edge: ", start[i].edges[j]);
+        // arrayOfQ.add(start[i].edges[j].destination.value);
+        if(!arrayOfQ.has(start[i].edges[j].destination)) {
+          arrayOfQ.add(start[i].edges[j].destination);
+        }
+        else {
+          found.add(start[i].edges[j].destination);
+          arrayOfQ.delete(start[i].edges[j].destination);
+        }
+      }
+      foundConnections.add(found);
+      found.clear();
+      arrayOfQ.clear();
+    }
+    console.log("ArrayofQ: ", arrayOfQ);
+    console.log("Found: ", found);
+    console.log("FoundConnections: ", foundConnections);
+  }
 
   /**
    * Get the connected components
