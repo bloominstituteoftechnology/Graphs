@@ -5,7 +5,7 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = 700;
 const canvasHeight = 500;
-const vertexRadius = 15;
+const vertexRadius = 20;
 
 /**
  * GraphView
@@ -56,18 +56,18 @@ class GraphView extends Component {
         ctx.fill();
         ctx.stroke();
       }
+      
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0,2 * Math.PI);
       ctx.fillStyle = 'white';
       ctx.fill();
-      ctx.strokeStyle = 'black';
+      ctx.strokeStyle = 'blue';
       ctx.stroke();
 
       ctx.fillStyle = 'black';
       ctx.font = "10px Arial";
       ctx.textBaseline = "middle";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y)
-
     }
   }
 
@@ -102,7 +102,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(2,3,100,.8)
+    this.state.graph.randomize(3,4,120,.7);
   }
 
 render() {

@@ -12,10 +12,11 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(value = 'vertex',pos = {x:0,y:0}) {
+  constructor(value = 'vertex', pos = { x: 0, y: 0 }) {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+
   }
 }
 
@@ -27,7 +28,7 @@ export class Graph {
     this.vertexes = [];
   }
 
-   debugCreateTestData() {
+  /* debugCreateTestData() {
     let debugVertex1 = new Vertex('d1', { x: 100, y: 100 });
     let debugVertex2 = new Vertex('d2', { x: 200, y: 200 });
 
@@ -130,13 +131,29 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
-  }
 
+    const queue = [];
+    queue.push(start);
+
+    while (!queue.length === 0) {
+      let endvertex = queue[0];
+      //endvertex = red;
+      for (let edge of endvertex.edges) {
+        if (!endvertex.includes(edge.destination)) {
+          queue.push(edge.destination);
+        }
+      }
+      queue.shift();
+    }
+  }
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    for (let v of this.vertexes) {
+      if (!v.includes(this.vertexes)) {
+        this.bfs(v);
+      }
+    }
   }
 }
