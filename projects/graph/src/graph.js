@@ -29,14 +29,14 @@ export class Graph {
     this.vertexes = [];
   }
 
-  debugCreateTestData() {
-    let vertex1 = new Vertex('tv1', { x: 50, y: 100 });
-    let vertex2 = new Vertex('tv2', { x: 100, y: 100 });
-    let edge1 = new Edge(vertex2);
+  // debugCreateTestData() {
+  //   let vertex1 = new Vertex('tv1', { x: 50, y: 100 });
+  //   let vertex2 = new Vertex('tv2', { x: 100, y: 100 });
+  //   let edge1 = new Edge(vertex2);
 
-    vertex1.edges.push(edge1);
-    this.vertexes.push(vertex1, vertex2);
-  }
+  //   vertex1.edges.push(edge1);
+  //   this.vertexes.push(vertex1, vertex2);
+  // }
 
   /**
    * Create a random graph
