@@ -17,6 +17,7 @@ export class Vertex {
         this.edges = [];
         this.value = value;
         this.pos = pos;
+        this.visited = false;
     }
 }
 
@@ -26,6 +27,8 @@ export class Vertex {
 export class Graph {
     constructor() {
         this.vertexes = [];
+        this.foundV   = [];
+        this.queue    = [];
     }
 
     createData(){
@@ -128,13 +131,17 @@ export class Graph {
      * BFS
      */
     bfs(start) {
-        // !!! IMPLEMENT ME
+
     }
 
     /**
      * Get the connected components
      */
-    getConnectedComponents() {
-        // !!! IMPLEMENT ME
+    getConnectedComponents(vertices) {
+        vertices.forEach((vertex) => {
+            if (!vertex.visited) {
+                this.bfs(vertex);
+            }
+        });
     }
 }

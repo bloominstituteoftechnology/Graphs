@@ -47,10 +47,11 @@ class GraphView extends Component {
         this.props.graph.vertexes.forEach(vert => {
             ctx.beginPath();
             ctx.arc(vert.pos.x, vert.pos.y, 10, 0, 2 * Math.PI);
-            // ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+
             let r = Math.floor(Math.random() * 155) + 100;
             let g = Math.floor(Math.random() * 155) + 100;
             let b = Math.floor(Math.random() * 155) + 100;
+
             ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
             ctx.fill();
             ctx.strokeStyle = 'blue';
@@ -84,7 +85,9 @@ class App extends Component {
             graph: new Graph()
         };
 
-        this.state.graph.randomize(3, 3, 80);
+        this.state.graph.randomize(2, 4, 80);
+        // this.state.graph.bfs(this.state.graph.vertexes);
+        this.state.graph.getConnectedComponents(this.state.graph.vertexes);
     }
 
     render() {
