@@ -29,17 +29,19 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.queue = [];
+    this.currentFoundArr = [];
   }
 
-  debugCreateTestData() {
-    console.log('called debug');
-    let debugVertex1 = new Vertex('v1', {x:100, y:100});
-    let debugVertex2 = new Vertex('v2', {x:200, y:200});
+  // debugCreateTestData() {
+  //   console.log('called debug');
+  //   let debugVertex1 = new Vertex('v1', {x:100, y:100});
+  //   let debugVertex2 = new Vertex('v2', {x:200, y:200});
 
-    let debugEdge1 = new Edge(debugVertex2);
-    debugVertex1.edges.push(debugEdge1);
-    this.vertexes.push(debugVertex1, debugVertex2);
-  }
+  //   let debugEdge1 = new Edge(debugVertex2);
+  //   debugVertex1.edges.push(debugEdge1);
+  //   this.vertexes.push(debugVertex1, debugVertex2);
+  // }
 
   /**
    * Create a random graph
@@ -132,12 +134,27 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    
+    if(this.queue[0]) {
+      this.queue[0].edges.map(edge => {
+        this.queue.push(edge.destination);
+        this.currentFoundArr.push(edge.destination);
+        return edge;
+      })
+      this.queue.unshift();
+    }
   }
-
+  
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    for (let i = 0; i < this.vertexes.length; i++){
+      this.queue.push(this.vertexes[0]);
+      this.currentFoundArr.push(this.vertexes[0]);
+         this.bfs(this.vertexes[0]);
+
+    }
+    
   }
 }
