@@ -6,6 +6,8 @@ import './App.css';
 const canvasWidth = 400;
 const canvasHeight = 400;
 
+const vertexRadius = 10;
+
 /**
  * GraphView
  */
@@ -36,6 +38,12 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     console.log("vertex data: ", this.props.graph);
+
+    for (let vertex of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 10, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
