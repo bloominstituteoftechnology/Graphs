@@ -6,6 +6,14 @@ import './App.css';
 const canvasWidth = 500;
 const canvasHeight = 500;
 
+const getRandomColor = () => {
+  let letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 /**
  * GraphView
  */
@@ -32,10 +40,11 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     let radius = 50;
 
+    const color = getRandomColor();
 
     const grd = ctx.createLinearGradient(0, 0, 500, 0)
-    grd.addColorStop(0, "black");
-    grd.addColorStop(1, "blue");
+    grd.addColorStop(0, color);
+    grd.addColorStop(1, color);
 
 
     // Clear it
@@ -45,9 +54,9 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, 10, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = color;
       ctx.fill();
-      ctx.strokeStyle = 'blue';
+      ctx.strokeStyle = 'black';
       ctx.stroke();
 
 
@@ -62,7 +71,7 @@ class GraphView extends Component {
 
     for (let component of this.props.connectedComponents) {
       ctx.strokeStyle = "black";
-      ctx.lineWidth =1;
+      ctx.lineWidth = 0.75;
 
       //Each vertex gets looped through
       for (let i = 0; i < component.length; i++) {
