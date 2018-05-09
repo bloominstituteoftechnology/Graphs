@@ -18,7 +18,22 @@ export class Vertex {
     this.value = value;
     this.pos = pos;
     this.edges = [];
+    this.color = 'black';
+    this.visited = false;
   }
+}
+
+/** 
+ * Generate random color
+*/
+function getRandomColor() {
+  let letters = '0123456789ABCDEF';
+  let color = '#';
+  
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
 
 /**
@@ -132,14 +147,17 @@ export class Graph {
     const queue = [];
 
     queue.push(start);
+    start.visited = true;
 
     while (queue.length > 0) {
       const vertex = queue[0];
+      vertex.color = getRandomColor();
 
 
       for (let edge of vertex.edges) {
-        if (!vertex.includes(edge.destination)) {
+        if (!edge.destination.visited) {
           queue.push(edge.destination);
+          edge.destination.visited = true;
         }
       }
 
@@ -152,5 +170,10 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    for (let vertex of this.vertexes) {
+      if (!vertex.visited) {
+        this.bfs(vertex);
+      }
+    }
   }
 }

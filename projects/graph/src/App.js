@@ -41,35 +41,39 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+
+    this.props.graph.getConnectedComponents();
     
     for (let vertex of this.props.graph.vertexes) {
       const px = vertex.pos.x;
       const py = vertex.pos.y;
-
+      
       for (let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(px, py);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.strokeStyle = vertex.color;
         ctx.stroke();
       }
     }
-
+    
     for (let vertex of this.props.graph.vertexes) {
       const px = vertex.pos.x;
       const py = vertex.pos.y;
-
+      
       ctx.beginPath();
       ctx.arc(px, py, vr, 0, 2 * Math.PI);
       ctx.stroke();
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = vertex.color;
       ctx.fill();
-
+      
       ctx.fillStyle = 'white';
       ctx.font = '11px Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(vertex.value, px, py);
     }
+    
   }
   
   /**
