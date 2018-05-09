@@ -44,6 +44,8 @@ class GraphView extends Component {
     // ctx.fillText("Hello World",10,50);
 
     // console.log('in update canvas, vertex data is ', this.props.graph);
+    this.props.graph.getConnectedComponents();
+    // console.log('get random color: ', )
 
     for(let vertex of this.props.graph.vertexes){
     // this.props.graph.vertexes.map((vertex) => {
@@ -60,10 +62,11 @@ class GraphView extends Component {
 
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'lightgreen';
+      ctx.fillStyle = vertex.color;
       ctx.fill();
       ctx.strokeStyle = 'red';
       ctx.stroke();
+      console.log('color :', vertex.color);
 
       ctx.fillStyle = 'black';
       ctx.font = "12px Arial";
@@ -103,6 +106,9 @@ class App extends Component {
     // use the graph randomize() method
     // this.state.graph.debugCreateTestData();
     this.state.graph.randomize(5,4,150, .6);
+    // console.log('this.state.graph : ', this.state.graph);
+    // console.log('edges : ', this.state.graph.vertexes[8].edges)
+    
   }
 
   render() {

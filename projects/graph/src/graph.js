@@ -1,6 +1,8 @@
 /**
  * Edge
  */
+
+
 export class Edge {
   // !!! IMPLEMENT ME
   constructor(destination, weight = 1) {
@@ -18,7 +20,19 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = 'black';
+    this.visited = false;
   }
+}
+
+function getRandomColor() {
+  let letters = '0123456789ABCDEF';
+  let color = '#';
+
+  for (let i = 0; i <6; i++) {
+    color += letters[Math.floor(Math.random()*16)];
+  }
+  return color;
 }
 
 /**
@@ -29,17 +43,17 @@ export class Graph {
     this.vertexes = [];
   }
 
-  debugCreateTestData(){
-    console.log('called debug CreateTestData();')
-    let debugVertex1 = new Vertex('d1', {x: 100, y:100});
-    let debugVertex2 = new Vertex('d2', {x: 200, y:200});
+  // debugCreateTestData(){
+  //   console.log('called debug CreateTestData();')
+  //   let debugVertex1 = new Vertex('d1', {x: 100, y:100});
+  //   let debugVertex2 = new Vertex('d2', {x: 200, y:200});
 
-    let debugEdge1 = new Edge(debugVertex2);
+  //   let debugEdge1 = new Edge(debugVertex2);
 
-    debugVertex1.edges.push(debugEdge1);
+  //   debugVertex1.edges.push(debugEdge1);
 
-    this.vertexes.push(debugVertex1, debugVertex2);
-  }
+  //   this.vertexes.push(debugVertex1, debugVertex2);
+  // }
 
   /**
    * Create a random graph
@@ -127,11 +141,33 @@ export class Graph {
     }
   }
 
+
+
   /**
    * BFS
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+
+    queue.push(start);
+    start.visited = true;
+    const c = getRandomColor()
+
+    while (queue.length > 0) {
+      const vertex = queue[0];
+      vertex.color = c;
+
+
+      for (let edge of vertex.edges) {
+        if (!edge.destinationVertex.visited) {
+          queue.push(edge.destinationVertex);
+          edge.destinationVertex.visited = true;
+        }
+      }
+
+      queue.shift();
+    }
   }
 
   /**
@@ -139,5 +175,10 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    for (let vertex of this.vertexes) {
+      if (!vertex.visited) {
+        this.bfs(vertex);
+      }
+    }
   }
 }
