@@ -41,16 +41,15 @@ class GraphView extends Component {
 
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    ctx.filter = 'blur(0.5px)';
     
     // Clear it
     ctx.fillStyle = 'darkgrey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    for (let node of connectedComponents) {
+    for (let group of connectedComponents) {
       const newColor = '#' + getRandomColor() + getRandomColor() + getRandomColor();
       
-      for (let vertex of node) {
+      for (let vertex of group) {
         for (let edge of vertex.edges) {
           ctx.strokeStyle = newColor;
           ctx.beginPath();
@@ -62,7 +61,7 @@ class GraphView extends Component {
 
       ctx.strokeStyle = 'transparent';
 
-      for (let vertex of node) {
+      for (let vertex of group) {
         ctx.fillStyle = newColor;
         ctx.beginPath();
         ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
