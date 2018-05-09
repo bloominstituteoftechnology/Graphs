@@ -167,7 +167,7 @@ class GraphView extends Component {
     let connectedComponents = this.props.graph.getConnectedComponents();
     let colors = [];
     let r, g, b;
-    for (let a = 0; a < connectedComponents.length; a++) {
+    for (let i = 0; i < connectedComponents.length; i++) {
       r = Math.floor(Math.random() * 155) + 100;
       g = Math.floor(Math.random() * 155) + 100;
       b = Math.floor(Math.random() * 155) + 100;
