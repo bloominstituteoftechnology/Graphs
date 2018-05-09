@@ -12,15 +12,18 @@ let canvasHeight = window.innerHeight;
 class GraphView extends Component {
   state = {
     canvasWidth: window.outerWidth,
-    canvasHeight: window.outerHeight
+    canvasHeight: window.outerHeight,
   };
   updateSize = (() => {
-    setTimeout(window.addEventListener('resize', () => {
-      this.setState({
-        canvasWidth: window.outerWidth,
-        canvasHeight: window.outerHeight,
-      });
-    }), 500);
+    setTimeout(
+      window.addEventListener('resize', () => {
+        this.setState({
+          canvasWidth: window.outerWidth,
+          canvasHeight: window.outerHeight,
+        });
+      }),
+      500
+    );
   })();
   /**
    * On mount
@@ -39,6 +42,7 @@ class GraphView extends Component {
   /**
    * Render the canvas
    */
+
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
@@ -57,10 +61,10 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, this.state.canvasWidth, this.state.canvasHeight);
 
     const radius = 20;
-
-    const drawEdges = (edge, start) => {
+    // console.time('draw')
+    const drawEdges = (edge, start, color) => {
       let { x, y } = edge.destination.pos;
-      ctx.strokeStyle = 'white';
+      ctx.strokeStyle = color;
       ctx.beginPath();
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(x, y);
@@ -69,54 +73,63 @@ class GraphView extends Component {
         mapEdges(edge.destination.edges);
       }
     };
-
-    const mapEdges = (edges, pos) => {
+    const mapEdges = (edges, pos, color) => {
       if (pos !== undefined) {
-        edges.map((edge) => {
-          drawEdges(edge, pos);
+        edges.forEach((edge) => {
+          drawEdges(edge, pos, color);
         });
       }
     };
-    const draw = (() => {
-      this.props.graph.vertexes.map((vertex, i) => {
-        if (vertex.edges.length > 0) {
-          mapEdges(vertex.edges, vertex.pos);
-        }
-      });
-      this.props.graph.vertexes.map((vertex, i) => {
-        let count = 0;
-        if(count < 1) {
-          console.log(vertex);
-        }
-        count++;
-        // Circle
-        const ep = Math.PI * 2;
-        ctx.beginPath();
-        ctx.fillStyle = 'rgba(255, 255, 255, .5';
-        ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, ep, false);
-        ctx.fill();
-        ctx.stroke();
-        // Text
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.font = '12px sans-serif';
-        ctx.fillStyle = 'black';
-        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-      });
-    })();
-    // !!! IMPLEMENT ME
-    // compute connected components
+    const drawNode = (vertex, color) => {
+      const ep = Math.PI * 2;
+      ctx.beginPath();
+      ctx.fillStyle = color;
+      ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, ep, false);
+      ctx.fill();
+      ctx.stroke();
 
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+      // Text
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '12px sans-serif';
+      ctx.fillStyle = 'black';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    };
+    const draw = (vert, type) => {
+      // todo - generate random color to execute each time this is called
+      if (type === 'single') {
+        drawNode(vert, color);
+      } else {
+        vert.forEach((vertex, i) => {
+          mapEdges(vertex.edges, vertex.pos, color)
+        });
+        vert.forEach((vertex, i) => {
+          drawNode(vertex, color);
+        });
+      }
+    };
+    // console.timeEnd('draw')
+    this.props.graph.vertexes.forEach((vertex) => {
+      if (vertex.edges.length === 0) {
+        draw(vertex, 'single');
+        this.props.graph.visited.push(vertex.value);
+        console.log(this.props.graph.visited)
+      }
+      else this.props.graph.getConnectedComponents(vertex)/*, 'arr', 'blue'*/;
+    });
   }
 
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={this.state.canvasWidth} height={this.state.canvasHeight} />;
+    return (
+      <canvas
+        ref="canvas"
+        width={this.state.canvasWidth}
+        height={this.state.canvasHeight}
+      />
+    );
   }
 }
 
@@ -133,7 +146,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(30, 30, 150, 0.6);
+    this.state.graph.randomize(5, 4, 200, 0.3);
   }
 
   render() {
