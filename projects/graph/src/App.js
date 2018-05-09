@@ -37,12 +37,18 @@ class GraphView extends Component {
     ctx.fillStyle = 'skyblue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    console.log("vertex data: ", this.props.graph);
-
     for (let vertex of this.props.graph.vertexes) {
+      // draw vertexes
       ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, 10, 0, 2 * Math.PI);
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.stroke();
+
+      // draw vertex names
+      ctx.fillStyle = 'black';
+      ctx.font = '12px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
 
     // !!! IMPLEMENT ME
