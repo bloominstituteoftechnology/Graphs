@@ -29,9 +29,11 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.queue =[];
+    this.found = [];
   }
 
-  debugCreateTestData(){
+  debugCreateTestData() {
     let debugVertex1 = new Vertex('V1', {x: 100, y: 100});
     let debugVertex2 = new Vertex('V2', {x: 300, y: 300});
 
@@ -126,17 +128,40 @@ export class Graph {
     }
   }
 
+  
   /**
    * BFS
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-  }
+    this.queue.push(this.vertexes[0]);
+    this.found.push(this.vertexes[0]);
+    while(this.queue.length > 0) {
 
+      this.queue[0].edges.forEach(edge => 
+        {
+          this.queue.push(edge.destination); 
+          if(!this.found.includes(edge.destination))
+          {
+            //edge.destination.color = this.getRandomColor();
+            //console.log(edge.destination.color);
+            this.found.push(edge.destination);
+            } 
+        });
+     this.queue.shift();
+
+    } 
+    return this.found;
+  }
   /**
    * Get the connected components
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let connectedVertices = [];
+    for(let vertex of this.vertexes) {
+      connectedVertices.push(this.bfs(vertex));
+    }
+    return connectedVertices;
   }
 }
