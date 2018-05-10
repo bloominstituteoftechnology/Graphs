@@ -2,14 +2,22 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+    this.weight = Math.floor(Math.random() * Math.floor(10));
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value = 'init', pos = {x: 0, y: 0}, found = false) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.found = found;
+  }
 }
 
 /**
@@ -110,13 +118,71 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const queue = [start];
+    const found = [];
+
+    start.found = true;
+
+    while (queue.length > 0) {
+      const head = queue[0];
+
+      for (let edge of head.edges) {
+        const vert = edge.destination;
+        if (vert.found === false) {
+          vert.found = true;
+          queue.push(vert);
+        }
+      }
+      queue.shift();
+      found.push(head);
+    }
+    return found;
+  }
+
+  dfs(start) {
+    const stack = [start];
+    const found = [];
+
+    dfsLoop: while (stack.length > 0) {
+      if (stack[0].edges.length === 0) {
+        found.push(stack[0]);
+      }
+
+      for (let edge of stack[0].edges) {
+        if (edge.destination.found === false) {
+          edge.destination.found = true;
+          found.push(edge.destination);
+          stack.unshift(edge.destination);
+          continue dfsLoop;
+          }
+        }
+      stack.shift();
+    }
+    return found;
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
+  getConnectedComponentsBFS() {
+    const ccList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.found === false) {
+        ccList.push(this.bfs(vertex));
+      }
+    }
+    return ccList;
+  }
+
+  getConnectedComponentsDFS() {
+    const ccList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.found === false) {
+        ccList.push(this.dfs(vertex));
+      }
+    }
+    return ccList;
   }
 }
