@@ -190,7 +190,7 @@ class GraphView extends Component {
         >New Graph
         </button>
     {this.state.currentVertex === null ?
-        null : 
+        <div className="canvas_test"></div> : 
         <div>
           <div>
             {vert.value}
