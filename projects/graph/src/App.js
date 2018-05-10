@@ -51,7 +51,7 @@ class GraphView extends Component {
       // draw vertexes
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = this.props.graph.getRandomColor();
       ctx.fill();
       ctx.stroke();
 
