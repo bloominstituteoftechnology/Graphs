@@ -38,6 +38,17 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     for (let vertex of this.props.graph.vertexes) {
+      // draw edges
+      ctx.moveTo(vertex.pos.x, vertex.pos.y);
+
+      if (vertex.edges[0]) {
+        const xPosition = vertex.edges[0].destination.pos.x;
+        const yPosition = vertex.edges[0].destination.pos.y;
+        console.log(xPosition, yPosition);
+        ctx.lineTo(xPosition, yPosition);
+        ctx.stroke();
+      }
+
       // draw vertexes
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
