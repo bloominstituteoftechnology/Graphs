@@ -38,10 +38,14 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       let x = e.clientX - canvasX;
       if (Math.abs(x - vertex.pos.x) <= vertexRadius && Math.abs(e.clientY - vertex.pos.y) <= vertexRadius) {
-        if (this.state.selected.length === 2) this.state.selected.shift();
-        this.setState(state => ({ selected: [...state.selected, vertex.value] }));
-        console.log('selected vertex is: ', vertex.value);
-        console.log('selected array is: ', this.state.selected);
+        if (this.state.selected[0] === vertex.value) {
+            this.setState(state => ({ selected: [state.selected[1]] }));
+        } else if (this.state.selected[1] === vertex.value) {
+          this.setState(state => ({ selected: [state.selected[0]] }));
+        } else {
+          if (this.state.selected.length === 2) this.state.selected.shift();
+          this.setState(state => ({ selected: [...state.selected, vertex.value] }));
+        }
       }
     }
   }
