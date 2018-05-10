@@ -14,10 +14,9 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value='vertex', pos = {x: 0, y: 0}) {
+  constructor(value='vertex') {
     this.edges = [];
     this.value = value;
-    this.pos = pos;
   }
 }
 
@@ -27,18 +26,6 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
-  }
-
-  debugCreateTestData() {
-    let debugVertex1 = new Vertex('v1', {x: 100, y: 100});
-    let debugVertex2 = new Vertex('v2', {x: 50, y: 200});
-    let debugVertex3 = new Vertex('v3', {x: 300, y: 350})
-
-    let debugEdge1 = new Edge(debugVertex2);
-
-    debugVertex1.edges.push(debugEdge1);
-
-    this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
   }
 
   /**
@@ -130,14 +117,58 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, reset=true) {
     // !!! IMPLEMENT ME
+    const component = [];
+    const queue = [];
+
+    if (reset) {
+      for (let v of this.vertexes) {
+        v.color = 'white';
+      }
+    }
+
+    start.color = 'gray';
+
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const u = queue[0];
+
+      for (let e of u.edges) {
+        const v = e.destination;
+        if (v.color === 'white') {
+          v.color = 'gray';
+          queue.push(v);
+        }
+      }
+
+      queue.shift();
+      u.color = 'black';
+
+      component.push(u);
+    }
+
+    return component;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const componentsList = [];
+
+    let needReset = true;
+
+    for (let v of this.vertexes) {
+      if (needReset || v.color === 'white') {
+        const component = this.bfs(v, needReset);
+        needReset = false;
+
+        componentsList.push(component);
+      }
+    }
+
+    return componentsList;
   }
 }
