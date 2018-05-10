@@ -34,25 +34,66 @@ class GraphView extends Component {
       return Math.floor(int);
     }
 
-    let getPosition = (event) => {
+    let clickHandler = event => {
       let x = event.x;
       let y = event.y;
       x -= canvas.offsetLeft;
       y -= canvas.offsetTop;
+
+      let clickedVertex;
+
       this.props.graph.vertexes.forEach(v => {
         if (
           x > v.pos.x - 20 &&
           x < v.pos.x + 20 &&
           (y > v.pos.y - 20 && y < v.pos.y + 20)
         ) {
+          clickedVertex = v;
           console.log('VERTEX CLICKED: ', v);
         }
       });
-    }
+      if (clickedVertex !== undefined) {
+        if (!this.props.graph.start) {
+          this.props.graph.start = clickedVertex;
+          ctx.beginPath();
+          ctx.strokeStyle = 'white';
+          ctx.arc(clickedVertex.pos.x, clickedVertex.pos.y, 25, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.closePath();
+        } else {
+          this.props.graph.end = clickedVertex;
+          ctx.beginPath();
+          ctx.strokeStyle = 'yellow';
+          ctx.arc(clickedVertex.pos.x, clickedVertex.pos.y, 25, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.closePath();
+        }
+      } else {
+        if (this.props.graph.start) {
+          let start = this.props.graph.start;
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgb(100, 100, 100)';
+          ctx.arc(start.pos.x, start.pos.y, 25, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.closePath();
+        }
+        if (this.props.graph.end) {
+          let end = this.props.graph.end;
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgb(100, 100, 100)';
+          ctx.arc(end.pos.x, end.pos.y, 25, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.closePath();
+        }
+        this.props.graph.start = null;
+        this.props.graph.end = null;
+        console.log(this.props.graph.start, this.props.graph.end);
+      }
+    };
 
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    canvas.addEventListener('mousedown', getPosition, false);
+    canvas.addEventListener('mousedown', clickHandler, false);
 
     // Clear it
     ctx.fillStyle = 'rgb(10, 10, 10)';
