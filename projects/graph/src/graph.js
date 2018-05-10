@@ -145,9 +145,9 @@ export class Graph {
       const vert = queue.shift();
       
       //* if the edge has a destionation value that hasn't been vistied, push it to the back of the queue
-      for (let edge in vert){
+      for (let edge in vert.edges){
         if (!edge.destination.visited){
-          edge.destination.fillColor = "lightblue";
+          edge.destination.fillColor = "grey";
           edge.destination.visited = true;
           queue.push(edge.destination);
         }
