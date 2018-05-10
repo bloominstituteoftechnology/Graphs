@@ -143,6 +143,31 @@ export class Graph {
     return result; //return the array containing all vertices in the group;
   }
 
+  dfs(start) {
+
+    const stack = [start];
+    const result = [];
+    let currentEdge = stack[0];
+
+    whileLabel: while (stack.length > 0) {
+      if (stack[0].edges.length === 0) {
+        result.push(stack[0]);
+      }
+
+      for (let i = 0; i < stack[0].edges.length; i++) {
+        if (stack[0].edges[i].destination.found === undefined) {
+          stack[0].edges[i].destination.found = true;
+          result.push(stack[0].edges[i].destination);
+          stack.unshift(stack[0].edges[i].destination);
+          continue whileLabel;
+        }
+      }
+      stack.shift();
+    }
+
+    return result;
+  }
+
   /**
    * Get the connected components
    */
@@ -153,10 +178,12 @@ export class Graph {
     // console.log("we were given this list", list);
     list.forEach((vertex) => {
       if (vertex.found === undefined) {
-        groups.push(this.bfs(vertex));
+        // groups.push(this.bfs(vertex));
+        groups.push(this.dfs(vertex));
       }
     });
 
+    console.log(groups);
     return groups;
   }
 }
