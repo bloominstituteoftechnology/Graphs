@@ -25,6 +25,7 @@ class GraphView extends Component {
   }
 
   updateCanvas() {
+		console.log('refs', this.refs);
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     
@@ -37,6 +38,7 @@ class GraphView extends Component {
 
 		let { found } = this.props.graph;
 
+		console.log('found', found);	
 		for (let component of found) {
 			for (let vertex of component) {
 				let { edges } = vertex;
@@ -71,7 +73,11 @@ class GraphView extends Component {
   }
   
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+			<div>
+				<canvas className="canvas" ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+			</div>
+		);
   }
 }
 
@@ -88,12 +94,26 @@ class App extends Component {
 		graph.randomize(5, 4, 150);
 		// this.state.graph.debugCreateDummyData();
 		graph.getConnectedComponents();
-  }
+
+	}
+
+	handleClick() {
+		const refreshedState = {
+			graph: new Graph()
+		};
+		refreshedState.graph.randomize(5, 4, 150);
+		refreshedState.graph.getConnectedComponents();
+		this.setState(refreshedState);
+	}
+
+  
 
   render() {
+		console.log('this', this);
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+				<div className="Button" onClick={() => this.handleClick()}>randomize</div>
       </div>
     );
   }
