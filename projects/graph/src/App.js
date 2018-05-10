@@ -15,7 +15,7 @@ class GraphView extends Component {
     super(props);
 
     this.state = {
-      selected: []
+      selected: [...this.props.graph.selected]
     };
   }
   /**
@@ -111,7 +111,7 @@ class GraphView extends Component {
       if (vertex.value === this.state.selected[0] || vertex.value === this.state.selected[1]) {
         ctx.lineWidth = '3';
       }
-      ctx.strokeStyle= 'dodgerblue'; // TODO: Optimize this code. Many calls for stroke and fill
+      ctx.strokeStyle= 'darkgray'; // TODO: Optimize this code. Many calls for stroke and fill
       ctx.stroke();
 
       ctx.fillStyle = 'black';
@@ -158,7 +158,7 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} selected={this.state.selected}></GraphView>
         <button onClick={this.onButtonClick} style={{ width: '100px' }}>REGEN</button>
       </div>
     );

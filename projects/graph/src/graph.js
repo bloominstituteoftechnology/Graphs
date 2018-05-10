@@ -19,6 +19,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.selected = [];
   }
   
   // Create a random graph
@@ -74,7 +75,10 @@ export class Graph {
         };
       }
     }
-    if (this.vertexes.length > 0) this.vertexes = [];
+    if (this.vertexes.length > 0) {
+      this.vertexes = [];
+      this.selected = [];
+    }
     // Finally, add everything in our grid to the vertexes in this Graph
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
