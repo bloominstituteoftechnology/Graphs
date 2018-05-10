@@ -60,6 +60,20 @@ class GraphView extends Component {
           ctx.arc(clickedVertex.pos.x, clickedVertex.pos.y, 25, 0, 2 * Math.PI);
           ctx.stroke();
           ctx.closePath();
+        } else if (this.props.graph.end) {
+          let end = this.props.graph.end;
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgb(100, 100, 100)';
+          ctx.arc(end.pos.x, end.pos.y, 25, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.closePath();
+
+          this.props.graph.end = clickedVertex;
+          ctx.beginPath();
+          ctx.strokeStyle = 'yellow';
+          ctx.arc(clickedVertex.pos.x, clickedVertex.pos.y, 25, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.closePath();
         } else {
           this.props.graph.end = clickedVertex;
           ctx.beginPath();
