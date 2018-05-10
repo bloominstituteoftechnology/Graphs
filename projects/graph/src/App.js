@@ -38,7 +38,6 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     for (let vertex of this.props.graph.vertexes) {
-      
       // draw edges
       if (vertex.edges[0]) {
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -93,7 +92,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.degubCreateTestData();
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    //this.state.graph.degubCreateTestData();
   }
 
   render() {
