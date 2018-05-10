@@ -2,14 +2,19 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value, edges = []) {
+    this.value = value;
+    this.edges = edges;
+  }
 }
 
 /**
@@ -20,10 +25,14 @@ export class Graph {
     this.vertexes = [];
   }
 
+  addVertex(value) {
+    this.vertexes.push();
+  }
+
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -39,7 +48,7 @@ export class Graph {
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
         //v.value = 'v' + x + ',' + y;
-        v.value = 'v' + count++;
+        v.value = "v" + count++;
         row.push(v);
       }
       grid.push(row);
@@ -51,14 +60,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -72,8 +81,8 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
-          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          x: (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          y: (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
       }
     }
@@ -94,9 +103,9 @@ export class Graph {
 
     for (let v of this.vertexes) {
       if (v.pos) {
-        s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
+        s = v.value + " (" + v.pos.x + "," + v.pos.y + "):";
       } else {
-        s = v.value + ':';
+        s = v.value + ":";
       }
 
       for (let e of v.edges) {
@@ -109,14 +118,55 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME
+  bfs(startVertex) {
+    const vertexesToExplore = [];
+    vertexesToExplore.push(startVertex);
+
+    while (vertexesToExplore.length) {
+      vertexesToExplore[0].edges.forEach(edge => {
+        if (!edge.destination.explored) {
+          vertexesToExplore.push(edge.destination);
+        }
+        vertexesToExplore[0].explored = true;
+      });
+      vertexesToExplore.shift();
+    }
+    const res = this.vertexes.filter(vertex => vertex.explored === true);
+    this.vertexes.forEach(vertex => (vertex.explored = false));
+    return res;
+  }
+
+  dfs(startVertex) {
+    const explorer = vertex => {
+      vertex.explored = true;
+      vertex.edges.forEach(edge => {
+        if (!edge.destination.explored) {
+          explorer(edge.destination);
+        }
+      });
+    };
+    explorer(startVertex);
+    const res = this.vertexes.filter(vertex => vertex.explored === true);
+    this.vertexes.forEach(vertex => (vertex.explored = false));
+    return res;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const foundNetworks = [];
+    this.vertexes.forEach(vertex => {
+      const networkToConsider = this.dfs(vertex);
+      if (
+        !foundNetworks.find(network => {
+          if (!network[0] || !networkToConsider[0]) return null;
+          if (network[0].value === networkToConsider[0].value) return network;
+          return null;
+        })
+      )
+        foundNetworks.push(networkToConsider);
+    });
+    return foundNetworks;
   }
 }
