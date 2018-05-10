@@ -14,10 +14,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = "vertex", pos = {x: 0, y: 0}){
-    this.edges = [];
+  constructor(value = "default", pos = {x: -1, y: -1}){
     this.value = value;
+    this.edges = [];
     this.pos = pos;
+    this.fillColor = "white";
+    this.visited =  false;
   }
 }
 
@@ -129,13 +131,38 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    //# my implementation
+    //* creates a queue to handle the vertexes in a FIFO order
+    const queue = []
+    //* sets the starting node to visited and changes the color accordingly
+    start.visited = true;
+    start.fillColor = "lightblue";
+    //* pushes the starting vertex to the queue as the first value
+    queue.push(start);
+    
+    //* while the queue has a value, you store/shift it then change its destination status and color.
+    while (queue.length){
+      const vert = queue.shift();
+      
+      //* if the edge has a destionation value that hasn't been vistied, push it to the back of the queue
+      for (let edge in vert){
+        if (!edge.destination.visited){
+          edge.destination.fillColor = "lightblue";
+          edge.destination.visited = true;
+          queue.push(edge.destination);
+        }
+      }
+    }
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    for (let vert of this.vertexes){
+      if (!vert.visited){
+        this.bfs(vert)
+      }
+    }
   }
 }
