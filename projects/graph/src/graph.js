@@ -176,7 +176,9 @@ export class Graph {
         currentVert.found = true;
         connectedVerts.push(currentVert);
         currentVert.edges.forEach(edge => {
-          connectedQueue.push(edge.destination);
+          if (!edge.destination.found) {
+            connectedQueue.push(edge.destination);
+          }
         })
       }
     }
@@ -184,36 +186,57 @@ export class Graph {
   }
 
   dfs(start) {
-    // !!! IMPLEMENT ME
-    // const connectedQueue = [start];
-    // const connectedVerts = [];
+    const stack = [start];
+    const found = [];
 
-    // while (connectedQueue.length > 0) {
-    //   const currentVert = connectedQueue.shift();
-    //   if (currentVert.found) continue;
-    //   else {
-    //     currentVert.found = true;
-    //     connectedVerts.push(currentVert);
-    //     currentVert.edges.forEach(edge => {
-    //       connectedQueue.push(edge.destination);
-    //     })
-    //   }
-    // }
-    // return connectedVerts;
+    while (stack.length > 0) {
+      // case where stack[0] has no connections
+      if (stack[0].edges.length === 0) {
+        found.push(stack[0]);
+      }
+      // case where stack[0] is connected
+      for (let edge of stack[0].edges) {
+        if (!found.includes(edge.destination)) {
+          found.push(edge.destination);
+          stack.push(edge.destination);
+          }
+        }
+      stack.pop();
+    }
+    return found;
   }
 
   /**
    * Get the connected components
    */
+  // getConnectedComponents() {
+  //   // !!! IMPLEMENT ME
+  //   const groups = [];
+  //   this.vertexes.forEach(vert => {
+  //     // vert.color = 'white';
+  //     // vert.parent = null;
+
+  //     // if (!vert.found) {
+  //     //   groups.push(this.bfs(vert));
+  //     // }
+
+  //     if (!vert.found) {
+  //       groups.push(this.dfs(vert));
+  //     } 
+  //   })
+
+  //   this.vertexes.forEach(vert => vert.color = 'white');
+  //   return groups;
+  // }
+
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
-    const groups = [];
-    this.vertexes.forEach(vert => {
-      if (!vert.found) {
-        groups.push(this.bfs(vert));
-      } 
-    })
-    this.vertexes.forEach(vert => vert.found = false);
-    return groups;
+    const ccList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.found === false) {
+        ccList.push(this.dfs(vertex));
+      }
+    }
+    return ccList;
   }
 }
