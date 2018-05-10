@@ -12,6 +12,7 @@ let groupsSet = false;
 
 function drawLine(startx, starty, finx, finy, ctx) {
   // ctx.strokeStyle = 'black';
+  ctx.lineWidth = 5;
   ctx.strokeStyle = color;
   ctx.moveTo(startx, starty)
   ctx.lineTo(finx, finy);

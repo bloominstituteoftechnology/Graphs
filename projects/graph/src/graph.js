@@ -1,6 +1,20 @@
 /**
  * Edge
  */
+
+function returnNumber(min, max) {
+  let number = Math.max( min, Math.floor(Math.random() * (max + 1)) );
+  // console.log(number);
+  return number;
+}
+
+function returnNotSelf(min, max, self) {
+  let number = Math.max( min, Math.floor(Math.random() * (max + 1)) );
+  // console.log(number);
+  if (number !== self) return number;
+  return returnNotSelf(min, max, self);
+}
+
 export class Edge {
   // !!! IMPLEMENT ME
   constructor(destination, weight = 1) {
@@ -58,14 +72,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[returnNotSelf(0, height-1, y)][returnNotSelf(0, width-1, x)]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[returnNotSelf(0, height-1, y)][returnNotSelf(0, width-1, x)]);
           }
         }
       }
@@ -80,7 +94,9 @@ export class Graph {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          // 'x': returnNumber(20, 770) | 0,
+          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          // 'y': returnNumber(25, 770) | 0,
         };
       }
     }
@@ -147,7 +163,7 @@ export class Graph {
 
     const stack = [start];
     const result = [];
-    let currentEdge = stack[0];
+    // let currentEdge = stack[0];
 
     whileLabel: while (stack.length > 0) {
       if (stack[0].edges.length === 0) {
