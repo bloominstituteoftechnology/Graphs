@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'value', x = 0, y = 0) {
+    this.edges = [];
+    this.value = value;
+    this.pos = { x, y };
+    this.found = false;
+  }
 }
 
 /**
@@ -111,6 +120,23 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const connectedQueue = [start];
+    const connectedVerts = [];
+
+    while (connectedQueue.length > 0) {
+      const currentVert = connectedQueue.shift();
+      if (currentVert.found) continue;
+      else {
+        currentVert.found = true;
+        connectedVerts.push(currentVert);
+        currentVert.edges.forEach(edge => {
+          if (!edge.destination.found) {
+            connectedQueue.push(edge.destination);
+          }
+        })
+      }
+    }
+    return connectedVerts;
   }
 
   /**
@@ -118,5 +144,13 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const groups = [];
+    this.vertexes.forEach(vert => {
+      if (!vert.found) {
+        groups.push(this.bfs(vert));
+      } 
+    })
+    this.vertexes.forEach(vert => vert.found = false);
+    return groups;
   }
 }

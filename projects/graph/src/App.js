@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 600;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -24,6 +24,14 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+  getRandomColor() {
+    const r = Math.floor(Math.random() * 155) + 100;
+    const g = Math.floor(Math.random() * 155) + 100;
+    const b = Math.floor(Math.random() * 155) + 100;
+    const color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+    return color;
+  }
+
   /**
    * Render the canvas
    */
@@ -35,9 +43,40 @@ class GraphView extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    const connectedGroups = this.props.graph.getConnectedComponents();
+
     // !!! IMPLEMENT ME
-    // compute connected components
+    this.props.graph.dump();
+    connectedGroups.forEach(group => {
+      const groupColor = this.getRandomColor();
+      group.forEach(vert => {
+        vert.edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.moveTo(vert.pos.x, vert.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
+          ctx.strokeStyle = groupColor;
+          ctx.stroke();
+        })
+      })
+      
+      group.forEach(vert => {
+        ctx.beginPath();
+        ctx.arc(vert.pos.x, vert.pos.y, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = groupColor;
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+  
+        ctx.fillStyle = 'black';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(vert.value, vert.pos.x, vert.pos.y);
+      })
+
+    })
     // draw edges
+
     // draw verts
     // draw vert values (labels)
   }
@@ -64,12 +103,20 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 5, 100);
   }
 
+  getNew = () => {
+    const graph = new Graph();
+    graph.randomize(5, 5, 100);
+    this.setState({ graph });
+  }
+  
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.getNew}>Get New Graph</button>
       </div>
     );
   }
