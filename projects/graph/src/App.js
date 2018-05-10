@@ -29,11 +29,9 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    this.canvas = this.refs.canvas;
-    this.ctx = this.canvas.getContext('2d');
+    this.createCanvas();
     this.clearCanvas();
     this.updateCanvas();
-    // window.requestAnimationFrame(this.updateCanvas);
   }
 
   /**
@@ -42,6 +40,11 @@ class GraphView extends Component {
   componentDidUpdate() {
     this.clearCanvas();
     this.updateCanvas();
+  }
+
+  createCanvas = () => {
+    this.canvas = this.refs.canvas;
+    this.ctx = this.canvas.getContext('2d');
   }
 
   mouseDown = (e) => {
@@ -66,10 +69,14 @@ class GraphView extends Component {
 
   select = (vert) => {
     if(this.selected.length >= 2) {
-      this.selected = [];
+      this.clearSelected();
     } else {
       this.selected.push(vert);
     }
+  }
+
+  clearSelected = () => {
+    this.selected = [];
   }
 
   mouseUp = (e) => {
@@ -123,9 +130,6 @@ class GraphView extends Component {
     canvas.onmousemove = this.mouseMove;
 
     // Clear it
-    // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    // ctx.fillStyle = 'white';
-    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     this.clearCanvas();
 
     // ------------ Graph -----------------------------
@@ -265,11 +269,6 @@ class GraphView extends Component {
 
     // -------------------------------------------------------
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
   }
 
 
@@ -281,7 +280,7 @@ class GraphView extends Component {
       <React.Fragment>
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
         <button onClick={() => {
-          this.selected = [];
+          this.clearSelected();
           this.props.regenerate();
           }}>Regenerate</button>
       </React.Fragment>

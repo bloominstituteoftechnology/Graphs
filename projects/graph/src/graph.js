@@ -4,9 +4,9 @@ const ColorScheme = require('color-scheme');
  * Edge
  */
 export class Edge {
-  constructor(destination) {
+  constructor(destination, weight) {
     this.destination = destination;
-    this.weight = 0;
+    this.weight = weight;
   }
 }
 
@@ -20,7 +20,6 @@ export class Vertex {
     this.pos = pos;
     this.visited = false;
     this.color = 'white';
-    // this.selected = false;
   }
 
   setColor(color) {
@@ -31,9 +30,6 @@ export class Vertex {
     this.visited = true;
   }
 
-  // toggleSelect() {
-  //   this.selected = !this.selected;
-  // }
 }
 
 function randomColor() {
@@ -185,5 +181,9 @@ export class Graph {
         this.bfs(vertex);
       }
     }
+  }
+
+  dijkstra(start, end) {
+
   }
 }
