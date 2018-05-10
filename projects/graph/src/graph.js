@@ -37,6 +37,13 @@ function getRandomColor() {
 }
 
 /**
+ * Generate random weight
+ */
+function getRandomWeight() {
+  return Math.floor(Math.random() * 10) + 1;
+}
+
+/**
  * Graph
  */
 export class Graph {
@@ -62,8 +69,10 @@ export class Graph {
     
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const weight = getRandomWeight();
+
+      v0.edges.push(new Edge(v1, weight));
+      v1.edges.push(new Edge(v0, weight));
     }
 
     let count = 0;

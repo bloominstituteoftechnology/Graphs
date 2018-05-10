@@ -6,6 +6,7 @@ import './App.css';
 const canvasWidth = 800;
 const canvasHeight = 600;
 const vr = 10;
+const wr = 6;
 
 /**
  * GraphView
@@ -38,22 +39,38 @@ class GraphView extends Component {
     
     // !!! IMPLEMENT ME
     // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
-
+    
     this.props.graph.getConnectedComponents();
     
     for (let vertex of this.props.graph.vertexes) {
       const px = vertex.pos.x;
       const py = vertex.pos.y;
       
+      // draw edges
       for (let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(px, py);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.strokeStyle = vertex.color;
         ctx.stroke();
+        
+        const wpx = (px + edge.destination.pos.x) / 2;
+        const wpy = (py + edge.destination.pos.y) / 2;
+        
+        // draw weights
+        ctx.beginPath();
+        ctx.arc(wpx, wpy, wr, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        
+        //draw weight values
+        ctx.fillStyle = 'black';
+        ctx.font = '9px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(edge.weight, wpx, wpy);
+        
       }
     }
     
@@ -61,12 +78,14 @@ class GraphView extends Component {
       const px = vertex.pos.x;
       const py = vertex.pos.y;
       
+      // draw verts
       ctx.beginPath();
       ctx.arc(px, py, vr, 0, 2 * Math.PI);
       ctx.stroke();
       ctx.fillStyle = vertex.color;
       ctx.fill();
       
+      // draw vert values (labels)
       ctx.fillStyle = 'white';
       ctx.font = '11px Arial';
       ctx.textAlign = 'center';
