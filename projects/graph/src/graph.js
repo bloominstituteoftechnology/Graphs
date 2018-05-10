@@ -1,6 +1,3 @@
-/**
- * Edge
- */
 export class Edge {
   // !!! IMPLEMENT ME
   constructor(destination, weight = 1) {
@@ -9,40 +6,22 @@ export class Edge {
   };
 }
 
-/**
- * Vertex
- */
 export class Vertex {
   // !!! IMPLEMENT ME
   constructor(value = 'vertex', pos = { x: 0, y: 0 }) {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.visited = false;
   }
 }
 
-/**
- * Graph
- */
 export class Graph {
   constructor() {
     this.vertexes = [];
   }
-
-  debugCreateTestData() {
-    let debugVertex1 = new Vertex('debug1', { x: 100, y: 100 });
-    let debugVertex2 = new Vertex('debug2', { x: 200, y: 200});
-
-    let debugEdge1 = new Edge(debugVertex2);
-
-    debugVertex1.edges.push(debugEdge1);
-
-    this.vertexes.push(debugVertex1, debugVertex2);
-  }
-
-  /**
-   * Create a random graph
-   */
+  
+  // Create a random graph
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
@@ -51,7 +30,6 @@ export class Graph {
     }
 
     let count = 0;
-
     // Build a grid of verts
     let grid = [];
     for (let y = 0; y < height; y++) {
@@ -64,7 +42,6 @@ export class Graph {
       }
       grid.push(row);
     }
-
     // Go through the grid randomly hooking up edges
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
@@ -74,7 +51,6 @@ export class Graph {
             connectVerts(grid[y][x], grid[y+1][x]);
           }
         }
-
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
@@ -97,7 +73,6 @@ export class Graph {
         };
       }
     }
-
     if (this.vertexes.length > 0) this.vertexes = [];
     // Finally, add everything in our grid to the vertexes in this Graph
     for (let y = 0; y < height; y++) {
@@ -105,7 +80,6 @@ export class Graph {
         this.vertexes.push(grid[y][x]);
       }
     }
-    console.log('vertexes is', this.vertexes);
   }
 
   /**
@@ -133,7 +107,23 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-
+    let randomPastelColor = 'hsl(' + 360 * Math.random() + ',' +
+    (25 + 70 * Math.random()) + '%,' + 
+    (85 + 10 * Math.random()) + '%)';
+    start.visited = true;
+    let connected = [];
+    connected.push(start);
+    while (connected.length > 0) {
+      let currentVertex = connected[0];
+      currentVertex.color = randomPastelColor;
+      for (let edge of currentVertex.edges) {
+        if (!edge.destination.visited) {
+          connected.push(edge.destination);
+          edge.destination.visited = true;
+        }
+      }
+      connected.shift();
+    }
   }
 
   /**
@@ -141,28 +131,16 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    for (let vertex of this.vertexes) {
+      if (!vertex.visited) {
+        this.bfs(vertex);
+      }
+    }
   }
 }
 
 
 /*
-BFS Pseudocode
-1. Add the first unfound vertex in the list of all vertexes to the queue
-2. Add the first unfound vertex to the current found array
-3. Go to the first item in the queue
-  a. If queue is empty, add new found subarray and make that the current one
-  b. Go to Step 1
-4. Check the first vertex for neighbors
-  a. For each new neighbor found, add it to current found array and queue
-5. Dequeue the first item in the queue
-6. Go to Step 3
-
-Drawing Pseudocode
-1. For each subarray, 
-  a. Generate a random color
-  b. Loop through and draw the edges
-  c. Loop through and draw the vertexes
-
 BFS Pseudocode actual implementation
 1. Add the start vertex to the queue
 2. Add the start vertex to the current found array
@@ -174,6 +152,13 @@ BFS Pseudocode actual implementation
 6. Go to Step 3
 
 getConnectedComponents()
-1. Loop through the list of vertexes, for each unfound vertex, do BFS for that item (start)
+1. Loop through the list of vertexes, for each unfound vertex, 
+   do BFS for that item (start)
 2. Go to Step 1
+
+Drawing Pseudocode
+1. For each subarray, 
+  a. Generate a random color
+  b. Loop through and draw the edges
+  c. Loop through and draw the vertexes
 */

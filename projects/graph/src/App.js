@@ -44,7 +44,6 @@ class GraphView extends Component {
     let visited = {};
     for (let vertex of this.props.graph.vertexes) {
       const edges = vertex.edges;
-      console.log('vertex is', vertex);
       for (let i = 0; i < edges.length; i++) {
         if (!visited[edges[i].destination.value]) {
           ctx.beginPath();
@@ -60,7 +59,7 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2*Math.PI);
-      ctx.fillStyle = 'gold';
+      ctx.fillStyle = vertex.color;
       ctx.fill();
       ctx.strokeStyle= 'dodgerblue'; // TODO: Optimize this code. Many calls for stroke and fill
       ctx.stroke();
@@ -97,10 +96,12 @@ class App extends Component {
     // use the graph randomize() method
     // this.state.graph.debugCreateTestData();
     this.state.graph.randomize(5, 4, 150);
+    this.state.graph.getConnectedComponents();
   }
 
   onButtonClick = () => {
     this.state.graph.randomize(5, 4, 150);
+    this.state.graph.getConnectedComponents();
     this.setState({ graph: this.state.graph });
   }
 
