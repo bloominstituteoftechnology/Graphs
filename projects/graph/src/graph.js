@@ -116,12 +116,8 @@ export class Graph {
     }
   }
 
-  /**
-   * BFS
-   */
-  bfs(start) {
     //Random color generator
-    function ranColor() {
+    ranColor = () => {
       let letters = '0123456789ABCDEF';
       let color = '#';
       for (let i = 0; i < 6; i++) {
@@ -130,14 +126,19 @@ export class Graph {
       return color;
     }
 
-    const arr = [];
+  /**
+   * BFS
+   */
+  bfs(start) {
+    const arr = []; 
     const queue = [start];
     while (queue.length) {
       let current = queue.shift();
       for (let { destination } of current.edges) {
         if (!destination.color) queue.push(destination);
       }
-      current.color = ranColor();
+      current.color = this.ranColor();
+      console.log('BFS ', current.value, current.color);
       arr.push(current);
     }
     return arr;
@@ -147,7 +148,12 @@ export class Graph {
    * Get the connected components
    */
   getConnectedComponents() {
-
+    const connected = [];
+    for (let v of this.vertexes) {
+      const component = this.bfs(v);
+      connected.push(component);
+    }
+    return connected;
   }
 
 }

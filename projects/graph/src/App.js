@@ -24,75 +24,32 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
-  /**
-   * Render the canvas
-   */
-  updateCanvas() {
+  draw(vertexes, color, clear = true) {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    
+    if (clear) {
     ctx.fillStyle = 'white';
-
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-//=============================================================
-    // ---------------------
-    //        DRAWING
-    // ---------------------
-    // ctx.fillStyle = '#00F0F0';
-    // ctx.font = 'italic 40pt serif';
-    // ctx.fillText('Circle', 190, 325);
-
-    // Translating changes the orgin of the drawing surface
-    // ctx.translate(150, 30);
-
-    // ctx.moveTo(108, 0.0);
-    // ctx.lineTo(141, 70);
-    // ctx.lineTo(218, 78.3);
-    // ctx.lineTo(162, 131);
-    // ctx.lineTo(175, 205);
-    // ctx.lineTo(108, 170);
-    // ctx.lineTo(108, 0);
-    // ctx.lineTo(75, 68);
-    // ctx.lineTo(1, 78);
-    // ctx.lineTo(55, 131);
-    // ctx.lineTo(41.2, 205);
-
-    //-Complete Star Code-
-
-    // ctx.lineTo(41.2, 205);
-    // ctx.lineTo(55, 131);
-    // ctx.lineTo(1, 78);
-    // ctx.lineTo(75, 68);
-    // ctx.lineTo(108, 0);
-    // ctx.fill();
-//=============================================================
- 
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-
-
+    }
 
     // draw edges
-    for (let v of this.props.graph.vertexes) {
+    for (let v of vertexes) {
       for (let e of v.edges) {
         ctx.moveTo(v.pos.x, v.pos.y);
         ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
         ctx.stroke(); //draws the path defined w/ moveTo() & lineTo()
       }
     }
-
-
+    
     // draw verts
-    for (let v of this.props.graph.vertexes) {
+    for (let v of vertexes) {
       ctx.moveTo(v.pos.x, v.pos.y);
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, 20, 0, 10);//creates an arc/curve
       ctx.closePath();
-      ctx.fillStyle = v.color;
+      ctx.fillStyle = color;
       ctx.fill();
       ctx.stroke();
 
@@ -103,13 +60,33 @@ class GraphView extends Component {
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     }
 
-
-    // draw vert values (labels)
-
-
-
   }
-  
+
+  /**
+   * Render the canvas
+   */
+  updateCanvas() {
+    function ranColor() {
+      let letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    let clear = true;
+    let connectedComponents = this.props.graph.getConnectedComponents();
+    // console.log('Connected Components: ', connectedComponents)
+    for (let c of connectedComponents) {
+      const color = ranColor();
+      console.log('APP ', c, color);
+      this.draw(c, color, clear);
+      clear = false;
+    }
+  }
+
+
   /**
    * Render
    */
