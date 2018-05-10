@@ -80,6 +80,26 @@ class GraphView extends Component {
           ctx.stroke();
         }
       }
+      for (let vertex of vertexArray) {
+        for (let edge of vertex.edges) {
+          let randomWeight = Math.floor((Math.random() * 10) + 1);
+          let middleX = (vertex.pos.x + edge.destination.pos.x) / 2;
+          let middleY = (vertex.pos.y + edge.destination.pos.y) / 2;
+          ctx.beginPath();
+          ctx.arc(middleX, middleY, vertexRadius, 0, 2 * Math.PI);
+          ctx.fillStyle = 'white';
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = 'black';
+          ctx.font = '10px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(randomWeight, middleX, middleY);
+        }
+      }
+
+
         for (let vertex of vertexArray) {
           ctx.beginPath();
           ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
