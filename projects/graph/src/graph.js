@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='v', pos = { x: 0, y: 0 }) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -18,6 +27,26 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  // degubCreateTestData() {
+  //   let debugVertex1 = new Vertex('v0', { x: 200, y: 100 });
+  //   let debugVertex2 = new Vertex('v1', { x: 300, y: 150 });
+
+  //   let degubEdge1 = new Edge(debugVertex2);
+
+  //   debugVertex1.edges.push(degubEdge1);
+  //   this.vertexes.push(debugVertex1, debugVertex2);
+  // }
+
+  getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   /**
