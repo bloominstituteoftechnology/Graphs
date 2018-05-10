@@ -125,7 +125,7 @@ export class Graph {
     // console.log("here is the queue member that is about to break everything:", queue[0].edges);
 
     while (queue.length > 0) { //while the queue still has something in it
-      if (queue[0].edges.length === 0) {
+      if (queue[0].edges.length === 0) { // if there are no edges
         result.push(queue[0]); // add it to the results array, so we know it's part of this iteration's group        
       }
 

@@ -91,10 +91,11 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
-    // if(!groupsSet){
-      console.log("fine, we are updating", this.state.groups);
+    if(!groupsSet){
+      // console.log("fine, we are updating", this.state.groups);
       this.updateCanvas();
-    // }
+      groupsSet = true;      
+    }
   }
 
   /**
@@ -138,7 +139,7 @@ class GraphView extends Component {
       ctx.fillRect(2, 2, canvasWidth-4, canvasHeight-4);
       ctx.lineWidth = 5;
 
-      console.log(this.state.groups);
+      // console.log(this.state.groups);
       this.state.groups.forEach((group) => {
         color = `rgb(${getRandomInt(255)},${getRandomInt(255)},${getRandomInt(255)})`;  
         
@@ -176,8 +177,18 @@ class GraphView extends Component {
   render() {
     const vert = this.state.currentVertex;
     return (
-      <div>
+      <div className="canvas_container">
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+        <button className="canvas_button" onClick={() => {
+          groupsSet = false;
+          const newGraph = new Graph();
+          newGraph.randomize(5, 5, 150, 0.6);
+          // console.log("new graph:", newGraph.vertexes);
+          this.setState({groups: newGraph.getConnectedComponents(newGraph.vertexes), currentVertex: null});
+          this.props.updateGraph(newGraph);
+          }}
+        >New Graph
+        </button>
     {this.state.currentVertex === null ?
         null : 
         <div>
@@ -194,14 +205,6 @@ class GraphView extends Component {
             }
           </div>
         </div>}
-        <button onClick={() => {
-          groupsSet = false;
-          const newGraph = new Graph();
-          newGraph.randomize(5, 5, 150, 0.6);
-          console.log("new graph:", newGraph.vertexes);
-          this.setState({groups: newGraph.getConnectedComponents(newGraph.vertexes), currentVertex: null});
-          }}
-        >New Graph</button>
       </div>
     )
   }
@@ -212,23 +215,24 @@ class GraphView extends Component {
  * App
  */
 class App extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    graph: new Graph()
+  };
 
-    this.state = {
-      graph: new Graph()
-    };
+  // !!! IMPLEMENT ME
+  // use the graph randomize() method
+  componentWillMount() {
+    this.state.graph.randomize(5, 5, 150, 0.6);
+  }
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
-
-    this.state.graph.randomize(5, 5, 150, 0.6);    
+  updateGraph = (graph) =>{
+    this.setState({graph: graph});
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} updateGraph={this.updateGraph}></GraphView>
       </div>
     );
   }

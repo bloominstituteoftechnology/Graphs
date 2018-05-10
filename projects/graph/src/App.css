@@ -27,3 +27,17 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.canvas_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 32%;
+  margin-top: 5%;
+  width: 800px;
+  height: 820px;
+}
+
+.canvas_button {
+  min-height: 40px;
+}
