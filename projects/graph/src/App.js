@@ -36,20 +36,6 @@ class GraphView extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // for (let vertex of this.props.graph.vertexes) {
-    //   ctx.beginPath();
-    //   ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
-    //   ctx.fillStyle = 'green';
-    //   ctx.fill();
-    //   ctx.stroke();
-
-    //   ctx.fillStyle='black';
-    //   ctx.font = '10px Arial';
-    //   ctx.textAlign = 'center';
-    //   ctx.textBaseline = 'middle';
-    //   ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-    // }
-
     function getRandomColor() {
       var letters = '0123456789ABCDEF';
       var color = '#';
@@ -126,39 +112,8 @@ class GraphView extends Component {
         function isIntersect(cursorPos, circlePos) {
           return Math.sqrt((cursorPos.x - circlePos.x) ** 2 + (cursorPos.y - circlePos.y) ** 2) < vertexRadius;
         }
-      //   canvas.addEventListener('click', (e) => {
-      //     const pos = {
-      //       x: e.clientX,
-      //       y: e.clientY
-      //     };
-      //   vertexArray.forEach((vertex) => {
-      //     if (isIntersect(pos, vertex.pos)) {
-      //       console.log('clicked on circle: ', vertex.value);
-      //     };
-      //   });
-      // });
       })
     }
-    
-    // draw verts
-  //   connectedComponents.forEach(vertexArray => {
-  //     let randomVertexColor = getRandomColor();
-  //     for (let vertex of vertexArray) {
-  //       ctx.beginPath();
-  //       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
-  //       ctx.fillStyle = randomVertexColor;
-  //       ctx.fill();
-  //       ctx.stroke();
-        
-  //       // draw vert values (labels)
-  //       ctx.fillStyle = 'black';
-  //       ctx.font = '10px Arial';
-  //       ctx.textAlign = 'center';
-  //       ctx.textBaseline = 'middle';
-  //       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-  //     }
-  //   })
-  // }
 
   /**
    * Render
