@@ -30,25 +30,25 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // Clear it
 
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    for (let vertex of this.props.graph.vertexes) {
-      ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'green';
-      ctx.fill();
-      ctx.stroke();
+    // for (let vertex of this.props.graph.vertexes) {
+    //   ctx.beginPath();
+    //   ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+    //   ctx.fillStyle = 'green';
+    //   ctx.fill();
+    //   ctx.stroke();
 
-      ctx.fillStyle='black';
-      ctx.font = '10px Arial';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-    }
+    //   ctx.fillStyle='black';
+    //   ctx.font = '10px Arial';
+    //   ctx.textAlign = 'center';
+    //   ctx.textBaseline = 'middle';
+    //   ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    // }
 
     function getRandomColor() {
       var letters = '0123456789ABCDEF';
@@ -99,7 +99,6 @@ class GraphView extends Component {
         }
       }
 
-
         for (let vertex of vertexArray) {
           ctx.beginPath();
           ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
@@ -113,7 +112,31 @@ class GraphView extends Component {
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+          canvas.addEventListener('click', (e) => {
+            const pos = {
+              x: e.clientX - 150,
+              y: e.clientY
+            };
+          if (isIntersect(pos, vertex.pos)) {
+            console.log('clicked on circle: ', vertex.value);
+          }
+          })
         }
+
+        function isIntersect(cursorPos, circlePos) {
+          return Math.sqrt((cursorPos.x - circlePos.x) ** 2 + (cursorPos.y - circlePos.y) ** 2) < vertexRadius;
+        }
+      //   canvas.addEventListener('click', (e) => {
+      //     const pos = {
+      //       x: e.clientX,
+      //       y: e.clientY
+      //     };
+      //   vertexArray.forEach((vertex) => {
+      //     if (isIntersect(pos, vertex.pos)) {
+      //       console.log('clicked on circle: ', vertex.value);
+      //     };
+      //   });
+      // });
       })
     }
     
@@ -160,7 +183,8 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
-  }
+  }  
+
 
   clickHandler = () => {
     const newGraph = {
