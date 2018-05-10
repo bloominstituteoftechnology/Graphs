@@ -280,7 +280,10 @@ class GraphView extends Component {
     return (
       <React.Fragment>
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
-        <button onClick={this.props.regenerate}>Regenerate</button>
+        <button onClick={() => {
+          this.selected = [];
+          this.props.regenerate();
+          }}>Regenerate</button>
       </React.Fragment>
     );
   }
