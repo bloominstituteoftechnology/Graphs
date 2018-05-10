@@ -1,3 +1,5 @@
+const ColorScheme = require('color-scheme');
+
 /**
  * Edge
  */
@@ -35,7 +37,11 @@ export class Vertex {
 }
 
 function randomColor() {
-  return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+  const scm = new ColorScheme();
+  scm.from_hue(35).scheme('contrast').variation('pastel');
+  const colors = scm.colors();
+  return '#'+ colors[Math.floor(Math.random() * colors.length)];
+  // return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 }
 
 
@@ -149,6 +155,8 @@ export class Graph {
     start.visit();
 
     let color = randomColor();
+
+    console.log('color: ', color);
 
     while(this.queue.length > 0) {
       const vertex = this.queue[0];
