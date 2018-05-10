@@ -15,7 +15,7 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = 'v0', pos = {x:0, y:0}) {
+  constructor(value = 'v0', pos = { x: 0, y: 0 }) {
     this.edges = [];
     this.value = value;
     this.pos = pos;
@@ -46,7 +46,7 @@ export class Graph {
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -74,14 +74,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -95,8 +95,8 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
-          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          x: (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          y: (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
         };
       }
     }
@@ -132,35 +132,88 @@ export class Graph {
   /**
    * BFS
    */
+  // bfs(start) {
+  //   // !!! IMPLEMENT ME
+
+  //   this.queue.push(start);
+  //   this.currentFoundArr.push(start);
+  //   while (this.queue.length > 0) {
+  //     this.queue[0].edges.map(edge => {
+  //       // for each edge check if vertex is in currFoundArr
+  //       if (!this.currentFoundArr.includes(edge.destination)) {
+  //         // edge.destination.color = this.getRandomColor();
+  //         this.queue.push(edge.destination);
+  //         this.currentFoundArr.push(edge.destination);
+  //       }
+  //       return this.currentFoundArr;
+  //     });
+  //     this.queue.shift();
+  //   }
+  // }
+
+  // /**
+  //  * Get the connected components
+  //  */
+  // getConnectedComponents() {
+  //   let colorArr = [];
+  //   for (let i = 0; i < this.vertexes.length; i++) {
+  //     if (!this.currentFoundArr.includes(this.vertexes[i])) {
+  //       // this.bfs(this.vertexes[i]);
+  //       colorArr.push(this.bfs(this.vertexes[i]));
+  //     }
+  //   }
+  //   return colorArr;
+  // }
   bfs(start) {
     // !!! IMPLEMENT ME
-    
-    while(this.queue.length > 0) {
-      this.queue[0].edges.map(edge => {
-        if(!edge.destination){        
-        this.queue.push(edge.destination);
-        if(!this.currentFoundArr.includes(edge.destination)){
-    this.currentFoundArr.push(edge.destination);
+    const connectedQueue = [start];
+    const connectedVerts = [];
+
+    while (connectedQueue.length > 0) {
+      const currentVert = connectedQueue.shift();
+      if (currentVert.found) continue;
+      else {
+        currentVert.found = true;
+        connectedVerts.push(currentVert);
+        currentVert.edges.forEach(edge => {
+          connectedQueue.push(edge.destination);
+        })
       }
-        }
-        return edge;
-      });
-      this.queue.unshift();
-      // console.log("currfoundArr is: ", this.currentFoundArr);
-      // console.log("Q is: ", this.queue);
-    
+    }
+    return connectedVerts;
   }
+
+  dfs(start) {
+    // !!! IMPLEMENT ME
+    // const connectedQueue = [start];
+    // const connectedVerts = [];
+
+    // while (connectedQueue.length > 0) {
+    //   const currentVert = connectedQueue.shift();
+    //   if (currentVert.found) continue;
+    //   else {
+    //     currentVert.found = true;
+    //     connectedVerts.push(currentVert);
+    //     currentVert.edges.forEach(edge => {
+    //       connectedQueue.push(edge.destination);
+    //     })
+    //   }
+    // }
+    // return connectedVerts;
   }
-  
+
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    for (let i = 0; i < this.vertexes.length; i++){
-      this.queue.push(this.vertexes[i]);
-      this.currentFoundArr.push(this.vertexes[i]);
-         this.bfs(this.vertexes[i]);
-    }
-    
+    // !!! IMPLEMENT ME
+    const groups = [];
+    this.vertexes.forEach(vert => {
+      if (!vert.found) {
+        groups.push(this.bfs(vert));
+      } 
+    })
+    this.vertexes.forEach(vert => vert.found = false);
+    return groups;
   }
 }
