@@ -3,9 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination, weight = Math.floor(Math.random() * 10 + 1)) {
+  //, weight = Math.floor(Math.random() * 10 + 1))
+  constructor(destination) {
     this.destination = destination;
-    this.weight = weight;
+    // this.weight = weight;
   }
 }
 
@@ -27,6 +28,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.memo = [];
   }
 
   // debugCreateTestData() {
@@ -129,39 +131,53 @@ export class Graph {
   /**
    * BFS
    */
+
+  
   bfs(start) {
-    const arrayOfQ= new Set([]);
-    const found= new Set([]); //singular connection
-    const foundConnections = new Set([]);
-
-    arrayOfQ.add(start[0]);
-    found.add(start[0]);
-
-    for (let i = 0; i < start.length; i++) {
-      for (let j = 0; j < start[i].edges.length; j++){
-        console.log("Edge: ", start[i].edges[j]);
-        // arrayOfQ.add(start[i].edges[j].destination.value);
-        if(!arrayOfQ.has(start[i].edges[j].destination)) {
-          arrayOfQ.add(start[i].edges[j].destination);
-        }
-        else {
-          found.add(start[i].edges[j].destination);
-          arrayOfQ.delete(start[i].edges[j].destination);
-        }
+    for(let i = 0; i < this.memo.length; i++) {
+      if (this.memo[i].value === start.value) {
+        return;
       }
-      foundConnections.add(found);
-      found.clear();
-      arrayOfQ.clear();
     }
-    console.log("ArrayofQ: ", arrayOfQ);
-    console.log("Found: ", found);
-    console.log("FoundConnections: ", foundConnections);
-  }
+    const queue = [];
+    const found = []; //singular connection
 
-  /**
-   * Get the connected components
-   */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    found.push(start); //add start to found
+    queue.push(start); // add start to queue
+    
+    let flag = false;
+    // check if array is empty
+    while (queue.length) {
+
+      let current = queue[0];
+      //loop through edges of queue item
+      for (let i = 0; i < current.edges.length; i++) {
+        //check queue if destination vertex to add already exists
+        for (let j = 0; j < queue.length; j++) {
+          if (queue[j].value === current.edges[i].destination.value) {
+            flag = true;
+          }
+        }
+        //check found if destination vertex to add already exists
+        for (let k = 0; k < found.length; k++) {
+          if (found[k].value === current.edges[i].destination.value) {
+            flag = true;
+          }
+        }     
+        // otherwise add to queue/found
+        if (flag === false) {
+          queue.push(current.edges[i].destination);
+          found.push(current.edges[i].destination);
+        }
+        flag = false;   
+      }
+      queue.shift();
+    }
+
+    for(let i = 0; i<found.length; i++) {
+      this.memo.push(found[i]);
+    }
+
+    return found;
   }
 }
