@@ -39,7 +39,7 @@ export class Vertex {
 
 function randomColor() {
   const scm = new ColorScheme();
-  scm.from_hue(35).scheme('contrast').variation('pastel');
+  scm.from_hue(20).scheme('tetrade').variation('pastel');
   const colors = scm.colors();
   return '#'+ colors[Math.floor(Math.random() * colors.length)];
   // return '#'+(Math.random()*0xFFFFFF<<0).toString(16);

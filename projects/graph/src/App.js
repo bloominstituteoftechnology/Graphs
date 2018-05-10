@@ -29,6 +29,8 @@ class GraphView extends Component {
    */
   componentDidMount() {
     this.createCanvas();
+    this.setListeners();
+    this.setBoundingBox();
     this.clearCanvas();
     this.updateCanvas();
   }
@@ -44,6 +46,18 @@ class GraphView extends Component {
   createCanvas = () => {
     this.canvas = this.refs.canvas;
     this.ctx = this.canvas.getContext('2d');
+  }
+
+  setListeners = () => {
+    this.canvas.onmousedown = this.mouseDown;
+    this.canvas.onmouseup = this.mouseUp;
+    this.canvas.onmousemove = this.mouseMove;
+  }
+
+  setBoundingBox = () => {
+    this.boundingBox = this.canvas.getBoundingClientRect();
+    this.offsetX = this.boundingBox.left;
+    this.offsetY = this.boundingBox.top;
   }
 
   mouseDown = (e) => {
@@ -147,14 +161,6 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.canvas;
     let ctx = this.ctx;
-
-    this.boundingBox = canvas.getBoundingClientRect();
-    this.offsetX = this.boundingBox.left;
-    this.offsetY = this.boundingBox.top;
-
-    canvas.onmousedown = this.mouseDown;
-    canvas.onmouseup = this.mouseUp;
-    canvas.onmousemove = this.mouseMove;
 
     // Clear it
     this.clearCanvas();
