@@ -130,7 +130,9 @@ export class Graph {
         currentVert.found = true;
         connectedVerts.push(currentVert);
         currentVert.edges.forEach(edge => {
-          connectedQueue.push(edge.destination);
+          if (!edge.destination.found) {
+            connectedQueue.push(edge.destination);
+          }
         })
       }
     }
