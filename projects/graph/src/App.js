@@ -10,6 +10,11 @@ const canvasHeight = 600;
  * GraphView
  */
 class GraphView extends Component {
+  state = {
+    x: 0,
+    y: 0,
+  };
+
   /**
    * On mount
    */
@@ -28,7 +33,7 @@ class GraphView extends Component {
    * Render the canvas
    */
 
-  updateCanvas() {
+  updateCanvas = () => {
     function rando() {
       let code = '#2';
       for (let i = 0; i < 5; i++) {
@@ -57,38 +62,16 @@ class GraphView extends Component {
 
     let connections = this.props.foundConnections;
 
-    // Draw Edges
-    //     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
-    //       let vertex = this.props.graph.vertexes[i];
-    //       if (vertex.edges.length) {
-    //         let edge = vertex.edges[0].destination.position;
-    //         let midpoint = [(edge.x + vertex.position.x) / 2, (edge.y + vertex.position.y) / 2];
-    //         if (includes(seen, midpoint) === false) {
-    //           ctx.beginPath();
-    //           ctx.moveTo(vertex.position.x, vertex.position.y);
-    //           ctx.lineTo(edge.x, edge.y);
-    //           ctx.stroke();
-    //           //*Broken* Draw Weights
-    //           let weight = vertex.edges[0].weight;
-    //           ctx.strokeStyle = 'white';
-    //           ctx.font = '15px Arial';
-    //           ctx.fillStyle = 'black';
-    //           ctx.fillText(weight, (edge.x + vertex.position.x) / 2, (edge.y + vertex.position.y) / 2);
-    //           seen.push(midpoint);
-    //           ctx.stroke();
-    //         }
-    //       }
-    //     }
-    // midpoints graphed already so two are not written
-    let seen = [];
-
     //two edges create conflicting weights being written
+    let seen = [];
     function includes(arr, el) {
       for (let i = 0; i < arr.length; i++) {
         if (arr[i][0] === el[0] && arr[i][1] === el[1]) return true;
       }
       return false;
     }
+
+    let coordinates = [];
 
     connections.forEach((connection, index) => {
       let color = rando();
@@ -104,10 +87,12 @@ class GraphView extends Component {
             ctx.lineTo(destination.x, destination.y);
             ctx.stroke();
 
+            // weight = distance between two verts
             let x = Math.abs(destination.x - vert.position.x);
             let y = Math.abs(destination.y - vert.position.y);
+            edge.weight = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)).toFixed(0);
 
-            edge.weight = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)).toFixed(1);
+            // draw weights
             ctx.strokeStyle = 'white';
             ctx.font = '15px Arial';
             ctx.fillStyle = 'black';
@@ -134,15 +119,46 @@ class GraphView extends Component {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(vert.value, vert.position.x, vert.position.y);
+
+        coordinates.push([vert.position.x, vert.position.y, vert]);
       });
     });
+    coordinates.forEach((coor) => {
+      if (
+        (this.state.x > (coor[0] - 10)) &&
+        (this.state.x < (coor[0] + 10)) &&
+        (this.state.y > (coor[1] - 10)) &&
+        (this.state.y < (coor[1] + 10))
+      ) {
+        console.log('Value: ', coor[2]);
+      }
+    });
+
+    console.log(this.state.x, ' ', this.state.y);
+  };
+
+  cnvs_getCoordinates = (e) => {
+    let x = e.clientX;
+    let y = e.clientY;
+    this.setState({ x: x, y: y });
+  };
+
+  cnvs_clearCoordinates() {
+    document.getElementById('xycoordinates').innerHTML = '';
   }
 
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
+    return (
+      <canvas
+        ref="canvas"
+        width={canvasWidth}
+        height={canvasHeight}
+        onClick={this.cnvs_getCoordinates}
+      />
+    );
   }
 }
 
