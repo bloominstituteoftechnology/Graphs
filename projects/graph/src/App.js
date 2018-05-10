@@ -30,6 +30,8 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    let startVertex;
+    let endVertex;
 
     // Clear it
 
@@ -105,6 +107,15 @@ class GraphView extends Component {
             };
           if (isIntersect(pos, vertex.pos)) {
             console.log('clicked on circle: ', vertex.value);
+            if (!startVertex) {
+              startVertex = vertex;
+              console.log('starting vertex: ', startVertex);
+            } else if (endVertex){
+              console.log('already selected a starting and ending vertex!!');
+            } else {
+              endVertex = vertex;
+              console.log('ending vertex: ', endVertex);
+            }
           }
           })
         }
