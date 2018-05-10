@@ -5,7 +5,6 @@ import './App.css';
 let canvasWidth = window.innerWidth;
 let canvasHeight = window.innerHeight;
 // !!! IMPLEMENT ME
-
 /**
  * GraphView
  */
@@ -31,7 +30,16 @@ class GraphView extends Component {
   componentDidMount() {
     this.updateCanvas();
   }
-
+  randomColor() {
+    // Random hex generator borrowed from https://stackoverflow.com/questions/1484506/random-color-generator
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    // console.log(color);
+    return color;
+  };
   /**
    * On state update
    */
@@ -60,31 +68,33 @@ class GraphView extends Component {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, this.state.canvasWidth, this.state.canvasHeight);
 
-    const radius = 20;
+    const radius = 10;
     // console.time('draw')
     const drawEdges = (edge, start, color) => {
       let { x, y } = edge.destination.pos;
       ctx.strokeStyle = color;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 1;
       ctx.beginPath();
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(x, y);
       ctx.stroke();
-      if (edge.destination.edges.length > 0) {
-        mapEdges(edge.destination.edges);
-      }
+      
+      // if (edge.destination.edges.length > 0) {
+      //   mapEdges(edge.destination.edges, '', 'black');
+      // }
     };
-    const mapEdges = (edges, pos, color) => {
-      if (pos !== undefined) {
+    const mapEdges = (edges, start, color) => {
         edges.forEach((edge) => {
-          drawEdges(edge, pos, color);
+          drawEdges(edge, start, color);
         });
-      }
     };
-    const drawNode = (vertex, color) => {
+    const drawNode = (value, pos, color) => {
       const ep = Math.PI * 2;
       ctx.beginPath();
       ctx.fillStyle = color;
-      ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, ep, false);
+      ctx.strokeStyle = color;
+      ctx.arc(pos.x, pos.y, radius, 0, ep, false);
       ctx.fill();
       ctx.stroke();
 
@@ -92,31 +102,36 @@ class GraphView extends Component {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.font = '12px sans-serif';
-      ctx.fillStyle = 'black';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.fillStyle = 'white';
+      ctx.fillText(value, pos.x, pos.y);
     };
-    const draw = (vert, type) => {
+    const draw = (vert, type, color) => {
       // todo - generate random color to execute each time this is called
       if (type === 'single') {
-        drawNode(vert, color);
+        drawNode(vert.value, vert.pos, color);
       } else {
+        // console.log(vert);
         vert.forEach((vertex, i) => {
-          mapEdges(vertex.edges, vertex.pos, color)
+          mapEdges(vertex.edges, vertex.pos, color);
         });
-        vert.forEach((vertex, i) => {
-          drawNode(vertex, color);
+
+        vert.forEach((edge, i) => {
+          // console.log(edge);
+          drawNode(edge.value, edge.pos, color);
         });
       }
     };
     // console.timeEnd('draw')
-    this.props.graph.vertexes.forEach((vertex) => {
+    this.props.graph.vertexes.forEach((vertex) => { 
       if (vertex.edges.length === 0) {
-        draw(vertex, 'single');
-        this.props.graph.visited.push(vertex.value);
-        console.log(this.props.graph.visited)
+        draw(vertex, 'single', this.randomColor());
+      } else {
+        const connectedArr = this.props.graph.getConnectedComponents(vertex);
+        // console.log(connectedArr)
+        draw(connectedArr, 'arr', this.randomColor());
       }
-      else this.props.graph.getConnectedComponents(vertex)/*, 'arr', 'blue'*/;
     });
+    console.log(this.props.graph.count);
   }
 
   /**
@@ -144,9 +159,7 @@ class App extends Component {
       graph: new Graph(),
     };
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
-    this.state.graph.randomize(5, 4, 200, 0.3);
+    this.state.graph.randomize(8, 8, 100, .5);
   }
 
   render() {

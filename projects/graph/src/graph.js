@@ -1,6 +1,7 @@
 /**
  * Edge
  */
+
 export class Edge {
   constructor(destination, weight = 1) {
     this.destination = destination;
@@ -26,8 +27,9 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
-    this.found = [];
     this.visited = [];
+    this.bfsEdgeArr = [];
+    this.count = 0;
   }
 
   // debugData() {
@@ -43,6 +45,8 @@ export class Graph {
   //   vertex3.edges.push(edge2, edge1, edge3)
   //   this.vertexes.push(vertex1, vertex2, vertex3, vertex4);
   // }
+
+  //random color
 
   /**
    * Create a random graph
@@ -134,27 +138,50 @@ export class Graph {
    * BFS
    */
   bfs(vertex) {
-    const mapEdges = (edges) => {
-      return edges.map((each) => {
-          const isVisited = this.visited.indexOf(each.value);
-          if (isVisited === -1) {
-            this.visited.push(each);
-            return each;
-          } else {
-            return each;
-          }
+
+    console.time('bfs');
+    const visited = [];
+    const mapEdges = (vertex) => {
+
+      if (visited.indexOf(vertex.value) === -1) {
+        visited.push(vertex.value);
+
+      }
+      vertex.edges.forEach((each) => {
+        const isVisited = visited.indexOf(each.destination.value);
+        if (isVisited === -1) {
+          visited.push(each.destination.value);
+          mapEdges(each.destination);
+          this.bfsEdgeArr.push(each.destination);
+        } else {
+          return;
+        }
       });
+      return this.bfsEdgeArr;
     };
-    mapEdges(vertex.edges);
-    // console.log(this.visited);
+    
+    mapEdges(vertex)
+
+    // let isV17 = false; 
+    // this.bfsEdgeArr.forEach(each => {
+    //   if(each.value === 'v17') {
+    //     isV17 = true;
+    //   }
+    // });
+    // if (isV17) {
+    //   console.log('Array with 17', this.bfsEdgeArr);
+    // }
+    console.timeEnd('bfs');
+    this.count++;
+    return this.bfsEdgeArr;
   }
+  
 
   /**
    * Get the connected components
    */
   getConnectedComponents(vertex) {
-    // this.bfs(this.vertexes[0]);
-      return this.bfs(vertex);
-    // console.log(this.visited);
+    this.bfsEdgeArr = [];
+    return this.bfs(vertex);
   }
 }
