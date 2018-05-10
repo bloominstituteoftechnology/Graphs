@@ -174,6 +174,8 @@ export class Graph {
       queue.shift();
     }
 
+    //memoize if vertice/connection already found
+    //if so, function kicks before anything runs next time
     for(let i = 0; i<found.length; i++) {
       this.memo.push(found[i]);
     }
