@@ -6,8 +6,6 @@ import './App.css';
 const canvasWidth = 750;
 const canvasHeight = 600;
 
-const g = new Graph();
-
 /**
  * GraphView
  */
@@ -73,15 +71,8 @@ class GraphView extends Component {
         ctx.fillText(v.value, vx, vy);
         }
       });
-
-
-
     // !!! IMPLEMENT ME
     // compute connected components
-    // this.props.graph.bfs(this.props.graph.vertexes[0]);
-    // this.props.graph.vertexes.forEach(vertex => {
-      
-    // });
 
   }
   
@@ -89,7 +80,10 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (<div>
+      <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+      <button onClick={()=>{this.props.generateGraph()}}>Generate Graph</button>
+      </div>);
   }
 }
 /**
@@ -109,10 +103,17 @@ class App extends Component {
     this.state.graph.getConnectedComponents();
   }
 
+  generateGraph = ()=>{
+    const graph = new Graph();
+    graph.randomize(5, 4, 150, 0.6);
+    graph.getConnectedComponents();
+    this.setState({graph});
+  }
+
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} generateGraph={this.generateGraph}></GraphView>
       </div>
     );
   }
