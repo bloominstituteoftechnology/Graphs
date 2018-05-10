@@ -47,8 +47,8 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      v0.edges.push(new Edge(v1, returnNumber(0, 99)));
+      v1.edges.push(new Edge(v0, returnNumber(0,99)));
     }
 
     let count = 0;
@@ -93,10 +93,10 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
-          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          // 'x': returnNumber(20, 770) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          // 'y': returnNumber(25, 770) | 0,
+          // 'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          'x': returnNumber(30, 770) | 0,
+          // 'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          'y': returnNumber(30, 770) | 0,
         };
       }
     }
@@ -199,7 +199,7 @@ export class Graph {
       }
     });
 
-    console.log(groups);
+    // console.log(groups);
     return groups;
   }
 }

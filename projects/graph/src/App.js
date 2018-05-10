@@ -10,12 +10,19 @@ let limitListenerCreation = false;
 let color;
 let groupsSet = false;
 
-function drawLine(startx, starty, finx, finy, ctx) {
+function drawLine(startx, starty, finx, finy, ctx, edge) {
   // ctx.strokeStyle = 'black';
   ctx.lineWidth = 5;
   ctx.strokeStyle = color;
   ctx.moveTo(startx, starty)
   ctx.lineTo(finx, finy);
+  ctx.stroke();
+  ctx.fillStyle = 'white';
+  ctx.moveTo( ((startx+finx)/2)+10 , ((starty+finy)/2) );
+  ctx.beginPath();
+  ctx.arc((startx+finx)/2, (starty+finy)/2, 10, 0, 2*Math.PI);
+  ctx.fill();
+  writeTheText(edge, ctx, (startx+finx)/2, (starty+finy)/2);  
 }
 
 function drawCircle(vertex, ctx) {
@@ -60,12 +67,29 @@ function fillColor(vertex, ctx) {
   ctx.fill();
 }
 
-function writeTheText(vertex, ctx) {
-  ctx.fillStyle = 'white';
-  ctx.font = '20px Arial';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+function writeTheText(vertex, ctx, edgex = null, edgey = null) {
+  if (vertex.weight === undefined) {
+    ctx.fillStyle = 'white';
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 3.5;  
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
+    ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+  } else {
+    ctx.fillStyle = 'black';
+    // ctx.strokeStyle = 'black'
+    ctx.lineWidth = 3;  
+    ctx.font = '10px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    // ctx.strokeText(vertex.weight, edgex, edgey);
+    ctx.fillText(vertex.weight, edgex, edgey);
+    ctx.lineWidth = 5;
+    
+    // ctx.stroke();
+  }
 }
 
 function getRandomInt(max) {
@@ -136,7 +160,7 @@ class GraphView extends Component {
     if (!groupsSet) {
       ctx.fillStyle = 'black';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = 'grey';
       ctx.fillRect(2, 2, canvasWidth-4, canvasHeight-4);
       ctx.lineWidth = 5;
 
@@ -148,7 +172,7 @@ class GraphView extends Component {
           // console.log(vertex);
           ctx.beginPath();
           for (let edge of vertex.edges) {
-            drawLine(vertex.pos.x, vertex.pos.y, edge.destination.pos.x, edge.destination.pos.y, ctx);
+            drawLine(vertex.pos.x, vertex.pos.y, edge.destination.pos.x, edge.destination.pos.y, ctx, edge);
           }
           ctx.stroke();
         }
