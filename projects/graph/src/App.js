@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 800;
+const canvasHeight = 600;
+const vr = 10;
+const wr = 6;
 
 /**
  * GraphView
@@ -16,14 +18,14 @@ class GraphView extends Component {
   componentDidMount() {
     this.updateCanvas();
   }
-
+  
   /**
    * On state update
    */
   componentDidUpdate() {
     this.updateCanvas();
   }
-
+  
   /**
    * Render the canvas
    */
@@ -34,19 +36,90 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
+    
     // !!! IMPLEMENT ME
     // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    
+    this.props.graph.getConnectedComponents();
+    
+    for (let vertex of this.props.graph.vertexes) {
+      const px = vertex.pos.x;
+      const py = vertex.pos.y;
+      
+      // draw edges
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.strokeStyle = vertex.color;
+        ctx.stroke();
+        
+        const wpx = (px + edge.destination.pos.x) / 2;
+        const wpy = (py + edge.destination.pos.y) / 2;
+        
+        // draw weights
+        ctx.beginPath();
+        ctx.arc(wpx, wpy, wr, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        
+        //draw weight values
+        ctx.fillStyle = 'black';
+        ctx.font = '9px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(edge.weight, wpx, wpy);
+        
+      }
+    }
+    
+    for (let vertex of this.props.graph.vertexes) {
+      const px = vertex.pos.x;
+      const py = vertex.pos.y;
+      
+      // draw verts
+      ctx.beginPath();
+      ctx.arc(px, py, vr, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fillStyle = vertex.color;
+      ctx.fill();
+      
+      // draw vert values (labels)
+      ctx.fillStyle = 'white';
+      ctx.font = '11px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vertex.value, px, py);
+    }
+    
   }
   
+  handleClick = (e) => {
+    const { vertexes } = this.props.graph;
+  
+    const mouse = {
+      x: e.clientX - e.target.offsetLeft,
+      y: e.clientY - e.target.offsetTop
+    };
+  
+    for (let i = 0; i < vertexes.length; i++) {
+      if (
+        (mouse.x > (vertexes[i].pos.x - 10)) && 
+        (mouse.x < (vertexes[i].pos.x + 10)) &&
+        (mouse.y > (vertexes[i].pos.y - 10)) &&
+        (mouse.y < (vertexes[i].pos.y + 10))
+      ) {
+          console.log(mouse, vertexes[i].value);
+        }
+    }
+  }
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} onClick={this.handleClick}></canvas>;
   }
 }
 
@@ -64,12 +137,23 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
+
+  newGraph = () => {
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.getConnectedComponents();
+    this.setState(this);
+  }
+
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} />
+        <br />
+        <br />
+        <button onClick={this.newGraph}>Generate New Graph</button>
       </div>
     );
   }
