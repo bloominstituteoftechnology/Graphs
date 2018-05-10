@@ -33,7 +33,7 @@ class GraphView extends Component {
     
     // Clear it
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     for (let vertex of this.props.graph.vertexes) {
@@ -142,15 +142,19 @@ class App extends Component {
     this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
-  // clickHandler = () => {
-  //   this.setState({ graph: new Graph() });    
-  // }
+  clickHandler = () => {
+    const newGraph = {
+      graph: new Graph(),
+    }
+    newGraph.graph.randomize(5, 4, 150, 0.6);
+    this.setState(newGraph);
+  }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
-        {/* <button onClick={this.clickHandler()}>Generate New Graph</button> */}
+        <button onClick={this.clickHandler}>Generate New Graph</button>
       </div>
     );
   }

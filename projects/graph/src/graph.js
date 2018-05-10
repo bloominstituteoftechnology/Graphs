@@ -140,6 +140,8 @@ export class Graph {
 
     queue.push(start);
     found.push(start);
+
+    start.visited = false;
     
     while (queue.length > 0) {
       let firstVertex = queue[0];
@@ -148,6 +150,7 @@ export class Graph {
         const neighborEdge = edge.destination;
         
         if (!found.includes(neighborEdge)) {
+          neighborEdge.visited = true;
           queue.push(neighborEdge);
           found.push(neighborEdge);
         }
@@ -174,9 +177,8 @@ export class Graph {
     // loop through the list of vertex, for each unfound vertex
     // do BFS for that item (start)
     for (let vertex of this.vertexes) {
-      if (!vertex.found) {
+      if (!vertex.visited)
         connectedComponents.push(this.bfs(vertex));
-      }
     }
     return connectedComponents;
   }
