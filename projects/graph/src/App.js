@@ -34,8 +34,25 @@ class GraphView extends Component {
       return Math.floor(int);
     }
 
+    let getPosition = (event) => {
+      let x = event.x;
+      let y = event.y;
+      x -= canvas.offsetLeft;
+      y -= canvas.offsetTop;
+      this.props.graph.vertexes.forEach(v => {
+        if (
+          x > v.pos.x - 20 &&
+          x < v.pos.x + 20 &&
+          (y > v.pos.y - 20 && y < v.pos.y + 20)
+        ) {
+          console.log('VERTEX CLICKED: ', v);
+        }
+      });
+    }
+
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    canvas.addEventListener('mousedown', getPosition, false);
 
     // Clear it
     ctx.fillStyle = 'rgb(10, 10, 10)';
@@ -169,14 +186,14 @@ class GraphView extends Component {
 
           // Draw labels for edge weights
           ctx.fillStyle = 'white';
-          ctx.font = '10px Georgia';
+          ctx.font = '13px Georgia';
           ctx.textAlign = 'center';
           ctx.textbaseline = 'middle';
           ctx.fillText(
             e.weight,
             (v.pos.x + e.destination.pos.x) / 2,
             (v.pos.y + e.destination.pos.y) / 2
-          )
+          );
           ctx.closePath();
         });
       });
