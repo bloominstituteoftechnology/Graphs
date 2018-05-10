@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 750;
+const canvasHeight = 600;
+const vertexRadius = 15;
 
 /**
  * GraphView
@@ -32,8 +33,47 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'lightblue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    
+    // ctx.fillStyle = 'lightgreen';
+    // ctx.fillRect(30, 30, 90, 90);
+
+    // ctx.fillStyle = 'black';
+    // ctx.font = "30px Arial";
+    // ctx.fillText("Hello World",10,50);
+
+    // console.log('in update canvas, vertex data is ', this.props.graph);
+    this.props.graph.getConnectedComponents();
+    // console.log('get random color: ', )
+
+    for(let vertex of this.props.graph.vertexes){
+    // this.props.graph.vertexes.map((vertex) => {
+      // console.log('vertex names', vertex.value);
+      for(let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destinationVertex.pos.x, edge.destinationVertex.pos.y);
+        ctx.stroke();
+      }
+    }
+    
+    for(let vertex of this.props.graph.vertexes){
+
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = vertex.color;
+      ctx.fill();
+      ctx.strokeStyle = 'red';
+      ctx.stroke();
+      console.log('color :', vertex.color);
+
+      ctx.fillStyle = 'black';
+      ctx.font = "12px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -64,6 +104,11 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    // this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5,4,150, .6);
+    // console.log('this.state.graph : ', this.state.graph);
+    // console.log('edges : ', this.state.graph.vertexes[8].edges)
+    
   }
 
   render() {
