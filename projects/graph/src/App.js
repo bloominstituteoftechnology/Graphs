@@ -95,11 +95,31 @@ class GraphView extends Component {
     
   }
   
+  handleClick = (e) => {
+    const { vertexes } = this.props.graph;
+  
+    const mouse = {
+      x: e.clientX - e.target.offsetLeft,
+      y: e.clientY - e.target.offsetTop
+    };
+  
+    for (let i = 0; i < vertexes.length; i++) {
+      if (
+        (mouse.x > (vertexes[i].pos.x - 10)) && 
+        (mouse.x < (vertexes[i].pos.x + 10)) &&
+        (mouse.y > (vertexes[i].pos.y - 10)) &&
+        (mouse.y < (vertexes[i].pos.y + 10))
+      ) {
+          console.log(mouse, vertexes[i].value);
+        }
+    }
+  }
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} onClick={this.handleClick}></canvas>;
   }
 }
 
@@ -125,6 +145,7 @@ class App extends Component {
     this.state.graph.getConnectedComponents();
     this.setState(this);
   }
+
 
   render() {
     return (
