@@ -38,10 +38,10 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     for (let vertex of this.props.graph.vertexes) {
+      
       // draw edges
-      ctx.moveTo(vertex.pos.x, vertex.pos.y);
-
       if (vertex.edges[0]) {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
         const xPosition = vertex.edges[0].destination.pos.x;
         const yPosition = vertex.edges[0].destination.pos.y;
         console.log(xPosition, yPosition);
