@@ -6,6 +6,7 @@ const canvasWidth = 750;
 const canvasHeight = 600;
 const vertexRadius = 12;
 const graphX = 5, graphY = 4, boxSize = 150, probability = 0.6;
+let searchType;
 
 /**
  * GraphView
@@ -37,7 +38,20 @@ class GraphView extends Component {
       }
       return color;
     }
-    const connectedComponents = this.props.graph.getConnectedComponents();
+
+    let connectedComponents;
+
+    switch(searchType) {
+      case 'BFS':
+        connectedComponents = this.props.graph.getConnectedComponentsBFS();
+        break;
+      case 'DFS':
+        connectedComponents = this.props.graph.getConnectedComponentsDFS();
+        break;
+      default:
+        connectedComponents = this.props.graph.getConnectedComponentsBFS();
+        break;
+    }
 
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
@@ -113,11 +127,23 @@ class App extends Component {
     this.setState(state);
   }
 
+  bfsType = () => {
+    searchType = 'BFS';
+    this.newGraph();
+  }
+
+  dfsType = () => {
+    searchType = 'DFS';
+    this.newGraph();
+  }
+
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
-        <button onClick={this.newGraph}>New Graph</button>
+        <br />
+        <button onClick={this.bfsType}>BFS Graph</button>
+        <button onClick={this.dfsType}>DFS Graph</button>
       </div>
     );
   }

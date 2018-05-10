@@ -142,15 +142,48 @@ export class Graph {
     return found;
   }
 
+  dfs(start) {
+    const stack = [start];
+    const found = [];
+
+    dfsLoop: while (stack.length > 0) {
+      if (stack[0].edges.length === 0) {
+        found.push(stack[0]);
+      }
+
+      for (let edge of stack[0].edges) {
+        if (edge.destination.found === false) {
+          edge.destination.found = true;
+          found.push(edge.destination);
+          stack.unshift(edge.destination);
+          continue dfsLoop;
+          }
+        }
+      stack.shift();
+    }
+    return found;
+  }
+
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
+  getConnectedComponentsBFS() {
     const ccList = [];
 
     for (let vertex of this.vertexes) {
       if (vertex.found === false) {
         ccList.push(this.bfs(vertex));
+      }
+    }
+    return ccList;
+  }
+
+  getConnectedComponentsDFS() {
+    const ccList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.found === false) {
+        ccList.push(this.dfs(vertex));
       }
     }
     return ccList;
