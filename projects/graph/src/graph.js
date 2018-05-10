@@ -13,12 +13,12 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
-  constructor(value = 'vertex', pos = { x: 50, y: 50 }) {
-    this.value = value;
-    this.pos = pos;
-    this.edges = [];
-  }
+	// !!! IMPLEMENT ME
+	constructor(value = "vertex", pos = { x: 50, y: 50 }) {
+		this.value = value;
+		this.pos = pos;
+		this.edges = [];
+	}
 }
 
 /**
@@ -129,6 +129,21 @@ export class Graph {
 	 */
 	bfs(start) {
 		// !!! IMPLEMENT ME
+		const queue = [];
+
+		queue.push(start);
+
+		while (queue.length > 0) {
+			const vertex = queue[0];
+
+			for (let edge of vertex.edges) {
+				if (!vertex.includes(edge.destination)) {
+					queue.push(edge.destination);
+				}
+			}
+
+			queue.shift();
+		}
 	}
 
 	/**
