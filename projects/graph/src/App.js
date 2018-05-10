@@ -49,6 +49,7 @@ class GraphView extends Component {
 
   mouseDown = (e) => {
     e.preventDefault();
+    let vertSelected = false;
 
     const mouseX = +(e.clientX-this.offsetX);
     const mouseY = +(e.clientY-this.offsetY);
@@ -61,7 +62,13 @@ class GraphView extends Component {
         this.drag = vert.value;
         this.select(vert.value);
         this.updateCanvas();
+        vertSelected = true;
       }
+    }
+
+    if(!vertSelected) {
+      console.log('not a vertex');
+      this.clearSelected();
     }
     this.startX = mouseX;
     this.startY = mouseY;
@@ -77,6 +84,7 @@ class GraphView extends Component {
 
   clearSelected = () => {
     this.selected = [];
+    this.updateCanvas();
   }
 
   mouseUp = (e) => {
@@ -97,7 +105,9 @@ class GraphView extends Component {
         if(this.drag === vert.value) {
           vert.pos.x += dx;
           vert.pos.y += dy;
-          this.selected = this.selected.filter(elem => elem !== vert.value);
+          if(dx > 10 || dy > 10) {
+            this.selected = this.selected.filter(elem => elem !== vert.value);
+          }
         }
       }
 
@@ -151,6 +161,7 @@ class GraphView extends Component {
       ctx.fillStyle = vertex.color;
       ctx.fill();
       if(this.selected.includes(vertex.value)) {
+        ctx.lineWidth=4;
         ctx.strokeStyle = 'black';
         ctx.stroke();
       }
