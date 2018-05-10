@@ -2,9 +2,9 @@
  * Edge
  */
 export class Edge {
-  constructor(destination, weight = 1) {
+  constructor(destination) {
     this.destination = destination;
-    this.weight = weight;
+    this.weight = Math.floor(Math.random() * Math.floor(10));
   }
 }
 
@@ -133,10 +133,7 @@ export class Graph {
           queue.push(vert);
         }
       }
-
       queue.shift();
-      head.found = undefined;
-
       found.push(head);
     }
     return found;

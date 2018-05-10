@@ -65,11 +65,29 @@ class GraphView extends Component {
       
       for (let vertex of group) {
         for (let edge of vertex.edges) {
+          console.log(edge.destination.value);
           ctx.strokeStyle = newColor;
+          ctx.lineWidth = edge.weight;
           ctx.beginPath();
           ctx.moveTo(vertex.pos.x, vertex.pos.y);
           ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
           ctx.stroke();
+        }
+      }
+
+      for (let vertex of group) {
+        for (let edge of vertex.edges) {
+          ctx.fillStyle = 'white';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.arc((vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2, vertexRadius / 1.5, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = 'black';
+          ctx.font = "10px Arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(edge.weight, (vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
         }
       }
 
@@ -83,7 +101,7 @@ class GraphView extends Component {
         ctx.stroke();
 
         ctx.fillStyle = 'black';
-        ctx.font = "11px Arial";
+        ctx.font = "12px Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
