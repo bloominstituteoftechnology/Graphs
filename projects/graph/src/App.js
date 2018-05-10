@@ -100,7 +100,7 @@ class GraphView extends Component {
         ctx.fill();
         ctx.stroke();
 
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'white';
         ctx.font = "12px Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
