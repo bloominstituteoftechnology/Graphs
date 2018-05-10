@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.weight = weight;
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = {x: 0, y: 0}) { 
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+  }
 }
 
 /**
@@ -17,7 +26,7 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
-    this.vertexes = [];
+    this.verticies = [];
   }
 
   /**
@@ -81,7 +90,7 @@ export class Graph {
     // Finally, add everything in our grid to the vertexes in this Graph
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        this.vertexes.push(grid[y][x]);
+        this.verticies.push(grid[y][x]);
       }
     }
   }
@@ -92,7 +101,7 @@ export class Graph {
   dump() {
     let s;
 
-    for (let v of this.vertexes) {
+    for (let v of this.verticies) {
       if (v.pos) {
         s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
       } else {
@@ -110,6 +119,21 @@ export class Graph {
    * BFS
    */
   bfs(start) {
+    let queue = [start];
+    let visited = [];
+    let current;
+    while (queue.length > 0) {
+      current = queue.shift();
+      visited[current] = true;
+      if (this.verticies[current].edges) {
+        for (let i = 0; i < this.verticies[current].edges.length; i++) {
+          const destination = parseInt(this.verticies[current].edges[i].destination.value.slice(1));
+          if (!visited[destination]) {
+            queue.push(destination);
+          }
+        }
+      }
+    }
     // !!! IMPLEMENT ME
   }
 
