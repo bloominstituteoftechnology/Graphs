@@ -1,5 +1,18 @@
 .App {
   text-align: center;
+  display: block;
+  margin: auto;
+}
+
+.newGraph {
+  background-color: lightblue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
 
 .App-logo {
