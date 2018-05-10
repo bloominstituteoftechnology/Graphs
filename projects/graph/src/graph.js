@@ -29,15 +29,15 @@ export class Graph {
     this.vertexes = [];
   }
 
-  degubCreateTestData() {
-    let debugVertex1 = new Vertex('v0', { x: 200, y: 100 });
-    let debugVertex2 = new Vertex('v1', { x: 300, y: 150 });
+  // degubCreateTestData() {
+  //   let debugVertex1 = new Vertex('v0', { x: 200, y: 100 });
+  //   let debugVertex2 = new Vertex('v1', { x: 300, y: 150 });
 
-    let degubEdge1 = new Edge(debugVertex2);
+  //   let degubEdge1 = new Edge(debugVertex2);
 
-    debugVertex1.edges.push(degubEdge1);
-    this.vertexes.push(debugVertex1, debugVertex2);
-  }
+  //   debugVertex1.edges.push(degubEdge1);
+  //   this.vertexes.push(debugVertex1, debugVertex2);
+  // }
 
   getRandomColor() {
     let letters = '0123456789ABCDEF';
