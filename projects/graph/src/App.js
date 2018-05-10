@@ -55,9 +55,10 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = '#e8ebef';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    var grd = ctx.createLinearGradient(0, 500, 0, 0);
-    grd.addColorStop(0, '#000000');
-    grd.addColorStop(1, '#028187');
+    var grd = ctx.fill();
+    // var grd = ctx.createLinearGradient(0, 500, 0, 0);
+    // grd.addColorStop(0, '#000000');
+    // grd.addColorStop(1, '#028187');
 
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -66,9 +67,9 @@ class GraphView extends Component {
     let colors = [];
     let r, g, b;
     for (let i = 0; i < connectedComponents.length; i++) {
-      r = Math.floor(Math.random() * 155);
-      g = Math.floor(Math.random() * 155);
-      b = Math.floor(Math.random() * 155);
+      r = Math.floor(Math.random() * 255);
+      g = Math.floor(Math.random() * 255);
+      b = Math.floor(Math.random() * 255);
       colors.push({ r, g, b });
     }
 
@@ -119,7 +120,7 @@ class GraphView extends Component {
           'rgb(' + colors[i].r + ', ' + colors[i].g + ', ' + colors[i].b + ')';
         ctx.fill();
 
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = 'transparent';
         ctx.lineWidth = 1;
         ctx.stroke();
 
@@ -139,6 +140,18 @@ class GraphView extends Component {
       let clickedVertex = this.isIntersect(mousePoint, connectedComponents);
       if (clickedVertex) {
         console.log('SUCCESS: ', clickedVertex);
+        // ctx.beginPath();
+        // console.log('clickedVertex.pos', clickedVertex.pos);
+        // ctx.arc(
+        //   clickedVertex.vertex.pos.x,
+        //   clickedVertex.vertex.pos.y,
+        //   vertexRadius,
+        //   0,
+        //   Math.PI * 2,
+        // );
+        // ctx.strokeStyle = 'black';
+        // ctx.lineWidth = 3;
+        // ctx.stroke();
       }
     });
 
