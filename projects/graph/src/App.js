@@ -44,10 +44,11 @@ class GraphView extends Component {
 					let { x, y } = vertex.pos;
 					let { x: destination_x, y: destination_y } = edge.destination.pos;
 					ctx.beginPath();
+					if (edge.weight === 1) ctx.lineWidth = 0.75;
+					ctx.lineWidth = edge.weight;
 					ctx.moveTo(x, y);
 					ctx.lineTo(destination_x, destination_y);
 					ctx.strokeStyle=component.color;
-					ctx.lineWidth = edge.weight;
 					ctx.stroke();
 
 					ctx.beginPath();
