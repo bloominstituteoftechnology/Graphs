@@ -8,7 +8,7 @@ export class Edge {
   }
 }
 
-/**
+/*
  * Vertex
  */
 export class Vertex {
@@ -25,6 +25,9 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.queue = [];
+    this.found = [];
+    this.foundValues = [];
   }
 
   debugCreateDummyData() {
@@ -39,9 +42,6 @@ export class Graph {
     
     console.log({ 'dumbVertex1.edges': dumbVertex1.edges })
     
-    // this.vertexes.map(vertex => {
-    //   let edge = new Edge (vertex)
-    //   vertex.edges.push(edge);
     // });
   }
   /**
@@ -135,6 +135,25 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let { found, queue, foundValues } = this;
+    let current = [];
+    current.color = '';
+    found.unshift(current); 
+    queue.push(start);
+    current.push(start);
+    foundValues.push(start.value);
+    while (queue.length > 0) {
+      queue[0].edges.forEach((edge) => {
+        if (!foundValues.includes(edge.destination.value)) {
+          foundValues.push(edge.destination.value);
+          current.push(edge.destination);
+          queue.push(edge.destination);
+        }
+      });
+      queue.shift();
+    }
+    console.log('found', found);
+    return found;
   }
 
   /**
@@ -142,5 +161,11 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let { foundValues } = this;
+    for (let vertex of this.vertexes) {
+      if (!foundValues.includes(vertex.value)) {
+        this.bfs(vertex);
+      }
+    }
   }
 }

@@ -88,6 +88,7 @@ class App extends Component {
 		let { graph } = this.state;
 		graph.randomize(5, 4, 150);
 		// this.state.graph.debugCreateDummyData();
+		graph.getConnectedComponents();
   }
 
   render() {
