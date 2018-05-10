@@ -39,6 +39,9 @@
   padding: 15px;
   border-radius: 20px;
   cursor: default;
+  -webkit-box-shadow: 0 8px 6px -6px black;
+  -moz-box-shadow: 0 8px 6px -6px black;
+  box-shadow: 0 8px 6px -6px black;
 }
 
 @keyframes App-logo-spin {
