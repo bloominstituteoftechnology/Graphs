@@ -8,7 +8,7 @@ let canvasHeight = 0;
 const nodeSize = 15;
 const randomizeFuncWidth = 5;
 const randomizeFuncHeight = 5;
-const randomizeFuncPxBox = 150;
+const randomizeFuncPxBox = 200;
 const randomizeFuncProbability = 0.6;
 
 /**
