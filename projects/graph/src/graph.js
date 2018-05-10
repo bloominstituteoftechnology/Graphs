@@ -25,8 +25,9 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const randomWeight = Math.ceil(Math.random() * 10);
+      v0.edges.push(new Edge(v1, randomWeight));
+      v1.edges.push(new Edge(v0, randomWeight));
     }
 
     let count = 0;

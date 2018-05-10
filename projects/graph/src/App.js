@@ -46,11 +46,29 @@ class GraphView extends Component {
       const edges = vertex.edges;
       for (let i = 0; i < edges.length; i++) {
         if (!visited[edges[i].destination.value]) {
+          const vertAX = vertex.pos.x;
+          const vertAY = vertex.pos.y;
+          const vertBX = edges[i].destination.pos.x;
+          const vertBY = edges[i].destination.pos.y;
           ctx.beginPath();
-          ctx.moveTo(vertex.pos.x, vertex.pos.y);
-          ctx.lineTo(edges[i].destination.pos.x, edges[i].destination.pos.y);
+          ctx.moveTo(vertAX, vertAY);
+          ctx.lineTo(vertBX, vertBY);
+          ctx.lineWidth = `${edges[i].weight}`
           ctx.strokeStyle = 'lightslategray';
           ctx.stroke();
+
+          ctx.beginPath();
+          ctx.lineWidth = '1';
+          ctx.arc((vertAX + vertBX) / 2, (vertAY + vertBY) / 2, vertexRadius * 0.6, 0, 2 * Math.PI);
+          ctx.fillStyle = 'lightyellow';
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = 'lightslategray';
+          ctx.font = '7px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(edges[i].weight, (vertAX + vertBX) / 2, (vertAY + vertBY) / 2);
         }
       }
       visited[vertex.value] = 1;
