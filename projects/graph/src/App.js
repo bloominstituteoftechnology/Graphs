@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
 const canvasWidth = 1000;
 const canvasHeight = 800;
 const vertexRadius = 25;
@@ -51,18 +50,26 @@ class GraphView extends Component {
     e.preventDefault();
     let vertSelected = false;
 
-    const mouseX = +(e.clientX-this.offsetX);
+    const mouseX = +(e.clientX-this.offsetX); // Offsets are needed because events provide the xy position of the click for the entire window, not relative to the canvas
     const mouseY = +(e.clientY-this.offsetY);
 
     this.drag = null;
     for(let vert of this.props.graph.vertexes) {
       const dx = vert.pos.x-mouseX;
       const dy = vert.pos.y-mouseY;
-      if((dx * dx) + (dy * dy) < (vertexRadius * vertexRadius)) {
+      if((dx * dx) + (dy * dy) < (vertexRadius * vertexRadius)) { // Check if click was within the radius of any node
         this.drag = vert.value;
-        this.select(vert.value);
-        this.updateCanvas();
-        vertSelected = true;
+        if(this.selected[0]) {
+          if(this.selected[0].group === vert.group) { // makes sure the 2nd selected node is reachable, aka part of the same group
+            this.select(vert);
+            this.updateCanvas();
+            vertSelected = true;
+          }
+        } else {
+          this.select(vert);
+          this.updateCanvas();
+          vertSelected = true;
+        }
       }
     }
 
@@ -75,10 +82,13 @@ class GraphView extends Component {
   }
 
   select = (vert) => {
-    if(this.selected.length >= 2) {
+    if(this.isSelected(vert)){
+      this.selected = this.selected.filter(elem => elem.value !== vert.value);
+      this.updateCanvas();
+    } else if(this.selected.length >= 2) {
       this.clearSelected();
     } else {
-      this.selected.push(vert);
+      this.selected.push({ value: vert.value, group: vert.group });
     }
   }
 
@@ -105,8 +115,8 @@ class GraphView extends Component {
         if(this.drag === vert.value) {
           vert.pos.x += dx;
           vert.pos.y += dy;
-          if(dx > 10 || dy > 10) {
-            this.selected = this.selected.filter(elem => elem !== vert.value);
+          if(dx > 10 || dy > 10) {  // threshold to deselect by dragging,  nudging the mouse slightly is common with single clicks
+            this.selected = this.selected.filter(elem => elem.value !== vert.value);
           }
         }
       }
@@ -122,12 +132,19 @@ class GraphView extends Component {
     this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   }
 
+  isSelected = (vert) => {
+    for(let selected of this.selected) {
+      if(selected.value === vert.value) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Render the canvas
    */
   updateCanvas() {
-    // let canvas = this.refs.canvas;
-    // let ctx = canvas.getContext('2d');
     let canvas = this.canvas;
     let ctx = this.ctx;
 
@@ -145,22 +162,38 @@ class GraphView extends Component {
     // ------------ Graph -----------------------------
     this.props.graph.getConnectedComponents();
     ctx.lineWidth=2;
-    for(let vertex of this.props.graph.vertexes) {
+    for(let vertex of this.props.graph.vertexes) {  // draw edges before nodes to asure theyre always below
       for(let edge of vertex.edges) {
+        const offX = (edge.destination.pos.x - vertex.pos.x) / 2;
+        const offY = (edge.destination.pos.y - vertex.pos.y) / 2;
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.strokeStyle = vertex.color;
         ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(vertex.pos.x + offX, vertex.pos.y + offY, 9, 0, 2*Math.PI);
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'grey';
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = 'black';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(edge.weight, vertex.pos.x + offX, vertex.pos.y + offY);
       }
     }
 
-    for(let vertex of this.props.graph.vertexes) {
+    for(let vertex of this.props.graph.vertexes) { // drawing nodes
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2*Math.PI);
       ctx.fillStyle = vertex.color;
       ctx.fill();
-      if(this.selected.includes(vertex.value)) {
+
+      if(this.isSelected(vertex)) {
         ctx.lineWidth=4;
         ctx.strokeStyle = 'black';
         ctx.stroke();
@@ -311,8 +344,6 @@ class App extends Component {
       graph: new Graph(),
     };
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
     this.randomize();
   }
 
@@ -323,7 +354,7 @@ class App extends Component {
   }
 
   randomize = () => {
-    this.state.graph.randomize(6, 5, 130, 0.5);
+    this.state.graph.randomize(6, 5, 160, 0.5);
   }
 
   render() {

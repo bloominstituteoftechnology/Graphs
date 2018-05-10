@@ -20,10 +20,15 @@ export class Vertex {
     this.pos = pos;
     this.visited = false;
     this.color = 'white';
+    this.group = null;
   }
 
   setColor(color) {
     this.color = color;
+  }
+
+  setGroup(id) {
+    this.group = id;
   }
 
   visit() {
@@ -146,19 +151,18 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
     this.queue.push(start);
     start.visit();
 
     let color = randomColor();
-
-    console.log('color: ', color);
+    let id = Math.floor(Math.random() * Math.random() * 1000);
 
     while(this.queue.length > 0) {
-      const vertex = this.queue[0];
-      vertex.setColor(color);
+      const currentVertex = this.queue[0];
+      currentVertex.setColor(color);
+      currentVertex.setGroup(id);
 
-      for(let edge of vertex.edges) {
+      for(let edge of currentVertex.edges) {
         if(!edge.destination.visited) {
           this.queue.push(edge.destination);
           edge.destination.visit();
@@ -174,8 +178,6 @@ export class Graph {
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
-
     for(let vertex of this.vertexes) {
       if(!vertex.visited) {
         this.bfs(vertex);
@@ -184,6 +186,6 @@ export class Graph {
   }
 
   dijkstra(start, end) {
-
+    const group = this.vertexes.filter(elem => elem.group === start.group);
   }
 }
