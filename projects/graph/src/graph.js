@@ -135,14 +135,21 @@ export class Graph {
   bfs(start) {
     // !!! IMPLEMENT ME
     
-    if(this.queue[0]) {
+    while(this.queue.length > 0) {
       this.queue[0].edges.map(edge => {
+        if(!edge.destination){        
         this.queue.push(edge.destination);
-        this.currentFoundArr.push(edge.destination);
+        if(!this.currentFoundArr.includes(edge.destination)){
+    this.currentFoundArr.push(edge.destination);
+      }
+        }
         return edge;
-      })
+      });
       this.queue.unshift();
-    }
+      // console.log("currfoundArr is: ", this.currentFoundArr);
+      // console.log("Q is: ", this.queue);
+    
+  }
   }
   
   /**
@@ -150,10 +157,9 @@ export class Graph {
    */
   getConnectedComponents() {
     for (let i = 0; i < this.vertexes.length; i++){
-      this.queue.push(this.vertexes[0]);
-      this.currentFoundArr.push(this.vertexes[0]);
-         this.bfs(this.vertexes[0]);
-
+      this.queue.push(this.vertexes[i]);
+      this.currentFoundArr.push(this.vertexes[i]);
+         this.bfs(this.vertexes[i]);
     }
     
   }
