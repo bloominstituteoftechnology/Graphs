@@ -37,6 +37,8 @@ class GraphView extends Component {
 		ctx.fillStyle = "lightblue";
 		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    this.props.graph.getConnectedComponents();
+
 		for (let vertex of this.props.graph.vertexes) {
 			const px = vertex.pos.x;
 			const py = vertex.pos.y;
@@ -56,9 +58,8 @@ class GraphView extends Component {
 			ctx.beginPath();
 			ctx.arc(px, py, vertexRadius, 0, 2 * Math.PI);
 			ctx.stroke();
-			ctx.fillStyle = "black";
+			ctx.fillStyle = vertex.color;
 			ctx.fill();
-
 			ctx.fillStyle = "white";
 			ctx.font = "11px Arial";
 			ctx.textAlign = "center";
@@ -187,12 +188,19 @@ class App extends Component {
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150);
 
-	}
+  }
+  
+  generateGraph = () => {
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.setState(this);
+  }
 
 	render() {
 		return (
 			<div className="App">
 				<GraphView graph={this.state.graph} />
+        <br />
+        <button className="newGraph" onClick={this.generateGraph}> New Graph </button>
 			</div>
 		);
 	}
