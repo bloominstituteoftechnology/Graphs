@@ -61,7 +61,7 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     //
-    // ────────────────────────────────────────────── GET RANDOM COLORS ─────
+    // ───────────────────────────────────────── GET RANDOM COLORS ─────
     let connectedComponents = this.props.graph.getConnectedComponents();
     let colors = [];
     let r, g, b;
@@ -71,7 +71,7 @@ class GraphView extends Component {
       b = Math.floor(Math.random() * 155) + 100;
       colors.push({ r, g, b });
     }
-    // ────────────────────────────────────────────── DRAW LINES ─────
+    // ──────────────────────────────────────────────── DRAW LINES ─────
     for (let [i, vertexGroup] of connectedComponents.entries()) {
       for (let vertex of vertexGroup) {
         if (vertex.edges.length) {
@@ -129,9 +129,8 @@ class GraphView extends Component {
         ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       }
     }
-    // ────────────────────────────────────────────────────────────────────── END ─────
+    // ─────────────────────────────────────────────────────── END ─────
     //
-
     canvas.addEventListener('click', e => {
       const x = e.clientX - canvas.offsetLeft;
       const y = e.clientY - canvas.offsetTop;
