@@ -4,7 +4,7 @@ import './App.css';
 
 const canvasWidth = 750;
 const canvasHeight = 600;
-const vertexRadius = 10;
+const vertexRadius = 20;
 
 /**
  * GraphView
@@ -30,45 +30,44 @@ class GraphView extends Component {
     
     // Clear it
 		var canvasGradient=ctx.createLinearGradient(0,0,750,600);
-		canvasGradient.addColorStop(0,"lightcyan");
-		canvasGradient.addColorStop(1,"skyblue");
+		canvasGradient.addColorStop(0,"white");
+		canvasGradient.addColorStop(1,"gainsboro");
     ctx.fillStyle = canvasGradient;
 		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-		
-		this.props.graph.vertexes.map((vertex) => {
 
-			vertex.edges.map((edge) => {
+		let { found } = this.props.graph;
 
+		for (let component of found) {
+			for (let vertex of component) {
+				let { edges } = vertex;
+				for (let edge of edges) {
+					let { x, y } = vertex.pos;
+					let { x: destination_x, y: destination_y } = edge.destination.pos;
+					ctx.beginPath();
+					ctx.moveTo(x, y);
+					ctx.lineTo(destination_x, destination_y);
+					ctx.strokeStyle=component.color;
+					ctx.stroke();
+				}
+			}
+			for (let vertex of component) {
+				
 				let { x, y } = vertex.pos;
-				let { x: destination_x, y: destination_y } = edge.destination.pos;
+				let { value } = vertex, radius = vertexRadius;
 				ctx.beginPath();
-				ctx.moveTo(x, y);
-				ctx.lineTo(destination_x, destination_y);
-				ctx.strokeStyle="black";
+				ctx.arc(x, y, radius, 0, 2 * Math.PI);
+				ctx.fillStyle=component.color;
+				ctx.fill();
+				ctx.strokeStyle=component.color;
 				ctx.stroke();
-
-				return 0;
-			});
-			return 0;
-		});
-		
-		this.props.graph.vertexes.map((vertex) => {
-
-			let { x, y } = vertex.pos;
-			let { value } = vertex, radius = vertexRadius;
-			ctx.beginPath();
-			ctx.arc(x, y, radius, 0, 2 * Math.PI);
-			ctx.fillStyle="gainsboro";
-			ctx.fill();
-			ctx.stroke();
-			
-			ctx.strokeStyle="black";
-			ctx.textAlign = "center";
-			ctx.textBaseline = "middle";
-			ctx.strokeText(value, x, y);
-
-			return 0;
-		});
+				
+				ctx.strokeStyle="white";
+				ctx.textAlign = "center";
+				ctx.textBaseline = "middle";
+				ctx.font="1rem Arial";
+				ctx.strokeText(value, x, y);
+			}	
+		}
   }
   
   render() {

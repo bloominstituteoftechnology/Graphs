@@ -130,6 +130,16 @@ export class Graph {
     }
   }
 
+  getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+  
+    for (let i = 0; i <6; i++) {
+      color += letters[Math.floor(Math.random()*16)];
+    }
+    return color;
+  }
+
   /**
    * BFS
    */
@@ -137,7 +147,7 @@ export class Graph {
     // !!! IMPLEMENT ME
     let { found, queue, foundValues } = this;
     let current = [];
-    current.color = '';
+    current.color = this.getRandomColor();
     found.unshift(current); 
     queue.push(start);
     current.push(start);
@@ -152,7 +162,7 @@ export class Graph {
       });
       queue.shift();
     }
-    console.log('found', found);
+    // console.log('found', found);
     return found;
   }
 
