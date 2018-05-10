@@ -106,10 +106,17 @@ class App extends Component {
     this.state.graph.randomize(5, 5, 100);
   }
 
+  getNew = () => {
+    const graph = new Graph();
+    graph.randomize(5, 5, 100);
+    this.setState({ graph });
+  }
+  
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.getNew}>Get New Graph</button>
       </div>
     );
   }
