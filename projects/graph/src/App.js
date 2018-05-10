@@ -128,8 +128,7 @@ class GraphView extends Component {
     }
     // End draw background
 
-    // Draw Graph
-
+    // DRAW GRAPH
     let colors = [
       'black',
       'darkgreen',
@@ -137,18 +136,47 @@ class GraphView extends Component {
       'darkblue',
       'purple',
       'darkorange',
-      'lightblue'
+      'darkgray',
+      'gold',
+      'magenta'
     ];
 
+    // Edges
     this.props.graph.connectedComponents.forEach((component, i) => {
       component.forEach(v => {
         v.edges.forEach(e => {
+          // Draw edge lines
           ctx.beginPath();
           ctx.moveTo(v.pos.x, v.pos.y);
           ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
-          ctx.strokeStyle = 'rgba(100, 100, 100)';
+          ctx.strokeStyle = 'rgb(100, 100, 100)';
           ctx.lineWidth = 5;
           ctx.stroke();
+          ctx.closePath();
+
+          // Draw circles for edge weights
+          ctx.beginPath();
+          ctx.arc(
+            (v.pos.x + e.destination.pos.x) / 2,
+            (v.pos.y + e.destination.pos.y) / 2,
+            10,
+            0,
+            2 * Math.PI
+          );
+          ctx.fillStyle = 'rgb(100, 100, 100)';
+          ctx.fill();
+          ctx.stroke();
+
+          // Draw labels for edge weights
+          ctx.fillStyle = 'white';
+          ctx.font = '10px Georgia';
+          ctx.textAlign = 'center';
+          ctx.textbaseline = 'middle';
+          ctx.fillText(
+            e.weight,
+            (v.pos.x + e.destination.pos.x) / 2,
+            (v.pos.y + e.destination.pos.y) / 2
+          )
           ctx.closePath();
         });
       });
@@ -174,21 +202,15 @@ class GraphView extends Component {
   }
 
   regenerateHandler = () => {
-    // this.setState({ state: this.state });
     this.props.graph.reset();
-
     this.props.graph.randomize(
       Math.floor(canvasWidth / pxBox),
       Math.floor(canvasHeight / pxBox),
       pxBox,
       0.6
     );
-
     this.props.graph.getConnectedComponents();
-
     this.updateCanvas();
-
-    console.log('BANG');
   };
 
   /**
@@ -230,7 +252,6 @@ class App extends Component {
 
     this.state.graph.getConnectedComponents();
   }
-
 
   render() {
     return (
