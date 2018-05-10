@@ -1,6 +1,6 @@
 class Edge {
 	constructor(destination) {
-		this.destintion = destination;
+		this.destination = destination;
 	}
 }
 
