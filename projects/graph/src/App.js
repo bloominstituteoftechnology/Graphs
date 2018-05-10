@@ -30,9 +30,9 @@ class GraphView extends Component {
 
   updateCanvas() {
     function rando() {
-      let code = '#3';
+      let code = '#2';
       for (let i = 0; i < 5; i++) {
-          code += Math.floor(Math.random() * 9);
+        code += Math.floor(Math.random() * 9);
       }
       return code;
     }
@@ -57,28 +57,80 @@ class GraphView extends Component {
 
     let connections = this.props.foundConnections;
 
+    // Draw Edges
+    //     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
+    //       let vertex = this.props.graph.vertexes[i];
+    //       if (vertex.edges.length) {
+    //         let edge = vertex.edges[0].destination.position;
+    //         let midpoint = [(edge.x + vertex.position.x) / 2, (edge.y + vertex.position.y) / 2];
+    //         if (includes(seen, midpoint) === false) {
+    //           ctx.beginPath();
+    //           ctx.moveTo(vertex.position.x, vertex.position.y);
+    //           ctx.lineTo(edge.x, edge.y);
+    //           ctx.stroke();
+    //           //*Broken* Draw Weights
+    //           let weight = vertex.edges[0].weight;
+    //           ctx.strokeStyle = 'white';
+    //           ctx.font = '15px Arial';
+    //           ctx.fillStyle = 'black';
+    //           ctx.fillText(weight, (edge.x + vertex.position.x) / 2, (edge.y + vertex.position.y) / 2);
+    //           seen.push(midpoint);
+    //           ctx.stroke();
+    //         }
+    //       }
+    //     }
+    // midpoints graphed already so two are not written
+    let seen = [];
+
+    //two edges create conflicting weights being written
+    function includes(arr, el) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i][0] === el[0] && arr[i][1] === el[1]) return true;
+      }
+      return false;
+    }
+
     connections.forEach((connection, index) => {
       let color = rando();
       //Draw Edges
       connection.forEach((vert) => {
         vert.edges.forEach((edge) => {
-          ctx.beginPath();
-          ctx.strokeStyle = color;
-          ctx.moveTo(vert.position.x, vert.position.y);
-          ctx.lineTo(edge.destination.position.x, edge.destination.position.y);
-          ctx.stroke();
+          let destination = edge.destination.position;
+          let midpoint = [(destination.x + vert.position.x) / 2, (destination.y + vert.position.y) / 2];
+          if (includes(seen, midpoint) === false) {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.moveTo(vert.position.x, vert.position.y);
+            ctx.lineTo(destination.x, destination.y);
+            ctx.stroke();
+
+            let x = Math.abs(destination.x - vert.position.x);
+            let y = Math.abs(destination.y - vert.position.y);
+
+            edge.weight = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)).toFixed(1);
+            ctx.strokeStyle = 'white';
+            ctx.font = '15px Arial';
+            ctx.fillStyle = 'black';
+            ctx.fillText(
+              edge.weight,
+              (destination.x + vert.position.x) / 2,
+              (destination.y + vert.position.y) / 2
+            );
+            seen.push(midpoint);
+            ctx.stroke();
+          }
         });
       });
       //Draw Vertices
       connection.forEach((vert) => {
         ctx.beginPath();
-        ctx.arc(vert.position.x, vert.position.y, 12, 0, 2 * Math.PI);
+        ctx.arc(vert.position.x, vert.position.y, 10, 0, 2 * Math.PI);
         ctx.fillStyle = color;
         ctx.fill();
         ctx.strokeStyle = color;
         ctx.stroke();
         ctx.fillStyle = 'white';
-        ctx.font = '12px Arial';
+        ctx.font = '10px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(vert.value, vert.position.x, vert.position.y);
@@ -118,10 +170,27 @@ class App extends Component {
     }
   }
 
+  refreshPage() {
+    window.location.reload();
+  }
+
   render() {
+    let style = {
+      color: 'lightblue',
+      background: 'purple',
+      width: 200,
+      height: 50,
+      fontSize: 20,
+    };
+
     return (
       <div className="App">
         <GraphView graph={this.state.graph} foundConnections={this.state.foundConnections} />
+        <div>
+          <button type="button" style={style} onClick={this.refreshPage}>
+            Refresh{' '}
+          </button>
+        </div>
       </div>
     );
   }
