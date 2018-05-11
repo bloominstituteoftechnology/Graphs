@@ -110,27 +110,29 @@ class GraphView extends Component {
       if (type === 'single') {
         drawNode(vert.value, vert.pos, color);
       } else {
-        // console.log(vert);
+        // console.log(Array.isArray(vert), vert);
         vert.forEach((vertex, i) => {
           mapEdges(vertex.edges, vertex.pos, color);
         });
-
         vert.forEach((edge, i) => {
-          // console.log(edge);
           drawNode(edge.value, edge.pos, color);
         });
       }
     };
     // console.timeEnd('draw')
-    this.props.graph.vertexes.forEach((vertex) => { 
+    console.time('Map All');
+    this.props.graph.vertexes.forEach((vertex) => {
       if (vertex.edges.length === 0) {
+        // console.log('single verts', vertex)
         draw(vertex, 'single', this.randomColor());
       } else {
         const connectedArr = this.props.graph.getConnectedComponents(vertex);
-        // console.log(connectedArr)
-        draw(connectedArr, 'arr', this.randomColor());
+        if(connectedArr !== undefined) {
+          draw(connectedArr, 'arr', this.randomColor());
+        } else console.error('Array of Nodes is undefined');
       }
     });
+    console.timeEnd('Map All');
     console.log(this.props.graph.count);
   }
 
@@ -159,7 +161,7 @@ class App extends Component {
       graph: new Graph(),
     };
 
-    this.state.graph.randomize(8, 8, 100, .5);
+    this.state.graph.randomize(100, 100, 50, .5);
   }
 
   render() {

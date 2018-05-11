@@ -27,8 +27,6 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
-    this.visited = [];
-    this.bfsEdgeArr = [];
     this.count = 0;
   }
 
@@ -138,50 +136,33 @@ export class Graph {
    * BFS
    */
   bfs(vertex) {
-
     console.time('bfs');
-    const visited = [];
+    let visited = [];
+    let bfsEdges = [];
+    // if (visited.indexOf(vertex.value) !== -1) {
+    // } else {
     const mapEdges = (vertex) => {
-
-      if (visited.indexOf(vertex.value) === -1) {
-        visited.push(vertex.value);
-
-      }
       vertex.edges.forEach((each) => {
         const isVisited = visited.indexOf(each.destination.value);
+        // console.log('each edge', each, 'visited', isVisited);
         if (isVisited === -1) {
           visited.push(each.destination.value);
+          bfsEdges.push(each.destination);
           mapEdges(each.destination);
-          this.bfsEdgeArr.push(each.destination);
-        } else {
-          return;
         }
       });
-      return this.bfsEdgeArr;
-    };
-    
-    mapEdges(vertex)
-
-    // let isV17 = false; 
-    // this.bfsEdgeArr.forEach(each => {
-    //   if(each.value === 'v17') {
-    //     isV17 = true;
-    //   }
-    // });
-    // if (isV17) {
-    //   console.log('Array with 17', this.bfsEdgeArr);
-    // }
+    }
+    mapEdges(vertex);
     console.timeEnd('bfs');
     this.count++;
-    return this.bfsEdgeArr;
+    return bfsEdges;
   }
-  
 
   /**
    * Get the connected components
    */
   getConnectedComponents(vertex) {
-    this.bfsEdgeArr = [];
+    // if(retArr.length === 1 || !retArr.length) console.log('single gcc', retArr);
     return this.bfs(vertex);
   }
 }
