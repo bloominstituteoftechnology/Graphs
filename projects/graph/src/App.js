@@ -72,7 +72,6 @@ class GraphView extends Component {
     for (let component of this.props.connectedComponents) {
       ctx.strokeStyle = "black";
       ctx.lineWidth = 0.75;
-
       //Each vertex gets looped through
       for (let i = 0; i < component.length; i++) {
         const vertex = vertexes[component[i]];
@@ -140,37 +139,40 @@ class App extends Component {
 
     this.state = {
       graph: new Graph(),
-      connectedComponents: [],
-      isToggleOn: true
+      connectedComponents: []
     };
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.isToggleOn = this.state.graph.randomize(4, 5, 200, 0.7);
+    this.state.graph.randomize(4, 5, 120, 0.7);
     this.state.connectedComponents = this.state.graph.getConnectedComponents();
     this.generateNewGraph = this.generateNewGraph.bind(this);
   }
 
   generateNewGraph() {
-    this.setState(prevState => ({
-      isToggleOn: !prevState.isToggleOn
-    }));
+      const state = {
+        graph: new Graph()
+      };
+  
+      state.graph.randomize(4, 5, 120, 0.7);
+  
+      this.setState(state);
+
   }
 
-  render() {
-    return (
-      <div className="App">
-        <GraphView
-          graph={this.state.graph}
-          connectedComponents={this.state.connectedComponents} />{" "}
-          <p>Click for a new graph</p>
-          <button onClick={this.generateNewGraph}>
-          Generate
-          {this.state.isToggleOn}
-          </button>
-      </div>
-    );
-  }
+render() {
+  return (
+    <div className="App">
+      <GraphView
+        graph={this.state.graph}
+        connectedComponents={this.state.connectedComponents} />{" "}
+      <p>Click for a new graph</p>
+      <button onClick={this.generateNewGraph}>
+        Generate
+      </button>
+    </div>
+  );
+}
 }
 
 export default App;
