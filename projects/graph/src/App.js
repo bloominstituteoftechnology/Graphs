@@ -79,7 +79,6 @@ class GraphView extends Component {
  */ 
       
 const connectedGroups = this.props.graph.getConnectedComponents();
-this.props.graph.dump();
     connectedGroups.forEach(group => {
       const groupColor = getRandomColor();
       group.forEach(vert => {
@@ -89,6 +88,26 @@ this.props.graph.dump();
           ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
           ctx.strokeStyle = groupColor;
           ctx.stroke();
+        })
+      })
+      //weights
+      group.forEach(vertex => {
+        vertex.edges.forEach(edge => {
+          let randomWeight = Math.floor((Math.random() * 10) + 1);
+          let weightAtx = (vertex.pos.x + edge.destination.pos.x) / 2;
+          let weightAty = (vertex.pos.y + edge.destination.pos.y) / 2;
+          ctx.beginPath();
+          ctx.rect(weightAtx, weightAty,20,30);
+          ctx.fillStyle = "white";
+          ctx.fill();
+          ctx.strokeStyle = 'black';
+          ctx.stroke();
+    
+          ctx.fillStyle = 'black';
+          ctx.font = '20px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(randomWeight, weightAtx+10, weightAty+10);
         })
       })
       
