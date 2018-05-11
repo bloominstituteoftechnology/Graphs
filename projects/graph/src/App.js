@@ -26,6 +26,7 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+
   /**
    * Render the canvas
    */
@@ -41,6 +42,7 @@ class GraphView extends Component {
 
     // console.log('in update canvas, vertex data is', this.props.graph);
 
+
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
           ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -53,10 +55,6 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2 * Math.PI);
       ctx.fillStyle = 'white';
-      // let r = Math.floor(Math.random() * 155) + 100;
-      // let g = Math.floor(Math.random() * 155) + 100;
-      // let b = Math.floor(Math.random() * 155) + 100;
-      // ctx.fillStyle = 'rgb(' + r + ', ' + g + ', ' + b + ')';
       ctx.fill();
       ctx.strokeStyle = 'black';
       ctx.stroke();
@@ -97,6 +95,7 @@ class App extends Component {
     };
 
     this.state.graph.randomize(5, 4, 150, 0.6);
+    console.log('getConnectedComponents: ', this.state.graph.getConnectedComponents());
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method

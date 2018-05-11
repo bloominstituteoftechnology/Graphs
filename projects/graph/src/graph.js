@@ -18,6 +18,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.visited = false;
   }
 }
 
@@ -128,16 +129,122 @@ export class Graph {
   }
 
   /**
-   * BFS
+   * BFS - finds only all vertexes of a connected component (a set of connected vertexes)
+   * BFS(graph, startVert):
+      for v of graph.vertexes:
+        v.color = white
+
+      startVert.color = gray
+      queue.enqueue(startVert)
+
+      while !queue.isEmpty():
+        u = queue[0]  // Peek at head of queue, but do not dequeue!
+
+        for v of u.neighbors:
+          if v.color == white:
+            v.color = gray
+            queue.enqueue(v)
+        
+        queue.dequeue()
+        u.color = black
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+
+  }
+  // bfs(start, flag=true) {
+    // Beej's solution
+    // const component = [];
+    // const queue = [];
+    // if (flag) {
+    //   for (let vert of this.vertexes) {
+    //     vert.color = 'white';
+    //   }
+    // }
+    // start.color = 'gray';
+    // queue.push(start);
+    // while (queue.length > 0) {
+    //   const u = queue[0];
+    //   for (let e of u.edges) {
+    //     const v = e.destination;
+    //     if (v.color === 'white') {
+    //       v.color = 'gray';
+    //       queue.push(v);
+    //     }
+    //   }
+    //   queue.shift();
+    //   u.color = 'black';
+    //   component.push(u);
+    // }
+    // return component;
+  // }
+
+    /**
+   * DFS - finds only all vertexes of a connected component (a set of connected vertexes)
+   *   DFS(graph):
+      for v of graph.verts:
+          v.color = white
+          v.parent = null
+            for v of graph.verts:
+                if v.color == white:
+                    DFS_visit(v)
+      DFS_visit(v):
+          v.color = gray
+          for neighbor of v.adjacent_nodes:
+              if neighbor.color == white:
+                  neighbor.parent = v
+                  DFS_visit(neighbor)
+          v.color = black
+   */
+
+  dfs(start) {
+    // !!! IMPLEMENT ME
+    const component = [];
+    const listToExplore = [start];
+    start.visited = true;
+
+    while (listToExplore.length) {
+      const visitingVert = listToExplore.pop();
+
+      visitingVert.edges.forEach(edge => {
+        const visitedVert = edge.destination;
+        if (!visitedVert.visited) {
+          listToExplore.push(visitedVert);
+        }
+        component.push(visitedVert);
+        visitedVert.visited = true;
+      });
+    }
+    return component;
   }
 
   /**
-   * Get the connected components
+   * Get the connected components - returns a list of sets of connected vertexes
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    // Beej's Solution with his implementation of BFS
+    // const connected_components = [];
+    // let flag = true;
+    // for (let vert of this.vertexes) {
+    //   if (flag || vert.color === 'white') {
+    //     const component = this.bfs(vert, flag);
+    //     flag = false;
+    //     connected_components.push(component);
+    //   }
+    // }
+    // return connected_components;
+
+    const connected_components = [];
+    for (let vert of this.vertexes) {
+      if (vert.visited === false) {
+        const component = this.dfs(vert);
+        connected_components.push(component);
+      }
+    }
+    return connected_components;
+
+
   }
+
 }
