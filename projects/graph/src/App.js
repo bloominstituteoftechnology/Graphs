@@ -259,11 +259,12 @@ class GraphView extends Component {
       });
 
       component.forEach(v => {
+        v.color = colors[i]
         ctx.beginPath();
         // Draw vertex circles
         ctx.strokeStyle = 'rgb(100, 100, 100)';
         ctx.arc(v.pos.x, v.pos.y, 25, 0, 2 * Math.PI);
-        ctx.fillStyle = colors[i];
+        ctx.fillStyle = v.color;
         ctx.fill();
         ctx.stroke();
         // Draw vertex labels
