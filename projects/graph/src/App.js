@@ -109,6 +109,7 @@ class GraphView extends Component {
 
   clearSelected = () => {
     this.selected = [];
+    this.path = [];
     this.updateCanvas();
   }
 
@@ -189,6 +190,17 @@ class GraphView extends Component {
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y); // edge
         ctx.strokeStyle = vertex.color;
+        if (this.path) {
+          if (edge.destination.value === this.path[vertex.value]) {
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 4;
+          } else if (vertex.value === this.path[edge.destination.value]) {
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 4;
+          } else {
+            ctx.lineWidth = 2;
+          }
+        }
         ctx.stroke();
 
         ctx.beginPath();

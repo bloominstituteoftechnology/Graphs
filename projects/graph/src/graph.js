@@ -204,11 +204,13 @@ export class Graph {
 
     let queue = [];
     const distanceMatrix = {};
+    const prev= {};
     distanceMatrix[start.value] = 0;
 
     for(let vert of unprocessed) {
       if(vert !== start) {
         distanceMatrix[vert.value] = Infinity;
+        prev[vert.value] = undefined;
       }
       queue.push(vert);
     }
@@ -239,14 +241,23 @@ export class Graph {
 
           if (alt < distanceMatrix[neighbor.destination.value]) {
             distanceMatrix[neighbor.destination.value] = alt;
+            prev[neighbor.destination.value] = currentVertex.value;
           }
         }
       }
 
       ranOnce = true;
     }
-    console.log('DIST: ', distanceMatrix);
-
-
+    // console.log('DIST: ', distanceMatrix);
+    // console.log('PREV: ', prev);
+    const path = {};
+    let u = end.value;
+    while(prev[u]) {
+      path[u] = prev[u];
+      u = prev[u];
+    }
+    // path.push(start.value);
+    console.log('PATH: ', path);
+    return path;
   }
 }
