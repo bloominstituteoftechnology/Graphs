@@ -14,12 +14,12 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(value='fred', pos={x: 0, y: 0}) {
+  constructor(value='not assigned', pos={x: 0, y: 0}) {
     this.value = value;
     this.edges = [];
     this.pos = pos;
     this.visited = false;
-    this.color = 'white';
+    this.color = 'black';
     this.group = null;
   }
 
@@ -154,8 +154,8 @@ export class Graph {
     this.queue.push(start);
     start.visit();
 
-    let color = randomColor();
-    let id = Math.floor(Math.random() * Math.random() * 1000);
+    const color = randomColor();
+    const id = Math.floor(Math.random() * Math.random() * 1000);
 
     while(this.queue.length > 0) {
       const currentVertex = this.queue[0];
@@ -185,7 +185,68 @@ export class Graph {
     }
   }
 
+  lowestCost = (costs, processed) => {
+    return Object.keys(costs).reduce((lowest, node) => {
+      if (lowest === null || costs[node] < costs[lowest]) {
+        if (!processed.includes(node)) {
+          lowest = node;
+        }
+      }
+      return lowest;
+    }, null);
+  }
+
   dijkstra(start, end) {
-    const group = this.vertexes.filter(elem => elem.group === start.group);
+    if(start.group !== end.group) {
+      throw new Error('Unreachable, this shouldnt have happened');
+    }
+    const unprocessed = this.vertexes.filter(elem => elem.group === start.group);
+
+    let queue = [];
+    const distanceMatrix = {};
+    distanceMatrix[start.value] = 0;
+
+    for(let vert of unprocessed) {
+      if(vert !== start) {
+        distanceMatrix[vert.value] = Infinity;
+      }
+      queue.push(vert);
+    }
+
+    let ranOnce = false;
+    while (queue.length > 0) {
+      let currentVertex;
+
+      if(!ranOnce) {
+        currentVertex = start;
+      } else {
+        const temp = [...queue];
+        temp.sort((a, b) => {
+          return distanceMatrix[a.value] - distanceMatrix[b.value];
+        });
+        currentVertex = temp[0];
+      }
+      queue = queue.filter(vert => vert !== currentVertex);
+
+      for(let neighbor of currentVertex.edges) {
+        if(queue.includes(neighbor.destination)) {
+          let alt;
+          if(distanceMatrix[currentVertex.value] === Infinity) {
+            alt = neighbor.weight;
+          } else {
+            alt = distanceMatrix[currentVertex.value] + neighbor.weight;
+          }
+
+          if (alt < distanceMatrix[neighbor.destination.value]) {
+            distanceMatrix[neighbor.destination.value] = alt;
+          }
+        }
+      }
+
+      ranOnce = true;
+    }
+    console.log('DIST: ', distanceMatrix);
+
+
   }
 }

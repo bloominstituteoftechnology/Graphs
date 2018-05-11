@@ -20,6 +20,7 @@ class GraphView extends Component {
     this.offsetY = null;
 
     this.selected = [];
+    this.path = [];
 
     this.canvas = null;
     this.ctx = null;
@@ -159,14 +160,26 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.canvas;
-    let ctx = this.ctx;
+    const ctx = this.ctx;
 
-    // Clear it
     this.clearCanvas();
 
     // ------------ Graph -----------------------------
     this.props.graph.getConnectedComponents();
+
+    if(this.selected.length === 2) {
+      let firstSelected, secondSelected;
+      for(let vertex of this.props.graph.vertexes) {
+        if(vertex.value === this.selected[0].value){
+          firstSelected = vertex;
+        } else if (vertex.value === this.selected[1].value) {
+          secondSelected = vertex;
+        }
+      }
+      // console.log('selected: ', firstSelected);
+      this.path = this.props.graph.dijkstra(firstSelected, secondSelected);
+    }
+
     ctx.lineWidth=2;
     for(let vertex of this.props.graph.vertexes) {  // draw edges before nodes to asure theyre always below
       for(let edge of vertex.edges) {
@@ -174,12 +187,12 @@ class GraphView extends Component {
         const offY = (edge.destination.pos.y - vertex.pos.y) / 2;
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y); // edge
         ctx.strokeStyle = vertex.color;
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.arc(vertex.pos.x + offX, vertex.pos.y + offY, 9, 0, 2*Math.PI);
+        ctx.arc(vertex.pos.x + offX, vertex.pos.y + offY, 9, 0, 2*Math.PI);  // edge weight circle
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'grey';
         ctx.fill();
@@ -189,7 +202,7 @@ class GraphView extends Component {
         ctx.font = '10px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(edge.weight, vertex.pos.x + offX, vertex.pos.y + offY);
+        ctx.fillText(edge.weight, vertex.pos.x + offX, vertex.pos.y + offY);  // edge weight label
       }
     }
 
