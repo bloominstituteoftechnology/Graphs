@@ -29,8 +29,8 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
-    this.queue =[];
-    this.found = [];
+    // this.queue =[];
+    // this.found = [];
   }
 
   debugCreateTestData() {
@@ -132,36 +132,39 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+ bfs(start) {
     // !!! IMPLEMENT ME
-    this.queue.push(this.vertexes[0]);
-    this.found.push(this.vertexes[0]);
-    while(this.queue.length > 0) {
+    const connectedQueue = [start];
+    const connectedVerts = [];
 
-      this.queue[0].edges.forEach(edge => 
-        {
-          this.queue.push(edge.destination); 
-          if(!this.found.includes(edge.destination))
-          {
-            //edge.destination.color = this.getRandomColor();
-            //console.log(edge.destination.color);
-            this.found.push(edge.destination);
-            } 
-        });
-     this.queue.shift();
-
-    } 
-    return this.found;
+    while (connectedQueue.length > 0) {
+      const currentVert = connectedQueue.shift();
+      if (currentVert.found) continue;
+      else {
+        currentVert.found = true;
+        connectedVerts.push(currentVert);
+        currentVert.edges.forEach(edge => {
+          if (!edge.destination.found) {
+            connectedQueue.push(edge.destination);
+          }
+        })
+      }
+    }
+    return connectedVerts;
   }
+
   /**
    * Get the connected components
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
-    let connectedVertices = [];
-    for(let vertex of this.vertexes) {
-      connectedVertices.push(this.bfs(vertex));
-    }
-    return connectedVertices;
+    const groups = [];
+    this.vertexes.forEach(vert => {
+      if (!vert.found) {
+        groups.push(this.bfs(vert));
+      } 
+    })
+    this.vertexes.forEach(vert => vert.found = false);
+    return groups;
   }
 }

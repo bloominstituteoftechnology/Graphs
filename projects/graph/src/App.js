@@ -78,36 +78,36 @@ class GraphView extends Component {
    
  */ 
       
-const connectedVertices = this.props.graph.getConnectedComponents();
-console.log(connectedVertices);
-let randomColor = getRandomColor();
-connectedVertices.map(vertex => {
+const connectedGroups = this.props.graph.getConnectedComponents();
+this.props.graph.dump();
+    connectedGroups.forEach(group => {
+      const groupColor = getRandomColor();
+      group.forEach(vert => {
+        vert.edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.moveTo(vert.pos.x, vert.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
+          ctx.strokeStyle = groupColor;
+          ctx.stroke();
+        })
+      })
+      
+      group.forEach(vert => {
+        ctx.beginPath();
+        ctx.arc(vert.pos.x, vert.pos.y, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = groupColor;
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
   
-  vertex.edges.map(edge => {
-    ctx.moveTo(vertex.pos.x, vertex.pos.y);
-    ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-    ctx.strokeStyle = randomColor;
-    ctx.stroke();
-    return edge;
-  });
-  return vertex;
-});
+        ctx.fillStyle = 'black';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(vert.value, vert.pos.x, vert.pos.y);
+      })
 
-for(let vertex of connectedVertices) {
-
-  ctx.moveTo(vertex.pos.x, vertex.pos.y);
-  ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius,0,2*Math.PI);
-  ctx.fillStyle = randomColor;
-  ctx.fill();
-  ctx.strokeStyle = randomColor;
-  ctx.stroke();
-
-  ctx.fillStyle = randomColor;
-  ctx.font = '10px Arial';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y); 
-}
+    })
 
 
 }
