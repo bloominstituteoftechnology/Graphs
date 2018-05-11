@@ -25,6 +25,7 @@ class GraphView extends Component {
     this.canvas = null;
     this.ctx = null;
   }
+
   /**
    * On mount
    */
@@ -99,9 +100,15 @@ class GraphView extends Component {
   select = (vert) => {
     if(this.isSelected(vert)){
       this.selected = this.selected.filter(elem => elem.value !== vert.value);
+      if(this.selected.length === 0) {
+        this.path = [];
+      }
       this.updateCanvas();
     } else if(this.selected.length >= 2) {
-      this.clearSelected();
+      // this.clearSelected();
+      this.selected.pop();
+      this.selected.push({ value: vert.value, group: vert.group });
+      this.updateCanvas();
     } else {
       this.selected.push({ value: vert.value, group: vert.group });
     }

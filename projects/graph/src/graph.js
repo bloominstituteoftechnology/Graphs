@@ -256,7 +256,6 @@ export class Graph {
       path[u] = prev[u];
       u = prev[u];
     }
-    // path.push(start.value);
     console.log('PATH: ', path);
     return path;
   }
