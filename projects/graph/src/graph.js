@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = { x: 0, y: 0 }) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -20,10 +29,21 @@ export class Graph {
     this.vertexes = [];
   }
 
+  // debugCreateTestData() {
+  //   let debugVertex1 = new Vertex('debug1', { x: 100, y: 100 });
+  //   let debugVertex2 = new Vertex('debug2', { x: 200, y: 200 });
+
+  //   let debugEdge1 = new Edge(debugVertex2);
+
+  //   debugVertex1.edges.push(debugEdge1);
+
+  //   this.vertexes.push(debugVertex1, debugVertex2);
+  // }
+
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -51,14 +71,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -111,6 +131,26 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [start];
+    let savedVertexes = [start];
+    let tracker;
+
+    while (queue.length > 0) {
+      tracker = queue.shift();
+      if (this.vertexes[tracker].edges) {
+        for (let i = 0; i < this.vertexes[tracker].edges.length; i++) {
+          const destination = parseInt(
+            this.vertexes[tracker].edges[i].destination.value.slice(1),
+            10
+          );
+          if (!savedVertexes.includes(destination)) {
+            queue.push(destination);
+            savedVertexes.push(destination);
+          }
+        }
+      }
+    }
+    return savedVertexes;
   }
 
   /**
@@ -118,5 +158,29 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let isConnected = false;
+    let newVertexes = [];
+    let vertex = 0;
+    let foundVertexes = [];
+    let trackedCount = 0;
+    let connectedVertexes = [];
+
+    do {
+      newVertexes = this.bfs(vertex);
+      connectedVertexes[trackedCount++] = newVertexes;
+      for (let i = 0; i < newVertexes.length; i++) {
+        foundVertexes[newVertexes[i]] = true;
+      }
+      
+      isConnected = true;
+      for (let i = 0; i < this.vertexes.length; i++) {
+        if (foundVertexes[i] !== true) {
+          isConnected = false;
+          vertex = i;
+          break;
+        }
+      }
+    } while (!isConnected);
+    return connectedVertexes;
   }
 }

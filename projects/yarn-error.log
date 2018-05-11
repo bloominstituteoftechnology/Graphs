@@ -1,0 +1,32 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js start
+
+PATH: 
+  /Users/dixiekorley/.rvm/gems/ruby-2.5.1/bin:/Users/dixiekorley/.rvm/gems/ruby-2.5.1@global/bin:/Users/dixiekorley/.rvm/rubies/ruby-2.5.1/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/dixiekorley/.rvm/gems/ruby-2.5.1/bin:/Users/dixiekorley/.rvm/gems/ruby-2.5.1@global/bin:/Users/dixiekorley/.rvm/rubies/ruby-2.5.1/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/mysql/bin/:/Users/dixiekorley/.rvm/bin:/usr/local/mysql/bin/
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.9.4
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Couldn't find a package.json file in "/Users/dixiekorley/Desktop/CS7/Graphs/projects"
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:40048:15
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:109:13
+      at <anonymous>
