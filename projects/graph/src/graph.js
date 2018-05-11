@@ -201,18 +201,18 @@ export class Graph {
     // !!! IMPLEMENT ME
     const component = [];
     const listToExplore = [start];
-    start.visited = true;
+    listToExplore[0].visited = true;
 
     while (listToExplore.length) {
-      const visitingVert = listToExplore.pop();
+      const currentVert = listToExplore.pop();
 
-      visitingVert.edges.forEach(edge => {
-        const visitedVert = edge.destination;
-        if (!visitedVert.visited) {
-          listToExplore.push(visitedVert);
+      currentVert.edges.forEach(edge => {
+        const currentSubVert = edge.destination;
+        if (currentSubVert.visited === false) {
+          listToExplore.push(currentSubVert);
         }
-        component.push(visitedVert);
-        visitedVert.visited = true;
+        currentSubVert.visited = true;
+        component.push(currentSubVert);
       });
     }
     return component;
@@ -243,7 +243,6 @@ export class Graph {
       }
     }
     return connected_components;
-
 
   }
 
