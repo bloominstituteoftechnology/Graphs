@@ -37,6 +37,8 @@ class GraphView extends Component {
 
 		let { found } = this.props.graph;
 
+		console.log('found', found);
+
 		for (let component of found) {
 			for (let vertex of component) {
 				let { edges } = vertex;
@@ -44,8 +46,11 @@ class GraphView extends Component {
 					let { x, y } = vertex.pos;
 					let { x: destination_x, y: destination_y } = edge.destination.pos;
 					ctx.beginPath();
-					if (edge.weight === 1) ctx.lineWidth = 0.75;
-					ctx.lineWidth = edge.weight;
+					if (edge.weight === 1) {
+						ctx.lineWidth = 0.75;
+					} else {
+						ctx.lineWidth = edge.weight;
+					}
 					ctx.moveTo(x, y);
 					ctx.lineTo(destination_x, destination_y);
 					ctx.strokeStyle=component.color;
