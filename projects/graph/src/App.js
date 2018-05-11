@@ -52,7 +52,8 @@ class GraphView extends Component {
           console.log('VERTEX CLICKED: ', v);
         }
       });
-      if (clickedVertex !== undefined) {
+
+      if (clickedVertex) {
         if (!this.props.graph.start) {
           this.props.graph.start = clickedVertex;
           ctx.beginPath();
@@ -60,7 +61,7 @@ class GraphView extends Component {
           ctx.arc(clickedVertex.pos.x, clickedVertex.pos.y, 25, 0, 2 * Math.PI);
           ctx.stroke();
           ctx.closePath();
-        } else if (this.props.graph.end) {
+        } else if (this.props.graph.start && this.props.graph.end) {
           let end = this.props.graph.end;
           ctx.beginPath();
           ctx.strokeStyle = 'rgb(100, 100, 100)';
@@ -75,12 +76,17 @@ class GraphView extends Component {
           ctx.stroke();
           ctx.closePath();
         } else {
-          this.props.graph.end = clickedVertex;
-          ctx.beginPath();
-          ctx.strokeStyle = 'yellow';
-          ctx.arc(clickedVertex.pos.x, clickedVertex.pos.y, 25, 0, 2 * Math.PI);
-          ctx.stroke();
-          ctx.closePath();
+          if (clickedVertex === this.props.graph.end || clickedVertex === this.props.graph.start) {
+            return;
+          }
+          else {
+            this.props.graph.end = clickedVertex;
+            ctx.beginPath();
+            ctx.strokeStyle = 'yellow';
+            ctx.arc(clickedVertex.pos.x, clickedVertex.pos.y, 25, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.closePath();
+          }
         }
       } else {
         if (this.props.graph.start) {
@@ -101,13 +107,12 @@ class GraphView extends Component {
         }
         this.props.graph.start = null;
         this.props.graph.end = null;
-        console.log(this.props.graph.start, this.props.graph.end);
       }
     };
 
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    canvas.addEventListener('mousedown', clickHandler, false);
+    canvas.addEventListener('mousedown', clickHandler);
 
     // Clear it
     ctx.fillStyle = 'rgb(10, 10, 10)';
