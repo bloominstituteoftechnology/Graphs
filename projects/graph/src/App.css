@@ -21,6 +21,13 @@
 .App-intro {
   font-size: large;
 }
+ button {
+   border-radius: 20px;
+   width: 100px;
+   height: 20px;
+   color:#fff;
+  background-color: #655438;
+ }
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

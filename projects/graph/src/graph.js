@@ -3,6 +3,12 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+ 
+
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +16,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = {x: 0,y: 0} ) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -18,8 +29,19 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    // this.queue =[];
+    // this.found = [];
   }
 
+  debugCreateTestData() {
+    let debugVertex1 = new Vertex('V1', {x: 100, y: 100});
+    let debugVertex2 = new Vertex('V2', {x: 300, y: 300});
+
+    let debugEdge1 = new Edge(debugVertex2);
+    debugVertex1.edges.push(debugEdge1);
+    this.vertexes.push(debugVertex1,debugVertex2);
+
+  }
   /**
    * Create a random graph
    */
@@ -106,11 +128,29 @@ export class Graph {
     }
   }
 
+  
   /**
    * BFS
    */
-  bfs(start) {
+ bfs(start) {
     // !!! IMPLEMENT ME
+    const connectedQueue = [start];
+    const connectedVerts = [];
+
+    while (connectedQueue.length > 0) {
+      const currentVert = connectedQueue.shift();
+      if (currentVert.found) continue;
+      else {
+        currentVert.found = true;
+        connectedVerts.push(currentVert);
+        currentVert.edges.forEach(edge => {
+          if (!edge.destination.found) {
+            connectedQueue.push(edge.destination);
+          }
+        })
+      }
+    }
+    return connectedVerts;
   }
 
   /**
@@ -118,5 +158,13 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const groups = [];
+    this.vertexes.forEach(vert => {
+      if (!vert.found) {
+        groups.push(this.bfs(vert));
+      } 
+    })
+    this.vertexes.forEach(vert => vert.found = false);
+    return groups;
   }
 }

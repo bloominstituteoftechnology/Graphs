@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+ const canvasWidth = 750;
+ const canvasHeight = 600;
+ const vertexRadius = 10;
 
 /**
  * GraphView
@@ -23,24 +24,112 @@ class GraphView extends Component {
   componentDidUpdate() {
     this.updateCanvas();
   }
-
+  
   /**
    * Render the canvas
    */
   updateCanvas() {
+
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'green';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    /** Get random color
+  */
+  function getRandomColor() {
+    let color = "#";
+    let letters = 'ABCDEF0123456789';
+    for(let i = 0 ; i < 6; i++){
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    console.log("color");
+    console.log(color);
+    return color;
   }
+  //   this.props.graph.vertexes.map(vertex => {
+  //     vertex.edges.map(edge => {
+  //       ctx.moveTo(vertex.pos.x, vertex.pos.y);
+  //       ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+  //       ctx.stroke();
+  //       return edge;
+  //     });
+  //     return vertex;
+    
+
+  //   // for(let vertex of this.props.graph.vertexes) {
+  //   //   ctx.beginPath();
+  //     ctx.moveTo(vertex.pos.x, vertex.pos.y);
+  //     ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius,0,2*Math.PI);
+  //     ctx.fillStyle = getRandomColor();
+  //     ctx.fill();
+  //     ctx.strokeStyle = getRandomColor();
+  //     ctx.stroke();
+
+  //     ctx.fillStyle = this.getRandomColor();
+  //     ctx.font = '10px Arial';
+  //     ctx.textAlign = 'center';
+  //     ctx.textBaseline = 'middle';
+  //     ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y); 
+  //   //}
+  // });
+    /**
+   
+ */ 
+      
+const connectedGroups = this.props.graph.getConnectedComponents();
+    connectedGroups.forEach(group => {
+      const groupColor = getRandomColor();
+      group.forEach(vert => {
+        vert.edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.moveTo(vert.pos.x, vert.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
+          ctx.strokeStyle = groupColor;
+          ctx.stroke();
+        })
+      })
+      //weights
+      group.forEach(vertex => {
+        vertex.edges.forEach(edge => {
+          let randomWeight = Math.floor((Math.random() * 10) + 1);
+          let weightAtx = (vertex.pos.x + edge.destination.pos.x) / 2;
+          let weightAty = (vertex.pos.y + edge.destination.pos.y) / 2;
+          ctx.beginPath();
+          ctx.rect(weightAtx, weightAty,20,30);
+          ctx.fillStyle = "white";
+          ctx.fill();
+          ctx.strokeStyle = 'black';
+          ctx.stroke();
+    
+          ctx.fillStyle = 'black';
+          ctx.font = '20px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(randomWeight, weightAtx+10, weightAty+10);
+        })
+      })
+      
+      group.forEach(vert => {
+        ctx.beginPath();
+        ctx.arc(vert.pos.x, vert.pos.y, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = groupColor;
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+  
+        ctx.fillStyle = 'black';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(vert.value, vert.pos.x, vert.pos.y);
+      })
+
+    })
+
+
+}
   
   /**
    * Render
@@ -48,9 +137,7 @@ class GraphView extends Component {
   render() {
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
-}
-
-
+  }
 /**
  * App
  */
@@ -64,12 +151,22 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    //this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5,4,150);
+    this.state.graph.getConnectedComponents();
   }
+
+ getNew = () => {
+    const graph = new Graph();
+    graph.randomize(4,3,150);
+    this.setState({graph});
+  };
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.getNew}>Refresh</button>
       </div>
     );
   }
