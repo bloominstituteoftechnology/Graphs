@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  margin-top: 15px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -20,6 +25,23 @@
 
 .App-intro {
   font-size: large;
+}
+
+.canvas {
+  border: 2px solid black;
+}
+
+.Button {
+  background: green;
+  border: 2px solid yellow;
+  color: white;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 20px;
+  cursor: default;
+  -webkit-box-shadow: 0 8px 6px -6px black;
+  -moz-box-shadow: 0 8px 6px -6px black;
+  box-shadow: 0 8px 6px -6px black;
 }
 
 @keyframes App-logo-spin {
