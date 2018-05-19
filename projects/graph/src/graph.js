@@ -1,8 +1,40 @@
+const Queue = require('./storage/queue');
+const maxColor = 0x90;
+const colors = { black: ["black", "white"], white: ["white", "black"], grey: ["gray", "green"] }
+const timeout = 100;
+const startColors = ['blue', 'green', 'orange', 'purple', 'brown']
+let startColorIndex = -1;
+let black = colors.black;
 /**
  * Edge
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(vertex, isVisible) {
+    this.destination = vertex;
+    this.weight = Math.floor(Math.random() * 10) + 1;
+    this.color = isVisible ? this.randomColor() : "illlegal color";
+    this.isVisible = isVisible;
+  }
+  // randomColorx = () => {
+  //   let color, hex;
+  //   do {
+  //     color = Math.round(Math.random() * 0xFFFFFF);
+  //     for (let i = 0; i < 3; i++) {
+  //       hex = (color & (0xff << (4 - i * 2))) >> (4 - i * 2);
+  //       if (hex <= maxColor) break;
+  //     }
+  //   } while (hex > maxColor);
+  //   return color;
+  // }
+  randomColor = () => {
+    const smallColor = Math.floor(Math.random() * 3);
+    const colors = [];
+    for (let i = 0;i< 3;i++) 
+      colors[i] = Math.round(Math.random() * ((i === smallColor) ? maxColor : 0xff));
+    return `rgb(${colors[0]}, ${colors[1]}, ${colors[2]})`
+  }
+
 }
 
 /**
@@ -10,7 +42,22 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.value = null;
+    this.pos = null; // {x: 0, y: 0}
+    this.color = colors.white;
+  }
+  get isBlack() {
+    return this.color === colors.black || (this.color in startColors);
+  }  
 }
+
+const max_edges = 1000;
+// const max_nodes = 20
+export let edges = 0;
+// let nodes = 0;
+
 
 /**
  * Graph
@@ -18,16 +65,23 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.q = new Queue();
+    this.cv  = null;
+    this.update = null;
   }
 
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
+    // console.log("running randomize");
+
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      if (edges > max_edges) return;
+      edges += 2;
+      v0.edges.push(new Edge(v1, true));
+      v1.edges.push(new Edge(v0, false));
     }
 
     let count = 0;
@@ -51,14 +105,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -84,39 +138,128 @@ export class Graph {
         this.vertexes.push(grid[y][x]);
       }
     }
+    // console.log(`randomize edges: ${edges}`);
   }
+  dumpVertex(v) {
+    let s;
+    if (v.pos) {
+      s = v.value + ' (' + v.pos.x + ',' + v.pos.y + ',  back ' + v.color[0] + ',  for ' + v.color[1] + '):';
+    } else {
+      s = v.value + ':';
+    }
 
+    for (let e of v.edges) {
+      s += ` ${e.destination.value}`;
+    }
+    console.log(s);
+  }
   /**
    * Dump graph data to the console
    */
   dump() {
-    let s;
-
     for (let v of this.vertexes) {
-      if (v.pos) {
-        s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
-      } else {
-        s = v.value + ':';
-      }
-
-      for (let e of v.edges) {
-        s += ` ${e.destination.value}`;
-      }
-      console.log(s);
+      this.dumpVertex(v);
     }
   }
-
+  // bfsIterate(q, cv) {
+  //   const childQ = new Queue();
+  //   while (!q.isEmpty) {
+  //     while (!q.isEmpty) {
+  //       const parent = q.dequeue();
+  //       parent.edges.forEach(edge => {
+  //         childQ.enqueue(edge.destination);
+  //         cv(edge.destination);
+  //       });
+  //     }
+  //     console.log(`childQ.length: ${childQ.size} childQ[0]: ${childQ.size ? childQ.top.value : -1}  `)
+  //     q = new Queue(childQ.copy);
+  //     childQ.clear();
+  //   }
+  //   return null;
+  // }
+  bfsIterate(q, cv) {
+    while (!q.isEmpty) {
+      const parent = q.dequeue();
+      parent.color = black;
+      parent.edges.forEach(edge => {
+        if (edge.destination.color === colors.white) {
+          edge.destination.color = colors.grey;
+          q.enqueue(edge.destination);
+          cv(edge.destination);
+        }
+      });
+    }
+  }
+  bfsStep() {
+    if (!this.q.isEmpty) {
+      const parent = this.q.dequeue();
+      parent.color = black;
+      parent.edges.forEach(edge => {
+        if (edge.destination.color === colors.white) {
+          edge.destination.color = colors.grey;
+          this.q.enqueue(edge.destination);
+          this.cv(edge.destination);
+        }
+      });
+      this.update();
+      return true;
+    } else return false;
+  }
+  getNewStart = () => {
+    for (let i = 0;i<this.vertexes.length;i++)
+      if (this.vertexes[i].color === colors.white)
+        return this.vertexes[i];
+    return null;
+  }
   /**
    * BFS
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME
+  bfs(start, update, getConnected = false) {
+    this.update = update;
+    black = colors.black;
+    const q = this.q.clear();
+    this.cv = (v) => {}; //this.dumpVertex;
+    this.vertexes.forEach(v => v.color = colors.white);
+    start.color = colors.grey;
+    q.enqueue(start);
+    this.cv(start);
+    this.update();
+    // console.log(`number of edges ${start.edges.length}`);
+    // nodes = 1;
+    //this.bfsIterate(q, this.dumpVertex);
+    // while(this.bfsStep());
+    setTimeout(() => {
+    let handle = setInterval(() => {
+      if (!this.bfsStep()) {
+        this.update();
+        start = this.getNewStart();
+        // console.log('done');
+        // this.dump();
+        if (start === null || !getConnected)
+          clearInterval(handle);
+        else {
+          start.color = colors.grey;
+          q.enqueue(start);
+          this.cv(start);
+          startColorIndex++;
+          if (startColorIndex === startColors.length)
+            startColorIndex = 0;
+          black = startColors[startColorIndex];
+        }
+      }
+    },timeout);
+  },timeout);
+    // console.log('exitig bfs');
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
+  getConnectedComponents = (update) => {
+    this.bfs(this.vertexes[0], update, true);
   }
 }
+// const g = new Graph();
+// g.randomize(5, 4, 150, 0.6);
+// for (let i = 0;i<g.v)
+// g.bfs(g.vertexes[0]);
