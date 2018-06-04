@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 900;
+const canvasHeight = 700;
 
 /**
  * GraphView
@@ -30,17 +30,50 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    let centerOfx = ctx.canvas.width / 3;
+    let centerOfy = ctx.canvas.height / 4;
+
+    let color = ctx.createRadialGradient(900, 700, 300, 300, 700, 900);
+    color.addColorStop(0, 'gray');
+    color.addColorStop(1, 'pink');
     
     // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = color;
+    ctx.fillRect(10, 10, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
+
+    ctx.beginPath();
+    for (let i = 0; i < 1500; i++) {
+      let a = 2;
+      let b = 2;
+      const angle = 0.1 * i;
+      let x = centerOfx + (a + b * angle) * Math.cos(angle);
+      let y = centerOfy + (a + b * angle) * Math.sin(angle);
+
+      ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'pink';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = 'black';
+    ctx.moveTo(10, 10);
+    ctx.lineTo(375, 745);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(900, 10);
+    ctx.lineTo(375, 745);
+    ctx.stroke();
   }
+
+
+
   
   /**
    * Render
