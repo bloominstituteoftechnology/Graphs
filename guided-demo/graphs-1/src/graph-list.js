@@ -16,3 +16,4 @@ class Graph {
 		this.vertexes = [];
 	}
 }
+//cowabunga
