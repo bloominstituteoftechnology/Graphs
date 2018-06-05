@@ -40,9 +40,9 @@ class GraphView extends Component {
     // draw edges
     let vertexes = this.props.graph.vertexes;
     vertexes.forEach(e=>{
+      ctx.strokeStyle = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
       e.edges.forEach(f=>{
         ctx.beginPath();
-        ctx.strokeStyle = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
         ctx.moveTo(e.pos.x,e.pos.y);
         ctx.lineTo(f.destination.pos.x,f.destination.pos.y);
         ctx.stroke();
