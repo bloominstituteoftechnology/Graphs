@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 600;
-const canvasHeight = 400;
+const canvasWidth = 800;
+const canvasHeight = 600;
+const circleSize = 15;
 
 /**
  * GraphView
@@ -25,7 +26,7 @@ class GraphView extends Component {
   }
   // START FO MY CUSTOM FUNCTIONS
 
-  draw(canvas, ctx) {
+  experimentalDraw(canvas, ctx) {
     ctx.fillStyle = 'lightblue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
@@ -50,6 +51,25 @@ class GraphView extends Component {
     ctx.fillRect(0, 200, canvasWidth, canvasHeight);
   }
 
+  drawEdge(ctx) {
+    let vertexes = this.props.graph.vertexes;
+    vertexes.forEach(vertex => {
+      ctx.beginPath();
+      // draw the vertex
+      ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+      ctx.stroke();
+
+      // fill in the value
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '16px Arial';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    });
+  }
+
   // END OF MY CUSTOM FUNCTIONS
   /**
    * Render the canvas
@@ -59,16 +79,17 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
 
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'gray';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    this.draw(canvas, ctx);
+    //this.experimentalDraw(canvas, ctx);
 
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
+    this.drawEdge(ctx);
   }
 
   /**
@@ -90,6 +111,7 @@ class App extends Component {
       graph: new Graph(),
     };
 
+    this.state.graph.debug();
     // !!! IMPLEMENT ME
     // use the graph randomize() method
   }
