@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+
+  constructor(destination){
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,9 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor() {
+  constructor(value='default', pos = {x: -1, y: -1}, size = Number) {
     this.edges = [];
     this.value = value;
+    this.pos = pos;
+    this.size = size;
   }
 }
 
@@ -26,6 +32,22 @@ export class Graph {
 
   debugCreateTestData(){
   console.log('called debugCreateTestData()');
+  let debugVertex1 = new Vertex('t1', {x: 195, y: 290}, 40);
+  let debugVertex2 = new Vertex('t2', {x: 360, y: 380}, 40)
+  let debugVertex3 = new Vertex('t3', {x: 540, y: 430}, 40)
+  // debugVertex1.pos.x = 50;
+  // debugVertex1.pos.y = 60;
+  // console.log(debugVertex1);
+
+  let debugEdge1 = new Edge(debugVertex2);
+  debugVertex1.edges.push(debugEdge1);
+
+  let debugEdge2 = new Edge(debugVertex3);
+  debugVertex2.edges.push(debugEdge2);
+  
+
+  this.vertexes.push(debugVertex1, debugVertex2, debugVertex3)
+  
   }
   /**
    * Create a random graph

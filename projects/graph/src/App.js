@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1905;
-const canvasHeight = 1015;
+const canvasWidth = 800;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -33,7 +33,67 @@ class GraphView extends Component {
     
     // Clear it
     ctx.fillStyle = '#222222';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillRect(50, 150, canvasWidth, canvasHeight);
+
+    // let debVert = this.props.graph.vertexes;
+
+    let verts = this.props.graph.vertexes;
+
+    console.log('can', verts)
+    function truther(){
+      let count = 0;
+      for(let i = 0; i < verts.length; i++){
+      if(verts[i].edges.length > 0){
+        count++;
+      }
+      
+    }
+    return count;
+    }
+
+    console.log(verts[0].edges[0].destination.pos.x)
+    console.log(truther());
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '20px Arial';
+    
+
+    for (let i = 0; i < verts.length; i++){
+      if(verts[i].edges.length > 0){
+        for(let edge of verts[i].edges){
+        ctx.beginPath();
+        ctx.strokeStyle = 'purple';
+        ctx.lineWidth = 10;
+        // ctx.moveTo(verts[i].pos.x, verts[i].pos.y);
+        // ctx.lineTo(verts[i].edges[j].destination.pos.x, verts[i].edges[j].destination.pos.y);
+        ctx.moveTo(verts[i].pos.x, verts[i].pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+        }
+        
+
+      }
+    }
+    for (let vertex of verts) {
+      ctx.beginPath();
+      ctx.fillStyle = 'red';
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertex.size, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+  
+      ctx.fillStyle = 'white';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+
+
+    }
+
+
+
+
+
+    
+    
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -41,34 +101,6 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
 
-
-    ctx.strokeStyle = 'red';
-
-    for(let i = 0; i < 35; i ++){
-      ctx.strokeStyle = 'rgb(255' + ',' + (225) + ', ' + (250) + ',' + 1000 + ')';
-    
-    ctx.beginPath();
-    ctx.arc(949.95, 400, 1535 - i * 45, 0, 2 * Math.PI);
-    ctx.stroke();
-
-    }
-
-    ctx.strokeStyle = 'white';
-    ctx.fillStyle = '#C8C8C8';
-    ctx.beginPath();
-    ctx.arc(1700, 900, 500, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.fill();
-
-    for(let i = 0; i < .5; i++){
-     for(let j=0; j < 270; j++){
-
-
-      ctx.strokeStyle = 'rgb(230, ' + Math.ceil(55 + i / 10) + ', ' + 
-      Math.ceil(255 - j / 1) + ')';
-      ctx.beginPath();
-      ctx.arc(949.95, 400 , 1360 - j * 5, 50, Math.PI * 1, true);
-      ctx.stroke();
 
 
     //   ctx.beginPath();
@@ -104,41 +136,13 @@ class GraphView extends Component {
       //   ctx.stroke();
       // }
 
-      }
+      
 
 
-
-    }
 
     
-    for(let i = 0; i < 5000; i++){
-      ctx.strokeStyle = 'red';
-      ctx.moveTo(1200, 1200);
-      ctx.lineTo(20 * i, 0);
-      ctx.closePath();
-      ctx.stroke();
-      // for(let j = 0; j < 3000; j++){
-      //   ctx.strokeStyle = 'rgb(80, 20, 225)';
-      //   ctx.moveTo(500, 1200);
-      //   ctx.lineTo(200 * j, 0);
-      //   ctx.radius = 1000;
-      //   ctx.stroke();
-      //   }
-      
-      }
 
-    for(let i = 0; i < 5000; i++){
-      
 
-      ctx.strokeStyle = 'rgb(' + Math.floor(255 - i)  + ',' + (255 - 5 * i) + ',' + 15 + ')';
-      ctx.moveTo(30, 1200);
-      ctx.lineTo(45 * i, 0);
-      ctx.closePath();
-      ctx.stroke();
-      
-      }
-
-      
 
 
   }
@@ -165,6 +169,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
