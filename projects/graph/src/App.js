@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 1000;
+const canvasHeight = 600;
+
+const circleSize = 15;
 
 /**
  * GraphView
@@ -30,26 +32,53 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
-    // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    // Clear it
+
+    // Canvas
+    // ctx.fillStyle = 'rgb(0, 206, 209)';
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    console.log('in updateCanvas', this.props.graph.vertexes);
+
+    // Text Inside Vertices
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '16px Arial';
+    ctx.fillStyle = 'black';
+
+    // Vertices
+    for (let vertex of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+      ctx.fillStyle = 'white'; // TODO: Make variable
+      ctx.fill();
+      ctx.fillStyle = 'black'; // TODO: Make variable
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.stroke();
+    }
+
+    // Edges
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'purple';
+
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
   }
-  
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }
-
 
 /**
  * App
@@ -64,12 +93,18 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    const width = 4;
+    const height = 4;
+    const pxBox = 150;
+    const probability = 0.6;
+
+    this.state.graph.randomize(width, height, pxBox, probability);
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} />
       </div>
     );
   }
