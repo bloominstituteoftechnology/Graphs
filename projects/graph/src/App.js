@@ -4,7 +4,7 @@ import './App.css';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 750;
-const canvasHeight = 600;
+const canvasHeight = 650;
 
 /**
  * GraphView
@@ -27,6 +27,13 @@ class GraphView extends Component {
   /**
    * Render the canvas
    */
+  getRndColor() {
+    const r = 255*Math.random()|0,
+        g = 255*Math.random()|0,
+        b = 255*Math.random()|0;
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+  }
+
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
@@ -35,29 +42,33 @@ class GraphView extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    // New Graph on each update
     const g = this.props.graph;
-
     g.randomize(5, 4, 150, 0.6);
-    g.dump();
-    console.log(g.bfs(g.vertexes[0]));
+    const connectedComponents = g.getConnectedComponents();
 
-    for (let v of g.vertexes) {
-      if (v.pos) {
-        ctx.beginPath();
-        ctx.fillStyle = 'black';
-        ctx.arc(v.pos.x, v.pos.y, 20, 0, Math.PI * 2, true);
-        ctx.fill();
-        for (let e of v.edges) {
+    for (let subgraph of connectedComponents) {
+      const color = this.getRndColor();
+      for (let v of subgraph) {
+        if (v.pos) {
           ctx.beginPath();
-          ctx.strokeStyle='black';
-          ctx.moveTo(v.pos.x, v.pos.y);
-          ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
-          ctx.closePath();
-          ctx.stroke();
+          ctx.fillStyle = color;
+          ctx.arc(v.pos.x, v.pos.y, 20, 0, Math.PI * 2, true);
+          ctx.fill();
+          for (let e of v.edges) {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.moveTo(v.pos.x, v.pos.y);
+            ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+            ctx.closePath();
+            ctx.stroke();
+          }
         }
+      }
+      for (let v of subgraph) {
         ctx.font = '15px serif';
         ctx.fillStyle = 'white';
-        ctx.fillText(`${v.value}`, v.pos.x - 10, v.pos.y);
+        ctx.fillText(`${v.value}`, v.pos.x - 10, v.pos.y + 4);
       }
     }
   }
