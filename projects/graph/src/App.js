@@ -49,12 +49,7 @@ class GraphView extends Component {
     ctx.fill();
     ctx.fillStyle = 'black';
     ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-    ctx.stroke();
-
-    
-    
-    
-    
+    ctx.stroke();   
     }
 
     // let debugVertex = this.props.graph.vertexes[0];  changed variable to vertex
@@ -65,6 +60,12 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+    for (let edge of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.moveTo(40, 40);
+      ctx.lineTo(edge.pos.x, edge.pos.y);
+      ctx.stroke();
+    }
   }
   
   /**
