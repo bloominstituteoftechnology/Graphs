@@ -10,6 +10,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+    this.value = value;
+  }
 }
 
 /**
@@ -20,6 +24,9 @@ export class Graph {
     this.vertexes = [];
   }
 
+  debugCreateTestData(){
+  console.log('called debugCreateTestData()');
+  }
   /**
    * Create a random graph
    */
