@@ -3,10 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(options) {
-    this.destination = options.destination;
-    this.weight = options.weight;
-    this.value = options.value;
+  constructor(destination) {
+    // TODO: origin -- save a loop in the draw?
+    this.destination = destination;
   }
 }
 
@@ -15,8 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor() {
+  constructor(value = 'default', pos = { x: -1, y: -1 }) {
+    this.value = value;
     this.edges = [];
+    this.pos = pos;
   }
   addEdge = edge => {
     this.edges.push(new Edge(edge));
@@ -28,8 +29,25 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    // console.log('called graph constructor');
     this.vertexes = [];
   }
+
+  // debugCreateTestData = () => {
+  //   console.log('called debugCreateTestData');
+  //   let debugVertex1 = new Vertex('t1', { x: 540, y: 40 });
+  //   let debugVertex2 = new Vertex('t2', { x: 100, y: 400 });
+  //   let debugVertex3 = new Vertex('t3', { x: 80, y: 500 });
+
+  //   // let debugEdge1 = new Edge(debugVertex2);
+  //   debugVertex1.addEdge(debugVertex2);
+  //   debugVertex2.addEdge(debugVertex3);
+  //   // debugVertex3.addEdge(new Edge(debugVertex1));
+  //   this.vertexes.push(debugVertex1);
+  //   this.vertexes.push(debugVertex2);
+  //   this.vertexes.push(debugVertex3);
+  //   console.log(debugVertex1);
+  // };
 
   /**
    * Create a random graph
