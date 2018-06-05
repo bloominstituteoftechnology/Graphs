@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 600;
-const canvasHeight = 400;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
 const circlesize = 15;
 
@@ -45,6 +45,9 @@ class GraphView extends Component {
     ctx.fillStyle = 'black';
 
     for (let vertex of this.props.graph.vertexes) {
+      // ctx.moveTo(vertex.pos.x, vertex.pos.y);
+      // ctx.lineTo(100, 100);
+      // ctx.stroke();
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circlesize, 0, 2 * Math.PI);
       ctx.fillStyle = 'white';
@@ -53,6 +56,15 @@ class GraphView extends Component {
       ctx.fillStyle = 'black';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       ctx.stroke();
+
+      for (let edge of vertex.edges) {
+        const posX = vertex.pos.x;
+        const posY = vertex.pos.y;
+        ctx.beginPath();
+        ctx.moveTo(posX, posY);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
     }
 
     // !!! IMPLEMENT ME
@@ -81,9 +93,9 @@ class App extends Component {
       graph: new Graph()
     };
 
+    this.state.graph.randomize(5, 4, 150, 0.6);
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
   }
 
   render() {
