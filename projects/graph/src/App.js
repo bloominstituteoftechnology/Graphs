@@ -39,7 +39,7 @@ class GraphView extends Component {
 
     g.randomize(5, 4, 150, 0.6);
     g.dump();
-    g.bfs(g.vertexes[0]);
+    console.log(g.bfs(g.vertexes[0]));
 
     for (let v of g.vertexes) {
       if (v.pos) {

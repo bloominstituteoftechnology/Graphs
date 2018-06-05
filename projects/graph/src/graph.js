@@ -125,7 +125,6 @@ export class Graph {
     while (queue.length > 0) {
       const head = queue[0];
       for (let i = 0; i < head.edges.length; i++) {
-        console.log(head);
         if (!(queue.includes(head.edges[i].destination) || searched.includes(head.edges[i].destination))) {
           queue.push(head.edges[i].destination);
         }
@@ -134,7 +133,6 @@ export class Graph {
       queue.shift();
       searched.push(head);
     }
-    console.log(searched);
     return searched;
   }
   
