@@ -43,6 +43,11 @@ class GraphView extends Component {
     ctx.font = '16px Arial';
 
     for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
       ctx.fillStyle = 'white'; // TODO: make variable?
@@ -50,11 +55,6 @@ class GraphView extends Component {
       ctx.fillStyle = 'black';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       ctx.stroke();
-      for (let edge of vertex.edges) {
-        ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        ctx.stroke();
-      }
     }
 
     // !!! IMPLEMENT ME
