@@ -58,7 +58,7 @@ class GraphView extends Component {
     // let bubbles = this.generateBubbles(1000);
     // // Clear it
     // setInterval(() => {
-    ctx.fillStyle = "gray";
+    ctx.fillStyle = "darkblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.fill();
 
@@ -126,7 +126,7 @@ class App extends Component {
   }
 
   render() {
-    this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5, 4, 150, 0.6);
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
