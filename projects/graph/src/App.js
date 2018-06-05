@@ -42,6 +42,7 @@ class GraphView extends Component {
     vertexes.forEach(e=>{
       e.edges.forEach(f=>{
         ctx.beginPath();
+        ctx.strokeStyle = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
         ctx.moveTo(e.pos.x,e.pos.y);
         ctx.lineTo(f.destination.pos.x,f.destination.pos.y);
         ctx.stroke();
@@ -52,6 +53,7 @@ class GraphView extends Component {
     // draw verts
     vertexes.forEach(e=>{
       ctx.beginPath();
+      ctx.strokeStyle="black";
       ctx.arc(e.pos.x,e.pos.y,15,0,2*Math.PI);
       ctx.stroke();
     });
