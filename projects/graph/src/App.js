@@ -3,7 +3,7 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 800;
+const canvasWidth = 750;
 const canvasHeight = 600;
 
 /**
@@ -33,7 +33,7 @@ class GraphView extends Component {
     
     // Clear it
     ctx.fillStyle = '#222222';
-    ctx.fillRect(50, 150, canvasWidth, canvasHeight);
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // let debVert = this.props.graph.vertexes;
 
@@ -169,6 +169,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+
+    this.state.graph.randomize(5, 4, 150, 0.6);
 
     this.state.graph.debugCreateTestData();
   }
