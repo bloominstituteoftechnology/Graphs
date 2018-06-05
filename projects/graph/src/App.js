@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 600;
-const canvasHeight = 500;
+const canvasWidth = 800;
+const canvasHeight = 700;
 
 const circleSize = 15;
 /**
@@ -34,24 +34,27 @@ class GraphView extends Component {
     
     // Clear it    
     ctx.fillStyle = '#E91E63';
-    ctx.fillRect(200, 200, canvasWidth, canvasHeight);
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     console.log('in updateCanvas', this.props.graph.vertexes);
+
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = '14px Arial';
-    ctx.fillStyle = 'black';
 
     for (let vertex of this.props.graph.vertexes) {
     ctx.beginPath();      
     ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-    ctx.fillStyle = 'red'; // can make variable
+    ctx.fillStyle = 'white'; // can make variable
     ctx.fill();
+    ctx.fillStyle = 'black';
+    ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     ctx.stroke();
 
     
     
-    ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    
+    
     }
 
     // let debugVertex = this.props.graph.vertexes[0];  changed variable to vertex

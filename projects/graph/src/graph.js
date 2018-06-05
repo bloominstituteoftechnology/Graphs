@@ -2,7 +2,11 @@
  * Edge
  */
 export class Edge {
+  //by adding origin, try to save a loop in the draw
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -31,8 +35,14 @@ export class Graph {
     let debugVertex1 = new Vertex('T1', {x: 40, y: 40});
     let debugVertex2 = new Vertex('T2', {x: 80, y: 80});
     let debugVertex3 = new Vertex('T3', {x: 40, y: 80});
-//  debugVertex1.pos.x = 50;
+//  debugVertex1.pos.x = 50; another way to write it
 //  debugVertex1.pos.y = 60;
+    let debugEdge1 = new Edge(debugVertex2); // 1 to 2
+    debugVertex1.edges.push(debugEdge1);
+
+    let debugEdge2 = new Edge(debugVertex3);
+    debugVertex2.edges.push(debugEdge2);
+    
     this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
   }
 
