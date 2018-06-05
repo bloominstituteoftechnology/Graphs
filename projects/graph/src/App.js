@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 800; 
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -34,12 +33,36 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    
+    console.log('in updateCanvas', this.props.graph.vertexes);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '16px Arial';
+
+    this.props.graph.vertexes.forEach(vertex => {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 15, 0, 2 * Math.PI)
+      ctx.fillStyle = 'rgb(0, 206, 209)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgb(0, 172, 174)';
+      ctx.stroke();
+      ctx.fillStyle = 'white';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+
+      if (vertex.edges.length > 0) {
+        console.log(vertex.edges);
+        vertex.edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.lineWidth = 2.5;
+          ctx.strokeStyle = 'rgb(0, 172, 174)';
+          ctx.moveTo(edge.origin.x, edge.origin.y);
+          ctx.lineTo(edge.destination.x, edge.destination.y);
+          ctx.stroke();
+        });
+      }
+
+    });
   }
   
   /**
@@ -64,6 +87,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
