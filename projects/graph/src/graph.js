@@ -2,14 +2,21 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  // "TODO: I think that by adding origin here we can save a loop in the draw" - not required, but worth trying
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value='default', pos = {x: -1, y: -1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -20,6 +27,26 @@ export class Graph {
     this.vertexes = [];
   }
 
+
+  debugCreateTestData(){
+    console.log('called debugCreateTestData');
+    let debugVertex1 = new Vertex('t1', {x: 40, y: 40});
+    let debugVertex2 = new Vertex('t2', {x: 80, y: 80});
+    let debugVertex3 = new Vertex('t3', {x: 40, y: 80});
+
+    let debugEdge1 = new Edge(debugVertex2); // 1 to 2
+    debugVertex2.edges.push(debugEdge1);
+
+    let debugEdge2 = new Edge(debugVertex3);
+    debugVertex3.edges.push(debugEdge2);
+
+    // debugVertex1.pos.x = 50;
+    // debugVertex1.pos.y = 60;
+    this.vertexes.push(debugVertex1);
+    this.vertexes.push(debugVertex2);
+    this.vertexes.push(debugVertex3);
+    console.log(debugVertex1);
+  }
   /**
    * Create a random graph
    */
