@@ -53,7 +53,7 @@ class GraphView extends Component {
     vertexes.forEach(e=>{
       ctx.beginPath();
       ctx.arc(e.pos.x,e.pos.y,15,0,2*Math.PI);
-            ctx.stroke();
+      ctx.stroke();
     });
     // draw vert values (labels)
     vertexes.forEach(e=>{
@@ -89,14 +89,19 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.newGraph= this.newGraph.bind(this);
     this.state.graph.randomize(5,4,150,0.6);
-    console.log(this.state.graph);
+  }
+
+  newGraph(e){
+    window.location.reload();
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.newGraph}>Generate new random graph</button>
       </div>
     );
   }
