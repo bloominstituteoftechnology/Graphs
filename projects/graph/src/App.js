@@ -30,7 +30,7 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+    console.log('hello', this.props.graph.vertexes)
     // Clear it
     ctx.fillStyle = '#222222';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -39,20 +39,22 @@ class GraphView extends Component {
 
     let verts = this.props.graph.vertexes;
 
-    console.log('can', verts)
-    function truther(){
-      let count = 0;
-      for(let i = 0; i < verts.length; i++){
-      if(verts[i].edges.length > 0){
-        count++;
-      }
-      
-    }
-    return count;
-    }
+    // let randVerts = this.props.graph.vertexes;
 
-    console.log(verts[0].edges[0].destination.pos.x)
-    console.log(truther());
+    // console.log('can', verts)
+    // function truther(){
+    //   let count = 0;
+    //   for(let i = 0; i < verts.length; i++){
+    //   if(verts[i].edges.length > 0){
+    //     count++;
+    //   }
+      
+    // }
+    // return count;
+    // }
+
+    // console.log(verts[0].edges[0].destination.pos.x)
+    // console.log(truther());
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -75,15 +77,18 @@ class GraphView extends Component {
 
       }
     }
-    for (let vertex of verts) {
+
+    console.log('vert', verts);
+
+    for (let i = 0; i < verts.length; i++) {
       ctx.beginPath();
       ctx.fillStyle = 'red';
-      ctx.arc(vertex.pos.x, vertex.pos.y, vertex.size, 0, 2 * Math.PI);
+      ctx.arc(verts[i].pos.x, verts[i].pos.y, 25, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
   
       ctx.fillStyle = 'white';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.fillText(verts[i].value, verts[i].pos.x, verts[i].pos.y);
 
 
     }
@@ -170,9 +175,11 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
 
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    let randoVert = this.state.graph
 
-    this.state.graph.debugCreateTestData();
+    randoVert.randomize(5, 4, 150, 0.6);
+
+    // this.state.graph.debugCreateTestData();
   }
 
   render() {
