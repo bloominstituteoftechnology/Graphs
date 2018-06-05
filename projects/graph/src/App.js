@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 750;
+const canvasHeight = 600;
+
+const circleSize = 15;
 
 /**
  * GraphView
@@ -30,9 +32,9 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'tan';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -40,16 +42,43 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+    for (let vertex of this.props.graph.vertexes) {
+      const posX = vertex.pos.x;
+      const posY = vertex.pos.y;
+
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(posX, posY);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    for (let vertex of this.props.graph.vertexes) {
+      const posX = vertex.pos.x;
+      const posY = vertex.pos.y;
+
+      ctx.beginPath();
+      ctx.arc(posX, posY, circleSize, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fillStyle = 'black';
+      ctx.fill();
+
+      ctx.fillStyle = 'white';
+      ctx.font = '16px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vertex.value, posX, posY);
+    }
   }
-  
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }
-
 
 /**
  * App
@@ -64,12 +93,13 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} />
       </div>
     );
   }
