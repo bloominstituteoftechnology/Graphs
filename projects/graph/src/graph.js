@@ -13,11 +13,15 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value) {
+  constructor(value = 'default', pos = {
+    x: -1,
+    y: -1
+  }) {
     this.value = value;
     this.edges = [];
   }
 }
+
 
 /**
  * Graph
@@ -26,7 +30,14 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+  //Create a test compiler to see if everything is working
+  debugCreateTestData() {
+    console.log('called debugCreateTestData()');
+    let debugVertex1 = new Vertex('this is a test');
+    console.log(debugVertex1);
 
+
+  }
   /**
    * Create a random graph
    */
