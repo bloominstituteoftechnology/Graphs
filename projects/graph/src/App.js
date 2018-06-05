@@ -6,6 +6,7 @@ import './App.css';
 const canvasWidth = 600;
 const canvasHeight = 500;
 
+const circleSize = 15;
 /**
  * GraphView
  */
@@ -33,46 +34,29 @@ class GraphView extends Component {
     
     // Clear it    
     ctx.fillStyle = '#E91E63';
-    ctx.fillRect(50, 50, canvasWidth, canvasHeight);
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(150, 150, canvasWidth, canvasHeight);
-    ctx.fillStyle = 'red';
-    ctx.fillRect(300, 100, canvasWidth, canvasHeight);
+    ctx.fillRect(200, 200, canvasWidth, canvasHeight);
 
-    // ctx.moveTo(50, 20);
-    // ctx.lineTo(200,100);
-    // ctx.stroke();
-    // ctx.strokeStyle="blue";
-    // ctx.beginPath();
-    // ctx.arc(295,100,28,0,2*Math.PI);
-    // ctx.moveTo(300,0);
-    // ctx.lineTo(300,100);
-    // ctx.stroke();
+    console.log('in updateCanvas', this.props.graph.vertexes);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '14px Arial';
+    ctx.fillStyle = 'black';
 
-    ctx.strokeStyle="#00B294";
-    for (let i = 0; i < 100; i++) {
-      ctx.beginPath();
-      ctx.moveTo(0,100);
-      ctx.lineTo(i * 8, 600);
-      ctx.stroke();
-    }
+    for (let vertex of this.props.graph.vertexes) {
+    ctx.beginPath();      
+    ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+    ctx.fillStyle = 'red'; // can make variable
+    ctx.fill();
+    ctx.stroke();
+
     
-    ctx.strokeStyle="purple";
-    for (let i = 0; i < 100; i++) {
-      ctx.beginPath();
-      ctx.moveTo(600,0);
-      ctx.lineTo(i * 8, 600);
-      ctx.stroke();
+    
+    ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
 
-    ctx.strokeStyle = 'orange';
-    for (let i =0; i < 150; i++) {
-      ctx.beginPath();
-      ctx.moveTo(Math.cos(i) * 10, Math.sin(1) * 10);
-      ctx.lineTo(Math.sin(i) * 200, Math.cos(i) * 200);
-      ctx.stroke();
-    }
+    // let debugVertex = this.props.graph.vertexes[0];  changed variable to vertex
 
+    
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
@@ -102,6 +86,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {

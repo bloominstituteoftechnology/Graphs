@@ -9,7 +9,12 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = {x: -1, y: -1}) { // (x,y -1) stands out more to test if rendered correctly
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
+  //TODO: Figure out how to add edges
 }
 
 /**
@@ -17,7 +22,18 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    console.log('called graph constructor');
     this.vertexes = [];
+  }
+
+  debugCreateTestData() {
+    console.log('called debugCreateTestData()');
+    let debugVertex1 = new Vertex('T1', {x: 40, y: 40});
+    let debugVertex2 = new Vertex('T2', {x: 80, y: 80});
+    let debugVertex3 = new Vertex('T3', {x: 40, y: 80});
+//  debugVertex1.pos.x = 50;
+//  debugVertex1.pos.y = 60;
+    this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
   }
 
   /**
