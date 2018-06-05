@@ -3,8 +3,8 @@
  */
 export class Edge {
   constructor(destination, weight) {
-    this.weight = weight;
     this.destination = destination;
+    this.weight = weight;
   }
 }
 
@@ -32,8 +32,9 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const weight = Math.floor(Math.random() * 10) + 1
+      v0.edges.push(new Edge(v1, weight));
+      v1.edges.push(new Edge(v0, weight));
     }
 
     let count = 0;

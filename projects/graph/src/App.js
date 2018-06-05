@@ -46,7 +46,7 @@ class GraphView extends Component {
     const g = this.props.graph;
     g.randomize(5, 4, 150, 0.6);
     const connectedComponents = g.getConnectedComponents();
-
+    console.log(connectedComponents);
     for (let subgraph of connectedComponents) {
       const color = this.getRndColor();
       for (let v of subgraph) {
@@ -58,15 +58,20 @@ class GraphView extends Component {
           for (let e of v.edges) {
             ctx.beginPath();
             ctx.strokeStyle = color;
+            ctx.lineWidth=e.weight;
             ctx.moveTo(v.pos.x, v.pos.y);
             ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
             ctx.closePath();
             ctx.stroke();
+
+            ctx.font = '10px serif';
+            ctx.fillStyle = 'black';
+            ctx.fillText(`${e.weight}`, (v.pos.x + e.destination.pos.x) / 2, (v.pos.y + e.destination.pos.y) / 2);
           }
         }
       }
       for (let v of subgraph) {
-        ctx.font = '15px serif';
+        ctx.font = '18px serif';
         ctx.fillStyle = 'white';
         ctx.fillText(`${v.value}`, v.pos.x - 10, v.pos.y + 4);
       }
