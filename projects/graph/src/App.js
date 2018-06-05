@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 750;
+const canvasHeight = 600;
+
+const circlesize = 15;
 
 /**
  * GraphView
@@ -30,9 +32,11 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+
+    console.log("updateCanvas: ", this.props.graph.vertexes);
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'cyan';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -40,6 +44,29 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+
+    
+    
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, circlesize, 0, 2 * Math.PI);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+
+      ctx.fillStyle = 'black';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.stroke();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '15px Ariel';
+      ctx.fillStyle = 'black';
+    }
   }
   
   /**
@@ -64,6 +91,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    // this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5,4,150,0.6);
   }
 
   render() {

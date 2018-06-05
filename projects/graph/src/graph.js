@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination= destination;
+  }
 }
 
 /**
@@ -10,6 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos = {x:-1, y:-1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -19,6 +27,21 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+
+  // debugCreateTestData() {
+  //   console.log("called the test data function");
+  //   let debugVertex1 = new Vertex('t1', {x:40, y:40});
+  //   let debugVertex2 = new Vertex('t2', {x:80, y:80});
+  //   let debugVertex3 = new Vertex('t3', {x:40, y:95});
+  //   console.log(debugVertex1);
+  //   let debugEdge1 = new Edge(debugVertex2);
+  //   debugVertex1.edges.push(debugEdge1);
+
+  //   let debugEdge2 = new Edge(debugVertex3);
+  //   debugVertex2.edges.push(debugEdge2);
+
+  //   this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
+  // }
 
   /**
    * Create a random graph
