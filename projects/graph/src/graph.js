@@ -38,6 +38,8 @@ export class Graph {
     let debugEdge1 = new Edge(debugVertex2); // vertex1 to 2
     debugVertex1.edges.push(debugEdge1);
 
+    // console.log('1st edge is ', );
+
     let debugEdge2 = new Edge(debugVertex3);
     debugVertex2.edges.push(debugEdge2);
 

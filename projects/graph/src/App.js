@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Graph } from './graph';
+import { Graph, Vertex, Edge } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
@@ -42,17 +42,32 @@ class GraphView extends Component {
     ctx.font = '16px, Ariel';
     ctx.fillStyle = 'black';
 
-    // let debugVertex = this.props.graph.vertexes[0];
+    let vertex = this.props.graph.vertexes;
 
     for (let vertex of this.props.graph.vertexes) {
+      let { value, pos, edges } = vertex;
+
       ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+      ctx.arc(pos.x, pos.y, circleSize, 0, 2 * Math.PI);
       ctx.fillStyle = 'white';
       ctx.fill();
       ctx.fillStyle = 'black';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.fillText(value, pos.x, pos.y);
+      ctx.stroke();
+
+      // console.log('find edges: ', edges);
+      // iterate over edges array to access destination. forEach?
+      edges.forEach(edge => {
+        console.log('inside edges destination: ', edge.destination.pos);
+        let edgeX = edge.destination.pos.x;
+        let edgeY = edge.destination.pos.y;
+
+        ctx.lineTo(edgeX, edgeY);
+      });
+
       ctx.stroke();
     }
+    console.log('vertex array: ', vertex);
 
     // !!! IMPLEMENT ME
     // compute connected components
