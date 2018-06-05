@@ -117,7 +117,27 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+    const searched = [];
+
+    queue.push(start);
+    
+    while (queue.length > 0) {
+      const head = queue[0];
+      for (let i = 0; i < head.edges.length; i++) {
+        console.log(head);
+        if (!(queue.includes(head.edges[i].destination) || searched.includes(head.edges[i].destination))) {
+          queue.push(head.edges[i].destination);
+        }
+      }
+      // do something on current head
+      queue.shift();
+      searched.push(head);
+    }
+    console.log(searched);
+    return searched;
   }
+  
 
   /**
    * Get the connected components
