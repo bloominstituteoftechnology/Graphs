@@ -46,7 +46,7 @@ class GraphView extends Component {
     const g = this.props.graph;
     g.randomize(5, 4, 150, 0.6);
     const connectedComponents = g.getConnectedComponents();
-    console.log(connectedComponents);
+
     for (let subgraph of connectedComponents) {
       const color = this.getRndColor();
       for (let v of subgraph) {
@@ -76,6 +76,33 @@ class GraphView extends Component {
         ctx.fillText(`${v.value}`, v.pos.x - 10, v.pos.y + 4);
       }
     }
+
+    function intersect(point, circle) {
+      return ((point.x >= circle.x - 20 && point.x <= circle.x + 20) && (point.y >= circle.y - 20 && point.y <= circle.y + 20))
+    }
+
+    canvas.addEventListener('click', (e) => {
+      const mousePos = {
+        x: e.layerX,
+        y: e.layerY
+      };
+      for (let v of g.vertexes) {
+        if (v.pos) {
+          const circle = {
+            x: v.pos.x,
+            y: v.pos.y,
+            radius: 20,
+          };
+          if (intersect(mousePos, circle)){
+            ctx.beginPath();
+            ctx.strokeStyle = 'black';
+            ctx.arc(v.pos.x, v.pos.y, 21, 0, Math.PI * 2, true);
+            ctx.stroke();
+            console.log(`Selected ${v.value}`);
+          }
+        }
+      }
+    });
   }
   
   /**
