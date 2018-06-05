@@ -33,8 +33,8 @@ export class Graph {
     console.log('called debugCreateTestData()');
     let debugVertex1 = new Vertex('t1', { x: 40, y: 40 });
     let debugVertex2 = new Vertex('t2', { x: 80, y: 80 });
-    let debugVertex3 = new Vertex('t3', { x: 40, y: 80 });
-
+    let debugVertex3 = new Vertex('t3', { x: 40, y: 95 });
+    console.log(debugVertex1);
     let debugEdge1 = new Edge(debugVertex2);
     debugVertex1.edges.push(debugEdge1);
 
