@@ -62,11 +62,6 @@ class GraphView extends Component {
 
 
 
-
-
-
-
-
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
