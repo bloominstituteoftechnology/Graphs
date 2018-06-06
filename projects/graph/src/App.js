@@ -39,9 +39,11 @@ class GraphView extends Component {
     ctx.fillStyle = "darkblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.fill();
+
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
-        ctx.fillStyle = "black";
+        // ctx.fillStyle = "black";
+        ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
@@ -49,6 +51,7 @@ class GraphView extends Component {
     }
 
     for (let vertex of this.props.graph.vertexes) {
+      console.log("VERTEXES: ", vertex);
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
       ctx.fillStyle = vertex.color;
