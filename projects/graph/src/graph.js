@@ -10,6 +10,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -17,7 +22,20 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    console.log('called graph constructor');
     this.vertexes = [];
+    this.debugCreateTestData();
+  }
+
+  debugCreateTestData() {
+    console.log('called debugCreateTestData');
+    let debugVertex1 = new Vertex('t1', {x: 100, y: 100});
+    let debugVertex2 = new Vertex('t2', {x: 100, y: 400});
+    let debugVertex3 = new Vertex('t3', {x: 400, y: 100});
+
+    this.vertexes.push(debugVertex1);
+    this.vertexes.push(debugVertex2);
+    this.vertexes.push(debugVertex3);
   }
 
   /**
@@ -111,6 +129,7 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    
   }
 
   /**
@@ -118,5 +137,21 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+  }
+}
+
+
+toggleClassName() {
+  const darkTheme = this.state.darkTheme;
+  this.setState({
+    darkTheme: !darkTheme,
+  })
+}
+
+applyTheme(base) {
+  if (this.state.darkTheme) {
+    return `${base}--dark`;
+  } else {
+    return base;
   }
 }

@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 800;
+const canvasHeight = 600;
+const circleSize = 20;
 
 /**
  * GraphView
@@ -32,8 +33,60 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'rgb(0, 206, 209)';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    console.log('in updateCanvas', this.props.graph.vertexes);
+    
+
+    this.props.graph.vertexes.forEach((vertex, index, array) => {
+      console.log(vertex,index, array);
+      let prev;
+      if (index === array.length-1) {
+        prev = array[0];
+      }
+      else {
+        prev = array[index+1];
+      }
+      ctx.moveTo(prev.pos.x, prev.pos.y);
+      ctx.lineTo(vertex.pos.x, vertex.pos.y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.stroke();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '16px Arial';
+      ctx.fillStyle = 'black';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.closePath();
+    });
+
+
+    // const rectangles = setInterval(() => {
+    //   ctx.fillStyle = `#${randomFromPalette()}`;
+    //   ctx.fillRect(randomX(), randomY(), randomX(), randomY());
+    // }, 100)
+
+    // const circles = setInterval (() => {
+    //   ctx.beginPath();
+    //   ctx.arc(randomY(), randomX(), randomX()/2, 0, 2 * Math.PI);
+    //   ctx.stroke();
+    //   ctx.fill();
+    //   ctx.closePath();
+    // }, 1000);
+
+    // const lines = setInterval(() => {
+    //     ctx.beginPath();
+    //     ctx.moveTo(randomX(), randomY());
+    //     ctx.strokeStyle = `#${randomFromPalette()}`
+    //     ctx.lineTo(randomX(), randomY());
+    //     ctx.stroke();
+    //     ctx.closePath();
+    //   }, 100);
+    
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -68,7 +121,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className={applyTheme('App')}>
         <GraphView graph={this.state.graph}></GraphView>
       </div>
     );
