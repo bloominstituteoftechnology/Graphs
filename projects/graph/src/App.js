@@ -16,20 +16,23 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    this.updateCanvas();
+    this.updateCanvasComponents();
+    // for (let v of this.props.graph.vertexes) {
+      // this.props.graph.bfs(this.props.graph.vertexes[0]);
+    // }
   }
 
   /**
    * On state update
    */
   componentDidUpdate() {
-    this.updateCanvas();
+    this.updateCanvasComponents();
   }
 
   /**
    * Render the canvas
    */
-  updateCanvas() {
+  updateCanvas(clr = 'white') {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
@@ -58,7 +61,7 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circlesize, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = clr;
       ctx.fill();
 
       ctx.fillStyle = 'black';
@@ -68,6 +71,15 @@ class GraphView extends Component {
       ctx.font = '15px Ariel';
       ctx.fillStyle = 'black';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
+  }
+
+  updateCanvasComponents() {
+    const connectedComponents = this.props.graph.getConnectedComponents();
+
+    for (let component of connectedComponents) {
+      const clr = 'green';
+      this.updateCanvas(clr);
     }
   }
   

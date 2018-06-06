@@ -132,24 +132,36 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, reset = true) {
     // !!! IMPLEMENT ME
-    console.log(start);
-    const queue = [start];
-    const visited = [start];
+    console.log("starting vertex:",start);
+    const queue = [];
+    const visited = [];
+    if(reset) {
+      for (let v of this.vertexes) {
+        v.color = 'white';
+      }
+    }
+    start.color = 'gray';
+    console.log("changed the color of the starting vertex");
+    queue.push(start);
     console.log("queue",queue,"visited",visited);
 
-    while (!queue.isEmpty()){
-      let currentVertex = queue[0];
-      for (let i = 0; i < Graph[currentVertex].length; i++) {
-        // if (Graph[i].color == 'white') {
-        //   //Graph[i].color = 'gray';
-        //   queue.push(Graph[i]);
-        // }
+    while (queue.length > 0){
+      const currentVertex = queue[0];
+      for (let e of currentVertex.edges) {
+        const v = e.destination;
+        console.log("new vertex:",v)
+        if (v.color === 'white') {
+          v.color = 'red';
+          queue.push(v);
+        }
       }
-      queue.pop();
-      //currentVertex.color = 'black';
+      queue.shift();
+      currentVertex.color = 'black';
+      visited.push(currentVertex);
     }
+    return visited;
   }
 
   /**
@@ -157,5 +169,15 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const components = [];
+    let reset = true;
+    for (let v of this.vertexes) {
+      if (reset || this.vertexes) {
+        const component = this.bfs(v, reset);
+        reset = false;
+        components.push(component);
+      }
+    }
+    return components;
   }
 }
