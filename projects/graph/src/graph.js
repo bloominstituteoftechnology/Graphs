@@ -14,11 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = 'default', pos = {x: 10, y: 10}) {
+  constructor(value = 'default', pos = {x: 10, y: 10}, visited = false) {
     this.edges = [];
     this.value = value;
     this.pos = pos;
-    //this.found = found;
+    this.visited = visited;
   }
 }
 
@@ -127,6 +127,23 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    start.visited = true;
+    let visitedVerts = [];
+    const queue = [start];
+    while (queue.length > 0){
+      let current = queue.shift();
+      for (let edge of current.edges) {
+           const vert = edge.destination;
+          if (vert.visited === false) {
+              vert.visited = true;
+              queue.push(vert);
+          }
+      }
+      queue.shift();
+      current.visited = false;
+      visitedVerts.push(current);
+    }
+    return visitedVerts;
   }
 
   /**
@@ -134,5 +151,12 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let connectedComponents = [];
+    for(let vert of this.vertexes){
+      if(vert.visited === false){
+        connectedComponents.push(this.bfs(vert));
+      }
+    }
+    return connectedComponents;
   }
 }

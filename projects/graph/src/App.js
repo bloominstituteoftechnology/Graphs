@@ -3,12 +3,12 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
- const canvasWidth = 500;
- const canvasHeight = 400;
+ const canvasWidth = 800;
+ const canvasHeight = 600;
 // let dx = Math.random() + 4 * 1.1;
- let x = 30;
- let y = 30;
- let bxSize = 120;
+ let x = 5;
+ let y = 4;
+ let bxSize = 150;
  let probability = 0.6;
  //let dy = Math.random() + 4 * 1.1;
  const radius = 10;
@@ -50,7 +50,12 @@ class GraphView extends Component {
     return color;
   }
 
+  
+
   updateCanvas() {
+
+    const connectedComponents = this.props.graph.getConnectedComponents();
+
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     canvas.width = canvasWidth;
@@ -66,25 +71,39 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     
-    let vertexes = this.props.graph.vertexes;
+    //let vertexes = this.props.graph.vertexes;
     //ctx.strokeStyle = 'red';
     //ctx.arc(vertex1.pos.x, vertex1.pos.y, radius, 0, Math.PI * 2, false);
     //ctx.stroke();
     // draw vert values (labels)
 
-    for (let vertex of vertexes) {
-        ctx.fillStyle = this.getRandomColor();
-        ctx.beginPath();
-        ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.strokeStyle = this.getRandomColor();
-        ctx.stroke();
-      
-        ctx.fillStyle = this.getRandomColor();
-        ctx.font = "11px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    
+    for( let conComponent of connectedComponents){
+
+      for(let vertex of conComponent) {
+        for (let edge of vertex.edges){
+          ctx.strokeStyle = 'black';
+          ctx.beginPath();
+          ctx.moveTo(vertex.pos.x, vertex.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+          ctx.stroke();
+        }
+      }
+
+      for (let vertex of conComponent) {
+          ctx.fillStyle = this.getRandomColor();
+          ctx.beginPath();
+          ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.strokeStyle = 'black';
+          ctx.stroke();
+        
+          ctx.fillStyle = this.getRandomColor();
+          ctx.font = "11px Arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      }
     }
   }
    
