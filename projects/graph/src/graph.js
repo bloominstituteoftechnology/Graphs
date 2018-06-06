@@ -1,3 +1,4 @@
+import { colors } from './colors';
 /**
  * Edge
  */
@@ -144,6 +145,51 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    // Breadth First Search(start)
+    // 0. Pick a random color
+    // 1. Take start and add it to our found list and add to the queue and add color
+    // 2. For each edge in queue[0]'s edge array, if destination is not in found list:
+    //    a. add to found list
+    //    //Methods
+    //    //Method 1: have a list of this stuff
+    //    //Method 2: add a found flag to a vertex
+    //    //Method 3: use color to mark found
+    //    b. add to end of the queue
+    //    c. add color property
+    // 3. Dequeue queue[0]
+    // 4. if queue is not empty, Go to step 2 (while loop/recursion)
+
+    // pick a random color
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    // init a found list and queue
+    const foundVertexList = [start];
+    const queue = [start];
+
+    // init a vertex variable just to make things readable
+    let vertex;
+    while (queue.length) {
+      // get the vertex at the start of the queue and assign it to the vertex variable
+      vertex = queue[0];
+
+      // assign the vertext the color
+      vertex.color = color;
+
+      // loop through the vertex edges
+      vertex.edges.forEach(edge => {
+        // check if the destinations are not in the found vertex list
+        if (!foundVertexList.includes(edge.destination)) {
+          // add to the found vertex list and queue
+          foundVertexList.push(edge.destination);
+          queue.push(edge.destination);
+        }
+      });
+
+      // dequeue
+      queue.shift();
+    }
+
+    return foundVertexList;
   }
 
   /**
@@ -151,5 +197,17 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    // Connected Components
+    // 1. Go to the next unfound vertex in graph vertexes and call BFS on it
+    // 2. Go to step 1 until we get to the end of the array(loop)
+
+    let searched = [];
+
+    this.vertexes.forEach(vertex => {
+      if (!searched.includes(vertex)) {
+        searched = searched.concat(this.bfs(vertex));
+      }
+    });
+    console.log(searched);
   }
 }

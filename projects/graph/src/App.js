@@ -72,7 +72,8 @@ class GraphView extends Component {
       ctx.beginPath();
       // draw the vertex
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = vertex.color;
+      console.log(vertex);
       ctx.fill();
       ctx.stroke();
 
@@ -131,6 +132,7 @@ class App extends Component {
     // use the graph randomize() method
     // this.state.graph.debugCreateVertexes();
     this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.getConnectedComponents();
   }
 
   render() {
