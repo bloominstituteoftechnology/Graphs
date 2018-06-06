@@ -45,27 +45,29 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
 
-    
-    
     for (let vertex of this.props.graph.vertexes) {
+      ctx.lineWidth = .25;
       for (let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
       }
+    }
+    
+    for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circlesize, 0, 2 * Math.PI);
       ctx.fillStyle = 'white';
       ctx.fill();
 
       ctx.fillStyle = 'black';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       ctx.stroke();
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.font = '15px Ariel';
       ctx.fillStyle = 'black';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     }
   }
   
@@ -84,7 +86,7 @@ class GraphView extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
-
+    this.newGraphHandler = this.newGraphHandler.bind(this);
     this.state = {
       graph: new Graph()
     };
@@ -94,10 +96,16 @@ class App extends Component {
     // this.state.graph.debugCreateTestData();
     this.state.graph.randomize(5,4,150,0.6);
   }
+  newGraphHandler() {
+    const state = {graph : new Graph()};
+    state.graph.randomize(5,4,150,0.6);
+    this.setState(state);
+  }
 
   render() {
     return (
       <div className="App">
+        <button onClick={this.newGraphHandler}>New Graph</button>
         <GraphView graph={this.state.graph}></GraphView>
       </div>
     );

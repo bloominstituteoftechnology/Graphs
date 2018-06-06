@@ -134,6 +134,22 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    console.log(start);
+    const queue = [start];
+    const visited = [start];
+    console.log("queue",queue,"visited",visited);
+
+    while (!queue.isEmpty()){
+      let currentVertex = queue[0];
+      for (let i = 0; i < Graph[currentVertex].length; i++) {
+        // if (Graph[i].color == 'white') {
+        //   //Graph[i].color = 'gray';
+        //   queue.push(Graph[i]);
+        // }
+      }
+      queue.pop();
+      //currentVertex.color = 'black';
+    }
   }
 
   /**
