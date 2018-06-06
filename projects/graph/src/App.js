@@ -3,8 +3,12 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 900;
+const canvasHeight = 700;
+
+const vertexSize = 12;
+const vertexColor = 'purple';
+const textColor = 'white';
 
 /**
  * GraphView
@@ -30,17 +34,46 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = 'lightgray';
+    ctx.fillRect(10, 10, canvasWidth, canvasHeight);
+
+    console.log('in updateCanvas', this.props.graph.vertexes);
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '12px Arial';
+
+
+    for (let testVertices of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.arc(testVertices.pos.x, testVertices.pos.y, vertexSize, 0, 2 * Math.PI);
+      ctx.fillStyle = vertexColor;
+      ctx.fill();
+      ctx.stroke();
+
+      
+      ctx.fillStyle = textColor;
+      ctx.fillText(testVertices.value, testVertices.pos.x, testVertices.pos.y);
+
+    }
+    
 
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
+
+    
+    
+
+    
   }
+
+
+
   
   /**
    * Render
@@ -64,6 +97,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.testData();
   }
 
   render() {
