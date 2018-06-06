@@ -28,14 +28,31 @@ export class Graph {
     this.vertexes = [];
   }
 
-  debug() {
-    let debugV = new Vertex('t1', { x: 10, y: 30 });
-    let debugV2 = new Vertex('t2', { x: 130, y: 160 });
-    let debugV3 = new Vertex('t3', { x: 200, y: 300 });
-    this.vertexes.push(debugV);
-    this.vertexes.push(debugV2);
-    this.vertexes.push(debugV3);
+  debugCreateVertexes() {
+    const vertexes = [
+      new Vertex('t1', { x: 10, y: 30 }),
+      new Vertex('t2', { x: 60, y: 90 }),
+      new Vertex('t3', { x: 700, y: 200 }),
+      new Vertex('t4', { x: 690, y: 500 }),
+      new Vertex('t5', { x: 130, y: 160 }),
+      new Vertex('t6', { x: 200, y: 300 }),
+      new Vertex('t7', { x: 400, y: 400 }),
+      new Vertex('t8', { x: 130, y: 660 }),
+      new Vertex('t9', { x: 200, y: 100 }),
+      new Vertex('t10', { x: 600, y: 130 }),
+      new Vertex('t11', { x: 230, y: 360 }),
+      new Vertex('t12', { x: 400, y: 300 }),
+    ];
+
+    let e1 = new Edge(vertexes[0]); // 0 to 1 === t1 to t2
+    vertexes[1].edges.push(e1);
+
+    let e2 = new Edge(vertexes[1]); // 1 to 2 === t2 to t3
+    vertexes[2].edges.push(e2);
+
+    vertexes.forEach(v => this.vertexes.push(v));
   }
+
   /**
    * Create a random graph
    */

@@ -3,7 +3,7 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 800;
+const canvasWidth = 750;
 const canvasHeight = 600;
 const circleSize = 15;
 
@@ -51,13 +51,28 @@ class GraphView extends Component {
     ctx.fillRect(0, 200, canvasWidth, canvasHeight);
   }
 
-  drawEdge(ctx) {
+  drawEdges(ctx) {
     let vertexes = this.props.graph.vertexes;
+
+    vertexes.forEach(vertex => {
+      vertex.edges.forEach(edge => {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      });
+    });
+  }
+
+  drawVertexes(ctx) {
+    let vertexes = this.props.graph.vertexes;
+    //console.log(vertexes[0].edges);
+
     vertexes.forEach(vertex => {
       ctx.beginPath();
       // draw the vertex
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-      ctx.fillStyle = 'red';
+      ctx.fillStyle = 'white';
       ctx.fill();
       ctx.stroke();
 
@@ -89,7 +104,8 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
-    this.drawEdge(ctx);
+    this.drawEdges(ctx);
+    this.drawVertexes(ctx);
   }
 
   /**
@@ -111,9 +127,10 @@ class App extends Component {
       graph: new Graph(),
     };
 
-    this.state.graph.debug();
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    // this.state.graph.debugCreateVertexes();
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
