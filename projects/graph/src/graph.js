@@ -41,6 +41,9 @@ export class Graph {
     let debugEdge2 = new Edge(debugVertex3); // 2 to 3
     debugVertex2.edges.push(debugEdge2);
 
+    let debugEdge3 = new Edge(debugVertex1);
+    debugVertex3.edges.push(debugEdge3); // 3 to 1
+
     this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
   }
 

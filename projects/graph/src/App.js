@@ -48,6 +48,9 @@ class GraphView extends Component {
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
       }
+    }
+
+    for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
       ctx.fillStyle =
@@ -58,6 +61,7 @@ class GraphView extends Component {
         ',' +
         Math.floor(Math.random() * 256) +
         ')'; // TODO: make variable?
+      // ctx.fillStyle = 'white';
       ctx.fill();
       ctx.fillStyle = 'black';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
