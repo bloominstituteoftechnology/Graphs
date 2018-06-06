@@ -27,19 +27,57 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
-  debugCreateTestData() {
-    console.log('called debugCreateTestData()');
-    let debugVertex1 = new Vertex('t1', { x: 40, y: 40 });
-    let debugVertex2 = new Vertex('t2', { x: 80, y: 80 });
-    let debugVertex3 = new Vertex('t3', { x: 40, y: 95 });
+  // debugCreateTestData() {
+  //   console.log('called debugCreateTestData()');
+  //   let debugVertex1 = new Vertex('t1', { x: 50, y: 40 });
+  //   let debugVertex2 = new Vertex('t2', { x: 150, y: 55 });
+  //   let debugVertex3 = new Vertex('t3', { x: 300, y: 75 });
+  //   let debugVertex4 = new Vertex('t4', { x: 40, y: 95 });
+  //   let debugVertex5 = new Vertex('t5', { x: 40, y: 95 });
+  //   let debugVertex6 = new Vertex('t6', { x: 40, y: 95 });
+  //   let debugVertex7 = new Vertex('t7', { x: 40, y: 95 });
+  //   let debugVertex8 = new Vertex('t8', { x: 40, y: 95 });
+  //   let debugVertex9 = new Vertex('t9', { x: 40, y: 95 });
+  //   let debugVertex10 = new Vertex('t10', { x: 40, y: 95 });
+  //   let debugVertex11 = new Vertex('t11', { x: 40, y: 95 });
+  //   let debugVertex12 = new Vertex('t12', { x: 40, y: 95 });
+  //   let debugVertex13 = new Vertex('t13', { x: 40, y: 95 });
+  //   let debugVertex14 = new Vertex('t14', { x: 40, y: 95 });
+  //   let debugVertex15 = new Vertex('t15', { x: 40, y: 95 });
+  //   let debugVertex16 = new Vertex('t16', { x: 40, y: 95 });
+  //   let debugVertex17 = new Vertex('t17', { x: 40, y: 95 });
+  //   let debugVertex18 = new Vertex('t18', { x: 40, y: 95 });
+  //   let debugVertex19 = new Vertex('t19', { x: 40, y: 95 });
 
-    let debugEdge1 = new Edge(debugVertex2);
-    debugVertex1.edges.push(debugEdge1);
-    let debugEdge2 = new Edge(debugVertex3);
-    debugVertex2.edges.push(debugEdge2);
+  //   console.log(debugVertex1);
+  //   let debugEdge1 = new Edge(debugVertex2);
+  //   debugVertex1.edges.push(debugEdge1);
 
-    this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
-  }
+  //   let debugEdge2 = new Edge(debugVertex3);
+  //   debugVertex2.edges.push(debugEdge2);
+
+  //   this.vertexes.push(
+  //     debugVertex1,
+  //     debugVertex2,
+  //     debugVertex3,
+  //     debugVertex4,
+  //     debugVertex5,
+  //     debugVertex6,
+  //     debugVertex7,
+  //     debugVertex8,
+  //     debugVertex9,
+  //     debugVertex10,
+  //     debugVertex11,
+  //     debugVertex12,
+  //     debugVertex13,
+  //     debugVertex14,
+  //     debugVertex15,
+  //     debugVertex16,
+  //     debugVertex17,
+  //     debugVertex18,
+  //     debugVertex19
+  //   );
+  // }
 
   /**
    * Create a random graph
