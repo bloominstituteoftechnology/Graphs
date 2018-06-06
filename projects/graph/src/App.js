@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 800;
+const canvasHeight = 800;
 
 /**
  * GraphView
@@ -14,7 +14,22 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
+    //this.props.graph.getConnectedComponents()
     this.updateCanvas();
+    let refresh = setInterval(() => {
+      action();
+    }, 500);
+    let action = () => {
+      this.props.graph.bfs(this.props.graph.currentIndex);
+      this.updateCanvas()
+      console.log("# vertexes", this.props.graph.vertexes.length - 1)
+      if (this.props.graph.complete === true) {
+        clearInterval(refresh);
+        this.updateCanvas()
+
+      }
+    }
+    this.updateCanvas()
   }
 
   /**
@@ -24,24 +39,40 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
-  /**
-   * Render the canvas
-   */
   updateCanvas() {
+
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
-    // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    let color = this.props.graph.randomColor;
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    ctx.fillStyle = '#7a9cd3';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    this.props.graph.vertexes.forEach((vertex) => {
+      vertex.edges.forEach((edge) => {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+      })
+      ctx.lineWidth = 4;
+      console.log(color())
+      ctx.strokeStyle = color();
+      ctx.stroke();
+    })
+    this.props.graph.vertexes.forEach((vertex) => {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 20, 0, Math.PI * 2, true);
+      ctx.strokeStyle = '#324056'; // EB9D20
+      ctx.stroke();
+      ctx.fillStyle = vertex.color;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.font = '16px Georgia';
+      ctx.fontStyle = 'bold';
+      ctx.fillStyle = '#324056';
+      ctx.fillText(vertex.value, vertex.pos.x - 7, vertex.pos.y + 4);
+      ctx.fill();
+    })
   }
-  
+
   /**
    * Render
    */
@@ -62,14 +93,19 @@ class App extends Component {
       graph: new Graph()
     };
 
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.bfs();
   }
 
+  handleRandomize = (e) => {
+    console.log('randomize')
+    this.state.graph.randomize(5, 4, 150, 0.6);
+  }
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        {/* <button onClick={this.handleRandomize}>Randomize</button> */}
       </div>
     );
   }

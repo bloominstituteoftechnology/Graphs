@@ -3,13 +3,22 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    // this.weight = weight; do later
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor() {
+    this.visited = false;
+    this.edges = [];
+    this.parent = null;
+    this.color = 'white';
+  }
 }
 
 /**
@@ -17,13 +26,37 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    this.currentIndex = 0;
+    this.stack = [];
+    this.visited = [];
     this.vertexes = [];
+
   }
 
+  randomColor = () => {
+    const maxColor = 25;
+    const smallColor = Math.floor(Math.random() * 3);
+    const colors = [];
+    for (let i = 0; i < 3; i++)
+      colors[i] = Math.round(Math.random() * ((i === smallColor) ? maxColor : 0xff));
+    return `rgb(${colors[0]}, ${colors[1]}, ${colors[2]})`
+  }
+
+  startBFS() {
+    let refresh = setInterval(() => {
+      action();
+    }, 1000);
+    let action = () => {
+      this.bfs(this.currentIndex);
+      if (this.stack.length === 0) {
+        clearInterval(refresh);
+      }
+    }
+  }
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -38,7 +71,6 @@ export class Graph {
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
-        //v.value = 'v' + x + ',' + y;
         v.value = 'v' + count++;
         row.push(v);
       }
@@ -51,14 +83,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -109,14 +141,55 @@ export class Graph {
   /**
    * BFS
    */
+
+
   bfs(start) {
-    // !!! IMPLEMENT ME
+
+    if (start === undefined) {
+      start = this.vertexes[0];
+    } else {
+      start = this.vertexes[start];
+    }
+    //console.log(this)
+    // this.state.updateCanvas();
+    console.log('start', this.vertexes[start])
+    let stack = this.stack;
+    if (this.stack.length === 0) stack.push(start);
+    let u = stack[0];
+    console.log(u.edges[0])
+    //if (u.edges) {
+    u.edges.forEach(e => {
+      let vert = e.destination;
+      if (vert.color === 'white') {
+        vert.color = 'grey';
+        stack.push(vert);
+      }
+    })
+    //} else {
+    u.visited = true;
+    u.color = 'black';
+    stack.shift();
+    if (this.stack.length === 0) this.getConnectedComponents() //color edges
+    //}
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    console.log('getting connected components');
+    let total = this.vertexes
+      .map(function (b) { return b.visited; })
+      .reduce(function (p, c) { return p + c; });
+    if (total === 20) {
+      this.complete = true;
+    }
+    for (var i = 0; i < this.vertexes.length; i++) {
+      if (this.vertexes[i].visited === false) {
+        this.currentIndex = i;
+        console.log(this);
+        return;
+      }
+    }
   }
 }
