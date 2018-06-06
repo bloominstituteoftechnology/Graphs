@@ -136,16 +136,30 @@ class App extends Component {
             Randomize Graph
           </button>
         </div>
+        <div>
+          <button
+            className="button"
+            onClick={() => {
+              console.log(this.state.graph, 'state.graph');
+              this.state.graph.getConnectedComponents();
+            }}
+          >
+            Connected Components
+          </button>
+        </div>
       </div>
     );
   }
 
   randomizeGraph = () => {
-    console.log('in randomizex');
-
-    // this.setState({ graph: new Graph() });
-    this.state.graph.randomize(5, 4, 150, 0.5);
-    console.log(this.state.graph);
+    // console.log('in randomizex');
+    // console.log(this.state.graph)
+    const graph = new Graph();
+    graph.randomize(5, 4, 150, 0.5);
+    console.log(graph);
+    this.setState({ graph });
+    // this.state.graph.randomize(5, 4, 150, 0.5);
+    // console.log(this.state.graph);
   };
 }
 

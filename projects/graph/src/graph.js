@@ -1,3 +1,18 @@
+/* 
+ *  Constants
+ */
+
+const color = [
+  'yellow',
+  'green',
+  'pink',
+  'blue',
+  'gray',
+  'purple',
+  'orange',
+  'red',
+];
+
 /**
  * Edge
  */
@@ -18,6 +33,7 @@ export class Vertex {
     this.value = value;
     this.edges = [];
     this.pos = pos;
+    this.color = null;
   }
   addEdge = edge => {
     this.edges.push(new Edge(edge));
@@ -140,6 +156,28 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const q = [];
+    const rv = [];
+
+    q.push(start);
+    rv.push(start.value);
+
+    console.log(start, 'start');
+
+    while (q.length > 0) {
+      q[0].edges.forEach(edge => {
+        if (rv.includes(edge.destination.value)) {
+          q.shift();
+        } else {
+          q.push(edge.destination);
+          rv.push(edge.destination.value);
+        }
+      });
+    }
+
+    // console.log(start, 'start');
+
+    return rv;
   }
 
   /**
@@ -147,5 +185,21 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    // const this = this;
+    console.log(this, 'this');
+    const connectedComponents = [];
+    this.vertexes.forEach((vert, i) => {
+      let component;
+      if (!connectedComponents.includes(vert)) {
+        component = this.bfs(vert);
+      }
+      this.vertexes.forEach(v => {
+        if (component.includes(v.value)) {
+          v.color = color[i];
+        }
+      });
+      connectedComponents.push(component);
+    });
+    console.log(this, 'connectedComponents');
   }
 }
