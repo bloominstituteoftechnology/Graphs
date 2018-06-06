@@ -131,7 +131,7 @@ export class Graph {
     let visitedVerts = [];
     const queue = [start];
     while (queue.length > 0){
-      let current = queue.shift();
+      let current = queue[0];
       for (let edge of current.edges) {
            const vert = edge.destination;
           if (vert.visited === false) {
@@ -140,7 +140,7 @@ export class Graph {
           }
       }
       queue.shift();
-      current.visited = false;
+      current.visited = undefined;
       visitedVerts.push(current);
     }
     return visitedVerts;
