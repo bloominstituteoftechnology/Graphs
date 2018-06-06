@@ -32,28 +32,30 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'orange';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     let vertexes = this.props.graph.vertexes;
-    vertexes.forEach(e=>{
+    this.props.graph.connectedComponents.forEach(component=>{
+      console.log(component);
       ctx.strokeStyle = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-      e.edges.forEach(f=>{
-        ctx.beginPath();
-        ctx.moveTo(e.pos.x,e.pos.y);
-        ctx.lineTo(f.destination.pos.x,f.destination.pos.y);
-        ctx.stroke();
+      component.forEach(vertex=>{
+        vertex.edges.forEach(edge=>{
+          ctx.beginPath();
+          ctx.moveTo(vertex.pos.x,vertex.pos.y);
+          ctx.lineTo(edge.destination.pos.x,edge.destination.pos.y);
+          ctx.stroke();
+        })
       });
     });
    
-
     // draw verts
     vertexes.forEach(e=>{
       ctx.beginPath();
-      ctx.strokeStyle="black";
+      ctx.strokeStyle=e.color;
       ctx.arc(e.pos.x,e.pos.y,15,0,2*Math.PI);
       ctx.stroke();
     });
@@ -93,6 +95,7 @@ class App extends Component {
     // use the graph randomize() method
     this.newGraph= this.newGraph.bind(this);
     this.state.graph.randomize(5,4,150,0.6);
+    this.state.graph.getConnectedComponents();
   }
 
   newGraph(e){
