@@ -10,6 +10,14 @@ const canvasHeight = 650;
  * GraphView
  */
 class GraphView extends Component {
+  state = {
+    vert1: null,
+    vert2: null,
+    memory: [],
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState === this.state;
+  }
   /**
    * On mount
    */
@@ -21,6 +29,7 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
+    this.setState({vert1: null, vert2: null});
     this.updateCanvas();
   }
 
@@ -35,19 +44,57 @@ class GraphView extends Component {
   }
 
   handleClick(e) {
+    // Get X and Y of click on canvas
     const canvas = this.refs.canvas;
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
+    // Check if user clicked a vertex
     for (const v of this.props.graph.vertexes) {
         if ((x >= v.pos.x - 20 && x <= v.pos.x + 20) && (y >= v.pos.y - 20 && y <= v.pos.y + 20)){
-          const ctx = canvas.getContext('2d');
-          ctx.beginPath();
-          ctx.lineWidth = 8;
-          ctx.strokeStyle = 'black';
-          ctx.arc(v.pos.x, v.pos.y, 21, 0, Math.PI * 2, true);
-          ctx.stroke();
-          break;
+          // If there isn't start vertex selected, select clicked vertex
+          if (!this.state.vert1) {
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+            ctx.lineWidth = 8;
+            ctx.strokeStyle = 'black';
+            ctx.arc(v.pos.x, v.pos.y, 21, 0, Math.PI * 2, true);
+            ctx.stroke();
+            this.setState({vert1: v});
+            console.log(`Selected start: ${v.value}`)
+            break;
+          }
+          // If there isn't a second vertex selected
+          else if (!this.state.vert2) {
+            // If first vertex was clicked again, deselect
+            if (v === this.state.vert1) {
+              const ctx = canvas.getContext('2d');
+              ctx.beginPath();
+              ctx.lineWidth = 8;
+              ctx.strokeStyle = 'white';
+              ctx.arc(v.pos.x, v.pos.y, 21, 0, Math.PI * 2, true);
+              ctx.stroke();
+              this.setState({vert1: null});
+              console.log(`Deselected start: ${v.value}`)
+            }
+            // Else select new vertex
+          else {
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+            ctx.lineWidth = 8;
+            ctx.strokeStyle = 'black';
+            ctx.arc(v.pos.x, v.pos.y, 21, 0, Math.PI * 2, true);
+            ctx.stroke();
+            this.setState({vert2: v});
+            console.log(`Selected end: ${v.value}`)
+            break;
+            }
+          }
+          // If second vertex is already selected and user clicks it again, deselect
+          else if (v === this.state.vert2) {
+            this.setState({vert2: null});
+              console.log(`Deselected end: ${v.value}`)
+          }
         }
       }
   }
@@ -132,7 +179,7 @@ class App extends Component {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
-        <button onClick={this.newGraph}>MORE!</button>
+        <button onClick={this.newGraph}>MORE GRAPHS!</button>
       </div>
     );
   }
