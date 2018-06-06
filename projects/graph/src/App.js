@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-const canvasWidth = 800; 
+const canvasWidth = 750; 
 const canvasHeight = 600;
 
 /**
@@ -39,19 +39,10 @@ class GraphView extends Component {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = '16px Arial';
-
+    
     this.props.graph.vertexes.forEach(vertex => {
-      ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, 15, 0, 2 * Math.PI)
-      ctx.fillStyle = 'rgb(0, 206, 209)';
-      ctx.fill();
-      ctx.strokeStyle = 'rgb(0, 172, 174)';
-      ctx.stroke();
-      ctx.fillStyle = 'white';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-
       if (vertex.edges.length > 0) {
-        console.log(vertex.edges);
+        console.log("Edges: ", vertex.edges);
         vertex.edges.forEach(edge => {
           ctx.beginPath();
           ctx.lineWidth = 2.5;
@@ -61,7 +52,19 @@ class GraphView extends Component {
           ctx.stroke();
         });
       }
+      
+    });
 
+    this.props.graph.vertexes.forEach(vertex => {
+
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 15, 0, 2 * Math.PI)
+      ctx.fillStyle = 'rgb(0, 206, 209)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgb(0, 172, 174)';
+      ctx.stroke();
+      ctx.fillStyle = 'white';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     });
   }
   
@@ -87,7 +90,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    // this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5, 4, 125, 0.6);
   }
 
   render() {

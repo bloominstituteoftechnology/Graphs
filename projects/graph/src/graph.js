@@ -6,6 +6,7 @@ export class Edge {
   constructor(origin, destination) {
     this.origin = origin.pos;
     this.destination = destination.pos;
+    console.log("origin: ", this.origin);
   }
 }
 
@@ -49,8 +50,8 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      v0.edges.push(new Edge(v1, v0));
+      v1.edges.push(new Edge(v0, v1));
     }
 
     let count = 0;
@@ -66,6 +67,21 @@ export class Graph {
         row.push(v);
       }
       grid.push(row);
+    }
+
+
+    // Last pass, set the x and y coordinates for drawing
+    const boxBuffer = 0.8;
+    const boxInner = pxBox * boxBuffer;
+    const boxInnerOffset = (pxBox - boxInner) / 2;
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        grid[y][x].pos = {
+          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+        };
+      }
     }
 
     // Go through the grid randomly hooking up edges
@@ -87,19 +103,6 @@ export class Graph {
       }
     }
 
-    // Last pass, set the x and y coordinates for drawing
-    const boxBuffer = 0.8;
-    const boxInner = pxBox * boxBuffer;
-    const boxInnerOffset = (pxBox - boxInner) / 2;
-
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        grid[y][x].pos = {
-          'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
-        };
-      }
-    }
 
     // Finally, add everything in our grid to the vertexes in this Graph
     for (let y = 0; y < height; y++) {
