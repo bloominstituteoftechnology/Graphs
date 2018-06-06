@@ -158,7 +158,6 @@ export class Graph {
 
       // if node is isolated, we're done
       if (currentNode.edges.length === 0) {
-
         break;
       }
 
@@ -169,7 +168,7 @@ export class Graph {
         for (let k = 0; k < this.vertexes.length; k++) {
           if (this.vertexes[k].visited === false) {
             if (this.vertexes[k].pos.x === edge.destination.x && this.vertexes[k].pos.y === edge.destination.y) {
-              connectedNode = this.vertexes[k];
+
               console.log("connectedNode: ", connectedNode);
             }
           }
