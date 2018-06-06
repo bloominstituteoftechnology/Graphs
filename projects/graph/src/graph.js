@@ -6,7 +6,6 @@ export class Edge {
   constructor(origin, destination) {
     this.origin = origin.pos;
     this.destination = destination.pos;
-    console.log("origin: ", this.origin);
   }
 }
 
@@ -18,6 +17,9 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos; 
+    this.distance = null;
+    this.predecessor = null;
+    this.visited = false;
   }
 }
 
@@ -50,8 +52,8 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1, v0));
-      v1.edges.push(new Edge(v0, v1));
+      v0.edges.push(new Edge(v0, v1));
+      v1.edges.push(new Edge(v1, v0));
     }
 
     let count = 0;
@@ -137,6 +139,61 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [];
+    let visited = [];
+    let level = 1;
+    let currentNode = null;
+
+    // initialize source/start
+    start.distance = 0;
+    start.visited = true;
+    queue.push(start);
+    visited.push(start);
+    
+
+    // begin search
+    while (queue.length > 0) {
+      console.log("Queue: ", queue);
+      currentNode = queue.pop();
+
+      // if node is isolated, we're done
+      if (currentNode.edges.length === 0) {
+
+        break;
+      }
+
+      for (let i = 0; i < currentNode.edges.length; i++) {
+        let connectedNode = null;
+        let edge = currentNode.edges[i];
+
+        for (let k = 0; k < this.vertexes.length; k++) {
+          if (this.vertexes[k].visited === false) {
+            if (this.vertexes[k].pos.x === edge.destination.x && this.vertexes[k].pos.y === edge.destination.y) {
+              connectedNode = this.vertexes[k];
+              console.log("connectedNode: ", connectedNode);
+            }
+          }
+        }
+        
+        // if node is null, we've been here before 
+        if (!connectedNode) {
+          continue;
+        }
+        
+        connectedNode.distance = level;
+        connectedNode.predecessor = start;
+        connectedNode.visited = true;
+        visited.push(connectedNode);
+        
+        if (connectedNode.edges.length > 0) {
+          queue.push(connectedNode);
+        }
+      }
+      level++;
+      console.log("Visited: ", visited);  
+      }
+      
+      return visited;
   }
 
   /**
@@ -144,5 +201,26 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let unvisited = [];
+    let connectedComponents = [];
+    let component = this.bfs(this.vertexes[0]);
+    connectedComponents.push(component);
+    console.log("first connected COMPONENT: ", connectedComponents); 
+
+    this.vertexes.forEach(vertex => {
+      if (vertex.visited === false) {
+        unvisited.push(vertex);
+      }
+    })
+    
+    console.log("Unvisited: ", unvisited);   
+  
+    while (unvisited.length > 0) {
+      let currentVertex = unvisited.pop();
+      let component = this.bfs(currentVertex);
+      connectedComponents.push(component);
+    }
+    console.log("Connected Components: ", connectedComponents);
+    console.log("Component Count: ", connectedComponents.length);
   }
 }

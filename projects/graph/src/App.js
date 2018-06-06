@@ -14,6 +14,8 @@ class GraphView extends Component {
    */
   componentDidMount() {
     this.updateCanvas();
+    setTimeout(this.props.graph.bfs(this.props.graph.vertexes[0]), 5000);
+    // setTimeout(this.props.graph.getConnectedComponents(), 5000);
   }
 
   /**
@@ -42,7 +44,7 @@ class GraphView extends Component {
     
     this.props.graph.vertexes.forEach(vertex => {
       if (vertex.edges.length > 0) {
-        console.log("Edges: ", vertex.edges);
+        // console.log("Edges: ", vertex.edges);
         vertex.edges.forEach(edge => {
           ctx.beginPath();
           ctx.lineWidth = 2.5;
