@@ -3,8 +3,10 @@ import { Graph } from "./graph";
 import "./App.css";
 
 // !!! IMPLEMENT ME
-const canvasWidth = 600;
-const canvasHeight = 700;
+const canvasWidth = 750;
+const canvasHeight = 600;
+const vertexRadius = 10;
+
 
 /**
  * GraphView
@@ -32,25 +34,69 @@ class GraphView extends Component {
     let ctx = canvas.getContext("2d");
 
     // Clear it
-    ctx.fillStyle = "#F8C471";
-    ctx.fillRect(80, 80, canvasWidth, canvasHeight);
-    ctx.fillStyle = "#F7DC6F";
-    ctx.fillRect(150, 150, canvasWidth, canvasHeight);
-    ctx.fillStyle = "#ABEBC6";
-    ctx.fillRect(200, 200, canvasWidth, canvasHeight);
-    ctx.fillStyle = "#1ABC9C";
-    ctx.fillRect(300, 300, canvasWidth, canvasHeight);
+    ctx.fillStyle = '#66ccff';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    console.log("update canvas:", this.props.graph);
 
-    ctx.moveTo(100, 50);
-    ctx.lineTo(500, 200);
-    ctx.lineTo(300, 150);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(100, 20, 30, 0, 2*Math.PI);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(100, 40, 20, 0, 2*Math.PI);
-    ctx.stroke();
+    this.props.graph.vertexes.map(vertex => {
+      vertex.edges.map(edge => {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+        return edge;
+      });
+      return vertex;
+    });
+    
+    for(let vertex of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, vertexRadius, 0, 2*Math.PI);
+      ctx.fillStyle = "#ff99cc";
+      ctx.fill();
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+
+      ctx.fillStyle = "black";
+      ctx.font = "10px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    }
+
+
+    
+
+
+
+
+    //example for adding the vertex 
+    // let debugVertex = this.props.graph.vertexes[0];
+    // console.log('in updateCanvas', this.props.graph.vertexes);
+    // ctx.arc(debugVertex.pos.x, debugVertex.pos.y, 20, 0, 2 * Math.PI)
+    // ctx.stroke;
+
+    //  ctx.moveTo(0, 0);
+    //  ctx.lineTo(200, 100);
+    //  ctx.stroke();
+     
+    //  ctx.moveTo(0, 0);
+    //  ctx.lineTo(300, 200);
+    //  ctx.stroke();
+     
+     
+     
+    //  ctx.moveTo(0, 0);
+    //  ctx.lineTo(400, 300);
+    //  ctx.stroke();
+
+    //  ctx.moveTo(0, 0);
+    //  ctx.lineTo(500, 400);
+    //  ctx.stroke();
+
+
+    
+    
+   
 
 
 
@@ -82,6 +128,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
