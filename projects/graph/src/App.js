@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000; 
-const canvasHeight = 800;
+const canvasWidth = 750; 
+const canvasHeight = 600;
 let circleSize = 15;
 /**
  * GraphView
@@ -32,10 +32,9 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    this.props.graph.randomize(10, 10, 75);
-    ctx.fillStyle = 'goldenrod';
+    this.props.graph.randomize(5, 4, 150);
+    ctx.fillStyle = 'lightgrey';
     ctx.fillRect(0,0, canvasWidth, canvasHeight);
-    console.log('in update canvas', this.props.graph.vertexes);
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
       let vertex = this.props.graph.vertexes[i];
       for (let j = 0; j < vertex.edges.length; j++){
@@ -46,23 +45,46 @@ class GraphView extends Component {
 
     }
     
-    
-    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
-      let vertex = this.props.graph.vertexes[i];
-      ctx.beginPath(vertex.pos.x, vertex.pos.y);
-      ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2*Math.PI);
-      let vertColor = Math.floor((Math.random() * 16777215) + 1);
-      let color = '#'+(Math.random()*0xFF6633<<0).toString(16);
-      ctx.fillStyle = color;
-      console.log(vertex.value + ' ' + color);
-      ctx.fill();
-      ctx.stroke();
+    // const checkedVerts = new Array(this.props.graph.vertexes.length);
+    // checkedVerts.fill(false);
 
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.font = '15px Arial';
-      ctx.fillStyle = 'black';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    const checkedVerts = {};
+    for (let i = 0; i < this.props.graph.vertexes.length; i++){
+      checkedVerts[this.props.graph.vertexes[i].value] = false;
+    }
+    console.log(checkedVerts);
+    const toBeChecked = [];
+
+    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
+    //for (let i = 0; i < 1; i++) {
+      if (!checkedVerts[this.props.graph.vertexes[i].value]){
+        let color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+        let currentNode = this.props.graph.vertexes[i];
+        toBeChecked.push(currentNode);
+        checkedVerts[currentNode.value] = true;
+        let count = 0;
+        while (toBeChecked.length > 0) {
+          for (let j = 0; j < currentNode.edges.length; j++) {
+            if (!checkedVerts[currentNode.edges[j].destination.value]) {
+              checkedVerts[currentNode.edges[j].destination.value] = true;
+              toBeChecked.push(currentNode.edges[j].destination);  
+            }
+          }
+          let vertex = toBeChecked.shift();
+          ctx.beginPath(vertex.pos.x, vertex.pos.y);
+          ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2*Math.PI);
+          ctx.fillStyle = color;
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.font = '15px Arial';
+          ctx.fillStyle = 'black';
+          ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+          currentNode = toBeChecked[0];
+        }
+      }
     }
     
     // My beautiful artwork below
@@ -134,10 +156,16 @@ class App extends Component {
     // use the graph randomize() method
   }
 
+  reload() {
+    console.log('clicked');
+    window.location.reload();
+  }
+
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={() => this.reload()}>Refresh</button>
       </div>
     );
   }
