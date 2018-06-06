@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 600;
-const canvasHeight = 400;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -45,14 +45,21 @@ class GraphView extends Component {
     const vertexSize = 15;
 
     for (let vertex of this.props.graph.vertexes) {
-      // ctx.beginPath();
-
       for (let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
       }
+    }
+
+    for (let vertex of this.props.graph.vertexes) {
+      // for (let edge of vertex.edges) {
+      //   ctx.beginPath();
+      //   ctx.moveTo(vertex.pos.x, vertex.pos.y);
+      //   ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+      //   ctx.stroke();
+      // }
 
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, vertexSize, 0, 2 * Math.PI);
@@ -65,19 +72,6 @@ class GraphView extends Component {
 
       ctx.stroke();
     }
-
-    // for (let vertex of this.props.graph.vertexes) {
-    //   ctx.beginPath();
-    //   ctx.arc(vertex.pos.x, vertex.pos.y, vertexSize, 0, 2 * Math.PI);
-
-    //   ctx.fillStyle = 'white';
-    //   ctx.fill();
-
-    //   ctx.fillStyle = 'black';
-    //   ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-
-    //   ctx.stroke();
-    // }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -104,9 +98,12 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    // this.state.graph.randomize(600, 600, 300, 0.06);
+    this.state.graph.randomize(5, 4, 150, 0.06);
 
-    this.state.graph.debugCreateTestData();
+    // this.state.graph.debugCreateTestData();
+    // this.state.graph.bfs(this.state.graph.vertexes[0]);
+    // this.state.graph.dump();
+    this.state.graph.getConnectedComponents();
   }
 
   render() {

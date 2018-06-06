@@ -4,6 +4,7 @@
 export class Edge {
   constructor(destination) {
     this.destination = destination;
+    // implement weight
   }
 }
 
@@ -133,13 +134,56 @@ export class Graph {
    * BFS
    */
   bfs(start) {
+    // console.log('bfs arg: ', start);
     // !!! IMPLEMENT ME
+    // define color for vertexes
+    // const color = 'chartreuse';
+    let found = [];
+    let queue = [];
+    let i = 0;
+    // take vertex (start) and add to found list
+    found.push(start);
+    queue.push(start);
+
+    // while queue[0] && edge is not in found list
+    while (queue[i]) {
+      console.log('in while', queue);
+      for (let edge of queue[i].edges) {
+        // console.log('edge: ', edge.destination); // vertex
+        if (found.includes(edge.destination) === false) {
+          // add to found list
+          found.push(edge.destination);
+          // // boolean to determine if vertex is found?
+          // add to end of queue
+          queue.push(edge.destination);
+          // // add color property to vertex
+          // dequeue queue[0]
+          queue.shift();
+        }
+        i++;
+      }
+    }
+    console.log('found', found);
+    console.log('queue', queue);
+    queue.shift();
+    return found;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
+    console.log('getConnectedComponents called');
     // !!! IMPLEMENT ME
+    // go to next unfound vertex in graph.vertexes
+    // call bfs on it
+    // continue through length of arr
+    let connected = [this.bfs(this.vertexes[0])];
+    console.log(connected);
+    // for (let i = 1; i < this.vertexes.length; i++) {
+    //   if (!connected.includes(this.vertexes[i])) {
+    //     connected.push(this.bfs(this.vertexes[i]));
+    //   }
+    // }
   }
 }
