@@ -153,8 +153,20 @@ export class Graph {
       return;
     }
     //create a queue
+    let queue = [];
     //push the root into the queue
+    queue.push(root);
     //check for children
+    while (queue.length > 0) {
+      //setting up the queue for nodes found
+      let c = queue[0];
+      for (let edgs of c.edges) {
+        //looking for siblings
+        //if found push into the array
+        queue.push(edgs);
+        //TODO: Check to see if I am missing a step...
+      }
+    }
 
   }
 
