@@ -29,22 +29,22 @@ export class Graph {
     this.vertexes = [];
   }
 
-  debugCreateTestData() {
-    console.log('called debugCreateTestData');
-    let debugVertex1 = new Vertex('t1', { x: 40, y: 40 });
-    let debugVertex2 = new Vertex('t2', { x: 80, y: 80 });
-    let debugVertex3 = new Vertex('t3', { x: 120, y: 120 });
+  // debugCreateTestData() {
+  //   console.log('called debugCreateTestData');
+  //   // let debugVertex1 = new Vertex('t1', { x: 40, y: 40 });
+  //   // let debugVertex2 = new Vertex('t2', { x: 80, y: 80 });
+  //   // let debugVertex3 = new Vertex('t3', { x: 120, y: 120 });
 
-    let debugEdge1 = new Edge(debugVertex2); // vertex1 to 2
-    debugVertex1.edges.push(debugEdge1);
+  //   let debugEdge1 = new Edge(debugVertex2); // vertex1 to 2
+  //   debugVertex1.edges.push(debugEdge1);
 
-    // console.log('1st edge is ', );
+  //   // console.log('1st edge is ', );
 
-    let debugEdge2 = new Edge(debugVertex3);
-    debugVertex2.edges.push(debugEdge2);
+  //   let debugEdge2 = new Edge(debugVertex3);
+  //   debugVertex2.edges.push(debugEdge2);
 
-    this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
-  }
+  //   this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
+  // }
 
   /**
    * Create a random graph
@@ -137,6 +137,17 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    /** > Pick color
+     * 1. choose first vertex in graph.vertexes and add to found and queue array.
+     *     color vertex
+     *  While loop {
+     *   2. for each edge in (first vertex) edge array, if destination is not in found:
+     *     > add to found list
+     *     > add to end of queue
+     *   3. Dequeue queue[0 or first vertex]
+     *   4. if queue is not empty Repeat step 2.
+     *  }
+     */
   }
 
   /**
@@ -144,5 +155,9 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    /**
+     * 1. Go to next unfound vertex in graph.vertexes and call BFS
+     * 2. Repeat until end of array
+     */
   }
 }

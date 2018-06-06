@@ -3,8 +3,8 @@ import { Graph, Vertex, Edge } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 500;
-const canvasHeight = 500;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
 const circleSize = 15;
 
@@ -42,10 +42,21 @@ class GraphView extends Component {
     ctx.font = '16px, Ariel';
     ctx.fillStyle = 'black';
 
-    let vertex = this.props.graph.vertexes;
-
+    // draw edges
     for (let vertex of this.props.graph.vertexes) {
-      let { value, pos, edges } = vertex;
+      for (let edge of vertex.edges) {
+        let { pos } = vertex;
+        let edgeX = edge.destination.pos.x;
+        let edgeY = edge.destination.pos.y;
+
+        ctx.moveTo(pos.x, pos.y);
+        ctx.lineTo(edgeX, edgeY);
+        ctx.stroke();
+      }
+    }
+    // draw vertexes
+    for (let vertex of this.props.graph.vertexes) {
+      let { value, pos } = vertex;
 
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, circleSize, 0, 2 * Math.PI);
@@ -57,24 +68,22 @@ class GraphView extends Component {
 
       // console.log('find edges: ', edges);
       // iterate over edges array to access destination. forEach?
-      edges.forEach(edge => {
-        console.log('inside edges destination: ', edge.destination.pos);
-        let edgeX = edge.destination.pos.x;
-        let edgeY = edge.destination.pos.y;
+      // edges.forEach(edge => {
+      //   console.log('inside edges destination: ', edge.destination.pos);
+      // let edgeX = edge.destination.pos.x;
+      // let edgeY = edge.destination.pos.y;
 
-        ctx.lineTo(edgeX, edgeY);
-      });
-
-      ctx.stroke();
+      // ctx.moveTo(pos.x, pos.y);
+      // ctx.lineTo(edgeX, edgeY);
+      // ctx.stroke();
+      // });
     }
-    console.log('vertex array: ', vertex);
 
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
-    // window.requestAnimationFrame(this.updateCanvas);
   };
 
   /**
@@ -95,10 +104,10 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    // this.state.graph.debugCreateTestData();
   }
 
   render() {
