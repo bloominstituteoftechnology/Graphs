@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'defalut', pos = {x: 0, y: 0}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -19,7 +27,22 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+  //stand in code for randomize function. Testing purposes only.
+  testData() {
+    console.log("testData called");
+    //test data for vertexes
+    let testVertex1 = new Vertex('td1', {x: 40, y: 60});
+    let testVertex2 = new Vertex('td2', {x: 100, y: 90});
+    let testVertex3 = new Vertex('td3', {x: 60, y: 100});
 
+    this.vertexes.push(testVertex1, testVertex2, testVertex3);
+    //test data for edges. testEdge1 connects to vertex 2 and testEdge2 connects to vertex 3.
+    let testEdge1 = new Edge(testVertex2);
+    let testEdge2 = new Edge(testVertex3);
+    
+    testVertex1.edges.push(testEdge1);
+    testVertex2.edges.push(testEdge2);
+  }
   /**
    * Create a random graph
    */
