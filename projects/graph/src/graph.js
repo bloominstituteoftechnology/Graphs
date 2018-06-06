@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = {x: 10, y: 10}, visited = false) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.visited = visited;
+  }
 }
 
 /**
@@ -18,6 +28,12 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  testVertexCreation (){
+      console.log('testVertexCreation');
+      let testVertex1 = new Vertex('t1', {x: 50, y: 50});
+      this.vertexes.push(testVertex1);
   }
 
   /**
@@ -111,6 +127,23 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    start.visited = true;
+    let visitedVerts = [];
+    const queue = [start];
+    while (queue.length > 0){
+      let current = queue[0];
+      for (let edge of current.edges) {
+           const vert = edge.destination;
+          if (vert.visited === false) {
+              vert.visited = true;
+              queue.push(vert);
+          }
+      }
+      queue.shift();
+      current.visited = undefined;
+      visitedVerts.push(current);
+    }
+    return visitedVerts;
   }
 
   /**
@@ -118,5 +151,12 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let connectedComponents = [];
+    for(let vert of this.vertexes){
+      if(vert.visited === false){
+        connectedComponents.push(this.bfs(vert));
+      }
+    }
+    return connectedComponents;
   }
 }
