@@ -42,6 +42,15 @@ class GraphView extends Component {
     ctx.textBaseline = 'middle';
     ctx.font = '14px Arial';
 
+    for (let vertex of this.props.graph.vertexes){
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
     for (let vertex of this.props.graph.vertexes) {
     ctx.beginPath();      
     ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
@@ -60,14 +69,7 @@ class GraphView extends Component {
     // draw edges lines
     // draw verts shapes
     // draw vert values (labels)
-    for (let vertex of this.props.graph.vertexes){
-      for (let edge of vertex.edges) {
-        ctx.beginPath();
-        ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        ctx.stroke();
-      }
-    }    
+        
   }
   
   /**
