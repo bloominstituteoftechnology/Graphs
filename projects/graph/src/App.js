@@ -48,6 +48,14 @@ class GraphView extends Component {
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
+
+        // Add edge weight.
+        const xCenter = (vertex.pos.x + edge.destination.pos.x) / 2;
+        const yCenter = (vertex.pos.y + edge.destination.pos.y) / 2;
+        ctx.font = '25px Arial';
+        ctx.fillStyle = 'black';
+
+        ctx.fillText(edge.weight, xCenter + 8, yCenter + 8);
       }
     }
 
@@ -57,6 +65,7 @@ class GraphView extends Component {
       ctx.fillStyle = vertex.fillColor;
       ctx.fill();
       ctx.fillStyle = 'black';
+      ctx.font = '16px Arial';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       ctx.stroke();
     }
