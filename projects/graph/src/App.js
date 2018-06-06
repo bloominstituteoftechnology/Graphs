@@ -79,10 +79,12 @@ class GraphView extends Component {
     }
 
     console.log('vert', verts);
+    let foundList = this.props.graph.foundList;
 
     for (let i = 0; i < verts.length; i++) {
       ctx.beginPath();
-      ctx.fillStyle = 'red';
+      ctx.fillStyle = verts[i].fillColor;
+      console.log('filler', verts[0].fillColor);
       ctx.arc(verts[i].pos.x, verts[i].pos.y, 25, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
@@ -93,9 +95,16 @@ class GraphView extends Component {
 
     }
 
+    console.log('apfu', this.props.graph.foundList[0]);
+    
+
+    // for (let i = 0; i < foundList.length; i++ ){
+    //  foundList[i].fillColor = 'black';
+    // }
 
 
 
+    
 
     
     
@@ -178,6 +187,12 @@ class App extends Component {
     let randoVert = this.state.graph
 
     randoVert.randomize(5, 4, 150, 0.6);
+
+    console.log('app', this.state.graph)
+    randoVert.getConnectedComponents();
+    
+    
+
 
     // this.state.graph.debugCreateTestData();
   }
