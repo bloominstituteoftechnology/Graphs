@@ -8,7 +8,7 @@ import './App.css';
 const canvasWidth = 600;
 const canvasHeight = 400;
 
-const circlesize = 20;
+const circlesize = 15;
 
 /**
  * GraphView
@@ -85,6 +85,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
