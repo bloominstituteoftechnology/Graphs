@@ -57,15 +57,17 @@ class GraphView extends Component {
     
     // !!! IMPLEMENT ME
     // compute connected components
-    // draw edges
-    // draw verts
+    // draw edges lines
+    // draw verts shapes
     // draw vert values (labels)
-    for (let edge of this.props.graph.vertexes) {
-      ctx.beginPath();
-      ctx.moveTo(40, 40);
-      ctx.lineTo(edge.pos.x, edge.pos.y);
-      ctx.stroke();
-    }
+    for (let vertex of this.props.graph.vertexes){
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }    
   }
   
   /**
