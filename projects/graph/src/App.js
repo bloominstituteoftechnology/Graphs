@@ -44,6 +44,7 @@ class GraphView extends Component {
 
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
+        ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
@@ -53,15 +54,7 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-      ctx.fillStyle =
-        'rgb(' +
-        Math.floor(Math.random() * 256) +
-        ',' +
-        Math.floor(Math.random() * 256) +
-        ',' +
-        Math.floor(Math.random() * 256) +
-        ')'; // TODO: make variable?
-      // ctx.fillStyle = 'white';
+      ctx.fillStyle = vertex.fillColor;
       ctx.fill();
       ctx.fillStyle = 'black';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
@@ -98,12 +91,25 @@ class App extends Component {
     // use the graph randomize() method
     // this.state.graph.debugCreateTestData();
     this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.getConnectedComponents();
+  }
+
+  handleClick() {
+    const newGraph = { graph: new Graph() };
+    newGraph.graph.randomize(5, 4, 150, 0.6);
+    newGraph.graph.getConnectedComponents();
+    this.setState(newGraph);
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <div className="btnDiv">
+          <div className="Button" onClick={() => this.handleClick()}>
+            New Graph
+          </div>
+        </div>
       </div>
     );
   }
