@@ -41,27 +41,25 @@ class GraphView extends Component {
 
     this.props.graph.vertexes.forEach((vertex, index, array) => {
       console.log(vertex,index, array);
-      let prev;
-      if (index === array.length-1) {
-        prev = array[0];
-      }
-      else {
-        prev = array[index+1];
-      }
-      ctx.moveTo(prev.pos.x, prev.pos.y);
-      ctx.lineTo(vertex.pos.x, vertex.pos.y);
-      ctx.stroke();
+      vertex.edges.forEach(edge => {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        console.log(edge);
+        ctx.stroke();
+      });
+    });
+    this.props.graph.vertexes.forEach((vertex, index, array) => {
       ctx.beginPath();
-      ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
-      ctx.fill();
-      ctx.stroke();
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.font = '16px Arial';
-      ctx.fillStyle = 'black';
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-      ctx.closePath();
+    ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+    ctx.stroke();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '16px Arial';
+    ctx.fillStyle = 'black';
+    ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    ctx.closePath();
     });
 
 
@@ -121,7 +119,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className={applyTheme('App')}>
+      <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
       </div>
     );

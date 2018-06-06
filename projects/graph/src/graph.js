@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,8 +13,8 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value='default', pos={x: -1, y: -1}) {
-    this.edges = [];
+  constructor(value='default', pos={x: -1, y: -1}, edges = []) {
+    this.edges = edges;
     this.value = value;
     this.pos = pos;
   }
@@ -30,12 +33,14 @@ export class Graph {
   debugCreateTestData() {
     console.log('called debugCreateTestData');
     let debugVertex1 = new Vertex('t1', {x: 100, y: 100});
-    let debugVertex2 = new Vertex('t2', {x: 100, y: 400});
-    let debugVertex3 = new Vertex('t3', {x: 400, y: 100});
+    let debugVertex2 = new Vertex('t2', {x: 100, y: 400}, [new Edge(debugVertex1)]);
+    let debugVertex3 = new Vertex('t3', {x: 400, y: 100}, [new Edge(debugVertex2), new Edge(debugVertex1)]);
 
     this.vertexes.push(debugVertex1);
     this.vertexes.push(debugVertex2);
     this.vertexes.push(debugVertex3);
+
+    console.log(this.bfs(this.vertexes[0]));
   }
 
   /**
@@ -129,7 +134,39 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    
+    //1. pick a random color
+    const pickRandomColor = () => {
+      let colorDigits = '';
+      [...Array(6).keys()].forEach(() => {
+        colorDigits += (Math.floor(Math.random()*16)).toString(16);
+      })
+      return colorDigits;
+    }
+    let found = [];
+    let queue = [];
+    let current = {};
+    let color = pickRandomColor();
+    //2. choose first vertex and add to found list
+    while (queue.length) {
+      current = queue.pop();
+      current.edges.forEach(edge => {
+        if (!edge.destination.color) {
+          found.push(edge.destination);
+          edge.destination.color = color;
+        }
+      });
+    }
+    //3. for each edge in queue[0].edges, if destination not in found list:
+    //  a. add to found list
+    //  b. add to the end of the queue
+    //  c. add color property
+    //4. Dequeue queue[0]
+    //5. if queue is not empty go to step 2.
+
+    /*connected components
+    1. go to next unfound vertex in graph and call BFS on it
+    2. go to step 1 
+    */
   }
 
   /**
@@ -137,21 +174,5 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
-  }
-}
-
-
-toggleClassName() {
-  const darkTheme = this.state.darkTheme;
-  this.setState({
-    darkTheme: !darkTheme,
-  })
-}
-
-applyTheme(base) {
-  if (this.state.darkTheme) {
-    return `${base}--dark`;
-  } else {
-    return base;
   }
 }
