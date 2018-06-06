@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1){
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,13 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = "default", pos = {x: -1, y: -1}){
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+    this.fillColor = "white";
+    this.visited =  false;
+  }
 }
 
 /**
@@ -18,6 +29,16 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  createTestData(){
+    let vert1 = new Vertex("v1", {x: 100, y: 100});
+    let vert2 = new Vertex("v2", {x: 200, y: 200});
+
+    let edge1 = new Edge(vert2);
+    vert1.edges.push(edge1);
+
+    this.vertexes.push(vert1, vert2);
   }
 
   /**
@@ -110,13 +131,38 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    //# my implementation
+    //* creates a queue to handle the vertexes in a FIFO order
+    const queue = []
+    //* sets the starting node to visited and changes the color accordingly
+    start.visited = true;
+    start.fillColor = "lightblue";
+    //* pushes the starting vertex to the queue as the first value
+    queue.push(start);
+    
+    //* while the queue has a value, you store/shift it then change its destination status and color.
+    while (queue.length){
+      const vert = queue.shift();
+      
+      //* if the edge has a destionation value that hasn't been vistied, push it to the back of the queue
+      for (let edge in vert.edges){
+        if (!edge.destination.visited){
+          edge.destination.fillColor = "grey";
+          edge.destination.visited = true;
+          queue.push(edge.destination);
+        }
+      }
+    }
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    for (let vert of this.vertexes){
+      if (!vert.visited){
+        this.bfs(vert)
+      }
+    }
   }
 }
