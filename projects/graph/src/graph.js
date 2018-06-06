@@ -19,6 +19,7 @@ export class Vertex {
   }) {
     this.value = value;
     this.edges = [];
+    this.pos = pos;
   }
 }
 
@@ -33,8 +34,26 @@ export class Graph {
   //Create a test compiler to see if everything is working
   debugCreateTestData() {
     console.log('called debugCreateTestData()');
-    let debugVertex1 = new Vertex('this is a test');
-    console.log(debugVertex1);
+    let debugVertex1 = new Vertex('t1', {
+      x: 40,
+      y: 40
+    });
+    let debugVertex2 = new Vertex('t2', {
+      x: 80,
+      y: 80
+    });
+    let debugVertex3 = new Vertex('t3', {
+      x: 40,
+      y: 80
+    });
+
+    let debugEdge1 = new Edge(debugVertex2);
+    debugVertex1.edges.push(debugEdge1);
+
+    let debugEdge2 = new Edge(debugVertex3);
+    debugVertex2.edges.push(debugEdge2);
+
+    this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
 
 
   }
@@ -129,6 +148,14 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    //checking to see if root exist
+    if (this.vertexes === null) {
+      return;
+    }
+    //create a queue
+    //push the root into the queue
+    //check for children
+
   }
 
   /**

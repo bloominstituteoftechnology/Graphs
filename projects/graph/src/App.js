@@ -7,8 +7,11 @@ import {
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 850
-const canvasHeight = 600
+//Global Variables
+const canvasWidth = 850;
+const canvasHeight = 600;
+
+const circleSize = 15;
 
 /**
  * GraphView
@@ -37,36 +40,69 @@ class GraphView extends Component {
 
 
     // Clear it
-
-    // Create gradient
-    var grd = ctx.createLinearGradient(0, 0, 200, 400);
-    grd.addColorStop(0, "yellow");
-    grd.addColorStop(1, "green");
-
-
-    // Fill with gradient
-    ctx.fillStyle = grd;
+    ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    //Images
-    ctx.font = '38pt Arial';
 
-    ctx.fillStyle = 'cornflowerblue';
-    ctx.strokeStyle = 'blue';
 
-    ctx.fillText("Hey CS8!", canvas.width / 2 - 150,
-      canvas.height / 2 + 25);
+    //Create a forEach method to iterate the vertexes (produce more vertexes)
+    //Difference between forEach in and forEach of is: 
+    //forEach in: goes inside of all of the array properties
+    //forEach of: goes over the iterable properties
 
-    ctx.strokeText("Hey CS8!", canvas.width / 2 - 150,
-      canvas.height / 2 + 25);
+    //Global Variables
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '16px Arial';
 
+
+    for (let vertex of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.fillStyle = 'black';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.stroke();
+    }
 
 
     // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    // TODO: compute connected components
+
+    // TODO: draw edges
+    //creating a loop to set the vertexes = verts and edges = edgs
+    for (let verts of this.props.graph.vertexes) {
+      for (let edgs of verts.edges) {
+        ctx.beginPath();
+        ctx.moveTo(verts.pos.x, verts.pos.y);
+        //setting the connection 
+        const verts2 = edgs.destination;
+        //making the connection of the points
+        ctx.lineTo(verts2.pos.x, verts2.pos.y);
+        ctx.stroke();
+
+      }
+    }
+    // TODO: draw verts
+    //vertexes = verts(loop)
+    for (let verts of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.arc(verts.pos.x, verts.pos.y, 20, 0, 2 * Math.PI, false);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.stroke();
+    }
+
+
+    // TODO: draw vert values (labels)
+    for (let verts of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'cener';
+      ctx.fillText(verts.value, verts.pos.x, verts.pos.y);
+    }
+
   }
 
   /**
@@ -97,7 +133,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.debugCreateTestData();
+    // this.state.graph.debugCreateTestData();
+    this.state.graph.randomize(5, 3, 150, 0.6);
   }
 
   render() {
@@ -106,7 +143,8 @@ class App extends Component {
       <
       GraphView graph = {
         this.state.graph
-      } > < /GraphView> < /
+      }
+      /> < /
       div >
     );
   }
