@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
+import Button from './button';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 750;
@@ -102,6 +103,7 @@ class App extends Component {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <Button />
       </div>
     );
   }
