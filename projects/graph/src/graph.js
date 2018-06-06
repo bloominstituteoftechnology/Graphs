@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight=1){
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = { x: -1, y: -1 }){
+    this.value = value;
+    this.pos = pos;
+    this.edges = [];    
+  }
 }
 
 /**
@@ -17,7 +26,16 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
-    this.vertexes = [];
+    this.vertices = [];
+  }
+
+
+  // test data
+  testData() {
+    let v1 = new Vertex('dV1', {x: 10, y: 20});
+    let v2 = new Vertex('dV2', {x: 100, y: 100});
+    this.vertices.push(v1);
+    this.vertices.push(v2);
   }
 
   /**
@@ -81,7 +99,7 @@ export class Graph {
     // Finally, add everything in our grid to the vertexes in this Graph
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        this.vertexes.push(grid[y][x]);
+        this.vertices.push(grid[y][x]);
       }
     }
   }
@@ -92,7 +110,7 @@ export class Graph {
   dump() {
     let s;
 
-    for (let v of this.vertexes) {
+    for (let v of this.vertices) {
       if (v.pos) {
         s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
       } else {
