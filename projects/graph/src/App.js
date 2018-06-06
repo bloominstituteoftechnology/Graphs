@@ -7,12 +7,6 @@ const canvasWidth = 800;
 const canvasHeight = 600;
 const circleSize = 15;
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
-
 /**
  * GraphView
  */
@@ -31,22 +25,6 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
-  generateBubbles(num) {
-    let bubbles = [];
-    for (let i = 0; i < num; i++) {
-      let bubble = {};
-      bubble.color = `rgba(${getRandomInt(1, 100)}, ${getRandomInt(
-        1,
-        255
-      )}, ${getRandomInt(200, 255)}, ${Math.random() / 1.2})`;
-      bubble.x = getRandomInt(1, canvasWidth);
-      bubble.y = getRandomInt(1, canvasHeight);
-      bubble.r = getRandomInt(1, 20);
-      bubble.speed = 1 / (bubble.r / 20);
-      bubbles.push(bubble);
-    }
-    return bubbles;
-  }
   /**
    * Render the canvas
    */
@@ -61,29 +39,19 @@ class GraphView extends Component {
     ctx.fillStyle = "darkblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.fill();
-
-    //   for (let i = 0; i < bubbles.length; i++) {
-    //     ctx.fillStyle = `${bubbles[i].color}`;
-    //     ctx.beginPath();
-    //     ctx.arc(bubbles[i].x, bubbles[i].y, bubbles[i].r, 0, 2 * Math.PI);
-    //     ctx.fill();
-    //     // ctx.stroke();
-    //     bubbles[i].y -= bubbles[i].speed;
-    //     if (bubbles[i].y < 0) bubbles[i].y = canvasHeight;
-    //   }
-    // }, 50);
-
-    // ctx.
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.fillStyle = "black";
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
 
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-      ctx.fillStyle = "white";
+      ctx.fillStyle = vertex.color;
       ctx.fill();
       ctx.stroke();
 
@@ -92,13 +60,6 @@ class GraphView extends Component {
       ctx.font = "16px Arial";
       ctx.fillStyle = "black";
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-      for (let edge of vertex.edges) {
-        console.log("Edge: ", edge);
-        ctx.fillStyle = "black";
-        ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        ctx.stroke();
-      }
     }
   }
 
@@ -106,7 +67,11 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
+    return (
+      <div>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />
+      </div>
+    );
   }
 }
 
@@ -122,14 +87,24 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
+    this.state.graph.randomize(5, 4, 150, 0.6);
     // use the graph randomize() method
   }
 
   render() {
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.getConnectedComponents();
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <button
+          onClick={() => {
+            this.state.graph.vertexes = [];
+            this.state.graph.randomize(5, 4, 150, 0.6);
+            this.setState({ graph: this.state.graph }); // Lazy way? Is there a better way to force a re-render?
+          }}
+        >
+          RELOAD
+        </button>
       </div>
     );
   }
