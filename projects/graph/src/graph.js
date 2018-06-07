@@ -17,6 +17,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = 'white';
   }
 }
 
@@ -131,6 +132,16 @@ export class Graph {
       console.log(s);
     }
   }
+  // random color generator ****
+  getRandomColor() {
+    let letters = '0123456789ABCDEF';
+
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
   /**
    * BFS
@@ -140,6 +151,7 @@ export class Graph {
     /** > Pick color
      * 1. choose first vertex in graph.vertexes and add to found and queue array.
      *     color vertex
+     
      *  While loop {
      *   2. for each edge in (first vertex) edge array, if destination is not in found:
      *     > add to found list
@@ -148,6 +160,52 @@ export class Graph {
      *   4. if queue is not empty Repeat step 2.
      *  }
      */
+    // const queue = [start];
+    // const found = [];
+    // let current;
+
+    // console.log(this.vertexes);
+    // while (queue.length > 0) {
+    //   current = queue.shift();
+
+    //   console.log('for edges', current);
+    //   for (let i = 0; i < this.vertexes.length; i++) {
+    //     if (this.vertexes[current].color === 'white') {
+    //       this.vertexes[current].color === paint;
+    //     }
+    //   }
+    // }
+    const paint = this.getRandomColor();
+
+    // lecture solution**********
+    // create a found and queue list
+    let found = [];
+    let queue = [];
+
+    // add start to found list
+    found.push(start);
+
+    // add start to queue list
+    queue.push(start);
+    // add random color
+    start.color = paint;
+
+    // if queue is not empty
+    while (queue.lenth > 0) {
+      const v = queue.shift();
+      for (let edge of v.edges) {
+        if (!found.includes(edge.destination)) {
+          // add to found list
+          found.push(edge.destination);
+          // add to queue
+          queue.push(edge.destination);
+
+          edge.destination.color = paint;
+        }
+      }
+      queue.shift();
+    }
+    return found;
   }
 
   /**
@@ -159,5 +217,12 @@ export class Graph {
      * 1. Go to next unfound vertex in graph.vertexes and call BFS
      * 2. Repeat until end of array
      */
+    let searched = [];
+
+    for (let vertex of this.vertexes) {
+      if (!searched.includes(vertex)) {
+        searched = searched.concat(this.bfs(vertex));
+      }
+    }
   }
 }

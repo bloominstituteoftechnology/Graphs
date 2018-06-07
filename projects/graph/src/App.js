@@ -60,7 +60,7 @@ class GraphView extends Component {
 
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, circleSize, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = vertex.color;
       ctx.fill();
       ctx.fillStyle = 'black';
       ctx.fillText(value, pos.x, pos.y);
@@ -107,6 +107,8 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
+    // this.state.graph.bfs(this.state.graph.vertexes[0]);
+    this.state.graph.getConnectedComponents();
     // this.state.graph.debugCreateTestData();
   }
 
