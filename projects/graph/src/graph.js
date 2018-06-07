@@ -36,6 +36,19 @@ export class Graph {
     let debugVertex3 = new Vertex('t3', { x: 150, y: 300 });
 
     console.log(debugVertex1, debugVertex2, debugVertex3);
+
+    // 1 to 2
+    let debugEdge1 = new Edge(debugVertex2); // where it's going TO (2)
+    debugVertex1.edges.push(debugEdge1); // where it's coming FROM (1)
+
+    // 2 to 3
+    let debugEdge2 = new Edge(debugVertex3); // destination
+    debugVertex2.edges.push(debugEdge2); // origin
+
+    // 3 to 1
+    let debugEdge3 = new Edge(debugVertex1); // destination
+    debugVertex3.edges.push(debugEdge3); // origin
+
     this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
   }
 
