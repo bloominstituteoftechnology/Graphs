@@ -6,6 +6,8 @@ import './App.css';
 const canvasWidth = '750px';
 const canvasHeight = '600px';
 
+const circleSize = 15;
+
 /**
  * GraphView
  */
@@ -32,8 +34,32 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
 
     // Clear it
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = 'hsl(209.2, 49%, 64%)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    console.log('in updateCanvas', this.props.graph.vertexes);
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '16px Arial';
+
+    ctx.stroke();
+
+    // Figure if there is a way to do this w/o looping through vertexes
+    for (let vertex of this.props.graph.vertexes) {
+      // for (let edge of vertex.edges)
+      {
+        ctx.beginPath();
+        ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        ctx.fillStyle = 'black';
+        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+        // ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        // ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
 
     // to draw lines, revisit
     // ctx.strokeStyle = 'red';
@@ -46,29 +72,29 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
 
-    const Particle = () => {
-      this.x = canvas.width / 2;
-      this.y = canvas.height / 2;
-      this.vx = Math.random() * 10 - 1; // velocity of x axis
-      this.vy = Math.random() * 10 - 1; // velocity of y axis
-    };
-    Particle.prototype.draw = () => {
-      this.x += this.vx;
-      this.y += this.vy;
+    // const Particle = () => {
+    //   this.x = canvas.width / 2;
+    //   this.y = canvas.height / 2;
+    //   this.vx = Math.random() * 10 - 1; // velocity of x axis
+    //   this.vy = Math.random() * 10 - 1; // velocity of y axis
+    // };
+    // Particle.prototype.draw = () => {
+    //   this.x += this.vx;
+    //   this.y += this.vy;
 
-      ctx.fillStyle = 'white';
-      ctx.fillRect(this.x, this.y, 10, 10);
-    };
+    //   ctx.fillStyle = 'white';
+    //   ctx.fillRect(this.x, this.y, 10, 10);
+    // };
 
-    let particle = new Particle();
+    // let particle = new Particle();
 
-    setInterval(function() {
-      // clear it, e.g. no "trail" as it moves
-      ctx.fillStyle = 'black';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // setInterval(function() {
+    //   // clear it, e.g. no "trail" as it moves
+    //   ctx.fillStyle = 'hsl(209.2, 49%, 64%)';
+    //   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      particle.draw();
-    }, 60);
+    //   particle.draw();
+    // }, 60);
   }
 
   /**
@@ -92,6 +118,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
