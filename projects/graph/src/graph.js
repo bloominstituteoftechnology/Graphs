@@ -153,7 +153,6 @@ export class Graph {
 
     // begin search
     while (queue.length > 0) {
-      console.log("Queue: ", queue);
       currentNode = queue.pop();
 
       // if node is isolated, we're done
@@ -168,8 +167,8 @@ export class Graph {
         for (let k = 0; k < this.vertexes.length; k++) {
           if (this.vertexes[k].visited === false) {
             if (this.vertexes[k].pos.x === edge.destination.x && this.vertexes[k].pos.y === edge.destination.y) {
-
-              console.log("connectedNode: ", connectedNode);
+              connectedNode = this.vertexes[k];
+              console.log("BFS connectedNode: ", connectedNode);
             }
           }
         }
@@ -180,7 +179,7 @@ export class Graph {
         }
         
         connectedNode.distance = level;
-        connectedNode.predecessor = start;
+        connectedNode.predecessor = currentNode;
         connectedNode.visited = true;
         visited.push(connectedNode);
         
@@ -189,7 +188,7 @@ export class Graph {
         }
       }
       level++;
-      console.log("Visited: ", visited);  
+      console.log("BFS Visited: ", visited);  
       }
       
       return visited;
@@ -200,25 +199,18 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
-    let unvisited = [];
-    let connectedComponents = [];
-    let component = this.bfs(this.vertexes[0]);
-    connectedComponents.push(component);
-    console.log("first connected COMPONENT: ", connectedComponents); 
-
-    this.vertexes.forEach(vertex => {
-      if (vertex.visited === false) {
-        unvisited.push(vertex);
-      }
-    })
     
-    console.log("Unvisited: ", unvisited);   
-  
-    while (unvisited.length > 0) {
-      let currentVertex = unvisited.pop();
-      let component = this.bfs(currentVertex);
-      connectedComponents.push(component);
+    let connectedComponents = [];
+    let unvisited = this.vertexes;
+    let visited = [];
+    
+    while (visited.length < this.vertexes.length) {
+      connectedComponents.push(this.bfs(unvisited[0]));
+      unvisited = this.vertexes.filter(vertex => vertex.visited === false);
+      console.log("Unvisited: ", unvisited);
+      visited = connectedComponents.reduce((acc, val) => acc.concat(val), []);
     }
+
     console.log("Connected Components: ", connectedComponents);
     console.log("Component Count: ", connectedComponents.length);
   }

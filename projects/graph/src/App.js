@@ -14,8 +14,8 @@ class GraphView extends Component {
    */
   componentDidMount() {
     this.updateCanvas();
-    setTimeout(this.props.graph.bfs(this.props.graph.vertexes[0]), 5000);
-    // setTimeout(this.props.graph.getConnectedComponents(), 5000);
+    // this.props.graph.bfs(this.props.graph.vertexes[0]);
+    this.props.graph.getConnectedComponents();
   }
 
   /**
