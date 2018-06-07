@@ -53,9 +53,11 @@ class GraphView extends Component {
         const destNum = Number(edge.destination.value.slice(1));
         // console.log('values', vertNum, destNum);
         if (vertNum < destNum) {
+          ctx.beginPath();
           // console.log(edge, 'edge');
           ctx.moveTo(vert.pos.x, vert.pos.y);
           const { x, y } = edge.destination.pos;
+          ctx.strokeStyle = edge.destination.color;
           ctx.lineTo(x, y);
         }
         ctx.stroke();
@@ -63,6 +65,7 @@ class GraphView extends Component {
 
       ctx.beginPath();
       ctx.arc(vert.pos.x, vert.pos.y, 15, 0, Math.PI * 2);
+      ctx.strokeStyle = vert.color;
       ctx.fillStyle = vert.color; // TODO: make variable
       ctx.fill();
 
@@ -107,6 +110,7 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.5);
+    this.state.graph.getConnectedComponents();
     console.log(this.state.graph, 'graph');
   }
 

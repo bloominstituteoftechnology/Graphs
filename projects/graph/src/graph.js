@@ -2,16 +2,16 @@
  *  Constants
  */
 
-const color = [
-  'yellow',
-  'green',
-  'pink',
-  'blue',
-  'gray',
-  'purple',
-  'orange',
-  'red',
-];
+// const color = [
+//   'yellow',
+//   'green',
+//   'pink',
+//   'blue',
+//   'gray',
+//   'purple',
+//   'orange',
+//   'red',
+// ];
 
 /**
  * Edge
@@ -156,27 +156,57 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    const q = [];
-    const rv = [];
+    // const q = [];
+    // const rv = [];
 
-    q.push(start);
-    rv.push(start.value);
+    // q.push(start);
+    // rv.push(start.value);
 
-    // console.log(start, 'start');
+    // // console.log(start, 'start');
 
-    while (q.length > 0) {
-      q[0].edges.forEach(edge => {
-        if (!rv.includes(edge.destination.value)) {
-          q.push(edge.destination);
-          rv.push(edge.destination.value);
+    // while (q.length > 0) {
+    //   q[0].edges.forEach(edge => {
+    //     if (!rv.includes(edge.destination.value)) {
+    //       q.push(edge.destination);
+    //       rv.push(edge.destination.value);
+    //     }
+    //   });
+    //   q.shift();
+    // }
+
+    // // console.log(rv, 'rv');
+
+    // return rv;
+
+    let randColor =
+      'rgb(' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';
+    const queue = [];
+    const found = [];
+
+    found.push(start);
+    queue.push(start);
+
+    console.log(start, 'start');
+    start.color = randColor;
+
+    while (queue.length > 0) {
+      const v = queue[0];
+      for (let edge of v.edges) {
+        if (!found.includes(edge.destination)) {
+          found.push(edge.destination);
+          queue.push(edge.destination);
+          edge.destination.color = randColor;
         }
-      });
-      q.shift();
+      }
+      queue.shift();
     }
-
-    // console.log(rv, 'rv');
-
-    return rv;
+    return found;
   }
 
   /**
@@ -186,26 +216,35 @@ export class Graph {
     // !!! IMPLEMENT ME
     // const this = this;
     // console.log(typeof this, 'this');
-    const connectedComponents = [];
-    let found = [];
+    // const connectedComponents = [];
+    // let found = [];
 
-    this.vertexes.forEach(vert => {
-      let component;
+    // this.vertexes.forEach(vert => {
+    //   let component;
 
-      if (!found.includes(vert.value)) {
-        component = this.bfs(vert);
-        this.vertexes.forEach(v => {
-          if (component.includes(v.value)) {
-            v.color = color[connectedComponents.length];
-            // console.log(v, 'v');
-          }
-        });
-        connectedComponents.push(component);
-        found = [...found, ...component];
+    //   if (!found.includes(vert.value)) {
+    //     component = this.bfs(vert);
+    //     this.vertexes.forEach(v => {
+    //       if (component.includes(v.value)) {
+    //         v.color = color[connectedComponents.length];
+    //         // console.log(v, 'v');
+    //       }
+    //     });
+    //     connectedComponents.push(component);
+    //     found = [...found, ...component];
+    //   }
+    // });
+    // console.log(this, 'this.graph');
+    // console.log(connectedComponents, 'connectedComponents');
+    // return this;
+
+    let searched = [];
+    console.log(this.vertexes);
+    for (let vertex of this.vertexes) {
+      if (!searched.includes(vertex)) {
+        console.log(vertex, 'vertex');
+        searched.concat(this.bfs(vertex));
       }
-    });
-    console.log(this, 'this.graph');
-    console.log(connectedComponents, 'connectedComponents');
-    return this;
+    }
   }
 }
