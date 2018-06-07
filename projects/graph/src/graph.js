@@ -20,6 +20,7 @@ export class Vertex {
     this.distance = null;
     this.predecessor = null;
     this.visited = false;
+    this.color = 'rgb(0, 206, 209)';
   }
 }
 
@@ -203,6 +204,16 @@ export class Graph {
     let connectedComponents = [];
     let unvisited = this.vertexes;
     let visited = [];
+    let colors = [];
+
+    // color generator
+    let randomBlueColorString = () => {
+      let blue = Math.floor((Math.random() * 240) + 130);
+      let green = blue - 30;
+      let red = green - 40;
+
+      return "rgb(" + red.toString() + ", " + green.toString() + ", " + blue.toString() + ")";
+    };
     
     while (visited.length < this.vertexes.length) {
       connectedComponents.push(this.bfs(unvisited[0]));
@@ -213,5 +224,21 @@ export class Graph {
 
     console.log("Connected Components: ", connectedComponents);
     console.log("Component Count: ", connectedComponents.length);
+
+    // colorize components
+    for (let i = 0; i < connectedComponents.length; i++) {
+      
+      let newBlue = randomBlueColorString();
+      
+      while (colors.includes(newBlue)) {
+        newBlue = randomBlueColorString();
+      }
+
+      colors.push(randomBlueColorString());
+      
+      for (let k = 0; k < connectedComponents[i].length; k++) {
+        connectedComponents[i][k].color = colors[i];
+      }
+    }
   }
 }
