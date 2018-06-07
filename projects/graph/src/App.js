@@ -15,11 +15,9 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    setInterval(() => {
-      this.props.graph.randomize(10, 10, 80);
-      this.props.graph.getConnectedComponents();
-      this.updateCanvas();
-    }, 500);
+    this.props.graph.randomize(10, 10, 80);
+    this.props.graph.getConnectedComponents();
+    this.updateCanvas();
   }
 
   /**
@@ -41,7 +39,7 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     console.log('in updateCanvas', this.props.graph.vertexes);
-    
+    ctx.beginPath();
     this.props.graph.vertexes.forEach((vertex, index, array) => {
       vertex.edges.forEach(edge => {
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -49,20 +47,21 @@ class GraphView extends Component {
         ctx.stroke();
       });
     });
+    ctx.closePath();
 
     this.props.graph.vertexes.forEach((vertex, index, array) => {
       ctx.beginPath();
-    ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-    console.log(vertex.color);
-    ctx.fillStyle = vertex.color || 'white';
-    ctx.fill();
-    ctx.stroke();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = '16px Arial';
-    ctx.fillStyle = 'black';
-    ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-    ctx.closePath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
+      console.log(vertex.color);
+      ctx.fillStyle = vertex.color || 'white';
+      ctx.fill();
+      ctx.stroke();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '16px Arial';
+      ctx.fillStyle = 'black';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.closePath();
     });
   }
   
