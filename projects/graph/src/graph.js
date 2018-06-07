@@ -145,8 +145,6 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
-    // 0. Pick a random color.
     let randColor =
       'rgb(' +
       Math.floor(Math.random() * 256) +
@@ -155,21 +153,11 @@ export class Graph {
       ',' +
       Math.floor(Math.random() * 256) +
       ')';
-    // 1. Take start and add it to our found list and to the queue and add color.
-    // const found = [];
-    // const queueToSearch = [];
+
     this.found.push(start);
     this.queueToSearch.push(start);
     start.fillColor = randColor;
-    // 2. For each edge in queue[0]'s edge array, if destination is not in found list:
-    //    a. add to found list.
-    //      Method 1: Save a list of this stuff.
-    //      Method 2: Add a flag to a vertex that says it's found.
-    //      Method 3: add color property.
-    //    b. add to the end of the queue.
-    //    c. add color property.
-    // 3. Dequeue queue[0].
-    // 4. If queue is not empty, go to step 2 (while loop).
+
     while (this.queueToSearch.length > 0) {
       for (let edge of this.queueToSearch[0].edges) {
         if (!this.found.includes(edge.destination.value)) {
@@ -186,9 +174,6 @@ export class Graph {
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
-    // 1. Go to next unfound vertex in graph.vertexes and call BFS on it.
-    // 2. Go to Step 1, until we get to end of the array (Loop).
     for (let vertex of this.vertexes) {
       if (!this.found.includes(vertex.value)) {
         this.bfs(vertex);
