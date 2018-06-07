@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-const canvasWidth = 1000; 
+const canvasWidth = 700; 
 const canvasHeight = 600;
 
 /**
@@ -118,8 +118,13 @@ class App extends Component {
     
     return (
       <div className="App">
+        <br />
         <GraphView graph={this.state.graph}></GraphView>
+        <br />
         <button onClick={() => this.setState({ graph: new Graph() })}>New Graph</button>
+        <br />
+        <br />
+        <div>Number of Connected Components: {this.state.graph.components}</div>
       </div>
     );
   }

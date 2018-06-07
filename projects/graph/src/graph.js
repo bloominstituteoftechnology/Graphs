@@ -30,6 +30,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    this.components = 0;
   }
 
   debugCreateTestData() {
@@ -224,6 +225,8 @@ export class Graph {
 
     console.log("Connected Components: ", connectedComponents);
     console.log("Component Count: ", connectedComponents.length);
+    
+    this.components = connectedComponents.length;
 
     // colorize components
     for (let i = 0; i < connectedComponents.length; i++) {
