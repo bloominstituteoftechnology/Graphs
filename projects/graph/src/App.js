@@ -114,12 +114,17 @@ class App extends Component {
     const state = {graph : new Graph()};
     state.graph.randomize(5,4,150,0.6);
     this.setState(state);
+    // this.state.graph.getConnectedComponents();
+    this.forceUpdate();
   }
 
   render() {
+    function refresh() {
+      window.location.reload();
+    }
     return (
       <div className="App">
-        <button onClick={this.newGraphHandler}>New Graph</button>
+        <button onClick={(this.newGraphHandler, refresh)}>New Graph</button>
         <GraphView graph={this.state.graph}></GraphView>
       </div>
     );
