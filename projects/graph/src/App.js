@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 700; 
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -15,6 +14,7 @@ class GraphView extends Component {
    */
   componentDidMount() {
     this.updateCanvas();
+    // this.props.graph.bfs(this.props.graph.vertexes[0]);
   }
 
   /**
@@ -34,12 +34,57 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    
+    console.log('in updateCanvas', this.props.graph.vertexes);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '16px Arial';
+    
+    function makeDarkerBlue(colorString) {
+      let split = colorString.split(",");
+      let colors = [];
+      
+      // Parse color string 
+      for (let i = 0; i < split.length; i++) {
+        let color = '';
+        for (let k = 0; k < split[i].length; k++) {
+          if (!isNaN(parseInt(split[i][k], 10))) {
+            color += split[i][k];
+          }
+        }
+        colors.push(color);
+      } 
+      colors = colors.map(color => Math.floor(color -= color * .35));
+      return "rgb(" + colors[0] + ", " + colors[1] + ", " + colors[2] + ")"; 
+    }
+
+    this.props.graph.vertexes.forEach(vertex => {
+      let darkerBlueColor = makeDarkerBlue(vertex.color); 
+      if (vertex.edges.length > 0) {
+        // console.log("Edges: ", vertex.edges);
+        vertex.edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.lineWidth = 2.5;
+          ctx.strokeStyle = darkerBlueColor;
+          ctx.moveTo(edge.origin.x, edge.origin.y);
+          ctx.lineTo(edge.destination.x, edge.destination.y);
+          ctx.stroke();
+        });
+      }
+    });
+
+    this.props.graph.vertexes.forEach(vertex => {
+      let darkerBlueColor = makeDarkerBlue(vertex.color);
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 15, 0, 2 * Math.PI)
+      ctx.fillStyle = vertex.color;
+      ctx.fill();
+      ctx.strokeStyle = darkerBlueColor;
+      ctx.stroke();
+      ctx.fillStyle = darkerBlueColor;
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    });
   }
   
   /**
@@ -64,12 +109,22 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    // this.state.graph.debugCreateTestData();
   }
 
   render() {
+    this.state.graph.randomize(5, 4, 125, 0.6);
+    this.state.graph.getConnectedComponents();
+    
     return (
       <div className="App">
+        <br />
         <GraphView graph={this.state.graph}></GraphView>
+        <br />
+        <button onClick={() => this.setState({ graph: new Graph() })}>New Graph</button>
+        <br />
+        <br />
+        <div>Number of Connected Components: {this.state.graph.components}</div>
       </div>
     );
   }
