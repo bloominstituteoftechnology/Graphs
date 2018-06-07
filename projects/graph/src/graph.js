@@ -4,9 +4,10 @@
 export class Edge {
   // TODO: i think that by adding origin here
   // we can save a loop in the draw.
-  constructor(destination, weight = 0) {
+  constructor(destination, weight = 0, drawWeight = false) {
     this.destination = destination;
     this.weight = weight;
+    this.drawWeight = drawWeight;
   }
 }
 
@@ -60,8 +61,8 @@ export class Graph {
       const randWeight = () => {
         return Math.floor(Math.random() * 10 + 1);
       };
-      v0.edges.push(new Edge(v1, randWeight()));
-      v1.edges.push(new Edge(v0, randWeight()));
+      v0.edges.push(new Edge(v1, randWeight(), true));
+      v1.edges.push(new Edge(v0, randWeight(), false));
     }
 
     let count = 0;

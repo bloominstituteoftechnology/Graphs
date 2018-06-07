@@ -43,6 +43,7 @@ class GraphView extends Component {
     ctx.font = '16px Arial';
 
     for (let vertex of this.props.graph.vertexes) {
+      // let flag = false;
       for (let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -54,8 +55,12 @@ class GraphView extends Component {
         const yCenter = (vertex.pos.y + edge.destination.pos.y) / 2;
         ctx.font = '25px Arial';
         ctx.fillStyle = 'black';
-
-        ctx.fillText(edge.weight, xCenter + 8, yCenter + 8);
+        if (edge.drawWeight === false) {
+          ctx.fillText(edge.weight, xCenter + 8, yCenter + 8);
+          // edge.drawWeight = true;
+        } else {
+          continue;
+        }
       }
     }
 
