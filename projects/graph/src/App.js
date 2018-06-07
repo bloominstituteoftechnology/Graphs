@@ -45,22 +45,6 @@ class GraphView extends Component {
 
     const { vertexes } = this.props.graph;
 
-    // vertexes.forEach(vert => {
-    //   const { edges } = vert;
-    //   edges.forEach(edge => {
-    //     const vertNum = Number(vert.value.slice(1));
-    //     const destNum = Number(edge.destination.value.slice(1));
-    //     // console.log('values', vertNum, destNum);
-    //     if (vertNum < destNum) {
-    //       // console.log(edge, 'edge');
-    //       ctx.moveTo(vert.pos.x, vert.pos.y);
-    //       const { x, y } = edge.destination.pos;
-    //       ctx.lineTo(x, y);
-    //     }
-    //   });
-    //   ctx.stroke();
-    // });
-
     vertexes.forEach(vert => {
       // console.log(vert);
       const { edges } = vert;
@@ -79,7 +63,7 @@ class GraphView extends Component {
 
       ctx.beginPath();
       ctx.arc(vert.pos.x, vert.pos.y, 15, 0, Math.PI * 2);
-      ctx.fillStyle = 'white'; // TODO: make variable
+      ctx.fillStyle = vert.color; // TODO: make variable
       ctx.fill();
 
       ctx.fillStyle = 'black';
@@ -123,6 +107,7 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.5);
+    console.log(this.state.graph, 'graph');
   }
 
   render() {
@@ -141,10 +126,13 @@ class App extends Component {
             className="button"
             onClick={() => {
               console.log(this.state.graph, 'state.graph');
-              this.state.graph.getConnectedComponents();
+              // this.state.graph.getConnectedComponents();
+              this.setState({
+                graph: this.state.graph.getConnectedComponents(),
+              });
             }}
           >
-            Connected Components
+            Remove Random Circle
           </button>
         </div>
       </div>
@@ -155,9 +143,11 @@ class App extends Component {
     // console.log('in randomizex');
     // console.log(this.state.graph)
     const graph = new Graph();
-    graph.randomize(5, 4, 150, 0.5);
+    graph.randomize(5, 4, 150, 0.6);
     console.log(graph);
-    this.setState({ graph });
+    this.setState({
+      graph: graph.getConnectedComponents(),
+    });
     // this.state.graph.randomize(5, 4, 150, 0.5);
     // console.log(this.state.graph);
   };
