@@ -30,6 +30,35 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    function windowToCanvas(canvas,x,y){
+      let bbox = canvas.getBoundingClientRect();
+      return {x:x-bbox.left*(canvas.width/bbox.width),
+      y:y-bbox.top*(canvas.height/bbox.height)
+      };
+    }
+    let vertexes = this.props.graph.vertexes;
+    let start = null;
+    let end = null;
+
+    canvas.addEventListener('mousedown',function(e){
+      let loc = windowToCanvas(canvas,e.clientX,e.clientY);
+      let x0 = loc.x;
+      let y0 = loc.y;
+      vertexes.forEach(vertex=>{
+        let x1 = vertex.pos.x;
+        let y1 = vertex.pos.y;
+        let distance = Math.sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0));
+        if(distance < 15){
+          if(start === null){
+            start = vertex;
+          }
+          else{
+            end = vertex;
+          }
+        }
+      });
+      console.log(start,end);
+    });
     
     // Clear it
     ctx.fillStyle = 'orange';
@@ -38,7 +67,6 @@ class GraphView extends Component {
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
-    let vertexes = this.props.graph.vertexes;
     this.props.graph.connectedComponents.forEach(component=>{
       ctx.strokeStyle = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
       component.forEach(vertex=>{
@@ -57,6 +85,8 @@ class GraphView extends Component {
         });
       });
     });
+
+
    
     // draw verts
     vertexes.forEach(e=>{
