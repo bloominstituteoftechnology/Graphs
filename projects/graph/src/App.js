@@ -69,7 +69,19 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+      <div>
+        <button onClick={() => this.componentDidMount()}
+          style = {{
+            position: 'absolute',
+            top: 850,
+            right: 600,
+            height: '50px'
+          }}
+          >Create New Graph</button>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+      </div>
+    )
   }
 }
 
