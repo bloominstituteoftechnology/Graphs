@@ -135,8 +135,41 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, reset = true) {
+    const queue = [];
+    const component = [];
+    let vertex;
+    let edge;
+
     // !!! IMPLEMENT ME
+
+    if (reset) {
+      for (vertex of this.vertexes) {
+        vertex.color = 'white';
+      }
+    }
+
+    start.color = 'gray';
+
+    queue.push(start);
+
+    while (queue > 0) {
+      const unexplored = queue[0];
+
+      for (edge of unexplored.edges) {
+        if (edge.destination.color === 'white') {
+          edge.destination.color === 'gray';
+          queue.push(vertex);
+        }
+      }
+      queue.shift();
+
+      unexplored.color = 'black';
+
+      component.push(unexplored);
+    }
+
+    return component;
   }
 
   /**
@@ -144,5 +177,19 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const connectedComponents = [];
+    let vertex;
+
+    let reset = true;
+
+    for (vertex in this.vertexes) {
+      if (reset || vertex.color === 'white') {
+        const component = this.bfs(vertex, reset);
+        reset = false;
+
+        connectedComponents.push(component);
+      }
+    }
+    return connectedComponents;
   }
 }
