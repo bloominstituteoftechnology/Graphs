@@ -3,8 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination) {
+  constructor(destination, weight) {
     this.destination = destination;
+    this.weight = weight;
   }
 }
 
@@ -48,8 +49,9 @@ export class Graph {
   randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      let randomNum = Math.ceil(Math.random() * 10);
+      v0.edges.push(new Edge(v1, randomNum));
+      v1.edges.push(new Edge(v0, randomNum));
     }
 
     let count = 0;
@@ -138,33 +140,24 @@ export class Graph {
     //2.
     var CSS_COLOR_NAMES = [
       "AliceBlue",
-      "AntiqueWhite",
       "Aqua",
       "Aquamarine",
-      "Azure",
-      "Beige",
       "Bisque",
-      "Black",
-      "BlanchedAlmond",
       "Blue",
       "BlueViolet",
       "Brown",
-      "BurlyWood",
       "CadetBlue",
       "Chartreuse",
       "Chocolate",
       "Coral",
       "CornflowerBlue",
-      "Cornsilk",
       "Crimson",
       "Cyan",
       "DarkBlue",
       "DarkCyan",
       "DarkGoldenRod",
-      "DarkGray",
       "DarkGrey",
       "DarkGreen",
-      "DarkKhaki",
       "DarkMagenta",
       "DarkOliveGreen",
       "Darkorange",
@@ -173,55 +166,38 @@ export class Graph {
       "DarkSalmon",
       "DarkSeaGreen",
       "DarkSlateBlue",
-      "DarkSlateGray",
       "DarkSlateGrey",
       "DarkTurquoise",
       "DarkViolet",
       "DeepPink",
       "DeepSkyBlue",
-      "DimGray",
       "DimGrey",
       "DodgerBlue",
       "FireBrick",
-      "FloralWhite",
       "ForestGreen",
       "Fuchsia",
-      "Gainsboro",
-      "GhostWhite",
       "Gold",
       "GoldenRod",
-      "Gray",
-      "Grey",
       "Green",
       "GreenYellow",
-      "HoneyDew",
       "HotPink",
       "IndianRed",
       "Indigo",
-      "Ivory",
       "Khaki",
       "Lavender",
       "LavenderBlush",
       "LawnGreen",
-      "LemonChiffon",
       "LightBlue",
       "LightCoral",
       "LightCyan",
-      "LightGoldenRodYellow",
-      "LightGray",
-      "LightGrey",
       "LightGreen",
       "LightPink",
       "LightSalmon",
       "LightSeaGreen",
       "LightSkyBlue",
-      "LightSlateGray",
-      "LightSlateGrey",
       "LightSteelBlue",
-      "LightYellow",
       "Lime",
       "LimeGreen",
-      "Linen",
       "Magenta",
       "Maroon",
       "MediumAquaMarine",
@@ -234,12 +210,8 @@ export class Graph {
       "MediumTurquoise",
       "MediumVioletRed",
       "MidnightBlue",
-      "MintCream",
       "MistyRose",
-      "Moccasin",
-      "NavajoWhite",
       "Navy",
-      "OldLace",
       "Olive",
       "OliveDrab",
       "Orange",
@@ -249,9 +221,7 @@ export class Graph {
       "PaleGreen",
       "PaleTurquoise",
       "PaleVioletRed",
-      "PapayaWhip",
       "PeachPuff",
-      "Peru",
       "Pink",
       "Plum",
       "PowderBlue",
@@ -259,29 +229,18 @@ export class Graph {
       "Red",
       "RosyBrown",
       "RoyalBlue",
-      "SaddleBrown",
       "Salmon",
       "SandyBrown",
       "SeaGreen",
-      "SeaShell",
-      "Sienna",
-      "Silver",
       "SkyBlue",
       "SlateBlue",
-      "SlateGray",
-      "SlateGrey",
-      "Snow",
       "SpringGreen",
       "SteelBlue",
-      "Tan",
       "Teal",
       "Thistle",
       "Tomato",
       "Turquoise",
       "Violet",
-      "Wheat",
-      "White",
-      "WhiteSmoke",
       "Yellow",
       "YellowGreen"
     ];
@@ -316,5 +275,9 @@ export class Graph {
       }
       console.log("Searched: ", searched);
     }
+  }
+
+  highlightShortestPath(start, end) {
+    console.log("Calling highlight shortest path.");
   }
 }
