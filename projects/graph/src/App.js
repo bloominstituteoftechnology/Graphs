@@ -29,7 +29,7 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
-    this.setState({vert1: null, vert2: null});
+    this.setState({vert1: null, vert2: null, memory: []});
     this.updateCanvas();
   }
 
@@ -37,9 +37,9 @@ class GraphView extends Component {
    * Render the canvas
    */
   getRndColor() {
-    const r = 255*Math.random()|0,
-        g = 255*Math.random()|0,
-        b = 255*Math.random()|0;
+    const r = Math.floor(Math.random() * 200) + 40,
+        g = Math.floor(Math.random() * 200) + 40,
+        b = Math.floor(Math.random() * 200) + 40;
     return 'rgb(' + r + ',' + g + ',' + b + ')';
   }
 
@@ -113,7 +113,7 @@ class GraphView extends Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'rgb(239, 241, 244)';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // New Graph on each update
@@ -155,14 +155,64 @@ class GraphView extends Component {
       }
     }
   }
+
+  dijkstra(e) {
+    e.preventDefault();
+    if (this.state.memory.length !== 2) alert("Select two different vertices to calculate path!");
+    const subgraph = this.props.graph.bfs(this.state.vert1);
+    if (!subgraph.includes(this.state.vert2)) alert("Vertices must be in the same subgraph to find a path!");
+    else {
+      //execute dijkstra
+      const queue = [];
+      const searched = [];
+
+      queue.push({v: this.state.vert1, distance: 0, prev: null});
+    
+      while (queue.length > 0) {
+        const head = queue[0].v;
+        for (let i = 0; i < head.edges.length; i++) {
+          if (!(queue.includes(head.edges[i].destination) || searched.includes(head.edges[i].destination))) {
+            queue.push({v: head.edges[i].destination, distance: 0, prev: null});
+          }
+        }
+      // do something on current head
+      queue.shift();
+      searched.push(head);
+      }
+      console.log (searched);
+    //   create vertex set Q
+    //   4
+    //   5      for each vertex v in Graph:             // Initialization
+    //   6          dist[v] ← INFINITY                  // Unknown distance from source to v
+    //   7          prev[v] ← UNDEFINED                 // Previous node in optimal path from source
+    //   8          add v to Q                          // All nodes initially in Q (unvisited nodes)
+    //   9
+    //  10      dist[source] ← 0                        // Distance from source to source
+    //  11      
+    //  12      while Q is not empty:
+    //  13          u ← vertex in Q with min dist[u]    // Node with the least distance
+    //  14                                              // will be selected first
+    //  15          remove u from Q 
+    //  16          
+    //  17          for each neighbor v of u:           // where v is still in Q.
+    //  18              alt ← dist[u] + length(u, v)
+    //  19              if alt < dist[v]:               // A shorter path to v has been found
+    //  20                  dist[v] ← alt 
+    //  21                  prev[v] ← u 
+    //  22
+    //  23      return dist[], prev[]
+    }
+  }
   
   /**
    * Render
    */
   render() {
     this.handleClick = this.handleClick.bind(this);
+    this.dijkstra = this.dijkstra.bind(this);
     return (
     <div>
+      <button onClick={this.dijkstra} style={{position: "static"}}>dijkstra it</button>
       <canvas onClick={this.handleClick} ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
     </div>
     );
