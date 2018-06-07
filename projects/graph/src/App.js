@@ -103,8 +103,7 @@ class App extends Component {
   }
 
   handleClick = () => {
-    const graph = new Graph();
-    graph.randomize(5, 4, 150, 0.6); 
+    const graph = window.location.reload();
     this.setState({ graph })
     console.log(this.state)
   }
