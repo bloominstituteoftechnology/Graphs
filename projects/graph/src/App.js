@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
-import Button from './button';
+import Refresh from './button';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 750;
@@ -37,7 +37,7 @@ class GraphView extends Component {
     ctx.fillStyle = '#E91E63';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    console.log('in updateCanvas', this.props.graph.vertexes);
+    // console.log('in updateCanvas', this.props.graph.vertexes);
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -55,7 +55,7 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
     ctx.beginPath();      
     ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-    ctx.fillStyle = 'white'; // can make variable
+    ctx.fillStyle = vertex.color; // can make variable
     ctx.fill();
     ctx.fillStyle = 'black';
     ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
@@ -97,13 +97,23 @@ class App extends Component {
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
     // this.state.graph.debugCreateTestData(); 
+
+    // test bfs
+    this.state.graph.getConnectedComponents();
+  }
+
+  handleClick = () => {
+    const graph = new Graph();
+    graph.randomize(5, 4, 150, 0.6); 
+    this.setState({ graph })
+    console.log(this.state)
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
-        <Button />
+        <Refresh onClick={this.handleClick}/>
       </div>
     );
   }

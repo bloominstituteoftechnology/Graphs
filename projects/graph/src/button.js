@@ -1,15 +1,17 @@
 import React from 'react';
+import { Button } from 'reactstrap';
+import './button.css';
 
-class Button extends React.Component {
+class Refresh extends React.Component {
 
 
 render() {
     return (
         <div>
-        <button type="submit">RANDOMIZE GRAPH</button>
+        <Button onClick={this.props.onClick}className="button" color="success" type="submit">RANDOMIZE GRAPH</Button>
         </div>
-    )
-}
+        )
+    }
 }
 
-export default Button;
+export default Refresh;
