@@ -31,10 +31,11 @@ export class Graph {
     this.vertexes = [];
     this.foundList = [];
     this.searchList = [];
+    this.color = 'white';
   }
 
   debugCreateTestData(){
-  console.log('called debugCreateTestData()');
+  // console.log('called debugCreateTestData()');
   let debugVertex1 = new Vertex('t1', {x: 195, y: 290}, 40);
   let debugVertex2 = new Vertex('t2', {x: 360, y: 380}, 40)
   let debugVertex3 = new Vertex('t3', {x: 540, y: 430}, 40)
@@ -98,9 +99,9 @@ export class Graph {
     }
 
     // Last pass, set the x and y coordinates for drawing
-    const boxBuffer = 0.8;
+    const boxBuffer = 0.7;
     const boxInner = pxBox * boxBuffer;
-    const boxInnerOffset = (pxBox - boxInner) / 2;
+    const boxInnerOffset = (pxBox - boxInner) / 2 + 10;
 
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
@@ -163,9 +164,20 @@ export class Graph {
         // start = this.vertexes[0];
         // let foundList = [];
         // console.log(verts.length);
+        let randCol ='rgb(' +
+        Math.floor(Math.random() * 256) +
+        ',' +
+        Math.floor(Math.random() * 256) +
+        ',' +
+        Math.floor(Math.random() * 256) +
+        ')';
         this.foundList.push(start);
         this.searchList.push(start);
-        start.fillColor = '#111111'
+        start.color = randCol;
+
+        // let founBf = [];
+        // let queue = [];
+        
         // let fCol = 'rgb(0, 0, 0)';
         // console.log(foundList);
         // let edgeLoc = verts[0].edges;
@@ -190,14 +202,18 @@ export class Graph {
           // }
 
           // ++count
-
+  
 
           for (let edge of this.searchList[0].edges) {
-            if (!this.foundList.includes(edge.destination.value)) {
-              this.foundList.push(edge.destination.value);
+            if (!this.foundList.includes(edge.destination)) {
+              this.foundList.push(edge.destination);
               this.searchList.push(edge.destination);
-              edge.destination.fillColor = '#000000';
-            }
+              edge.destination.color = randCol;
+          }
+
+          // foundBf.push(edge.destination);
+          // queue.push(edge.destination);
+          // edge.destination.color = randCol;
           }
           this.searchList.shift();
           // console.log('fuu', this.foundList);
@@ -212,13 +228,19 @@ export class Graph {
     // !!! IMPLEMENT ME
     // Go to the next unfound vertex in graph.vertexes and call BFS
     // Go to step 1 until we get to the end of hte array
-    let found = [];
+    // let founded = [];
     for (let vertex of this.vertexes) {
-      if (!found.includes(vertex)) {
-        found = found.concat(this.bfs(vertex));
+      if (!this.foundList.includes(vertex)) {
+        // founded.concat(this.bfs(vertex));
+        this.foundList.concat(this.bfs(vertex));
       }
+
+    // for (let vertex of this.vertexes){
+
+    // }
       // console.log('Fuund', found);
     }
 
   }
 }
+

@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 750;
-const canvasHeight = 600;
+const canvasWidth = 800;
+const canvasHeight = 650;
 
 /**
  * GraphView
@@ -30,7 +30,7 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    console.log('hello', this.props.graph.vertexes)
+    // console.log('hello', this.props.graph.vertexes)
     // Clear it
     ctx.fillStyle = '#222222';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -61,41 +61,63 @@ class GraphView extends Component {
     ctx.font = '20px Arial';
     
 
-    for (let i = 0; i < verts.length; i++){
-      if(verts[i].edges.length > 0){
-        for(let edge of verts[i].edges){
+    for (let vertex of verts){
+      // if(verts[i].edges.length > 0){
+        for(let edge of vertex.edges){
         ctx.beginPath();
-        ctx.strokeStyle = 'purple';
+        ctx.strokeStyle = vertex.color;
         ctx.lineWidth = 10;
         // ctx.moveTo(verts[i].pos.x, verts[i].pos.y);
         // ctx.lineTo(verts[i].edges[j].destination.pos.x, verts[i].edges[j].destination.pos.y);
-        ctx.moveTo(verts[i].pos.x, verts[i].pos.y);
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
         }
         
 
-      }
+      // }
     }
 
-    console.log('vert', verts);
-    let foundList = this.props.graph.foundList;
+    // console.log('vert', verts);
+    // let foundList = this.props.graph.foundList;
 
-    for (let i = 0; i < verts.length; i++) {
-      ctx.beginPath();
-      ctx.fillStyle = verts[i].fillColor;
-      console.log('filler', verts[0].fillColor);
-      ctx.arc(verts[i].pos.x, verts[i].pos.y, 25, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.stroke();
+    // for (let i = 0; i < verts.length; i++) {
+    //   ctx.beginPath();
+
+    //   // if(verts[i].edges.length > 0){
+    //   //   ctx.fillStyle = verts[i].edges[0].destination.fillColor;
+    //   //   // console.log(verts[i].edges[0].destination.fillColor);
+    //   // }
+    //   // else{
+    //   //   ctx.fillStyle = verts[i].fillColor;
+    //   // }
+    //   ctx.fillStyle = verts.fillColor;
+      
+    //   // console.log('filler', verts[0].fillColor);
+    //   ctx.arc(verts[i].pos.x, verts[i].pos.y, 25, 0, 2 * Math.PI);
+    //   ctx.fill();
+    //   ctx.stroke();
   
-      ctx.fillStyle = 'white';
-      ctx.fillText(verts[i].value, verts[i].pos.x, verts[i].pos.y);
+    //   // ctx.fillStyle = 'white';
+    //   ctx.fillText(verts[i].value, verts[i].pos.x, verts[i].pos.y);
 
 
+    // }
+
+    for(let vertex of verts){
+      ctx.strokeStyle = vertex.color;
+      ctx.beginPath();
+      ctx.arc(vertex.pos.x, vertex.pos.y, 25, 0, 2 * Math.PI);
+      ctx.fillStyle = vertex.color;
+      console.log(vertex);
+      ctx.fill();
+      ctx.fillStyle = 'black';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.stroke();
     }
 
-    console.log('apfu', this.props.graph.foundList[0]);
+
+    // console.log('apfu', this.props.graph.foundList[0]);
     
 
     // for (let i = 0; i < foundList.length; i++ ){
@@ -186,21 +208,36 @@ class App extends Component {
 
     let randoVert = this.state.graph
 
-    randoVert.randomize(5, 4, 150, 0.6);
+    randoVert.randomize(4, 3, 150, 0.6);
 
-    console.log('app', this.state.graph)
+    // console.log('app', this.state.graph)
     randoVert.getConnectedComponents();
-    
-    
+    // randoVert.bfs(randoVert.vertexes[0]);
 
+    console.log('Rand', randoVert);
+    
+    
+  
 
     // this.state.graph.debugCreateTestData();
+  }
+
+  handleClick() {
+    const newGraph = { graph: new Graph() };
+    newGraph.graph.randomize(5, 4, 150, 0.6);
+    newGraph.graph.getConnectedComponents();
+    this.setState(newGraph);
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button 
+        onClick={() => this.handleClick()}
+        title='Generate'
+        color='white'
+        >Hello</button>
       </div>
     );
   }
