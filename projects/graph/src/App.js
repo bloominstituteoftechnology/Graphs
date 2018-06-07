@@ -131,6 +131,9 @@ class App extends Component {
       graph: new Graph()
     };
 
+    //binding the button
+    this.randomGraph = this.randomGraph.bind(this);
+
     // !!! IMPLEMENT ME
     //TODO: Also add bfs here as well to showcase the colors and structure
     // use the graph randomize() method
@@ -141,6 +144,15 @@ class App extends Component {
     //testing getConnectedComponents
     this.state.graph.getConnectedComponents();
   }
+  //TODO: Need to somehow connect my randomized functions to get the colors to be random as well
+  //randomGraph function
+  randomGraph() {
+    let newGraph = new Graph();
+    newGraph.randomize(5, 3, 150, 0.6);
+    this.setState({
+      graph: newGraph
+    });
+  }
 
   render() {
     return ( <
@@ -149,7 +161,10 @@ class App extends Component {
       GraphView graph = {
         this.state.graph
       }
-      /> < /
+      />  <
+      button onClick = {
+        this.randomGraph
+      } > Random Graph < /button>< /
       div >
     );
   }
