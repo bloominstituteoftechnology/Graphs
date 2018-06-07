@@ -71,24 +71,24 @@ class GraphView extends Component {
     // TODO: compute connected components
 
     // TODO: draw edges
-    //creating a loop to set the vertexes = verts and edges = edgs
-    for (let verts of this.props.graph.vertexes) {
-      for (let edgs of verts.edges) {
+    //Refactored code to mimic graph.js variables for edges and vertexes
+    for (let v of this.props.graph.vertexes) {
+      for (let e of v.edges) {
         ctx.beginPath();
-        ctx.moveTo(verts.pos.x, verts.pos.y);
+        ctx.moveTo(v.pos.x, v.pos.y);
         //setting the connection 
-        const verts2 = edgs.destination;
+        const v = e.destination;
         //making the connection of the points
-        ctx.lineTo(verts2.pos.x, verts2.pos.y);
+        ctx.lineTo(v.pos.x, v.pos.y);
         ctx.stroke();
 
       }
     }
     // TODO: draw verts
-    //vertexes = verts(loop)
-    for (let verts of this.props.graph.vertexes) {
+    //(loop)
+    for (let v of this.props.graph.vertexes) {
       ctx.beginPath();
-      ctx.arc(verts.pos.x, verts.pos.y, 20, 0, 2 * Math.PI, false);
+      ctx.arc(v.pos.x, v.pos.y, circleSize 0, 2 * Math.PI, false);
       ctx.fillStyle = 'white';
       ctx.fill();
       ctx.stroke();
@@ -96,11 +96,11 @@ class GraphView extends Component {
 
 
     // TODO: draw vert values (labels)
-    for (let verts of this.props.graph.vertexes) {
+    for (let v of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.fillStyle = 'black';
       ctx.textAlign = 'cener';
-      ctx.fillText(verts.value, verts.pos.x, verts.pos.y);
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
     }
 
   }

@@ -148,6 +148,7 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    //using the same variables as the document has for fluidity and understanding and uniformity
     //checking to see if root exist
     if (this.vertexes === null) {
       return;
@@ -160,10 +161,10 @@ export class Graph {
     while (queue.length > 0) {
       //setting up the queue for nodes found
       let c = queue[0];
-      for (let edgs of c.edges) {
+      for (let e of c.edges) {
         //looking for siblings
         //if found push into the array
-        queue.push(edgs);
+        queue.push(e);
         //TODO: Check to see if I am missing a step...
       }
     }
