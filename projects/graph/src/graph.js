@@ -13,6 +13,8 @@
 //   'red',
 // ];
 
+const maxWeight = 200;
+
 /**
  * Edge
  */
@@ -21,6 +23,7 @@ export class Edge {
   constructor(destination) {
     // TODO: origin -- save a loop in the draw?
     this.destination = destination;
+    this.weight = -1;
   }
 }
 
@@ -198,6 +201,7 @@ export class Graph {
     while (queue.length > 0) {
       const v = queue[0];
       for (let edge of v.edges) {
+        edge.weight = Math.ceil(Math.random() * maxWeight);
         if (!found.includes(edge.destination)) {
           found.push(edge.destination);
           queue.push(edge.destination);
