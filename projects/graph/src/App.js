@@ -16,7 +16,7 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    this.updateCanvasComponents();
+    this.updateCanvas();
     // for (let v of this.props.graph.vertexes) {
       // this.props.graph.bfs(this.props.graph.vertexes[0]);
     // }
@@ -26,13 +26,13 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
-    this.updateCanvasComponents();
+    this.updateCanvas();
   }
 
   /**
    * Render the canvas
    */
-  updateCanvas(clr = 'white') {
+  updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
@@ -61,7 +61,7 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circlesize, 0, 2 * Math.PI);
-      ctx.fillStyle = clr;
+      ctx.fillStyle = vertex.color;
       ctx.fill();
 
       ctx.fillStyle = 'black';
@@ -74,14 +74,14 @@ class GraphView extends Component {
     }
   }
 
-  updateCanvasComponents() {
-    const connectedComponents = this.props.graph.getConnectedComponents();
+  // updateCanvasComponents() {
+  //   const connectedComponents = this.props.graph.getConnectedComponents();
 
-    for (let component of connectedComponents) {
-      const clr = 'green';
-      this.updateCanvas(clr);
-    }
-  }
+  //   for (let component of connectedComponents) {
+  //     const clr = 'green';
+  //     this.updateCanvas(clr);
+  //   }
+  // }
   
   /**
    * Render
@@ -107,6 +107,8 @@ class App extends Component {
     // use the graph randomize() method
     // this.state.graph.debugCreateTestData();
     this.state.graph.randomize(5,4,150,0.6);
+
+    this.state.graph.getConnectedComponents();
   }
   newGraphHandler() {
     const state = {graph : new Graph()};

@@ -132,34 +132,46 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start, reset = true) {
+  bfs(start) {
     // !!! IMPLEMENT ME
+    let randColor = 
+      'rgb(' + 
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';    
     console.log("starting vertex:",start);
-    const queue = [];
-    const visited = [];
-    if(reset) {
-      for (let v of this.vertexes) {
-        v.color = 'white';
-      }
-    }
-    start.color = 'gray';
-    console.log("changed the color of the starting vertex");
+    let queue = [];
+    let visited = [];
+    // if(reset) {
+    //   for (let v of this.vertexes) {
+    //     v.color = 'white';
+    //   }
+    // }
+    visited.push(start);
     queue.push(start);
-    console.log("queue",queue,"visited",visited);
+    start.color = randColor;
 
     while (queue.length > 0){
       const currentVertex = queue[0];
       for (let e of currentVertex.edges) {
-        const v = e.destination;
-        console.log("new vertex:",v)
-        if (v.color === 'white') {
-          v.color = 'red';
-          queue.push(v);
+        if(!visited.includes(e.destination)){
+          visited.push(e.destination);
+          queue.push(e.destination)
+          e.destination.color = randColor;
         }
+        // const v = e.destination;
+        // console.log("new vertex:",v)
+        // if (v.color === 'white') {
+        //   v.color = 'red';
+        //   queue.push(v);
+        // }
       }
       queue.shift();
-      currentVertex.color = 'black';
-      visited.push(currentVertex);
+      // currentVertex.color = 'black';
+      // visited.push(currentVertex);
     }
     return visited;
   }
@@ -170,14 +182,17 @@ export class Graph {
   getConnectedComponents() {
     // !!! IMPLEMENT ME
     const components = [];
-    let reset = true;
+    // let reset = true;
     for (let v of this.vertexes) {
-      if (reset || this.vertexes) {
-        const component = this.bfs(v, reset);
-        reset = false;
-        components.push(component);
-      }
+    //   if (reset || this.vertexes) {
+    //     const component = this.bfs(v, reset);
+    //     reset = false;
+    //     components.push(component);
+    //   }
+    if(!components.includes(v)){
+      components.push(this.bfs(v));
     }
-    return components;
+    }
+    // return components;
   }
 }
