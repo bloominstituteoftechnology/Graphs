@@ -54,13 +54,15 @@ class GraphView extends Component {
         if ((x >= v.pos.x - 20 && x <= v.pos.x + 20) && (y >= v.pos.y - 20 && y <= v.pos.y + 20)){
           // If there isn't start vertex selected, select clicked vertex
           if (!this.state.vert1) {
+            const newMem = this.state.memory;
+            newMem.push(canvas.toDataURL("image/png"));
             const ctx = canvas.getContext('2d');
             ctx.beginPath();
-            ctx.lineWidth = 8;
+            ctx.lineWidth = 7;
             ctx.strokeStyle = 'black';
-            ctx.arc(v.pos.x, v.pos.y, 21, 0, Math.PI * 2, true);
+            ctx.arc(v.pos.x, v.pos.y, 22, 0, Math.PI * 2, true);
             ctx.stroke();
-            this.setState({vert1: v});
+            this.setState({vert1: v, memory: newMem});
             console.log(`Selected start: ${v.value}`)
             break;
           }
@@ -69,31 +71,39 @@ class GraphView extends Component {
             // If first vertex was clicked again, deselect
             if (v === this.state.vert1) {
               const ctx = canvas.getContext('2d');
-              ctx.beginPath();
-              ctx.lineWidth = 8;
-              ctx.strokeStyle = 'white';
-              ctx.arc(v.pos.x, v.pos.y, 21, 0, Math.PI * 2, true);
-              ctx.stroke();
-              this.setState({vert1: null});
-              console.log(`Deselected start: ${v.value}`)
+              let prev = new Image ();
+              prev.src = this.state.memory[0];
+                prev.onload = function() { 
+                ctx.drawImage(prev, 0, 0); 
+                console.log(`Deselected start: ${v.value}`)
+              };
+              this.setState({vert1: null, memory: []});
             }
             // Else select new vertex
           else {
+            const newMem = this.state.memory;
+            newMem.push(canvas.toDataURL("image/png"));
             const ctx = canvas.getContext('2d');
             ctx.beginPath();
-            ctx.lineWidth = 8;
+            ctx.lineWidth = 7;
             ctx.strokeStyle = 'black';
             ctx.arc(v.pos.x, v.pos.y, 21, 0, Math.PI * 2, true);
             ctx.stroke();
-            this.setState({vert2: v});
+            this.setState({vert2: v, memory: newMem});
             console.log(`Selected end: ${v.value}`)
             break;
             }
           }
           // If second vertex is already selected and user clicks it again, deselect
           else if (v === this.state.vert2) {
-            this.setState({vert2: null});
-              console.log(`Deselected end: ${v.value}`)
+            const ctx = canvas.getContext('2d');
+              let prev = new Image ();
+              prev.src = this.state.memory[1];
+              prev.onload = function() { 
+                ctx.drawImage(prev, 0, 0); 
+                console.log(`Deselected start: ${v.value}`)
+              };
+              this.setState({vert2: null, memory: this.state.memory.slice(0, 1)});
           }
         }
       }
@@ -114,28 +124,34 @@ class GraphView extends Component {
     for (const subgraph of connectedComponents) {
       const color = this.getRndColor();
       for (const v of subgraph) {
+        // Fill edges
+        for (let e of v.edges) {
           ctx.beginPath();
-          ctx.fillStyle = color;
-          ctx.arc(v.pos.x, v.pos.y, 20, 0, Math.PI * 2, true);
-          ctx.fill();
-          for (let e of v.edges) {
-            ctx.beginPath();
-            ctx.strokeStyle = color;
-            ctx.lineWidth=e.weight;
-            ctx.moveTo(v.pos.x, v.pos.y);
-            ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
-            ctx.closePath();
-            ctx.stroke();
+          ctx.strokeStyle = color;
+          ctx.lineWidth=e.weight;
+          ctx.moveTo(v.pos.x, v.pos.y);
+          ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+          ctx.closePath();
+          ctx.stroke();
 
-            ctx.font = '10px serif';
-            ctx.fillStyle = 'black';
-            ctx.fillText(`${e.weight}`, (v.pos.x + e.destination.pos.x) / 2, (v.pos.y + e.destination.pos.y) / 2);
-          }
+          ctx.font = '10px serif';
+          ctx.fillStyle = 'black';
+          ctx.fillText(`${e.weight}`, (v.pos.x + e.destination.pos.x) / 2, (v.pos.y + e.destination.pos.y) / 2);
+        }
       }
       for (let v of subgraph) {
-        ctx.font = '18px serif';
-        ctx.fillStyle = 'white';
-        ctx.fillText(`${v.value}`, v.pos.x - 10, v.pos.y + 4);
+        // Fill verts
+        ctx.beginPath();
+        let gradient = ctx.createRadialGradient(v.pos.x - 5, v.pos.y - 5, 1, v.pos.x - 5, v.pos.y - 5, 15);
+        gradient.addColorStop(0, '#fff');
+        gradient.addColorStop(1, color);
+        ctx.fillStyle = gradient;
+        ctx.arc(v.pos.x, v.pos.y, 20, 0, Math.PI * 2, true);
+        ctx.fill();
+        // Fill labels
+        ctx.font = 'bold 20px serif';
+        ctx.fillStyle = 'black';
+        ctx.fillText(`${v.value.slice(1, v.value.length)}`, v.pos.x, v.pos.y + 2);
       }
     }
   }
