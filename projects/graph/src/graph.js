@@ -17,6 +17,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = 'white';
   }
 }
 
@@ -172,6 +173,60 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+
+    //Breadth First Search(start)
+
+    // 0. Pick a colour
+
+    let randColor =
+      'rgb(' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';
+
+    // 1. Take start and add it to our found list and add to the queue and add colour
+
+    // Method One - Keep a list of what we've found
+    // -> Advantages - We can easily query the list. Reference number found.
+    //                 When we're done, we have a list ready to go
+    //                 If we make on list per CC, then we lists of them.
+
+    let queue = [];
+    let found = [];
+    found.push(start);
+
+    queue.push(start);
+
+    start.color = randColor;
+
+    while (queue.length > 0) {
+      const v = queue[0];
+
+      for (let edge of v.edges) {
+        if (!found.includes(edge.destination)) {
+          found.push(edge.destination);
+          queue.push(edge.destination);
+          edge.destination.color = randColor;
+        }
+      }
+
+      queue.shift();
+    }
+
+    return found;
+
+    // 2. For each edge in queue[0] edge array, if destination is not in found list
+    //    a. Add to found list
+    //       Method 1: Save a list of this stuff
+    //       Method 2: Adda a flag to a vertex that says its found
+    //       Method 3: Use color to mark found vertexes
+    //    b. Add to the end of the queue
+    //    c. Add colour property
+    // 3. Dequeue queue[0]
+    // 4. If queue is not empty, go to step 2
   }
 
   /**
@@ -179,5 +234,11 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let searched = [];
+    for (let vertex of this.vertexes) {
+      if (!searched.includes(vertex)) {
+        searched = searched.concat(this.bfs(vertex));
+      }
+    }
   }
 }

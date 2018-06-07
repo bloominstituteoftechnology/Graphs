@@ -29,7 +29,7 @@ class GraphView extends Component {
   /**
    * Render the canvas
    */
-  updateCanvas() {
+  updateCanvas(color = 'red') {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
@@ -45,26 +45,36 @@ class GraphView extends Component {
     ctx.fillStyle = 'black';
 
     for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+
+        ctx.stroke();
+      }
+    }
+
+    for (let vertex of this.props.graph.vertexes) {
       // ctx.moveTo(vertex.pos.x, vertex.pos.y);
       // ctx.lineTo(100, 100);
       // ctx.stroke();
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circlesize, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = vertex.color;
       ctx.fill();
 
       ctx.fillStyle = 'black';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       ctx.stroke();
 
-      for (let edge of vertex.edges) {
-        const posX = vertex.pos.x;
-        const posY = vertex.pos.y;
-        ctx.beginPath();
-        ctx.moveTo(posX, posY);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        ctx.stroke();
-      }
+      // for (let edge of vertex.edges) {
+      //   const posX = vertex.pos.x;
+      //   const posY = vertex.pos.y;
+      //   ctx.beginPath();
+      //   ctx.moveTo(posX, posY);
+      //   ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+      //   ctx.stroke();
+      // }
     }
 
     // !!! IMPLEMENT ME
@@ -88,7 +98,7 @@ class GraphView extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
-
+    this.buttonClick = this.buttonClick.bind(this);
     this.state = {
       graph: new Graph()
     };
@@ -96,12 +106,30 @@ class App extends Component {
     this.state.graph.randomize(5, 4, 150, 0.6);
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+
+    this.state.graph.getConnectedComponents();
+  }
+
+  //handle button click
+
+  buttonClick() {
+    const state = {
+      graph: new Graph()
+    };
+
+    state.graph.randomize(5, 4, 150, 0.6);
+    this.setState(state);
+
+    this.forceUpdate();
   }
 
   render() {
+    function refreshPage() {
+      window.location.reload();
+    }
     return (
       <div className="App">
-        <GraphView graph={this.state.graph} />
+        <button onClick={(this.buttonClick, refreshPage)}>Random</button> <GraphView graph={this.state.graph} />
       </div>
     );
   }
