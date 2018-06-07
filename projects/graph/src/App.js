@@ -89,7 +89,7 @@ class GraphView extends Component {
     for (let v of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, circleSize, 0, 2 * Math.PI, false);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = v.color; //set to variable to initiate the randomColor function
       ctx.fill();
       ctx.stroke();
     }
@@ -136,7 +136,10 @@ class App extends Component {
     // use the graph randomize() method
     // this.state.graph.debugCreateTestData();
     this.state.graph.randomize(5, 3, 150, 0.6);
-    this.state.graph.bfs(this.state.graph.vertexes[0]);
+    //testing bfs
+    // this.state.graph.bfs(this.state.graph.vertexes[0]);
+    //testing getConnectedComponents
+    this.state.graph.getConnectedComponents();
   }
 
   render() {

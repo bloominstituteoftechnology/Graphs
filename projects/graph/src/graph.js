@@ -20,6 +20,7 @@ export class Vertex {
     this.value = value;
     this.edges = [];
     this.pos = pos;
+    this.color = 'white';
   }
 }
 
@@ -155,23 +156,26 @@ export class Graph {
 
     //color randomizer function
     let randomColor = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
-
+    let found = [];
     let queue = [];
     queue.push(start);
+    found.push(start);
     start.color = randomColor;
     while (queue.length > 0) {
-      let c = queue[0];
-      for (let e of c.edges) {
-        let v = e.destination;
-        if (v.color === randomColor) {
-          v.color = 'green';
-          v.parent = c;
-          queue.push(v);
+      const c = queue[0];
+      for (let edge of c.edges) {
+        if (!found.includes(edge.destination)) {
+          found.push(edge.destination);
+          queue.push(edge.destination);
+          edge.destination.color = randomColor;
         }
+
       }
       queue.shift();
-      c.color = 'black';
+
+
     }
+    return found;
 
   }
 
@@ -181,5 +185,13 @@ export class Graph {
   getConnectedComponents() {
     // !!! IMPLEMENT ME
     //TODO: Add the getConnectedComponents
+    let searched = [];
+
+    for (let vertex of this.vertexes) {
+      if (!searched.includes(vertex)) {
+        searched = searched.concat(this.bfs(vertex));
+
+      }
+    }
   }
 }
