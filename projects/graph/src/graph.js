@@ -3,8 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination) {
+  constructor(destination, weight) {
     this.destination = destination;
+    this.weight = weight;
   }
 }
 
@@ -48,10 +49,14 @@ export class Graph {
    */
   randomize(width, height, pxBox, probability=0.6) {
     this.vertexes = [];
+    const randomWeight = () => {
+      return Math.ceil(Math.random()*10);
+    }
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const weight = randomWeight();
+      v0.edges.push(new Edge(v1, weight));
+      v1.edges.push(new Edge(v0, weight));
     }
 
     let count = 0;
@@ -135,7 +140,7 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    //1. pick a random color
+    //pick a random color
     const pickRandomColor = () => {
       let colorDigits = '#';
       [...Array(6).keys()].forEach(() => {
@@ -147,23 +152,18 @@ export class Graph {
     let queue = [start];
     let current = {};
     let color = pickRandomColor();
-    //2. choose first vertex and add to found list
+    //bfs and add color to all connected nodes
     while (queue.length) {
       current = queue.pop();
       current.edges.forEach(edge => {
-        if (!edge.destination.color) {
+        if (!edge.destination.isFound) {
           queue.push(edge.destination);
           found.push(edge.destination);
           edge.destination.color = color;
+          edge.destination.isFound = true;
         }
       });
     }
-    //3. for each edge in queue[0].edges, if destination not in found list:
-    //  a. add to found list
-    //  b. add to the end of the queue
-    //  c. add color property
-    //4. Dequeue queue[0]
-    //5. if queue is not empty go to step 2.
   }
 
   /**
