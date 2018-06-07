@@ -18,6 +18,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = 'white'; // For alternate bfs solution
   }
   //To Do: Figure out how to add edges
 }
@@ -31,6 +32,7 @@ export class Graph {
     this.vertexes = [];
   }
 
+  // Test Data
   debugCreateTestData() {
     console.log('called debugCreateTestData()');
     let debugVertex1 = new Vertex('t1', { x: 40, y: 40 });
@@ -135,41 +137,86 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start, reset = true) {
-    const queue = [];
-    const component = [];
-    let vertex;
-    let edge;
-
-    // !!! IMPLEMENT ME
-
-    if (reset) {
-      for (vertex of this.vertexes) {
-        vertex.color = 'white';
+  bfs(start) {
+    // add <reset = true> as additional parameter for original solution
+    // Alternate solution
+    // 0. Pick random color
+    const getRandomColor = () => {
+      let letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
       }
-    }
+      return color;
+    };
 
-    start.color = 'gray';
+    // 1a. Take start and add it to our found list
+    let queue = [];
+    let found = [];
+    found.push(start);
 
+    // 1b. add to the queue
     queue.push(start);
 
-    while (queue > 0) {
-      const unexplored = queue[0];
+    // 1c. add color;
+    start.color = getRandomColor();
 
-      for (edge of unexplored.edges) {
-        if (edge.destination.color === 'white') {
-          edge.destination.color === 'gray';
-          queue.push(vertex);
+    // 4. If queue is not empty, go to step 2 (while loop)
+    while (queue.length > 0) {
+      // 2. For each eadge in the queue[0]'s edge array,
+      const v = queue[0];
+      for (let edge of v.edges) {
+        // if destination is not in the found list
+        if (!found.includes(edge.destination)) {
+          // a. add to found list
+          found.push(edge.destination);
+          // b. add to the end of the queue
+          queue.push(edge.destination);
+          // c. add color property
+          edge.destination.color = v.color;
         }
       }
+      // 3. Dequeue queue[0]
       queue.shift();
-
-      unexplored.color = 'black';
-
-      component.push(unexplored);
     }
+    return found;
 
-    return component;
+    // Original Solution
+
+    // const queue = [];
+    // const component = [];
+    // let vertex;
+    // let edge;
+
+    // // !!! IMPLEMENT ME
+
+    // if (reset) {
+    //   for (vertex of this.vertexes) {
+    //     vertex.color = 'white';
+    //   }
+    // }
+
+    // start.color = 'gray';
+
+    // queue.push(start);
+
+    // while (queue > 0) {
+    //   const unexplored = queue[0];
+
+    //   for (edge of unexplored.edges) {
+    //     if (edge.destination.color === 'white') {
+    //       edge.destination.color === 'gray';
+    //       queue.push(vertex);
+    //     }
+    //   }
+    //   queue.shift();
+
+    //   unexplored.color = 'black';
+
+    //   component.push(unexplored);
+    // }
+
+    // return component;
   }
 
   /**
@@ -177,19 +224,32 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
-    const connectedComponents = [];
-    let vertex;
 
-    let reset = true;
+    // Alternate Solution
+    let searched = [];
 
-    for (vertex in this.vertexes) {
-      if (reset || vertex.color === 'white') {
-        const component = this.bfs(vertex, reset);
-        reset = false;
-
-        connectedComponents.push(component);
+    for (let vertex of this.vertexes) {
+      if (!searched.includes(vertex)) {
+        searched = searched.concat(this.bfs(vertex));
       }
     }
-    return connectedComponents;
+    return searched;
+
+    // Original Solution
+
+    // const connectedComponents = [];
+    // let vertex;
+
+    // let reset = true;
+
+    // for (vertex in this.vertexes) {
+    //   if (reset || vertex.color === 'white') {
+    //     const component = this.bfs(vertex, reset);
+    //     reset = false;
+
+    //     connectedComponents.push(component);
+    //   }
+    // }
+    // return connectedComponents;
   }
 }

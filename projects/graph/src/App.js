@@ -39,20 +39,22 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     let clear = true;
 
-    const getRandomColor = () => {
-      let letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
-    };
+    // Code for Original Solution
+    // const getRandomColor = () => {
+    //   let letters = '0123456789ABCDEF';
+    //   let color = '#';
+    //   for (let i = 0; i < 6; i++) {
+    //     color += letters[Math.floor(Math.random() * 16)];
+    //   }
+    //   return color;
+    // };
 
     // Clear it
     if (clear) {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     }
 
+    // Don't need this code below because made the whole body one color
     // Canvas
     // ctx.fillStyle = 'rgb(0, 206, 209)';
     // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -69,11 +71,15 @@ class GraphView extends Component {
 
     // Edges
     ctx.lineWidth = 2;
-    ctx.strokeStyle = getRandomColor();
+
+    // For original implementation
+    // ctx.strokeStyle = getRandomColor();
 
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
+        console.log();
         ctx.beginPath();
+        ctx.strokeStyle = vertex.color;
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
@@ -84,7 +90,9 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white'; // TODO: Make variable
+      ctx.strokeStyle = vertex.color;
+
+      ctx.fillStyle = vertex.color; // TODO: Make variable
       ctx.fill();
       ctx.fillStyle = 'black'; // TODO: Make variable
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
@@ -112,12 +120,11 @@ class App extends Component {
       graph: new Graph()
     };
 
-    // this.newGraphButton = this.newGraphButton.bind(this);
-
     // !!! IMPLEMENT ME
     // use the graph randomize() method
 
     this.state.graph.randomize(width, height, pxBox, probability);
+    this.state.graph.getConnectedComponents();
   }
 
   newGraphButton() {
@@ -126,6 +133,7 @@ class App extends Component {
     };
 
     state.graph.randomize(width, height, pxBox, probability);
+    state.graph.getConnectedComponents();
 
     this.setState(state);
   }
