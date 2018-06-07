@@ -77,7 +77,7 @@ export class Graph {
     // Last pass, set the x and y coordinates for drawing
     const boxBuffer = 0.8;
     const boxInner = pxBox * boxBuffer;
-    const boxInnerOffset = (pxBox - boxInner) / 2;
+    const boxInnerOffset = (pxBox - boxInner) / 2 + 5;
 
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
