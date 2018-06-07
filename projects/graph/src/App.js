@@ -48,6 +48,7 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.strokeStyle = vertex.fillColor;
         ctx.stroke();
 
         // Add edge weight.
@@ -65,6 +66,7 @@ class GraphView extends Component {
     }
 
     for (let vertex of this.props.graph.vertexes) {
+      ctx.strokeStyle = vertex.fillColor;
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
       ctx.fillStyle = vertex.fillColor;
