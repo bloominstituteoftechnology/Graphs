@@ -31,6 +31,8 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+
+
   //Create a test compiler to see if everything is working
   debugCreateTestData() {
     console.log('called debugCreateTestData()');
@@ -149,24 +151,26 @@ export class Graph {
   bfs(start) {
     // !!! IMPLEMENT ME
     //using the same variables as the document has for fluidity and understanding and uniformity
-    //checking to see if root exist
-    if (this.vertexes === null) {
-      return;
-    }
-    //create a queue
+
+
+    //color randomizer function
+    let randomColor = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+
     let queue = [];
-    //push the root into the queue
-    queue.push(root);
-    //check for children
+    queue.push(start);
+    start.color = randomColor;
     while (queue.length > 0) {
-      //setting up the queue for nodes found
       let c = queue[0];
       for (let e of c.edges) {
-        //looking for siblings
-        //if found push into the array
-        queue.push(e);
-        //TODO: Check to see if I am missing a step...
+        let v = e.destination;
+        if (v.color === randomColor) {
+          v.color = 'green';
+          v.parent = c;
+          queue.push(v);
+        }
       }
+      queue.shift();
+      c.color = 'black';
     }
 
   }
@@ -176,5 +180,6 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    //TODO: Add the getConnectedComponents
   }
 }

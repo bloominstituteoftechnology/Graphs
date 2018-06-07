@@ -55,7 +55,7 @@ class GraphView extends Component {
     ctx.textBaseline = 'middle';
     ctx.font = '16px Arial';
 
-
+    //Drawing of the graph(updates)
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
@@ -77,7 +77,7 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(v.pos.x, v.pos.y);
         //setting the connection 
-        const v = e.destination;
+        v = e.destination;
         //making the connection of the points
         ctx.lineTo(v.pos.x, v.pos.y);
         ctx.stroke();
@@ -88,7 +88,7 @@ class GraphView extends Component {
     //(loop)
     for (let v of this.props.graph.vertexes) {
       ctx.beginPath();
-      ctx.arc(v.pos.x, v.pos.y, circleSize 0, 2 * Math.PI, false);
+      ctx.arc(v.pos.x, v.pos.y, circleSize, 0, 2 * Math.PI, false);
       ctx.fillStyle = 'white';
       ctx.fill();
       ctx.stroke();
@@ -132,9 +132,11 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
+    //TODO: Also add bfs here as well to showcase the colors and structure
     // use the graph randomize() method
     // this.state.graph.debugCreateTestData();
     this.state.graph.randomize(5, 3, 150, 0.6);
+    this.state.graph.bfs(this.state.graph.vertexes[0]);
   }
 
   render() {
