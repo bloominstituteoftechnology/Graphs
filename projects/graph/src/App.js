@@ -8,11 +8,6 @@ const canvasHeight = 600;
 
 const circleSize = 15;
 
-const xCount = 5;
-const yCount = 5;
-const boxSize = 125;
-const probability = 0.6;
-
 /**
  * GraphView
  */
@@ -111,7 +106,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    state.graph.randomize(xCount, yCount, boxSize, probability);
+    state.graph.randomize(5, 4, 150, 0.6);
 
     this.setState(state);
   }
