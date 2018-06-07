@@ -40,7 +40,6 @@ class GraphView extends Component {
     // draw edges
     let vertexes = this.props.graph.vertexes;
     this.props.graph.connectedComponents.forEach(component=>{
-      console.log(component);
       ctx.strokeStyle = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
       component.forEach(vertex=>{
         vertex.edges.forEach(edge=>{
@@ -48,7 +47,14 @@ class GraphView extends Component {
           ctx.moveTo(vertex.pos.x,vertex.pos.y);
           ctx.lineTo(edge.destination.pos.x,edge.destination.pos.y);
           ctx.stroke();
-        })
+          ctx.beginPath();
+          //ctx.moveTo((vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
+          ctx.fillStyle="black";
+          let x = (vertex.pos.x + edge.destination.pos.x) / 2;
+          let y = (vertex.pos.y + edge.destination.pos.y) / 2;
+          ctx.fillText(edge.weight,x,y);
+          ctx.stroke();
+        });
       });
     });
    
