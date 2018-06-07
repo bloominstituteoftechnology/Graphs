@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 820;
-const canvasHeight = 800;
+const canvasWidth = 900;
+const canvasHeight = 1000;
 const circleSize = 20;
 
 /**
@@ -15,9 +15,11 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    this.props.graph.randomize(5, 5, 150);
-    this.props.graph.getConnectedComponents();
-    this.updateCanvas();
+    setInterval(() => {
+      this.props.graph.randomize(10, 10, 80);
+      this.props.graph.getConnectedComponents();
+      this.updateCanvas();
+    }, 500);
   }
 
   /**
@@ -27,7 +29,7 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
-  /**
+  /**f
    * Render the canvas
    */
   updateCanvas() {
@@ -35,7 +37,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'rgb(0, 206, 209)';
+    ctx.fillStyle = 'white  ';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     console.log('in updateCanvas', this.props.graph.vertexes);

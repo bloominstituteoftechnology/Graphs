@@ -47,6 +47,7 @@ export class Graph {
    * Create a random graph
    */
   randomize(width, height, pxBox, probability=0.6) {
+    this.vertexes = [];
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -138,7 +139,7 @@ export class Graph {
     const pickRandomColor = () => {
       let colorDigits = '#';
       [...Array(6).keys()].forEach(() => {
-        colorDigits += (Math.floor(Math.random()*16)).toString(16);
+        colorDigits += (Math.floor(Math.random()*8)+7).toString(16);
       })
       return colorDigits;
     }
