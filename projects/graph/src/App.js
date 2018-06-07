@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 800;
-const canvasHeight = 600;
+const canvasWidth = 820;
+const canvasHeight = 800;
 const circleSize = 20;
 
 /**
@@ -15,6 +15,8 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
+    this.props.graph.randomize(5, 5, 150);
+    this.props.graph.getConnectedComponents();
     this.updateCanvas();
   }
 
@@ -38,20 +40,19 @@ class GraphView extends Component {
 
     console.log('in updateCanvas', this.props.graph.vertexes);
     
-
     this.props.graph.vertexes.forEach((vertex, index, array) => {
-      console.log(vertex,index, array);
       vertex.edges.forEach(edge => {
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        console.log(edge);
         ctx.stroke();
       });
     });
+
     this.props.graph.vertexes.forEach((vertex, index, array) => {
       ctx.beginPath();
     ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-    ctx.fillStyle = 'white';
+    console.log(vertex.color);
+    ctx.fillStyle = vertex.color || 'white';
     ctx.fill();
     ctx.stroke();
     ctx.textAlign = 'center';
@@ -61,36 +62,6 @@ class GraphView extends Component {
     ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
     ctx.closePath();
     });
-
-
-    // const rectangles = setInterval(() => {
-    //   ctx.fillStyle = `#${randomFromPalette()}`;
-    //   ctx.fillRect(randomX(), randomY(), randomX(), randomY());
-    // }, 100)
-
-    // const circles = setInterval (() => {
-    //   ctx.beginPath();
-    //   ctx.arc(randomY(), randomX(), randomX()/2, 0, 2 * Math.PI);
-    //   ctx.stroke();
-    //   ctx.fill();
-    //   ctx.closePath();
-    // }, 1000);
-
-    // const lines = setInterval(() => {
-    //     ctx.beginPath();
-    //     ctx.moveTo(randomX(), randomY());
-    //     ctx.strokeStyle = `#${randomFromPalette()}`
-    //     ctx.lineTo(randomX(), randomY());
-    //     ctx.stroke();
-    //     ctx.closePath();
-    //   }, 100);
-    
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
   }
   
   /**

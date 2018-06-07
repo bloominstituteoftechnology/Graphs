@@ -13,10 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value='default', pos={x: -1, y: -1}, edges = []) {
+  constructor(value='default', pos={x: -1, y: -1}, edges = [], color) {
     this.edges = edges;
     this.value = value;
     this.pos = pos;
+    this.color = color;
   }
 }
 
@@ -27,7 +28,6 @@ export class Graph {
   constructor() {
     console.log('called graph constructor');
     this.vertexes = [];
-    this.debugCreateTestData();
   }
 
   debugCreateTestData() {
@@ -136,14 +136,14 @@ export class Graph {
     // !!! IMPLEMENT ME
     //1. pick a random color
     const pickRandomColor = () => {
-      let colorDigits = '';
+      let colorDigits = '#';
       [...Array(6).keys()].forEach(() => {
         colorDigits += (Math.floor(Math.random()*16)).toString(16);
       })
       return colorDigits;
     }
     let found = [];
-    let queue = [];
+    let queue = [start];
     let current = {};
     let color = pickRandomColor();
     //2. choose first vertex and add to found list
@@ -151,6 +151,7 @@ export class Graph {
       current = queue.pop();
       current.edges.forEach(edge => {
         if (!edge.destination.color) {
+          queue.push(edge.destination);
           found.push(edge.destination);
           edge.destination.color = color;
         }
@@ -162,11 +163,6 @@ export class Graph {
     //  c. add color property
     //4. Dequeue queue[0]
     //5. if queue is not empty go to step 2.
-
-    /*connected components
-    1. go to next unfound vertex in graph and call BFS on it
-    2. go to step 1 
-    */
   }
 
   /**
@@ -174,5 +170,17 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    /*connected components
+    1. go to next unfound vertex in graph and call BFS on it
+    2. go to step 1 
+    */
+    const components = [this.vertexes];
+    for (let v of this.vertexes) {
+      if (this.vertexes) {
+        const component = this.bfs(v);
+        components.push(component);
+      }
+    }
+    return components;
   }
 }
