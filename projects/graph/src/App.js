@@ -165,23 +165,53 @@ class GraphView extends Component {
       //execute dijkstra -- Currently not working
       //TODO find shortest path then draw highlighted path
       
-      // const queue = [];
-      // const searched = [];
+      const queue = [];
 
-      // queue.push({v: this.state.vert1, cost: 0, prev: null});
-    
-      // while (queue.length > 0) {
-      //   const head = queue[0];
-      //   for (let i = 0; i < head.v.edges.length; i++) {
-      //     if (!(queue.includes(head.v.edges[i].destination) || searched.includes(head.v.edges[i].destination))) {
-      //       queue.push({v: head.v.edges[i].destination, cost: head.cost + head.v.edges[i].destination.weight, prev: head});
-      //     }
-      //   }
-      // // do something on current head
-      // const finished = queue.shift();
-      // searched.push(finished);
-      // }
-      // console.log (searched);
+      for (let v of subgraph) {
+        v.cost = Infinity;
+        v.previous = null;
+        queue.push(v);
+      }
+      subgraph[0].cost = 0;
+
+      while (queue.length > 0) {
+        const u = queue.shift();
+
+        // Stop if at end point
+        if (u === this.state.vert2) {
+          let vert = this.state.vert2;
+          console.log(vert.value);
+          const canvas = this.refs.canvas;
+          const ctx = canvas.getContext('2d');
+          ctx.beginPath();
+          ctx.strokeStyle = 'black';
+          ctx.lineWidth=e.weight;
+          ctx.moveTo(vert.pos.x, vert.pos.y);
+          ctx.lineTo(vert.previous.pos.x, vert.previous.pos.y);
+          ctx.closePath();
+          ctx.stroke();
+          while (vert.previous) {
+            ctx.beginPath();
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth=e.weight;
+            ctx.moveTo(vert.pos.x, vert.pos.y);
+            ctx.lineTo(vert.previous.pos.x, vert.previous.pos.y);
+            ctx.closePath();
+            ctx.stroke();
+            vert = vert.previous;
+          }
+        }
+
+        for (let v of u.edges) {
+          if (queue.includes(v.destination)) {
+            const alt = u.cost + v.weight;
+            if (alt < v.destination.cost) {
+              v.destination.cost = alt;
+              v.destination.previous = u;
+            }
+          }
+        }
+      }
     }
   }
   
