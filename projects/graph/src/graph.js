@@ -153,10 +153,10 @@ export class Graph {
     // 1a. Take start and add it to our found list
     let queue = [];
     let found = [];
-    found.push(start);
+    found.push(start); // found = [v1]
 
     // 1b. add to the queue
-    queue.push(start);
+    queue.push(start); // queue = [v1]
 
     // 1c. add color;
     start.color = getRandomColor();
@@ -164,20 +164,22 @@ export class Graph {
     // 4. If queue is not empty, go to step 2 (while loop)
     while (queue.length > 0) {
       // 2. For each eadge in the queue[0]'s edge array,
-      const v = queue[0];
+      const v = queue[0]; // v1
       for (let edge of v.edges) {
+        // v.edges = [v2, v7]
         // if destination is not in the found list
         if (!found.includes(edge.destination)) {
           // a. add to found list
-          found.push(edge.destination);
+          found.push(edge.destination); // found = [v1, v2, v7]
           // b. add to the end of the queue
-          queue.push(edge.destination);
+          queue.push(edge.destination); // queue = [v1, v2, v7]
           // c. add color property
-          edge.destination.color = v.color;
+          edge.destination.color = v.color; // v2 color, v7 color
         }
       }
       // 3. Dequeue queue[0]
-      queue.shift();
+      queue.shift(); // queue = [v2, v7]
+      console.log(Object.values(queue));
     }
     return found;
 
@@ -219,6 +221,40 @@ export class Graph {
     // return component;
   }
 
+  dfs(start) {
+    const getRandomColor = () => {
+      let letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    };
+
+    let stack = [];
+    let found = [];
+
+    found.push(start);
+    stack.push(start);
+
+    start.color = getRandomColor();
+
+    while (stack.length > 0) {
+      let v = stack.pop();
+      if (!found.includes(v)) {
+        found.push(v);
+      }
+      for (let edge of v.edges) {
+        if (!found.includes(edge.destination)) {
+          edge.destination.color = v.color;
+          stack.push(edge.destination);
+        }
+      }
+      console.log(Object.values(stack));
+    }
+    return found;
+  }
+
   /**
    * Get the connected components
    */
@@ -230,7 +266,7 @@ export class Graph {
 
     for (let vertex of this.vertexes) {
       if (!searched.includes(vertex)) {
-        searched = searched.concat(this.bfs(vertex));
+        searched = searched.concat(this.dfs(vertex));
       }
     }
     return searched;
