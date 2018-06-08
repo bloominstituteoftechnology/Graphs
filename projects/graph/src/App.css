@@ -1,4 +1,5 @@
 .App {
+  margin-top: 50px;
   text-align: center;
 }
 
@@ -23,6 +24,19 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button {
+  width: 150px;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 50px;
+  display: block;
+  font-size: 20px;
 }
