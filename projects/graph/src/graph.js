@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,14 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}, edges = [], color) {
+    this.edges = edges;
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+    this.isFound = false;
+    this.distance = 0;
+  }
 }
 
 /**
@@ -17,17 +29,36 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    console.log('called graph constructor');
     this.vertexes = [];
+  }
+
+  debugCreateTestData() {
+    console.log('called debugCreateTestData');
+    let debugVertex1 = new Vertex('t1', {x: 100, y: 100});
+    let debugVertex2 = new Vertex('t2', {x: 100, y: 400}, [new Edge(debugVertex1)]);
+    let debugVertex3 = new Vertex('t3', {x: 400, y: 100}, [new Edge(debugVertex2), new Edge(debugVertex1)]);
+
+    this.vertexes.push(debugVertex1);
+    this.vertexes.push(debugVertex2);
+    this.vertexes.push(debugVertex3);
+
+    console.log(this.bfs(this.vertexes[0]));
   }
 
   /**
    * Create a random graph
    */
   randomize(width, height, pxBox, probability=0.6) {
+    this.vertexes = [];
+    const randomWeight = () => {
+      return Math.ceil(Math.random()*10);
+    }
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const weight = randomWeight();
+      v0.edges.push(new Edge(v1, weight));
+      v1.edges.push(new Edge(v0, weight));
     }
 
     let count = 0;
@@ -105,12 +136,60 @@ export class Graph {
       console.log(s);
     }
   }
+  pickRandomColor() {
+    let colorDigits = '#';
+    [...Array(6).keys()].forEach(() => {
+      colorDigits += (Math.floor(Math.random()*8)+7).toString(16);
+    })
+    return colorDigits;
+  }
 
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, destination) {
     // !!! IMPLEMENT ME
+    //pick a random color
+    let queue = [start];
+    let current = {};
+    let color = this.pickRandomColor();
+    let distance;
+    let path = [];
+    //bfs and add color to all connected nodes
+    while (queue.length) {
+      current = queue.pop();
+      const edges = current.edges.sort((a, b) => {
+        return a.weight - b.weight;
+      });
+      //iterate over edges
+      edges.forEach(edge => {
+        distance = current.distance + edge.weight;
+        if (!edge.destination.isFound) {
+          //change destination properties to show foundness and add destination to queue
+          queue.push(edge.destination);
+          edge.destination.distance = distance;
+          edge.destination.parent = current;
+          edge.destination.color = color;
+          edge.destination.isFound = true;
+        }
+        if (edge.destination.distance > distance) {
+          //relax edges for optimal path selection
+          edge.destination.parent = current;
+          edge.destination.distance = distance;
+          queue.push(edge.destination);
+        }
+      });
+      if (destination && current === destination) {
+        //retrace path from destination back to origin
+        //should be overwritten as algorithm above optimizes
+        path = [];
+        const traceDestination = (node) => {
+          path.unshift(node);
+          if (node === start) return path;
+          return traceDestination(node.parent);
+        }; traceDestination(current);
+      }
+    } return path;
   }
 
   /**
@@ -118,5 +197,12 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+   
+    this.vertexes.forEach(vertex => {
+      if (!vertex.isFound) {
+        vertex.color = this.pickRandomColor();
+        this.bfs(vertex);
+      }
+    })
   }
 }
