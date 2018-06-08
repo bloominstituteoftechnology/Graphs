@@ -16,6 +16,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = 'white';
   }
 }
 
@@ -130,60 +131,147 @@ export class Graph {
     }
   }
 
+  randomRGBArr() {
+    return [
+      Math.floor(Math.random() * 256),
+      Math.floor(Math.random() * 256),
+      Math.floor(Math.random() * 256),
+    ];
+  }
+
   /**
    * BFS
    */
-  bfs(start) {
-    // console.log('bfs arg: ', start);
+  bfs(start, rgbColor) {
     // !!! IMPLEMENT ME
-    // define color for vertexes
-    // const color = 'chartreuse';
+    // 0. Pick a random color
+    let randColor =
+      'rgb(' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';
+
+    // 1. a. Take start and add it to our found list
     let found = [];
-    let queue = [];
-    let i = 0;
-    // take vertex (start) and add to found list
     found.push(start);
+    // Method One - Keep a list of what we've found
+    //    Advantages - Easy to query, list per CC
+    //    Disadvantages - Takes time and space, must be passed around,
+    //    must be iterated through to find specific item, more complexity O(n)
+
+    // Method Two - Use flag on vertex to mark as found
+    //    Advantages - Easy to implement, no list management, easier access, time complexity O(1)
+    //    Disadvantages - no list if list is needed, fragmented data, additional logic needed to add color/assign cc
+
+    // Method Three - Use color as the flag
+    // Shares most advantages and disadvantages with Method Two
+    // Advantages - Avoid redundancy and need for tracking a second property
+    // Disadvantages - Not explicit, data meaning becomes obscured
+
+    // 1. b. And add to the queue
+    let queue = [];
     queue.push(start);
 
-    // while queue[0] && edge is not in found list
-    while (queue[i]) {
-      console.log('in while', queue);
-      for (let edge of queue[i].edges) {
-        // console.log('edge: ', edge.destination); // vertex
-        if (found.includes(edge.destination) === false) {
-          // add to found list
+    // 1. c. And add color
+    start.color = rgbColor;
+
+    // 4. If queue is not empty, go to step 2 (while loop)
+    while (queue.length > 0) {
+      // 2. For each edge in queue[0]'s edge array,
+      const vertex = queue[0];
+      for (let edge of vertex.edges) {
+        // if destination is not in found
+        if (!found.includes(edge.destination)) {
+          //    a. add to found list
           found.push(edge.destination);
-          // // boolean to determine if vertex is found?
-          // add to end of queue
+          //    b. add to the end of the queue
           queue.push(edge.destination);
-          // // add color property to vertex
-          // dequeue queue[0]
-          queue.shift();
+          //    c. add color property
+          edge.destination.color = rgbColor;
         }
-        i++;
       }
+      // 3. Dequeue queue[0]
+      queue.shift();
     }
-    console.log('found', found);
-    console.log('queue', queue);
-    queue.shift();
     return found;
-  }
+  } // end bfs
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    console.log('getConnectedComponents called');
-    // !!! IMPLEMENT ME
-    // go to next unfound vertex in graph.vertexes
-    // call bfs on it
-    // continue through length of arr
-    let connected = [this.bfs(this.vertexes[0])];
-    console.log(connected);
-    // for (let i = 1; i < this.vertexes.length; i++) {
-    //   if (!connected.includes(this.vertexes[i])) {
-    //     connected.push(this.bfs(this.vertexes[i]));
-    //   }
-    // }
-  }
-}
+    // 0. Set color for connected components
+    const rgbArr = this.randomRGBArr();
+    // 1. Go to next unfound vertex in graph.vertexes and call bfs on it
+    // 2. Go to step 1 until we get to the end of the array
+    let connected = [];
+    // let i = 0;
+    // let j = 0;
+    // let k = 0;
+    let flag = true;
+    for (let vertex of this.vertexes) {
+      let color = 'rgb(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ')';
+      if (!connected.includes(this.vertex)) {
+        console.log('color: ', color);
+        connected = connected.concat(this.bfs(vertex, color));
+      }
+      console.log('flag: ', flag);
+      if (flag) {
+        // if incrementing only
+        if (rgbArr[0] - 20 >= 0) {
+          rgbArr[0] -= 20;
+        } else {
+          rgbArr[0] += 17;
+          flag = false;
+        }
+        if (rgbArr[1] - 20 >= 0) {
+          rgbArr[1] -= 20;
+        } else {
+          rgbArr[1] += 17;
+          flag = false;
+        }
+        if (rgbArr[2] - 20 >= 0) {
+          rgbArr[2] -= 20;
+        } else {
+          rgbArr[2] += 17;
+          flag = false;
+        }
+      }
+
+      if (!flag) {
+        if (rgbArr[0] + 17 <= 255) {
+          rgbArr[0] += 17;
+        } else {
+          rgbArr[0] -= 20;
+          flag = true;
+        }
+        if (rgbArr[1] + 17 <= 255) {
+          rgbArr[1] += 17;
+        } else {
+          rgbArr[1] -= 20;
+          flag = true;
+        }
+        if (rgbArr[2] + 17 <= 255) {
+          rgbArr[2] += 17;
+        } else {
+          rgbArr[2] -= 20;
+          flag = true;
+        }
+      }
+
+      // if (rgbArr[1] - 15 >= 0) {
+      //   rgbArr[1] -= 15;
+      // } else {
+      //   rgbArr[1] += 10;
+      // }
+      // if (rgbArr[2] - 15 >= 0) {
+      //   rgbArr[2] -= 15;
+      // } else {
+      //   rgbArr[2] += 10;
+      // }
+    }
+  } // end getConnectedComponents
+} // end Graph class
