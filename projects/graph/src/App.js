@@ -162,45 +162,26 @@ class GraphView extends Component {
     const subgraph = this.props.graph.bfs(this.state.vert1);
     if (!subgraph.includes(this.state.vert2)) alert("Vertices must be in the same subgraph to find a path!");
     else {
-      //execute dijkstra
-      const queue = [];
-      const searched = [];
+      //execute dijkstra -- Currently not working
+      //TODO find shortest path then draw highlighted path
+      
+      // const queue = [];
+      // const searched = [];
 
-      queue.push({v: this.state.vert1, distance: 0, prev: null});
+      // queue.push({v: this.state.vert1, cost: 0, prev: null});
     
-      while (queue.length > 0) {
-        const head = queue[0].v;
-        for (let i = 0; i < head.edges.length; i++) {
-          if (!(queue.includes(head.edges[i].destination) || searched.includes(head.edges[i].destination))) {
-            queue.push({v: head.edges[i].destination, distance: 0, prev: null});
-          }
-        }
-      // do something on current head
-      queue.shift();
-      searched.push(head);
-      }
-      console.log (searched);
-    //   create vertex set Q
-    //   4
-    //   5      for each vertex v in Graph:             // Initialization
-    //   6          dist[v] ← INFINITY                  // Unknown distance from source to v
-    //   7          prev[v] ← UNDEFINED                 // Previous node in optimal path from source
-    //   8          add v to Q                          // All nodes initially in Q (unvisited nodes)
-    //   9
-    //  10      dist[source] ← 0                        // Distance from source to source
-    //  11      
-    //  12      while Q is not empty:
-    //  13          u ← vertex in Q with min dist[u]    // Node with the least distance
-    //  14                                              // will be selected first
-    //  15          remove u from Q 
-    //  16          
-    //  17          for each neighbor v of u:           // where v is still in Q.
-    //  18              alt ← dist[u] + length(u, v)
-    //  19              if alt < dist[v]:               // A shorter path to v has been found
-    //  20                  dist[v] ← alt 
-    //  21                  prev[v] ← u 
-    //  22
-    //  23      return dist[], prev[]
+      // while (queue.length > 0) {
+      //   const head = queue[0];
+      //   for (let i = 0; i < head.v.edges.length; i++) {
+      //     if (!(queue.includes(head.v.edges[i].destination) || searched.includes(head.v.edges[i].destination))) {
+      //       queue.push({v: head.v.edges[i].destination, cost: head.cost + head.v.edges[i].destination.weight, prev: head});
+      //     }
+      //   }
+      // // do something on current head
+      // const finished = queue.shift();
+      // searched.push(finished);
+      // }
+      // console.log (searched);
     }
   }
   
