@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
 const canvasWidth = 750;
 const canvasHeight = 650;
 
@@ -59,7 +58,7 @@ class GraphView extends Component {
             const ctx = canvas.getContext('2d');
             ctx.beginPath();
             ctx.lineWidth = 7;
-            ctx.strokeStyle = 'black';
+            ctx.strokeStyle = 'lightgreen';
             ctx.arc(v.pos.x, v.pos.y, 22, 0, Math.PI * 2, true);
             ctx.stroke();
             this.setState({vert1: v, memory: newMem});
@@ -158,13 +157,14 @@ class GraphView extends Component {
 
   dijkstra(e) {
     e.preventDefault();
-    if (this.state.memory.length !== 2) alert("Select two different vertices to calculate path!");
+    if (this.state.memory.length !== 2) {
+      alert("Select two different vertices to calculate path!");
+      return;
+    }
     const subgraph = this.props.graph.bfs(this.state.vert1);
     if (!subgraph.includes(this.state.vert2)) alert("Vertices must be in the same subgraph to find a path!");
     else {
-      //execute dijkstra -- Currently not working
-      //TODO find shortest path then draw highlighted path
-      
+      //execute dijkstra
       const queue = [];
 
       for (let v of subgraph) {
@@ -180,12 +180,11 @@ class GraphView extends Component {
         // Stop if at end point
         if (u === this.state.vert2) {
           let vert = this.state.vert2;
-          console.log(vert.value);
           const canvas = this.refs.canvas;
           const ctx = canvas.getContext('2d');
           ctx.beginPath();
           ctx.strokeStyle = 'black';
-          ctx.lineWidth=e.weight;
+          ctx.lineWidth=10;
           ctx.moveTo(vert.pos.x, vert.pos.y);
           ctx.lineTo(vert.previous.pos.x, vert.previous.pos.y);
           ctx.closePath();
@@ -222,9 +221,9 @@ class GraphView extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.dijkstra = this.dijkstra.bind(this);
     return (
-    <div>
-      <button onClick={this.dijkstra} style={{position: "static"}}>dijkstra it</button>
+    <div  className="canvasContainer">
       <canvas onClick={this.handleClick} ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+      <button className="dButton" onClick={this.dijkstra}>DIJKSTRA it</button>
     </div>
     );
   }
@@ -255,8 +254,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <p><span style={{fontWeight: "800"}}>Dijkstra's algorithm</span> is used to find the shortest path between two vertices of a graph. <br></br><br></br><br></br> One way to visualize it is like a roadmap. Each vertex is a city and each edge that connects them is a road. The weight of each road is the amount of traffic slowing down travel. What is the fastest way to get from point A to point B?</p>
         <GraphView graph={this.state.graph}></GraphView>
-        <button onClick={this.newGraph}>MORE GRAPHS!</button>
+        <button className="nextButton" onClick={this.newGraph}>MORE GRAPHS!</button>
       </div>
     );
   }
