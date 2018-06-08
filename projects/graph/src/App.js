@@ -254,7 +254,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <p><span style={{fontWeight: "800"}}>Dijkstra's algorithm</span> is used to find the shortest path between two vertices of a graph. <br></br><br></br><br></br> One way to visualize it is like a roadmap. Each vertex is a city and each edge that connects them is a road. The weight of each road is the amount of traffic slowing down travel. What is the fastest way to get from point A to point B?</p>
+      <p><span style={{fontWeight: "800"}}>Dijkstra's algorithm</span> is used to find the shortest path between two vertices of a graph. <br></br><br></br><br></br> One way to visualize it is a roadmap. Think of each vertex as a city and each edge as a road connecting them. The weight of each edge is the amount of traffic on the road. Dijkstra's algorithm is used to find the fastest way to get from point A to point B.</p>
         <GraphView graph={this.state.graph}></GraphView>
         <button className="nextButton" onClick={this.newGraph}>MORE GRAPHS!</button>
       </div>

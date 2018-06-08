@@ -3,7 +3,7 @@ html {
   width: 100vw;
 }
 .App {
-  height: 98vh;
+  height: 99vh;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -11,7 +11,7 @@ html {
 }
 
 p {
-  width: 15%;
+  width: 20%;
 }
 
 .canvasContainer {
