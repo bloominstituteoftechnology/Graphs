@@ -19,6 +19,8 @@ export class Vertex {
     this.value = value;
     this.pos = pos;
     this.color = color;
+    this.isFound = false;
+    this.distance = 0;
   }
 }
 
@@ -134,36 +136,60 @@ export class Graph {
       console.log(s);
     }
   }
+  pickRandomColor() {
+    let colorDigits = '#';
+    [...Array(6).keys()].forEach(() => {
+      colorDigits += (Math.floor(Math.random()*8)+7).toString(16);
+    })
+    return colorDigits;
+  }
 
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, destination) {
     // !!! IMPLEMENT ME
     //pick a random color
-    const pickRandomColor = () => {
-      let colorDigits = '#';
-      [...Array(6).keys()].forEach(() => {
-        colorDigits += (Math.floor(Math.random()*8)+7).toString(16);
-      })
-      return colorDigits;
-    }
-    let found = [];
     let queue = [start];
     let current = {};
-    let color = pickRandomColor();
+    let color = this.pickRandomColor();
+    let distance;
+    let path = [];
     //bfs and add color to all connected nodes
     while (queue.length) {
       current = queue.pop();
-      current.edges.forEach(edge => {
+      const edges = current.edges.sort((a, b) => {
+        return a.weight - b.weight;
+      });
+      //iterate over edges
+      edges.forEach(edge => {
+        distance = current.distance + edge.weight;
         if (!edge.destination.isFound) {
+          //change destination properties to show foundness and add destination to queue
           queue.push(edge.destination);
-          found.push(edge.destination);
+          edge.destination.distance = distance;
+          edge.destination.parent = current;
           edge.destination.color = color;
           edge.destination.isFound = true;
         }
+        if (edge.destination.distance > distance) {
+          //relax edges for optimal path selection
+          edge.destination.parent = current;
+          edge.destination.distance = distance;
+          queue.push(edge.destination);
+        }
       });
-    }
+      if (destination && current === destination) {
+        //retrace path from destination back to origin
+        //should be overwritten as algorithm above optimizes
+        path = [];
+        const traceDestination = (node) => {
+          path.unshift(node);
+          if (node === start) return path;
+          return traceDestination(node.parent);
+        }; traceDestination(current);
+      }
+    } return path;
   }
 
   /**
@@ -171,17 +197,12 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
-    /*connected components
-    1. go to next unfound vertex in graph and call BFS on it
-    2. go to step 1 
-    */
-    const components = [this.vertexes];
-    for (let v of this.vertexes) {
-      if (this.vertexes) {
-        const component = this.bfs(v);
-        components.push(component);
+   
+    this.vertexes.forEach(vertex => {
+      if (!vertex.isFound) {
+        vertex.color = this.pickRandomColor();
+        this.bfs(vertex);
       }
-    }
-    return components;
+    })
   }
 }

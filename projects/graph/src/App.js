@@ -19,7 +19,7 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    this.props.graph.randomize(10, 10, 80);
+    this.props.graph.randomize(10, 10, 100);
     this.props.graph.getConnectedComponents();
     this.updateCanvas();
   }
@@ -28,6 +28,9 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
+    if (this.state.originClick && this.state.destinationClick) {
+      this.findRoute();
+    }
     this.updateCanvas();
   }
 
@@ -98,7 +101,22 @@ class GraphView extends Component {
       console.log('Origin: ', this.state.originClick.value, 'Destination ', clickedVertex.value);
     }
   }
-  
+
+  findRoute() {
+    this.props.graph.vertexes.forEach(vertex => {
+      vertex.isFound = false;
+    });
+    const path = this.props.graph.bfs(this.state.originClick, this.state.destinationClick);
+    path.forEach(node => {
+      const vertex = this.props.graph.vertexes.find(vertex => {
+        return vertex.value === node.value;
+      });
+      vertex.color = 'green';
+    });
+    console.log(path);
+  }
+
+    
   /**
    * Render
    */
