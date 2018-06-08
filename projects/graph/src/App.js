@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
 const canvasWidth = '750px';
 const canvasHeight = '600px';
 
@@ -57,7 +56,7 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.arc(vertex.pos.x, vertex.pos.y, circleSize, 0, 2 * Math.PI);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = vertex.color;
       ctx.fill();
       ctx.fillStyle = 'black';
       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
@@ -69,7 +68,6 @@ class GraphView extends Component {
     // ctx.lineJoin = 'round';
     // ctx.lineCap = 'round';
 
-    // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
@@ -119,10 +117,10 @@ class App extends Component {
       graph: new Graph(),
     };
 
-    // !!! IMPLEMENT ME
     // use the graph randomize() method
-
     this.state.graph.randomize(5, 4, 150, 0.6);
+
+    this.state.graph.getConnectedComponents();
   }
 
   render() {

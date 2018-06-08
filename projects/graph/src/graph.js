@@ -2,7 +2,6 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
   constructor(destination) {
     this.destination = destination;
   }
@@ -12,7 +11,6 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
   constructor(value = 'default', pos = { x: -1, y: -1 }) {
     this.edges = [];
     this.value = value;
@@ -142,13 +140,52 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    let randColor =
+      'rgb(' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';
+
+    // create found & queue list
+    let queue = [];
+    let found = [];
+
+    // add start to found list
+    found.push(start);
+    // add start to queue list
+    queue.push(start);
+    // add random color
+    start.color = randColor;
+
+    while (queue.length > 0) {
+      const v = queue[0];
+
+      for (let edge of v.edges) {
+        if (!found.includes(edge.destination)) {
+          found.push(edge.destination);
+          queue.push(edge.destination);
+          edge.destination.color = randColor;
+        }
+      }
+      queue.shift();
+    }
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    let searched = [];
+
+    // 'in' searches through all properties of an object
+    // 'of' searches through the iterable properties
+    for (let vertex of this.vertexes) {
+      if (!searched.includes(vertex)) {
+        searched = searched.concat(this.bfs(vertex));
+      }
+    }
   }
 }
