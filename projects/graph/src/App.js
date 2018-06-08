@@ -3,7 +3,7 @@ import { Graph } from './graph';
 import './App.css';
 
 const canvasWidth = 750;
-const canvasHeight = 550;
+const canvasHeight = 600;
 
 /**
  * GraphView
