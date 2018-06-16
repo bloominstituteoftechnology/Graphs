@@ -2,14 +2,24 @@
  * Edge
  */
 export class Edge {
+  //by adding origin, try to save a loop in the draw
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = {x: -1, y: -1}) { // (x,y -1) stands out more to test if rendered correctly
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = 'white';
+  }
+  //TODO: Figure out how to add edges
 }
 
 /**
@@ -17,7 +27,24 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    // console.log('called graph constructor');
     this.vertexes = [];
+  }
+
+  debugCreateTestData() {
+    console.log('called debugCreateTestData()');
+    let debugVertex1 = new Vertex('T1', {x: 40, y: 40});
+    let debugVertex2 = new Vertex('T2', {x: 80, y: 80});
+    let debugVertex3 = new Vertex('T3', {x: 40, y: 80});
+//  debugVertex1.pos.x = 50; another way to write it
+//  debugVertex1.pos.y = 60;
+    let debugEdge1 = new Edge(debugVertex2); // 1 to 2
+    debugVertex1.edges.push(debugEdge1);
+
+    let debugEdge2 = new Edge(debugVertex3);
+    debugVertex2.edges.push(debugEdge2);
+    
+    this.vertexes.push(debugVertex1, debugVertex2, debugVertex3);
   }
 
   /**
@@ -111,6 +138,48 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    // Breadth First Search(start)
+    // Pick random color
+
+    const randomColor =
+    'rgb(' +
+    Math.floor(Math.random() * 256) +
+    ',' +
+    Math.floor(Math.random() * 256) +
+    ',' +
+    Math.floor(Math.random() * 256) +
+    ')';
+
+    // Take start and add it to our found list
+    let queue = [];
+    let found = [];
+    found.push(start);
+
+    // add to the queue
+    queue.push(start);
+
+    //add color
+    start.color = randomColor;
+
+    // if queue is NOT empty, go to step 2 (while loop)
+    while(queue.length > 0) {
+    // for each edge in the queue[0]'s edge array, if destination is not in the found list
+    const v = queue[0];
+    for (let edge of v.edges) {
+      if (!found.includes(edge.destination)) {
+        // add to found list
+      found.push(edge.destination)
+      // add to the end of queue
+      queue.push(edge.destination)
+      // add the color property
+      edge.destination.color = randomColor;
+      }
+      
+    }
+    // dequeue queue[0]
+    queue.shift();
+    }
+    return found;
   }
 
   /**
@@ -118,5 +187,12 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let searched = [];
+    for (let vertex of this.vertexes) {
+      if (!searched.includes(vertex)) {
+        searched = searched.concat(this.bfs(vertex));
+      }
+    }
+    
   }
 }
