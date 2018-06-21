@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 750;
+const canvasHeight = 600;
+
+const circleSize = 15;
 
 /**
  * GraphView
@@ -30,9 +32,9 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'tan';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -40,16 +42,46 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+    this.props.graph.getConnectedComponents();
+
+    for (let vertex of this.props.graph.vertexes) {
+      const posX = vertex.pos.x;
+      const posY = vertex.pos.y;
+
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(posX, posY);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.strokeStyle = vertex.color;
+        ctx.stroke();
+      }
+    }
+
+    for (let vertex of this.props.graph.vertexes) {
+      const posX = vertex.pos.x;
+      const posY = vertex.pos.y;
+
+      ctx.beginPath();
+      ctx.arc(posX, posY, circleSize, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fillStyle = vertex.color;
+      ctx.fill();
+
+      ctx.fillStyle = 'white';
+      ctx.font = '16px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(vertex.value, posX, posY);
+    }
   }
-  
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }
-
 
 /**
  * App
@@ -58,18 +90,32 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.onButton = this.onButton.bind(this);
+
     this.state = {
       graph: new Graph()
     };
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
+  }
+
+  onButton() {
+    const state = {
+      graph: new Graph()
+    };
+
+    state.graph.randomize(5, 4, 150, 0.6);
+
+    this.setState(state);
   }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.onButton}>Random</button>
+        <GraphView graph={this.state.graph} />
       </div>
     );
   }
