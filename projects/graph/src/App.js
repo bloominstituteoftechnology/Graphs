@@ -32,7 +32,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext("2d");
 
     // Clear it
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "lightblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -92,7 +92,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(5, 4, 100, 0.6);
   }
 
   render() {
