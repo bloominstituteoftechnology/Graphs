@@ -54,15 +54,15 @@ class GraphView extends Component {
         this.drawLines(vertexes, ctx);
 
 
-        for (let v of vertexes) {
-            ctx.fillStyle = this.randomColor();
-            ctx.beginPath();
-            ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
-            ctx.stroke();
-            ctx.fill();
-        }
+        // for (let v of vertexes) {
+        //     ctx.fillStyle = this.randomColor();
+        //     ctx.beginPath();
+        //     ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+        //     ctx.stroke();
+        //     ctx.fill();
+        // }
 
-        // this.drawVertex(vertexes, ctx);
+        this.drawGraph(vertexes, ctx);
 
 
         this.drawVertexName(vertexes, ctx);
@@ -83,15 +83,15 @@ class GraphView extends Component {
         }
     }
 
-    // drawVertex(vertexes, ctx) {
-    //     for (let v of vertexes) {
-    //         ctx.fillStyle = this.randomColor();
-    //         ctx.beginPath();
-    //         ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
-    //         ctx.stroke();
-    //         ctx.fill();
-    //     }
-    // }
+    drawGraph(vertexes, ctx) {
+        for (let v of vertexes) {
+            ctx.fillStyle = this.randomColor();
+            ctx.beginPath();
+            ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+            ctx.stroke();
+            ctx.fill();
+        }
+    }
 
 
     drawVertexName(vertexes, ctx) {
