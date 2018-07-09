@@ -48,7 +48,7 @@ export class Graph {
             for (let x = 0; x < width; x++) {
                 let v = new Vertex();
                 //v.value = 'v' + x + ',' + y;
-                v.value = 'v' + count++;
+                v.value = 'v:' + count++;
                 row.push(v);
             }
             grid.push(row);

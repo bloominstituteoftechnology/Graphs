@@ -3,8 +3,16 @@ import {Graph} from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
-const canvasHeight = 900;
+const xValue = 6;
+const yValue = 6;
+const boxSize = 150;
+const probability = 0.6;
+
+
+const canvasWidth = xValue * boxSize;
+const canvasHeight = yValue * boxSize;
+const radius = boxSize / 9;
+
 
 /**
  * GraphView
@@ -28,21 +36,115 @@ class GraphView extends Component {
      * Render the canvas
      */
     updateCanvas() {
+        const graph = this.props.graph;
+
+        this.drawVertex(graph.vertexes);
+    }
+
+    drawVertex(vertexes, color, clear=true) {
         let canvas = this.refs.canvas;
         let ctx = canvas.getContext('2d');
 
         // Clear it
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        if (clear) {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        }
 
-        // !!! IMPLEMENT ME
-        // compute connected components
+        this.drawLines(vertexes, ctx);
 
-        // draw edges
-        // draw verts
-        // draw vert values (labels)
+
+        for (let v of vertexes) {
+            ctx.fillStyle = this.randomColor();
+            ctx.beginPath();
+            ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+            ctx.stroke();
+            ctx.fill();
+        }
+
+        // this.drawVertex(vertexes, ctx);
+
+
+        this.drawVertexName(vertexes, ctx);
     }
 
+    drawLines(vertexes, ctx) {
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = this.randomColor();
+
+        for (let v of vertexes) {
+            for (let e of v.edges) {
+                const v2 = e.destination;
+                ctx.beginPath();
+                ctx.moveTo(v.pos.x, v.pos.y);
+                ctx.lineTo(v2.pos.x, v2.pos.y);
+                ctx.stroke();
+            }
+        }
+    }
+
+    // drawVertex(vertexes, ctx) {
+    //     for (let v of vertexes) {
+    //         ctx.fillStyle = this.randomColor();
+    //         ctx.beginPath();
+    //         ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+    //         ctx.stroke();
+    //         ctx.fill();
+    //     }
+    // }
+
+
+    drawVertexName(vertexes, ctx) {
+
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'white';
+
+        for (let v of vertexes) {
+            ctx.fillText(v.value, v.pos.x, v.pos.y + 4);
+        }
+    }
+    randomColor() {
+
+        const number = Math.floor(Math.random() * 10) + 1;
+
+        switch (number) {
+            case 1:
+                return 'blue';
+                break;
+            case 2:
+                return 'red';
+                break;
+            case 3:
+                return 'green';
+                break;
+            case 4:
+                return 'brown';
+                break;
+            case 5:
+                return 'black';
+                break;
+            case 6:
+                return 'navy';
+                break;
+            case 7:
+                return 'cyan';
+                break;
+            case 8:
+                return 'LightBlue';
+            case 9:
+                return 'SpringGreen';
+                break;
+            case 10:
+                return 'Magenta';
+                break;
+
+            default:
+                return 'blue';
+
+        }
+
+    }
     /**
      * Render
      */
@@ -64,7 +166,7 @@ class App extends Component {
         };
 
         // !!! IMPLEMENT ME
-        // use the graph randomize() method
+        this.state.graph.randomize(xValue, yValue, boxSize, probability);
     }
 
     render() {
