@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+ const canvasWidth = 500;
+ const canvasHeight = 300;
 
 /**
  * GraphView
@@ -32,12 +32,59 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'teal';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    
 
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
+
+    ctx.fillStyle = 'yellow';
+    ctx.beginPath();
+    ctx.moveTo(25, 25);
+    ctx.lineTo(105, 25);
+    ctx.lineTo(25, 105);
+    ctx.fill();
+
+    // Stroked triangle
+    ctx.beginPath();
+    ctx.moveTo(125, 125);
+    ctx.lineTo(125, 45);
+    ctx.lineTo(45, 125);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.font = "70px Arial";
+    ctx.fillText("Hey CS9", 120, 190);
+    
+
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(395, 60, 40, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(298, 10, 50, 0, 2 * Math.PI);
+    ctx.fill();
+
+
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(213, 60, 23, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(213, 240, 23, 0, 2 * Math.PI);
+    ctx.fill();
+
+
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(298, 300, 50, 0, 2 * Math.PI);
+    ctx.fill();
     // draw verts
     // draw vert values (labels)
   }
