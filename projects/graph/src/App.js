@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 800;
+const canvasHeight = 550;
 
 /**
  * GraphView
@@ -28,12 +28,46 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
-    
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
+
     // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = 'purple';
+    ctx.fillRect(0, 25, canvasWidth, canvasHeight);
+
+    ctx.fillStyle = 'pink';
+    ctx.fillRect(10, 25, canvasWidth, 40);
+
+    ctx.fillStyle = 'pink';
+    ctx.fillRect(10, 75, canvasWidth, 30);
+
+    ctx.fillStyle = 'pink';
+    ctx.fillRect(10, 115, canvasWidth, 20);
+
+    ctx.fillStyle = 'pink';
+    ctx.fillRect(10, 147, canvasWidth, 18);
+
+    ctx.fillStyle = 'pink';
+    ctx.fillRect(10, 175, canvasWidth, 14);
+
+    ctx.fillStyle = 'pink';
+    ctx.fillRect(10, 198, canvasWidth, 5);
+
+    ctx.fillStyle = 'teal';
+    ctx.fillRect(0, 10, 200, 200)
+
+    ctx.fillStyle = 'yellow';
+    ctx.beginPath();
+    ctx.moveTo(250, 250);
+    ctx.lineTo(105, 25);
+    ctx.lineTo(25, 105);
+    ctx.fill();
+
+    
+
+    
+
+
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -41,7 +75,7 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
   }
-  
+
   /**
    * Render
    */
