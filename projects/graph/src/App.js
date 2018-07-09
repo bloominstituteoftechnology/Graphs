@@ -3,8 +3,8 @@ import { Graph } from "./graph";
 import "./App.css";
 
 // !!! IMPLEMENT ME
-const canvasWidth = 10;
-const canvasHeight = 10;
+const canvasWidth = 600;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -40,6 +40,15 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
+      ctx.fillStyle = "red";
+      ctx.fillRect(
+        this.props.graph.vertexes[i].pos.x,
+        this.props.graph.vertexes[i].pos.y,
+        10,
+        10
+      );
+    }
     console.log(canvas);
   }
 
@@ -62,7 +71,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    this.state.graph.randomize(canvasWidth, canvasHeight, 10);
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
