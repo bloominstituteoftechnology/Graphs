@@ -1,28 +1,66 @@
+html {
+  height: 100vh;
+  width: 100vw;
+}
 .App {
+  height: 99vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+p {
+  width: 20%;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.canvasContainer {
+  display: flex;
+  flex-direction: column;
 }
 
-.App-title {
-  font-size: 1.5em;
+.dButton {
+  padding: 10px;
+  margin: 2px;
+  cursor: pointer;
+	background: rgb(96, 160, 255);
+
+	background-repeat: no-repeat;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	padding: 10px;
+  font-size:78px;
+  font-weight: 400;
+	color: #fff;
+  line-height: 40px;
+  border: none;
+  outline:none;
 }
 
-.App-intro {
-  font-size: large;
+.dButton:hover {
+  background: rgb(55, 130, 243);
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.nextButton {
+  padding: 10px;
+  margin: 2px;
+  cursor: pointer;
+	background: linear-gradient(-135deg, transparent 22px, rgb(96, 160, 255) 0) top right,
+				linear-gradient(-45deg, transparent 22px, rgb(96, 160, 255) 0) bottom right;
+	background-size: 100% 50%; 
+	background-repeat: no-repeat;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	padding: 10px;
+  font-size:20px;
+  font-weight: 400;
+	color: #fff;
+  line-height: 40px;
+  border: none;
+  outline:none;
+}
+
+.nextButton:hover {
+  background: linear-gradient(-135deg, transparent 22px, rgb(55, 130, 243) 0) top right,
+  linear-gradient(-45deg, transparent 22px, rgb(55, 130, 243) 0) bottom right;
+  background-size: 100% 50%; 
+  background-repeat: no-repeat;
 }

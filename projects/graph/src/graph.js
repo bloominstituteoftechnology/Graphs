@@ -2,14 +2,20 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value) {
+    this.edges = [];
+    this.value = value;
+    }
 }
 
 /**
@@ -26,8 +32,9 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const weight = Math.floor(Math.random() * 10) + 1
+      v0.edges.push(new Edge(v1, weight));
+      v1.edges.push(new Edge(v0, weight));
     }
 
     let count = 0;
@@ -65,7 +72,7 @@ export class Graph {
     }
 
     // Last pass, set the x and y coordinates for drawing
-    const boxBuffer = 0.8;
+    const boxBuffer = 0.5;
     const boxInner = pxBox * boxBuffer;
     const boxInnerOffset = (pxBox - boxInner) / 2;
 
@@ -111,12 +118,41 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+    const searched = [];
+
+    queue.push(start);
+    
+    while (queue.length > 0) {
+      const head = queue[0];
+      for (let i = 0; i < head.edges.length; i++) {
+        if (!(queue.includes(head.edges[i].destination) || searched.includes(head.edges[i].destination))) {
+          queue.push(head.edges[i].destination);
+        }
+      }
+      // do something on current head
+      queue.shift();
+      searched.push(head);
+    }
+    return searched;
   }
+  
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const connectedComp = [];
+    const searched = [];
+    for (let v of this.vertexes) {
+      if (!searched.includes(v)) {
+        const subgraph = this.bfs(v);
+        for (let subv of subgraph) {
+          searched.push(subv);
+        }
+        connectedComp.push(subgraph);
+      }
+    }
+    return connectedComp;
   }
 }
