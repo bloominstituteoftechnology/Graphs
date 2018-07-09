@@ -41,18 +41,33 @@ class GraphView extends Component {
       Edges (lines) 
         - beginPath(): Begins a path, or resets the current path
         - moveTo(): Moves the path to the specified point in the canvas, without creating a line
-        - lineTo(): Adds a new point and creates a line to that point from the last specified point in the canvas
+        - lineTo(): Adds a new point and creates a line to that point from the last specified point in the canvas | use to have multiple lines/edges
         - stroke(): Actually draws the path you have defined
     */
     ctx.fillStyle = 'blue';
+    ctx.fillRect(200, 20, 200, 180);
     ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.lineTo(300,150);
+    ctx.moveTo(50,40);
+    ctx.lineTo(10,10);
+    ctx.lineTo(350,10);
+    ctx.lineTo(450,430);
     ctx.stroke();  
 
+    /*
+      Verts/Nodes (circles) 
+        - void ctx.arc(x, y, radius, startAngle, endAngle [, anticlockwise]);
+          * x coord of arc's center
+          * y coord of arc's center
+          * arc's radius
+          * startAngle = angle which arc starts measured clockwise from positive x axis and expressed in radians
+          * endAngle = angle which arc starts measured clockwise from positive x axis and expressed in radians
+    */
 
-    // draw verts
-
+    ctx.fillStyle = 'purple';
+    ctx.fillRect(400, 350, 100, 100);
+    ctx.beginPath();
+    ctx.arc(450, 400, 100, 0, 2 * Math.PI);
+    ctx.stroke();
 
     // draw vert values (labels)
 
