@@ -35,11 +35,28 @@ class GraphView extends Component {
     ctx.fillStyle = 'orange';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
+    // Compute Connected Components
+    
+    /* 
+      Edges (lines) 
+        - beginPath(): Begins a path, or resets the current path
+        - moveTo(): Moves the path to the specified point in the canvas, without creating a line
+        - lineTo(): Adds a new point and creates a line to that point from the last specified point in the canvas
+        - stroke(): Actually draws the path you have defined
+    */
+    ctx.fillStyle = 'blue';
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.lineTo(300,150);
+    ctx.stroke();  
+
+
     // draw verts
+
+
     // draw vert values (labels)
+
+
   }
   
   /**
