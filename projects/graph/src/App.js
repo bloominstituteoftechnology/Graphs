@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 600;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -32,8 +32,46 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    //========================================//
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(175, 200, 125, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(325, 200, 100, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(200, 175, 200, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(225, 150, 150, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(175, 225, 225, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(150, 250, 175, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(150, 275, 150, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(150, 300, 175, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(175, 325, 225, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(175, 350, 250, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(200, 375, 200, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(225, 400, 150, 25);
+    
 
     // !!! IMPLEMENT ME
     // compute connected components
