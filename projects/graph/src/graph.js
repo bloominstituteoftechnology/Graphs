@@ -3,6 +3,7 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+
 }
 
 /**
