@@ -17,8 +17,12 @@ export class Edge {
 export class Vertex {
   // !!! IMPLEMENT ME
   //Contains a list of edges like graph contains a list of vertexes
-  constructor() {
+  //Pos has values within for the x and y value.
+  //Also a value part of it within
+  //Not certain if i need to pass in pos
+  constructor(value) {
     this.edges = [];
+    this.value = value;
   }
 }
 
