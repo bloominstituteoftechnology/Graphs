@@ -111,33 +111,29 @@ class GraphView extends Component {
         switch (number) {
             case 1:
                 return 'blue';
-                break;
+
             case 2:
                 return 'red';
-                break;
             case 3:
                 return 'green';
-                break;
             case 4:
                 return 'brown';
-                break;
+
             case 5:
                 return 'black';
-                break;
+
             case 6:
                 return 'navy';
-                break;
+
             case 7:
                 return 'cyan';
-                break;
+
             case 8:
                 return 'LightBlue';
             case 9:
                 return 'SpringGreen';
-                break;
             case 10:
                 return 'Magenta';
-                break;
 
             default:
                 return 'blue';
