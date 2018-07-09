@@ -5,6 +5,7 @@ import "./App.css";
 // !!! IMPLEMENT ME
 const canvasWidth = 600;
 const canvasHeight = 600;
+const sizeOf = 10;
 
 /**
  * GraphView
@@ -41,23 +42,7 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
-      ctx.fillStyle = "red";
-      ctx.fillRect(
-        this.props.graph.vertexes[i].pos.x,
-        this.props.graph.vertexes[i].pos.y,
-        10,
-        10
-      );
       for (let j = 0; j < this.props.graph.vertexes[i].edges.length; j++) {
-        ctx.fillStyle = "blue";
-        // ctx.fillRect(
-        //   this.props.graph.vertexes[i].pos.x +
-        //     this.props.graph.vertexes[i].edges[j].connection.pos.x / 2,
-        //   this.props.graph.vertexes[i].pos.y +
-        //     this.props.graph.vertexes[i].edges[j].connection.pos.y / 2,
-        //   10,
-        //   10
-        // );
         ctx.beginPath();
         ctx.moveTo(
           this.props.graph.vertexes[i].pos.x,
@@ -69,6 +54,27 @@ class GraphView extends Component {
         );
         ctx.stroke();
       }
+    }
+    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
+      ctx.fillStyle = "red";
+      ctx.beginPath();
+      ctx.arc(
+        this.props.graph.vertexes[i].pos.x,
+        this.props.graph.vertexes[i].pos.y,
+        10,
+        0,
+        2 * Math.PI
+      );
+      ctx.stroke();
+      ctx.fill();
+
+      ctx.font = "10px Georgia";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        this.props.graph.vertexes[i].value,
+        this.props.graph.vertexes[i].pos.x,
+        this.props.graph.vertexes[i].pos.y - sizeOf - 5
+      );
     }
     console.log(canvas);
   }
