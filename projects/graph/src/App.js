@@ -48,6 +48,27 @@ class GraphView extends Component {
         10,
         10
       );
+      for (let j = 0; j < this.props.graph.vertexes[i].edges.length; j++) {
+        ctx.fillStyle = "blue";
+        // ctx.fillRect(
+        //   this.props.graph.vertexes[i].pos.x +
+        //     this.props.graph.vertexes[i].edges[j].connection.pos.x / 2,
+        //   this.props.graph.vertexes[i].pos.y +
+        //     this.props.graph.vertexes[i].edges[j].connection.pos.y / 2,
+        //   10,
+        //   10
+        // );
+        ctx.beginPath();
+        ctx.moveTo(
+          this.props.graph.vertexes[i].pos.x,
+          this.props.graph.vertexes[i].pos.y
+        );
+        ctx.lineTo(
+          this.props.graph.vertexes[i].edges[j].connection.pos.x,
+          this.props.graph.vertexes[i].edges[j].connection.pos.y
+        );
+        ctx.stroke();
+      }
     }
     console.log(canvas);
   }
