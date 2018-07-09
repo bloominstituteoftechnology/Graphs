@@ -32,8 +32,15 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    //Canvas
+    ctx.beginPath();
+    ctx.arc(500, 300, 200, 0, Math.PI, true);
+    ctx.lineTo(500, 600);
+    ctx.closePath();
+    ctx.stroke();
 
     // !!! IMPLEMENT ME
     // compute connected components
