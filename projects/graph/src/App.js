@@ -32,11 +32,35 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // ctx.fillStyle = 'white';
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    ctx.fillStyle = 'black';
-    ctx.strokeRect(50, 50, 50, 50);
+
+    var gradient = ctx.createLinearGradient(25, 475, 775, 25);
+    gradient.addColorStop(0, 'orange');
+    gradient.addColorStop(1, 'magenta');
+    ctx.fillStyle = gradient;
+    // ctx.fillStyle = 'orange';
+    ctx.beginPath();
+    ctx.moveTo(25, 25);
+    ctx.lineTo(775, 25);
+    ctx.lineTo(25, 475);
+    ctx.fill();
+
+    var gradient = ctx.createLinearGradient(25, 475, 775, 25);
+    gradient.addColorStop(0, 'magenta');
+    gradient.addColorStop(1, 'orange');
+    ctx.fillStyle = gradient;
+    // ctx.fillStyle = 'magenta';
+    ctx.beginPath();
+    ctx.moveTo(775, 475);
+    ctx.lineTo(775, 25);
+    ctx.lineTo(25, 475);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = 'red';
+    ctx.strokeRect(0, 0, 800, 500);
 
     // !!! IMPLEMENT ME
     // compute connected components
