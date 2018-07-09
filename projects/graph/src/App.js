@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 100; 
+
+const canvasHeight = 100; 
 
 /**
  * GraphView
@@ -32,14 +33,21 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'red';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(300, 150);
+    ctx.stroke();
     // draw verts
     // draw vert values (labels)
+    ctx.beginPath();
+    ctx.arc(50, 50, 30, 0, 2 * Math.PI);
+    ctx.stroke();
   }
   
   /**
