@@ -12,7 +12,10 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value) {
+    this.value = value;
+    this.edges = [];
+  }
 }
 
 /**
