@@ -38,12 +38,29 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
     const vertexes = this.props.graph.vertexes;
     const vertexRadius = 10;
-
+    // compute connected components
+    // draw edges
+    vertexes.forEach(vertex => {
+      let x = vertex.pos.x;
+      let y = vertex.pos.y;
+      if (vertex.edges.length > 0) {
+        for (let i = 0; i < vertex.edges.length; i++) {
+          let edge = vertex.edges[i]; // other node to connect to
+          let edgeX = edge.destination.pos.x;
+          let edgeY = edge.destination.pos.y;
+          // draw a line to each edge destination
+          ctx.beginPath();
+          ctx.fillStyle = "black";
+          ctx.moveTo(x, y);
+          ctx.lineTo(edgeX, edgeY);
+          ctx.stroke();
+          ctx.closePath();
+        }
+      }
+    });
+    // draw verts
     vertexes.forEach(vertex => {
       let x = vertex.pos.x;
       let y = vertex.pos.y;
@@ -51,11 +68,11 @@ class GraphView extends Component {
       ctx.fillStyle = "teal";
       ctx.arc(x, y, vertexRadius, 0, Math.PI * 2);
       ctx.fill();
+      // draw vert values (labels)
       ctx.fillStyle = "black";
       ctx.fillText(`${vertex.value}`, x, y);
       ctx.closePath();
     });
-    // draw vert values (labels)
   }
 
   /**
