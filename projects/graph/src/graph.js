@@ -3,6 +3,12 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  //Passed in a destination and weight into the constructor and passed it to this.
+
+  constructor(destination, weight) {
+    this.weight = weight;
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +16,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  //Contains a list of edges like graph contains a list of vertexes
+  constructor() {
+    this.edges = [];
+  }
 }
 
 /**
