@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
+import { randomFill } from 'crypto';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 600;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -28,18 +29,40 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
+
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
+
+    var grd = ctx.createLinearGradient(0,100,0,0);
+    grd.addColorStop(0,"gold");
+    grd.addColorStop(1,"white");
+    
     
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'teal';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, 300, canvasHeight);
+
+    ctx.fillStyle = 'green';
+    ctx.beginPath();
+    ctx.arc(105,150,40,0,2*Math.PI);
+    ctx.stroke();
+
+    ctx.fillStyle = 'green';
+    ctx.moveTo(25,320);
+    ctx.lineTo(280,500);
+    ctx.stroke();
+
+    // Create gradient
 
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
+
   }
   
   /**
