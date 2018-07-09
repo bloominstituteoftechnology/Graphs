@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Graph } from './graph';
+import { Graph, Edge, Vertex } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 500;
-const canvasHeight = 500;
+const canvasWidth = 600;
+const canvasHeight = 750;
 
 /**
  * GraphView
@@ -32,7 +32,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = 'teal';
+    ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
@@ -64,7 +64,9 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5,4,150,0.6)
   }
+  //probability of any edge of the grid existing is 60%... ?
 
   render() {
     return (
