@@ -33,7 +33,9 @@ class GraphView extends Component {
     
     // Clear it
     ctx.fillStyle = 'orange';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillRect(0, 60, canvasWidth, canvasHeight);
+    ctx.font = "30px arial";
+    ctx.strokeText("My Canvas", 600, 50);
 
     // Compute Connected Components
     
@@ -43,15 +45,19 @@ class GraphView extends Component {
         - moveTo(): Moves the path to the specified point in the canvas, without creating a line
         - lineTo(): Adds a new point and creates a line to that point from the last specified point in the canvas | use to have multiple lines/edges
         - stroke(): Actually draws the path you have defined
+        - https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineTo
+        - fill(): fills the current or given path with the current fill style ====== USED FOR COLOR WITH A SHAPE
     */
+
     ctx.fillStyle = 'blue';
-    ctx.fillRect(200, 20, 200, 180);
+    // ctx.fillRect(200, 60, 200, 180);
     ctx.beginPath();
-    ctx.moveTo(50,40);
-    ctx.lineTo(10,10);
-    ctx.lineTo(350,10);
-    ctx.lineTo(450,430);
-    ctx.stroke();  
+    ctx.moveTo(100,200);
+    ctx.lineTo(50,200);
+    ctx.lineTo(100,300);
+    ctx.lineTo(100,200);
+    ctx.stroke(); 
+    ctx.fill(); 
 
     /*
       Verts/Nodes (circles) 
@@ -61,6 +67,7 @@ class GraphView extends Component {
           * arc's radius
           * startAngle = angle which arc starts measured clockwise from positive x axis and expressed in radians
           * endAngle = angle which arc starts measured clockwise from positive x axis and expressed in radians
+          * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/arc
     */
 
     ctx.fillStyle = 'purple';
@@ -69,7 +76,20 @@ class GraphView extends Component {
     ctx.arc(450, 400, 100, 0, 2 * Math.PI);
     ctx.stroke();
 
-    // draw vert values (labels)
+    /*
+      Vert Labels (Text)
+        - fillText(text, x, y [, maxWidth]) ======== USED FOR COLOR
+          * text - text string to be rendered to context
+            Set by: ctx.font, ctx.textAlign, ctx.textBaseline, ctx.direction
+          * x - coordinate which drawing begins
+          * y - coordinate which drawing begins
+          * maxWidth - optional which limits the width based on the value
+        - strokeText(text, x, y, [, maxWidth]) 
+    */
+    ctx.fillStyle = 'white';
+    ctx.fillRect(100, 500, 100, 100);
+    ctx.font = '40px times-new-roman';
+    ctx.fillText("Hello World", 100, 480);
 
 
   }
