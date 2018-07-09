@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = window.innerWidth;
+const canvasHeight = window.innerHeight;
 
 /**
  * GraphView
