@@ -12,8 +12,7 @@ export class Edge {
  * contain a list of `Edge`s
  */
 export class Vertex {
-  constructor(value) {
-    this.value = value;
+  constructor() {
     this.edges = [];
   }
 }
