@@ -116,14 +116,53 @@ export class Graph {
   /**
    * BFS
    */
+
+  // BFS(graph, startVert):
+  // for v of graph.vertexes:
+  //   v.color = white
+
+  // startVert.color = gray
+  // queue.enqueue(startVert)
+
+  // while !queue.isEmpty():
+  //   u = queue[0]  // Peek at head of queue, but do not dequeue!
+
+  //   for v of u.neighbors:
+  //     if v.color == white:
+  //       v.color = gray
+  //       queue.enqueue(v)
+
+  //   queue.dequeue()
+  //   u.color = black
+
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const queue = [];
+
+    for (let v of this.vertexes) {
+      v.color = "red"; // initialize every vertex as not visited
+    }
+
+    start.color = "green"; // mark the starting vertex as visited
+    queue.push(start); // add the starting vertex to the queue
+
+    while (queue.length > 0) {
+      // keep checking vertexes for neighbors until queue is empty
+      let current = queue[0];
+
+      for (let neighbor of current.edges) {
+        if (neighbor.color === "red") {
+          // add all unvisited vertices to the queue
+          neighbor.color = "green";
+          queue.push(neighbor);
+        }
+      }
+      queue.shift();
+      current.color = "black"; // mark the start a unique color
+    }
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
-  }
+  getConnectedComponents() {}
 }
