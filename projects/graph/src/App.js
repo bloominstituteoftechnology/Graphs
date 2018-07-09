@@ -36,6 +36,41 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     //========================================//
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(175, 200, 125, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(325, 200, 100, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(200, 175, 200, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(225, 150, 150, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(175, 225, 225, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(150, 250, 175, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(150, 275, 150, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(150, 300, 175, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(175, 325, 225, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(175, 350, 250, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(200, 375, 200, 25);
+
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(225, 400, 150, 25);
     
 
     // !!! IMPLEMENT ME
