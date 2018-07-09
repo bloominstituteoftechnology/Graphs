@@ -1,19 +1,25 @@
 /**
- * Edge
+ * Edge would have a `destination` and a `weight`
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+    this.weight = 0;
+  }
 }
 
 /**
- * Vertex
+ * contain a list of `Edge`s
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value) {
+    this.value = value;
+    this.edges = [];
+  }
 }
 
 /**
- * Graph
+ * Graph: contain a list of verticies
  */
 export class Graph {
   constructor() {
