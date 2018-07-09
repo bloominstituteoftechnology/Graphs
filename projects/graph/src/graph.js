@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {  //need a default weight since weight isnt specified on Edge creation on line 37/38
+    this.destination = destination;
+    this.weight = weight;  //will take default weight of 1 but can be changed
+  }
 }
 
 /**
@@ -10,6 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'default') {  //Vertex is made without a value so setting a 'default' value which can be changed
+    this.edges = [];  //list of edges
+    this.value = value;
+  }
 }
 
 /**
@@ -17,7 +25,7 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
-    this.vertexes = [];
+    this.vertexes = [];  //list of vertexes
   }
 
   /**
