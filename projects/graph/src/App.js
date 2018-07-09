@@ -50,10 +50,52 @@ class GraphView extends Component {
     ctx.arc(290, 180, 90, 1, Math.PI, true)
     ctx.fill();
 
-    ctx.beginPath();
-    ctx.moveTo(300, 250);
+    // ctx.beginPath();
+    // ctx.moveTo(300, 250);
     
-    ctx.stroke();
+    // ctx.stroke();
+
+    const ball = new Image();
+
+    function start() {
+      ball.src = "https://cdn.pixabay.com/photo/2013/07/12/14/09/football-147854_960_720.png";
+      //ball.src = "https://mdn.mozillademos.org/files/1456/Canvas_sun.png";
+      ball.size = '50px';
+      
+      window.requestAnimationFrame(game);
+    }
+
+    function game() {
+      //ctx.globalCompositeOperation = "destination-over";
+      ctx.save();
+      ctx.translate(250, 250);
+
+      const time = new Date();
+
+      ctx.save();
+      ctx.rotate(((2 * Math.PI) / 6) * time.getSeconds() + ((2 * Math.PI) / 60000) * time.getMilliseconds());
+      ctx.translate(205, 40);
+      ctx.drawImage(ball, -12, -12);
+
+      ctx.restore();
+      ctx.beginPath();
+      ctx.arc(300, 400, 300, 0, Math.PI * 2);
+      ctx.stroke();
+
+      window.requestAnimationFrame(game);
+    }
+
+    start();
+
+
+    
+
+
+
+
+
+
+    
 
 
 
