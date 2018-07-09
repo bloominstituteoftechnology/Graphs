@@ -2,14 +2,22 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(des, weight) {
+    this.destination = des;
+    this.weight = weight;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(newEdge) {
+    this.edgeList = [];
+  }
+  addEdge = (newEdge) => {
+    this.edgeList = this.edgeList.concat(newEdge);
+  }
 }
 
 /**
@@ -18,6 +26,7 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+    //will be a list of vertexes, and each vertex has a list of edges
   }
 
   /**
