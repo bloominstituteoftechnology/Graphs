@@ -3,13 +3,21 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value = 'vertex', pos = { x: -1, y: -1}){
+    this.value = value;
+    this.edges = [];
+    this.pos = pos;
+  }
 }
 
 /**
@@ -20,6 +28,14 @@ export class Graph {
     this.vertexes = [];
   }
 
+  debugCreateTestData() {
+
+    let debugVert1 = new Vertex('1', {x: 50, y: 50});
+    let debugVert2 = new Vertex('2', {x: 100, y: 100});
+    this.vertexes.push(debugVert1, debugVert2);
+    debugVert1.edges.push(new Edge(debugVert2));
+    debugVert2.edges.push(new Edge(debugVert1));
+  }
   /**
    * Create a random graph
    */

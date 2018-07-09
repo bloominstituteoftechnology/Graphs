@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 1400;
+const canvasHeight = 1400;
 
 /**
  * GraphView
@@ -21,25 +20,80 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
-    this.updateCanvas();
+    //this.updateCanvas();
   }
 
+
+  /*
+   *  Fill Text
+   */
+  fillText(text, x = 50, y = 100, color = 'black', font = '20px serif') {
+    this.ctx.font = font ? font : this.font;
+    this.ctx.fillStyle = color ? color : this.color;
+    this.ctx.fillText(text, x, y);
+    this.ctx.fill();
+  }
+  
+  clearScreen() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+  
+  getRandomHexColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  }
+  
+  getRandomeRGBAColor() {
+   /* TODO : IMPLEMENT ME*/ 
+  }
+  
+  drawCircle(location, size, offsetX = 0, offsetY = 0) {
+    this.ctx.moveTo(location.x + offsetX , location.y + offsetY);
+    this.ctx.beginPath();
+    this.ctx.fillStyle = this.getRandomHexColor();
+    this.ctx.strokeStyle = this.getRandomHexColor();
+    this.ctx.arc(location.x, location.y, size, 0, Math.PI * 2, true); // Outer circle
+    this.ctx.fill();
+    this.ctx.stroke();
+  }
+  
+  
   /**
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
+    this.canvas = this.refs.canvas;
+    /** @type {CanvasRenderingContext2D} */
+    this.ctx = this.canvas.getContext('2d');
+    this.ctx.strokeStyle = 'black';
+    this.ctx.fillStyle = 'lightgrey';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    //this.clearScreen();
+    this.props.graph.randomize(this.canvas.width, this.canvas.height, 50);
     
-    // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    for(let vert of this.props.graph.vertexes){
+      
+      if(vert.edges[0] !== undefined && vert.edges[0].destination !== undefined){
+        vert.edges.forEach(edge => {
+        this.ctx.moveTo(vert.pos.x, vert.pos.y);
+        this.ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        this.ctx.strokeStyle = this.getRandomHexColor(); 
+        this.ctx.stroke();
+        });
+      }
+      
+      
+     // draw verts
+      this.drawCircle(vert.pos, 10, 10);      
+      // draw vert values (labels)
+      this.ctx.moveTo(vert.pos.x, vert.pos.y);    
+      this.ctx.beginPath();
+      this.ctx.font = "10px Abel";
+      this.ctx.strokeStyle = 'black';    
+      this.ctx.textBaseline = "middle"
+      this.ctx.strokeText(vert.value, vert.pos.x -3, vert.pos.y);
+      this.ctx.stroke();      
+    };
+    
   }
   
   /**
@@ -64,6 +118,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.debugCreateTestData();
   }
 
   render() {
