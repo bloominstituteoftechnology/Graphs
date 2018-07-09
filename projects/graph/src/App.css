@@ -26,3 +26,16 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.btnDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.Button {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 150px;
+  background-color: mistyrose;
+  padding: 10px;
+}
