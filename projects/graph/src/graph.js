@@ -14,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
     // !!! IMPLEMENT ME
+    constructor(value = 'vertex') {
+        this.value = value;
+        // list of edges
+        this.edges = [];
+    }
 }
 
 /**
