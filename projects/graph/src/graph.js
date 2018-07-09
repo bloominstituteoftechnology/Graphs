@@ -10,7 +10,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.edges = [];
+  }
 }
+
 
 /**
  * Graph
