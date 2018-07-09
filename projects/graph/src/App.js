@@ -42,6 +42,7 @@ class GraphView extends Component {
     /* 
       Edges (lines) 
         - beginPath(): Begins a path, or resets the current path
+        - closePath(): Line/Path returns to starting point
         - moveTo(): Moves the path to the specified point in the canvas, without creating a line
         - lineTo(): Adds a new point and creates a line to that point from the last specified point in the canvas | use to have multiple lines/edges
         - stroke(): Actually draws the path you have defined
@@ -91,7 +92,18 @@ class GraphView extends Component {
     ctx.font = '40px times-new-roman';
     ctx.fillText("Hello World", 100, 480);
 
+    // Rainbow - Red
+    ctx.fillStyle = "red";
+    ctx.moveTo(600, 200);
+    ctx.beginPath();
+    ctx.arc(600, 200, 50, Math.PI, 0);
+    // ctx.stroke();
+    ctx.fill();
 
+    ctx.moveTo(700, 300);
+    ctx.beginPath();
+    ctx.arc(700, 300, 100, 0, 2 * Math.PI);
+    ctx.stroke();
   }
   
   /**
