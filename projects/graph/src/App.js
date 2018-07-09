@@ -30,7 +30,9 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext("2d");
-
+    ctx.font = "11px serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     // Clear it
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -46,9 +48,11 @@ class GraphView extends Component {
       let x = vertex.pos.x;
       let y = vertex.pos.y;
       ctx.beginPath();
-      ctx.arc(x, y, vertexRadius, 0, Math.PI * 2);
       ctx.fillStyle = "teal";
+      ctx.arc(x, y, vertexRadius, 0, Math.PI * 2);
       ctx.fill();
+      ctx.fillStyle = "black";
+      ctx.fillText(`${vertex.value}`, x, y);
       ctx.closePath();
     });
     // draw vert values (labels)
