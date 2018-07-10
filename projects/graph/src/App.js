@@ -40,10 +40,6 @@ class GraphView extends Component {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // // Initialize previous coordinate holders
-    // let prevX = 0;
-    // let prevY = 0;
-
     this.props.graph.vertexes.forEach(vertex => {
       // Create Nodes/Vertices
       ctx.beginPath();
@@ -51,7 +47,6 @@ class GraphView extends Component {
       ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI)
       ctx.fill();
       ctx.stroke();
-      console.log('vertex.edges', vertex.edges)
 
       // Create Edges
       if (vertex.edges.length > 0) { 
@@ -65,9 +60,6 @@ class GraphView extends Component {
       ctx.font = "10px Arial";
       ctx.fillStyle = "black";
       ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
-
-      // prevX = vertex.pos.x;
-      // prevY = vertex.pos.y;
     })
   }
 
@@ -89,15 +81,21 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-
-    // use the graph randomize() method
+    
     this.setState({ graph: this.state.graph.randomize(5, 4, 150, 0.6) })
   }
 
+  clickHandler = (event) => {
+    event.preventDefault();
+    let graph = new Graph();
+    graph.randomize(5, 4, 150, 0.6);
+    this.setState({ graph: graph })
+  }
 
   render() {
     return (
       <div className="App">
+        <button onClick={ this.clickHandler }>New Graph</button>
         <GraphView graph={this.state.graph}></GraphView>
       </div>
     );
