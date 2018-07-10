@@ -32,7 +32,7 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    this.props.graph.createDummyGraph();
+    // this.props.graph.createDummyGraph();
     // Clear it
     ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -40,6 +40,15 @@ class GraphView extends Component {
     ctx.cont = '13px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
 
     this.props.graph.vertexes.forEach( v => {
       ctx.beginPath();
@@ -83,6 +92,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 160, 0.6);
   }
 
   render() {
