@@ -30,6 +30,8 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
+
+    // window.location.reload
     
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
@@ -86,12 +88,24 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
   }
+
+
+  newGraph() {
+    window.location.reload()
+  }
   
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+      <div>
+    <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+    <button onClick={() => {
+      this.newGraph()
+    }}>New Graph</button>
+      </div>
+    )
   }
 }
 
