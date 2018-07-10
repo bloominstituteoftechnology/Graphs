@@ -4,9 +4,9 @@ import "./App.css";
 import { O_NOCTTY } from "constants";
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1500;
-const canvasHeight = 1500;
-const circleRadius =10;
+const canvasWidth = 750;
+const canvasHeight = 600;
+const circleRadius =15;
 
 /**
  * GraphView
@@ -44,13 +44,17 @@ ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
 
 this.props.graph.vertexes.forEach(v =>{
-console.log(v)
-  v.edges.forEach(e=>{
-    ctx.beginPath();
-    ctx.moveTo(v.pos.x,v.pos.y);
-    ctx.lineTo(e.destination.pos.x, e.destination.pos.y)
-    ctx.stroke();
+  console.log(v)
+    v.edges.forEach(e=>{
+      ctx.beginPath();
+      ctx.moveTo(v.pos.x,v.pos.y);
+      ctx.lineTo(e.destination.pos.x, e.destination.pos.y)
+      ctx.stroke();
+    })
   })
+
+this.props.graph.vertexes.forEach(v =>{
+
 
   ctx.beginPath();
   ctx.fillStyle = 'white';
@@ -189,7 +193,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(40,8,100,0.6)
+    this.state.graph.randomize(5, 4, 150, 0.6)
   }
 
   render() {
