@@ -40,19 +40,21 @@ class GraphView extends Component {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
+    // Create Edges
     this.props.graph.vertexes.forEach(vertex => {
-      // Create Nodes/Vertices
+      vertex.edges.forEach(edge => {
+        ctx.moveTo(vertex.pos.x, vertex.pos.y)
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      })
+    })
+    
+    // Create Nodes/Vertices
+    this.props.graph.vertexes.forEach(vertex => {
       ctx.beginPath();
       ctx.fillStyle = "white";
       ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI)
       ctx.fill();
-      ctx.stroke();
-
-      // Create Edges
-      if (vertex.edges.length > 0) { 
-        ctx.moveTo(vertex.pos.x, vertex.pos.y)
-        ctx.lineTo(vertex.edges[0].destination.pos.x, vertex.edges[0].destination.pos.y);
-      }
       ctx.stroke();
 
       // Create Node/Verticies Labels
@@ -62,12 +64,18 @@ class GraphView extends Component {
       ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
     })
   }
-
+  
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+      <div>
+        <button onClick={() => this.props.clickHandler()}>New Graph</button>
+        <br/>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+      </div>
+    )
   }
 }
 
@@ -85,8 +93,7 @@ class App extends Component {
     this.setState({ graph: this.state.graph.randomize(5, 4, 150, 0.6) })
   }
 
-  clickHandler = (event) => {
-    event.preventDefault();
+  clickHandler = () => {
     let graph = new Graph();
     graph.randomize(5, 4, 150, 0.6);
     this.setState({ graph: graph })
@@ -95,8 +102,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <button onClick={ this.clickHandler }>New Graph</button>
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} clickHandler={this.clickHandler}></GraphView>
       </div>
     );
   }
