@@ -120,7 +120,7 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    const resultArr = [];
+    const resultArr = [start];
 
     // Create nested function for recursion
     function search(target) {
@@ -128,12 +128,12 @@ export class Graph {
       const tempArr = [];
       let pushed = 0;
 
-      target.edges.forEach(v => {
+      target.edges.forEach(edge => {
         // If vertex is not included in result array
-        if (!resultArr.includes(v)) {
+        if (!resultArr.includes(edge.destination)) {
           // Push vertex to result and temp arrays
-          resultArr.push(v);
-          tempArr.push(v);
+          resultArr.push(edge.destination);
+          tempArr.push(edge.destination);
           pushed++;
         }
       });
@@ -148,7 +148,7 @@ export class Graph {
     }
 
     search(start);
-    console.log(resultArr);
+    return resultArr;
   }
 
   /**
@@ -156,5 +156,18 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    // Return a list of connected groups? (2d array)
+    const connectedGroups = [];
+    let trackedVertexes = [];
+
+    this.vertexes.forEach(v => {
+      if (!trackedVertexes.includes(v)) {
+        const group = this.bfs(v)
+        connectedGroups.push(group);
+        trackedVertexes = trackedVertexes.concat(group);
+      }
+    });
+
+    return connectedGroups;
   }
 }
