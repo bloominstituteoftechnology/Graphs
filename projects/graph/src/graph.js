@@ -27,14 +27,18 @@ export class Graph {
     this.vertexes = [];
   }
 
-  createDummyGraph() {
-    const dummyVertex1 = new Vertex('v1', {x: 35, y: 40});
-    const dummyVertex2 = new Vertex('v2', {x: 150, y: 220});
-    const dummyVertex3 = new Vertex('v3', {x: 80, y: 540});
-    this.vertexes.push(dummyVertex1);
-    this.vertexes.push(dummyVertex2);
-    this.vertexes.push(dummyVertex3);
-  }
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 35, y: 40});
+  //   const dummyVertex2 = new Vertex('v2', {x: 150, y: 220});
+  //   const dummyVertex3 = new Vertex('v3', {x: 80, y: 540});
+  //   const dummyVertex4 = new Vertex('v4', {x: 300, y: 600});
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  //   this.vertexes.push(dummyVertex4);
+  // }
+
+  
 
   /**
    * Create a random graph
