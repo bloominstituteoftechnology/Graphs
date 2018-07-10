@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
-const canvasHeight = 900;
+const canvasWidth = 750;
+const canvasHeight = 600;
 const circleRadius = 15;
 
 /**
@@ -32,32 +32,47 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    console.log('this.props.graph: ', this.props.graph);
-    //call our dummy function
-    this.props.graph.createDummyGraph();
-    console.log('called createDummyGraph');
-    
+    const graph = this.props.graph;
+    graph.randomize(5, 4, 150, 0.6);
+
+    // DUMMY GRAPH--------------------------------------------
+    // console.log('this.props.graph: ', this.props.graph);
+    // //call our dummy function
+    // this.props.graph.createDummyGraph();
+    // console.log('called createDummyGraph');
+    // DUMMY GRAPH--------------------------------------------
+
     // Clear it
-    ctx.fillStyle = 'grey';
+    ctx.fillStyle = '#000066';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.font = '13px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+        ctx.fillText(edge.weight, (vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
+      }
+    }
+
     // draw our dummy vertex
     this.props.graph.vertexes.forEach((v) => {
       ctx.beginPath();
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = 'black';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
-      ctx.lineCap="square";
-      // ctx.moveTo(200, 20);
-      ctx.lineTo(300, 20);
+      // ctx.lineCap="square";
+      // // ctx.moveTo(200, 20);
+      // ctx.lineTo(300, 20);
       ctx.fill();
       ctx.stroke();
 
       // fill in the text
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = 'white';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
 
