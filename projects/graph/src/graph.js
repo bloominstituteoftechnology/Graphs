@@ -53,8 +53,9 @@ export class Graph {
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
-      if(v0.edges.length >= v1.edges.length) v1.color = v0.color;
-      else v1.color = v0.color; 
+      v1.color = v0.color;
+      // if(v0.edges.length >= v1.edges.length) v1.color = v0.color;
+      // else v1.color = v0.color; 
     }
 
     let count = 0;
