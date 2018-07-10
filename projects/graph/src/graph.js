@@ -3,8 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(vertex) {
-    this.vertex = vertex;
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
   }
 }
 
