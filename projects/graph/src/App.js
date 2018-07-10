@@ -28,13 +28,17 @@ class GraphView extends Component {
   /**
    * Render the canvas
    */
-  updateCanvas() {
+  updateCanvas = () => {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    
+    // !!! IMPLEMENT ME
+    // use the graph randomize() method
+    this.props.graph.vertexes = [];
+    this.props.graph.randomize(5, 4, 150);
 
     // Clear it
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.font = '13px Arial';
     ctx.textAlign = 'center';
@@ -74,13 +78,20 @@ class GraphView extends Component {
         ctx.fillText(v.value, v.pos.x, v.pos.y);
       });
     });
+
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   }
   
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+    <div>
+      <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+      <button onClick={this.updateCanvas}>Generate New Graph</button>
+    </div>
+    )
   }
 }
 
@@ -94,10 +105,6 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
-    this.state.graph.randomize(5, 4, 150);
   }
 
   render() {
