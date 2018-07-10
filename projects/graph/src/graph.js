@@ -1,3 +1,8 @@
+const randomColor = () => {
+  const dec = Math.floor(Math.random() * 256);
+  return dec.toString(16);
+}
+
 /**
  * Edge
  */
@@ -14,9 +19,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = 'default') {  //Vertex is made without a value so setting a 'default' value which can be changed
+  constructor(value = 'default', pos = {x: -1, y: -1}) {  //Vertex is made without a value so setting a 'default' value which can be changed
     this.edges = [];  //list of edges
     this.value = value;
+    this.pos = pos;
+    this.color = '#' + randomColor() + randomColor() + randomColor();
   }
 }
 
@@ -28,6 +35,16 @@ export class Graph {
     this.vertexes = [];  //list of vertexes
   }
 
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex('v1', {x:20, y:25});
+    const dummyVertex2 = new Vertex('v2', {x:200, y:250});
+    const dummyVertex3 = new Vertex('v3', {x:400, y:500});
+
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
+  }
+
   /**
    * Create a random graph
    */
@@ -36,6 +53,7 @@ export class Graph {
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
+      v1.color = v0.color;
     }
 
     let count = 0;
