@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 950;
+const canvasHeight = 800;
 
 /**
  * GraphView
@@ -40,6 +40,33 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
+    const connectedComponents = this.props.graph.getConnectedComponents();
+    console.log(connectedComponents);
+
+    const colors = ['blue', 'teal', 'green', 'cyan', 'orange', 'yellow'];
+    connectedComponents.forEach(vertices => {
+      const color = colors.shift();
+      vertices.forEach(v => {
+	v.edges.forEach(e => {
+	  ctx.beginPath();
+	  ctx.moveTo(v.pos.x, v.pos.y);
+	  ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+	  ctx.stroke();
+	});
+      });
+
+      vertices.forEach(v => {
+	ctx.fillStyle = color;
+	ctx.beginPath();
+	ctx.arc(v.pos.x, v.pos.y, 25, 0, Math.PI * 2, true);
+	ctx.fill();
+	ctx.fillStyle = 'white';
+	ctx.strokeStyle = 'black';
+	ctx.textAlign = 'center';
+	ctx.font = "20px Verdana";
+	ctx.fillText(v.value, v.pos.x, v.pos.y + 5);	
+      });
+    });
   }
   
   /**
@@ -64,12 +91,21 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    console.log("randomizing");
+    this.state.graph.randomize(6, 5, 150);
+  }
+
+  randomize = () => {
+    const graph = new Graph();
+    graph.randomize(6, 5, 150);
+    this.setState({ graph });
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+	<button onClick={this.randomize}>Randomize</button>
       </div>
     );
   }
