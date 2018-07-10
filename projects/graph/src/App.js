@@ -32,12 +32,6 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    console.log('this.props.graph: ', this.props.graph);
-    // call our dummy function
-    this.props.graph.createDummyGraph();
-    console.log('called createDummyGraph');
-    
-
     // Clear it
     ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -46,7 +40,9 @@ class GraphView extends Component {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // draw our dummy lines
+    // !!! IMPLEMENT ME
+    // compute connected components
+    // draw edges
     this.props.graph.vertexes.forEach(v => {
       ctx.fillStyle = 'black';
 
@@ -57,8 +53,8 @@ class GraphView extends Component {
         ctx.stroke();
       });
     });
-
-    // draw our dummy vertex
+    // draw verts
+    // draw vert values (labels)
     this.props.graph.vertexes.forEach(v => {
       ctx.fillStyle = 'white';
       ctx.beginPath();
@@ -70,22 +66,6 @@ class GraphView extends Component {
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
-
-
-    // ctx.beginPath();
-    // ctx.arc(10, 10, 10, 0, 2 * Math.PI);
-    // ctx.stroke();
-    // ctx.beginPath();
-    // ctx.arc(100, 100, 10, 0, 2 * Math.PI);
-    // ctx.stroke();
-
-    // console.log('called ctx.arc');
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
   }
   
   /**
@@ -110,6 +90,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 5, 100);
   }
 
   render() {
