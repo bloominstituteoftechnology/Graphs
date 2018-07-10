@@ -3,9 +3,15 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 250; 
+const xCount = 5;
+const yCount = 5;
+const boxSize = 100;
+const probability = 0.6;
 
-const canvasHeight = 250; 
+// Figure out the canvas size
+const canvasWidth = boxSize * xCount;
+const canvasHeight = boxSize * yCount;
+const radius = boxSize / 8;
 
 /**
  * GraphView
@@ -25,52 +31,45 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+  drawVerts(vertexes) {
+    let canvas = this.refs.canvas;
+    let ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'gray';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'teal';
+
+    // Draw the verts with lines
+    for (let v of vertexes) {
+      ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+      ctx.stroke();
+    }
+
+    // fill the verts
+    for (let v of vertexes) {
+      ctx.beginPath();
+      ctx.fillStyle = 'black';
+      ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+      ctx.fill();
+    }
+    
+    // Draw the vert names
+    for (let v of vertexes) {
+      ctx.beginPath();
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'white';
+      ctx.fillText(v.value, v.pos.x, v.pos.y );
+    }
+  }
+
   /**
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
-    
-    // Clear it
-    ctx.fillStyle = 'red';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // ctx.beginPath();
-    // ctx.moveTo(0, 0);
-    // // ctx.lineTo(300, 150);
-    // ctx.stroke();
-    
-    // draw verts
-    // draw vert values (labels)
-    ctx.fillStyle = 'black';
-    ctx.beginPath();
-    ctx.arc(100, 100, 50, 0, 2 * Math.PI);
-    // ctx.stroke();
-    ctx.fill();
-
-
-    ctx.fillStyle = 'white';
-    ctx.beginPath();
-    ctx.arc(100, 100, 30, 0, 2 * Math.PI);
-    ctx.fill();
-
-    ctx.fillStyle = 'black';
-    ctx.beginPath();
-    ctx.arc(200, 100, 50, 0, 2 * Math.PI);
-    // ctx.stroke();
-    ctx.fill();
-
-
-    ctx.fillStyle = 'white';
-    ctx.beginPath();
-    ctx.arc(200, 100, 30, 0, 2 * Math.PI);
-    ctx.fill();
-
-
+    const g = this.props.graph;
+    this.drawVerts(g.vertexes);
   }
   
   /**
@@ -95,12 +94,17 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(xCount, yCount, boxSize, probability);
+  }
+  refreshPage(){ 
+    window.location.reload(); 
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <input type="button" value="Reload Page" onClick={ this.refreshPage }/>
       </div>
     );
   }
