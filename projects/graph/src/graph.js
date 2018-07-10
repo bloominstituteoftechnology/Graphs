@@ -20,9 +20,10 @@ export class Vertex {
   //Pos has values within for the x and y value.
   //Also a value part of it within
   //Not certain if i need to pass in pos
-  constructor(value) {
+  constructor(value = 'default', pos={x: -1, y:-1}) {
     this.edges = [];
     this.value = value;
+    this.pos = pos;
   }
 }
 
@@ -34,6 +35,10 @@ export class Graph {
     this.vertexes = [];
   }
 
+  // createDummyGraph() {
+  //   const dummyV1 = new Vertex('1', {x: 10, y:10})
+  //   this.vertexes.push(dummyV1);
+  // }
   /**
    * Create a random graph
    */
