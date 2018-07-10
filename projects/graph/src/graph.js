@@ -121,6 +121,36 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let randColor =
+      'rgb(' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';
+    const queue = [];
+    const found = [];
+
+    found.push(start);
+    queue.push(start);
+
+    console.log(start, 'start');
+    start.color = randColor;
+
+    while (queue.length > 0) {
+      const v = queue[0];
+      for (let edge of v.edges) {
+        edge.weight = Math.ceil(Math.random() * maxWeight);
+        if (!found.includes(edge.destination)) {
+          found.push(edge.destination);
+          queue.push(edge.destination);
+          edge.destination.color = randColor;
+        }
+      }
+      queue.shift();
+    }
+    return found;
   }
 
   /**
@@ -128,5 +158,13 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    let search = [];
+    console.log(this.vertexes);
+    for (let vertex of this.vertexes) {
+      if (!search.includes(vertex)) {
+        console.log(vertex, 'vertex');
+        search.concat(this.bfs(vertex));
+      }
+    }
   }
 }
