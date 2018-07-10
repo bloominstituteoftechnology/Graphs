@@ -45,7 +45,7 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
     this.props.graph.vertexes.forEach((v) => {
-      ctx.biginPath();
+      ctx.beginPath();
       ctx.fillStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2*Math.PI);
       ctx.fill();
@@ -77,6 +77,9 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
+    this.state.graph.randomize(canvasWidth, canvasHeight, 50);
+    //console.log("props", this.props)
+    //console.log("state:\n", this.state)
     // use the graph randomize() method
   }
 
