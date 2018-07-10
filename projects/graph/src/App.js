@@ -3,7 +3,7 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 800; 
+const canvasWidth = 800;
 const canvasHeight = 600;
 const circleRadius = 15;
 const canvasStartX = 0;
@@ -34,8 +34,9 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    this.props.graph.createDummyGraph();
-    
+    // this.props.graph.createDummyGraph();
+    this.props.graph.randomize(4, 4, 140);
+
     // Clear it
     ctx.fillStyle = 'orange';
     ctx.fillRect(canvasStartX, canvasStartY, canvasWidth, canvasHeight);
@@ -46,8 +47,18 @@ class GraphView extends Component {
     ctx.textBaseline = 'middle';
 
     this.props.graph.vertexes.forEach(v => {
+      ctx.strokeStyle = v.color;
+      for (let j = 0; j < v.edges.length; j++) {
+        ctx.moveTo(v.pos.x + canvasStartX, v.pos.y + canvasStartY);
+        ctx.lineTo(v.edges[j].destination.pos.x + canvasStartX, v.edges[j].destination.pos.y + canvasStartY);
+        ctx.stroke();
+      }
+    })
+
+    this.props.graph.vertexes.forEach(v => {
       ctx.beginPath();
       ctx.fillStyle = v.color;  //sets color for the circle
+      ctx.strokeStyle = v.color;  //sets color for the circle's edge
       ctx.arc(v.pos.x + canvasStartX, v.pos.y + canvasStartY, circleRadius, 0, 2 * Math.PI);  //(x,y) center of cicle, radius, arc of circle (in radians)
       ctx.fill();  //fills in the circle
       ctx.stroke();  //draws the circle
@@ -62,7 +73,7 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
   }
-  
+
   /**
    * Render
    */
