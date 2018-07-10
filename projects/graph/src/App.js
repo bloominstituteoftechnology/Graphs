@@ -32,24 +32,39 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    this.props.graph.createDummyGraph();
+    // this.props.graph.createDummyGraph();
 
-    ctx.fillStyle = ("blue");
+    ctx.fillStyle = "blue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
+
+    let prevX = 0;
+    let prevY = 0;
+
     this.props.graph.vertexes.forEach(vertex => {
+      // Create Nodes/Vertices
       ctx.beginPath();
       ctx.fillStyle = "white";
       ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI)
       ctx.fill();
       ctx.stroke();
-      
+
+      // Create Edges
+      ctx.moveTo(vertex.pos.x, vertex.pos.y);
+      if (prevX > 0 && prevY > 0) ctx.lineTo(prevX, prevY);
+      ctx.stroke();
+
+      // Create Node/Verticies Labels
+      ctx.beginPath();
       ctx.font = "10px Arial";
       ctx.fillStyle = "black";
-      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
+
+      prevX = vertex.pos.x;
+      prevY = vertex.pos.y;
     })
   }
 
@@ -74,7 +89,9 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.setState({ graph: this.state.graph.randomize(5, 4, 150, 0.6) })
   }
+
 
   render() {
     return (
