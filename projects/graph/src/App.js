@@ -36,6 +36,7 @@ class GraphView extends Component {
 
     // this.props.graph.createDummyGraph();
     this.props.graph.randomize(4, 4, 140);
+    this.props.graph.dump();
 
     // Clear it
     ctx.fillStyle = 'orange';

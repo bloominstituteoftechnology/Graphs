@@ -53,7 +53,8 @@ export class Graph {
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
-      v1.color = v0.color;
+      if(v0.edges.length >= v1.edges.length) v1.color = v0.color;
+      else v1.color = v0.color; 
     }
 
     let count = 0;
@@ -78,6 +79,7 @@ export class Graph {
         if (y < height - 1) {
           if (Math.random() < probability) {
             connectVerts(grid[y][x], grid[y+1][x]);
+            // grid[y+1][x].color = grid[y][x].color;
           }
         }
 
@@ -85,6 +87,7 @@ export class Graph {
         if (x < width - 1) {
           if (Math.random() < probability) {
             connectVerts(grid[y][x], grid[y][x+1]);
+            // grid[y][x+1].color = grid[y][x].color;
           }
         }
       }
