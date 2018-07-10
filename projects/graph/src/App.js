@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 1000;
+const canvasHeight = 900;
+const circleRadius = 15;
 
 /**
  * GraphView
@@ -30,10 +31,43 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+
+    console.log('this.props.graph: ', this.props.graph);
+    // call our dummy function
+    this.props.graph.createDummyGraph();
+    console.log('called createDummyGraph');
     
+
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.font = '13px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // draw our dummy vertex
+    this.props.graph.vertexes.forEach(v => {
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fill();
+
+      // fill in the text
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    });
+
+
+    // ctx.beginPath();
+    // ctx.arc(10, 10, 10, 0, 2 * Math.PI);
+    // ctx.stroke();
+    // ctx.beginPath();
+    // ctx.arc(100, 100, 10, 0, 2 * Math.PI);
+    // ctx.stroke();
+
+    // console.log('called ctx.arc');
 
     // !!! IMPLEMENT ME
     // compute connected components
