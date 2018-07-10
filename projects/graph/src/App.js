@@ -45,7 +45,6 @@ class GraphView extends Component {
         ctx.fillStyle = 'rgb(239, 241, 244)';
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        // New Graph on each update
         const graph = this.props.graph;
         graph.randomize(5, 4, 150, 0.6);
         const connectedComponents = graph.getConnectedComponents();
@@ -73,9 +72,8 @@ class GraphView extends Component {
                 ctx.closePath();
                 ctx.stroke();
 
-                ctx.font = '10px serif';
+                ctx.font = '12px serif';
                 ctx.fillStyle = 'black';
-                // TODO: add weigh text if I have time
             }
         }
     }
@@ -84,13 +82,13 @@ class GraphView extends Component {
         for (let v of subgraph) {
             // Fill verts
             ctx.beginPath();
-            let gradient = ctx.createRadialGradient(v.pos.x - 5, v.pos.y - 5, 1, v.pos.x - 5, v.pos.y - 5, 15);
+            let gradient = ctx.createRadialGradient(v.pos.x - 3, v.pos.y - 6, 1, v.pos.x - 9, v.pos.y - 3, 15);
             gradient.addColorStop(0, '#fff');
             gradient.addColorStop(1, color);
             ctx.fillStyle = gradient;
-            ctx.arc(v.pos.x, v.pos.y, 20, 0, Math.PI * 2, true);
+            ctx.arc(v.pos.x, v.pos.y, 25, 0, Math.PI * 2, true);
             ctx.fill();
-            ctx.font = 'bold 20px serif';
+            ctx.font = 'bold 14px serif';
             ctx.fillStyle = 'black';
             ctx.fillText(`${v.value.slice(1, v.value.length)}`, v.pos.x, v.pos.y + 2);
         }
