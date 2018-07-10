@@ -41,30 +41,38 @@ class GraphView extends Component {
     ctx.textBaseline = 'middle';
 
     // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    this.props.graph.vertexes.forEach(v => {
-      ctx.fillStyle = 'black';
+    const getRandomInt = max => Math.floor(Math.random() * Math.floor(max));
+    const getRandomColor = () => `rgb(${getRandomInt(256)}, ${getRandomInt(256)}, ${getRandomInt(256)})`;
+    const groups = this.props.graph.getConnectedComponents();
 
-      v.edges.forEach(edge => {
-        ctx.beginPath();
-        ctx.moveTo(v.pos.x, v.pos.y);
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        ctx.stroke();
+    groups.forEach(group => {
+      // compute connected components
+      // draw edges
+      group.forEach(v => {
+        ctx.strokeStyle = 'black';
+
+        v.edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.moveTo(v.pos.x, v.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+          ctx.stroke();
+        });
       });
-    });
-    // draw verts
-    // draw vert values (labels)
-    this.props.graph.vertexes.forEach(v => {
-      ctx.fillStyle = 'white';
-      ctx.beginPath();
-      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
-      ctx.stroke();
-      ctx.fill();
 
-      // fill in the text
-      ctx.fillStyle = 'black';
-      ctx.fillText(v.value, v.pos.x, v.pos.y);
+      // draw verts
+      // draw vert values (labels)
+      const color = getRandomColor();
+      group.forEach(v => {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fill();
+  
+        // fill in the text
+        ctx.fillStyle = 'white';
+        ctx.fillText(v.value, v.pos.x, v.pos.y);
+      });
     });
   }
   
@@ -75,7 +83,6 @@ class GraphView extends Component {
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
-
 
 /**
  * App
