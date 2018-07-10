@@ -120,6 +120,24 @@ export class Graph {
      */
     bfs(start) {
         // !!! IMPLEMENT ME
+        const queue = [];
+        const searched = [];
+
+        queue.push(start);
+
+        while (queue.length > 0) {
+            const head = queue[0];
+            for (let index = 0; index < head.edges.length; index++) {
+                if (!(queue.includes(head.edges[index].destination) || searched.includes(head.edges[index].destination))) {
+                    queue.push(head.edges[index].destination);
+                }
+            }
+
+            queue.shift();
+            searched.push(head);
+        }
+
+        return searched;
     }
 
     /**
