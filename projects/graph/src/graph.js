@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.value = '';
+    this.edges = [];
+  }
 }
 
 /**
@@ -111,6 +118,21 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [start];
+    const component = [];
+    while (queue.length > 0) {
+      const vertex = queue.shift();
+      vertex.state = 1;
+      component.push(vertex);
+      vertex.edges.forEach(e => {
+	const v = e.destination;
+	if (v.state == 0) {
+	  v.state = 1;
+	  queue.push(v);	  
+	}
+      })
+    }
+    return component;
   }
 
   /**
@@ -118,5 +140,13 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const connectedComponents = [];
+    this.vertexes.forEach(v => v.state = 0);
+    this.vertexes.forEach(v => {
+      if (v.state == 0) {
+	connectedComponents.push(this.bfs(v));
+      }
+    });
+    return connectedComponents;
   }
 }
