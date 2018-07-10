@@ -5,6 +5,7 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = window.innerWidth - 5;
 const canvasHeight = window.innerHeight - 5;
+const radius = 14;
 
 /**
  * GraphView
@@ -28,52 +29,47 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let y = 0;
-    let traverse = 1;
-    let velocity = 0;
-    const MAX_VEL = 3;
 
-    const draw = () => {
-      let canvas = this.refs.canvas;
-      let ctx = canvas.getContext('2d');
+    let canvas = this.refs.canvas;
+    let ctx = canvas.getContext('2d');
 
-      // Clear it
-
-      ctx.fillStyle = 'black';
-      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-      ctx.fillStyle = 'red';
-      ctx.fillRect(canvasWidth / 2, y, 30, 30);
-
-
-      if (traverse === 1) {
-        if (~~y + 30 <= canvasHeight){
-          y += velocity;
-          if (velocity < MAX_VEL) {
-            velocity += 0.01;
-          }
-        } else {
-          traverse = 0;
-        }
-      } else {
-        if (velocity > 0.01) {
-          y -= velocity;
-          velocity -= 0.014;
-        } else {
-          if (~~y + 30 < canvasHeight) {
-            traverse = 1;
-          } else {
-            clearInterval(a)
-          }
-        }
-      }
-    }
-    
-    const a = window.setInterval(draw, 1)
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
+    // this.props.graph.createDummyGraph();
+
+    // Clear it
+    ctx.fillStyle = 'grey';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // draw our dummy vertexes
+    this.props.graph.vertexes.forEach((v) => {
+      v.edges.forEach((e) => {
+        ctx.beginPath();
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(e.dest.pos.x, e.dest.pos.y);
+        ctx.stroke();
+      })
+    })
+
+    this.props.graph.vertexes.forEach((v) => {
+      ctx.beginPath();
+      ctx.fillStyle = 'white';
+      ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      //
+      // // fill in the text
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    });
+
   }
 
   /**
@@ -98,6 +94,9 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    let x = canvasWidth * canvasHeight;
+    console.log(12 / canvasWidth);
+    this.state.graph.randomize(12, 6, 150, 0.9);
   }
 
   render() {
