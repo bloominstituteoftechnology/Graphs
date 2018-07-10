@@ -144,6 +144,18 @@ export class Graph {
      * Get the connected components
      */
     getConnectedComponents() {
-        // !!! IMPLEMENT ME
+        const connectedComponents = [];
+        const searched = [];
+
+        for (let v of this.vertexes) {
+            const subgraph = this.bfs(v);
+
+            for (let subvert of subgraph) {
+                searched.push(subvert);
+            }
+            connectedComponents.push(subgraph);
+        }
+
+        return connectedComponents;
     }
 }
