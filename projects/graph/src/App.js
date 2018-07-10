@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-let canvasWidth = 500;
-let canvasHeight = 500;
+let canvasWidth = 750;
+let canvasHeight = 600;
 const circleRadius = 15;
 
 /**
@@ -31,6 +31,7 @@ class GraphView extends Component {
   updateCanvas() {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
+    this.props.graph.randomize(5, 4, 150, 0.6);
     
     console.log('this.props.graph: ', this.props.graph);
     // call the dummy graph function to test
@@ -39,23 +40,37 @@ class GraphView extends Component {
 
     // Base Layer
     ctx.fillStyle = 'grey';
-    ctx.fillRect(0, 0, 500, 500);
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.font = '13px Arial';
     ctx.textAlign = 'center'; 
     ctx.textBaseline = 'middle'; 
+
     // ---- Canvas Practice Phase 1 day 2 -----
     // draw dummy vertex 1
     this.props.graph.vertexes.forEach((v) => {
       ctx.beginPath();
       ctx.fillStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.lineCap='square';
+      // ctx.lineTo(100,50); 
       ctx.fill();
       ctx.stroke();
       
       // fill in the text
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
+
+      // iterate over the vertecies and connect the edges with lines
+      if(v.edges.length >= 0) {
+        for(let i = 0; i < v.edges.length; i++) {
+          ctx.beginPath(); // start path
+          ctx.moveTo(v.pos.x, v.pos.y); // move position 
+          ctx.lineTo(v.edges[i].destination.pos.x, v.edges[i].destination.pos.y); // draw connecting line 
+          ctx.strokeStyle = 'black';
+          ctx.stroke();
+        }
+      }
     })
 
     // draw dummy graph:

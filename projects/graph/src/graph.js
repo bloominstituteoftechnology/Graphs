@@ -29,12 +29,14 @@ export class Graph {
   }
 
   createDummyGraph() {
-    const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
-    const dummyVertex2 = new Vertex('v2', {x: 60, y: 75});
-    const dummyVertex3 = new Vertex('v3', {x: 300, y: 3 25});
-    this.vertexes.push(dummyVertex1);
-    this.vertexes.push(dummyVertex2);
-    this.vertexes.push(dummyVertex3);
+    // const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+    // const dummyVertex2 = new Vertex('v2', {x: 60, y: 75});
+    // const dummyVertex3 = new Vertex('v3', {x: 300, y: 325});
+    // const dummyVertex4 = new Vertex('v4', {x: 325, y: 225});
+    // this.vertexes.push(dummyVertex1);
+    // this.vertexes.push(dummyVertex2);
+    // this.vertexes.push(dummyVertex3);
+    // this.vertexes.push(dummyVertex4);
   }
   /**
    * Create a random graph
