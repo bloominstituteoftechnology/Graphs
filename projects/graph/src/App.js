@@ -5,6 +5,7 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = 900;
 const canvasHeight = 1100;
+const circleRadius = 15;
 
 /**
  * GraphView
@@ -34,6 +35,24 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = 'blue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.font = '13px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    //lecture code
+
+    this.props.graph.vertexes.forEach((v) => {
+      ctx.beginPath();
+      ctx.fillStyle = 'white';
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      // fill in the text
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    }); 
 
     // !!! IMPLEMENT ME
     // compute connected components
