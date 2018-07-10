@@ -12,8 +12,10 @@ export class Edge {
  * contain a list of `Edge`s
  */
 export class Vertex {
-  constructor() {
+  constructor(value="default", pos={ x: -1, y: -1 }) {
     this.edges = [];
+    this.value = value;
+    this.pos = pos;
   }
 }
 
@@ -23,6 +25,15 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex('v1', {x: 35, y: 40});
+    const dummyVertex2 = new Vertex('v2', {x: 150, y: 220});
+    const dummyVertex3 = new Vertex('v3', {x: 80, y: 540});
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
   }
 
   /**
