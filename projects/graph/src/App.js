@@ -12,6 +12,11 @@ const canvasHeight = 800;
  * GraphView
  */
 class GraphView extends Component {
+
+    state = {
+        vertex1: null,
+        vertex2: null
+    };
     /**
      * On mount
      */
@@ -24,6 +29,27 @@ class GraphView extends Component {
      */
     componentDidUpdate() {
         this.updateCanvas();
+    }
+
+    clickHandler(event) {
+
+        // get canvas
+        const canvas = this.refs.canvas;
+        const reactBox = canvas.getBoundingClientRect();
+        const x = event.clientX - reactBox.left;
+        const y = event.clientY - reactBox.top;
+
+        // check if user click on vertex
+
+        // check if this is the first vertex the user selected
+        // draw selected image around vertex
+        // unselected if selected
+
+        // check for the second vertex to be selected
+        // draw selected image vertex
+
+        // enable buttons for search graph or find path
+
     }
 
 
