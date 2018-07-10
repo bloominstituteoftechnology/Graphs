@@ -86,7 +86,7 @@ class GraphView extends Component {
           ctx.stroke();  //draws the circle
 
           // draw vert values (labels)
-          // ctx.beginPath();
+          ctx.beginPath();
           ctx.fillStyle = 'black';  //sets color for the text
           ctx.fillText(vertex.value, vertex.pos.x + canvasStartX, vertex.pos.y + canvasStartY);  //fill in the text of v.value @ (x,y) of (v.pos.x, v.pos.y);
           current = unchecked[0];
