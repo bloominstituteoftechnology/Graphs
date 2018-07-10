@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+ const canvasWidth = 1000; 
+ const canvasHeight = 900;
+ const circleRadius = 15;
 
 /**
  * GraphView
@@ -36,10 +37,23 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // !!! IMPLEMENT ME
+    ctx.font = "13px Arial";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
+    this.props.graph.vertexes.forEach((v) => {
+      ctx.biginPath();
+      ctx.fillStyle = 'white';
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2*Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    })
   }
   
   /**
