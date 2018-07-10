@@ -26,3 +26,26 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+button {
+  display: flex;
+  margin: 0 auto;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border: none;
+  height: 50px;
+  border-radius: 5px;
+  background-color: cadetblue;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 4px 4px rgba(0, 0, 0, 0.527);
+  cursor: pointer
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: 1px 1px black;
+}
+
+button:focus {
+  outline: none;
+}
