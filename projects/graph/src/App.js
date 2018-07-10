@@ -53,6 +53,13 @@ class GraphView extends Component {
 
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
+
+      v.edges.forEach((l) => {
+        ctx.beginPath();
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(l.destination.pos.x, l.destination.pos.y);
+        ctx.stroke();
+      })
     })
   }
   
@@ -79,7 +86,7 @@ class App extends Component {
     // !!! IMPLEMENT ME
     this.state.graph.randomize(canvasWidth, canvasHeight, 50);
     //console.log("props", this.props)
-    //console.log("state:\n", this.state)
+    console.log("state:\n", this.state)
     // use the graph randomize() method
   }
 
