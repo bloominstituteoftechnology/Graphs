@@ -1,28 +1,35 @@
-/**
- * Edge
- */
+/* Edge */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
-/**
- * Vertex
- */
+/* Vertex */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value="default", position={ x: -1, y: -1 }) {
+    this.edges = [];
+    this.value = value;
+    this.position = position;
+  }
 }
 
-/**
- * Graph
- */
+/* Graph */
 export class Graph {
   constructor() {
     this.vertexes = [];
   }
 
-  /**
-   * Create a random graph
-   */
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex("v1", { x: 50, y: 50 });
+    const dummyVertex2 = new Vertex("v2", { x: 100, y: 100 });
+    const dummyVertex3 = new Vertex("v3", { x: 150, y: 150 });
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
+  }
+
+  /* Create a random graph */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
@@ -86,9 +93,7 @@ export class Graph {
     }
   }
 
-  /**
-   * Dump graph data to the console
-   */
+  /* Dump graph data to the console */
   dump() {
     let s;
 
@@ -106,16 +111,12 @@ export class Graph {
     }
   }
 
-  /**
-   * BFS
-   */
+  /* BFS */
   bfs(start) {
     // !!! IMPLEMENT ME
   }
 
-  /**
-   * Get the connected components
-   */
+  /* Get the connected components */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
   }
