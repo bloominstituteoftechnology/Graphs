@@ -2,7 +2,7 @@
  * Edge class
  */
 class Edge {
-	constructor(destination, weight=1) {
+	constructor(destination, weight = 1) {
 		this.destination = destination;
 		this.weight = weight;
 	}
@@ -12,7 +12,7 @@ class Edge {
  * Vertex class
  */
 class Vertex {
-	constructor(value='vertex') {
+	constructor(value = "vertex") {
 		this.value = value;
 		this.edges = [];
 	}
@@ -32,22 +32,22 @@ class Graph {
 
 			for (e of v.edges) {
 				const neighbor = e.destination;
-				if (neighbor.color === 'white') {
+				if (neighbor.color === "white") {
 					neighbor.parent = v;
 					visit(neighbor);
 				}
 			}
 
-			v.color = 'black';
+			v.color = "black";
 		}
 
 		for (v of this.vertexes) {
-			v.color = 'white';
+			v.color = "white";
 			v.parent = null;
 		}
 
 		for (v of this.vertexes) {
-			if (v.color === 'white') {
+			if (v.color === "white") {
 				visit(v);
 			}
 		}
@@ -68,14 +68,14 @@ function addEdge(v0, v1) {
 
 // Build graph
 const graph = new Graph();
-const vertA = new Vertex('A');
-const vertB = new Vertex('B');
-const vertC = new Vertex('C');
-const vertD = new Vertex('D');
-const vertE = new Vertex('E');
-const vertF = new Vertex('F');
-const vertG = new Vertex('G');
-const vertH = new Vertex('H');
+const vertA = new Vertex("A");
+const vertB = new Vertex("B");
+const vertC = new Vertex("C");
+const vertD = new Vertex("D");
+const vertE = new Vertex("E");
+const vertF = new Vertex("F");
+const vertG = new Vertex("G");
+const vertH = new Vertex("H");
 
 addEdge(vertA, vertB);
 addEdge(vertB, vertD);

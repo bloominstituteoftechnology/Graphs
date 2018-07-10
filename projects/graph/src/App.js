@@ -41,25 +41,54 @@ class GraphView extends Component {
     const vertexes = this.props.graph.vertexes;
     const vertexRadius = 10;
     // compute connected components
+    const connectedComponents = this.props.graph.getConnectedComponents();
+
     // draw edges
-    vertexes.forEach(vertex => {
-      let x = vertex.pos.x;
-      let y = vertex.pos.y;
-      if (vertex.edges.length > 0) {
-        for (let i = 0; i < vertex.edges.length; i++) {
-          let edge = vertex.edges[i]; // other node to connect to
-          let edgeX = edge.destination.pos.x;
-          let edgeY = edge.destination.pos.y;
-          // draw a line to each edge destination
-          ctx.beginPath();
-          ctx.fillStyle = "black";
-          ctx.moveTo(x, y);
-          ctx.lineTo(edgeX, edgeY);
-          ctx.stroke();
-          ctx.closePath();
+    // vertexes.forEach(vertex => {
+    //   let x = vertex.pos.x;
+    //   let y = vertex.pos.y;
+    //   if (vertex.edges.length > 0) {
+    //     for (let i = 0; i < vertex.edges.length; i++) {
+    //       let edge = vertex.edges[i]; // other node to connect to
+    //       let edgeX = edge.destination.pos.x;
+    //       let edgeY = edge.destination.pos.y;
+    //       // draw a line to each edge destination
+    //       ctx.beginPath();
+    //       ctx.fillStyle = "black";
+    //       ctx.moveTo(x, y);
+    //       ctx.lineTo(edgeX, edgeY);
+    //       ctx.fill();
+    //       ctx.stroke();
+    //       ctx.closePath();
+    //     }
+    //   }
+    // });
+    let redOffset = Math.random() * 256;
+    let greenOffset = Math.random() * 256;
+    let blueOffset = Math.random() * 256;
+
+    connectedComponents.forEach(component => {
+      for (let i = 0; i < component.length; i++) {
+        let x = component[i].pos.x;
+        let y = component[i].pos.y;
+        ctx.strokeStyle = `rgb(${redOffset}, ${greenOffset}, ${blueOffset})`;
+        if (component[i].edges.length > 0) {
+          for (let j = 0; j < component[i].edges.length; j++) {
+            let edge = component[i].edges[j];
+            let edgeX = edge.destination.pos.x;
+            let edgeY = edge.destination.pos.y;
+            // draw a line to each connected component
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(edgeX, edgeY);
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+          }
         }
       }
     });
+
     // draw verts
     vertexes.forEach(vertex => {
       let x = vertex.pos.x;
@@ -68,6 +97,7 @@ class GraphView extends Component {
       ctx.fillStyle = "teal";
       ctx.arc(x, y, vertexRadius, 0, Math.PI * 2);
       ctx.fill();
+      ctx.stroke();
       // draw vert values (labels)
       ctx.fillStyle = "black";
       ctx.fillText(`${vertex.value}`, x, y);

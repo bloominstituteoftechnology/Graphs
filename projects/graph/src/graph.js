@@ -137,12 +137,13 @@ export class Graph {
 
   bfs(start) {
     const queue = [];
+    const visited = [];
 
     for (let v of this.vertexes) {
-      v.color = "red"; // initialize every vertex as not visited
+      v.color = "white"; // initialize every vertex as not visited
     }
 
-    start.color = "green"; // mark the starting vertex as visited
+    start.color = "gray"; // mark the starting vertex as visited
     queue.push(start); // add the starting vertex to the queue
 
     while (queue.length > 0) {
@@ -150,19 +151,47 @@ export class Graph {
       let current = queue[0];
 
       for (let neighbor of current.edges) {
-        if (neighbor.color === "red") {
+        if (neighbor.color === "white") {
           // add all unvisited vertices to the queue
-          neighbor.color = "green";
+          neighbor.color = "gray";
           queue.push(neighbor);
         }
       }
       queue.shift();
-      current.color = "black"; // mark the start a unique color
+      current.color = "black"; // visited vertexes
+      visited.push(current);
     }
+    return visited;
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {}
+
+  //  connected_components = [];
+
+  // for v in graph.vertexes:
+  //   v.color = white
+
+  // for v in graph.vertexes:
+  //   if v.color == white:
+  //     component = bfs(v)
+  //   connected_components.push(component);
+
+  getConnectedComponents() {
+    const connected_components = [];
+    let component;
+
+    for (let v of this.vertexes) {
+      v.color = "white";
+    }
+
+    for (let v of this.vertexes) {
+      if (v.color === "white") {
+        component = this.bfs(v);
+        connected_components.push(component);
+      }
+    }
+    return connected_components;
+  }
 }
