@@ -30,13 +30,15 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
+    
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    console.log('this.props.graph: ', this.props.graph);
+    console.log('this.props.graph: ', this.props.graph.vertexes);
     // call our dummy function
-    this.props.graph.createDummyGraph();
-    console.log('called createDummyGraph');
+    // this.props.graph.createDummyGraph();
+
+    this.props.graph.randomize(5, 4, 150, 0.6);
     
     // Clear it
     ctx.fillStyle = 'grey';
@@ -58,7 +60,7 @@ class GraphView extends Component {
       console.log(this.props.graph.vertexes.length)
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
-      
+
       if(!this.props.graph.vertexes[index+1]) {
         return;
       }
@@ -107,6 +109,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    const g = new Graph();
+    g.randomize(5, 4, 150, 0.6);
   }
 
   render() {
