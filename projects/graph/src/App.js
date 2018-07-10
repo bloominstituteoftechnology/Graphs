@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
-const canvasHeight = 900;
+const canvasWidth = 750;
+const canvasHeight = 600;
 const circleRadius = 16;
 
 /**
@@ -32,10 +32,13 @@ class GraphView extends Component {
      let canvas = this.refs.canvas;
      let ctx = canvas.getContext('2d');
 
-     console.log('this.props.graph: ', this.props.graph);
+     //console.log('this.props.graph: ', this.props.graph);
      // call our dummy function
-     this.props.createDummyGraph();
-     console.log('called createDummyGraph');
+    //this.props.graph.createDummyGraph();
+     //console.log('called createDummyGraph');
+
+     const graph = this.props.graph;
+     graph.randomize(5, 4, 150, 0.6);
 
      // Clear it 
       ctx.fillStyle = 'grey';
@@ -45,7 +48,7 @@ class GraphView extends Component {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       // draw our dummy vertex
-      this.props.graph.vertextes.forEach((v) => {
+      this.props.graph.vertexes.forEach((v) => {
         ctx.beginPath();
         ctx.fillStyle = 'white';
         ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, Math.PI * 2);
