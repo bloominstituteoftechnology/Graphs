@@ -125,7 +125,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}>Canvas API</GraphView>
+        <GraphView graph={this.state.graph}></GraphView>
       </div>
     );
   }
