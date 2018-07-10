@@ -53,6 +53,21 @@ class GraphView extends Component {
     // draw dummy vertexes
 
     this.props.graph.vertexes.forEach(v => {
+      console.log("each vertex: ", v);
+      // console.log("edge adress x ", v.edges[0].destination.pos.x);
+      // console.log("edge adress y ", v.edges[0].destination.pos.y);
+      // line to next vertex
+
+      for (let nextVertex of v.edges) {
+        if (nextVertex.destination.pos.x) {
+          ctx.beginPath();
+          ctx.moveTo(v.pos.x, v.pos.y);
+          ctx.lineTo(nextVertex.destination.pos.x, nextVertex.destination.pos.y);
+          ctx.stroke();
+        }
+        
+      }
+
       ctx.beginPath();
       ctx.fillStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, (Math.PI * 2));
