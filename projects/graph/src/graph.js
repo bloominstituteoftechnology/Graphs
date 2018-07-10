@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 3) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value, pos={x: -1, y: -1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -20,6 +29,14 @@ export class Graph {
     this.vertexes = [];
   }
 
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+    const dummyVertex2 = new Vertex('v2', {x: 75, y: 25});
+    const dummyVertex3 = new Vertex('v3', {x: 150, y: 25});
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
+  }
   /**
    * Create a random graph
    */
@@ -52,6 +69,7 @@ export class Graph {
         if (y < height - 1) {
           if (Math.random() < probability) {
             connectVerts(grid[y][x], grid[y+1][x]);
+            console.log('connectVerts: ', grid[y][x], ' to ', grid[y+1][x]);
           }
         }
 
@@ -59,6 +77,7 @@ export class Graph {
         if (x < width - 1) {
           if (Math.random() < probability) {
             connectVerts(grid[y][x], grid[y][x+1]);
+            console.log('connectVerts: ', grid[y][x], ' to ', grid[y][x+1]);
           }
         }
       }
@@ -119,4 +138,6 @@ export class Graph {
   getConnectedComponents() {
     // !!! IMPLEMENT ME
   }
+
+  
 }

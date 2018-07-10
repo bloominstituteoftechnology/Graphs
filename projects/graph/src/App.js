@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1024;
-const canvasHeight = 768;
+const canvasWidth = 750;
+const canvasHeight = 600;
+const circleRad = 15;
 
 /**
  * GraphView
@@ -30,27 +31,37 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    console.log('this.props.graph', this.props.graph);
+    console.log('call createDummyGraph');
+    this.props.graph.randomize(5, 4, 150, 0.6);
     
     // Clear it
-    // ctx.fillStyle = 'white';
-    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.font = "13px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "gray";
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    let bckgrnd = ctx.createRadialGradient(canvasWidth/2, canvasHeight, canvasWidth/Math.PI, canvasWidth, canvasHeight, canvasWidth);
-    bckgrnd.addColorStop(0, "navy");
-    bckgrnd.addColorStop(1,"black");
+    this.props.graph.vertexes.forEach((v) => {
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.arc(v.pos.x, v.pos.y, circleRad, 0, 2*Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      // put text in vertex
+      ctx.fillStyle = "black";
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
 
-    ctx.fillStyle = bckgrnd;
-    ctx.fillRect(10, 10, canvasWidth,canvasHeight);
-
-    ctx.beginPath();
-    ctx.arc(canvas.width/2, canvas.height/2, 75, 1.1*Math.PI, 1.9*Math.PI, false);
-    ctx.lineWidth = 15;
-    ctx.strokeStyle = "bckgrnd";
-    ctx.stroke();
-
-    
-
-
+      if(v.edges.length > 0) {
+        for(let i = 0; i < v.edges.length; i++) {
+          ctx.beginPath();
+          ctx.moveTo(v.pos.x, v.pos.y);
+          ctx.lineTo(v.edges[i].destination.pos.x, v.edges[i].destination.pos.y);
+          ctx.strokeStyle = 'black';
+          ctx.stroke();
+        }
+      }
+    })
 
     // !!! IMPLEMENT ME
     // compute connected components
