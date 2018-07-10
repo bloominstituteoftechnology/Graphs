@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
-const canvasHeight = 900;
+const canvasWidth = 800;
+const canvasHeight = 600;
 const circleRadius = 15;
 
 /**
@@ -33,7 +33,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
 
     // Clear it
-    ctx.fillStyle = 'grey';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.font = '13px Arial';
@@ -90,7 +90,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(5, 5, 100);
+    this.state.graph.randomize(5, 5, 90);
   }
 
   render() {
