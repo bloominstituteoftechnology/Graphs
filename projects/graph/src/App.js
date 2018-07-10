@@ -2,16 +2,10 @@ import React, {Component} from 'react';
 import {Graph} from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-const xValue = 6;
-const yValue = 6;
-const boxSize = 150;
-const probability = 0.6;
 
+const canvasWidth = 800;
+const canvasHeight = 800;
 
-const canvasWidth = xValue * boxSize;
-const canvasHeight = yValue * boxSize;
-const radius = boxSize / 9;
 
 
 /**
@@ -32,115 +26,76 @@ class GraphView extends Component {
         this.updateCanvas();
     }
 
+
+    getRandomColor() {
+        const r = Math.floor(Math.random() * 200) + 40,
+            g = Math.floor(Math.random() * 200) + 40,
+            b = Math.floor(Math.random() * 200) + 40;
+        return 'rgb(' + r + ',' + g + ',' + b + ')';
+    }
     /**
      * Render the canvas
      */
+
+
     updateCanvas() {
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = 'rgb(239, 241, 244)';
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+        // New Graph on each update
         const graph = this.props.graph;
-
-        this.drawVertex(graph.vertexes);
+        graph.randomize(5, 4, 150, 0.6);
+        const connectedComponents = graph.getConnectedComponents();
+        this.draw(connectedComponents, ctx);
     }
 
-    drawVertex(vertexes, color, clear=true) {
-        let canvas = this.refs.canvas;
-        let ctx = canvas.getContext('2d');
 
-        // Clear it
-        if (clear) {
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    draw(connectedComponents, ctx) {
+        for (const subgraph of connectedComponents) {
+            const color = this.getRandomColor();
+            this.drawSubgraph(subgraph, ctx, color);
+            this.drawVertex(subgraph, ctx, color);
         }
-
-        this.drawLines(vertexes, ctx);
-
-
-        // for (let v of vertexes) {
-        //     ctx.fillStyle = this.randomColor();
-        //     ctx.beginPath();
-        //     ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
-        //     ctx.stroke();
-        //     ctx.fill();
-        // }
-
-        this.drawGraph(vertexes, ctx);
-
-
-        this.drawVertexName(vertexes, ctx);
     }
 
-    drawLines(vertexes, ctx) {
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = this.randomColor();
-
-        for (let v of vertexes) {
+    drawSubgraph(subgraph, ctx, color) {
+        for (const v of subgraph) {
+            // Fill edges
             for (let e of v.edges) {
-                const v2 = e.destination;
                 ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = e.weight;
                 ctx.moveTo(v.pos.x, v.pos.y);
-                ctx.lineTo(v2.pos.x, v2.pos.y);
+                ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+                ctx.closePath();
                 ctx.stroke();
+
+                ctx.font = '10px serif';
+                ctx.fillStyle = 'black';
+                // TODO: add weigh text if I have time
             }
         }
     }
 
-    drawGraph(vertexes, ctx) {
-        for (let v of vertexes) {
-            ctx.fillStyle = this.randomColor();
+    drawVertex(subgraph, ctx, color) {
+        for (let v of subgraph) {
+            // Fill verts
             ctx.beginPath();
-            ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
-            ctx.stroke();
+            let gradient = ctx.createRadialGradient(v.pos.x - 5, v.pos.y - 5, 1, v.pos.x - 5, v.pos.y - 5, 15);
+            gradient.addColorStop(0, '#fff');
+            gradient.addColorStop(1, color);
+            ctx.fillStyle = gradient;
+            ctx.arc(v.pos.x, v.pos.y, 20, 0, Math.PI * 2, true);
             ctx.fill();
+            ctx.font = 'bold 20px serif';
+            ctx.fillStyle = 'black';
+            ctx.fillText(`${v.value.slice(1, v.value.length)}`, v.pos.x, v.pos.y + 2);
         }
     }
 
-
-    drawVertexName(vertexes, ctx) {
-
-        ctx.font = '12px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = 'white';
-
-        for (let v of vertexes) {
-            ctx.fillText(v.value, v.pos.x, v.pos.y + 4);
-        }
-    }
-    randomColor() {
-
-        const number = Math.floor(Math.random() * 10) + 1;
-
-        switch (number) {
-            case 1:
-                return 'blue';
-
-            case 2:
-                return 'red';
-            case 3:
-                return 'green';
-            case 4:
-                return 'brown';
-
-            case 5:
-                return 'black';
-
-            case 6:
-                return 'navy';
-
-            case 7:
-                return 'cyan';
-
-            case 8:
-                return 'LightBlue';
-            case 9:
-                return 'SpringGreen';
-            case 10:
-                return 'Magenta';
-
-            default:
-                return 'blue';
-
-        }
-
-    }
     /**
      * Render
      */
@@ -162,27 +117,17 @@ class App extends Component {
         };
 
         // !!! IMPLEMENT ME
-        this.state.graph.randomize(xValue, yValue, boxSize, probability);
+        // this.state.graph.randomize(xValue, yValue, boxSize, probability);
 
-        this.onClick = this.onClick.bind(this);
+        // this.onClick = this.onClick.bind(this);
     }
 
-    onClick() {
 
-        const state = {
-            graph: new Graph()
-        };
-
-        state.graph.randomize(xValue, yValue, boxSize, probability);
-
-        this.setState(state);
-    }
 
     render() {
         return (
             <div className="App">
                 <GraphView graph={this.state.graph}/>
-                <button onClick={this.onClick}>Random Graph</button>
             </div>
         );
     }
