@@ -1,6 +1,7 @@
 .App {
   text-align: center;
-  margin-top: 20px;
+  margin: 20px auto;
+  max-width: 825px;
 }
 
 .App-logo {
@@ -21,6 +22,13 @@
 
 .App-intro {
   font-size: large;
+}
+
+button {
+  border: 2px solid grey;
+  font-size: 18px;
+  height: 40px;
+  margin-top: 20px;
 }
 
 @keyframes App-logo-spin {
