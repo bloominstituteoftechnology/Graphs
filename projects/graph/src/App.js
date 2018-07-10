@@ -32,15 +32,15 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    // ctx.fillStyle = '#c0dfe8';
-    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    // console.log(ctx);
+    ctx.fillStyle = '#c0dfe8';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    console.log(ctx);
     
 
-    // ctx.fillStyle = '#FFFFFF';
-    // ctx.fillRect(10, 10, 880, 780);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(10, 10, 880, 780);
 
-    // ctx.fillStyle = '#bf9ebe';
+    ctx.fillStyle = '#bf9ebe';
 
     // ctx.beginPath();
     // ctx.arc(110, 180, 90, 0, Math.PI)
@@ -60,20 +60,24 @@ class GraphView extends Component {
           ctx.rotate(Math.PI / n);
           ctx.lineTo(0, 0 - r);
       }
+      let rand = Math.random() * 2;
+      ctx.fillStyle = rand > 1 ? "red" : "blue";
       ctx.closePath();
       ctx.fill();
       ctx.restore();
   }
-  strokeStar(200, 350, 30, 5, 5);
+  let stars = strokeStar(200, 350, 30, 5, 3);
 
     // ctx.beginPath();
     // ctx.moveTo(300, 250);
     
     // ctx.stroke();
 
-    const ball = new Image();
-    ball.src = "http://www.clker.com/cliparts/n/S/m/J/a/8/blue-star-outline-small.svg";
-    console.log(ball);
+    const star = new Image();
+    let rand = Math.random() * 2;
+    const url1 = 'https://vectr.com/tmp/aMt2sqUiO/b1ox4deAmE.svg?width=640&height=640&select=b1ox4deAmEpage0';
+    const url2 = 'https://vectr.com/tmp/aMt2sqUiO/ft9txtpky.svg?width=640&height=640&select=ft9txtpkypage0';
+    
 
     function start() {
       //ball.src = "https://mdn.mozillademos.org/files/1456/Canvas_sun.png";
@@ -85,19 +89,21 @@ class GraphView extends Component {
       //ctx.globalCompositeOperation = "destination-over";
       // ctx.save();
       // ctx.translate(250, 250);
+      
 
       const time = new Date();
 
       ctx.save();
-      ctx.rotate(2 * time.getSeconds() + 0.005 * time.getMilliseconds());
+      ctx.rotate(2 * time.getSeconds() + 2 * time.getMilliseconds());
       //ctx.translate(30, 40);
-      ctx.drawImage(ball, (Math.random() * 1000), (Math.random() * 1000));
+      star.src = rand > 1 ? url1 : url2;
+      ctx.drawImage(star, (Math.random() * 1000), (Math.random() * 1000));
 
-      ctx.restore();
-      ctx.fillStyle = '#fff263'
-      ctx.beginPath();
-      //ctx.arc(30, 40, 300, 0, Math.PI);
-      ctx.fill();
+      //ctx.restore();
+      // ctx.fillStyle = '#fff263'
+      // ctx.beginPath();
+      // //ctx.arc(30, 40, 300, 0, Math.PI);
+      // ctx.fill();
 
       window.requestAnimationFrame(game);
     }
