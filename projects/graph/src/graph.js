@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -20,14 +28,24 @@ export class Graph {
     this.vertexes = [];
   }
 
+  createDummyGraph() {
+    // const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+    // const dummyVertex2 = new Vertex('v2', {x: 60, y: 75});
+    // const dummyVertex3 = new Vertex('v3', {x: 300, y: 325});
+    // const dummyVertex4 = new Vertex('v4', {x: 325, y: 225});
+    // this.vertexes.push(dummyVertex1);
+    // this.vertexes.push(dummyVertex2);
+    // this.vertexes.push(dummyVertex3);
+    // this.vertexes.push(dummyVertex4);
+  }
   /**
    * Create a random graph
    */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      v0.edges.push(new Edge(v1)); // connects v0 and v1
+      v1.edges.push(new Edge(v0)); // connects v1 to v0
     }
 
     let count = 0;
