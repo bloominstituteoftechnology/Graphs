@@ -59,23 +59,18 @@ class GraphView extends Component {
         ctx.fill();
         ctx.stroke();
         ctx.fillStyle = 'black';
-        ctx.fillText(v.value, v.pos.x, v.pos.y);
-
+        ctx.fillText(v.value, v.pos.x, v.pos.y)
       })
 
-
-    // ctx.arc(10, 10, 10, 0, 2 * Math.PI);  // deciding what we're going to draw next
-    // ctx.stroke(); // put your pen down and draw the stroke
-    // ctx.beginPath();
-    // ctx.arc(100, 100, 10, 0, 2 * Math.PI);
-    // ctx.stroke();
-    // console.log('called ctx.arc');
-    
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+      this.props.graph.vertexes.forEach(v => {
+        v.edges.forEach(edge => {
+          ctx.beginPath();
+          ctx.moveTo(v.pos.x, v.pos.y);
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+          ctx.stroke();
+          ctx.fill();
+        });
+      });
   }
 
 
