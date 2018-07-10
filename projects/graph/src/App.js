@@ -6,7 +6,6 @@ import './App.css';
 const canvasWidth = 1000; 
 const canvasHeight = window.innerHeight;
 const circle = 15;
-let temp = 0;
 
 /**
  * GraphView
@@ -52,7 +51,7 @@ class GraphView extends Component {
 
     
     // draw our dummy vertexes
-    this.props.graph.vertexes.forEach((v, index) => {
+    this.props.graph.vertexes.forEach((v) => {
         ctx.beginPath();
         ctx.fillStyle = 'white';
         ctx.arc(v.pos.x, v.pos.y, circle, 0, 2 * Math.PI);
