@@ -32,23 +32,39 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
     
     // Clear it
-    ctx.fillStyle = '#c0dfe8';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    console.log(ctx);
+    // ctx.fillStyle = '#c0dfe8';
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // console.log(ctx);
     
 
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(10, 10, 880, 780);
+    // ctx.fillStyle = '#FFFFFF';
+    // ctx.fillRect(10, 10, 880, 780);
 
-    ctx.fillStyle = '#bf9ebe';
+    // ctx.fillStyle = '#bf9ebe';
 
-    ctx.beginPath();
-    ctx.arc(110, 180, 90, 0, Math.PI)
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.arc(110, 180, 90, 0, Math.PI)
+    // ctx.stroke();
 
-    ctx.beginPath();
-    ctx.arc(290, 180, 90, 1, Math.PI, true)
-    ctx.fill();
+    // ctx.beginPath();
+    // ctx.arc(290, 180, 90, 1, Math.PI, true)
+    // ctx.fill();
+    function strokeStar(x, y, r, n, inset) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.translate(x, y);
+      ctx.moveTo(0,0-r);
+      for (var i = 0; i < n; i++) {
+          ctx.rotate(Math.PI / n);
+          ctx.lineTo(0, 0 - (r*inset));
+          ctx.rotate(Math.PI / n);
+          ctx.lineTo(0, 0 - r);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+  }
+  strokeStar(200, 350, 30, 5, 5);
 
     // ctx.beginPath();
     // ctx.moveTo(300, 250);
@@ -56,31 +72,32 @@ class GraphView extends Component {
     // ctx.stroke();
 
     const ball = new Image();
+    ball.src = "http://www.clker.com/cliparts/n/S/m/J/a/8/blue-star-outline-small.svg";
+    console.log(ball);
 
     function start() {
-      ball.src = "https://cdn.pixabay.com/photo/2013/07/12/14/09/football-147854_960_720.png";
       //ball.src = "https://mdn.mozillademos.org/files/1456/Canvas_sun.png";
-      ball.size = '50px';
       
       window.requestAnimationFrame(game);
     }
 
     function game() {
       //ctx.globalCompositeOperation = "destination-over";
-      ctx.save();
-      ctx.translate(250, 250);
+      // ctx.save();
+      // ctx.translate(250, 250);
 
       const time = new Date();
 
       ctx.save();
-      ctx.rotate(((2 * Math.PI) / 6) * time.getSeconds() + ((2 * Math.PI) / 60000) * time.getMilliseconds());
-      ctx.translate(205, 40);
-      ctx.drawImage(ball, -12, -12);
+      ctx.rotate(2 * time.getSeconds() + 0.005 * time.getMilliseconds());
+      //ctx.translate(30, 40);
+      ctx.drawImage(ball, (Math.random() * 1000), (Math.random() * 1000));
 
       ctx.restore();
+      ctx.fillStyle = '#fff263'
       ctx.beginPath();
-      ctx.arc(300, 400, 300, 0, Math.PI * 2);
-      ctx.stroke();
+      //ctx.arc(30, 40, 300, 0, Math.PI);
+      ctx.fill();
 
       window.requestAnimationFrame(game);
     }
