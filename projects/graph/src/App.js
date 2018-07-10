@@ -32,17 +32,17 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    // this.props.graph.createDummyGraph();
-
+    // Style the canvas
     ctx.fillStyle = "blue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    // Aligns text
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-
-    let prevX = 0;
-    let prevY = 0;
+    // // Initialize previous coordinate holders
+    // let prevX = 0;
+    // let prevY = 0;
 
     this.props.graph.vertexes.forEach(vertex => {
       // Create Nodes/Vertices
@@ -51,10 +51,13 @@ class GraphView extends Component {
       ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI)
       ctx.fill();
       ctx.stroke();
+      console.log('vertex.edges', vertex.edges)
 
       // Create Edges
-      ctx.moveTo(vertex.pos.x, vertex.pos.y);
-      if (prevX > 0 && prevY > 0) ctx.lineTo(prevX, prevY);
+      if (vertex.edges.length > 0) { 
+        ctx.moveTo(vertex.pos.x, vertex.pos.y)
+        ctx.lineTo(vertex.edges[0].destination.pos.x, vertex.edges[0].destination.pos.y);
+      }
       ctx.stroke();
 
       // Create Node/Verticies Labels
@@ -63,8 +66,8 @@ class GraphView extends Component {
       ctx.fillStyle = "black";
       ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
 
-      prevX = vertex.pos.x;
-      prevY = vertex.pos.y;
+      // prevX = vertex.pos.x;
+      // prevY = vertex.pos.y;
     })
   }
 
@@ -87,7 +90,6 @@ class App extends Component {
       graph: new Graph()
     };
 
-    // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.setState({ graph: this.state.graph.randomize(5, 4, 150, 0.6) })
   }
