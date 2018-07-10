@@ -13,8 +13,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor() {
-    this.vertexes = [];
+  constructor(value='default', pos={x: -1, y: -1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
   }
 }
 
@@ -24,6 +26,11 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex();
+    this.vertexes.push(dummyVertex1);
   }
 
   /**
