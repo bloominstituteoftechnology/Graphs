@@ -21,15 +21,6 @@ export class Graph {
     this.vertexes = [];
   }
 
-  // createDummyGraph() {
-  //   const dummyVertex1 = new Vertex("v1", { x: 50, y: 50 });
-  //   const dummyVertex2 = new Vertex("v2", { x: 100, y: 100 });
-  //   const dummyVertex3 = new Vertex("v3", { x: 150, y: 150 });
-  //   this.vertexes.push(dummyVertex1);
-  //   this.vertexes.push(dummyVertex2);
-  //   this.vertexes.push(dummyVertex3);
-  // }
-
   /* Create a random graph */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
