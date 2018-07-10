@@ -34,8 +34,13 @@ class GraphView extends Component {
 
     console.log('this.props.graph: ', this.props.graph)
 
-    this.props.graph.createDummyGraph();
-    console.log('called createDummyGraph');
+    // this.props.graph.createDummyGraph();
+    // console.log('called createDummyGraph');
+    
+    // randomize method call
+    this.props.graph.randomize(6, 5, 150, 0.6);
+
+    console.log(this.props.graph.vertexes);
     
     // Clear it
     ctx.fillStyle = '#c0dfe8';
