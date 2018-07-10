@@ -31,6 +31,13 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     
+
+  console.log('this.props.graph: ', this.props.graph);
+
+    //call our dummy function
+    this.props.graph.createDummyGraph()
+    console.log('called createDummyGraph: ');
+
     // Clear it
     ctx.fillStyle = 'grey';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);

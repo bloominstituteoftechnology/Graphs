@@ -2,9 +2,8 @@
  * Edge
  */
 export class Edge {
-  constructor(des, weight) {
-    this.destination = des;
-    this.weight = weight;
+  constructor(destination) {
+    this.destination = destination;
   }
 }
 
@@ -12,11 +11,8 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(newEdge) {
-    this.edgeList = [];
-  }
-  addEdge = (newEdge) => {
-    this.edgeList = this.edgeList.concat(newEdge);
+  constructor() {
+    this.edges = [];
   }
 }
 
@@ -27,6 +23,11 @@ export class Graph {
   constructor() {
     this.vertexes = [];
     //will be a list of vertexes, and each vertex has a list of edges
+  }
+
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex();
+    this.vertexes.push(dummyVertex1)
   }
 
   /**
