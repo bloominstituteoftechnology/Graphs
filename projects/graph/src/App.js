@@ -46,6 +46,18 @@ class GraphView extends Component {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
+    // draw our dummy lines
+    this.props.graph.vertexes.forEach(v => {
+      ctx.fillStyle = 'black';
+
+      v.edges.forEach(edge => {
+        ctx.beginPath();
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      });
+    });
+
     // draw our dummy vertex
     this.props.graph.vertexes.forEach(v => {
       ctx.fillStyle = 'white';
