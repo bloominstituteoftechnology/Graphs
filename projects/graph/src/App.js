@@ -116,10 +116,17 @@ class App extends Component {
 
     }
 
+    clickHandler = () => {
+
+        const newGraph = new Graph();
+        this.setState({graph: newGraph})
+    };
+
     render() {
         return (
             <div className="App">
                 <GraphView graph={this.state.graph}/>
+                <button onClick={this.clickHandler}>Random Graph</button>
             </div>
         );
     }
