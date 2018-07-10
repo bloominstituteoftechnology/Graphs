@@ -3,9 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const xCount = 7;
-const yCount = 7;
-const boxSize = 100;
+// Figure out the canvas size
+const xCount = 5;
+const yCount = 5;
+const boxSize = 135;
 const probability = 0.6;
 
 // Figure out the canvas size
@@ -31,36 +32,81 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
-  drawVerts(vertexes) {
+  drawVerts(vertexes, color='red', clear=true) {
+    // let canvas = this.refs.canvas;
+    // let ctx = canvas.getContext('2d');
+    // ctx.fillStyle = 'gray';
+    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    
+    // ctx.lineWidth = 1.5;
+    // ctx.strokeStyle = 'teal';
+
+    // // Draw the verts with lines
+    // for (let v of vertexes) {
+    //   ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+    //   ctx.stroke();
+    // }
+
+    // // fill the verts
+    // for (let v of vertexes) {
+    //   ctx.beginPath();
+    //   ctx.fillStyle = 'black';
+    //   ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
+    //   ctx.fill();
+    // }
+    
+    // // Draw the vert names
+    // for (let v of vertexes) {
+    //   ctx.beginPath();
+    //   ctx.font = '14px sans-serif';
+    //   ctx.textAlign = 'center';
+    //   ctx.fillStyle = 'white';
+    //   ctx.fillText(v.value, v.pos.x, v.pos.y );
+    // }
+
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'maroon';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = 'white';
+    // Clear it
+    if (clear) {
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    }
 
-    // set up the verts and edges
+    // Draw the edges
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = color;
+
+
+
+
+    for (let v of vertexes) { // From this vert   like --
+      for (let e of v.edges) { // To all these verts
+        const v2 = e.destination;
+        ctx.beginPath();
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(v2.pos.x, v2.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    // Draw the verts on top
+    ctx.fillStyle = 'black'; // light blue
+
     for (let v of vertexes) {
+      ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
       ctx.stroke();
-    }
-
-    // fill in the verts with color
-    for (let v of vertexes) {
-      ctx.beginPath();
-      ctx.fillStyle = 'black';
-      ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI, false);
       ctx.fill();
     }
-    
-    // label the verts
+
+    // // Draw the vert names
+    ctx.font = '14px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'white';
+
     for (let v of vertexes) {
-      ctx.beginPath();
-      ctx.font = '14px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillStyle = 'white';
-      ctx.fillText(v.value, v.pos.x, v.pos.y );
+      ctx.fillText(v.value, v.pos.x, v.pos.y + 4);
     }
   }
 
@@ -69,6 +115,7 @@ class GraphView extends Component {
    */
   updateCanvas() {
     const g = this.props.graph;
+    console.log(g.vertexes)
     this.drawVerts(g.vertexes);
   }
   
@@ -94,6 +141,10 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    // Create a graph with 20 nodes in a grid (5*4), with a 150x150px jitter
+    // box for each of them. The canvas size should be 750x600 to hold this
+    // graph (5*150=750, 4*150=600). The probability of any edge of the grid
+    // existing is 0.6.
     this.state.graph.randomize(xCount, yCount, boxSize, probability);
   }
   refreshPage(){ 

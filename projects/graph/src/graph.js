@@ -51,7 +51,7 @@ export class Graph {
 
     // Build a grid of verts
     let grid = [];
-    for (let y = 0; y < height; y++) {
+    for (let y = 0; y < height; y++) { 
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
