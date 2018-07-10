@@ -114,13 +114,7 @@ class App extends Component {
             graph: new Graph()
         };
 
-        // !!! IMPLEMENT ME
-        // this.state.graph.randomize(xValue, yValue, boxSize, probability);
-
-        // this.onClick = this.onClick.bind(this);
     }
-
-
 
     render() {
         return (
