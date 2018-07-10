@@ -44,12 +44,15 @@ class GraphView extends Component {
     ctx.font = '13px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    
+
     // draw our dummy vertex
     this.props.graph.vertexes.forEach((v) => {
       ctx.beginPath();
       ctx.fillStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.lineCap="square";
+      // ctx.moveTo(200, 20);
+      ctx.lineTo(300, 20);
       ctx.fill();
       ctx.stroke();
 
