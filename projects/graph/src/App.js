@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-let canvasWidth = 750;
-let canvasHeight = 600;
+const canvasWidth = 750; // window.innerWidth; // 750;
+const canvasHeight = 600; // window.innerHeight; // 600;
 const circleRadius = 25;
 
 /* GraphView */
@@ -22,10 +22,6 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-
-    // dummy canvas
-    // console.log("this.props.graph", this.props.graph);
-    // this.props.graph.createDummyGraph();
     
     // Clear it
     ctx.fillStyle = 'gray';
@@ -54,6 +50,17 @@ class GraphView extends Component {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
+    ctx.strokeStyle = "blue";
+    this.props.graph.vertexes.forEach(v => {
+      v.edges.forEach(e => {
+        ctx.beginPath();
+        ctx.moveTo(v.pos.x, v.pos.y);
+        ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+        ctx.stroke();
+        ctx.fill();
+      });
+    });
+
     this.props.graph.vertexes.forEach(v => {
       ctx.beginPath();
       ctx.fillStyle = "white";
@@ -64,6 +71,7 @@ class GraphView extends Component {
       ctx.fillStyle = "black";
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
+
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
@@ -84,10 +92,11 @@ class App extends Component {
     super(props);
 
     this.state = {
-      graph: new Graph()
+      graph: new Graph(),
+      box: canvasHeight < canvasWidth ? canvasHeight/5 : canvasWidth/5
     };
 
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(5, 4, this.state.box, 0.6);
   }
 
   render() {
