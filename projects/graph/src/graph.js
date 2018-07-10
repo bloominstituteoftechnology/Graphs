@@ -2,7 +2,7 @@
  * Edge
  */
 export class Edge {
-  constructor(destination, weight) {
+  constructor(destination) {
     this.destination = destination;
   }
 }
@@ -26,21 +26,21 @@ export class Graph {
     this.vertexes = [];
   }
 
-  createDummyGraph() {
-    const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
-    const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
-    const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+  //   const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
 
-    let dummyEdge1 = new Edge(dummyVertex2);
-    dummyVertex1.edges.push(dummyEdge1);
+  //   let dummyEdge1 = new Edge(dummyVertex2);
+  //   dummyVertex1.edges.push(dummyEdge1);
 
-    let dummyEdge2 = new Edge(dummyVertex3);
-    dummyVertex2.edges.push(dummyEdge2);
+  //   let dummyEdge2 = new Edge(dummyVertex3);
+  //   dummyVertex2.edges.push(dummyEdge2);
     
-    this.vertexes.push(dummyVertex1);
-    this.vertexes.push(dummyVertex2);
-    this.vertexes.push(dummyVertex3);
-  }
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  // }
 
   /**
    * Create a random graph
@@ -60,7 +60,7 @@ export class Graph {
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
-        //v.value = 'v' + x + ',' + y;
+        v.value = 'v' + x + ',' + y;
         v.value = 'v' + count++;
         row.push(v);
       }
