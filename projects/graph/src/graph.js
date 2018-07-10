@@ -120,6 +120,35 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const resultArr = [];
+
+    // Create nested function for recursion
+    function search(target) {
+      // Track vertexes pushed
+      const tempArr = [];
+      let pushed = 0;
+
+      target.edges.forEach(v => {
+        // If vertex is not included in result array
+        if (!resultArr.includes(v)) {
+          // Push vertex to result and temp arrays
+          resultArr.push(v);
+          tempArr.push(v);
+          pushed++;
+        }
+      });
+
+      // If vertexes were pushed
+      if (pushed) {
+        // Check their connections
+        tempArr.forEach(v => {
+          search(v);
+        });
+      }
+    }
+
+    search(start);
+    console.log(resultArr);
   }
 
   /**
