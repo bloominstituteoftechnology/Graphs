@@ -4,8 +4,9 @@ import './App.css';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 1000; 
-const canvasHeight = 900;
+const canvasHeight = window.innerHeight;
 const circleRadius = 15;
+let temp = 0;
 
 /**
  * GraphView
@@ -46,12 +47,24 @@ class GraphView extends Component {
     ctx.textBaseline = 'middle';
     
     // draw our dummy vertexes
-    this.props.graph.vertexes.forEach((v) => {
+    this.props.graph.vertexes.forEach((v, index) => {
       ctx.beginPath();
       ctx.fillStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
+
+
+      console.log(this.props.graph.vertexes.length)
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+      
+      if(!this.props.graph.vertexes[index+1]) {
+        return;
+      }
+      ctx.lineTo(this.props.graph.vertexes[index+1].pos.x, this.props.graph.vertexes[index+1].pos.y)
+      ctx.stroke();
+
 
       // fill in the text
       ctx.fillStyle = 'black';
