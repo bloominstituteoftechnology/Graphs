@@ -3,9 +3,8 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination, weight) {
+  constructor(destination) {
     this.destination = destination;
-    this.weight = weight;
   }
 }
 
@@ -14,8 +13,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor() {
-    this.edges = [];
+  constructor(value='default', pos={x: -1, y: -1}) {
+    this.edges = []; // told us below in randomize that there is an edges array
+    this.value = value;
+    this.pos = pos;
   }
 }
 
@@ -27,14 +28,23 @@ export class Graph {
     this.vertexes = [];
   }
 
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+  //   const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  // }
+
   /**
    * Create a random graph
    */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
-    function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+    function connectVerts(v0, v1) { // 2 vertexes
+      v0.edges.push(new Edge(v1)); // this is an array. edge pushed onto its edges array. 
+      v1.edges.push(new Edge(v0)); // v0 is the destination.
     }
 
     let count = 0;
