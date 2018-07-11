@@ -51,6 +51,7 @@ class GraphView extends Component {
     // ctx.stroke();
     // ctx.closePath();
 
+    // edges
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
         ctx.beginPath();
@@ -62,26 +63,27 @@ class GraphView extends Component {
     }
 
     // draw dummy verticies (dynamic)
-    // for (let v of this.props.graph.vertexes) {
-      // verts
-      this.props.graph.vertexes.forEach(v => {
-        ctx.strokeStyle = "yellow";
-        ctx.fillStyle = "black";
-        ctx.beginPath();
-        ctx.arc(v.pos.x, v.pos.y, 12, 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-  
-        // vert values (labels)
-        ctx.fillStyle = "yellow";
-        // ctx.font = "11px arial";
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(v.value, v.pos.x, v.pos.y);
-      })
 
-    // }
+    this.props.graph.vertexes.forEach(v => {
+      // verts
+      ctx.strokeStyle = "black";
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      ctx.arc(v.pos.x, v.pos.y, 14, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // vert values (labels)
+      ctx.fillStyle = "black";
+      ctx.font = "11px arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    });
+
+
+
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -113,6 +115,7 @@ class App extends Component {
     // use the graph randomize() method
     // this.state.graph.createDummyGraph();
     this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.bfs()
   }
 
   render() {

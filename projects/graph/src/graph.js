@@ -18,6 +18,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos; // pos set to x: 1, y: -1
+    this.color = "white";
   }
 }
 
@@ -31,15 +32,15 @@ export class Graph {
 
   /* static dummy graph */
   createDummyGraph() {
-    const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
-    const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
-    const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+    const dummyVertex1 = new Vertex("v1", { x: 20, y: 25 });
+    const dummyVertex2 = new Vertex("v2", { x: 100, y: 75 });
+    const dummyVertex3 = new Vertex("v3", { x: 500, y: 605 });
 
     dummyVertex1.edges.push(new Edge(dummyVertex2));
     dummyVertex2.edges.push(new Edge(dummyVertex1));
     dummyVertex2.edges.push(new Edge(dummyVertex3));
     dummyVertex3.edges.push(new Edge(dummyVertex2));
-    
+
     this.vertexes.push(dummyVertex1);
     this.vertexes.push(dummyVertex2);
     this.vertexes.push(dummyVertex3);
@@ -50,6 +51,7 @@ export class Graph {
    */
   randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
+    console.log("vertexes:", this.vertexes);
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
@@ -135,14 +137,50 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs() {
     // !!! IMPLEMENT ME
+    const component = [];
+    const queue = [];
+
+    // start vert
+    // white: Unsearched, Yellow: queued for search, Black: Searched
+    for (let i = 0; i < this.vertexes.length; i++) {
+      if (this.vertexes[i].color === "white") {
+        this.vertexes[i].color = "yellow"; // turn yellow when selected
+        queue.push(this.vertexes[i]); // enqueue
+
+        while (queue.length !== 0) {
+          let u = queue[0];
+          console.log("u before selected:", u);
+          for (let j = 0; j < u.edges.length; j++) {
+            if (u.edges[j]) {
+              if (u.edges[j].destination.color === "white") {
+                u.edges[j].destination.color = "yellow";
+                queue.push(u.edges[j].destination);
+              }
+            }
+          }
+          queue.shift();
+          u.color = "black";
+        }
+      }
+
+      console.log("u after:", u);
+
+      console.log("queue:", queue);
+      console.log("vertexes:", this.vertexes);
+    }
+
+    return component;
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
+  getConnectedComponents(vertex) {
     // !!! IMPLEMENT ME
+    const component = this.bfs(vertex);
+    // select random color
+    // apply color to all connected vertecies
   }
 }
