@@ -127,17 +127,25 @@ export class Graph {
       this.vertexes.forEach(v => {
         v.color = "white";
       });
+
+      this.vertexes[i].color = "gray";
       queue.push(this.vertexes[i]);
 
       while (!(queue.length === 0)) {
         let u = queue[0]; // Peek at head of queue, but do not dequeue!
-
-        u.edges.forEach(v => {
-          if (v.destination.color === "white") {
-            v.destination.color = "gray";
-            queue.push(v);
+        for (let j = 0; j < u.edges.length; j++) {
+          if (u.edges[j].destination.color === "white") {
+            u.edges[j].destination.color = "gray";
+            queue.push(u.edges[j]);
           }
-        }); //forEach
+        } //for
+
+        // u.edges.forEach(v => {
+        //   if (v.destination.color === "white") {
+        //     v.destination.color = "gray";
+        //     // queue.push(v);
+        //   }
+        // }); //forEach
 
         connected.push(queue[0]);
         queue.shift();
