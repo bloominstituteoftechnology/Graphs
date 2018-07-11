@@ -135,6 +135,7 @@ export class Graph {
   bfs(start) {
     let searched = [];
     let queue = [];
+    let randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
 
     searched.push(start);
     queue.push(start);
@@ -145,7 +146,7 @@ export class Graph {
         if (!searched.includes(e.destination.value)) {
           searched.push(e.destination.value);
           queue.push(e.destination);
-          e.destination.color = "gray";
+          e.destination.color = randomColor;
         }
       }
       queue.shift();
