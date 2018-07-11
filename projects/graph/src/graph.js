@@ -15,7 +15,7 @@ export class Edge {
 export class Vertex {
   // !!! IMPLEMENT ME
   constructor(value = "default", pos = { x: -1, y: -1 }) {
-    this.edge = [];
+    this.edges = [];
     this.value = value;
     this.pos = pos; // pos set to x: 1, y: -1
   }
@@ -35,10 +35,10 @@ export class Graph {
     const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
     const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
 
-    dummyVertex1.edge.push(new Edge(dummyVertex2));
-    dummyVertex2.edge.push(new Edge(dummyVertex1));
-    dummyVertex2.edge.push(new Edge(dummyVertex3));
-    dummyVertex3.edge.push(new Edge(dummyVertex2));
+    dummyVertex1.edges.push(new Edge(dummyVertex2));
+    dummyVertex2.edges.push(new Edge(dummyVertex1));
+    dummyVertex2.edges.push(new Edge(dummyVertex3));
+    dummyVertex3.edges.push(new Edge(dummyVertex2));
     
     this.vertexes.push(dummyVertex1);
     this.vertexes.push(dummyVertex2);

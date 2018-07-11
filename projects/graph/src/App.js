@@ -35,7 +35,6 @@ class GraphView extends Component {
     // console log confirms this.props.graph is being rendered
     // console.log("this.props.graph", this.props.graph);
     // console.log("createDummyGraph", this.props.graph.createDummyGraph);
-    this.props.graph.createDummyGraph();
 
     // Clear it
     ctx.fillStyle = "grey";
@@ -53,7 +52,7 @@ class GraphView extends Component {
     // ctx.closePath();
 
     for (let vertex of this.props.graph.vertexes) {
-      for (let edge of vertex.edge) {
+      for (let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
@@ -63,21 +62,26 @@ class GraphView extends Component {
     }
 
     // draw dummy verticies (dynamic)
-    this.props.graph.vertexes.forEach(v => {
+    // for (let v of this.props.graph.vertexes) {
       // verts
-      ctx.strokeStyle = "yellow";
-      ctx.fillStyle = "black";
-      ctx.beginPath();
-      ctx.arc(v.pos.x, v.pos.y, 12, 0, 2 * Math.PI);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
+      this.props.graph.vertexes.forEach(v => {
+        ctx.strokeStyle = "yellow";
+        ctx.fillStyle = "black";
+        ctx.beginPath();
+        ctx.arc(v.pos.x, v.pos.y, 12, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+  
+        // vert values (labels)
+        ctx.fillStyle = "yellow";
+        // ctx.font = "11px arial";
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(v.value, v.pos.x, v.pos.y);
+      })
 
-      // vert values (labels)
-      ctx.fillStyle = "yellow";
-      ctx.font = "13px arial";
-      ctx.fillText(v.value, v.pos.x - 7, v.pos.y + 4.5);
-    });
+    // }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -107,6 +111,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    // this.state.graph.createDummyGraph();
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
