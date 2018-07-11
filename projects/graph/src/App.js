@@ -41,7 +41,7 @@ class GraphView extends Component {
     ctx.fillStyle = "grey";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // draw dummy vertex (static)
+    // draw dummy vertex (hardcoded)
     // ctx.beginPath();
     // ctx.arc(10, 10, 10, 0, 2 * Math.PI); // x, y, radius, start angle, finish angle
     // ctx.stroke();
@@ -52,12 +52,17 @@ class GraphView extends Component {
     // ctx.stroke();
     // ctx.closePath();
 
-    // draw actual
+    // draw dummy verticies (dynamic)
     this.props.graph.vertexes.forEach(v => {
+      // verts
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
       ctx.stroke();
       ctx.closePath();
+
+      // vert values
+      ctx.fillStyle = "black";
+      ctx.fillText(v.value, v.pos.x - 5, v.pos.y + 3);
     });
 
     // !!! IMPLEMENT ME
