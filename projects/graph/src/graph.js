@@ -120,6 +120,27 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [];
+    let checked = [];
+
+    //adding the var start to the queue
+    queue.push(start);
+
+    //starting the queue
+    while (queue.length > 0) {
+      let base = queue[0];
+      //loop threw all the edges
+      for (let i = 0; i < base.edges.length; i++) {
+        //checking if the edges are in the queue or have been added to checked and if not continuing
+        if ( !(queue.includes(base.edges[i].destination) || checked.includes(base.edges[i].destination))) {
+          queue.push(base.edges[i].destination);
+        }
+      }
+      //exit condition making sure the queue will eventually end
+      queue.shift();
+      checked.push(base);
+    }
+    return checked;
   }
 
   /**
