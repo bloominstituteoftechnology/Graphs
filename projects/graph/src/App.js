@@ -1,3 +1,4 @@
+//@ts-check */
 import React, { Component } from 'react'
 import { Graph } from './graph'
 import './App.css'
@@ -28,6 +29,10 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
+    /**
+     * @type {HTMLCanvasElement} canvas
+     */
+    //@ts-ignore
     let canvas = this.refs.canvas
     let ctx = canvas.getContext('2d')
 
@@ -35,8 +40,14 @@ class GraphView extends Component {
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
+    ctx.arc(10, 10, 10, 0, 2 * Math.PI)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.arc(100, 100, 10, 0, 2 * Math.PI)
+    ctx.stroke()
     // !!! IMPLEMENT ME
     // compute connected components
+    const connectedComponents = this.props.graph.getConnectedComponents()
     // draw edges
     // draw verts
     // draw vert values (labels)

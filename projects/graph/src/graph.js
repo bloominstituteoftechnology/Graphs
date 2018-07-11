@@ -5,7 +5,6 @@ export class Edge {
   // !!! IMPLEMENT ME
   constructor(vertex) {
     this.destination = vertex
-    this.weight
   }
 }
 
@@ -125,6 +124,35 @@ export class Graph {
    * Get the connected components
    */
   getConnectedComponents() {
+    // var e = this,
+    //   t = []
+    // return (
+    //   this.vertexes.forEach(function(e) {
+    //     return (e.state = 0)
+    //   }),
+    //   this.vertexes.forEach(function(n) {
+    //     0 == n.state && t.push(e.bfs(n))
+    //   }),
+    //   t
+    // )
     // !!! IMPLEMENT ME
+    // hello from app.js
+    const graphInstance = this,
+      connectedComponents = []
+
+    this.vertexes.map(resetState)
+    this.vertexes.map(
+      conditionallyAddVertices(connectedComponents, graphInstance)
+    )
+    return connectedComponents
   }
+}
+
+const resetState = edge => {
+  edge.state = 0
+  return edge
+}
+
+const conditionallyAddVertices = (toReturn, graphInstance) => vertex => {
+  0 === vertex.state && toReturn.push(graphInstance.bfs(vertex))
 }
