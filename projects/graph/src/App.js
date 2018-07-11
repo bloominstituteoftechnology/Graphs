@@ -36,9 +36,9 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     const g = this.props.graph;
-    g.dump();
 
     g.randomize(5, 4, 150, 0.6);
+    g.dump();
 
     for (let v of g.vertexes) {
       if (v.pos) {
@@ -79,15 +79,20 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
   }
+
+  // !!! IMPLEMENT ME
+  // use the graph randomize() method
+  randomizeGraph = () => {
+    const newGr = new Graph();
+    this.setState({ graph: newGr });
+  };
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <button onClick={this.randomizeGraph}>Randomize</button>
       </div>
     );
   }
