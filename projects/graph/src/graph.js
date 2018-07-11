@@ -128,7 +128,27 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    // // !!! IMPLEMENT ME
+    const component = [];
+    for(let v of this.vortexes) {
+      v.color = "yellow";
+    }
+
+    start.golor="cyan";
+    component.push(start);
+
+    while(component.length > 0) {
+      let currNode = component[0];
+      for(let nextNode of currNode.edges) {
+        if(nextNode.color === "yellow") {
+          nextNode.color = "cyan";
+        }
+      }
+
+      component.shift();
+      currNode.color = "pink";
+    }
+    // return component;
   }
 
   /**
@@ -136,5 +156,7 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+  //   const component = this.bfs(vortex);
+
   }
 }

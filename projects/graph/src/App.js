@@ -52,6 +52,7 @@ class GraphView extends Component {
     
     // draw our dummy vertexes
     this.props.graph.vertexes.forEach((v) => {
+      console.log(this.props.graph.vertexes[0])
         ctx.beginPath();
         ctx.fillStyle = 'white';
         ctx.arc(v.pos.x, v.pos.y, circle, 0, 2 * Math.PI);
