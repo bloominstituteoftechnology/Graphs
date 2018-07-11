@@ -14,10 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME (Phase 1)
-  constructor(value='default', pos={x: -1, y: -1}) {
+  constructor(value='default', pos={x: -1, y: -1}, color='white') {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = color;
   }
 }
 
@@ -135,12 +136,44 @@ export class Graph {
   /**
    * BFS = Breadth-First Search (Phase 4)
    */
-  bfs(start) {
+  bfs(start, rgbColor) { // <-- added rgbColor parameter
     // !!! IMPLEMENT ME
+    // This will choose an rgb color at random
+    let randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
+    
+    // bfs logic here
+    // Add (start) to component list
+    const component = [];
+    component.push(start);
+
+    // Then add (start) to the queue
+    let queue = [];
+    queue.push(start);
+
+    // Then add a random rgb color
+    start.color = rgbColor;
+
+    // Next make sure the queue has emptied and if not then continue the loop
+    while (!queue.isEmpty()) {
+      const vertex = queue[0]; // edge
+      for (let edge of vertex.edges) {
+        // checking to see if the destination is not in component
+        if (!component.includes(edge.destination)) {
+          // if not it will add to component array
+          component.push(edge.destination);
+          // this will push to the end of the queue
+          queue.push(edge.destination);
+          // this will add a random rgb color
+          edge.destination.color = rgbColor;
+        }
+      }
+    }
+    queue.dequeue();
+    return component;
   }
 
-  /**
-   * Get the connected components (Phase 5)
+   /**
+   * Get the connected components
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
