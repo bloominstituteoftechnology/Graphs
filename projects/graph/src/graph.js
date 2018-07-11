@@ -127,13 +127,50 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const component = [];
+    const queue = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const u = queue[0];// getting the first item
+
+      for (let e of u.edges) { // looping over the edges array in u
+        const v = e.destination;// grabbing the destination property in  u
+        if (v.color === 'white') { // if not visited yet
+          v.color = 'gray';
+          queue.push(v);
+        }
+      }
+
+      queue.shift(); // de-queue
+      u.color = 'black';
+      component.push(u);
+    }
+
+    return component;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const componentsList = [];
+
+    for (let v of this.vertexes) {
+      v.color = 'white'; 
+    }
+    console.log(this.vertexes)
+    
+
+    for (let v of this.vertexes) {
+      if (v.color === 'white') {
+        const component = this.bfs(v);
+        componentsList.push(component);
+      }
+    }
+
+    return componentsList;
   }
 }

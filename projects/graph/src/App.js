@@ -114,9 +114,21 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    const g = this.props.graph;
-    console.log(g.vertexes)
-    this.drawVerts(g.vertexes);
+    function getRandomColor() {
+      let letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+    const connectedComponents = this.props.graph.getConnectedComponents();
+    let clear = true;
+    for (let component of connectedComponents) {
+      const curColor = getRandomColor();
+      this.drawVerts(component, curColor, clear);
+      clear = false;
+    }
   }
   
   /**
