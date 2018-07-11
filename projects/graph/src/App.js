@@ -54,15 +54,26 @@ class GraphView extends Component {
 
     // draw dummy verticies (dynamic)
     this.props.graph.vertexes.forEach(v => {
-      // verts
-      ctx.beginPath();
-      ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
-      ctx.stroke();
+      ctx.lineTo(v.pos.x, v.pos.y);
       ctx.closePath();
+      ctx.stroke();
 
-      // vert values
+      ctx.beginPath();
+      ctx.moveTo(v.pos.x, v.pos.y);
+
+      // verts
+      ctx.strokeStyle = "yellow";
       ctx.fillStyle = "black";
-      ctx.fillText(v.value, v.pos.x - 5, v.pos.y + 3);
+      ctx.beginPath();
+      ctx.arc(v.pos.x, v.pos.y, 12, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // vert values (labels)
+      ctx.fillStyle = "yellow";
+      ctx.font = "13px arial";
+      ctx.fillText(v.value, v.pos.x - 7, v.pos.y + 4.5);
     });
 
     // !!! IMPLEMENT ME
