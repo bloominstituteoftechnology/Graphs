@@ -39,16 +39,17 @@ class GraphView extends Component {
 
     g.randomize(5, 4, 150, 0.6);
     g.dump();
+    g.getConnectedComponents();
 
     for (let v of g.vertexes) {
       if (v.pos) {
         ctx.beginPath();
-        ctx.fillStyle = "indigo";
+        ctx.fillStyle = v.color;
         ctx.arc(v.pos.x, v.pos.y, 18, 0, Math.PI * 2, true);
         ctx.fill();
         for (let e of v.edges) {
           ctx.beginPath();
-          ctx.strokeStyle = "goldenrod";
+          ctx.strokeStyle = v.color;
           ctx.moveTo(v.pos.x, v.pos.y);
           ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
           ctx.closePath();

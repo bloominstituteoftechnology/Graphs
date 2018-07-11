@@ -16,7 +16,15 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.touched = false;
+    this.color = "indigo";
   }
+}
+
+function getRandomColor() {
+  const r = (255 * Math.random()) | 0,
+    g = (255 * Math.random()) | 0,
+    b = (255 * Math.random()) | 0;
+  return "rgb(" + r + "," + g + "," + b + ")";
 }
 
 /**
@@ -119,12 +127,14 @@ export class Graph {
   bfs(start) {
     // !!! IMPLEMENT ME
     const queue = [];
+    let randomColor = getRandomColor();
 
     queue.push(start);
     start.touched = true;
 
     while (queue.length > 0) {
       const vertex = queue[0];
+      vertex.color = randomColor;
 
       for (let e of vertex.edges) {
         if (!e.destination.touched) {
@@ -142,5 +152,10 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    for (let v of this.vertexes) {
+      if (!v.touched) {
+        this.bfs(v);
+      }
+    }
   }
 }
