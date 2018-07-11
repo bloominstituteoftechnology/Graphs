@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination; 
+  }
 }
 
 /**
@@ -10,6 +13,23 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value= 'default', pos={x: -1, y: -1}) {
+    this.edges = []; 
+    this.value; 
+    this.pos = pos; 
+    this.searched = false; 
+    this.color = 'black'; 
+  }
+}
+//function for random color generation
+function randomColor() {
+  let letters = '0123456789ABCDEF'; 
+  let color = '#'; 
+
+  for(let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]; 
+  }
+  return color; 
 }
 
 /**
@@ -19,7 +39,15 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+createDummyGraph() {
+  const dummyVertex1 = new Vertex('v1', {x: 20, y: 25}); 
+  const dummyVertex2 = new Vertex('v2', {x:100, y:75}); 
+  const dummyVertex3 = new Vertex('v3', {x: 500, y: 605}); 
 
+  this.vertexes.push(dummyVertex1); 
+  this.vertexes.push(dummyVertex2); 
+  this.vertexes.push(dummyVertex3); 
+}
   /**
    * Create a random graph
    */
@@ -111,6 +139,24 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = []; 
+    let random = randomColor(); 
+
+    queue.push(start); 
+    start.searched = true; 
+
+    while (queue.length > 0) {
+      const vertex = queue[0]; 
+      vertex.color = random; 
+
+      for (let edge of vertex.edges) {
+        if(!edge.destination.searched) {
+          queue.push(edge.destination);
+          edge.destination.searched = true; 
+        }
+      }
+      queue.shift(); 
+    }
   }
 
   /**
@@ -118,5 +164,19 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const componentList = []; 
+
+    let needReset = true; 
+
+    for (let v of this.vertexes) {
+      if (needReset || v.color === 'white') {
+        const component = this.bfs(v, needReset); 
+        needReset = false; 
+
+        componentList.push(component); 
+      }
+    }
+
+    return componentList; 
   }
 }
