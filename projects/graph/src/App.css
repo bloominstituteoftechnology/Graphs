@@ -37,13 +37,13 @@ button {
   background-color: cadetblue;
   font-weight: bold;
   font-size: 18px;
-  box-shadow: 4px 4px rgba(0, 0, 0, 0.527);
+  box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.527);
   cursor: pointer
 }
 
 button:active {
   transform: translateY(3px);
-  box-shadow: 1px 1px black;
+  box-shadow: 0px 2px 0px black;
 }
 
 button:focus {

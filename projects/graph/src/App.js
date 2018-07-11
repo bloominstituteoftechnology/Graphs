@@ -35,23 +35,24 @@ class GraphView extends Component {
 
     
     
-    ctx.fillStyle = 'gray';
+    ctx.fillStyle = 'lightgray';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.font = '13px arial';
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    this.props.graph.vertexes.forEach((v) => {
-
-      v.edges.forEach(e => {
+    this.props.graph.vertexes.forEach(vert => {
+      vert.edges.forEach(e => {
         ctx.beginPath();
-        ctx.moveTo(v.pos.x, v.pos.y)
+        ctx.moveTo(vert.pos.x, vert.pos.y)
         ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
         ctx.stroke();
       });
+    })
 
-      console.log('vertex', v)
+    this.props.graph.vertexes.forEach(v => {
+
       ctx.beginPath();
       ctx.fillStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
