@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = window.innerWidth;
+const canvasHeight = window.innerHeight;
+const circleRadius = 15;
 
 /**
  * GraphView
@@ -30,10 +31,31 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
+    console.log('this.props.graph: ', this.props.graph);
+    // call our dummy function
+    this.props.graph.createDummyGraph();
+    console.log('called createDummyGraph: ');
+
     // Clear it
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'teal';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    ctx.font = '13px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    // draw our dummy vertex
+    this.props.graph.vertexes.forEach(v => {
+      ctx.beginPath();
+      ctx.fillStyle = 'white';
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      // fill in the text
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    });
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -41,15 +63,14 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
   }
-  
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }
-
 
 /**
  * App
@@ -69,7 +90,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} />
       </div>
     );
   }
