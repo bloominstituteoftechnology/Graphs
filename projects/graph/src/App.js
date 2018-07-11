@@ -54,6 +54,22 @@ class GraphView extends Component {
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
 
+      // v.edges.forEach((l) => {
+      //   ctx.beginPath();
+      //   ctx.moveTo(v.pos.x, v.pos.y);
+      //   ctx.lineTo(l.destination.pos.x, l.destination.pos.y);
+      //   ctx.stroke();
+      // })
+    })
+    ctx.fillStyle = 'red';
+    ctx.strokeStyle = 'red';
+    let change = this.props.graph.bfs(this.props.graph.vertexes[0]);
+    change.forEach((v) => {
+      ctx.beginPath();
+      // ctx.fillStyle = 'red';
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2*Math.PI);
+      ctx.fill();
+      ctx.stroke();
       v.edges.forEach((l) => {
         ctx.beginPath();
         ctx.moveTo(v.pos.x, v.pos.y);
@@ -84,7 +100,7 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
-    this.state.graph.randomize(5, 3, 50);
+    this.state.graph.randomize(5, 3, 200);
     //console.log("props", this.props)
     console.log("state:\n", this.state)
     // use the graph randomize() method
