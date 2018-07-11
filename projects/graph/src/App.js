@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
-const canvasWidth = 500;
-const canvasHeight = 500;
+const canvasWidth = 750;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -31,32 +30,70 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     
-    // Clear it
     ctx.fillStyle = 'teal';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    let grd = ctx.createRadialGradient(75,50,15,100,50,100);
-    grd.addColorStop(0,"blue");
-    grd.addColorStop(1,"white");
-
-
-    ctx.fillStyle = grd;
-    ctx.fillRect(10,10,350,350);
-
-    let grd2 = ctx.createRadialGradient(75,50,15,100,50,100);
-    grd2.addColorStop(0,"green");
-    grd2.addColorStop(1,"white");
-
-    ctx.fillStyle = grd2;
-    ctx.fillRect(5,5,100,100);
-
-
-    
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
+
+
+    /*
+    ctx.beginPath();
+    ctx.arc(50, 50, 15, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(300, 300, 15, 0, 2 * Math.PI);
+    ctx.moveTo(300, 300);
+    ctx.lineTo(50, 50);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(500, 150, 15, 0, 2 * Math.PI);
+    ctx.moveTo(500, 150);
+    ctx.lineTo(300, 300);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(20,100);
+    ctx.lineTo(100, 100);
+
+    ctx.moveTo(100,20);
+    ctx.lineTo(100, 100);
+    ctx.stroke();
+    */
+
+    // console.log("this.props.graph: ", this.props.graph);
+    // this.props.graph.createDummyGraph();
+    // console.log("call createDummyGraph: ");
+
+
+    ctx.font = '15px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+ 
+    for (let vertex of this.props.graph.vertexes) {
+      for ( let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    // this.props.graph.vertexes.forEach((v) => {
+      for (let v of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.fillStyle = 'white';
+      ctx.arc(v.pos.x, v.pos.y, 15, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    }
   }
   
   /**
@@ -81,6 +118,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    // this.state.graph.createDummyGraph();
   }
 
   render() {
