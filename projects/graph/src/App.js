@@ -33,25 +33,32 @@ class GraphView extends Component {
 
     // call dummy graph
     // console log confirms this.props.graph is being rendered
-    console.log("this.props.graph", this.props.graph);
-    console.log("createDummyGraph", this.props.graph.createDummyGraph);
+    // console.log("this.props.graph", this.props.graph);
+    // console.log("createDummyGraph", this.props.graph.createDummyGraph);
     this.props.graph.createDummyGraph();
 
     // Clear it
     ctx.fillStyle = "grey";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // draw dummy vertex
-    ctx.beginPath();
-    ctx.arc(10, 10, 10, 0, 2 * Math.PI); // x, y, radius, start angle, finish angle
-    ctx.stroke();
-    ctx.closePath();
+    // draw dummy vertex (static)
+    // ctx.beginPath();
+    // ctx.arc(10, 10, 10, 0, 2 * Math.PI); // x, y, radius, start angle, finish angle
+    // ctx.stroke();
+    // ctx.closePath();
 
-    ctx.beginPath();
-    ctx.arc(100, 100, 10, 0, 2 * Math.PI); // x, y, radius, start angle, finish angle
-    ctx.stroke();
-    ctx.closePath();
+    // ctx.beginPath();
+    // ctx.arc(100, 100, 10, 0, 2 * Math.PI); // x, y, radius, start angle, finish angle
+    // ctx.stroke();
+    // ctx.closePath();
 
+    // draw actual
+    this.props.graph.vertexes.forEach(v => {
+      ctx.beginPath();
+      ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.closePath();
+    });
 
     // !!! IMPLEMENT ME
     // compute connected components
