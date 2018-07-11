@@ -13,10 +13,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value='Default', pos={x: -1, y: -1}){
+  constructor(value='Default', pos={x: -1, y: -1}, color='#FFFFFF', visited = false){
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = color;
+    this.visited = visited;
   }
 }
 
@@ -45,7 +47,7 @@ export class Graph {
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability=0.9) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -132,7 +134,24 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+
+    start.color = '#'+Math.floor(Math.random()*16777215).toString(16);
+    const queue = [];
+    queue.push(start);
+    start.visited = true;
+
+    while (queue.length > 0) {
+      const x = queue[0];
+      console.log(x);
+      for (let i of x.edges){
+        if (!i.dest.visited){
+          i.dest.color = start.color;
+          i.dest.visited = true;
+          queue.push(i.dest);
+        }
+      }
+      queue.shift();
+    }
   }
 
   /**

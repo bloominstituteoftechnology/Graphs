@@ -59,8 +59,9 @@ class GraphView extends Component {
     })
 
     this.props.graph.vertexes.forEach((v) => {
+      this.props.graph.bfs(v);
       ctx.beginPath();
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = v.color;
       ctx.arc(v.pos.x, v.pos.y, radius, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
@@ -94,9 +95,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    let x = canvasWidth * canvasHeight;
-    console.log(12 / canvasWidth);
-    this.state.graph.randomize(12, 6, 150, 0.9);
+    this.state.graph.randomize(10, 6, 100, 0.6);
   }
 
   render() {
