@@ -3,7 +3,7 @@ import { Graph } from "./graph";
 import "./App.css";
 
 // !!! IMPLEMENT ME
-const canvasWidth = 600;
+const canvasWidth = 750;
 const canvasHeight = 600;
 const sizeOf = 10;
 
@@ -15,6 +15,15 @@ function randomColor() {
   }
   return color;
 }
+
+// function containsObject(obj, arr) {
+//   for (let i = 0; i < arr.length; i++) {
+//     if (arr[i].connection.value === obj.value) {
+//       return true;
+//     }
+//   }
+//   return false;
+// }
 
 /**
  * GraphView
@@ -54,6 +63,23 @@ class GraphView extends Component {
     ctx.strokeStyle = randomColor();
 
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
+      // if (i > 0) {
+      //   // console.log(
+      //   //   this.props.graph.vertexes[i - 1],
+      //   //   this.props.graph.vertexes[i].edges
+      //   // );
+      //   if (
+      //     containsObject(
+      //       this.props.graph.vertexes[i - 1],
+      //       this.props.graph.vertexes[i].edges
+      //     )
+      //   ) {
+      //     ctx.strokeStyle = randomColor();
+
+      //     console.log("INCLUDES " + i);
+      //   }
+      // }
+
       for (let j = 0; j < this.props.graph.vertexes[i].edges.length; j++) {
         ctx.beginPath();
         ctx.moveTo(
@@ -111,7 +137,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    this.state.graph.randomize(5, 4, 100, 0.6);
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
