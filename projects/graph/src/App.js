@@ -57,12 +57,12 @@ class GraphView extends Component {
       ctx.stroke();
 
       // fill in the text
+      ctx.beginPath();
       ctx.font = "13px Arial";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "black";
       ctx.fillText(v.value, v.pos.x, v.pos.y);
-      ctx.closePath();
     });
   }
 
