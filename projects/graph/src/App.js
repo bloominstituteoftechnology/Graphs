@@ -31,7 +31,7 @@ class GraphView extends Component {
   updateCanvas = () => {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
+
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.props.graph.vertexes = [];
@@ -52,14 +52,25 @@ class GraphView extends Component {
     groups.forEach(group => {
       // compute connected components
       // draw edges
-      group.forEach(v => {
-        ctx.strokeStyle = 'black';
+      ctx.strokeStyle = 'black';
 
+      group.forEach(v => {
         v.edges.forEach(edge => {
           ctx.beginPath();
           ctx.moveTo(v.pos.x, v.pos.y);
           ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
           ctx.stroke();
+
+          // draw edge weight
+          const x = (v.pos.x + edge.destination.pos.x) / 2;
+          const y = (v.pos.y + edge.destination.pos.y) / 2;
+          const weight = getRandomInt(11) + 1
+
+          ctx.fillStyle = 'white';
+          ctx.fillRect(x - 8, y - 8, 16, 16);
+
+          ctx.fillStyle = 'black';
+          ctx.fillText(weight, x, y);
         });
       });
 
