@@ -33,6 +33,11 @@ export class Graph {
     const dummyVertex2 = new Vertex("v2", { x: 100, y: 75 });
     const dummyVertex3 = new Vertex("v3", { x: 500, y: 605 });
 
+    dummyVertex1.edges.push(new Edge(dummyVertex2));
+    dummyVertex2.edges.push(new Edge(dummyVertex1));
+    dummyVertex2.edges.push(new Edge(dummyVertex3));
+    dummyVertex3.edges.push(new Edge(dummyVertex2));
+
     this.vertexes.push(dummyVertex1);
     this.vertexes.push(dummyVertex2);
     this.vertexes.push(dummyVertex3);
@@ -127,8 +132,9 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, reset = true) {
     // !!! IMPLEMENT ME
+
   }
 
   /**

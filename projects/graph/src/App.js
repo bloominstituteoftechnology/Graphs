@@ -4,7 +4,7 @@ import "./App.css";
 
 // !!! IMPLEMENT ME
 const canvasWidth = 800;
-const canvasHeight = 600;
+const canvasHeight = 800;
 const circleRadius = 10;
 
 /**
@@ -38,16 +38,28 @@ class GraphView extends Component {
     console.log("called createDummyGraph");
 
     // Clear it
-    ctx.fillStyle = "grey";
+    ctx.fillStyle = "red";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    ctx.font = "13px Arial";
+    ctx.font = "10px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // !!! IMPLEMENT ME
-    // draw dummy vertexes
-    this.props.graph.vertexes.forEach(v => {
+    // randomize
+    this.props.graph.randomize(7, 7, 100, 0.6);
+
+    // draw edges
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    // draw  verts
+    for (let v of this.props.graph.vertexes) {
       ctx.beginPath();
       ctx.fillStyle = "white";
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
@@ -57,21 +69,7 @@ class GraphView extends Component {
       // fill in text
       ctx.fillStyle = "black";
       ctx.fillText(v.value, v.pos.x, v.pos.y);
-    });
-
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
-
-    // ctx.beginPath();
-    // ctx.moveTo(50, 20);
-    // ctx.lineTo(120, 120);
-    // ctx.lineTo(20, 120);
-    // ctx.closePath();
-
-    // ctx.fillStyle = "#ffc821";
-    // ctx.fill();
+    }
   }
 
   /**
