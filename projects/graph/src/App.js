@@ -60,7 +60,7 @@ class GraphView extends Component {
             ctx.arc(v.pos.x, v.pos.y, 22, 0, Math.PI * 2, true);
             ctx.stroke();
             this.setState({vert1: v, memory: newMem});
-            console.log(`Selected start: ${v.value}`)
+            console.log(`Selected: ${v.value}`)
             break;
           }
           else if (!this.state.vert2) {
@@ -70,7 +70,7 @@ class GraphView extends Component {
               prev.src = this.state.memory[0];
                 prev.onload = function() { 
                 ctx.drawImage(prev, 0, 0); 
-                console.log(`Deselected start: ${v.value}`)
+                console.log(`Deselected: ${v.value}`)
               };
               this.setState({vert1: null, memory: []});
             }
@@ -110,7 +110,6 @@ class GraphView extends Component {
     const g = this.props.graph;
     g.randomize(5, 4, 150, 0.6);
     const connectedComponents = g.getConnectedComponents();
-
     for (const subgraph of connectedComponents) {
       const color = this.getRndColor();
       for (const v of subgraph) {
