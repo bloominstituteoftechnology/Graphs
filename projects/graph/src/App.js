@@ -48,36 +48,62 @@ class GraphView extends Component {
 
     // !!! IMPLEMENT ME
     // compute connected components
-    const checked = {};
+    const checkedEdges = {};
+    const checkedVerts = {};
     this.props.graph.vertexes.forEach(v => {
-      checked[v.value] = false;
+      checkedVerts[v.value] = false;
+      checkedEdges[v.value] = false;
     })
+
+    const uncheckedEdges = [];
+    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
+      let v = this.props.graph.vertexes[i];
+      if (!checkedEdges[v.valuie]) {
+        let color = v.color;
+        let current = v;
+        uncheckedEdges.push(current);
+        checkedEdges[v.value] = true;
+        let count = 0;
+        while (uncheckedEdges.length > 0) {
+          for (let j = 0; j < current.edges.length; j++) {
+            if (!checkedEdges[current.edges[j].destination.value]) {
+              checkedEdges[current.edges[j].destination.value] = true;
+              uncheckedEdges.push(current.edges[j].destination);
+            }
+          }
+          let vertex = uncheckedEdges.shift();
+          ctx.fillStyle = color;  //sets color for the circle
+          ctx.strokeStyle = color;  //sets color for the circle's edge
+          for (let j = 0; j < vertex.edges.length; j++) {
+            ctx.beginPath();
+            ctx.moveTo(vertex.pos.x + canvasStartX, vertex.pos.y + canvasStartY);
+            // draw edges
+            ctx.lineTo(vertex.edges[j].destination.pos.x + canvasStartX, vertex.edges[j].destination.pos.y + canvasStartY);
+            ctx.stroke();
+          }
+        }
+      }
+    }
 
     const unchecked = [];
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
       let v = this.props.graph.vertexes[i];
-      if (!checked[v.value]) {
-        let color = v.color
+      if (!checkedVerts[v.value]) {
+        let color = v.color;
         let current = v;
         unchecked.push(current);
-        checked[v.value] = true;
+        checkedVerts[v.value] = true;
         let count = 0;
         while (unchecked.length > 0) {
           for (let j = 0; j < current.edges.length; j++) {
-            if (!checked[current.edges[j].destination.value]) {
-              checked[current.edges[j].destination.value] = true;
+            if (!checkedVerts[current.edges[j].destination.value]) {
+              checkedVerts[current.edges[j].destination.value] = true;
               unchecked.push(current.edges[j].destination);
             }
           }
           let vertex = unchecked.shift();
           ctx.fillStyle = color;  //sets color for the circle
           ctx.strokeStyle = color;  //sets color for the circle's edge
-          for (let j = 0; j < vertex.edges.length; j++) {
-            ctx.moveTo(vertex.pos.x + canvasStartX, vertex.pos.y + canvasStartY);
-            // draw edges
-            ctx.lineTo(vertex.edges[j].destination.pos.x + canvasStartX, vertex.edges[j].destination.pos.y + canvasStartY);
-            ctx.stroke();
-          }
 
           ctx.beginPath();
           // draw verts
@@ -86,7 +112,6 @@ class GraphView extends Component {
           ctx.stroke();  //draws the circle
 
           // draw vert values (labels)
-          ctx.beginPath();
           ctx.fillStyle = 'black';  //sets color for the text
           ctx.fillText(vertex.value, vertex.pos.x + canvasStartX, vertex.pos.y + canvasStartY);  //fill in the text of v.value @ (x,y) of (v.pos.x, v.pos.y);
           current = unchecked[0];
