@@ -15,6 +15,7 @@ export class Vertex {
   constructor(value) {
     this.edges = [];
     this.value = value;
+    this.touched = false;
   }
 }
 
@@ -117,6 +118,23 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+
+    queue.push(start);
+    start.touched = true;
+
+    while (queue.length > 0) {
+      const vertex = queue[0];
+
+      for (let e of vertex.edges) {
+        if (!e.destination.touched) {
+          queue.push(e.destination);
+          e.destination.touched = true;
+        }
+      }
+
+      queue.shift();
+    }
   }
 
   /**
