@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(dest) {
+    this.dest = dest;
+  }
 }
 
 /**
@@ -10,6 +13,13 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='Default', pos={x: -1, y: -1}, color='#FFFFFF', visited = false){
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+    this.visited = visited;
+  }
 }
 
 /**
@@ -20,10 +30,24 @@ export class Graph {
     this.vertexes = [];
   }
 
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+    const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+    const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
+
+    dummyVertex1.edges.push(new Edge(dummyVertex2));
+    dummyVertex2.edges.push(new Edge(dummyVertex3));
+    // dummyVertex2.edges.push(new Edge(dummyVertex1));
+  }
+
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability=0.9) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -110,7 +134,24 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    if (!start.visited) {
+      start.color = '#'+Math.floor(Math.random()*16777215).toString(16);
+      const queue = [];
+      queue.push(start);
+      start.visited = true;
+
+      while (queue.length > 0) {
+        const x = queue[0];
+        for (let i of x.edges){
+          if (!i.dest.visited){
+            i.dest.color = start.color;
+            i.dest.visited = true;
+            queue.push(i.dest);
+          }
+        }
+        queue.shift();
+      }
+    }
   }
 
   /**
