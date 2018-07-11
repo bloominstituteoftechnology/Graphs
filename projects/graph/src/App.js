@@ -115,8 +115,8 @@ class GraphView extends Component {
       ctx.stroke();
 
       // fill in the text
-      // ctx.fillStyle = '#ffffff';
-      // ctx.fillText(v.value, v.pos.x, v.pos.y);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
 
     // Set up the gradient
