@@ -40,8 +40,11 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // draw the lines
+    let connected = [];
+    connected = this.props.graph.bfs();
     this.props.graph.vertexes.forEach(i => {
       i.edges.forEach(j => {
+        ctx.fillStyle = j.color;
         ctx.moveTo(i.pos.x, i.pos.y);
         ctx.lineTo(j.destination.pos.x, j.destination.pos.y);
         ctx.stroke();
@@ -51,7 +54,7 @@ class GraphView extends Component {
     // draw our vertexes
     this.props.graph.vertexes.forEach(v => {
       ctx.beginPath();
-      ctx.fillStyle = "white";
+      ctx.fillStyle = v.color;
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();

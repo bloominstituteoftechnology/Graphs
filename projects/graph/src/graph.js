@@ -116,14 +116,35 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs() {
+    let connectedList = [];
+    let connected = [];
     let i = 0;
-    do {
-      this.search = this.vertexes[i].map(e => {
-        true;
+    while (i < this.vertexes.length) {
+      console.log("Top While");
+      let queue = [];
+      this.vertexes.forEach(v => {
+        v.color = "white";
+        queue.push(v);
       });
-      i++;
-    } while (i < this.vertexes.length);
+      while (!(queue.length === 0)) {
+        let u = queue[0]; // Peek at head of queue, but do not dequeue!
+
+        u.edges.forEach(v => {
+          if (v.color === "white") {
+            v.color = "gray";
+            queue.enqueue(v);
+          }
+        });
+        i++;
+        connected.push(queue[0]);
+        queue.shift();
+        u.color = "black";
+      }
+      connectedList.push(connected);
+    }
+    console.log(connectedList);
+    return connectedList;
   }
 
   /**
