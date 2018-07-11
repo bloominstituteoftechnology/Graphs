@@ -156,14 +156,17 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
-    // Return a list of connected groups? (2d array)
+    // 2D list of connected groups
     const connectedGroups = [];
+    // Track all searched vertexes to prevent repetition
     let trackedVertexes = [];
 
     this.vertexes.forEach(v => {
       if (!trackedVertexes.includes(v)) {
+        // Grab all connected vertexes and push to groups array
         const group = this.dfs(v)
         connectedGroups.push(group);
+        // All all vertexes from group to tracked array
         trackedVertexes = trackedVertexes.concat(group);
       }
     });
