@@ -6030,6 +6030,14 @@ text-table@0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
+three-trackballcontrols@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/three-trackballcontrols/-/three-trackballcontrols-0.0.7.tgz#42cae1f6856d5f889eaae3a0e2fca9d214793e91"
+
+three@^0.94.0:
+  version "0.94.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.94.0.tgz#4ce6db7f2bfbf79c2d73444aa6e3cfc08a32d762"
+
 throat@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-3.2.0.tgz#50cb0670edbc40237b9e347d7e1f88e4620af836"

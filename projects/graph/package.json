@@ -5,7 +5,9 @@
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "three": "^0.94.0",
+    "three-trackballcontrols": "^0.0.7"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -12,6 +12,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.connected = 0;
   }
 }
 
@@ -105,11 +106,32 @@ export class Graph {
 
   /* BFS */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const queue = [start];
+    const connections = [];
+
+    while (queue.length) {
+      const node = queue.shift();
+
+      node.connected = 1;
+      connections.push(node);
+
+      node.edges.forEach(e => {
+        const target = e.destination;
+        if (target.connected === 0) {
+          target.connected = 1;
+          queue.push(target);
+        }
+      });
+    }
+
+    return connections;
   }
 
   /* Get the connected components */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const connections = [];
+    this.vertexes.forEach(v => v.connected = 0);
+    this.vertexes.forEach(v => !v.connected ? connections.push(this.bfs(v)) : null);
+    return connections;
   }
 }

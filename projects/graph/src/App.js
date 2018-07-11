@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Graph } from './graph';
+// import threeD from "./three/threeD";
 import './App.css';
 
 const canvasWidth = window.innerWidth; // 750;
@@ -18,11 +19,29 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+  blue_yellow_gradient(gradient) {
+    gradient.addColorStop(0.0, "white");
+    gradient.addColorStop(0.3, "yellow");
+    gradient.addColorStop(0.8, "skyblue");
+    gradient.addColorStop(1.0, "transparent");
+    return gradient;
+  }
+
+  processGradient(gradient, color1, color2) {
+    gradient.addColorStop(0.0, "white");
+    gradient.addColorStop(0.3, color1); // yellow
+    gradient.addColorStop(0.8, color2); // skyblue
+    gradient.addColorStop(1.0, "transparent");
+    return gradient;
+  }
+
   /* Render the canvas */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
-    
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
+    const connections = this.props.graph.getConnectedComponents();
+    const colors = ["skyblue", "limegreen", "hotpink", "yellow", "gray", "orange", "red"];
+
     // Clear it
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -43,23 +62,22 @@ class GraphView extends Component {
     });
 
     ctx.strokeStyle = "transparent";
-    this.props.graph.vertexes.forEach(v => {
-      const x = v.pos.x, y = v.pos.y;
+    connections.forEach(connection => {
+      const color = colors.shift() || "white";
 
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, circleRadius);
-      gradient.addColorStop(0.0, "white");
-      gradient.addColorStop(0.3, "yellow");
-      gradient.addColorStop(0.8, "skyblue");
-      gradient.addColorStop(1.0, "transparent");
+      connection.forEach(v => {
+        const x = v.pos.x, y = v.pos.y;
 
-      ctx.beginPath();
-      ctx.fillStyle = gradient;
-      ctx.arc(x, y, circleRadius, 0, Math.PI*2);
-      ctx.stroke();
-      ctx.fill();
+        ctx.strokeStyle = "transparent";
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(x, y, circleRadius, 0, Math.PI*2);
+        ctx.stroke();
+        ctx.fill();
 
-      ctx.fillStyle = "black";
-      ctx.fillText(v.value, x, y);
+        ctx.fillStyle = "black";
+        ctx.fillText(v.value, x, y);
+      });
     });
   }
   
@@ -74,14 +92,15 @@ class GraphView extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       graph: new Graph(),
-      box: canvasHeight < canvasWidth ? canvasHeight/5 : canvasWidth/5
     };
-
     this.state.graph.randomize(5, 4, canvasHeight/5, 0.6);
   }
+
+  // componentDidMount() {
+  //   threeD(this.state.graph.vertexes);
+  // }
 
   render() {
     return (
