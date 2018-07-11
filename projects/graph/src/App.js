@@ -3,8 +3,8 @@ import { Graph } from "./graph";
 import "./App.css";
 
 // !!! IMPLEMENT ME
-const canvasWidth = 700;
-const canvasHeight = 850;
+const canvasWidth = 1000;
+const canvasHeight = 1000;
 
 /**
  * GraphView
@@ -31,9 +31,19 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext("2d");
 
+    // call dummy graph
+    // console log confirms this.props.graph is being rendered
+    console.log("this.props.graph", this.props.graph);
+    console.log("createDummyGraph", this.props.graph.createDummyGraph);
+    this.props.graph.createDummyGraph();
+
     // Clear it
     ctx.fillStyle = "grey";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // draw dummy vertex
+    ctx.arc(10, 10, 10, 0, 2 * Math.PI); // x, y, radius, start angle, finish angle
+    ctx.stroke();
 
     // !!! IMPLEMENT ME
     // compute connected components

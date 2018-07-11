@@ -14,7 +14,7 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = "default", pos = { x: 1, y: -1 }) {
+  constructor(value = "default", pos = { x: -1, y: -1 }) {
     this.edge = [];
     this.value = value;
     this.pos = pos; // pos set to x: 1, y: -1
@@ -27,6 +27,12 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  /* static dummy graph */
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex();
+    
   }
 
   /**
