@@ -90,7 +90,7 @@ class GraphView extends Component {
         "white",
         "black"
       );
-      ctx.font = "10px Georgia";
+      ctx.font = `${radius}px Georgia`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(
@@ -106,7 +106,20 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
+    return (
+      <div>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />
+        <br />
+        <button
+          onClick={() => {
+            this.props.regenerate();
+            this.updateCanvas();
+          }}
+        >
+          Regenerate
+        </button>
+      </div>
+    );
   }
 }
 
@@ -124,10 +137,15 @@ class App extends Component {
     this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
+  regenerate = () => {
+    this.state.graph.vertexes = [];
+    this.state.graph.randomize(5, 4, 150, 0.6);
+  };
+
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph} />
+        <GraphView graph={this.state.graph} regenerate={this.regenerate} />
       </div>
     );
   }
