@@ -39,3 +39,9 @@
   background-color: mistyrose;
   padding: 10px;
 }
+
+.Button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  cursor: pointer;
+}
