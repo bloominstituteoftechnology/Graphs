@@ -120,13 +120,16 @@ export class Graph {
     let connectedList = [];
     let connected = [];
     let i = 0;
+    
     while (i < this.vertexes.length) {
       console.log("Top While");
       let queue = [];
+
       this.vertexes.forEach(v => {
         v.color = "white";
         queue.push(v);
       });
+      
       while (!(queue.length === 0)) {
         let u = queue[0]; // Peek at head of queue, but do not dequeue!
 
@@ -135,17 +138,20 @@ export class Graph {
             v.color = "gray";
             queue.enqueue(v);
           }
-        });
+        }); //forEach
+
         i++;
         connected.push(queue[0]);
         queue.shift();
         u.color = "black";
-      }
+      } //inside while
+
       connectedList.push(connected);
-    }
+    } //outside while
+
     console.log(connectedList);
     return connectedList;
-  }
+  } //bfs
 
   /**
    * Get the connected components
