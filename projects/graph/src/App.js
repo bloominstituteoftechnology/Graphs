@@ -43,7 +43,7 @@ class GraphView extends Component {
     const connectedComponents = this.props.graph.getConnectedComponents();
     console.log(connectedComponents);
 
-    const colors = ['blue', 'teal', 'green', 'cyan', 'orange', 'yellow'];
+    const colors = ['blue', 'teal', 'green', 'crimson', 'cyan', 'orange', 'yellow', 'olive', 'salmon'];
     connectedComponents.forEach(vertices => {
       const color = colors.shift();
       vertices.forEach(v => {
@@ -64,7 +64,7 @@ class GraphView extends Component {
 	ctx.strokeStyle = 'black';
 	ctx.textAlign = 'center';
 	ctx.font = "20px Verdana";
-	ctx.fillText(v.value, v.pos.x, v.pos.y + 5);	
+	ctx.fillText(v.value, v.pos.x, v.pos.y + 7);	
       });
     });
   }
