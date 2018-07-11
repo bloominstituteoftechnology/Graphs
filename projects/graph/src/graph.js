@@ -144,6 +144,19 @@ createDummyGraph() {
 
     queue.push(start); 
     start.searched = true; 
+
+    while (queue.length > 0) {
+      const vertex = queue[0]; 
+      vertex.color = random; 
+
+      for (let edge of vertex.edges) {
+        if(!edge.destination.searched) {
+          queue.push(edge.destination);
+          edge.destination.searched = true; 
+        }
+      }
+      queue.shift(); 
+    }
   }
 
   /**
@@ -151,5 +164,19 @@ createDummyGraph() {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const componentList = []; 
+
+    let needReset = true; 
+
+    for (let v of this.vertexes) {
+      if (needReset || v.color === 'white') {
+        const component = this.bfs(v, needReset); 
+        needReset = false; 
+
+        componentList.push(component); 
+      }
+    }
+
+    return componentList; 
   }
 }
