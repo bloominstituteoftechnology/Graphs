@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import { Graph } from './graph';
-import './App.css';
+import React, { Component } from "react";
+import { Graph } from "./graph";
+import "./App.css";
 
 // !!! IMPLEMENT ME
- const canvasWidth = 500;
- const canvasHeight = 500;
+
+const canvasWidth = 1000;
+const canvasHeight = 900;
+const circleRadius = 15;
 
 /**
  * GraphView
@@ -28,36 +30,42 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    const canvas = this.refs.canvas;
-    const ctx = canvas.getContext('2d');
-
+    let canvas = this.refs.canvas;
+    let ctx = canvas.getContext("2d");
+    console.log(this.props.graph);
+    console.log("called createDummyGraph");
+    this.props.graph.createDummyGraph();
     // Clear it
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0,0, canvasWidth, canvasHeight);
-					
-		ctx.fillStyle = 'teal';
-		ctx.fillRect(10,10,50,50);
-		
-		ctx.fillStyle = 'red';
-		ctx.fillRect(12,12,10,10);
-		
-		ctx.fillStyle = 'yellow';
-		ctx.fillRect(350,350,20,20);
+    ctx.fillStyle = "grey";
+
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    this.props.graph.vertexes.forEach(v => {
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      // fill in the text
+      ctx.fillStyle = "black";
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    });
+
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
   }
- 
+
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />;
   }
 }
-
 
 /**
  * App
@@ -77,7 +85,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} />
       </div>
     );
   }
