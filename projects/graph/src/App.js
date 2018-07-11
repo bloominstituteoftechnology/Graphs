@@ -84,7 +84,7 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
-    this.state.graph.randomize(canvasWidth, canvasHeight, 50);
+    this.state.graph.randomize(5, 3, 50);
     //console.log("props", this.props)
     console.log("state:\n", this.state)
     // use the graph randomize() method
