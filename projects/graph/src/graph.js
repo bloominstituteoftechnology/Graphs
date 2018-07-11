@@ -3,9 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination, weight = 3) {
+  constructor(destination, weight = 3, color = 'black') {
     this.destination = destination;
     this.weight = weight;
+    this.color = color;
   }
 }
 
@@ -14,10 +15,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value, pos={x: -1, y: -1}) {
+  constructor(value, pos={x: -1, y: -1}, color='white') {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = color;
   }
 }
 
@@ -29,14 +31,14 @@ export class Graph {
     this.vertexes = [];
   }
 
-  createDummyGraph() {
-    const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
-    const dummyVertex2 = new Vertex('v2', {x: 75, y: 25});
-    const dummyVertex3 = new Vertex('v3', {x: 150, y: 25});
-    this.vertexes.push(dummyVertex1);
-    this.vertexes.push(dummyVertex2);
-    this.vertexes.push(dummyVertex3);
-  }
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 75, y: 25});
+  //   const dummyVertex3 = new Vertex('v3', {x: 150, y: 25});
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  // }
   /**
    * Create a random graph
    */
@@ -69,7 +71,6 @@ export class Graph {
         if (y < height - 1) {
           if (Math.random() < probability) {
             connectVerts(grid[y][x], grid[y+1][x]);
-            console.log('connectVerts: ', grid[y][x], ' to ', grid[y+1][x]);
           }
         }
 
@@ -77,7 +78,6 @@ export class Graph {
         if (x < width - 1) {
           if (Math.random() < probability) {
             connectVerts(grid[y][x], grid[y][x+1]);
-            console.log('connectVerts: ', grid[y][x], ' to ', grid[y][x+1]);
           }
         }
       }
@@ -130,6 +130,23 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const randColor = 'rgba(' + Math.floor(Math.random()*255) + ', ' + Math.floor(Math.random()*255) +  ', ' + Math.floor(Math.random()*255) + ', 1)';
+    const component = [];
+    start.color = 'gray';
+    component.push(start);
+
+    while(component.length !== 0){
+      const u = component[0];
+      for(let i = 0; i < u.edges.length; i++) {
+        if (u.edges[i].destination.color === 'white') {
+          u.edges[i].destination.color = 'gray';
+          u.edges[i].color = randColor;
+          component.push(u.edges[i].destination);
+        }
+      }
+      component.shift();
+      u.color = randColor;
+    }
   }
 
   /**

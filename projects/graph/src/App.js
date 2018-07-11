@@ -31,10 +31,7 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    console.log('this.props.graph', this.props.graph);
-    console.log('call createDummyGraph');
-    this.props.graph.randomize(5, 4, 150, 0.6);
-    
+        
     // Clear it
     ctx.font = "13px Arial";
     ctx.textAlign = "center";
@@ -42,32 +39,30 @@ class GraphView extends Component {
     ctx.fillStyle = "gray";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    // draw vertices
     this.props.graph.vertexes.forEach((v) => {
+      ctx.fillStyle = v.color;
       ctx.beginPath();
-      ctx.fillStyle = "white";
       ctx.arc(v.pos.x, v.pos.y, circleRad, 0, 2*Math.PI);
       ctx.fill();
       ctx.stroke();
       // put text in vertex
+      ctx.beginPath();
       ctx.fillStyle = "black";
       ctx.fillText(v.value, v.pos.x, v.pos.y);
 
+
+      // draw edges between connected vertices
       if(v.edges.length > 0) {
         for(let i = 0; i < v.edges.length; i++) {
+          ctx.strokeStyle = v.color;
           ctx.beginPath();
           ctx.moveTo(v.pos.x, v.pos.y);
           ctx.lineTo(v.edges[i].destination.pos.x, v.edges[i].destination.pos.y);
-          ctx.strokeStyle = 'black';
           ctx.stroke();
         }
       }
     })
-
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
   }
   
   /**
@@ -92,6 +87,15 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
+
+    // search through the graph for any vertices that are not color mapped
+    for(let i = 0; i < this.state.graph.vertexes.length; i++) {
+      if(this.state.graph.vertexes[i].color === 'white'){
+        // color map all connected vertices
+        this.state.graph.bfs(this.state.graph.vertexes[i]);
+      }
+    }
   }
 
   render() {
