@@ -32,15 +32,17 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    console.log('this.props.graph: ', this.props.graph)
+    // debugging:
+   //  console.log('this.props.graph: ', this.props.graph)
 
     // this.props.graph.createDummyGraph();
     // console.log('called createDummyGraph');
     
     // randomize method call
     this.props.graph.randomize(6, 5, 150, 0.6);
-
-    console.log(this.props.graph.vertexes);
+    
+    // debugging:
+    // console.log(this.props.graph.vertexes);
     
     // Clear it
     ctx.fillStyle = '#c0dfe8';
@@ -54,7 +56,7 @@ class GraphView extends Component {
 
 
     this.props.graph.vertexes.forEach(v => {
-      console.log("each vertex: ", v);
+      // console.log("each vertex: ", v);
       // console.log("edge adress x ", v.edges[0].destination.pos.x);
       // console.log("edge adress y ", v.edges[0].destination.pos.y);
 
@@ -68,6 +70,9 @@ class GraphView extends Component {
         }
         
       }
+
+      console.log('here!!!! ', this.props.graph.bfs(v))
+
     });
 
     this.props.graph.vertexes.forEach(v => {

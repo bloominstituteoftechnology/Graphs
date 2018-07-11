@@ -13,7 +13,7 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = 'default', pos = {x: -1, y: -1}) {
+  constructor(value = 'default', pos = {x: -1, y: -1}, color = 'white') {
     this.edges = [];
     this.value = value;
     this.pos = pos;
@@ -127,8 +127,37 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(vertex) {
     // !!! IMPLEMENT ME
+    const comp = [];
+    const queue = [];
+
+    vertex.color = 'gray';
+    queue.push(vertex);
+
+    
+    while (queue[0]) {
+      let u = queue[0];
+      
+       //console.log(u.edges[0].destination);
+
+      if (u.edges[0].destination) {
+
+        for (let neighbor of u.edges) {
+          console.log('neighbor: ', neighbor);
+          if (neighbor.destination.color === 'white') {
+            neighbor.destination.color = 'gray';
+            queue.push(neighbor);
+          }
+        }
+      }
+
+      queue.shift();
+      u.color = 'black';
+      comp.push(u);
+    }
+
+    return comp;
   }
 
   /**
@@ -136,5 +165,6 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    //const component = this.bfs(vertex);
   }
 }
