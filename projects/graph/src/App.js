@@ -63,11 +63,11 @@ class GraphView extends Component {
     }
 
     // draw dummy verticies (dynamic)
-
     this.props.graph.vertexes.forEach(v => {
+      console.log(v.color);
       // verts
       ctx.strokeStyle = "black";
-      ctx.fillStyle = "white";
+      ctx.fillStyle = v.color;
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, 14, 0, 2 * Math.PI);
       ctx.closePath();
@@ -75,15 +75,16 @@ class GraphView extends Component {
       ctx.stroke();
 
       // vert values (labels)
-      ctx.fillStyle = "black";
+      if (v.color === "black") {
+        ctx.fillStyle = "white";
+      } else {
+        ctx.fillStyle = "black";
+      }
       ctx.font = "11px arial";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
-
-
-
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -115,7 +116,7 @@ class App extends Component {
     // use the graph randomize() method
     // this.state.graph.createDummyGraph();
     this.state.graph.randomize(3, 4, 150, 0.6);
-    this.state.graph.bfs()
+    this.state.graph.bfs();
   }
 
   render() {
