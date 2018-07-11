@@ -4,7 +4,7 @@ import './App.css';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 800;
-const canvasHeight = 600;
+const canvasHeight = 640;
 const circleRadius = 20;
 
 /**
@@ -33,7 +33,7 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
 
     // Style the canvas
-    ctx.fillStyle = "blue";
+    ctx.fillStyle = "lightblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // Aligns text
@@ -96,6 +96,7 @@ class App extends Component {
   clickHandler = () => {
     let graph = new Graph();
     graph.randomize(5, 4, 150, 0.6);
+    // graph.bfs(this.state.graph.vertexes);
     this.setState({ graph: graph })
   }
 
