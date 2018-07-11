@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { Graph } from "./graph";
 import "./App.css";
 
-// !!! IMPLEMENT ME
 const canvasWidth = 750;
 const canvasHeight = 600;
-const sizeOf = 10;
+const radius = 10;
 
 function randomColor() {
   let chars = "ABCDEF0123456789";
@@ -54,15 +53,9 @@ class GraphView extends Component {
     ctx.fillStyle = "lightblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
-
     ctx.strokeStyle = randomColor();
 
-    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
+    for (let vertex of this.props.graph.vertexes) {
       // if (i > 0) {
       //   // console.log(
       //   //   this.props.graph.vertexes[i - 1],
@@ -80,16 +73,10 @@ class GraphView extends Component {
       //   }
       // }
 
-      for (let j = 0; j < this.props.graph.vertexes[i].edges.length; j++) {
+      for (let edge of vertex.edges) {
         ctx.beginPath();
-        ctx.moveTo(
-          this.props.graph.vertexes[i].pos.x,
-          this.props.graph.vertexes[i].pos.y
-        );
-        ctx.lineTo(
-          this.props.graph.vertexes[i].edges[j].connection.pos.x,
-          this.props.graph.vertexes[i].edges[j].connection.pos.y
-        );
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.connection.pos.x, edge.connection.pos.y);
         ctx.stroke();
       }
     }
@@ -99,7 +86,7 @@ class GraphView extends Component {
       ctx.arc(
         this.props.graph.vertexes[i].pos.x,
         this.props.graph.vertexes[i].pos.y,
-        sizeOf,
+        radius,
         0,
         2 * Math.PI
       );
@@ -109,10 +96,11 @@ class GraphView extends Component {
       ctx.fillStyle = "white";
       ctx.font = "10px Georgia";
       ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
       ctx.fillText(
         this.props.graph.vertexes[i].value,
         this.props.graph.vertexes[i].pos.x,
-        this.props.graph.vertexes[i].pos.y + 3
+        this.props.graph.vertexes[i].pos.y
       );
     }
     console.log(canvas);
