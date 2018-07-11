@@ -134,23 +134,23 @@ export class Graph {
    * BFS
    */
   bfs(start) {
+    if (!start.visited) {
+      start.color = '#'+Math.floor(Math.random()*16777215).toString(16);
+      const queue = [];
+      queue.push(start);
+      start.visited = true;
 
-    start.color = '#'+Math.floor(Math.random()*16777215).toString(16);
-    const queue = [];
-    queue.push(start);
-    start.visited = true;
-
-    while (queue.length > 0) {
-      const x = queue[0];
-      console.log(x);
-      for (let i of x.edges){
-        if (!i.dest.visited){
-          i.dest.color = start.color;
-          i.dest.visited = true;
-          queue.push(i.dest);
+      while (queue.length > 0) {
+        const x = queue[0];
+        for (let i of x.edges){
+          if (!i.dest.visited){
+            i.dest.color = start.color;
+            i.dest.visited = true;
+            queue.push(i.dest);
+          }
         }
+        queue.shift();
       }
-      queue.shift();
     }
   }
 
