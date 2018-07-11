@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-// !!! IMPLEMENT ME
+// !!! IMPLEMENT ME (Phase 1)
 const canvasWidth = 750;
 const canvasHeight = 600;
 const circleRadius = 15;
@@ -115,7 +115,7 @@ class App extends Component {
       graph: new Graph()
     };
 
-    // !!! IMPLEMENT ME
+    // !!! IMPLEMENT ME (Phase 4)
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
   }

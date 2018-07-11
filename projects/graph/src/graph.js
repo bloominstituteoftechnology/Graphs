@@ -2,7 +2,7 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  // !!! IMPLEMENT ME (Phase 1)
   constructor(destination, weight) {
     this.destination = destination;
     this.weight = weight;
@@ -13,7 +13,7 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  // !!! IMPLEMENT ME (Phase 1)
   constructor(value='default', pos={x: -1, y: -1}) {
     this.edges = [];
     this.value = value;
@@ -133,14 +133,14 @@ export class Graph {
   }
 
   /**
-   * BFS
+   * BFS = Breadth-First Search (Phase 4)
    */
   bfs(start) {
     // !!! IMPLEMENT ME
   }
 
   /**
-   * Get the connected components
+   * Get the connected components (Phase 5)
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
