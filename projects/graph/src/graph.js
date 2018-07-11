@@ -117,79 +117,57 @@ export class Graph {
    * BFS
    */
 
-  // BFS(graph, startVert):
-  // for v of graph.vertexes:
-  //   v.color = white
-
-  // startVert.color = gray
-  // queue.enqueue(startVert)
-
-  // while !queue.isEmpty():
-  //   u = queue[0]  // Peek at head of queue, but do not dequeue!
-
-  //   for v of u.neighbors:
-  //     if v.color == white:
-  //       v.color = gray
-  //       queue.enqueue(v)
-
-  //   queue.dequeue()
-  //   u.color = black
-
   bfs(start) {
     const queue = [];
-    const visited = [];
+    const component = [];
 
-    for (let v of this.vertexes) {
-      v.color = "white"; // initialize every vertex as not visited
-    }
-
-    start.color = "gray"; // mark the starting vertex as visited
-    queue.push(start); // add the starting vertex to the queue
+    start.color = "gray";
+    queue.push(start);
 
     while (queue.length > 0) {
-      // keep checking vertexes for neighbors until queue is empty
       let current = queue[0];
 
-      for (let neighbor of current.edges) {
-        if (neighbor.color === "white") {
-          // add all unvisited vertices to the queue
-          neighbor.color = "gray";
-          queue.push(neighbor);
+      for (let v of current.edges) {
+        if (v.destination.color === "white") {
+          v.destination.color = "gray";
+          queue.push(v.destination); // add current's neighbors to the queue
         }
       }
-      queue.shift();
-      current.color = "black"; // visited vertexes
-      visited.push(current);
+      current.color = "black"; // current has been visited
+      component.push(queue[0]);
+      queue.shift(); // remove current from the queue
     }
-    return visited;
+    // component should have the start vertex, start's neighbors, and the neighbors' neighbors
+    return component;
   }
 
   /**
    * Get the connected components
    */
 
-  //  connected_components = [];
-
-  // for v in graph.vertexes:
-  //   v.color = white
-
-  // for v in graph.vertexes:
-  //   if v.color == white:
-  //     component = bfs(v)
-  //   connected_components.push(component);
-
   getConnectedComponents() {
-    const connected_components = [];
-    let component;
-
+    const connected_components = []; // an array of components/group of connected vertices
     for (let v of this.vertexes) {
+      // mark all vertices as unvisited
       v.color = "white";
     }
 
     for (let v of this.vertexes) {
       if (v.color === "white") {
-        component = this.bfs(v);
+        let component = this.bfs(v); // find all the neighbors of unvisited vertices
         connected_components.push(component);
+      }
+    }
+
+    for (let component of connected_components) {
+      let redOffset = Math.random() * 256;
+      let greenOffset = Math.random() * 256;
+      let blueOffset = Math.random() * 256;
+      // assign a random color for each component
+      let color = `rgb(${redOffset}, ${greenOffset}, ${blueOffset})`;
+
+      for (let v of component) {
+        v.color = color;
       }
     }
     return connected_components;
