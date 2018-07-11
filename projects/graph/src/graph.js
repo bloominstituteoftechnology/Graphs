@@ -17,7 +17,19 @@ export class Vertex {
     this.edges = []; 
     this.value; 
     this.pos = pos; 
+    this.searched = false; 
+    this.color = 'black'; 
   }
+}
+//function for random color generation
+function randomColor() {
+  let letters = '0123456789ABCDEF'; 
+  let color = '#'; 
+
+  for(let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]; 
+  }
+  return color; 
 }
 
 /**
@@ -127,6 +139,11 @@ createDummyGraph() {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = []; 
+    let random = randomColor(); 
+
+    queue.push(start); 
+    start.searched = true; 
   }
 
   /**

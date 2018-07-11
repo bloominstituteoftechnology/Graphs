@@ -67,6 +67,8 @@ class GraphView extends Component {
   // draw edges
   // draw verts
   // draw vert values (labels)
+  this.props.graph.getConnectedComponents(); //to access those that are connected
+
   for (let vertex of this.props.graph.vertexes) {
     const posX = vertex.pos.x;
     const posY = vertex.pos.y;
@@ -75,6 +77,7 @@ class GraphView extends Component {
       ctx.beginPath();
       ctx.moveTo(posX, posY);
       ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+      ctx.strokeStyle = vertex.color; 
       ctx.stroke();
     }
   }
@@ -86,7 +89,7 @@ class GraphView extends Component {
     ctx.beginPath();
     ctx.arc(posX, posY, circleRadius, 0, 2 * Math.PI);
     ctx.stroke();
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = vertex.color;
     ctx.fill();
 
     ctx.fillStyle = 'white';
