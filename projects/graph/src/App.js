@@ -42,8 +42,16 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // draw dummy vertex
+    ctx.beginPath();
     ctx.arc(10, 10, 10, 0, 2 * Math.PI); // x, y, radius, start angle, finish angle
     ctx.stroke();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.arc(100, 100, 10, 0, 2 * Math.PI); // x, y, radius, start angle, finish angle
+    ctx.stroke();
+    ctx.closePath();
+
 
     // !!! IMPLEMENT ME
     // compute connected components
