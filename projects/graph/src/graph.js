@@ -130,6 +130,29 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+    const searched = [];
+    
+    start.color = 'pink';
+    queue.push(start);
+
+    // start.visited = false;
+
+    while(queue.length > 0) {
+      let bfs = queue[0];
+      for(let e of bfs.edges) {
+        const dest = e.destination;
+        if(dest.color === 'white') {
+          dest.color = "cyan";
+          // dest.visited = true;
+          queue.push(dest);
+        }
+      }
+      queue.shift();
+      bfs.color = 'purple';
+      searched.push(bfs);
+    }
+    return searched;
   }
 
   /**
@@ -137,5 +160,14 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const connected_components = [];
+
+    for(let v of this.vertexes) {
+      if(v.color === 'white'){
+        const component = this.bfs(v);
+        connected_components.push(component);
+      }
+    }
+    return connected_components;
   }
 }
