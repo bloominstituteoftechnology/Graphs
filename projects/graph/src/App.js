@@ -39,6 +39,7 @@ class GraphView extends Component {
     // this.props.graph.createDummyGraph();
 
     this.props.graph.randomize(5, 4, 150, 0.6);
+    this.props.graph.getConnectedComponents()
     
     // Clear it
     ctx.fillStyle = 'grey';
@@ -54,7 +55,7 @@ class GraphView extends Component {
     this.props.graph.vertexes.forEach((v) => {
       console.log(this.props.graph.vertexes[0])
         ctx.beginPath();
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = v.color;
         ctx.arc(v.pos.x, v.pos.y, circle, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();

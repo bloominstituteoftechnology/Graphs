@@ -128,35 +128,49 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // // !!! IMPLEMENT ME
-    const component = [];
-    for(let v of this.vortexes) {
-      v.color = "yellow";
-    }
+    // !!! IMPLEMENT ME
 
-    start.golor="cyan";
-    component.push(start);
+    const queue = [];
 
-    while(component.length > 0) {
-      let currNode = component[0];
-      for(let nextNode of currNode.edges) {
-        if(nextNode.color === "yellow") {
-          nextNode.color = "cyan";
+    let randomColor = randColor();
+    
+
+    queue.push(start);
+    start.touched = true;
+
+    while (queue.length > 0) {
+      const vertex = queue[0];
+      vertex.color = randomColor;
+
+      for (let e of vertex.edges) {
+        if (!e.destination.touched) {
+          queue.push(e.destination);
+          e.destination.touched = true;
         }
       }
 
-      component.shift();
-      currNode.color = "pink";
+      queue.shift();
     }
-    // return component;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
-  //   const component = this.bfs(vortex);
+
+    for (let v of this.vertexes) {
+      if (!v.touched) {
+        this.bfs(v);
+      }
+    }
 
   }
+}
+
+
+const colors = ["orange", "white", "red", "green", "blue", "pink", "cyan", "yellow"]
+
+function randColor() {
+  let num = Math.floor(Math.random() * colors.length); 
+  return colors[num];
 }
