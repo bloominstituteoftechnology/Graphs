@@ -33,46 +33,46 @@ class GraphView extends Component {
     const ctx = canvas.getContext('2d');
     
     // // Vertex click event
-    // let start;
-    // let end;
+    let start;
+    let end;
 
-    // canvas.addEventListener(
-    //   'click',
-    //   e => {
-    //     const x = e.pageX - canvas.offsetLeft;
-    //     const y = e.pageY - canvas.offsetTop;
-    //     let vertClick;
+    canvas.addEventListener(
+      'click',
+      e => {
+        const x = e.pageX - canvas.offsetLeft;
+        const y = e.pageY - canvas.offsetTop;
+        let vertClick;
 
-    //     for (let vertex of this.props.graph.vertexes) {
-    //       if (
-    //         Math.abs(vertex.pos.x - x) <= circleRadius &&
-    //         Math.abs(vertex.pos.y - y) <= circleRadius
-    //       ) {
-    //         vertClick = vertex;
-    //         if (!start) {
-    //           start = vertClick;
+        for (let vertex of this.props.graph.vertexes) {
+          if (
+            Math.abs(vertex.pos.x - x) <= circleRadius &&
+            Math.abs(vertex.pos.y - y) <= circleRadius
+          ) {
+            vertClick = vertex;
+            if (!start) {
+              start = vertClick;
 
-    //           ctx.textAlign = 'center';
-    //           ctx.textBaseline = 'middle';
-    //           ctx.font = '8px Arial';
-    //           ctx.fillStyle = 'black';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.font = '8px Arial';
+              ctx.fillStyle = 'black';
 
-    //           ctx.fillText('START', vertex.pos.x, vertex.pos.y + 20);
-    //         } else if (!end) {
-    //           end = vertClick;
-    //           ctx.textAlign = 'center';
-    //           ctx.textBaseline = 'middle';
-    //           ctx.font = '8px Arial';
-    //           ctx.fillStyle = 'black';
+              ctx.fillText('START', vertex.pos.x, vertex.pos.y + 20);
+            } else if (!end) {
+              end = vertClick;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.font = '8px Arial';
+              ctx.fillStyle = 'black';
 
-    //           ctx.fillText('END', vertex.pos.x, vertex.pos.y + 20);
-    //           console.log(`Start at: ${start.value} and End at: ${end.value}`);
-    //         }
-    //       }
-    //     }
-    //   },
-    //   false
-    // );
+              ctx.fillText('END', vertex.pos.x, vertex.pos.y + 20);
+              console.log(`Start at: ${start.value} and End at: ${end.value}`);
+            }
+          }
+        }
+      },
+      false
+    );
 
     // Clear it
     ctx.fillStyle = 'rgb(58, 49, 79)';
@@ -170,12 +170,12 @@ class App extends Component {
     this.state.graph.getConnectedComponents();
   }
 
-  // handleClick() {
-  //   const newGraph = { graph: new Graph() };
-  //   newGraph.graph.randomize(5, 4, 150, 0.6);
-  //   newGraph.graph.getConnectedComponents();
-  //   this.setState(newGraph);
-  // }
+  handleClick() {
+    const newGraph = { graph: new Graph() };
+    newGraph.graph.randomize(5, 4, 150, 0.6);
+    newGraph.graph.getConnectedComponents();
+    this.setState(newGraph);
+  }
 
   render() {
     return (
