@@ -1,6 +1,3 @@
-const Queue = require("./queue");
-let queue = new Queue();
-
 /**
  * Edge
  */
@@ -121,31 +118,25 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // const component = [];
-    // //bfs logic here
-    // return component;
+    let queue = [];
+    let component = [];
 
-    // for (let v of this.vertexes) {
-    //   v.color = "white";
-    // }
     start.color = "gray";
-    queue.enqueue(start);
-    let u = queue.storage.head;
-    while (queue.isEmpty() === false) {
-      // console.log(u);
-      for (let v of u.value.edges) {
-        // console.log(v);
+    queue.push(start);
+    while (queue.length > 0) {
+      const u = queue[0];
+
+      for (let v of u.edges) {
         if (v.connection.color === "white") {
-          console.log("ENQUEUED");
           v.connection.color = "gray";
-          queue.enqueue(v);
+          queue.push(v.connection);
         }
       }
-      // console.log(u);
-      u.value.color = "black";
-      queue.dequeue();
+      queue.shift();
+      u.color = "black";
+      component.push(u);
     }
-    return queue.storage;
+    return component;
   }
 
   /**
@@ -163,7 +154,5 @@ export class Graph {
       }
     }
     return connectedComponents;
-    // choose a random color
-    //apply that color to every vert in the component array
   }
 }

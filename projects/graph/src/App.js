@@ -15,15 +15,6 @@ function randomColor() {
   return color;
 }
 
-// function containsObject(obj, arr) {
-//   for (let i = 0; i < arr.length; i++) {
-//     if (arr[i].connection.value === obj.value) {
-//       return true;
-//     }
-//   }
-//   return false;
-// }
-
 /**
  * GraphView
  */
@@ -54,70 +45,28 @@ class GraphView extends Component {
     ctx.fillStyle = "lightblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    ctx.strokeStyle = randomColor();
-
-    // console.log(this.props.graph.getConnectedComponents());
     const componentArr = this.props.graph.getConnectedComponents();
-    console.log(componentArr);
+    // console.log(componentArr);
 
-    for (let vertex of this.props.graph.vertexes) {
-      // if (i > 0) {
-      //   // console.log(
-      //   //   this.props.graph.vertexes[i - 1],
-      //   //   this.props.graph.vertexes[i].edges
-      //   // );
-      //   if (
-      //     containsObject(
-      //       this.props.graph.vertexes[i - 1],
-      //       this.props.graph.vertexes[i].edges
-      //     )
-      //   ) {
-      //     ctx.strokeStyle = randomColor();
-
-      //     console.log("INCLUDES " + i);
-      //   }
-      // }
-
-      for (let edge of vertex.edges) {
+    for (let i = 0; i < componentArr.length; i++) {
+      const color = randomColor();
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      for (let vertex of componentArr[i]) {
+        for (let edge of vertex.edges) {
+          ctx.beginPath();
+          ctx.moveTo(vertex.pos.x, vertex.pos.y);
+          ctx.lineTo(edge.connection.pos.x, edge.connection.pos.y);
+          ctx.stroke();
+        }
         ctx.beginPath();
-        ctx.moveTo(vertex.pos.x, vertex.pos.y);
-        ctx.lineTo(edge.connection.pos.x, edge.connection.pos.y);
+        ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
         ctx.stroke();
+        ctx.fill();
       }
     }
 
-    // failed attempt to make groups get the same color
-    // function colorConnections(vertex, edge) {
-    //   ctx.beginPath();
-    //   ctx.moveTo(vertex.pos.x, vertex.pos.y);
-    //   ctx.lineTo(edge.connection.pos.x, edge.connection.pos.y);
-    //   ctx.stroke();
-    //   for (let newEdge of edge.connection.edges) {
-    //     if (newEdge) {
-    //       colorConnections(edge.connection, newEdge);
-    //     }
-    //   }
-    // }
-    // for (let vertex of this.props.graph.vertexes) {
-    //   ctx.strokeStyle = randomColor();
-    //   for (let edge of vertex.edges) {
-    //     colorConnections(vertex, edge);
-    //   }
-    // }
-
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
-      ctx.fillStyle = "blue";
-      ctx.beginPath();
-      ctx.arc(
-        this.props.graph.vertexes[i].pos.x,
-        this.props.graph.vertexes[i].pos.y,
-        radius,
-        0,
-        2 * Math.PI
-      );
-      ctx.stroke();
-      ctx.fill();
-
       ctx.fillStyle = "white";
       ctx.font = "10px Georgia";
       ctx.textAlign = "center";
@@ -128,7 +77,7 @@ class GraphView extends Component {
         this.props.graph.vertexes[i].pos.y
       );
     }
-    console.log(canvas);
+    // console.log(canvas);
   }
 
   /**
