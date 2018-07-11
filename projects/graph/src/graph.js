@@ -118,7 +118,7 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  dfs(start) {
     // !!! IMPLEMENT ME
     const resultArr = [start];
 
@@ -162,7 +162,7 @@ export class Graph {
 
     this.vertexes.forEach(v => {
       if (!trackedVertexes.includes(v)) {
-        const group = this.bfs(v)
+        const group = this.dfs(v)
         connectedGroups.push(group);
         trackedVertexes = trackedVertexes.concat(group);
       }
