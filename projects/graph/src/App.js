@@ -5,7 +5,7 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = 800;
 const canvasHeight = 600;
-// const circleRadius = 15;
+const circleRadius = 15;
 
 /**
  * GraphView
@@ -78,17 +78,17 @@ class GraphView extends Component {
     ctx.fillStyle = 'rgb(58, 49, 79)';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // ctx.font = '10px Arial';
-    // ctx.textAlign = 'center';
-    // ctx.textBaseline = 'middle';
+    ctx.font = '10px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
-    // for (let vertex of this.props.graph.vertexes) {
-    //   for (let edge of vertex.edges) {
-    //     ctx.beginPath();
-    //     ctx.moveTo(vertex.pos.x, vertex.pos.y);
-    //     ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-    //     ctx.stroke();
-    //     ctx.fillText(edge.weight, (vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+        ctx.fillText(edge.weight, (vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
       
         // Add edge weight.
         // const xCenter = (vertex.pos.x + edge.destination.pos.x) / 2;
@@ -100,24 +100,24 @@ class GraphView extends Component {
         // } else {
         //   continue;
         // }
-    //   }
-    // }
+      }
+    }
 
     // Draw our dummy vertex
-    // this.props.graph.vertexes.forEach((v) => {
-    //   ctx.beginPath();
-    //   ctx.fillStyle = '#cd5360';
-    //   ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
-    //   // ctx.lineCap="square";
-    //   // // ctx.moveTo(200, 20);
-    //   // ctx.lineTo(300, 20);
-    //   ctx.fill();
-    //   ctx.stroke();
+    this.props.graph.vertexes.forEach((v) => {
+      ctx.beginPath();
+      ctx.fillStyle = '#cd5360';
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      // ctx.lineCap="square";
+      // // ctx.moveTo(200, 20);
+      // ctx.lineTo(300, 20);
+      ctx.fill();
+      ctx.stroke();
 
-    //   // fill in the text
-    //   ctx.fillStyle = '#ffffff';
-    //   ctx.fillText(v.value, v.pos.x, v.pos.y);
-    // });
+      // fill in the text
+      // ctx.fillStyle = '#ffffff';
+      // ctx.fillText(v.value, v.pos.x, v.pos.y);
+    });
 
     // Set up the gradient
     // let grd = ctx.createLinearGradient(400, 50, 50, 90, 60, 100);
@@ -131,10 +131,10 @@ class GraphView extends Component {
     // Create circles in a loop
     // ctx.strokeStyle = '#dce5e8';
     // for (let i = 0; i < canvas.width; i += 18) {
-      // for (let j = 0; j < canvas.height; j += 10) {
-        // ctx.beginPath();
-        // ctx.arc(i, j, 40, 0, 2 * Math.PI);
-        // ctx.stroke();
+    //   for (let j = 0; j < canvas.height; j += 10) {
+    //     ctx.beginPath();
+    //     ctx.arc(i, j, 40, 0, 2 * Math.PI);
+    //     ctx.stroke();
     //   }
     // }
 
@@ -166,8 +166,8 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    // this.state.graph.randomize(5, 4, 150, 0.6);
-    // this.state.graph.getConnectedComponents();
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.getConnectedComponents();
   }
 
   // handleClick() {
