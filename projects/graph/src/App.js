@@ -4,7 +4,7 @@ import './App.css';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 800;
-const canvasHeight = 700;
+const canvasHeight = 600;
 const circleRadius = 20;
 
 /**
@@ -71,7 +71,7 @@ class GraphView extends Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.props.clickHandler()}>New Graph</button>
+        <button className="App__Button" onClick={() => this.props.clickHandler()}>New Graph</button>
         <br/>
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
       </div>
