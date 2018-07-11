@@ -14,11 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = "default", pos = { x: -1, y: -1 }) {
+  constructor(value = "default", pos = { x: -1, y: -1 }, color = "white") {
     this.edges = [];
     this.value = value;
     this.pos = pos; // pos set to x: 1, y: -1
-    this.color = "white";
+    this.color = color;
   }
 }
 
@@ -51,7 +51,6 @@ export class Graph {
    */
   randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
-    console.log("vertexes:", this.vertexes);
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
@@ -142,16 +141,18 @@ export class Graph {
     const component = [];
     const queue = [];
 
+    console.log("initial vertexes:", this.vertexes);
     // start vert
     // white: Unsearched, Yellow: queued for search, Black: Searched
     for (let i = 0; i < this.vertexes.length; i++) {
       if (this.vertexes[i].color === "white") {
         this.vertexes[i].color = "yellow"; // turn yellow when selected
         queue.push(this.vertexes[i]); // enqueue
+        // console.log("queue:", queue[0]);
 
         while (queue.length !== 0) {
           let u = queue[0];
-          console.log("u before selected:", u);
+          // console.log("u before selected:", u);
           for (let j = 0; j < u.edges.length; j++) {
             if (u.edges[j]) {
               if (u.edges[j].destination.color === "white") {
@@ -160,16 +161,15 @@ export class Graph {
               }
             }
           }
-          queue.shift();
           u.color = "black";
+          queue.shift();
+          // console.log("u after:", u);
+
+          // console.log("post queue:", queue[0], queue[1]);
         }
       }
-
-      console.log("u after:", u);
-
-      console.log("queue:", queue);
-      console.log("vertexes:", this.vertexes);
     }
+    // console.log("vertexes:", this.vertexes);
 
     return component;
   }
