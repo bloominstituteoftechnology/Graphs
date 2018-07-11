@@ -1,3 +1,6 @@
+const Queue = require("./queue");
+let queue = new Queue();
+
 /**
  * Edge
  */
@@ -11,10 +14,11 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(value = "default", pos = { x: -1, y: -1 }) {
+  constructor(value = "default", pos = { x: -1, y: -1 }, color = "white") {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = color;
   }
 }
 
@@ -117,13 +121,49 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    // const component = [];
+    // //bfs logic here
+    // return component;
+
+    // for (let v of this.vertexes) {
+    //   v.color = "white";
+    // }
+    start.color = "gray";
+    queue.enqueue(start);
+    let u = queue.storage.head;
+    while (queue.isEmpty() === false) {
+      // console.log(u);
+      for (let v of u.value.edges) {
+        // console.log(v);
+        if (v.connection.color === "white") {
+          console.log("ENQUEUED");
+          v.connection.color = "gray";
+          queue.enqueue(v);
+        }
+      }
+      // console.log(u);
+      u.value.color = "black";
+      queue.dequeue();
+    }
+    return queue.storage;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    let connectedComponents = [];
+    for (let v of this.vertexes) {
+      v.color = "white";
+    }
+    for (let v of this.vertexes) {
+      if (v.color === "white") {
+        const component = this.bfs(v);
+        connectedComponents.push(component);
+      }
+    }
+    return connectedComponents;
+    // choose a random color
+    //apply that color to every vert in the component array
   }
 }

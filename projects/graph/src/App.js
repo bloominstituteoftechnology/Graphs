@@ -45,6 +45,7 @@ class GraphView extends Component {
   /**
    * Render the canvas
    */
+
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext("2d");
@@ -54,6 +55,10 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.strokeStyle = randomColor();
+
+    // console.log(this.props.graph.getConnectedComponents());
+    const componentArr = this.props.graph.getConnectedComponents();
+    console.log(componentArr);
 
     for (let vertex of this.props.graph.vertexes) {
       // if (i > 0) {
@@ -80,6 +85,26 @@ class GraphView extends Component {
         ctx.stroke();
       }
     }
+
+    // failed attempt to make groups get the same color
+    // function colorConnections(vertex, edge) {
+    //   ctx.beginPath();
+    //   ctx.moveTo(vertex.pos.x, vertex.pos.y);
+    //   ctx.lineTo(edge.connection.pos.x, edge.connection.pos.y);
+    //   ctx.stroke();
+    //   for (let newEdge of edge.connection.edges) {
+    //     if (newEdge) {
+    //       colorConnections(edge.connection, newEdge);
+    //     }
+    //   }
+    // }
+    // for (let vertex of this.props.graph.vertexes) {
+    //   ctx.strokeStyle = randomColor();
+    //   for (let edge of vertex.edges) {
+    //     colorConnections(vertex, edge);
+    //   }
+    // }
+
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
       ctx.fillStyle = "blue";
       ctx.beginPath();
