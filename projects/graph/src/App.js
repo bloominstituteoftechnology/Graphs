@@ -32,11 +32,11 @@ class GraphView extends Component {
   updateCanvas() {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
-console.log(this.props.graph)
-this.props.graph.createDummyGraph();
+    
     // Clear it
     ctx.fillStyle = "pink";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    this.props.graph.getConnectedComponents();
 // draw dummy vertex
 
 ctx.font = '13px Arial';
@@ -57,7 +57,7 @@ this.props.graph.vertexes.forEach(v =>{
 
 
   ctx.beginPath();
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = v.color;
   ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
   ctx.fill();
   ctx.stroke();
