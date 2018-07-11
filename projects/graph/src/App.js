@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-// const canvasWidth = 
-// const canvasHeight = 
+const canvasWidth = 500;
+const canvasHeight = 500;
 
 /**
  * GraphView
@@ -28,12 +28,31 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
     
     // Clear it
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // Set up the gradient
+    let grd = ctx.createLinearGradient(400, 50, 50, 90, 60, 100);
+    grd.addColorStop(0, '#932fa3');
+    grd.addColorStop(1, '#259ec6');
+
+    // Fill with gradient
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // Create circles in a loop
+    ctx.strokeStyle = '#dce5e8';
+    for (let i = 0; i < canvas.width; i += 18) {
+      for (let j = 0; j < canvas.height; j += 10) {
+        ctx.beginPath();
+        ctx.arc(i, j, 40, 0, 2 * Math.PI);
+        ctx.stroke();
+      }
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -49,7 +68,6 @@ class GraphView extends Component {
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
-
 
 /**
  * App

@@ -3,6 +3,11 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 0, drawWeight = false) {
+    this.destination = destination;
+    this.weight = weight;
+    this.drawWeight = drawWeight;
+  }
 }
 
 /**
@@ -10,6 +15,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = { x: -1, y: -1 }, fillColor = 'white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.fillColor = fillColor;
+  }
 }
 
 /**
@@ -17,7 +28,10 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    console.log('called Graph constructor');
     this.vertexes = [];
+    this.found = [];
+    this.queueToSearch = [];
   }
 
   /**
