@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Graph } from './graph';
 import './App.css';
 
-const canvasWidth = 800;
+const canvasWidth = 750;
 const canvasHeight = 600;
 const circleRadius = 15;
 
@@ -31,10 +31,6 @@ class GraphView extends Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
 
-    console.log('this.props.graph: ', this.props.graph);
-
-    
-    
     ctx.fillStyle = 'lightgray';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
@@ -42,26 +38,24 @@ class GraphView extends Component {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    this.props.graph.vertexes.forEach(vert => {
-      vert.edges.forEach(e => {
+    this.props.graph.vertexes.forEach(v => {
+      v.edges.forEach(e => {
         ctx.beginPath();
-        ctx.moveTo(vert.pos.x, vert.pos.y)
+        ctx.moveTo(v.pos.x, v.pos.y)
         ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+        ctx.strokeStyle = v.color;
         ctx.stroke();
       });
     })
-
+    
     this.props.graph.vertexes.forEach(v => {
-
       ctx.beginPath();
-      ctx.fillStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = v.color;
       ctx.fill();
-      ctx.stroke();
-      ctx.beginPath();
-     
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
+      ctx.stroke();
     });
   }
   
@@ -89,6 +83,7 @@ class App extends Component {
    button = () => {
       const graph = new Graph();
       graph.randomize(5, 4, 150, 0.6);
+      graph.getConnectedComponents();
       this.setState({ graph });
     }
 
