@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -19,6 +27,16 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+  //   const dummyVertex3 = new Vertex('v3', {x: 300, y: 305});
+    
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  // }
 
   /**
    * Create a random graph
@@ -111,12 +129,48 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+
+    const queue = [];
+
+    let randomColor = randColor();
+    
+
+    queue.push(start);
+    start.touched = true;
+
+    while (queue.length > 0) {
+      const vertex = queue[0];
+      vertex.color = randomColor;
+
+      for (let e of vertex.edges) {
+        if (!e.destination.touched) {
+          queue.push(e.destination);
+          e.destination.touched = true;
+        }
+      }
+
+      queue.shift();
+    }
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+
+    for (let v of this.vertexes) {
+      if (!v.touched) {
+        this.bfs(v);
+      }
+    }
+
   }
+}
+
+
+const colors = ["orange", "white", "red", "green", "blue", "pink", "cyan", "yellow"]
+
+function randColor() {
+  let num = Math.floor(Math.random() * colors.length); 
+  return colors[num];
 }
