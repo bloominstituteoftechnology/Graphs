@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}, color='white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+  }
 }
 
 /**
@@ -19,6 +29,15 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 25});
+  //   const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  // }
 
   /**
    * Create a random graph
@@ -109,8 +128,39 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, rgbColor) {
     // !!! IMPLEMENT ME
+    // Step 1. pick a random color
+    let randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
+    // bfs logic here
+    // Step 2. Take start and add it to our component list
+    const component = [];
+    component.push(start);
+    // Step 3. Add to the queue
+    let queue = [];
+    queue.push(start);
+    // Step 4. Add a color
+    start.color = rgbColor;
+    // Step 5. Check to see if queue is empty
+    // if not empty continue down the loop
+    while (!queue.isEmpty()) {
+      // for edge
+      const vertex = queue[0];
+      for (let edge of vertex.edges) {
+        // if destination is not in component
+        if (!component.includes(edge.destination)) {
+          // add to component array
+          component.push(edge.destination);
+          // add to the end of the queue
+          queue.push(edge.destination);
+          // add color
+          edge.destination.color = rgbColor;
+        }
+      }
+    }
+    // Step 6. Dequeue queue
+    queue.dequeue();
+    return component;
   }
 
   /**
@@ -118,5 +168,8 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+   //const component = this.bfs(vertex);
+    // choose a random color
+    // apply that color to every vertex in component array
   }
 }
