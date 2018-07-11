@@ -3,7 +3,11 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-
+  constructor(destination, weight = 0, drawWeight = false) {
+    this.destination = destination;
+    this.weight = weight;
+    this.drawWeight = drawWeight;
+  }
 }
 
 /**
