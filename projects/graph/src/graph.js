@@ -4,7 +4,7 @@
 export class Edge {
   // !!! IMPLEMENT ME
   constructor(vertex) {
-    this.vertex = vertex;
+    this.destination = vertex;
   }
 }
 
@@ -13,8 +13,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor() {
+  constructor(value = 'default', pos = { x: -1, y: -1 }) {
     this.edges = [];
+    this.value = value;
+    this.pos = pos;
   }
 }
 
@@ -27,7 +29,12 @@ export class Graph {
   }
 
   createDummyGraph() {
-    const dummyVertex1 = new Vertex();
+    const dummyVertex1 = new Vertex('v1', { x: 15, y: 20 });
+    const dummyVertex2 = new Vertex('v2', { x: 100, y: 75 });
+    const dummyVertex3 = new Vertex('v3', { x: 500, y: 605 });
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
   }
 
   /**
