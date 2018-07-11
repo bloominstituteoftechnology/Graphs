@@ -24,7 +24,6 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
-    this.search = new Set([]);
   }
 
   /**
@@ -120,32 +119,33 @@ export class Graph {
     let connectedList = [];
     let connected = [];
     let i = 0;
-    
+
     while (i < this.vertexes.length) {
-      console.log("Top While");
+      let length = 0;
       let queue = [];
 
       this.vertexes.forEach(v => {
         v.color = "white";
-        queue.push(v);
       });
-      
+      queue.push(this.vertexes[i]);
+
       while (!(queue.length === 0)) {
         let u = queue[0]; // Peek at head of queue, but do not dequeue!
 
         u.edges.forEach(v => {
-          if (v.color === "white") {
-            v.color = "gray";
-            queue.enqueue(v);
+          if (v.destination.color === "white") {
+            v.destination.color = "gray";
+            queue.push(v);
           }
         }); //forEach
 
-        i++;
         connected.push(queue[0]);
         queue.shift();
         u.color = "black";
+        length++;
       } //inside while
 
+      i += length;
       connectedList.push(connected);
     } //outside while
 

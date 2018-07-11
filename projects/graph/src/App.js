@@ -31,7 +31,7 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext("2d");
-    this.props.graph.randomize(8, 6, 150, 0.6);
+    this.props.graph.randomize(8, 6, 150, 0.3);
 
     console.log("this.props.graph: ", this.props.graph);
 
