@@ -52,15 +52,18 @@ class GraphView extends Component {
     // ctx.stroke();
     // ctx.closePath();
 
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edge) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.closePath();
+        ctx.stroke();
+      }
+    }
+
     // draw dummy verticies (dynamic)
     this.props.graph.vertexes.forEach(v => {
-      ctx.lineTo(v.pos.x, v.pos.y);
-      ctx.closePath();
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.moveTo(v.pos.x, v.pos.y);
-
       // verts
       ctx.strokeStyle = "yellow";
       ctx.fillStyle = "black";

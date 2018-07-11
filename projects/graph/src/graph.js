@@ -34,6 +34,11 @@ export class Graph {
     const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
     const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
     const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+
+    dummyVertex1.edge.push(new Edge(dummyVertex2));
+    dummyVertex2.edge.push(new Edge(dummyVertex1));
+    dummyVertex2.edge.push(new Edge(dummyVertex3));
+    dummyVertex3.edge.push(new Edge(dummyVertex2));
     
     this.vertexes.push(dummyVertex1);
     this.vertexes.push(dummyVertex2);
@@ -92,6 +97,7 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
+          // converts the coordinates from decimals to intergers using bitwise OR
           x: (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           y: (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
