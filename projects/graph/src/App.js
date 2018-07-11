@@ -71,8 +71,6 @@ class GraphView extends Component {
         
       }
 
-      console.log('here!!!! ', this.props.graph.bfs(v))
-
     });
 
     this.props.graph.vertexes.forEach(v => {
@@ -87,6 +85,10 @@ class GraphView extends Component {
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
+
+    const toColor = this.props.graph.bfs(this.props.graph.vertexes);
+    
+    console.log('toColor: ', toColor);
    
 
     // !!! IMPLEMENT ME
