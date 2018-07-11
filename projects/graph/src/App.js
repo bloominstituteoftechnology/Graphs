@@ -32,8 +32,9 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    const graph = this.props.graph;
-    graph.randomize(5, 4, 150, 0.6);
+    //Alternate way to implement randomize - but not best practice
+    // const graph = this.props.graph;
+    // graph.randomize(5, 4, 150, 0.6);
 
     // DUMMY GRAPH--------------------------------------------
     // console.log('this.props.graph: ', this.props.graph);
@@ -50,6 +51,7 @@ class GraphView extends Component {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
+    // draw the lines between vertexes
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
         ctx.beginPath();
@@ -115,6 +117,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {

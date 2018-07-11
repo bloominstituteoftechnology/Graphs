@@ -34,11 +34,15 @@ export class Graph {
   //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
   //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
   //   const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
-  //   const dummyVertex4 = new Vertex('v4', {x: 300, y: 505});
+
+  //   dummyVertex1.edges.push(new Edge(dummyVertex2));
+  //   dummyVertex2.edges.push(new Edge(dummyVertex1));
+  //   dummyVertex2.edges.push(new Edge(dummyVertex3));
+  //   dummyVertex3.edges.push(new Edge(dummyVertex2));
+
   //   this.vertexes.push(dummyVertex1);
   //   this.vertexes.push(dummyVertex2);
   //   this.vertexes.push(dummyVertex3);
-  //   this.vertexes.push(dummyVertex4);
   // }
   // DUMMY GRAPH--------------------------------------------
 
