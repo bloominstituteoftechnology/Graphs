@@ -16,6 +16,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = "white";
   }
 }
 
@@ -131,22 +132,20 @@ export class Graph {
       return queue.length === 0;
     }
 
-    for (let i = 0; i < this.vertexes.length; i++) {
-      this.vertexes[i].style.color = "white";
+    start.color = "gray";
+    queue.enqueue(start);
 
-      start.style.color = "grey"; 
-      queue.enqueue(start);
-      while (!queue.isEmpty()) {
-        let u = queue[0];
-        for (let vertex of u.edges) {
-          if (vertex.style.color === "white") {
-            vertex.style.color = "grey";
-            queue.enqueue(vertex);
-          }
+    while (!queue.isEmpty()) {
+      let u = queue[0];
+
+      for (let edge of u.edges) {
+        if (edge.color === "white") {
+          edge.color = "gray";
+          queue.enqueue(edge);
         }
-        queue.dequeue();
-        u.style.color = "black";
       }
+      queue.dequeue();
+      u.color = "black";
     }
   }
 
