@@ -67,6 +67,13 @@ class GraphView extends Component {
       console.log(v.color);
       // verts
       ctx.strokeStyle = "black";
+
+      /* connected component checker */
+      // if (v.color2) {
+      //   ctx.fillStyle = v.color2;
+      // } else {
+      //   ctx.fillStyle = v.color;
+      // }
       ctx.fillStyle = v.color;
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, 14, 0, 2 * Math.PI);
@@ -75,11 +82,17 @@ class GraphView extends Component {
       ctx.stroke();
 
       // vert values (labels)
-      if (v.color === "black") {
-        ctx.fillStyle = "white";
-      } else {
-        ctx.fillStyle = "black";
-      }
+      /* connected component checker */
+      // if (v.color === "black") {
+      //   ctx.fillStyle = "white";
+      //   if (v.color2) {
+      //     ctx.fillStyle = "black";
+      //   }
+      // } else {
+      //   ctx.fillStyle = "black";
+      // }
+
+      ctx.fillStyle = "white";
       ctx.font = "11px arial";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";

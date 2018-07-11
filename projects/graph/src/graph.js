@@ -156,7 +156,7 @@ export class Graph {
           for (let j = 0; j < u.edges.length; j++) {
             if (u.edges[j]) {
               if (u.edges[j].destination.color === "white") {
-                u.edges[j].destination.color = "yellow";
+                u.edges[j].destination.color2 = "yellow";
                 queue.push(u.edges[j].destination);
               }
             }
