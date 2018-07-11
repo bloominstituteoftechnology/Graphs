@@ -146,7 +146,21 @@ export class Graph {
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
+  getConnectedComponents(vertexes) {
     // !!! IMPLEMENT ME
+    let components = [];
+
+    components.push(this.bfs(vertexes[0]));
+
+    for (let i = 0; i < vertexes.length; i++) {
+      for (let x = 0; x < vertexes[i].length; i++) {
+        if (!(components.includes(vertexes[i]))) {
+          components.push(this.bfs(vertexes[i]));
+        }
+      }
+    }
+
+    return components;
+
   }
 }

@@ -61,22 +61,52 @@ class GraphView extends Component {
       //   ctx.stroke();
       // })
     })
-    ctx.fillStyle = 'red';
-    ctx.strokeStyle = 'red';
-    let change = this.props.graph.bfs(this.props.graph.vertexes[0]);
-    change.forEach((v) => {
-      ctx.beginPath();
-      // ctx.fillStyle = 'red';
-      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2*Math.PI);
-      ctx.fill();
-      ctx.stroke();
-      v.edges.forEach((l) => {
+    function randomColor(max) {
+      let r = Math.floor(Math.random() * Math.floor(max));
+      let g = Math.floor(Math.random() * Math.floor(max));
+      let b = Math.floor(Math.random() * Math.floor(max));
+      let ran = "rgb(" + r + "," + g + "," + b + ")";
+      return ran.toString();
+    }
+    let lines = this.props.graph.getConnectedComponents(this.props.graph.vertexes);
+    console.log("lines:\n", lines)
+
+    lines.forEach((obj) => {
+      let color = randomColor(255);
+      ctx.fillStyle = color;
+      ctx.strokeStyle = color;
+      obj.forEach((v) => {
         ctx.beginPath();
-        ctx.moveTo(v.pos.x, v.pos.y);
-        ctx.lineTo(l.destination.pos.x, l.destination.pos.y);
+        ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2*Math.PI);
+        ctx.fill();
         ctx.stroke();
+        v.edges.forEach((e) => {
+          ctx.beginPath();
+          ctx.moveTo(v.pos.x, v.pos.y);
+          ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
+          ctx.stroke();
+        })
       })
     })
+
+
+    // ctx.fillStyle = 'red';
+    // ctx.strokeStyle = 'red';
+    // let change = this.props.graph.bfs(this.props.graph.vertexes[0]);
+    // change.forEach((v) => {
+    //   ctx.beginPath();
+    //   // ctx.fillStyle = 'red';
+    //   ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2*Math.PI);
+    //   ctx.fill();
+    //   ctx.stroke();
+    //   v.edges.forEach((l) => {
+    //     ctx.beginPath();
+    //     ctx.moveTo(v.pos.x, v.pos.y);
+    //     ctx.lineTo(l.destination.pos.x, l.destination.pos.y);
+    //     ctx.stroke();
+    //   })
+    // })
+    console.log('vertexes:\n', this.props.graph.getConnectedComponents(this.props.graph.vertexes));
   }
   
   /**
@@ -100,10 +130,11 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
-    this.state.graph.randomize(5, 3, 200);
+    this.state.graph.randomize(14, 13, 150, 0.6);
     //console.log("props", this.props)
     console.log("state:\n", this.state)
     // use the graph randomize() method
+    
   }
 
   render() {
