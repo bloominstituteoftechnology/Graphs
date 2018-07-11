@@ -117,7 +117,37 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const queue = [];
+
+    queue.enqueue = (item) => {
+      queue.unshift(item);
+    }
+
+    queue.dequeue = () => {
+      queue.pop();
+    }
+
+    queue.isEmpty = () => {
+      return queue.length === 0;
+    }
+
+    for (let i = 0; i < this.vertexes.length; i++) {
+      this.vertexes[i].style.color = "white";
+
+      start.style.color = "grey"; 
+      queue.enqueue(start);
+      while (!queue.isEmpty()) {
+        let u = queue[0];
+        for (let vertex of u.edges) {
+          if (vertex.style.color === "white") {
+            vertex.style.color = "grey";
+            queue.enqueue(vertex);
+          }
+        }
+        queue.dequeue();
+        u.style.color = "black";
+      }
+    }
   }
 
   /**
