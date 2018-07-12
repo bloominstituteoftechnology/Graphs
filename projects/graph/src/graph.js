@@ -174,3 +174,4 @@ export class Graph {
     return componentsList;
   }
 }
+// was unable to move to stretch goals. Still studying how everything works on this assignment. 
