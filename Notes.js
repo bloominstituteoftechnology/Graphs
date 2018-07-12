@@ -19,6 +19,7 @@ ctx.strokeText("My Canvas", 600, 50);
     - stroke(): Actually draws the path you have defined
     - https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineTo
     - fill(): fills the current or given path with the current fill style ====== USED FOR COLOR WITH A SHAPE
+    - strokeStyle(): same as fill for styling but for stroke
 */
 
 ctx.fillStyle = 'blue';

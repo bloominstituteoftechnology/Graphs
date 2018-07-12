@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Graph } from './graph';
+import { Graph, Vertex } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
@@ -34,25 +34,20 @@ class GraphView extends Component {
 
     this.drawVertexes(ctx);
   }
-
+  
   drawVertexes(ctx) {
     // Style the canvas
     ctx.fillStyle = "lightblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
+    
     // Aligns text
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-
-    // Create Edges
-    this.props.graph.vertexes.forEach(vertex => {
-      vertex.edges.forEach(edge => {
-        ctx.moveTo(vertex.pos.x, vertex.pos.y)
-        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-        ctx.stroke();
-      })
-    })
     
+    this.colorConnectComps(ctx);
+    
+    ctx.strokeStyle = "black";
+
     // Create Nodes/Vertices
     this.props.graph.vertexes.forEach(vertex => {
       ctx.beginPath();
@@ -66,6 +61,20 @@ class GraphView extends Component {
       ctx.font = "10px Arial";
       ctx.fillStyle = "black";
       ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
+    })
+  }
+
+  colorConnectComps(ctx) {
+    // Create Edges
+    const connectedList = this.props.graph.getConnectedComponents();
+    connectedList.forEach(connect => {
+      connect.forEach(vertex => {
+        vertex.edges.forEach(edge => {
+          ctx.moveTo(vertex.pos.x, vertex.pos.y)
+          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
+          ctx.stroke();
+        })
+      })
     })
   }
   
@@ -90,11 +99,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      graph: new Graph()
+      graph: new Graph(),
+      connectedList: []
     };
-    this.state.graph.randomize(5, 4, 150, 0.6)
-    this.state.graph.getConnectedComponents();
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
+
   clickHandler = () => {
     let graph = new Graph();
     graph.randomize(5, 4, 150, 0.6);
@@ -104,7 +114,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph} clickHandler={this.clickHandler}></GraphView>
+        <GraphView graph={ this.state.graph } clickHandler={ this.clickHandler } />
       </div>
     );
   }
