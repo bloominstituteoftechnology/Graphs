@@ -32,6 +32,10 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
+    this.drawVertexes(ctx);
+  }
+
+  drawVertexes(ctx) {
     // Style the canvas
     ctx.fillStyle = "lightblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -89,7 +93,7 @@ class App extends Component {
       graph: new Graph()
     };
     this.state.graph.randomize(5, 4, 150, 0.6)
-    this.state.graph.bfs();
+    this.state.graph.getConnectedComponents();
   }
   clickHandler = () => {
     let graph = new Graph();
