@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y:-1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -111,12 +120,54 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let queue = [];
+    let checked = [];
+
+    //adding the var start to the queue
+    queue.push(start);
+
+    //starting the queue
+    while (queue.length > 0) {
+      let base = queue[0];
+      //loop threw all the edges
+      for (let i = 0; i < base.edges.length; i++) {
+        //checking if the edges are in the queue or have been added to checked and if not continuing
+        if ( !(queue.includes(base.edges[i].destination) || checked.includes(base.edges[i].destination))) {
+          queue.push(base.edges[i].destination);
+        }
+      }
+      //exit condition making sure the queue will eventually end
+      queue.shift();
+      checked.push(base);
+    }
+    return checked;
   }
 
   /**
    * Get the connected components
    */
-  getConnectedComponents() {
+  getConnectedComponents(vertexes) {
     // !!! IMPLEMENT ME
+    let components = [];
+    let checked = [];
+    components.push(this.bfs(vertexes[0]));
+
+    vertexes.forEach((v) => {
+      let test = 0;
+      for (let i = 0; i < components.length; i++) {
+        if (components[i].includes(v)) checked.push(v);
+        if (!(components[i].includes(v) || checked.includes(v))) components.push(this.bfs(v));
+      }
+    })
+    // for (let i = 0; i < components.length; i++) {
+    //   for (let x = 0; x < vertexes.length; i++) {
+    //     if (!(components.includes(vertexes[x]))) {
+    //       components.push(this.bfs(vertexes[x]));
+    //     }
+    //   }
+    // }
+
+    return components;
+
   }
 }
