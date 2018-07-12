@@ -3,8 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(destination) {
+  constructor(destination, weight = 1) {
     this.destination = destination;
+    this.weight = weight;
   }
 }
 
@@ -33,8 +34,9 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const weight = Math.floor(Math.random() * 10);
+      v0.edges.push(new Edge(v1, weight));
+      v1.edges.push(new Edge(v0, weight));
     }
 
     let count = 0;
@@ -138,35 +140,32 @@ export class Graph {
 
   dfs(start, target) {
     this.initializeState();
-
-    const visit = (vertex) => {
-      vertex.state = 1;
-      vertex.edges
-        .map(e => e.destination)
-        .filter(v => v.state === 0)
-        .forEach(v => {
-          v.parent = vertex;
-          visit(v);
-        });
-    }
-
-    start.state = 1;
-    start.edges
-      .map(e => e.destination)
-      .forEach(v => {
-        if (v.state === 0) {
-          v.parent = start;
-          visit(v);
+    const unseenVertices = [...this.vertexes];
+    start.distance = 0;
+    while (unseenVertices.length > 0) {
+      const vertex = unseenVertices.reduce((smallest, current) => {
+        return current.distance < smallest.distance
+          ? current
+          : smallest
+      });
+      unseenVertices.splice(unseenVertices.indexOf(vertex), 1);
+      console.log('foo', vertex);
+      vertex.edges.forEach(e => {
+        const distance = vertex.distance + e.weight;
+        if (distance < e.destination.distance) {
+          e.destination.distance = distance;
+          e.destination.parent = vertex;
         }
       });
-    
-    const path = [target];
-    while (target.parent !== null) {
-      target = target.parent;
-      path.push(target);
     }
 
-    return path.length > 1 ? path.reverse() : [];
+    const path = [target];
+    while (target.parent) {
+      target = target.parent;
+      path.unshift(target)
+    }
+    
+    return path.length > 1 ? path : [];
   }
 
   /**
@@ -186,6 +185,7 @@ export class Graph {
   initializeState() {
     this.vertexes.forEach(v => {
       v.state = 0;
+      v.distance = Infinity;
       v.parent = null;
     });
   }
