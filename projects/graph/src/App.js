@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Graph, Vertex } from './graph';
+import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
@@ -64,9 +64,20 @@ class GraphView extends Component {
     })
   }
 
+  getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
   colorConnectComps(ctx) {
     // Create Edges
     const connectedList = this.props.graph.getConnectedComponents();
+    
+    ctx.strokeStyle = this.getRandomColor();
     connectedList.forEach(connect => {
       connect.forEach(vertex => {
         vertex.edges.forEach(edge => {
