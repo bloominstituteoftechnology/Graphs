@@ -34,16 +34,20 @@ class GraphView extends Component {
    */
   updateCanvas() {
     let canvas = this.refs.canvas;
+    let left = canvas.offsetLeft;
+    let top = canvas.offsetTop;
     let ctx = canvas.getContext('2d');
     // this.props.graph.createDummyGraph();
-    this.props.graph.dump();
-
+    // this.props.graph.dump();
+    let myGraph = this.props.graph;
+    
+    
     // Clear it
     ctx.fillStyle = 'black';
     ctx.fillRect(canvasStartX, canvasStartY, canvasWidth, canvasHeight);
     // ctx.fillRect(100, 100, canvas.width, canvas.height);
 
-    this.props.graph.randomize(canvasWidth / 155, canvasHeight / 170, 149, .4);
+    myGraph.randomize(canvasWidth / 155, canvasHeight / 170, 149, .4);
     ctx.font = '13px Arial';  //font and size of text
     ctx.textAlign = 'center';  //location of text on x axis 
     ctx.textBaseline = 'middle';  //location of text on y axis
@@ -52,20 +56,34 @@ class GraphView extends Component {
     // compute connected components
     const checkedEdges = {};
     const checkedVerts = {};
-    this.props.graph.vertexes.forEach(v => {
+    myGraph.vertexes.forEach(v => {
       checkedVerts[v.value] = false;
       checkedEdges[v.value] = false;
     })
 
+    canvas.addEventListener('click', function(event) {
+      let x = event.pageX - left;
+      let y = event.pageY - top;
+
+      myGraph.vertexes.forEach(v => {
+        let vertX = v.pos.x;
+        let vertY = v.pos.y;
+        let xDiff = Math.abs(vertX - x);
+        let yDiff = Math.abs(vertY - y);
+        if(xDiff < circleRadius && yDiff < circleRadius) {
+          console.log(`${v.value} was clicked`);
+        }
+      })
+    }, false);
+
     const uncheckedEdges = [];
-    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
-      let vert = this.props.graph.vertexes[i];
+    for (let i = 0; i < myGraph.vertexes.length; i++) {
+      let vert = myGraph.vertexes[i];
       if (!checkedEdges[vert.value]) {
         let current = vert;
         let color = vert.color;
         uncheckedEdges.push(current);
         checkedEdges[vert.value] = true;
-        let count = 0;
         while (uncheckedEdges.length > 0) {
           for (let j = 0; j < current.edges.length; j++) {
             if (!checkedEdges[current.edges[j].destination.value]) {
@@ -90,14 +108,13 @@ class GraphView extends Component {
     }
 
     const unchecked = [];
-    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
-      let v = this.props.graph.vertexes[i];
+    for (let i = 0; i < myGraph.vertexes.length; i++) {
+      let v = myGraph.vertexes[i];
       if (!checkedVerts[v.value]) {
         let current = v;
         let color = v.color;
         unchecked.push(current);
         checkedVerts[v.value] = true;
-        let count = 0;
         while (unchecked.length > 0) {
           for (let j = 0; j < current.edges.length; j++) {
             if (!checkedVerts[current.edges[j].destination.value]) {
@@ -124,14 +141,14 @@ class GraphView extends Component {
       }
     }
 
-    this.props.graph.dump();
+    myGraph.dump();
   }
 
   /**
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas id='myCanvas' ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
 
@@ -184,11 +201,16 @@ class App extends Component {
     this.setDefault = true;
   }
 
+  findThisElem = e => {
+    e.preventDefault();
+
+  }
+
   render() {
     return (
       <div className="App">
         <div>
-          <GraphView graph={this.state.graph}></GraphView>
+          <GraphView elemFinder={this.findThisElem} graph={this.state.graph}></GraphView>
         </div>
         <div>
           <button onClick={this.randomize}>Random </button>
