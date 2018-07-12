@@ -86,9 +86,13 @@ class GraphView extends Component {
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
 
-    const toColor = this.props.graph.bfs(this.props.graph.vertexes);
+    const toColor = [];
+    this.props.graph.vertexes.forEach(v => {
+      toColor.push(this.props.graph.bfs(v));
+    });
+
+    console.log(toColor)
     
-    console.log('toColor: ', toColor);
    
 
     // !!! IMPLEMENT ME

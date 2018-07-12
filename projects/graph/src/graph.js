@@ -17,6 +17,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = 'white';
   }
 }
 
@@ -127,50 +128,32 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(vertexes, reset = true) {
-    // !!! IMPLEMENT ME
-    if (reset) {
-      vertexes.forEach(vert => {
-        vert.color = 'white';
-      });
-      reset = false;
-    }
+  bfs(vertex) {
+    let result = [];
+    let queue = [];
 
-    const comp = [];
-    const queue = [];
+    console.log(vertex);
 
-    vertexes.forEach(vertex => {
+    vertex.color = 'gray';
+    queue.push(vertex);
 
-      vertex.color = 'gray';
-      console.log(vertex);
-      queue.push(vertex);
-  
-      while (queue[0]) {
-        let u = queue[0];
-        
-         //console.log(u.edges[0].destination);
-  
-        if (u.edges) {
-          u.edges.forEach(neighbor => {
-            console.log('neighbor: ', neighbor);
-  
-            if (neighbor.destination.color === 'white') {
-              neighbor.destination.color = 'gray';
-              queue.push(neighbor);
-              console.log("queue: ", queue);
-            }
-          });
-        }
-  
+    while (queue.length > 0) {
+      let u = queue[0];
+
+      for (let v of u.edges) {
+          if (v.destination.color === 'white') {
+            v.destination.color = 'gray';
+            queue.push(v.destination);
+          }
+      }
+      if (u.color !== 'black') {
+        result.push([...queue]);
         queue.shift();
         u.color = 'black';
-        comp.push(u);
       }
-
-    });
-
-
-    return comp;
+    }
+    
+    return result;
   }
 
   /**
@@ -181,3 +164,53 @@ export class Graph {
     //const component = this.bfs(vertex);
   }
 }
+
+
+
+
+// failed: // !!! IMPLEMENT ME
+
+    // if (reset) {
+    //   vertexes.forEach(vert => {
+    //     vert.color = 'white';
+    //   });
+    //   reset = false;
+    // }
+
+    // const comp = [];
+    // const queue = [];
+
+    // vertexes.forEach(vertex => {
+
+    //   vertex.color = 'gray';
+    //   //console.log(vertex);
+    //   queue.push(vertex);
+  
+    //   while (queue[0]) {
+    //     let u = queue[0];
+        
+    //      //console.log(u.edges[0].destination);
+  
+    //     if (u.edges) {
+    //       u.edges.forEach(neighbor => {
+    //         console.log('neighbor: ', neighbor);
+  
+    //         if (neighbor.destination.color === 'white') {
+    //           neighbor.destination.color = 'gray';
+    //           queue.push(neighbor);
+    //           console.log("queue: ", queue);
+    //         }
+    //       });
+          
+
+    //     }
+  
+    //     queue.shift();
+    //     u.color = 'black';
+    //     comp.push(u);
+    //   }
+
+    // });
+
+
+    // return comp;
