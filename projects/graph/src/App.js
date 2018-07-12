@@ -3,8 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = window.innerWidth;
-const canvasHeight = window.innerHeight;
+const canvasWidth = 750;
+const canvasHeight = 600;
 const circleRadius = 15;
 
 /**
@@ -32,11 +32,6 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
-    console.log('this.props.graph: ', this.props.graph);
-    // call our dummy function
-    this.props.graph.createDummyGraph();
-    console.log('called createDummyGraph: ');
-
     // Clear it
     ctx.fillStyle = 'teal';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -44,10 +39,19 @@ class GraphView extends Component {
     ctx.font = '13px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    // draw our dummy vertex
-    this.props.graph.vertexes.forEach(v => {
+
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    for (let v of this.props.graph.vertexes) {
       ctx.beginPath();
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = 'brown';
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
@@ -55,7 +59,7 @@ class GraphView extends Component {
       // fill in the text
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
-    });
+    }
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -85,6 +89,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {

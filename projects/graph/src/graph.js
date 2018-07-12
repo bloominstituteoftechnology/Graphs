@@ -3,8 +3,8 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
-  constructor(vertex) {
-    this.destination = vertex;
+  constructor(destination) {
+    this.destination = destination;
   }
 }
 
@@ -17,6 +17,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.connected = false;
   }
 }
 
@@ -29,9 +30,15 @@ export class Graph {
   }
 
   createDummyGraph() {
-    const dummyVertex1 = new Vertex('v1', { x: 15, y: 20 });
+    const dummyVertex1 = new Vertex('v1', { x: 20, y: 25 });
     const dummyVertex2 = new Vertex('v2', { x: 100, y: 75 });
     const dummyVertex3 = new Vertex('v3', { x: 500, y: 605 });
+
+    dummyVertex1.edges.push(new Edge(dummyVertex2));
+    dummyVertex2.edges.push(new Edge(dummyVertex1));
+    dummyVertex2.edges.push(new Edge(dummyVertex3));
+    dummyVertex3.edges.push(new Edge(dummyVertex2));
+
     this.vertexes.push(dummyVertex1);
     this.vertexes.push(dummyVertex2);
     this.vertexes.push(dummyVertex3);
@@ -89,6 +96,7 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
+          // converts the coordinates from decimals to integers using bitwise OR
           x: (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           y: (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
@@ -126,8 +134,24 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  bfs(start, reset = true) {
     // !!! IMPLEMENT ME
+    const queue = [];
+
+    queue.push(start);
+    start.connected = true;
+
+    while (queue.length > 0) {
+      const vertex = queue[0];
+
+      for (let e of vertex.edges) {
+        if (!e.destination.connected) {
+          queue.push(e.destination);
+          e.destination.touched = true;
+        }
+      }
+      queue.shift();
+    }
   }
 
   /**
