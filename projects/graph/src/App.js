@@ -32,6 +32,10 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
+    //randomize feature moved and props implemented to give 'onClick' functionality to my button for updating to a new random graph
+    this.props.graph.vertexes = [];
+    this.props.graph.randomize(5, 4, 150, 0.6);
+
     //Alternate way to implement randomize - but not best practice
     // const graph = this.props.graph;
     // graph.randomize(5, 4, 150, 0.6);
@@ -123,7 +127,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME (Phase 4)
     // use the graph randomize() method
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    // this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
