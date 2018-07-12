@@ -37,37 +37,52 @@ class GraphView extends Component {
     ctx.fillStyle = "lightgrey";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // draw the lines
-    let connectedList = [];
-    for (let vertex of this.props.graph.vertexes) {
-      if (vertex.color !== "black") this.props.graph.bfs(vertex);
+    function getRandomColor(seed) {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random(seed) * 16)];
+      }
+      return color;
     }
-    connectedList = this.props.graph.bfs(this.props.graph.vertexes[0]);
-    this.props.graph.vertexes.forEach(i => {
-      i.edges.forEach(j => {
-        ctx.fillStyle = j.color;
-        ctx.moveTo(i.pos.x, i.pos.y);
-        ctx.lineTo(j.destination.pos.x, j.destination.pos.y);
-        ctx.stroke();
-      });
-    });
 
-    // draw our vertexes
-    this.props.graph.vertexes.forEach(v => {
-      ctx.beginPath();
-      ctx.fillStyle = v.color;
-      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.stroke();
+    // draw the lines
+    let color;
+    let connected = [];
+    for (let vertex of this.props.graph.vertexes) {
+      if (vertex.color !== "black") {
+        color = getRandomColor(vertex.pos.x);
+        // console.log(vertex);
 
-      // fill in the text
-      ctx.beginPath();
-      ctx.font = "13px Arial";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "black";
-      ctx.fillText(v.value, v.pos.x, v.pos.y);
-    });
+        connected = this.props.graph.bfs(vertex);
+        console.log(connected);
+        connected.forEach(i => {
+          i.edges.forEach(j => {
+            ctx.fillStyle = color;
+            ctx.moveTo(i.pos.x, i.pos.y);
+            ctx.lineTo(j.destination.pos.x, j.destination.pos.y);
+            ctx.stroke();
+          });
+        });
+
+        // draw our vertexes
+        connected.forEach(v => {
+          ctx.beginPath();
+          ctx.fillStyle = color;
+          ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.stroke();
+
+          // fill in the text
+          ctx.beginPath();
+          ctx.font = "13px Arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = "black";
+          ctx.fillText(v.value, v.pos.x, v.pos.y);
+        });
+      }
+    }
   }
 
   /**

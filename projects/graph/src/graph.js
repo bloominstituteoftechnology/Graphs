@@ -117,12 +117,8 @@ export class Graph {
    * BFS
    */
   bfs(startVert) {
-    let connected = []; // stores each chain of elements
-    let i = 0;
-    let length = 0;
-    let queue;
-
-    queue = [];
+    let queue = [];
+    let temp = new Set();
 
     startVert.color = "gray"; //set current vertex to gray
     queue.push(startVert);
@@ -135,18 +131,12 @@ export class Graph {
           v.destination.color = "gray";
           queue.push(v.destination);
         }
-      }); //forEach
-      length++;
-
-      connected.push(queue);
+      });
+      temp.add(...queue);
       queue.shift();
       u.color = "black";
-    } //inside while
-
-    i++;
-
-    console.log(connected);
-    return connected;
+    }
+    return temp;
   } //bfs
 
   /**
