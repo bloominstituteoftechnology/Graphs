@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TinyColor from "tinycolor2";
 import { Graph } from "./graph";
 import "./App.css";
 
@@ -51,14 +52,16 @@ class GraphView extends Component {
     let connected = [];
     for (let vertex of this.props.graph.vertexes) {
       if (vertex.color !== "black") {
-        color = getRandomColor(vertex.pos.x);
+        color = TinyColor(getRandomColor(vertex.pos.x));
         // console.log(vertex);
 
         connected = this.props.graph.bfs(vertex);
-        console.log(connected);
         connected.forEach(i => {
           i.edges.forEach(j => {
             ctx.fillStyle = color;
+            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = "hsl(0,0%,50%)";
+            ctx.setTransform(1, 0, 0, 1, 0.5, 0.5);
             ctx.moveTo(i.pos.x, i.pos.y);
             ctx.lineTo(j.destination.pos.x, j.destination.pos.y);
             ctx.stroke();
@@ -78,7 +81,10 @@ class GraphView extends Component {
           ctx.font = "13px Arial";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.fillStyle = "black";
+          ctx.textShadowColor = "rgba(0, 0, 0, 0.75)";
+          ctx.textShadowOffset = { width: -1, height: 1 };
+          ctx.textShadowRadius = 10;
+          ctx.fillStyle = color.isDark() ? "White" : "Black";
           ctx.fillText(v.value, v.pos.x, v.pos.y);
         });
       }
