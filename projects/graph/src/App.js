@@ -30,6 +30,8 @@ class GraphView extends Component {
   updateCanvas() {
     // canvas constants
     let canvas = this.refs.canvas;
+    canvas.addEventListener("click", this.handleVertexClick, false);
+
     let ctx = canvas.getContext("2d");
     ctx.font = "11px serif";
     ctx.textAlign = "center";
@@ -39,9 +41,68 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     // vertex constant
     const vertexRadius = 10;
+    // group of components
+    const connectedComponents = this.props.graph.getConnectedComponents();
     // draw edges and vertices
-    this.drawEdges(ctx);
+    this.drawEdges(ctx, connectedComponents);
     this.drawVertexes(ctx, vertexRadius);
+    this.drawWeights(ctx, connectedComponents);
+  }
+
+  handleVertexClick = e => {
+    let canvas = this.refs.canvas;
+    const vertexRadius = 10;
+    let canvasLeft = canvas.offsetLeft; // finds the number of pixels from the top left the canvas is from its immediate container
+    let canvasTop = canvas.offsetTop; // finds the number of pixels from the top the canvas is from its immediate container
+
+    // find the x and y position of the click
+    // event.pageX - x coordinate of the click relative to the left edge of the entire document
+    // event.pageY - y coordinate of the click relative to the top edge of the entire document]
+
+    let clickX = e.pageX - canvasLeft; // x position of the click inside the canvas
+    let clickY = e.pageY - canvasTop; // y position of the click inside the canvas
+
+    // detect collision between click and a vertex
+    const vertexes = this.props.graph.vertexes;
+    vertexes.forEach(v => {
+      let x = v.pos.x;
+      let y = v.pos.y;
+      // valid clicks must occur within the boundaries of a vertex
+      if (
+        clickY > y - vertexRadius &&
+        clickY < y + vertexRadius &&
+        clickX > x - vertexRadius &&
+        clickX < x + vertexRadius
+      ) {
+        console.log(`vertex ${v.value} was clicked`);
+      }
+    });
+  };
+
+  drawWeights(ctx, connectedComponents) {
+    ctx.font = "20px serif";
+    connectedComponents.forEach(component => {
+      for (let v of component) {
+        let x = v.pos.x;
+        let y = v.pos.y;
+        // draw the weight of a v's edges with the corresponding v color
+        for (let edge of v.edges) {
+          // not all vertexes will have edges
+          if (edge.weight) {
+            let edgeX = edge.destination.pos.x;
+            let edgeY = edge.destination.pos.y;
+            // find the midpoint between a vertex and its edge - this is where the weight will be written
+            let weightX = (x + edgeX) / 2;
+            let weightY = (y + edgeY) / 2;
+            ctx.beginPath();
+            ctx.moveTo(weightX, weightY);
+            ctx.fillStyle = v.color;
+            ctx.fillText(`${edge.weight}`, weightX, weightY);
+            ctx.closePath();
+          }
+        }
+      }
+    });
   }
 
   colorVertexes() {
@@ -53,8 +114,7 @@ class GraphView extends Component {
     return color;
   }
 
-  drawEdges(ctx) {
-    const connectedComponents = this.props.graph.getConnectedComponents();
+  drawEdges(ctx, connectedComponents) {
     // draw and color edges of connected components
     connectedComponents.forEach(component => {
       let componentColor = this.colorVertexes(); // obtain a color for each component in the list of connected components
