@@ -60,19 +60,39 @@ class GraphView extends Component {
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
         // console.log(edge.destination.color_connect)
+
+        if (edge.weight) {
+          ctx.fillStyle = "white";
+          ctx.font = "12px arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+
+          let edgeAvg_x = (vertex.pos.x + edge.destination.pos.x) / 2;
+          let edgeAvg_y = (vertex.pos.y + edge.destination.pos.y) / 2;
+          let edgeSum_x = Math.abs(vertex.pos.x - edge.destination.pos.x);
+          let edgeSum_y = Math.abs(vertex.pos.y - edge.destination.pos.y);
+
+          if (edgeSum_x > edgeSum_y) {
+            ctx.fillText(edge.weight, edgeAvg_x, edgeAvg_y - 10);
+          } else if (edgeSum_x < edgeSum_y) {
+            if (vertex.pos.x > edge.destination.pos.x) {
+              ctx.fillText(
+                edge.weight,
+                edgeAvg_x - 10,
+                edgeAvg_y
+              );
+            } else if (vertex.pos.x < edge.destination.pos.x)
+              ctx.fillText(
+                edge.weight,
+                edgeAvg_x + 10,
+                edgeAvg_y
+              );
+          }
+        }
         ctx.strokeStyle = edge.destination.color_connect;
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-
-        ctx.font = "11px arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle"
-        let edgeAvg_x = (vertex.pos.x + edge.destination.pos.x) / 2
-        let edgeAvg_y = (vertex.pos.y + edge.destination.pos.y) / 2
-        console.log("edge weight:", edge.weight);
-        ctx.fillText(edge.weight, edgeAvg_x, edgeAvg_y)
-
         ctx.closePath();
         ctx.stroke();
       }
