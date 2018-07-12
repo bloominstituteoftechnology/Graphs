@@ -28,8 +28,7 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
+    let ctx = this.canvas.getContext('2d');
     
     // Clear it
     ctx.fillStyle = 'grey';
@@ -125,8 +124,9 @@ class GraphView extends Component {
   }
 
   handleClick = (e) => {
-    console.log(e);
-    const selected = this.findSelectedVertex(this.props.graph, e.pageX, e.pageY, 20);
+    const canvasX = e.pageX - this.canvas.offsetLeft;
+    const canvasY = e.pageY - this.canvas.offsetTop;
+    const selected = this.findSelectedVertex(this.props.graph, canvasX, canvasY, 20);
     if (selected) {
       if (selected.selected) {
         selected.selected = false;
@@ -156,7 +156,7 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight} onClick={this.handleClick}></canvas>;
+    return <canvas ref={el => this.canvas = el} width={canvasWidth} height={canvasHeight} onClick={this.handleClick}></canvas>;
   }
 }
 
