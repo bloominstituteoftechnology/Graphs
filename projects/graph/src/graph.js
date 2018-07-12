@@ -156,17 +156,17 @@ export class Graph {
       }
     }
 
-    for (let component of connected_components) {
-      let redOffset = Math.random() * 256;
-      let greenOffset = Math.random() * 256;
-      let blueOffset = Math.random() * 256;
-      // assign a random color for each component
-      let color = `rgb(${redOffset}, ${greenOffset}, ${blueOffset})`;
+    // for (let component of connected_components) {
+    //   let redOffset = Math.random() * 256;
+    //   let greenOffset = Math.random() * 256;
+    //   let blueOffset = Math.random() * 256;
+    //   // assign a random color for each component
+    //   let color = `rgb(${redOffset}, ${greenOffset}, ${blueOffset})`;
 
-      for (let v of component) {
-        v.color = color;
-      }
-    }
+    //   for (let v of component) {
+    //     v.color = color;
+    //   }
+    // }
     return connected_components;
   }
 }

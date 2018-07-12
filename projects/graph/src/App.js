@@ -44,10 +44,20 @@ class GraphView extends Component {
     this.drawVertexes(ctx, vertexRadius);
   }
 
+  colorVertexes() {
+    let redOffset = Math.random() * 256;
+    let greenOffset = Math.random() * 256;
+    let blueOffset = Math.random() * 256;
+    // create a random color
+    let color = `rgb(${redOffset}, ${greenOffset}, ${blueOffset})`;
+    return color;
+  }
+
   drawEdges(ctx) {
     const connectedComponents = this.props.graph.getConnectedComponents();
     // draw and color edges of connected components
     connectedComponents.forEach(component => {
+      let componentColor = this.colorVertexes(); // obtain a color for each component in the list of connected components
       for (let v of component) {
         let x = v.pos.x;
         let y = v.pos.y;
@@ -57,7 +67,7 @@ class GraphView extends Component {
           let edgeY = edge.destination.pos.y;
           // draw a line to each connected component
           ctx.beginPath();
-          ctx.strokeStyle = v.color; // color of component
+          ctx.strokeStyle = componentColor; // color of component
           ctx.moveTo(x, y);
           ctx.lineTo(edgeX, edgeY);
           ctx.fill();
