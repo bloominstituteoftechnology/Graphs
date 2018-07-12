@@ -25,6 +25,13 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+  getColor() {
+    const r = Math.floor(Math.random() * 256),
+          g = Math.floor(Math.random() * 256),
+          b = Math.floor(Math.random() * 256);
+          return 'rgb(' + r + ',' + g + ',' + b + ')';
+  }
+
   /**
    * Render the canvas
    */
@@ -42,7 +49,7 @@ class GraphView extends Component {
       ctx.fillStyle = 'grey';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       this.drawVertexes(ctx);
-      //this.colorVetexes(ctx);
+      this.colorVertexes(ctx);
   }
 
   drawVertexes(ctx) {
@@ -60,7 +67,6 @@ class GraphView extends Component {
       }
     }
 
-
     this.props.graph.vertexes.forEach((v) => {
       ctx.beginPath();
       ctx.fillStyle = 'white';
@@ -72,6 +78,14 @@ class GraphView extends Component {
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
+  }
+
+  colorVertexes(ctx) {
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        const color = this.getColor();
+      }
+    }
   }
   
   /**
@@ -88,6 +102,7 @@ class GraphView extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
+    this.buttonHandler = this.buttonHandler.bind(this);
 
     this.state = {
       graph: new Graph()
@@ -99,10 +114,20 @@ class App extends Component {
     this.state.graph.getConnectedComponents();
   }
 
+  buttonHandler() {
+    const state = {
+      graph: new Graph()
+    };
+    state.graph.randomize(5, 4, 150, 0.6);
+    state.graph.getConnectedComponents();
+    this.setState(state);
+  }
+
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick = {this.buttonHandler}>New Graph</button>
       </div>
     );
   }
