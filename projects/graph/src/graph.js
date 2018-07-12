@@ -131,7 +131,7 @@ export class Graph {
   bfs(start) {
     // !!! IMPLEMENT ME
     const queue = [];
-    const searched = [];
+    const searched = new Set();
     
     start.color = 'pink';
     queue.push(start);
@@ -143,14 +143,14 @@ export class Graph {
       for(let e of bfs.edges) {
         const dest = e.destination;
         if(dest.color === 'white') {
-          dest.color = "cyan";
+          dest.color = 'pink';
           // dest.visited = true;
           queue.push(dest);
         }
       }
       queue.shift();
       bfs.color = 'purple';
-      searched.push(bfs);
+      searched.add(bfs);
     }
     return searched;
   }
@@ -160,12 +160,12 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
-    const connected_components = [];
+    const connected_components = new Set();
 
     for(let v of this.vertexes) {
       if(v.color === 'white'){
         const component = this.bfs(v);
-        connected_components.push(component);
+        connected_components.add(component);
       }
     }
     return connected_components;

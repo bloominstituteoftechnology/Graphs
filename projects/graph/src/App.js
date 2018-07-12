@@ -4,8 +4,8 @@ import './App.css';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 500;
-const canvasHeight = 500; 
 
+const canvasHeight = 500; 
 /**
  * GraphView
  */
@@ -23,7 +23,7 @@ class GraphView extends Component {
   componentDidUpdate() {
     this.updateCanvas();
   }
-
+ 
   /**
    * Render the canvas
    */
@@ -31,11 +31,13 @@ class GraphView extends Component {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
     
-    // this.props.graph.createDummyGraph();
-    // Clear it
     ctx.fillStyle = 'beige';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    const connections = this.props.graph.getConnectedComponents();
+    this.drawVertexes(connections, ctx);
+  }
 
+  drawVertexes(connections, ctx) {
     ctx.font = '8px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -44,7 +46,7 @@ class GraphView extends Component {
 
     this.props.graph.vertexes.forEach((v) => {
       ctx.beginPath();
-      ctx.fillStyle = 'red';
+      ctx.fillStyle = 'white';
       ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
@@ -75,13 +77,14 @@ class GraphView extends Component {
   }
 }
 
-
 /**
  * App
  */
 class App extends Component {
   constructor(props) {
     super(props);
+    //Bound the function to the app
+    this.poo = this.poo.bind(this);
 
     this.state = {
       graph: new Graph()
@@ -90,12 +93,25 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(7, 7, 60, 0.6);
+    this.state.graph.getConnectedComponents();
+  }
+  
+  //Make a new randomize function for a click function instead of having to refresh
+  //Built a state which was a new graph then did the randomize func and set the new state to state
+  poo() {
+    const state ={
+      graph: new Graph()
+    };
+    state.graph.randomize(7, 7, 60, 0.45);
+    this.state.graph.getConnectedComponents();
+    this.setState(state);
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button onClick={this.poo}>New Graph</button>
       </div>
     );
   }
