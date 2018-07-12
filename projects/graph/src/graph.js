@@ -20,10 +20,11 @@ export class Vertex {
   //Pos has values within for the x and y value.
   //Also a value part of it within
   //Not certain if i need to pass in pos
-  constructor(value = 'default', pos={x: -1, y:-1}) {
+  constructor(value = 'default', pos={x: -1, y:-1}, color = 'white') {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = color;
   }
 }
 

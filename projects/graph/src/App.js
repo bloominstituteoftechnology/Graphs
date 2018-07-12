@@ -33,27 +33,21 @@ class GraphView extends Component {
     
     ctx.fillStyle = 'beige';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    // const connections = this.props.graph.getConnectedComponents();
-    this.drawVertexes(ctx, this.generateRandomColor());
+    const connections = this.props.graph.getConnectedComponents();
+    connections.forEach((component) => {
+      this.drawVertexes(ctx, component, this.generateRandomColor());
+    })
+    // this.drawVertexes(ctx, this.generateRandomColor());
   }
 
-  drawVertexes(ctx, color) {
+  drawVertexes(ctx, vertexes, color) {
     ctx.font = '8px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    ctx.fillStyle = color;
+    
     ctx.strokeStyle = color;
-
-    this.props.graph.vertexes.forEach((v) => {
-      ctx.beginPath();
-      ctx.fillStyle = color;
-      ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = 'black';
-      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    for(let v of vertexes) {
       for(let e of v.edges) {
         let d = e.destination;
         ctx.beginPath();
@@ -61,7 +55,16 @@ class GraphView extends Component {
         ctx.lineTo(d.pos.x, d.pos.y);
         ctx.stroke();
       }
-    })
+    for(let v of vertexes) {
+      ctx.beginPath();
+      ctx.fillStyle = color;
+      ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);
+    }
+    }
     
     // !!! IMPLEMENT ME
     // compute connected components
@@ -102,7 +105,6 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(7, 7, 60, 0.6);
-    this.state.graph.getConnectedComponents();
   }
   
   //Make a new randomize function for a click function instead of having to refresh
