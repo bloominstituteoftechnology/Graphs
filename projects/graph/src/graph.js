@@ -14,10 +14,13 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value='default',pos={x:-1, y:-1}){
+  constructor(value = 'default', pos = {
+    x: -1,
+    y: -1
+  }) {
     this.edges = [];
-    this.value = value; 
-    this.pos = pos; 
+    this.value = value;
+    this.pos = pos;
   }
 }
 
@@ -34,7 +37,7 @@ export class Graph {
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -62,14 +65,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -121,13 +124,100 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const component = [];
+    const queue = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const u = queue[0];
+
+      for (let e of u.edges) {
+        const v = e.destination;
+        if (v.color === 'white') {
+          v.color = 'gray';
+          queue.push(v);
+        }
+      }
+
+      queue.shift(); // de-queue
+      u.color = 'black';
+      component.push(u);
+    }
+
+    return component;
   }
+
+  // bfs(startVert) {
+  //   let queue = [];
+  //   let temp = new Set();
+
+  //   startVert.color = "gray"; //set current vertex to gray
+  //   queue.push(startVert);
+
+  //   while (queue.length > 0) {
+  //     let u = queue[0]; // Peek at head of queue, but do not dequeue!
+
+  //     u.edges.forEach(v => {
+  //       if (v.destination.color === "white") {
+  //         v.destination.color = "gray";
+  //         queue.push(v.destination);
+  //       }
+  //     });
+  //     temp.add(...queue);
+  //     queue.shift();
+  //     u.color = "black";
+  //   }
+  //   return temp;
+  // } //bfs
+
+  // dfs(v) {
+	// 	function visit(v) {
+	// 		v.color = 'gray';
+
+	// 		for (let e of v.edges) {
+	// 			const neighbor = e.destination;
+	// 			if (neighbor.color === 'white') {
+	// 				neighbor.parent = v;
+	// 				visit(neighbor);
+	// 			}
+	// 		}
+
+	// 		v.color = 'black';
+	// 	}
+
+  //   for (let u of this.vertexes) {
+	// 		u.color = 'white';
+	// 		u.parent = null;
+	// 	}
+
+	// 	for (let v of this.vertexes) {
+	// 		if (v.color === 'white') {
+	// 			visit(v);
+	// 		}
+	// 	}
+	// }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const componentsList = [];
+
+    for (let v of this.vertexes) {
+      v.color = 'white'; 
+    }
+    console.log(this.vertexes)
+    
+
+    for (let v of this.vertexes) {
+      if (v.color === 'white') {
+        const component = this.bfs(v);
+        componentsList.push(component);
+      }
+    }
+
+    return componentsList;
   }
 }
