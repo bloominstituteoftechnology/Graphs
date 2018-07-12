@@ -37,8 +37,7 @@ class GraphView extends Component {
     // clear canvas upon updating
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    // find vertexes
-    const vertexes = this.props.graph.vertexes;
+    // vertex constant
     const vertexRadius = 10;
     // find the connected components
     const connectedComponents = this.props.graph.getConnectedComponents();
@@ -63,7 +62,12 @@ class GraphView extends Component {
       }
     });
 
-    // draw verts
+    this.drawVertexes(ctx, vertexRadius);
+  }
+
+  drawVertexes(ctx, vertexRadius) {
+    const vertexes = this.props.graph.vertexes;
+    // draw vertexes of the graph instance
     vertexes.forEach(vertex => {
       let x = vertex.pos.x;
       let y = vertex.pos.y;
