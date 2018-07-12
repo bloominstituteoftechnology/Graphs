@@ -134,7 +134,27 @@ export class Graph {
    */
   bfs(start, reset = true) {
     // !!! IMPLEMENT ME
+    let queue = [];
 
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const head = queue[0];
+
+      for (let i = 0; i < queue.length; i++) {
+        let node = queue.shift();
+        if (node === reset) {
+          return true;
+        }
+        if (node.left) {
+          queue.push(start[node.left]);
+        }
+        if (node.right) {
+          queue.push(start[node.right]);
+        }
+      }
+    }
+    return null;
   }
 
   /**
