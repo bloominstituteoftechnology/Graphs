@@ -33,20 +33,21 @@ class GraphView extends Component {
     
     ctx.fillStyle = 'beige';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    const connections = this.props.graph.getConnectedComponents();
-    this.drawVertexes(connections, ctx);
+    // const connections = this.props.graph.getConnectedComponents();
+    this.drawVertexes(ctx, this.generateRandomColor());
   }
 
-  drawVertexes(connections, ctx) {
+  drawVertexes(ctx, color) {
     ctx.font = '8px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
 
     this.props.graph.vertexes.forEach((v) => {
       ctx.beginPath();
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = color;
       ctx.arc(v.pos.x, v.pos.y, 10, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
@@ -61,12 +62,20 @@ class GraphView extends Component {
         ctx.stroke();
       }
     })
-
+    
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
+  }
+  generateRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i<6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
   
   /**
@@ -103,7 +112,7 @@ class App extends Component {
       graph: new Graph()
     };
     state.graph.randomize(7, 7, 60, 0.45);
-    this.state.graph.getConnectedComponents();
+    // this.state.graph.getConnectedComponents();
     this.setState(state);
   }
 
