@@ -28,7 +28,7 @@ button {
   border: 2px solid grey;
   font-size: 18px;
   height: 40px;
-  margin-top: 20px;
+  margin: 20px 5px;
 }
 
 @keyframes App-logo-spin {
