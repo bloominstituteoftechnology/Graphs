@@ -33,9 +33,10 @@
 }
 
 .Button {
-  border: 1px solid black;
+  border: 2px solid rgb(58, 49, 79);
   border-radius: 10px;
   width: 150px;
-  background-color: mistyrose;
+  background-color: #C0C0C0;
   padding: 10px;
+  color: rgb(58, 49, 79);
 }

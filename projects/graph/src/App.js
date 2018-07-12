@@ -29,84 +29,50 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    // const canvas = this.refs.canvas;
-    // const ctx = canvas.getContext('2d');
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
     
-    // // Vertex click event
-    // let start;
-    // let end;
+    // Vertex click event
+    let start;
+    let end;
 
-    // canvas.addEventListener(
-    //   'click',
-    //   e => {
-    //     const x = e.pageX - canvas.offsetLeft;
-    //     const y = e.pageY - canvas.offsetTop;
-    //     let vertClick;
+    canvas.addEventListener(
+      'click',
+      e => {
+        const x = e.pageX - canvas.offsetLeft;
+        const y = e.pageY - canvas.offsetTop;
+        let vertClick;
 
-    //     for (let vertex of this.props.graph.vertexes) {
-    //       if (
-    //         Math.abs(vertex.pos.x - x) <= circleRadius &&
-    //         Math.abs(vertex.pos.y - y) <= circleRadius
-    //       ) {
-    //         vertClick = vertex;
-    //         if (!start) {
-    //           start = vertClick;
+        for (let vertex of this.props.graph.vertexes) {
+          if (
+            Math.abs(vertex.pos.x - x) <= circleRadius &&
+            Math.abs(vertex.pos.y - y) <= circleRadius
+          ) {
+            vertClick = vertex;
+            if (!start) {
+              start = vertClick;
 
-    //           ctx.textAlign = 'center';
-    //           ctx.textBaseline = 'middle';
-    //           ctx.font = '8px Arial';
-    //           ctx.fillStyle = 'black';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.font = '8px Arial';
+              ctx.fillStyle = 'v.color';
 
-    //           ctx.fillText('START', vertex.pos.x, vertex.pos.y + 20);
-    //         } else if (!end) {
-    //           end = vertClick;
-    //           ctx.textAlign = 'center';
-    //           ctx.textBaseline = 'middle';
-    //           ctx.font = '8px Arial';
-    //           ctx.fillStyle = 'black';
+              ctx.fillText('START', vertex.pos.x, vertex.pos.y + 20);
+            } else if (!end) {
+              end = vertClick;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.font = '8px Arial';
+              ctx.fillStyle = 'v.color';
 
-    //           ctx.fillText('END', vertex.pos.x, vertex.pos.y + 20);
-    //           console.log(`Start at: ${start.value} and End at: ${end.value}`);
-    //         }
-    //       }
-    //     }
-    //   },
-    //   false
-    // );
-      let canvas = this.refs.canvas;
-      let ctx = canvas.getContext('2d');
-
-      // Clear it
-      ctx.fillStyle = 'rgb(0, 206, 209)';
-      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-      console.log('in updateCanvas', this.props.graph.vertexes);
-
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.font = '16px Arial';
-
-      for (let vertex of this.props.graph.vertexes) {
-        for (let edge of vertex.edges) {
-          ctx.moveTo(vertex.pos.x, vertex.pos.y);
-          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-          ctx.stroke();
+              ctx.fillText('END', vertex.pos.x, vertex.pos.y + 20);
+              console.log(`Start at: ${start.value} and End at: ${end.value}`);
+            }
+          }
         }
-        ctx.beginPath();
-        ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI);
-        ctx.fillStyle =
-          'rgb(' +
-          Math.floor(Math.random() * 256) +
-          ',' +
-          Math.floor(Math.random() * 256) +
-          ',' +
-          Math.floor(Math.random() * 256) +
-          ')'; // TODO: make variable?
-        ctx.fill();
-        ctx.fillStyle = 'black';
-        ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
-        ctx.stroke();
-      }
+      },
+      false
+    );
 
     // Clear it
     ctx.fillStyle = 'rgb(58, 49, 79)';
@@ -123,17 +89,6 @@ class GraphView extends Component {
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
         ctx.fillText(edge.weight, (vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
-      
-        // Add edge weight.
-        // const xCenter = (vertex.pos.x + edge.destination.pos.x) / 2;
-        // const yCenter = (vertex.pos.y + edge.destination.pos.y) / 2;
-        // ctx.font = '12px Arial';
-        // ctx.fillStyle = 'purple';
-        // if (edge.drawWeight === false) {
-        //   ctx.fillText(edge.weight, xCenter + 8, yCenter + 8);
-        // } else {
-        //   continue;
-        // }
       }
     }
 
@@ -153,6 +108,7 @@ class GraphView extends Component {
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
 
+/*  CANVAS -----------------------------------
     // Set up the gradient
     // let grd = ctx.createLinearGradient(400, 50, 50, 90, 60, 100);
     // grd.addColorStop(0, '#932fa3');
@@ -171,6 +127,7 @@ class GraphView extends Component {
     //     ctx.stroke();
     //   }
     // }
+  ----------------------------------- CANVAS */
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -215,11 +172,11 @@ class App extends Component {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
-        {/* <div className="btnDiv">
+        <div className="btnDiv">
           <div className="Button" onClick={() => this.handleClick()}>
             Random Graph
           </div>
-        </div> */}
+        </div>
       </div>
     );
   }
