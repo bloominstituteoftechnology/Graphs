@@ -3,7 +3,7 @@ import { Graph } from "./graph";
 import "./App.css";
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
+const canvasWidth = 1100;
 const canvasHeight = 600;
 
 /**
@@ -64,6 +64,15 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+
+        ctx.font = "11px arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle"
+        let edgeAvg_x = (vertex.pos.x + edge.destination.pos.x) / 2
+        let edgeAvg_y = (vertex.pos.y + edge.destination.pos.y) / 2
+        console.log("edge weight:", edge.weight);
+        ctx.fillText(edge.weight, edgeAvg_x, edgeAvg_y)
+
         ctx.closePath();
         ctx.stroke();
       }
@@ -135,14 +144,14 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     // this.state.graph.createDummyGraph();
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(8, 5, 115, 0.6);
     this.state.graph.bfs();
     // this.state.graph.getConnectedComponents();
   }
 
   generateGraph() {
     this.setState((this.state.graph = new Graph())); // setState to fire componentDidUpdate()
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(8, 5, 115, 0.6);
     this.state.graph.bfs();
     // console.log(this.state.graph.vertexes);
     // window.location.reload(true);
@@ -153,7 +162,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h3>Legend - black: stem vertex / yellow: connecting vertecies</h3>  
+        <h3>Legend - black: stem vertex / yellow: connecting vertecies</h3>
         <GraphView graph={this.state.graph} />
         <div>
           <button onClick={this.generateGraph.bind(this)}>

@@ -149,19 +149,21 @@ export class Graph {
 
       if (this.vertexes[i].color === "white") {
         this.vertexes[i].color = "#ede87b"; // turn yellow when selected
-        this.vertexes[i].color_connect = this.getRandomColor(); // random color 
+        this.vertexes[i].color_connect = this.getRandomColor(); // random color
 
         queue.push(this.vertexes[i]); // enqueue
-        // console.log("queue:", queue[0]);
 
         while (queue.length !== 0) {
           let u = queue[0];
-          // console.log("u before selected:", u);
           for (let j = 0; j < u.edges.length; j++) {
             if (u.edges[j]) {
               if (u.edges[j].destination.color === "white") {
+                u.edges[j].weight = Math.floor(Math.random() * 100); // weight upto 100
+                // console.log(u.edges[j].weight);
                 u.edges[j].destination.color2 = "#ede87b";
-                u.edges[j].destination.color_connect = this.vertexes[i].color_connect;
+                u.edges[j].destination.color_connect = this.vertexes[
+                  i
+                ].color_connect;
                 queue.push(u.edges[j].destination);
               }
             }
