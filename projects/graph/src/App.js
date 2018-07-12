@@ -3,8 +3,10 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1200;
-const canvasHeight = 900;
+// const canvasWidth = 1200;
+// const canvasHeight = 900;
+const canvasWidth = window.innerWidth;
+const canvasHeight = window.innerHeight - 50;
 const circleRadius = 15;
 const canvasStartX = 0;
 const canvasStartY = 0;
@@ -41,7 +43,7 @@ class GraphView extends Component {
     ctx.fillRect(canvasStartX, canvasStartY, canvasWidth, canvasHeight);
     // ctx.fillRect(100, 100, canvas.width, canvas.height);
 
-    this.props.graph.randomize(8, 6, 149, .4);
+    this.props.graph.randomize(canvasWidth / 155, canvasHeight / 170, 149, .4);
     ctx.font = '13px Arial';  //font and size of text
     ctx.textAlign = 'center';  //location of text on x axis 
     ctx.textBaseline = 'middle';  //location of text on y axis
