@@ -96,12 +96,10 @@ class GraphView extends Component {
    */
   render() {
     return (
-      <div>
+      <div className="canvas-parent">
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />
-        <br />
         <button className="generate-graph" onClick={e => this.props.callback()}>
-          {" "}
-          Generate Graph{" "}
+          Generate Graph
         </button>
       </div>
     );

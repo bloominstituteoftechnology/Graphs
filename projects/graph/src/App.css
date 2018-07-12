@@ -19,9 +19,19 @@ button {
   cursor: pointer;
 }
 
+.canvas-parent {
+  position: relative;
+  margin: auto;
+  width: 1200px;
+}
+
+canvas {
+  position: relative;
+}
+
 .generate-graph {
-  position: absolute;
-  left: 1430px;
-  top: 870px;
+  position: relative;
+  bottom: 30px;
+  left: 535px;
   opacity: 0.8;
 }
