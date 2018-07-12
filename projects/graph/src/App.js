@@ -52,7 +52,7 @@ class GraphView extends Component {
 
     this.props.graph.vertexes.forEach( v => {
       ctx.beginPath();
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = v.color;
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
@@ -98,8 +98,14 @@ class App extends Component {
 
   componentWillMount() {
     this.state.graph.randomize(5, 4, 160, 0.6);
-    const componenents = this.state.graph.getConnectedComponents();
-    console.log(componenents);
+    const components = this.state.graph.getConnectedComponents();
+    const colors = ['red', 'blue', 'green', 'yellow', 'pink', 'orange', 'purple', 'black', 'white', 'brown'];
+
+    components.forEach( (component, i) => {
+      for (let vertex of component) {
+        vertex.color = colors[i];
+      }
+    });
   }
 
   render() {

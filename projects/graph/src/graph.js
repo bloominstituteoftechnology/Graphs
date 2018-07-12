@@ -127,7 +127,7 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    const component = new Set();
+    const component = [];
     const queue = [];
 
     start.color = 'gray';
@@ -147,7 +147,7 @@ export class Graph {
       queue.shift();
       node.color = 'black';
 
-      component.add(node);
+      component.push(node);
     }
 
     return component;
@@ -160,16 +160,15 @@ export class Graph {
     // !!! IMPLEMENT ME
     //
 
-    const componentsSet = new Set();
+    const componentsSet = [];
 
     // loops through all vertexes in graph
     for (let vertex of this.vertexes) {
       // if white vertex, call bfs on that vertex
       // since we know that vertex hasn't been traversed
       if (vertex.color === 'white') {
-        console.log('got ehre');
         const component = this.bfs(vertex)
-        componentsSet.add(component);
+        componentsSet.push(component);
       }
     }
     return componentsSet; 
