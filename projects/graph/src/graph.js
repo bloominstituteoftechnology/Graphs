@@ -138,27 +138,23 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-     if(!start.isVisited)
-      {
     const queue = [];
+     console.log(start)
     queue.push(start);
      start.isVisited = true;
+      start.color = this.randomColor();
     while (queue.length > 0) {
       const vertex = queue[0];  
-     
        
-         vertex.color = this.randomColor();
-     
-     
       for (let edges of vertex.edges) {
         if (!edges.destination.isVisited) {
+          edges.destination.color = start.color;
           queue.push(edges.destination);
           edges.destination.isVisited = true;
         }
       }
       queue.shift();
     }
-  }
 }
  
   /**
@@ -167,6 +163,7 @@ export class Graph {
   getConnectedComponents() {
     for (let vert of this.vertexes) {
       if (!vert.isVisited) {
+      //  console.log(vert)
         this.bfs(vert);
       }
     }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Graph } from "./graph";
 import "./App.css";
+import Reset from './reset';
 import { O_NOCTTY } from "constants";
 
 // !!! IMPLEMENT ME
@@ -44,7 +45,6 @@ ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
 
 this.props.graph.vertexes.forEach(v =>{
-  console.log(v)
     v.edges.forEach(e=>{
       ctx.beginPath();
       ctx.moveTo(v.pos.x,v.pos.y);
@@ -200,6 +200,7 @@ class App extends Component {
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <Reset/>
       </div>
     );
   }
