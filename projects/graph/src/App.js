@@ -3,8 +3,9 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1000;
-const canvasHeight = 900;
+const canvasWidth = 900;
+const canvasHeight = 800;
+const circleRadius = 15;
 
 /**
  * GraphView
@@ -30,16 +31,40 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
-    
-    console.log('this.props.graph: ', this.props.graph);
-    // call our dummy function
-    this.props.graph.createDummyGraph();
-    console.log('called createDummyGraph');
 
     // Clear it
-    // ctx.fillStyle = 'white';
-    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    this.drawVertexes(ctx);
+  }
+
+  drawVertexes(ctx) {
+    ctx.font = '13px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // draw the lines between vertexes
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
+
+    for (let v of this.props.graph.vertexes) {
+      ctx.beginPath();
+      ctx.fillStyle = 'white';
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      // fill in the text
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y);  
+    }
 
     //CIRCLE
   // var gradient = ctx.createRadialGradient(250, 250, 249, 250, 250, 100);
@@ -104,6 +129,9 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
+
+    // this.state.graph.createDummyGraph();
   }
 
   render() {
