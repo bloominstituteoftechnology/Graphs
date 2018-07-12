@@ -132,7 +132,7 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
-    this.state.graph.randomize(4, 3, 50, 0.6);
+    this.state.graph.randomize(4, 3, 180, 0.6);
     //console.log("props", this.props)
     console.log("state:\n", this.state)
     // use the graph randomize() method
