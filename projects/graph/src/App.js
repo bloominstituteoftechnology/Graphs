@@ -32,7 +32,7 @@ class GraphView extends Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     
-    // // Vertex click event
+    // Vertex click event
     let start;
     let end;
 

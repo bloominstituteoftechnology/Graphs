@@ -136,6 +136,29 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let randColor =
+      'rgb(' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';
+
+    this.found.push(start);
+    this.queueToSearch.push(start);
+    start.fillColor = randColor;
+
+    while (this.queueToSearch.length > 0) {
+      for (let edge of this.queueToSearch[0].edges) {
+        if (!this.found.includes(edge.destination.value)) {
+          this.found.push(edge.destination.value);
+          this.queueToSearch.push(edge.destination);
+          edge.destination.fillColor = randColor;
+        }
+      }
+      this.queueToSearch.shift();
+    }
   }
 
   /**
