@@ -6,6 +6,9 @@ const canvasWidth = 750;
 const canvasHeight = 600;
 const radius = 15;
 
+let canvas;
+let ctx;
+
 function randomColor() {
   let chars = "ABCDEF0123456789";
   let color = "#";
@@ -54,9 +57,38 @@ class GraphView extends Component {
    * Render the canvas
    */
 
+  vertexClick = () => {
+    let rect = canvas.getBoundingClientRect();
+    let x = window.event.clientX - rect.left;
+    let y = window.event.clientY - rect.top;
+    for (let i = 0; i < this.props.graph.vertexes.length; i++) {
+      let dist = Math.sqrt(
+        (y - this.props.graph.vertexes[i].pos.y) *
+          (y - this.props.graph.vertexes[i].pos.y) +
+          (x - this.props.graph.vertexes[i].pos.x) *
+            (x - this.props.graph.vertexes[i].pos.x)
+      );
+      if (dist <= radius) {
+        console.log(
+          "Vertex " + this.props.graph.vertexes[i].value + " clicked"
+        );
+      }
+      // this click statement treats the circles as rectangles so it's bad
+      // if (
+      //   x <= this.props.graph.vertexes[i].pos.x + radius &&
+      //   x >= this.props.graph.vertexes[i].pos.x - radius &&
+      //   y <= this.props.graph.vertexes[i].pos.y + radius &&
+      //   y >= this.props.graph.vertexes[i].pos.y - radius
+      // ) {
+      //   console.log("VERTY CLICKED" + this.props.graph.vertexes[i].value);
+      // }
+    }
+    console.log("x: " + x + " y: " + y);
+  };
+
   updateCanvas() {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext("2d");
+    canvas = this.refs.canvas;
+    ctx = canvas.getContext("2d");
 
     // Clear it
     ctx.fillStyle = "lightblue";
@@ -111,7 +143,8 @@ class GraphView extends Component {
         this.props.graph.vertexes[i].pos.y
       );
     }
-    // console.log(canvas);
+
+    canvas.addEventListener("click", this.vertexClick, false);
   }
 
   /**
