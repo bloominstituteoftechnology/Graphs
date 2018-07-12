@@ -33,3 +33,7 @@ This is the recommended approach for our graph projects.
 ## Comparison
 
 What are the relative advantages and disadvantages of both methods?
+
+The adjacency list gives a seemingly readable method to follow letters and see what letter(s) are connected by looking in the array that the vertex is pointing towards. A disadvantage is visually it can be hard to picture how the whole graph will look like by just following the letters and trying to make mental images of the vertices and how they connect.
+
+The adjacency matrix has an advantage of being somewhat intuitive when just looking at a series of 0 and 1s. However a disadvantage of looking at the connections this way is that it can be misinterpreted by looking at connections based on the x axis instead of the y. For instance, it could be misinterpreted that B has no connections using the vertices in the x axis, but it actually has 1 connection to C (from looking at it in the y axis).

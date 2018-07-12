@@ -1,19 +1,27 @@
 /**
- * Edge
+ * Edge would have a `destination` and a `weight`
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+    this.weight = 0;
+  }
 }
 
 /**
- * Vertex
+ * contain a list of `Edge`s
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value="default", pos={ x: -1, y: -1 }, color="white") {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+  }
 }
 
 /**
- * Graph
+ * Graph: contain a list of verticies
  */
 export class Graph {
   constructor() {
@@ -110,13 +118,45 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const component = [];
+    const queue = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const node = queue[0];
+
+      for (let edge of node.edges) {
+        const vertex = edge.destination;
+        if (vertex.color === 'white') {
+          vertex.color = "gray"
+          queue.push(vertex);
+        }
+      }
+      queue.shift();
+      node.color = "black";
+      component.push(node);
+    }
+
+    return component; 
   }
 
   /**
    * Get the connected components
+     Loop through all the vertexes in the graph 
+     if it sees a white vertex, call bfs on that vertex
+     since we know that vertex hasn't been traversed
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const componentList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.color === "white") {
+        const component = this.bfs(vertex);
+        componentList.push(component);
+      }
+    }
+    return componentList;
   }
 }
