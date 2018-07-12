@@ -94,7 +94,7 @@ class GraphView extends Component {
       let v = this.props.graph.vertexes[i];
       if (!checkedVerts[v.value]) {
         let current = v;
-        let color =v.color;
+        let color = v.color;
         unchecked.push(current);
         checkedVerts[v.value] = true;
         let count = 0;
@@ -146,12 +146,42 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
+
+    this.timer = null;
+    this.counter = 1000;
+    this.stopRandomize.bind(this);
+    this.setDefault = true;
   }
 
   // !!! IMPLEMENT ME
   // use the graph randomize() method
   randomize = () => {
     this.setState({ graph: new Graph() });
+  }
+
+  randomizeIndefinitely = () => {
+    clearInterval(this.timer);
+    this.timer = setInterval(this.randomize, this.counter);
+  }
+
+  increaseRandomize = () => {
+    this.setDefault = false;
+    this.stopRandomize();
+    this.counter *= .8;
+    this.timer = setInterval(this.randomize, this.counter);
+  }
+
+  decreaseRandomize = () => {
+    this.setDefault = false;
+    this.stopRandomize();
+    this.counter *= 1.2;
+    this.timer = setInterval(this.randomize, this.counter);
+  }
+
+  stopRandomize = () => {
+    clearInterval(this.timer);
+    if (this.setDefault) this.counter = 1000;
+    this.setDefault = true;
   }
 
   render() {
@@ -162,6 +192,10 @@ class App extends Component {
         </div>
         <div>
           <button onClick={this.randomize}>Random </button>
+          <button onClick={this.increaseRandomize}>Speed Up </button>
+          <button onClick={this.randomizeIndefinitely}>Continuous </button>
+          <button onClick={this.decreaseRandomize}>Slow Down </button>
+          <button onClick={this.stopRandomize}>STOP </button>
         </div>
       </div>
     );
