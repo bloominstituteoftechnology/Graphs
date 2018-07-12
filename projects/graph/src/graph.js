@@ -13,10 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = "default", pos = { x: -1, y: -1 }) {
+  constructor(value = "default", pos = { x: -1, y: -1 }, color = "white") {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = color;
   }
 }
 
@@ -95,6 +96,7 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
+          // converts the coordinates from decimals to integers using bitwise OR
           x: (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           y: (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
@@ -134,11 +136,48 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const component = new Set();
+    const queue = [];
+
+    start.color = "gray";
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const node = queue[0];
+
+      for (let edge of node.edges) {
+        const vertex = edge.destination;
+        if (vertex.color === "white") {
+          vertex.color = "gray";
+          queue.push(vertex);
+        }
+      }
+
+      queue.shift();
+      node.color = "black";
+
+      component.add(node);
+    }
+
+    return component;
   }
+
   /**
    * Get the connected components
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const componentsSet = new Set();
+    // loop through all the vertexes in the graph
+    for (let vertex of this.vertexes) {
+      // if it sees a white vertex, call bfs on that vertex
+      // since we know that vertex hasn't been traversed
+      if (vertex.color === "white") {
+        const component = this.bfs(vertex);
+        componentsSet.add(component);
+      }
+    }
+
+    return componentsSet;
   }
 }
