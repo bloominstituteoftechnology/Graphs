@@ -15,7 +15,7 @@ class GraphView extends Component {
    */
   componentDidMount() {
     this.updateCanvas();
-    console.log("did mount");
+    // console.log("did mount");
   }
 
   /**
@@ -25,7 +25,7 @@ class GraphView extends Component {
    */
   componentDidUpdate() {
     this.updateCanvas();
-    console.log("did update");
+    // console.log("did update");
   }
 
   /**
@@ -70,7 +70,6 @@ class GraphView extends Component {
     }
 
     // draw dummy verticies (dynamic)
-    console.log(this.props.graph.vertexes);
     this.props.graph.vertexes.forEach(v => {
       // verts
 
@@ -142,8 +141,7 @@ class App extends Component {
   }
 
   generateGraph() {
-    this.setState((this.state.graph = new Graph()));
-    console.log(this.state.graph);
+    this.setState((this.state.graph = new Graph())); // setState to fire componentDidUpdate()
     this.state.graph.randomize(5, 4, 150, 0.6);
     this.state.graph.bfs();
     // console.log(this.state.graph.vertexes);
@@ -155,6 +153,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h3>Legend - black: stem vertex / yellow: connecting vertecies</h3>  
         <GraphView graph={this.state.graph} />
         <div>
           <button onClick={this.generateGraph.bind(this)}>
