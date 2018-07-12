@@ -106,28 +106,56 @@ class GraphView extends Component {
       // Account for canvas offset and window scroll
       const xMatch = clickX > vertex.pos.x - circleRadius && clickX < vertex.pos.x + circleRadius;
       const yMatch = clickY > vertex.pos.y - circleRadius && clickY < vertex.pos.y + circleRadius;
-      let duplicate = false;
+      const duplicate = this.targetVertexes.includes(vertex);
       
-      // Check for duplicate
-      this.targetVertexes.forEach(targetVert => {
-        if(targetVert.value === vertex.value) duplicate = true;
-      });
-      
-      // Cap target vertexes at 2
+      // Cap target vertexes at 2 and check if duplicate
       if (xMatch && yMatch && !duplicate &&this.targetVertexes.length < 2) {
         this.targetVertexes.push(vertex);
         foundMatch = true;
-        console.log(`Position of ${vertex.value} pushed to target vertexes`);
       }
     });
 
-    if (!foundMatch) {
-      this.targetVertexes = [];
-      console.log('Target vertexes reset');
-    }
+    if (!foundMatch) this.targetVertexes = [];
   }
 
-  logTargets = () => {
+  path = () => {
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
+    const v1 = this.targetVertexes[0];
+    const v2 = this.targetVertexes[1];
+
+    if (this.targetVertexes.length === 2) {
+      const connected = this.props.graph.areConnected(v1, v2);
+      
+      // If vertexes are connected then
+      if (connected) {
+        // Find quickest path
+        
+
+        // Color vertexes and edges appropriately
+        // Vertex 1
+        ctx.fillStyle = 'green';
+        ctx.beginPath();
+        ctx.arc(v1.pos.x, v1.pos.y, circleRadius, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fill();
+
+        // fill in the text
+        ctx.fillStyle = 'white';
+        ctx.fillText(v1.value, v1.pos.x, v1.pos.y);
+
+        // Vertex 2
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.arc(v2.pos.x, v2.pos.y, circleRadius, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fill();
+
+        // fill in the text
+        ctx.fillStyle = 'white';
+        ctx.fillText(v2.value, v2.pos.x, v2.pos.y);
+      }
+    }
     console.log(this.targetVertexes);
   }
   
@@ -143,7 +171,7 @@ class GraphView extends Component {
           onClick={(e) => this.targetVertex(e)}>
         </canvas>
         <button onClick={this.updateCanvas}>Generate New Graph</button>
-        <button onClick={this.logTargets}>Log Targeted Vertexes</button>
+        <button onClick={this.path}>Path</button>
       </div>
     )
   }
