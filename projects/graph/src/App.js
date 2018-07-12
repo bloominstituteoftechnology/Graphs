@@ -4,7 +4,7 @@ import "./App.css";
 
 // !!! IMPLEMENT ME
 const canvasWidth = 1000;
-const canvasHeight = 1000;
+const canvasHeight = 600;
 
 /**
  * GraphView
@@ -15,13 +15,17 @@ class GraphView extends Component {
    */
   componentDidMount() {
     this.updateCanvas();
+    console.log("did mount");
   }
 
   /**
    * On state update
+   * It will only fire when the state has changed
+   * i.e. whenver setState() is called
    */
   componentDidUpdate() {
     this.updateCanvas();
+    console.log("did update");
   }
 
   /**
@@ -37,6 +41,7 @@ class GraphView extends Component {
     // console.log("createDummyGraph", this.props.graph.createDummyGraph);
 
     // Clear it
+    ctx.clearRect(0, 0, canvasWidth, canvasWidth);
     ctx.fillStyle = "#3c4047";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
@@ -65,6 +70,7 @@ class GraphView extends Component {
     }
 
     // draw dummy verticies (dynamic)
+    console.log(this.props.graph.vertexes);
     this.props.graph.vertexes.forEach(v => {
       // verts
 
@@ -132,13 +138,29 @@ class App extends Component {
     // this.state.graph.createDummyGraph();
     this.state.graph.randomize(5, 4, 150, 0.6);
     this.state.graph.bfs();
-    this.state.graph.getConnectedComponents();
+    // this.state.graph.getConnectedComponents();
   }
 
+  generateGraph() {
+    this.setState((this.state.graph = new Graph()));
+    console.log(this.state.graph);
+    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.bfs();
+    // console.log(this.state.graph.vertexes);
+    // window.location.reload(true);
+  }
+
+  // this.state.graph.bfs()
+  // this.state.graph.randomize(5, 4, 150, 0.6),
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <div>
+          <button onClick={this.generateGraph.bind(this)}>
+            Generate Graph!
+          </button>
+        </div>
       </div>
     );
   }
