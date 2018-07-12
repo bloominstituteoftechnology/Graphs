@@ -4,7 +4,7 @@ import './App.css';
 
 // !!! IMPLEMENT ME
 const canvasWidth = 800;
-const canvasHeight = 640;
+const canvasHeight = 600;
 const circleRadius = 20;
 
 /**
@@ -67,17 +67,15 @@ class GraphView extends Component {
       const y = vertex.pos.y;
       // Create Nodes/Vertices
       ctx.beginPath();
-      ctx.strokeStyle = "black";
-      ctx.fillStyle = "white";
+      ctx.fillStyle = ctx.strokeStyle;
       ctx.arc(x, y, circleRadius, 0, 2 * Math.PI)
       ctx.fill();
-      ctx.stroke();
       
       // Create Node/Verticies Labels
       ctx.beginPath();
-      ctx.font = "10px Arial";
-      ctx.fillStyle = "black";
-      ctx.strokeText(vertex.value, x, y);
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "white";
+      ctx.fillText(vertex.value, x, y);
       })
     })
   }
@@ -99,7 +97,7 @@ class GraphView extends Component {
       <div>
         <button className="App__Button" onClick={() => this.props.clickHandler()}>New Graph</button>
         <br/>
-        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+        <canvas className="Canvas" ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
       </div>
     )
   }
