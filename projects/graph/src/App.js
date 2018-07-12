@@ -35,36 +35,62 @@ class GraphView extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges
     // draw verts
     // draw vert values (labels)
     const connectedComponents = this.props.graph.getConnectedComponents();
-    console.log(connectedComponents);
+    
+    const first = this.props.graph.vertexes[2];
+    const last = this.props.graph.vertexes[10];
+    const path = this.props.graph.dfs(first, last);
+    console.log(`path from ${first.value} to ${last.value}`);
+    console.log("dfs: ", path);
+
+    const goldenEdges = (v1, v2) => {
+      for (let i = 0; i < path.length - 1; i++) {
+        if (path[i] === v1 && path[i + 1] === v2) {
+          return true;
+        }
+        if (path[i] === v2 && path[i + 1] === v1) {
+          return true;
+        }
+      }
+      return false;
+    }
 
     const colors = ['blue', 'teal', 'green', 'crimson', 'cyan', 'orange', 'yellow', 'olive', 'salmon'];
     connectedComponents.forEach(vertices => {
       const color = colors.shift();
-      vertices.forEach(v => {
-	v.edges.forEach(e => {
-	  ctx.beginPath();
-	  ctx.moveTo(v.pos.x, v.pos.y);
-	  ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
-	  ctx.stroke();
-	});
+      vertices.forEach(v1 => {
+        v1.edges
+          .map(e => e.destination)
+          .forEach(v2 => {
+            if (goldenEdges(v1, v2)) {
+              ctx.strokeStyle = 'gold';
+              ctx.lineWidth = 5;
+            } else {
+              ctx.strokeStyle = 'black';
+              ctx.lineWidth = 2;
+            }
+            ctx.beginPath();
+            ctx.moveTo(v1.pos.x, v1.pos.y);
+            ctx.lineTo(v2.pos.x, v2.pos.y);
+            ctx.stroke();
+          });
       });
 
       vertices.forEach(v => {
-	ctx.fillStyle = color;
-	ctx.beginPath();
-	ctx.arc(v.pos.x, v.pos.y, 25, 0, Math.PI * 2, true);
-	ctx.fill();
-	ctx.fillStyle = 'white';
-	ctx.strokeStyle = 'black';
-	ctx.textAlign = 'center';
-	ctx.font = "20px Verdana";
-	ctx.fillText(v.value, v.pos.x, v.pos.y + 7);	
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(v.pos.x, v.pos.y, 25, 0, Math.PI * 2, true);
+        ctx.fill();
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.font = "20px Verdana";
+        ctx.fillText(v.value, v.pos.x, v.pos.y + 7);	
       });
     });
   }
