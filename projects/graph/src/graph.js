@@ -19,7 +19,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
-    this.color = color;
+    // this.color = color;
   }
 }
 
@@ -95,14 +95,7 @@ export class Graph {
         this.vertexes.push(grid[y][x]);
       }
     }
-    // function getRandomColor() {
-    //   var letters = '0123456789ABCDEF';
-    //   var color = '#';
-    //   for (var i = 0; i < 6; i++) {
-    //     color += letters[Math.floor(Math.random() * 16)];
-    //   }
-    //   return color;
-    // }
+
   }
 
   /**
@@ -189,32 +182,7 @@ export class Graph {
     }
 
     return component;
-    //<<<<< >>>>>>> <<<<<<  >>>>>>>>
-    // for (let v of this.graph.vertexes) {
-
-    //   v.color = white
-    // }
-
-    // start.color = 'gray'
-    // queue.enqueue(start)
-
-    // while (!queue.isEmpty()) {
-    //   u = queue[0]  // Peek at head of queue, but do not dequeue!
-
-    //   for (let v of u.neighbors) {
-
-    //     if (v.color == 'white') {
-
-    //       v.color = gray
-    //       queue.enqueue(v)
-    //     } else {
-
-    //       queue.dequeue()
-    //       u.color = 'black'
-    //     }
-
-    //   }
-    // }
+   
 
   }
   // dfs(start) {
@@ -263,3 +231,8 @@ export class Graph {
     return componentsList;
   }
 }
+
+
+
+
+
