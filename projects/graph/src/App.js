@@ -61,13 +61,14 @@ class GraphView extends Component {
       for (let v of component) {
         let x = v.pos.x;
         let y = v.pos.y;
+        v.color = componentColor;
         // draw each edge with the color of its component
         for (let edge of v.edges) {
           let edgeX = edge.destination.pos.x;
           let edgeY = edge.destination.pos.y;
           // draw a line to each connected component
           ctx.beginPath();
-          ctx.strokeStyle = componentColor; // color of component
+          ctx.strokeStyle = v.color; // color of component
           ctx.moveTo(x, y);
           ctx.lineTo(edgeX, edgeY);
           ctx.fill();
@@ -85,7 +86,7 @@ class GraphView extends Component {
       let x = vertex.pos.x;
       let y = vertex.pos.y;
       ctx.beginPath();
-      ctx.fillStyle = "teal";
+      ctx.fillStyle = vertex.color;
       ctx.strokeStyle = "black";
       ctx.arc(x, y, vertexRadius, 0, Math.PI * 2);
       ctx.fill();
