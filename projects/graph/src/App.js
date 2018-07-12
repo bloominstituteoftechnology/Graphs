@@ -26,10 +26,12 @@ class GraphView extends Component {
   }
 
   getColor() {
-    const r = Math.floor(Math.random() * 256),
-          g = Math.floor(Math.random() * 256),
-          b = Math.floor(Math.random() * 256);
-          return 'rgb(' + r + ',' + g + ',' + b + ')';
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   /**
@@ -62,6 +64,8 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+       // ctx.fillStyle = this.getColor();
+        //ctx.strokeStyle = this.getColor();
         ctx.stroke();
         ctx.fillText(edge.weight, (vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
       }
@@ -69,7 +73,7 @@ class GraphView extends Component {
 
     this.props.graph.vertexes.forEach((v) => {
       ctx.beginPath();
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = this.getColor();
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
