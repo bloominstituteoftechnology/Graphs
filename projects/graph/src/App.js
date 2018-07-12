@@ -5,7 +5,7 @@ import './App.css';
 // !!! IMPLEMENT ME
 const canvasWidth = 800;
 const canvasHeight = 600;
-const circleRadius = 20;
+const circleRadius = 23;
 
 /**
  * GraphView
@@ -55,6 +55,7 @@ class GraphView extends Component {
         const y1 = vertex.pos.y;
         const x2 = edge.destination.pos.x;
         const y2 = edge.destination.pos.y;
+        ctx.lineWidth = 5;
         ctx.beginPath();
         ctx.moveTo(x1, y1)
         ctx.lineTo(x2, y2)
