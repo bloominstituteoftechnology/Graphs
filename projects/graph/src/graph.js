@@ -173,4 +173,12 @@ export class Graph {
 
     return connectedGroups;
   }
+
+  /**
+   * Check if two vertexes are connected
+   */
+  areConnected(v1, v2) {
+    const group = this.dfs(v1);
+    return group.includes(v2);
+  }
 }
