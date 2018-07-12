@@ -4,8 +4,7 @@ import { Graph } from "./graph";
 import "./App.css";
 
 // !!! IMPLEMENT ME
-const canvasWidth = 1200;
-const canvasHeight = 900;
+const quadrantSize = 110;
 const circleRadius = 15;
 
 /**
@@ -32,13 +31,16 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext("2d");
-    this.props.graph.randomize(8, 6, 150, 0.5);
+    this.props.graph.randomize(
+      Math.floor(this.props.width / quadrantSize),
+      Math.floor(this.props.height / quadrantSize),
+      quadrantSize,
+      0.5
+    );
 
     // Clear it
     ctx.fillStyle = "lightgrey";
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    ctx.fillStyle = "white";
-    ctx.fillRect(1080, 875, 110, 17);
+    ctx.fillRect(0, 0, this.props.width, this.props.height);
 
     function getRandomColor(seed) {
       var letters = "0123456789ABCDEF";
@@ -99,7 +101,11 @@ class GraphView extends Component {
   render() {
     return (
       <div className="canvas-parent">
-        <canvas ref="canvas" width={canvasWidth} height={canvasHeight} />
+        <canvas
+          ref="canvas"
+          width={this.props.width}
+          height={this.props.height}
+        />
         <button className="generate-graph" onClick={e => this.props.callback()}>
           Generate Graph
         </button>
@@ -116,9 +122,27 @@ class App extends Component {
     super(props);
 
     this.state = {
-      graph: new Graph()
+      graph: new Graph(),
+      width: 0,
+      height: 0
     };
   }
+
+  componentDidMount = () => {
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  };
+
+  updateWindowDimensions = () => {
+    this.setState({
+      width: window.innerWidth - 50,
+      height: window.innerHeight - 50
+    });
+  };
 
   generateNewGraph = () => {
     this.setState({ graph: new Graph() });
@@ -127,7 +151,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph} callback={this.generateNewGraph} />
+        <GraphView
+          graph={this.state.graph}
+          callback={this.generateNewGraph}
+          width={this.state.width}
+          height={this.state.height}
+        />
       </div>
     );
   }

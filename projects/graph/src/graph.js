@@ -138,11 +138,4 @@ export class Graph {
     }
     return temp;
   } //bfs
-
-  /**
-   * Get the connected components
-   */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
-  }
 }

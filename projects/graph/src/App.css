@@ -1,20 +1,11 @@
 .App {
   text-align: center;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
+  display: flex;
+  align-items: center;
 }
 
 button {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.5);
   border: 1px solid black;
   cursor: pointer;
 }
@@ -22,7 +13,7 @@ button {
 .canvas-parent {
   position: relative;
   margin: auto;
-  width: 1200px;
+  margin-top: 20px;
 }
 
 canvas {
@@ -30,7 +21,7 @@ canvas {
 }
 
 .generate-graph {
-  position: relative;
+  position: absolute;
   bottom: 30px;
-  left: 535px;
+  left: 20px;
 }
