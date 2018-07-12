@@ -12,10 +12,11 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(value, position) {
+  constructor(value, position, color = "white") {
     this.value = value;
     this.edges = [];
     this.pos = {};
+    this.color = color;
   }
 }
 
@@ -147,10 +148,6 @@ export class Graph {
 
   getConnectedComponents() {
     const connected_components = []; // an array of components/group of connected vertices
-    for (let v of this.vertexes) {
-      // mark all vertices as unvisited
-      v.color = "white";
-    }
 
     for (let v of this.vertexes) {
       if (v.color === "white") {
