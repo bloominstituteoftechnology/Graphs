@@ -8,6 +8,10 @@ const canvasHeight = 600
 
 const circleRadius = 15
 
+const xCount = 5; 
+const yCount = 5; 
+const boxSize = 125; 
+const probability = 0.6; 
 
 /**
  * GraphView
@@ -120,6 +124,8 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.onButton = this.onButton.bind(this); 
+
     this.state = {
       graph: new Graph()
     };
@@ -129,9 +135,20 @@ class App extends Component {
     this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
+  onButton() {
+    const state = {
+    graph: new Graph()
+    };
+    
+    state.graph.randomize(5, 4, 150, 0.6); 
+    this.setState(state); 
+  }
+
   render() {
     return (
+         
       <div className="App">
+      <button className="App-header" onClick={this.onButton}>NewGraph</button>
         <GraphView graph={this.state.graph}></GraphView>
       </div>
     );

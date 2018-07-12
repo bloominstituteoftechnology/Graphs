@@ -159,16 +159,19 @@ createDummyGraph() {
     }
   }
 
-  /**
+  /**s
    * Get the connected components
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
-    const componentList = []; 
 
+    const componentList = []; 
+//loop though all the vertexes in the graph
     let needReset = true; 
 
     for (let v of this.vertexes) {
+      //if it sees a white vertex, call bfs on that vertex
+      //since we know that the vertex hasn't been traversed
       if (needReset || v.color === 'white') {
         const component = this.bfs(v, needReset); 
         needReset = false; 
