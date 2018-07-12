@@ -15,7 +15,6 @@ class GraphView extends Component {
    * On mount
    */
   componentDidMount() {
-    console.log("GraphView CDM");
     this.updateCanvas();
   }
 
@@ -23,7 +22,6 @@ class GraphView extends Component {
    * On state update
    */
   componentDidUpdate() {
-    console.log("GraphView CDU");
     this.updateCanvas();
   }
 
@@ -31,8 +29,14 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
-    console.log("updateCanvas()\n");
-    console.log("Canvas PROPS: ", this.props);
+    this.props.graph.randomize(5, 4, 150, 0.6)
+    for(let i = 0; i < this.props.graph.vertexes.length; i++) {
+      if(this.props.graph.vertexes[i].color === 'white'){
+        // color map all connected vertices
+        this.props.graph.bfs(this.props.graph.vertexes[i]);
+      }
+    }
+
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
         
@@ -45,7 +49,6 @@ class GraphView extends Component {
 
     // draw vertices
     this.props.graph.vertexes.forEach((v) => {
-      console.log("Vertex: ", v.value, v);
       ctx.beginPath();
       ctx.fillStyle = v.color;
       ctx.arc(v.pos.x, v.pos.y, circleRad, 0, 2*Math.PI);
@@ -74,7 +77,6 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    console.log("GraphView Render");
     return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
@@ -92,44 +94,20 @@ class App extends Component {
     };
 
     this.handleButton = () => {
-      console.log("handleButton()");
-      const graph = new Graph()
-      graph.randomize(5, 4, 150, 0.6);
-      // console.log("newGraph: ", graph);
-      // this.setState({graph: new Graph ()});
-      this.setState({graph: graph});
-      // this.state.graph.randomize(5, 4, 150, 0.6);
-      
-      this.doBFS();
-      console.log("new state: ", this.state.graph);
-      // this.state.graph.randomize(5, 4, 150, 0.6);
-      
+      this.setState({graph: new Graph ()});
     }
 
     this.doBFS = () => {
-      console.log("doBFS()");
       for(let i = 0; i < this.state.graph.vertexes.length; i++) {
         if(this.state.graph.vertexes[i].color === 'white'){
           // color map all connected vertices
-          console.log("doing bfs");
           this.state.graph.bfs(this.state.graph.vertexes[i]);
         }
       }
     }
-    
-
-    // !!! IMPLEMENT ME
-    // use the graph randomize() method
-    this.state.graph.randomize(5, 4, 150, 0.6);
-    console.log("Initial randomize complete.  Running Props: ", this.props);
-
-    // search through the graph for any vertices that are not color mapped
-    this.doBFS();
   }
 
   render() {
-    console.log("App render");
-    console.log("render state: ", this.state.graph);
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView><br/>

@@ -29,23 +29,12 @@ export class Vertex {
 export class Graph {
     constructor() {
     this.vertexes = [];
-    console.log("creating new graph");
   }
-
-  // createDummyGraph() {
-  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
-  //   const dummyVertex2 = new Vertex('v2', {x: 75, y: 25});
-  //   const dummyVertex3 = new Vertex('v3', {x: 150, y: 25});
-  //   this.vertexes.push(dummyVertex1);
-  //   this.vertexes.push(dummyVertex2);
-  //   this.vertexes.push(dummyVertex3);
-  // }
   /**
    * Create a random graph
    */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
-    console.log("randomize()\n");
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
@@ -111,7 +100,6 @@ export class Graph {
    * Dump graph data to the console
    */
   dump() {
-    console.log("dump()");
     let s;
 
     for (let v of this.vertexes) {
@@ -133,7 +121,6 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-    console.log("bfs()\n");
     const randColor = 'rgba(' + Math.floor(Math.random()*255) + ', ' + Math.floor(Math.random()*255) +  ', ' + Math.floor(Math.random()*255) + ', 1)';
     const component = [];
     start.color = 'gray';
@@ -150,16 +137,6 @@ export class Graph {
       }
       component.shift();
       u.color = randColor;
-      console.log("u: ", u.value, " color: ", u.color);
     }
   }
-
-  /**
-   * Get the connected components
-   */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
-  }
-
-  
 }
