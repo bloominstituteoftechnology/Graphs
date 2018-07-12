@@ -4,8 +4,10 @@ import './App.css';
 import { randomFill } from 'crypto';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 600;
-const canvasHeight = 600;
+const canvasWidth = 1050;
+const canvasHeight = 800;
+
+const circleRadius = 35;
 
 /**
  * GraphView
@@ -33,29 +35,34 @@ class GraphView extends Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
 
-    var grd = ctx.createLinearGradient(0,100,0,0);
-    grd.addColorStop(0,"gold");
-    grd.addColorStop(1,"white");
-    
-    
     // Clear it
     ctx.fillStyle = 'teal';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.font= '15px Ariel';
+    ctx.textAlign = 'center';
+    ctx.textBaseline= 'middle';
 
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, 300, canvasHeight);
+    // draw the line between vertexes
+    for(let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
 
-    ctx.fillStyle = 'green';
-    ctx.beginPath();
-    ctx.arc(105,150,40,0,2*Math.PI);
-    ctx.stroke();
+    //draw dummy vertex
+    this.props.graph.vertexes.forEach((v) => {
+      ctx.beginPath();
+      ctx.fillStyle ='red';
+      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2*Math.PI);
+      ctx.fill();
+      ctx.stroke();
 
-    ctx.fillStyle = 'green';
-    ctx.moveTo(25,320);
-    ctx.lineTo(280,500);
-    ctx.stroke();
-
-    // Create gradient
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.value, v.pos.x, v.pos.y)
+    });
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -87,6 +94,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
   render() {
