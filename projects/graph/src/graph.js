@@ -1,8 +1,17 @@
+const randomColor = () => {
+  const dec = Math.floor(Math.random() * 256);
+  return dec.toString(16);
+}
+
 /**
  * Edge
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {  //need a default weight since weight isnt specified on Edge creation on line 37/38
+    this.destination = destination;
+    this.weight = weight;  //will take default weight of 1 but can be changed
+  }
 }
 
 /**
@@ -10,6 +19,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = {x: -1, y: -1}) {  //Vertex is made without a value so setting a 'default' value which can be changed
+    this.edges = [];  //list of edges
+    this.value = value;
+    this.pos = pos;
+    this.color = '#' + randomColor() + randomColor() + randomColor();
+  }
 }
 
 /**
@@ -17,7 +32,17 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
-    this.vertexes = [];
+    this.vertexes = [];  //list of vertexes
+  }
+
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex('v1', {x:20, y:25});
+    const dummyVertex2 = new Vertex('v2', {x:200, y:250});
+    const dummyVertex3 = new Vertex('v3', {x:400, y:500});
+
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
   }
 
   /**
@@ -28,6 +53,9 @@ export class Graph {
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
+      v1.color = v0.color;
+      // if(v0.edges.length >= v1.edges.length) v1.color = v0.color;
+      // else v1.color = v0.color; 
     }
 
     let count = 0;
@@ -52,6 +80,7 @@ export class Graph {
         if (y < height - 1) {
           if (Math.random() < probability) {
             connectVerts(grid[y][x], grid[y+1][x]);
+            // grid[y+1][x].color = grid[y][x].color;
           }
         }
 
@@ -59,13 +88,14 @@ export class Graph {
         if (x < width - 1) {
           if (Math.random() < probability) {
             connectVerts(grid[y][x], grid[y][x+1]);
+            // grid[y][x+1].color = grid[y][x].color;
           }
         }
       }
     }
 
     // Last pass, set the x and y coordinates for drawing
-    const boxBuffer = 0.8;
+    const boxBuffer = 0.6;
     const boxInner = pxBox * boxBuffer;
     const boxInnerOffset = (pxBox - boxInner) / 2;
 
@@ -100,7 +130,7 @@ export class Graph {
       }
 
       for (let e of v.edges) {
-        s += ` ${e.destination.value}`;
+        s += ` ${e.destination.value} is ${e.destination.color}`;
       }
       console.log(s);
     }
@@ -110,7 +140,7 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    // !!! IMPLEMENT ME    
   }
 
   /**
