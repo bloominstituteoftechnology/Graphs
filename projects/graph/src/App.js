@@ -39,7 +39,12 @@ class GraphView extends Component {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     // vertex constant
     const vertexRadius = 10;
-    // find the connected components
+    // draw edges and vertices
+    this.drawEdges(ctx);
+    this.drawVertexes(ctx, vertexRadius);
+  }
+
+  drawEdges(ctx) {
     const connectedComponents = this.props.graph.getConnectedComponents();
     // draw and color edges of connected components
     connectedComponents.forEach(component => {
@@ -61,8 +66,6 @@ class GraphView extends Component {
         }
       }
     });
-
-    this.drawVertexes(ctx, vertexRadius);
   }
 
   drawVertexes(ctx, vertexRadius) {
