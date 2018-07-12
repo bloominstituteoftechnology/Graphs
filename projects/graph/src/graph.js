@@ -149,16 +149,23 @@ export class Graph {
   getConnectedComponents(vertexes) {
     // !!! IMPLEMENT ME
     let components = [];
-
+    let checked = [];
     components.push(this.bfs(vertexes[0]));
 
-    for (let i = 0; i < vertexes.length; i++) {
-      for (let x = 0; x < vertexes[i].length; i++) {
-        if (!(components.includes(vertexes[i]))) {
-          components.push(this.bfs(vertexes[i]));
-        }
+    vertexes.forEach((v) => {
+      let test = 0;
+      for (let i = 0; i < components.length; i++) {
+        if (components[i].includes(v)) checked.push(v);
+        if (!(components[i].includes(v) || checked.includes(v))) components.push(this.bfs(v));
       }
-    }
+    })
+    // for (let i = 0; i < components.length; i++) {
+    //   for (let x = 0; x < vertexes.length; i++) {
+    //     if (!(components.includes(vertexes[x]))) {
+    //       components.push(this.bfs(vertexes[x]));
+    //     }
+    //   }
+    // }
 
     return components;
 

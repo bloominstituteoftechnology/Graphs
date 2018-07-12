@@ -25,6 +25,8 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
+  
+
   /**
    * Render the canvas
    */
@@ -130,7 +132,7 @@ class App extends Component {
     };
 
     // !!! IMPLEMENT ME
-    this.state.graph.randomize(14, 13, 150, 0.6);
+    this.state.graph.randomize(4, 3, 50, 0.6);
     //console.log("props", this.props)
     console.log("state:\n", this.state)
     // use the graph randomize() method
@@ -140,10 +142,23 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Update graph={this.state.graph}/>
+        <div>
         <GraphView graph={this.state.graph}></GraphView>
+        </div>
       </div>
     );
   }
+}
+function Update(props) {
+    return (
+    <button 
+    onClick={reloader}
+    >Update</button>
+    )
+}
+function reloader() {
+  window.location.reload();
 }
 
 export default App;
