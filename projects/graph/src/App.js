@@ -5,6 +5,7 @@ import "./App.css";
 // !!! IMPLEMENT ME
 const canvasWidth = 800;
 const canvasHeight = 800;
+let clickCount = 0;
 
 /**
  * GraphView
@@ -74,7 +75,14 @@ class GraphView extends Component {
         clickX > x - vertexRadius &&
         clickX < x + vertexRadius
       ) {
-        console.log(`vertex ${v.value} was clicked`);
+        clickCount++;
+        // check if a vertex clicked is the starting vertex or the ending vertex
+        if (clickCount === 1) {
+          console.log(`vertex ${v.value} is the starting vertex`);
+        } else if (clickCount === 2) {
+          console.log(`vertex ${v.value} is the ending vertex`);
+          clickCount = 0;
+        }
       }
     });
   };
