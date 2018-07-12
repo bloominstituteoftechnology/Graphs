@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Graph } from './graph';
-// import threeD from "./three/threeD";
+import threeD from "./three/threeD";
 import './App.css';
 
 const canvasWidth = window.innerWidth; // 750;
@@ -20,9 +20,6 @@ const buttonStyle = {
 
 /* GraphView */
 class GraphView extends Component {
-  state = {
-    randomize: true
-  }
   /* On mount */
   componentDidMount() {
     this.updateCanvas();
@@ -35,7 +32,7 @@ class GraphView extends Component {
 
   processGradient(gradient, color) {
     gradient.addColorStop(0.0, "white");
-    gradient.addColorStop(0.8, color); // skyblue
+    gradient.addColorStop(0.8, color);
     gradient.addColorStop(1.0, "transparent");
     return gradient;
   }
@@ -45,7 +42,7 @@ class GraphView extends Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     const connections = this.props.graph.getConnectedComponents();
-    const colors = ["skyblue", "limegreen", "pink", "yellow", "gray", "orange", "red"];
+    const colors = [...this.state.colors];
 
     // Clear it
     ctx.fillStyle = 'black';
@@ -56,6 +53,7 @@ class GraphView extends Component {
     ctx.textBaseline = "middle";
 
     ctx.strokeStyle = "white";
+    ctx.lineWidth = 5;
     this.props.graph.vertexes.forEach(v => {
       v.edges.forEach(e => {
         ctx.beginPath();
@@ -67,6 +65,7 @@ class GraphView extends Component {
     });
 
     ctx.strokeStyle = "transparent";
+    ctx.lineWidth = 1;
     connections.forEach(connection => {
       const color = colors.shift() || "white";
 
@@ -86,17 +85,13 @@ class GraphView extends Component {
       });
     });
   }
-
-  handleClick() {
-    this.props.graph.randomize(5, 4, canvasHeight/5, 0.6);
-  }
   
   /* Render */
   render() {
     return (
       <div width={canvasWidth} height={canvasHeight}>
         <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
-        <button onClick={() => this.handleClick()} style={buttonStyle}>randomize</button>
+        <button onClick={() => window.location.reload()} style={buttonStyle}>randomize</button>
       </div>
     );
   }
@@ -110,13 +105,13 @@ class App extends Component {
     this.state = {
       graph: new Graph(),
     };
-    // this.state.graph.randomize(5, 4, canvasHeight/5, 0.6);
-    this.state.graph.randomize(5, 4, 150, 0.6);
+    this.state.graph.randomize(5, 4, canvasHeight/5, 0.6);
   }
 
-  componentDidMount() {
-    threeD(this.state.graph.vertexes, this.state.graph.getConnectedComponents());
-  }
+  // componentDidMount() {
+  //   this.state.graph.randomize(5, 4, 150, 0.6);
+  //   threeD(this.state.graph.vertexes, this.state.graph.getConnectedComponents());
+  // }
 
   render() {
     return (

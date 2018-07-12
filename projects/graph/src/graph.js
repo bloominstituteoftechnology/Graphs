@@ -8,7 +8,7 @@ export class Edge {
 
 /* Vertex */
 export class Vertex {
-  constructor(value="default", pos={ x: -1, y: -1 }) {
+  constructor(value="default", pos={ x: -1, y: -1, z: -1 }) {
     this.edges = [];
     this.value = value;
     this.pos = pos;
@@ -73,7 +73,8 @@ export class Graph {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          'z': Math.random()*(900-650)+650 || 0
         };
       }
     }
