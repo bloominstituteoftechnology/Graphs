@@ -116,16 +116,22 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-
-    // use the graph randomize() method
     const g = this.state.graph;
     g.randomize(5, 4, 150, 0.6);
   }
+
+  generateGraph = e => {
+    // generate a new instance of Graph, save it to state, and call randomize to generate vertexes and edges
+    const newGraph = new Graph();
+    this.setState({ graph: newGraph });
+    newGraph.randomize(5, 4, 150, 0.6);
+  };
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <button onClick={this.generateGraph}>Generate Graph</button>
       </div>
     );
   }

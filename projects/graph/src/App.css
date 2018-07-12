@@ -3,3 +3,9 @@ canvas {
 	display: block;
 	margin: 50px auto;
 }
+
+button {
+	display: block;
+	padding: 10px;
+	margin: 0 auto;
+}
