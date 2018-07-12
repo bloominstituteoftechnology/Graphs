@@ -27,8 +27,9 @@ export class Vertex {
  * Graph
  */
 export class Graph {
-  constructor() {
+    constructor() {
     this.vertexes = [];
+    console.log("creating new graph");
   }
 
   // createDummyGraph() {
@@ -44,6 +45,7 @@ export class Graph {
    */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
+    console.log("randomize()\n");
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
       v1.edges.push(new Edge(v0));
@@ -109,6 +111,7 @@ export class Graph {
    * Dump graph data to the console
    */
   dump() {
+    console.log("dump()");
     let s;
 
     for (let v of this.vertexes) {
@@ -130,6 +133,7 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    console.log("bfs()\n");
     const randColor = 'rgba(' + Math.floor(Math.random()*255) + ', ' + Math.floor(Math.random()*255) +  ', ' + Math.floor(Math.random()*255) + ', 1)';
     const component = [];
     start.color = 'gray';
@@ -146,6 +150,7 @@ export class Graph {
       }
       component.shift();
       u.color = randColor;
+      console.log("u: ", u.value, " color: ", u.color);
     }
   }
 
