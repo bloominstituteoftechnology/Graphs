@@ -40,7 +40,6 @@ class GraphView extends Component {
     
     // randomize method call
     this.props.graph.randomize(6, 5, 150, 0.6);
-    this.props.graph.getConnectedComponents();
     
     // debugging:
     // console.log(this.props.graph.vertexes);
@@ -74,24 +73,27 @@ class GraphView extends Component {
 
     });
 
-    this.props.graph.vertexes.forEach(v => {
-      ctx.beginPath();
-      ctx.fillStyle = 'white';
-      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, (Math.PI * 2));
-      ctx.fill();
-      ctx.stroke();
-
-      // fill the text
-
-      ctx.fillStyle = 'black';
-      ctx.fillText(v.value, v.pos.x, v.pos.y);
-    });
+    // test call, to check if its working:
+    // this.props.graph.getConnectedComponents();
     
-    // !!! IMPLEMENT ME
-    // compute connected components
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    const arrayOfGraphs = this.props.graph.getConnectedComponents();
+    arrayOfGraphs.forEach(graph => {
+      // color for graph
+      const fillColor = this.props.graph.randomColors();
+
+      graph.forEach(node => {
+        ctx.beginPath();
+        ctx.fillStyle = fillColor;
+        ctx.arc(node.pos.x, node.pos.y, circleRadius, 0, (Math.PI * 2));
+        ctx.fill();
+        ctx.stroke();
+
+
+        ctx.fillStyle = 'black';
+      ctx.fillText(node.value, node.pos.x, node.pos.y);
+      });
+    });
+
   }
   
   /**
