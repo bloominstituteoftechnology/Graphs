@@ -40,11 +40,7 @@ class GraphView extends Component {
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
-    ctx.arc(10, 10, 10, 0, 2 * Math.PI)
-    ctx.stroke()
-    ctx.beginPath()
-    ctx.arc(100, 100, 10, 0, 2 * Math.PI)
-    ctx.stroke()
+    generateCirclefromCanvasContext(ctx)
     // !!! IMPLEMENT ME
     // compute connected components
     const connectedComponents = this.props.graph.getConnectedComponents()
@@ -89,3 +85,15 @@ class App extends Component {
 }
 
 export default App
+
+/**
+ *
+ * @param {CanvasRenderingContext2D} ctx
+ */
+function generateCirclefromCanvasContext(ctx) {
+  ctx.arc(10, 10, 10, 0, 2 * Math.PI)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.arc(100, 100, 10, 0, 2 * Math.PI)
+  ctx.stroke()
+}
