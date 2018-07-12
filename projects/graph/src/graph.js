@@ -12,12 +12,31 @@ export class Edge {
  * contain a list of `Edge`s
  */
 export class Vertex {
-  constructor(value="default", pos={ x: -1, y: -1 }) {
+  constructor(value="default", pos={ x: -1, y: -1 }, color="white") {
     this.edges = [];
     this.value = value;
     this.pos = pos;
-    this.color = "white";
+    this.color = color;
   }
+}
+
+export class Queue {
+  constructor() {
+    this.queue = [];
+  }
+
+  enqueue = (item) => {
+    this.queue.unshift(item);
+  }
+
+  dequeue = () => {
+    this.queue.pop();
+  }
+
+  isEmpty = () => {
+    return this.queue.length === 0;
+  }
+  
 }
 
 /**
@@ -118,41 +137,37 @@ export class Graph {
    * BFS
    */
   bfs(start) {
+    const component = [];
     const queue = [];
 
-    queue.enqueue = (item) => {
-      queue.unshift(item);
-    }
+    start.color = 'gray';
+    queue.push(start);
 
-    queue.dequeue = () => {
-      queue.pop();
-    }
+    while (queue.length > 0) {
+      const node = queue[0];
 
-    queue.isEmpty = () => {
-      return queue.length === 0;
-    }
-
-    start.color = "gray";
-    queue.enqueue(start);
-
-    while (!queue.isEmpty()) {
-      let u = queue[0];
-
-      for (let edge of u.edges) {
-        if (edge.color === "white") {
-          edge.color = "gray";
-          queue.enqueue(edge);
+      for (let edge of node.edges) {
+        const vertex = edge.destination;
+        if (vertex.color === 'white') {
+          vertex.color = "gray"
+          queue.push(vertex);
         }
       }
-      queue.dequeue();
-      u.color = "black";
+      queue.shift();
+      node.color = "black";
+      component.push(node);
     }
+
+    return component; 
   }
 
   /**
    * Get the connected components
+     Choose a random color
+     Apply that color to every vertex in the component array
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+
+
   }
 }

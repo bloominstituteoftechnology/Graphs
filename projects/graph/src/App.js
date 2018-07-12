@@ -63,11 +63,6 @@ class GraphView extends Component {
       ctx.fillStyle = "black";
       ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
     })
-
-    // BFS
-    this.props.graph.vertexes.forEach(vertex => {
-      this.props.graph.bfs(vertex);
-    })
   }
   
   /**
@@ -94,6 +89,7 @@ class App extends Component {
       graph: new Graph()
     };
     this.state.graph.randomize(5, 4, 150, 0.6)
+    this.state.graph.bfs();
   }
   clickHandler = () => {
     let graph = new Graph();
