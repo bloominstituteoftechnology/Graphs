@@ -43,24 +43,42 @@ class GraphView extends Component {
     // Aligns text
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    
-    this.colorConnectComps(ctx);
-    
-    ctx.strokeStyle = "black";
 
-    // Create Nodes/Vertices
-    this.props.graph.vertexes.forEach(vertex => {
+  const connectedList = this.props.graph.getConnectedComponents();
+
+  connectedList.forEach(connectedComponent => { 
+    // Create Edges
+    ctx.strokeStyle = this.getRandomColor();
+    connectedComponent.forEach(vertex => {
+      vertex.edges.forEach(edge => {
+        const x1 = vertex.pos.x;
+        const y1 = vertex.pos.y;
+        const x2 = edge.destination.pos.x;
+        const y2 = edge.destination.pos.y;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.stroke();
+      })
+    })
+
+    connectedComponent.forEach(vertex => {
+      const x = vertex.pos.x;
+      const y = vertex.pos.y;
+      // Create Nodes/Vertices
       ctx.beginPath();
+      ctx.strokeStyle = "black";
       ctx.fillStyle = "white";
-      ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI)
+      ctx.arc(x, y, circleRadius, 0, 2 * Math.PI)
       ctx.fill();
       ctx.stroke();
-
+      
       // Create Node/Verticies Labels
       ctx.beginPath();
       ctx.font = "10px Arial";
       ctx.fillStyle = "black";
-      ctx.strokeText(vertex.value, vertex.pos.x, vertex.pos.y);
+      ctx.strokeText(vertex.value, x, y);
+      })
     })
   }
 
@@ -71,22 +89,6 @@ class GraphView extends Component {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
-
-  colorConnectComps(ctx) {
-    // Create Edges
-    const connectedList = this.props.graph.getConnectedComponents();
-    
-    ctx.strokeStyle = this.getRandomColor();
-    connectedList.forEach(connect => {
-      connect.forEach(vertex => {
-        vertex.edges.forEach(edge => {
-          ctx.moveTo(vertex.pos.x, vertex.pos.y)
-          ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y)
-          ctx.stroke();
-        })
-      })
-    })
   }
   
   /**
