@@ -2,14 +2,21 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}, color = 'white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+  }
 }
 
 /**
@@ -19,6 +26,22 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+  //   const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+
+  //   let dummyEdge1 = new Edge(dummyVertex2);
+  //   dummyVertex1.edges.push(dummyEdge1);
+
+  //   let dummyEdge2 = new Edge(dummyVertex3);
+  //   dummyVertex2.edges.push(dummyEdge2);
+    
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  // }
 
   /**
    * Create a random graph
@@ -38,7 +61,7 @@ export class Graph {
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
-        //v.value = 'v' + x + ',' + y;
+        // v.value = 'v' + x + ',' + y;
         v.value = 'v' + count++;
         row.push(v);
       }
@@ -110,13 +133,40 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    let searched = [];
+    let queue = [];
+    let randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
+
+    queue.push(start);
+    start.color = "white";
+
+    while (queue.length > 0) {
+      let u = queue[0];
+      for (let e of u.edges) {
+        if (e.destination.color === 'white') {
+          queue.push(e.destination);
+          e.destination.color = randomColor;
+        }
+      }
+      queue.shift();
+      searched.push(u);
+    }
+    return searched;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const componentsList = [];
+    for (let v of this.vertexes) {
+      if (v.color === 'white') {
+        const component = this.bfs(v);
+        componentsList.push(component);
+      }
+    }
+    return componentsList;
   }
 }
+
+
