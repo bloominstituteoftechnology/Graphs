@@ -124,29 +124,69 @@ export class Graph {
       const vertex = queue.shift();
       vertex.state = 1;
       component.push(vertex);
-      vertex.edges.forEach(e => {
-	const v = e.destination;
-	if (v.state == 0) {
-	  v.state = 1;
-	  queue.push(v);	  
-	}
-      })
+      vertex.edges
+        .map(e => e.destination)
+        .forEach(v => {
+          if (v.state === 0) {
+            v.state = 1;
+            queue.push(v);	  
+          }
+        })
     }
     return component;
+  }
+
+  dfs(start, target) {
+    this.initializeState();
+
+    const visit = (vertex) => {
+      vertex.state = 1;
+      vertex.edges
+        .map(e => e.destination)
+        .filter(v => v.state === 0)
+        .forEach(v => {
+          v.parent = vertex;
+          visit(v);
+        });
+    }
+
+    start.state = 1;
+    start.edges
+      .map(e => e.destination)
+      .forEach(v => {
+        if (v.state === 0) {
+          v.parent = start;
+          visit(v);
+        }
+      });
+    
+    const path = [target];
+    while (target.parent !== null) {
+      target = target.parent;
+      path.push(target);
+    }
+
+    return path.length > 1 ? path.reverse() : [];
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
     const connectedComponents = [];
-    this.vertexes.forEach(v => v.state = 0);
+    this.initializeState();
     this.vertexes.forEach(v => {
-      if (v.state == 0) {
-	connectedComponents.push(this.bfs(v));
+      if (v.state === 0) {
+	      connectedComponents.push(this.bfs(v));
       }
     });
     return connectedComponents;
+  }
+
+  initializeState() {
+    this.vertexes.forEach(v => {
+      v.state = 0;
+      v.parent = null;
+    });
   }
 }
