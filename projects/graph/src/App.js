@@ -32,48 +32,6 @@ class GraphView extends Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     
-    // Vertex click event
-    let start;
-    let end;
-
-    canvas.addEventListener(
-      'click',
-      e => {
-        const x = e.pageX - canvas.offsetLeft;
-        const y = e.pageY - canvas.offsetTop;
-        let vertClick;
-
-        for (let vertex of this.props.graph.vertexes) {
-          if (
-            Math.abs(vertex.pos.x - x) <= circleRadius &&
-            Math.abs(vertex.pos.y - y) <= circleRadius
-          ) {
-            vertClick = vertex;
-            if (!start) {
-              start = vertClick;
-
-              ctx.textAlign = 'center';
-              ctx.textBaseline = 'middle';
-              ctx.font = '8px Arial';
-              ctx.fillStyle = 'v.color';
-
-              ctx.fillText('START', vertex.pos.x, vertex.pos.y + 20);
-            } else if (!end) {
-              end = vertClick;
-              ctx.textAlign = 'center';
-              ctx.textBaseline = 'middle';
-              ctx.font = '8px Arial';
-              ctx.fillStyle = 'v.color';
-
-              ctx.fillText('END', vertex.pos.x, vertex.pos.y + 20);
-              console.log(`Start at: ${start.value} and End at: ${end.value}`);
-            }
-          }
-        }
-      },
-      false
-    );
-
     // Clear it
     ctx.fillStyle = 'rgb(58, 49, 79)';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -87,26 +45,81 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.strokeStyle = vertex.fillColor;
         ctx.stroke();
-        ctx.fillText(edge.weight, (vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
       }
     }
 
-    // Draw our dummy vertex
-    this.props.graph.vertexes.forEach((v) => {
+    for (let vertex of this.props.graph.vertexes) {
+      ctx.strokeStyle = vertex.fillColor;
       ctx.beginPath();
-      ctx.fillStyle = '#cd5360';
-      ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
-      // ctx.lineCap="square";
-      // // ctx.moveTo(200, 20);
-      // ctx.lineTo(300, 20);
+      ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = vertex.fillColor;
       ctx.fill();
+      ctx.fillStyle = 'black';
+      ctx.font = '16px Arial';
+      ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
       ctx.stroke();
+    }
+  }
+    
+    // Vertex click event
+    // let start;
+    // let end;
 
-      // fill in the text
-      ctx.fillStyle = '#ffffff';
-      ctx.fillText(v.value, v.pos.x, v.pos.y);
-    });
+    // canvas.addEventListener(
+    //   'click',
+    //   e => {
+    //     const x = e.pageX - canvas.offsetLeft;
+    //     const y = e.pageY - canvas.offsetTop;
+    //     let vertClick;
+
+    //     for (let vertex of this.props.graph.vertexes) {
+    //       if (
+    //         Math.abs(vertex.pos.x - x) <= circleRadius &&
+    //         Math.abs(vertex.pos.y - y) <= circleRadius
+    //       ) {
+    //         vertClick = vertex;
+    //         if (!start) {
+    //           start = vertClick;
+
+    //           ctx.textAlign = 'center';
+    //           ctx.textBaseline = 'middle';
+    //           ctx.font = '8px Arial';
+    //           ctx.fillStyle = 'v.color';
+
+    //           ctx.fillText('START', vertex.pos.x, vertex.pos.y + 20);
+    //         } else if (!end) {
+    //           end = vertClick;
+    //           ctx.textAlign = 'center';
+    //           ctx.textBaseline = 'middle';
+    //           ctx.font = '8px Arial';
+    //           ctx.fillStyle = 'v.color';
+
+    //           ctx.fillText('END', vertex.pos.x, vertex.pos.y + 20);
+    //           console.log(`Start at: ${start.value} and End at: ${end.value}`);
+    //         }
+    //       }
+    //     }
+    //   },
+    //   false
+    // );
+
+    // Draw our dummy vertex
+    // this.props.graph.vertexes.forEach((v) => {
+    //   ctx.beginPath();
+    //   ctx.fillStyle = '#cd5360';
+    //   ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
+    //   // ctx.lineCap="square";
+    //   // // ctx.moveTo(200, 20);
+    //   // ctx.lineTo(300, 20);
+    //   ctx.fill();
+    //   ctx.stroke();
+
+    //   // fill in the text
+    //   ctx.fillStyle = '#ffffff';
+    //   ctx.fillText(v.value, v.pos.x, v.pos.y);
+    // });
 
 /*  CANVAS -----------------------------------
     // Set up the gradient
@@ -134,7 +147,7 @@ class GraphView extends Component {
     // draw edges
     // draw verts
     // draw vert values (labels)
-  }
+  // }
   
   /**
    * Render
