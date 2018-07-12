@@ -28,7 +28,7 @@ class GraphView extends Component {
   /**
    * Render the canvas
    */
-  updateCanvas() {
+  updateCanvas = () => {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
 
@@ -99,7 +99,13 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+    <div>
+      <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+      {/* Added button to populate new graph at random */}
+      <button onClick={this.updateCanvas}>Update Graph</button>
+    </div>
+    )
   }
 }
 
