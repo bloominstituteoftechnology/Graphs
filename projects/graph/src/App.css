@@ -26,3 +26,17 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.btnDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.Button {
+  border: 2px solid rgb(58, 49, 79);
+  border-radius: 10px;
+  width: 150px;
+  background-color: #C0C0C0;
+  padding: 10px;
+  color: rgb(58, 49, 79);
+}

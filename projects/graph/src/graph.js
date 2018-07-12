@@ -3,6 +3,11 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 0, drawWeight = false) {
+    this.destination = destination;
+    this.weight = weight;
+    this.drawWeight = drawWeight;
+  }
 }
 
 /**
@@ -10,6 +15,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = { x: -1, y: -1 }, fillColor = 'white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.fillColor = fillColor;
+  }
 }
 
 /**
@@ -17,8 +28,22 @@ export class Vertex {
  */
 export class Graph {
   constructor() {
+    console.log('called Graph constructor');
     this.vertexes = [];
+    this.found = [];
+    this.queueToSearch = [];
   }
+
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+  //   const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+  //   const dummyVertex4 = new Vertex('v4', {x: 300, y: 505});
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  //   this.vertexes.push(dummyVertex4);
+  // }
 
   /**
    * Create a random graph
@@ -30,7 +55,7 @@ export class Graph {
       v1.edges.push(new Edge(v0));
     }
 
-    let count = 0;
+    let count = 1;
 
     // Build a grid of verts
     let grid = [];
@@ -111,6 +136,29 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    let randColor =
+      'rgb(' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ',' +
+      Math.floor(Math.random() * 256) +
+      ')';
+
+    this.found.push(start);
+    this.queueToSearch.push(start);
+    start.fillColor = randColor;
+
+    while (this.queueToSearch.length > 0) {
+      for (let edge of this.queueToSearch[0].edges) {
+        if (!this.found.includes(edge.destination.value)) {
+          this.found.push(edge.destination.value);
+          this.queueToSearch.push(edge.destination);
+          edge.destination.fillColor = randColor;
+        }
+      }
+      this.queueToSearch.shift();
+    }
   }
 
   /**
@@ -118,5 +166,10 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    for (let vertex of this.vertexes) {
+      if (!this.found.includes(vertex.value)) {
+        this.bfs(vertex);
+      }
+    }
   }
 }
