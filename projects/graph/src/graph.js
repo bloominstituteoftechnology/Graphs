@@ -16,6 +16,10 @@ export class Vertex {
   constructor() {
     this.edges = []
     this.value = 0
+    this.pos = {
+      x: 0,
+      y: 0
+    }
   }
 }
 
