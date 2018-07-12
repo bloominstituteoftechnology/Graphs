@@ -163,11 +163,19 @@ export class Graph {
 
   /**
    * Get the connected components
-     Choose a random color
-     Apply that color to every vertex in the component array
+     Loop through all the vertexes in the graph 
+     if it sees a white vertex, call bfs on that vertex
+     since we know that vertex hasn't been traversed
    */
   getConnectedComponents() {
+    const componentList = [];
 
-
+    for (let vertex of this.vertexes) {
+      if (vertex.color === "white") {
+        const component = this.bfs(vertex);
+        componentList.push(component);
+      }
+    }
+    return componentList;
   }
 }
