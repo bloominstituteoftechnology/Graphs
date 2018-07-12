@@ -37,6 +37,8 @@ class GraphView extends Component {
     // Clear it
     ctx.fillStyle = "lightgrey";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = "white";
+    ctx.fillRect(1080, 875, 110, 17);
 
     function getRandomColor(seed) {
       var letters = "0123456789ABCDEF";
@@ -57,11 +59,11 @@ class GraphView extends Component {
 
         connected = this.props.graph.bfs(vertex);
         connected.forEach(i => {
+          ctx.fillStyle = color;
+          ctx.lineWidth = 0.5;
+          ctx.strokeStyle = "hsl(0,0%,50%)";
+          ctx.setTransform(1, 0, 0, 1, 0.5, 0.5);
           i.edges.forEach(j => {
-            ctx.fillStyle = color;
-            ctx.lineWidth = 0.5;
-            ctx.strokeStyle = "hsl(0,0%,50%)";
-            ctx.setTransform(1, 0, 0, 1, 0.5, 0.5);
             ctx.moveTo(i.pos.x, i.pos.y);
             ctx.lineTo(j.destination.pos.x, j.destination.pos.y);
             ctx.stroke();

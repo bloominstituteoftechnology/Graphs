@@ -14,7 +14,7 @@
 }
 
 button {
-  background: white;
+  background: transparent;
   border: 1px solid black;
   cursor: pointer;
 }
@@ -33,5 +33,4 @@ canvas {
   position: relative;
   bottom: 30px;
   left: 535px;
-  opacity: 0.8;
 }
