@@ -24,6 +24,9 @@
 
 button {
   background-color: purple;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
   height: 55px;
   font-size: 22px;
   font-family: arial;
