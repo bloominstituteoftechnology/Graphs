@@ -166,5 +166,10 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    for (let vertex of this.vertexes) {
+      if (!this.found.includes(vertex.value)) {
+        this.bfs(vertex);
+      }
+    }
   }
 }
