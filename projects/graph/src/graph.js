@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = {x: -1, y: -1}) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = 'white';
+  }
 }
 
 /**
@@ -20,6 +29,16 @@ export class Graph {
     this.vertexes = [];
   }
 
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex('v1', {x: 25, y: 25});
+    const dummyVertex2 = new Vertex('v2', {x: 110, y: 70});
+    const dummyVertex3 = new Vertex('v3', {x: 300, y: 500});
+    
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
+  }
+  
   /**
    * Create a random graph
    */
@@ -109,8 +128,30 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
-    // !!! IMPLEMENT ME
+  bfs(vertex) {
+    let result = [];
+    let queue = [];
+
+    //console.log(vertex);
+
+    vertex.color = 'gray';
+    queue.push(vertex);
+
+    while (queue.length > 0) {
+      let u = queue[0];
+
+      for (let v of u.edges) {
+          if (v.destination.color === 'white') {
+            v.destination.color = 'gray';
+            queue.push(v.destination);
+          }
+      }
+      queue.shift();
+      u.color = 'black';
+      result.push(u);
+    }
+    
+    return result;
   }
 
   /**
@@ -118,5 +159,25 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    //const component = this.bfs(vertex);
+    const componentsList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.color === 'white') {
+        const component = this.bfs(vertex);
+        componentsList.push(component);
+      }
+    }
+    console.log(componentsList);
+    return componentsList;
   }
+
+  randomColors() {
+    const colors = ['#c4cbff', '#ce0a0a', '#96e09a', '#ceedcf', '#ab81ef', '#f6f99a', '#d0d1c8', '#ff8484', '#64cbd1', '#a7f246', '#3d8254', '#00ef4f'];
+    const rand = Math.floor(Math.random() * colors.length);
+    console.log(colors[rand]);
+    return colors[rand];
+  }
+
+
 }
