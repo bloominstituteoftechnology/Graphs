@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Graph } from "./graph";
+import { Graph, Vertex, Edge } from "./graph";
 import "./App.css";
 
 // !!! IMPLEMENT ME
@@ -32,13 +32,23 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext("2d");
-    console.log(this.props.graph);
-    console.log("called createDummyGraph");
+
     this.props.graph.createDummyGraph();
     // Clear it
     ctx.fillStyle = "grey";
-
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.font = "13px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    for (let vertex of this.props.graph.vertexes) {
+      for (let edge of vertex.edges) {
+        ctx.beginPath();
+        ctx.moveTo(vertex.pos.x, vertex.pos.y);
+        ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+        ctx.stroke();
+      }
+    }
 
     this.props.graph.vertexes.forEach(v => {
       ctx.beginPath();
