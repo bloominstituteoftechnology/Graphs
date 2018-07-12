@@ -62,6 +62,7 @@ class GraphView extends Component {
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
 
+    
 
     // !!! IMPLEMENT ME
     // compute connected components
@@ -69,6 +70,7 @@ class GraphView extends Component {
     // draw verts
     // draw vert values (labels)
   }
+
   
   /**
    * Render
@@ -92,7 +94,12 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+  }
+
+  componentWillMount() {
     this.state.graph.randomize(5, 4, 160, 0.6);
+    const componenents = this.state.graph.getConnectedComponents();
+    console.log(componenents);
   }
 
   render() {

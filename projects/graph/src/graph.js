@@ -11,10 +11,11 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  constructor(value='default', pos = { x: -1, y: -1}) {
+  constructor(value='default', pos = { x: -1, y: -1}, color='white') {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = color;
   }
 }
 
@@ -126,6 +127,30 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const component = new Set();
+    const queue = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const node = queue[0];
+
+      for (let edge of node.edges) {
+        const vertex = edge.destination;
+        if (vertex.color === 'white') {
+          vertex.color = 'gray';
+          queue.push(vertex);
+        }
+      }
+
+      queue.shift();
+      node.color = 'black';
+
+      component.add(node);
+    }
+
+    return component;
   }
 
   /**
@@ -133,5 +158,21 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    //
+
+    const componentsSet = new Set();
+
+    // loops through all vertexes in graph
+    for (let vertex of this.vertexes) {
+      // if white vertex, call bfs on that vertex
+      // since we know that vertex hasn't been traversed
+      if (vertex.color === 'white') {
+        console.log('got ehre');
+        const component = this.bfs(vertex)
+        componentsSet.add(component);
+      }
+    }
+    return componentsSet; 
   }
+
 }
