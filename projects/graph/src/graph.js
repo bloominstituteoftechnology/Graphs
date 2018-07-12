@@ -2,9 +2,8 @@
  * Edge
  */
 export class Edge {
-  constructor(destination, weight = 1) {
+  constructor(destination) {
     this.destination = destination;
-    this.weight = weight;
   }
 }
 
@@ -131,6 +130,7 @@ export class Graph {
       for (let v of current.edges) {
         if (v.destination.color === "white") {
           v.destination.color = "gray";
+          v.weight = Math.floor(Math.random() * 10) + 1; // weights are random ints between 1 and 10 inclusive
           queue.push(v.destination); // add current's neighbors to the queue
         }
       }
