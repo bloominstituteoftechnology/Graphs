@@ -50,8 +50,10 @@ class GraphView extends Component {
      // Clear it 
       ctx.fillStyle = 'grey';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+      const connectedComponents = this.props.graph.getConnectedComponents();
       this.drawVertexes(ctx);
-      this.colorVertexes(ctx);
+      this.colorVertexes(connectedComponents, ctx);
+      
   }
 
   drawVertexes(ctx) {
@@ -113,7 +115,7 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(5, 4, 150, 0.6);
-    this.state.graph.getConnectedComponents();
+   
   }
 
   buttonHandler() {
