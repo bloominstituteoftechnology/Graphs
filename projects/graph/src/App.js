@@ -1,6 +1,6 @@
 //@ts-check */
 import React, { Component } from 'react'
-import { Graph } from './graph'
+import { Graph, Vertex } from './graph'
 import './App.css'
 
 // !!! IMPLEMENT ME
@@ -40,14 +40,30 @@ class GraphView extends Component {
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
-    generateCirclefromCanvasContext(ctx)
     // !!! IMPLEMENT ME
     // compute connected components
-    const connectedComponents = this.props.graph.getConnectedComponents()
+    const generateCircle = generateCirclefromCanvasContextFunction(ctx)
+
+    /**
+     * @type {Graph}
+     */
+    const GraphInstance = this.props.graph
+
+    const connectedComponents = GraphInstance.getConnectedComponents()
     console.log(connectedComponents)
-    // draw edges
-    // draw verts
-    // draw vert values (labels)
+    connectedComponents.map(
+      /**
+       * @param {Vertex[]} vertices
+       */
+      vertices => {
+        // draw edges
+        // draw verts
+        vertices.map(vertex => {
+          generateCircle(vertex.pos.x, vertex.pos.y)
+        })
+        // draw vert values (labels)
+      }
+    )
   }
 
   /**
@@ -87,13 +103,22 @@ class App extends Component {
 export default App
 
 /**
- *
+ * Curry function that returns a function
+ * that will create a circle. Useful for composing.
  * @param {CanvasRenderingContext2D} ctx
  */
-function generateCirclefromCanvasContext(ctx) {
-  ctx.arc(10, 10, 10, 0, 2 * Math.PI)
-  ctx.stroke()
-  ctx.beginPath()
-  ctx.arc(100, 100, 10, 0, 2 * Math.PI)
-  ctx.stroke()
-}
+const generateCirclefromCanvasContextFunction = ctx =>
+  /**
+   * @param {number} posX Location on canvas for X axis.
+   * @param {number} posY Location on canvas for Y axis.
+   * @param {number=} radius Radius of circle. Defaults to `20`.
+   * @param {number=} startAngle Degrees at which to start drawing the circle.
+   * Defaults to `0`.
+   * @param {number=} endAngle Degrees at which to end drawing the circle.
+   * Defaults to `Math.Pi * 2`
+   */
+  (posX, posY, radius = 20, startAngle = 0, endAngle = Math.PI * 2) => {
+    ctx.beginPath()
+    ctx.arc(posX, posY, radius, startAngle, endAngle)
+    ctx.stroke()
+  }
