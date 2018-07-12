@@ -74,7 +74,7 @@ export class Graph {
         grid[y][x].pos = {
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'z': Math.random()*(900-650)+650 || 0
+          'z': Math.random()*(1000-500)+500 || 0
         };
       }
     }

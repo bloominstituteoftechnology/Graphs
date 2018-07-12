@@ -42,7 +42,7 @@ class GraphView extends Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     const connections = this.props.graph.getConnectedComponents();
-    const colors = [...this.state.colors];
+    const colors = ["aqua", "lime", "fuchsia", "orange", "yellow", "red", "purple", "lavender", "gray"];
 
     // Clear it
     ctx.fillStyle = 'black';

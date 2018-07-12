@@ -2,22 +2,19 @@ import * as THREE from "three";
 import OrbitControls from "./orbit_controls";
 
 export default (vertexes, connections) => {
-  let cameraX = 350, cameraY = 300, cameraZ = 1000;
-  let camera, scene, renderer, controls;
+  let camera, scene, renderer;
   let ambientLight, directionalLight;
-
-  const nodes = [];
-  const lines = [];
+  let avgX, avgY, avgZ;
 
   const init = () => {
     const colors = ["aqua", "lime", "fuchsia", "yellow", "orange", "maroon", "purple", "lavender", "gray"];
 
     scene = new THREE.Scene();
-    // scene.position.set(10, 10, -25);
 
-    camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 1500);
-    // camera.position.set(0, 100, 150);
-    // camera.lookAt(scene.position);
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 2500);
+    camera.position.z = 100;
+    camera.position.y = 250;
+    camera.position.x = 200;
 
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -35,7 +32,11 @@ export default (vertexes, connections) => {
         let nextNode;
         const x = v.pos.x, y = v.pos.y, z = -v.pos.z;
 
-        const lineMaterial = new THREE.LineBasicMaterial({color: "white"});
+        avgX += x;
+        avgY += y;
+        avgZ += z;
+
+        const lineMaterial = new THREE.LineBasicMaterial({color: color, transparent: true, opacity: 0.65});
         const lineGeometry = new THREE.Geometry();
         const line = new THREE.Line(lineGeometry, lineMaterial);
 
@@ -43,12 +44,9 @@ export default (vertexes, connections) => {
           lineGeometry.vertices.push(new THREE.Vector3(x, y, z));
           lineGeometry.vertices.push(new THREE.Vector3(nextNode.pos.x, nextNode.pos.y, -nextNode.pos.z));
           scene.add(line);
-          lines.push(line);
         }
-
-        line.rotation.x += 0.01;
         
-        const sphereGeometry = new THREE.SphereGeometry(10, 50, 50, 0, Math.PI*2, 0, Math.PI*2);
+        const sphereGeometry = new THREE.SphereGeometry(17, 50, 50, 0, Math.PI*2, 0, Math.PI*2);
         const sphereMaterial = new THREE.MeshLambertMaterial({color: color});
         const node = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
@@ -56,14 +54,11 @@ export default (vertexes, connections) => {
         node.position.y = y;
         node.position.z = z;
 
-        nodes.push(node);
-
         scene.add(node);
       });
     });
 
     window.addEventListener("resize", () => onWindowResize(), false);
-    console.log(scene.position);
   }
 
   const onWindowResize = () => {
@@ -74,8 +69,33 @@ export default (vertexes, connections) => {
     render();
   }
 
+  const period = 5;
+  const clock = new THREE.Clock();
+  const matrix = new THREE.Matrix4();
+
+  const pivot = new THREE.Object3D();
+  pivot.position.set(avgX/20, avgY/20, avgZ/20);
+
+  let angle = 0;
+
   const render = () => {
+    const { x, y, z } = camera.position;
+    const speed = 0.025;
+
     requestAnimationFrame(render);
+
+    // matrix.makeRotationY(clock.getDelta()*2*Math.PI / period);
+    // camera.position.applyMatrix4(matrix);
+    // camera.lookAt(new THREE.Vector3(avgX/20, avgY/20, avgZ/20));
+    // camera.lookAt(800, 400, -2500);
+    // console.log(camera.position);
+
+    camera.position.x = x*Math.cos(speed) + z*Math.sin(speed);
+    camera.position.y = y*Math.cos(speed/2) + z*Math.sin(speed/2);
+    camera.position.z = z*Math.cos(speed) - x*Math.sin(speed);
+    camera.lookAt(800, 400, -2500);
+    // camera.lookAt(scene.position);
+
     renderer.render(scene, camera);
   }
 
