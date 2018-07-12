@@ -4,8 +4,8 @@ import { Graph } from './graph'
 import './App.css'
 
 // !!! IMPLEMENT ME
-const canvasWidth = window.innerWidth
-const canvasHeight = window.innerHeight
+const canvasWidth = 750
+const canvasHeight = 600
 
 /**
  * GraphView
@@ -75,7 +75,7 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.state.graph.randomize(3, 4, 1)
+    this.state.graph.randomize(5, 4, 150)
     //this.state.graph.dump()
   }
 
