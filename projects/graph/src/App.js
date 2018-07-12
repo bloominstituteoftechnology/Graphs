@@ -43,7 +43,7 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(v.pos.x, v.pos.y)
         ctx.lineTo(e.destination.pos.x, e.destination.pos.y);
-        ctx.strokeStyle = v.color;
+        ctx.strokeStyle = 'gray';
         ctx.stroke();
       });
     })

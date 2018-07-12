@@ -137,29 +137,35 @@ export class Graph {
     let queue = [];
     let randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
 
-    searched.push(start);
     queue.push(start);
     start.color = "white";
 
     while (queue.length > 0) {
-      for (let e of queue[0].edges) {
-        if (!searched.includes(e.destination.value)) {
-          searched.push(e.destination.value);
+      let u = queue[0];
+      for (let e of u.edges) {
+        if (e.destination.color === 'white') {
           queue.push(e.destination);
           e.destination.color = randomColor;
         }
       }
       queue.shift();
+      searched.push(u);
     }
+    return searched;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
+    const componentsList = [];
     for (let v of this.vertexes) {
-        this.bfs(v);
+      if (v.color === 'white') {
+        const component = this.bfs(v);
+        componentsList.push(component);
+      }
     }
+    return componentsList;
   }
 }
 
