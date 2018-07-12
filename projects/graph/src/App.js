@@ -64,8 +64,6 @@ class GraphView extends Component {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
-       // ctx.fillStyle = this.getColor();
-        //ctx.strokeStyle = this.getColor();
         ctx.stroke();
         ctx.fillText(edge.weight, (vertex.pos.x + edge.destination.pos.x) / 2, (vertex.pos.y + edge.destination.pos.y) / 2);
       }
