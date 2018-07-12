@@ -29,13 +29,14 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas = () => {
-    let canvas = this.refs.canvas;
-    let ctx = canvas.getContext('2d');
+    const graph = this.props.graph;
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
-    this.props.graph.vertexes = [];
-    this.props.graph.randomize(5, 4, 150);
+    graph.vertexes = [];
+    graph.randomize(5, 4, 150);
 
     // Clear it
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -47,7 +48,7 @@ class GraphView extends Component {
     // !!! IMPLEMENT ME
     const getRandomInt = max => Math.floor(Math.random() * Math.floor(max));
     const getRandomColor = () => `rgb(${getRandomInt(256)}, ${getRandomInt(256)}, ${getRandomInt(256)})`;
-    const groups = this.props.graph.getConnectedComponents();
+    const groups = graph.getConnectedComponents();
 
     groups.forEach(group => {
       // compute connected components
@@ -90,7 +91,22 @@ class GraphView extends Component {
       });
     });
 
-    // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    graph.dump();
+  }
+
+  logVertex = e => {
+    const canvas = this.refs.canvas;
+    const clickX = e.clientX - canvas.offsetLeft;
+    const clickY = e.clientY - canvas.offsetTop + window.scrollY;
+
+    this.props.graph.vertexes.forEach(vertex => {
+      const xMatch = clickX > vertex.pos.x - circleRadius && clickX < vertex.pos.x + circleRadius;
+      const yMatch = clickY > vertex.pos.y - circleRadius && clickY < vertex.pos.y + circleRadius;
+      
+      if (xMatch && yMatch) {
+        console.log(vertex.value);
+      }
+    });
   }
   
   /**
@@ -99,7 +115,11 @@ class GraphView extends Component {
   render() {
     return (
       <div>
-        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+        <canvas ref="canvas"
+          width={canvasWidth}
+          height={canvasHeight}
+          onClick={(e) => this.logVertex(e)}>
+        </canvas>
         <button onClick={this.updateCanvas}>Generate New Graph</button>
       </div>
     )
