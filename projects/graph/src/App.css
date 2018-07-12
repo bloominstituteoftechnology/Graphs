@@ -29,4 +29,12 @@
 
 .App__Button {
   margin: 10px;
+  background: black;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 30px;
+  width: 300px;
+  border: 1px black solid;
 }
