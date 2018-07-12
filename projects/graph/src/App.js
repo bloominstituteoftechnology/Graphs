@@ -119,11 +119,19 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
   }
+  
+  randomize = () => {
+    this.setState({
+      graph: new Graph(),
+    })
+  }
 
   render() {
     return (
       <div className="App">
-        <GraphView graph={this.state.graph}></GraphView>
+        <GraphView graph={this.state.graph} ></GraphView>
+        <button className="btn" onClick={this.randomize}>Generate graph
+          </button>
       </div>
     );
   }

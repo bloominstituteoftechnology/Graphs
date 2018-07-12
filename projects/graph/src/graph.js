@@ -173,7 +173,7 @@ export class Graph {
   }
 
   randomColors() {
-    const colors = ['#3e4bad', '#ce0a0a', '#96e09a', '#ceedcf', '#ab81ef', '#f6f99a', '#d0d1c8', '#ff8484', '#64cbd1', '#a7f246', '#3d8254', '#00ef4f'];
+    const colors = ['#c4cbff', '#ce0a0a', '#96e09a', '#ceedcf', '#ab81ef', '#f6f99a', '#d0d1c8', '#ff8484', '#64cbd1', '#a7f246', '#3d8254', '#00ef4f'];
     const rand = Math.floor(Math.random() * colors.length);
     console.log(colors[rand]);
     return colors[rand];
