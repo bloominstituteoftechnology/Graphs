@@ -165,6 +165,11 @@ const conditionallyAddVertices = (toReturn, graphInstance) =>
     0 === vertex.state && toReturn.push(graphInstance.bfs(vertex))
   }
 
+/**
+ *
+ * @param {Array} queue Represents current edges being applied
+ * @param {Array} component
+ */
 function applyBfs(queue, component) {
   const vertex = queue.shift()
   vertex.state = 1
