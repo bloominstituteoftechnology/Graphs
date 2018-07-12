@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor() {
+    this.value = '';
+    this.edges = [];
+  }
 }
 
 /**
@@ -26,8 +34,9 @@ export class Graph {
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const weight = Math.floor(Math.random() * 10);
+      v0.edges.push(new Edge(v1, weight));
+      v1.edges.push(new Edge(v0, weight));
     }
 
     let count = 0;
@@ -111,12 +120,72 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [start];
+    const component = [];
+    while (queue.length > 0) {
+      const vertex = queue.shift();
+      vertex.state = 1;
+      component.push(vertex);
+      vertex.edges
+        .map(e => e.destination)
+        .forEach(v => {
+          if (v.state === 0) {
+            v.state = 1;
+            queue.push(v);	  
+          }
+        })
+    }
+    return component;
+  }
+
+  dfs(start, target) {
+    this.initializeState();
+    const unseenVertices = [...this.vertexes];
+    start.distance = 0;
+    while (unseenVertices.length > 0) {
+      const vertex = unseenVertices.reduce((smallest, current) => {
+        return current.distance < smallest.distance
+          ? current
+          : smallest
+      });
+      unseenVertices.splice(unseenVertices.indexOf(vertex), 1);
+      vertex.edges.forEach(e => {
+        const distance = vertex.distance + e.weight;
+        if (distance < e.destination.distance) {
+          e.destination.distance = distance;
+          e.destination.parent = vertex;
+        }
+      });
+    }
+
+    const path = [target];
+    while (target.parent) {
+      target = target.parent;
+      path.unshift(target)
+    }
+    
+    return path.length > 1 ? path : [];
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const connectedComponents = [];
+    this.initializeState();
+    this.vertexes.forEach(v => {
+      if (v.state === 0) {
+	      connectedComponents.push(this.bfs(v));
+      }
+    });
+    return connectedComponents;
+  }
+
+  initializeState() {
+    this.vertexes.forEach(v => {
+      v.state = 0;
+      v.distance = Infinity;
+      v.parent = null;
+    });
   }
 }
