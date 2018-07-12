@@ -42,7 +42,10 @@ class GraphView extends Component {
 
     // !!! IMPLEMENT ME
     // compute connected components
-    const generateCircle = generateCirclefromCanvasContextFunction(ctx)
+    const generateFunctionWithContext = generatefromCanvasContextFunction(ctx)
+    const generateCircle = generateFunctionWithContext(
+      generateCircleFromContext
+    )
 
     /**
      * @type {Graph}
@@ -51,6 +54,7 @@ class GraphView extends Component {
 
     const connectedComponents = GraphInstance.getConnectedComponents()
     console.log(connectedComponents)
+
     connectedComponents.map(
       /**
        * @param {Vertex[]} vertices
@@ -107,7 +111,9 @@ export default App
  * that will create a circle. Useful for composing.
  * @param {CanvasRenderingContext2D} ctx
  */
-const generateCirclefromCanvasContextFunction = ctx =>
+const generatefromCanvasContextFunction = ctx => fn => fn(ctx)
+
+const generateCircleFromContext = ctx =>
   /**
    * @param {number} posX Location on canvas for X axis.
    * @param {number} posY Location on canvas for Y axis.
@@ -117,6 +123,7 @@ const generateCirclefromCanvasContextFunction = ctx =>
    * @param {number=} endAngle Degrees at which to end drawing the circle.
    * Defaults to `Math.Pi * 2`
    */
+
   (posX, posY, radius = 20, startAngle = 0, endAngle = Math.PI * 2) => {
     ctx.beginPath()
     ctx.arc(posX, posY, radius, startAngle, endAngle)
