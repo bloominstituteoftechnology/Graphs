@@ -138,15 +138,19 @@ export class Graph {
    */
   bfs() {
     // !!! IMPLEMENT ME
-    const component = [];
+    // const component = [];
     const queue = [];
 
-    console.log("initial vertexes:", this.vertexes);
+    // console.log("initial vertexes:", this.vertexes);
     // start vert
     // white: Unsearched, Yellow: queued for search, Black: Searched
     for (let i = 0; i < this.vertexes.length; i++) {
+      // console.log("color:", this.getRandomColor());
+
       if (this.vertexes[i].color === "white") {
-        this.vertexes[i].color = "yellow"; // turn yellow when selected
+        this.vertexes[i].color = "#ede87b"; // turn yellow when selected
+        this.vertexes[i].color_connect = this.getRandomColor(); // random color 
+
         queue.push(this.vertexes[i]); // enqueue
         // console.log("queue:", queue[0]);
 
@@ -156,7 +160,8 @@ export class Graph {
           for (let j = 0; j < u.edges.length; j++) {
             if (u.edges[j]) {
               if (u.edges[j].destination.color === "white") {
-                u.edges[j].destination.color2 = "yellow";
+                u.edges[j].destination.color2 = "#ede87b";
+                u.edges[j].destination.color_connect = this.vertexes[i].color_connect;
                 queue.push(u.edges[j].destination);
               }
             }
@@ -171,7 +176,16 @@ export class Graph {
     }
     // console.log("vertexes:", this.vertexes);
 
-    return component;
+    // return component;
+  }
+
+  getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   /**
@@ -179,7 +193,8 @@ export class Graph {
    */
   getConnectedComponents(vertex) {
     // !!! IMPLEMENT ME
-    const component = this.bfs(vertex);
+    // let component = this.bfs();
+    // const connected_component = this.bfs(vertex);
     // select random color
     // apply color to all connected vertecies
   }

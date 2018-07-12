@@ -37,7 +37,7 @@ class GraphView extends Component {
     // console.log("createDummyGraph", this.props.graph.createDummyGraph);
 
     // Clear it
-    ctx.fillStyle = "grey";
+    ctx.fillStyle = "#3c4047";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // draw dummy vertex (hardcoded)
@@ -54,6 +54,8 @@ class GraphView extends Component {
     // edges
     for (let vertex of this.props.graph.vertexes) {
       for (let edge of vertex.edges) {
+        // console.log(edge.destination.color_connect)
+        ctx.strokeStyle = edge.destination.color_connect;
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
@@ -64,17 +66,17 @@ class GraphView extends Component {
 
     // draw dummy verticies (dynamic)
     this.props.graph.vertexes.forEach(v => {
-      console.log(v.color);
       // verts
-      ctx.strokeStyle = "black";
 
       /* connected component checker */
-      // if (v.color2) {
-      //   ctx.fillStyle = v.color2;
-      // } else {
-      //   ctx.fillStyle = v.color;
-      // }
-      ctx.fillStyle = v.color;
+      if (v.color2) {
+        ctx.fillStyle = v.color2;
+      } else {
+        ctx.fillStyle = v.color;
+      }
+      // ctx.fillStyle = v.color;
+
+      ctx.strokeStyle = v.color_connect; // connected vertecies color
       ctx.beginPath();
       ctx.arc(v.pos.x, v.pos.y, 14, 0, 2 * Math.PI);
       ctx.closePath();
@@ -83,16 +85,16 @@ class GraphView extends Component {
 
       // vert values (labels)
       /* connected component checker */
-      // if (v.color === "black") {
-      //   ctx.fillStyle = "white";
-      //   if (v.color2) {
-      //     ctx.fillStyle = "black";
-      //   }
-      // } else {
-      //   ctx.fillStyle = "black";
-      // }
+      if (v.color === "black") {
+        ctx.fillStyle = "white";
+        if (v.color2) {
+          ctx.fillStyle = "black";
+        }
+      } else {
+        ctx.fillStyle = "black";
+      }
+      // ctx.fillStyle = "white";
 
-      ctx.fillStyle = "white";
       ctx.font = "11px arial";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
@@ -128,8 +130,9 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     // this.state.graph.createDummyGraph();
-    this.state.graph.randomize(3, 4, 150, 0.6);
+    this.state.graph.randomize(5, 4, 150, 0.6);
     this.state.graph.bfs();
+    this.state.graph.getConnectedComponents();
   }
 
   render() {
