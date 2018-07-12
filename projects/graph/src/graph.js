@@ -3,6 +3,12 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  //Passed in a destination and weight into the constructor and passed it to this.
+
+  constructor(destination, weight) {
+    this.weight = weight;
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +16,16 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  //Contains a list of edges like graph contains a list of vertexes
+  //Pos has values within for the x and y value.
+  //Also a value part of it within
+  //Not certain if i need to pass in pos
+  constructor(value = 'default', pos={x: -1, y:-1}, color = 'white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+  }
 }
 
 /**
@@ -20,6 +36,10 @@ export class Graph {
     this.vertexes = [];
   }
 
+  // createDummyGraph() {
+  //   const dummyV1 = new Vertex('1', {x: 10, y:10})
+  //   this.vertexes.push(dummyV1);
+  // }
   /**
    * Create a random graph
    */
@@ -111,6 +131,29 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+    const searched = new Set();
+    
+    start.color = 'pink';
+    queue.push(start);
+
+    // start.visited = false;
+
+    while(queue.length > 0) {
+      let bfs = queue[0];
+      for(let e of bfs.edges) {
+        const dest = e.destination;
+        if(dest.color === 'white') {
+          dest.color = 'pink';
+          // dest.visited = true;
+          queue.push(dest);
+        }
+      }
+      queue.shift();
+      bfs.color = 'purple';
+      searched.add(bfs);
+    }
+    return searched;
   }
 
   /**
@@ -118,5 +161,14 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const connected_components = new Set();
+
+    for(let v of this.vertexes) {
+      if(v.color === 'white'){
+        const component = this.bfs(v);
+        connected_components.add(component);
+      }
+    }
+    return connected_components;
   }
 }
