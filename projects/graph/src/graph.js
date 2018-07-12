@@ -149,7 +149,6 @@ export class Graph {
           : smallest
       });
       unseenVertices.splice(unseenVertices.indexOf(vertex), 1);
-      console.log('foo', vertex);
       vertex.edges.forEach(e => {
         const distance = vertex.distance + e.weight;
         if (distance < e.destination.distance) {
