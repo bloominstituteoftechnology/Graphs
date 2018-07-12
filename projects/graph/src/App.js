@@ -48,6 +48,7 @@ class GraphView extends Component {
     // !!! IMPLEMENT ME
     // compute connected components
     const connectedComponents = this.props.graph.getConnectedComponents()
+    console.log(connectedComponents)
     // draw edges
     // draw verts
     // draw vert values (labels)
@@ -75,7 +76,7 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(3, 4, 1)
-    this.state.graph.dump()
+    //this.state.graph.dump()
   }
 
   render() {

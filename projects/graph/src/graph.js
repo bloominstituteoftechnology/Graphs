@@ -118,23 +118,18 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [start]
+    const component = []
+    while (queue.length > 0) {
+      applyBfs(queue, component)
+    }
+    return component
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // var e = this,
-    //   t = []
-    // return (
-    //   this.vertexes.forEach(function(e) {
-    //     return (e.state = 0)
-    //   }),
-    //   this.vertexes.forEach(function(n) {
-    //     0 == n.state && t.push(e.bfs(n))
-    //   }),
-    //   t
-    // )
     // !!! IMPLEMENT ME
     // hello from app.js
     const graphInstance = this,
@@ -148,11 +143,37 @@ export class Graph {
   }
 }
 
+/**
+ *
+ * @param {Edge} edge
+ */
 const resetState = edge => {
   edge.state = 0
   return edge
 }
 
-const conditionallyAddVertices = (toReturn, graphInstance) => vertex => {
-  0 === vertex.state && toReturn.push(graphInstance.bfs(vertex))
+/**
+ *
+ * @param {Array} toReturn empty array the will get connected
+ * @param {Graph} graphInstance the graph where the vertices originate
+ */
+const conditionallyAddVertices = (toReturn, graphInstance) =>
+  /**
+   * @param {Vertex} vertex
+   */
+  vertex => {
+    0 === vertex.state && toReturn.push(graphInstance.bfs(vertex))
+  }
+
+function applyBfs(queue, component) {
+  const vertex = queue.shift()
+  vertex.state = 1
+  component.push(vertex)
+  vertex.edges.map(edge => {
+    const vert = edge.destination
+    if (vert.state == 0) {
+      vert.state = 1
+      queue.push(vert)
+    }
+  })
 }
