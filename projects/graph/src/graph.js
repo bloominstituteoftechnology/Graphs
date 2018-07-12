@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}, color='white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+  }
 }
 
 /**
@@ -20,6 +29,21 @@ export class Graph {
     this.vertexes = [];
   }
 
+
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex('v1', {x:30, y:30});
+    const dummyVertex2 = new Vertex('v2', {x:150, y:120});
+    const dummyVertex3 = new Vertex('v3', {x:550, y:500});
+
+    dummyVertex1.edges.push(new Edge(dummyVertex2));
+    dummyVertex2.edges.push(new Edge(dummyVertex1));
+    dummyVertex2.edges.push(new Edge(dummyVertex3));
+    dummyVertex3.edges.push(new Edge(dummyVertex2));
+
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
+  }
   /**
    * Create a random graph
    */
