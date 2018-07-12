@@ -31,17 +31,18 @@ class GraphView extends Component {
   updateCanvas() {
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext("2d");
-    this.props.graph.randomize(8, 6, 150, 0.3);
-
-    console.log("this.props.graph: ", this.props.graph);
+    this.props.graph.randomize(8, 6, 150, 0.5);
 
     // Clear it
     ctx.fillStyle = "lightgrey";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // draw the lines
-    let connected = [];
-    connected = this.props.graph.bfs();
+    let connectedList = [];
+    for (let vertex of this.props.graph.vertexes) {
+      if (vertex.color !== "black") this.props.graph.bfs(vertex);
+    }
+    connectedList = this.props.graph.bfs(this.props.graph.vertexes[0]);
     this.props.graph.vertexes.forEach(i => {
       i.edges.forEach(j => {
         ctx.fillStyle = j.color;

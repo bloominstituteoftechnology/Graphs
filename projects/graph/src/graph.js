@@ -15,6 +15,7 @@ export class Vertex {
     this.edges = [];
     this.value = value;
     this.pos = pos;
+    this.color = "white";
   }
 }
 
@@ -115,50 +116,37 @@ export class Graph {
   /**
    * BFS
    */
-  bfs() {
-    let connectedList = [];
-    let connected = [];
+  bfs(startVert) {
+    let connected = []; // stores each chain of elements
     let i = 0;
+    let length = 0;
+    let queue;
 
-    while (i < this.vertexes.length) {
-      let length = 0;
-      let queue = [];
+    queue = [];
 
-      this.vertexes.forEach(v => {
-        v.color = "white";
-      });
+    startVert.color = "gray"; //set current vertex to gray
+    queue.push(startVert);
 
-      this.vertexes[i].color = "gray";
-      queue.push(this.vertexes[i]);
+    while (queue.length > 0) {
+      let u = queue[0]; // Peek at head of queue, but do not dequeue!
 
-      while (!(queue.length === 0)) {
-        let u = queue[0]; // Peek at head of queue, but do not dequeue!
-        for (let j = 0; j < u.edges.length; j++) {
-          if (u.edges[j].destination.color === "white") {
-            u.edges[j].destination.color = "gray";
-            queue.push(u.edges[j]);
-          }
-        } //for
+      u.edges.forEach(v => {
+        if (v.destination.color === "white") {
+          v.destination.color = "gray";
+          queue.push(v.destination);
+        }
+      }); //forEach
+      length++;
 
-        // u.edges.forEach(v => {
-        //   if (v.destination.color === "white") {
-        //     v.destination.color = "gray";
-        //     // queue.push(v);
-        //   }
-        // }); //forEach
+      connected.push(queue);
+      queue.shift();
+      u.color = "black";
+    } //inside while
 
-        connected.push(queue[0]);
-        queue.shift();
-        u.color = "black";
-        length++;
-      } //inside while
+    i++;
 
-      i += length;
-      connectedList.push(connected);
-    } //outside while
-
-    console.log(connectedList);
-    return connectedList;
+    console.log(connected);
+    return connected;
   } //bfs
 
   /**
