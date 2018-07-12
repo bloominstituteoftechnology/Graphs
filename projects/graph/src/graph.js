@@ -2,8 +2,9 @@
  * Edge
  */
 export class Edge {
-  constructor(node) {
+  constructor(node, weight) {
     this.connection = node;
+    this.weight = weight;
   }
 }
 
@@ -34,8 +35,9 @@ export class Graph {
     console.log("Randomize graph called");
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+      const weight = 1 + Math.floor(Math.random() * Math.floor(10));
+      v0.edges.push(new Edge(v1, weight));
+      v1.edges.push(new Edge(v0, weight));
     }
 
     let count = 0;

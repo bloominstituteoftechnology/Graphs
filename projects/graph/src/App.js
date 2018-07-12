@@ -4,7 +4,7 @@ import "./App.css";
 
 const canvasWidth = 750;
 const canvasHeight = 600;
-const radius = 10;
+const radius = 15;
 
 function randomColor() {
   let chars = "ABCDEF0123456789";
@@ -76,7 +76,19 @@ class GraphView extends Component {
           ctx.moveTo(vertex.pos.x, vertex.pos.y);
           ctx.lineTo(edge.connection.pos.x, edge.connection.pos.y);
           ctx.stroke();
+
+          ctx.fillStyle = "black";
+          ctx.font = `${radius}px Georgia`;
+          ctx.textAlign = "middle";
+          ctx.textBaseline = "top";
+          ctx.fillText(
+            edge.weight,
+            (vertex.pos.x + edge.connection.pos.x) / 2,
+            (vertex.pos.y + edge.connection.pos.y) / 2
+          );
+          ctx.fillStyle = color;
         }
+
         ctx.beginPath();
         ctx.arc(vertex.pos.x, vertex.pos.y, radius, 0, 2 * Math.PI);
         ctx.stroke();
