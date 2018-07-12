@@ -40,6 +40,7 @@ class GraphView extends Component {
     
     // randomize method call
     this.props.graph.randomize(6, 5, 150, 0.6);
+    this.props.graph.getConnectedComponents();
     
     // debugging:
     // console.log(this.props.graph.vertexes);
@@ -85,16 +86,7 @@ class GraphView extends Component {
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     });
-
-    const toColor = [];
-    this.props.graph.vertexes.forEach(v => {
-      toColor.push(this.props.graph.bfs(v));
-    });
-
-    console.log(toColor)
     
-   
-
     // !!! IMPLEMENT ME
     // compute connected components
     // draw edges

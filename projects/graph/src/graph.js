@@ -132,7 +132,7 @@ export class Graph {
     let result = [];
     let queue = [];
 
-    console.log(vertex);
+    //console.log(vertex);
 
     vertex.color = 'gray';
     queue.push(vertex);
@@ -162,55 +162,15 @@ export class Graph {
   getConnectedComponents() {
     // !!! IMPLEMENT ME
     //const component = this.bfs(vertex);
+    const componentsList = [];
+
+    for (let vertex of this.vertexes) {
+      if (vertex.color === 'white') {
+        const component = this.bfs(vertex);
+        componentsList.push(component);
+      }
+    }
+    console.log(componentsList);
+    return componentsList;
   }
 }
-
-
-
-
-// failed: // !!! IMPLEMENT ME
-
-    // if (reset) {
-    //   vertexes.forEach(vert => {
-    //     vert.color = 'white';
-    //   });
-    //   reset = false;
-    // }
-
-    // const comp = [];
-    // const queue = [];
-
-    // vertexes.forEach(vertex => {
-
-    //   vertex.color = 'gray';
-    //   //console.log(vertex);
-    //   queue.push(vertex);
-  
-    //   while (queue[0]) {
-    //     let u = queue[0];
-        
-    //      //console.log(u.edges[0].destination);
-  
-    //     if (u.edges) {
-    //       u.edges.forEach(neighbor => {
-    //         console.log('neighbor: ', neighbor);
-  
-    //         if (neighbor.destination.color === 'white') {
-    //           neighbor.destination.color = 'gray';
-    //           queue.push(neighbor);
-    //           console.log("queue: ", queue);
-    //         }
-    //       });
-          
-
-    //     }
-  
-    //     queue.shift();
-    //     u.color = 'black';
-    //     comp.push(u);
-    //   }
-
-    // });
-
-
-    // return comp;
