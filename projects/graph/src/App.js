@@ -29,6 +29,7 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
+    this.props.graph.randomize(5, 4, 150, 0.6); // populate graph upon init and update
     // canvas constants
     let canvas = this.refs.canvas;
     canvas.addEventListener("click", this.handleVertexClick, false);
@@ -184,15 +185,12 @@ class App extends Component {
     this.state = {
       graph: new Graph()
     };
-    const g = this.state.graph;
-    g.randomize(5, 4, 150, 0.6);
   }
 
   generateGraph = e => {
     // generate a new instance of Graph, save it to state, and call randomize to generate vertexes and edges
-    const newGraph = new Graph();
-    this.setState({ graph: newGraph });
-    newGraph.randomize(5, 4, 150, 0.6);
+    // const newGraph = new Graph();
+    this.setState({ graph: new Graph() });
   };
 
   render() {
