@@ -11,6 +11,8 @@ const circleRadius = 15;
  * GraphView
  */
 class GraphView extends Component {
+  targetVertexes = [];
+  
   /**
    * On mount
    */
@@ -90,23 +92,43 @@ class GraphView extends Component {
         ctx.fillText(v.value, v.pos.x, v.pos.y);
       });
     });
-
-    graph.dump();
   }
 
-  logVertex = e => {
+  targetVertex = e => {
+    // Reference to canvas and click coordinates
     const canvas = this.refs.canvas;
     const clickX = e.clientX - canvas.offsetLeft;
     const clickY = e.clientY - canvas.offsetTop + window.scrollY;
+    let foundMatch = false;
 
     this.props.graph.vertexes.forEach(vertex => {
+      // Check to see if click was within circle of vertex
+      // Account for canvas offset and window scroll
       const xMatch = clickX > vertex.pos.x - circleRadius && clickX < vertex.pos.x + circleRadius;
       const yMatch = clickY > vertex.pos.y - circleRadius && clickY < vertex.pos.y + circleRadius;
+      let duplicate = false;
       
-      if (xMatch && yMatch) {
-        console.log(vertex.value);
+      // Check for duplicate
+      this.targetVertexes.forEach(targetVert => {
+        if(targetVert.value === vertex.value) duplicate = true;
+      });
+      
+      // Cap target vertexes at 2
+      if (xMatch && yMatch && !duplicate &&this.targetVertexes.length < 2) {
+        this.targetVertexes.push(vertex);
+        foundMatch = true;
+        console.log(`Position of ${vertex.value} pushed to target vertexes`);
       }
     });
+
+    if (!foundMatch) {
+      this.targetVertexes = [];
+      console.log('Target vertexes reset');
+    }
+  }
+
+  logTargets = () => {
+    console.log(this.targetVertexes);
   }
   
   /**
@@ -118,9 +140,10 @@ class GraphView extends Component {
         <canvas ref="canvas"
           width={canvasWidth}
           height={canvasHeight}
-          onClick={(e) => this.logVertex(e)}>
+          onClick={(e) => this.targetVertex(e)}>
         </canvas>
         <button onClick={this.updateCanvas}>Generate New Graph</button>
+        <button onClick={this.logTargets}>Log Targeted Vertexes</button>
       </div>
     )
   }
