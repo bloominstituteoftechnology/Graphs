@@ -130,7 +130,7 @@ export class Graph {
       }
 
       for (let e of v.edges) {
-        s += ` ${e.destination.value}`;
+        s += ` ${e.destination.value} is ${e.destination.color}`;
       }
       console.log(s);
     }

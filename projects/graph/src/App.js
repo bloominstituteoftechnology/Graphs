@@ -37,11 +37,11 @@ class GraphView extends Component {
     this.props.graph.dump();
 
     // Clear it
-    ctx.fillStyle = 'orange';
+    ctx.fillStyle = 'black';
     ctx.fillRect(canvasStartX, canvasStartY, canvasWidth, canvasHeight);
     // ctx.fillRect(100, 100, canvas.width, canvas.height);
 
-    this.props.graph.randomize(8, 6, 149);
+    this.props.graph.randomize(8, 6, 149, .4);
     ctx.font = '13px Arial';  //font and size of text
     ctx.textAlign = 'center';  //location of text on x axis 
     ctx.textBaseline = 'middle';  //location of text on y axis
@@ -57,17 +57,18 @@ class GraphView extends Component {
 
     const uncheckedEdges = [];
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
-      let v = this.props.graph.vertexes[i];
-      if (!checkedEdges[v.valuie]) {
-        let color = v.color;
-        let current = v;
+      let vert = this.props.graph.vertexes[i];
+      if (!checkedEdges[vert.value]) {
+        let current = vert;
+        let color = vert.color;
         uncheckedEdges.push(current);
-        checkedEdges[v.value] = true;
+        checkedEdges[vert.value] = true;
         let count = 0;
         while (uncheckedEdges.length > 0) {
           for (let j = 0; j < current.edges.length; j++) {
             if (!checkedEdges[current.edges[j].destination.value]) {
               checkedEdges[current.edges[j].destination.value] = true;
+              current.edges[j].destination.color = color;
               uncheckedEdges.push(current.edges[j].destination);
             }
           }
@@ -81,6 +82,7 @@ class GraphView extends Component {
             ctx.lineTo(vertex.edges[j].destination.pos.x + canvasStartX, vertex.edges[j].destination.pos.y + canvasStartY);
             ctx.stroke();
           }
+          current = uncheckedEdges[0];
         }
       }
     }
@@ -89,8 +91,8 @@ class GraphView extends Component {
     for (let i = 0; i < this.props.graph.vertexes.length; i++) {
       let v = this.props.graph.vertexes[i];
       if (!checkedVerts[v.value]) {
-        let color = v.color;
         let current = v;
+        let color =v.color;
         unchecked.push(current);
         checkedVerts[v.value] = true;
         let count = 0;
@@ -98,6 +100,7 @@ class GraphView extends Component {
           for (let j = 0; j < current.edges.length; j++) {
             if (!checkedVerts[current.edges[j].destination.value]) {
               checkedVerts[current.edges[j].destination.value] = true;
+              current.edges[j].destination.color = color;
               unchecked.push(current.edges[j].destination);
             }
           }
@@ -119,22 +122,7 @@ class GraphView extends Component {
       }
     }
 
-
-
-    // this.props.graph.vertexes.forEach(v => {
-    //   ctx.beginPath();
-    //   ctx.fillStyle = v.color;  //sets color for the circle
-    //   ctx.strokeStyle = v.color;  //sets color for the circle's edge
-    //   // draw verts
-    //   ctx.arc(v.pos.x + canvasStartX, v.pos.y + canvasStartY, circleRadius, 0, 2 * Math.PI);  //(x,y) center of cicle, radius, arc of circle (in radians)
-    //   ctx.fill();  //fills in the circle
-    //   ctx.stroke();  //draws the circle
-
-    //   // draw vert values (labels)
-    //   ctx.fillStyle = 'black';  //sets color for the text
-    //   ctx.fillText(v.value, v.pos.x + canvasStartX, v.pos.y + canvasStartY);  //fill in the text of v.value @ (x,y) of (v.pos.x, v.pos.y);
-    // })
-
+    this.props.graph.dump();
   }
 
   /**
