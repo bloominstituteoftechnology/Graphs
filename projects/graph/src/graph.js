@@ -3,6 +3,11 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
+
 }
 
 /**
@@ -10,6 +15,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = { x: -1, y: -1 }, color = 'white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    // this.color = color;
+  }
 }
 
 /**
@@ -23,7 +34,7 @@ export class Graph {
   /**
    * Create a random graph
    */
-  randomize(width, height, pxBox, probability=0.6) {
+  randomize(width, height, pxBox, probability = 0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
       v0.edges.push(new Edge(v1));
@@ -51,14 +62,14 @@ export class Graph {
         // Connect down
         if (y < height - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y+1][x]);
+            connectVerts(grid[y][x], grid[y + 1][x]);
           }
         }
 
         // Connect right
         if (x < width - 1) {
           if (Math.random() < probability) {
-            connectVerts(grid[y][x], grid[y][x+1]);
+            connectVerts(grid[y][x], grid[y][x + 1]);
           }
         }
       }
@@ -84,6 +95,7 @@ export class Graph {
         this.vertexes.push(grid[y][x]);
       }
     }
+
   }
 
   /**
@@ -111,12 +123,116 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    // create a visited array
+    // var visited = [];
+    // for (var i = 0; i < this.vertexes.length; i++)
+    //   visited[i] = 'white';
+
+    // // Create an object for queue
+    // var q = new Graph();
+
+    // // add the starting node to the queue
+    // visited[start] = true;
+    // q.enqueue(start);
+
+    // // loop until queue is element
+    // while (!q.isEmpty()) {
+    //   // get the element from the queue
+    //   var getQueueElement = q.dequeue();
+
+    //   // passing the current vertex to callback funtion
+    //   console.log('getQueueElement called',getQueueElement);
+
+    //   // get the adjacent list for current vertex
+    //   var get_List = this.AdjList.get(getQueueElement);
+
+    //   // loop through the list and add the elemnet to the
+    //   // queue if it is not processed yet
+    //   for (var i in get_List) {
+    //     var neigh = get_List[i];
+
+    //     if (!visited[neigh]) {
+    //       visited[neigh] = true;
+    //       q.enqueue(neigh);
+    //     }
+    //   }
+    // }
+
+
+    const component = [];
+    const queue = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const u = queue[0];
+
+      for (let e of u.edges) {
+        const v = e.destination;
+        if (v.color === 'white') {
+          v.color = 'gray';
+          queue.push(v);
+        }
+      }
+
+      queue.shift(); // de-queue
+      u.color = 'black';
+      component.push(u);
+    }
+
+    return component;
+   
+
   }
+  // dfs(start) {
+  //   function visit(v) {
+  //     v.color = gray;
+
+  //     for (e of v.edges) {
+  //       const neighbor = e.destination;
+  //       if (neighbor.color === 'white') {
+  //         neighbor.parent = v;
+  //         visit(neighbor);
+  //       }
+  //     }
+
+  //     v.color = 'black';
+  //   }
+
+  //   for (v of this.vertexes) {
+  //     v.color = 'white';
+  //     v.parent = null;
+  //   }
+
+  //   for (v of this.vertexes) {
+  //     if (v.color === 'white') {
+  //       visit(v);
+  //     }
+  //   }
+  // }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
+    // const component = this.bfs(this.vertex);
     // !!! IMPLEMENT ME
+    const componentsList = [];
+    for (let v of this.vertexes) {
+      v.color = 'white'; 
+    }
+    for (let v of this.vertexes) {
+      if (v.color === 'white') {
+        const component = this.bfs(v);
+        componentsList.push(component);
+      }
+    }
+    return componentsList;
   }
 }
+
+
+
+
+
