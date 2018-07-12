@@ -117,7 +117,7 @@ export class Graph {
 
       node.edges.forEach(e => {
         const target = e.destination;
-        if (target.connected === 0) {
+        if (!target.connected) {
           target.connected = 1;
           queue.push(target);
         }

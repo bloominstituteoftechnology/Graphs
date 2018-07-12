@@ -1,63 +1,39 @@
 import * as THREE from "three";
-// import TrackballControls from "three-trackballcontrols";
 
-export default vertexes => {
-  const width = window.innerWidth, height = window.innerHeight;
-  let camera, controls, scene, renderer;
+export default (vertexes, connections) => {
+  let camera, scene, renderer;
+  let ambientLight;
 
   const init = () => {
-    camera = new THREE.PerspectiveCamera(65, width/height, 0.1, 1000);
-    camera.position.set(333, 233, 500);
+    const colors = ["aqua", "lime", "fuchsia", "yellow", "gray", "orange", "maroon", "purple", "lavender"];
 
+    camera = new THREE.OrthographicCamera(-50, 775, 625, -50, 1, 1000);
     scene = new THREE.Scene();
+    renderer = new THREE.WebGLRenderer();
 
-    vertexes.forEach(v => {
-      const x = v.pos.x - v.pos.x*0.5;
-      const y = v.pos.y - v.pos.y*0.5;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+    ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
 
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "red";
-      ctx.font = "100px arial bold";
-      ctx.fillText(v.value, x, y, 26);
+    connections.forEach(connection => {
+      const geometry = new THREE.SphereGeometry(13, 32, 32, 0, Math.PI*2, 0, Math.PI*2);
+      const material = new THREE.MeshStandardMaterial({color: colors.shift()});
 
-      const texture = new THREE.CanvasTexture(canvas, THREE.SphericalReflectionMapping);
-
-      const display = {
-        color: "skyblue",
-        map: texture,
-        side: THREE.FrontSide,
-        depthFunc: THREE.AlwaysDepth,
-        combine: THREE.MixOperation
-      }
-
-      const geometry = new THREE.SphereGeometry(13, 32, 32);
-      const material = new THREE.MeshBasicMaterial(display);
-      const node = new THREE.Mesh(geometry, material);
-
-      node.position.x = x;
-      node.position.y = y;
-
-      scene.add(node);
+      connection.forEach(v => {
+        const node = new THREE.Mesh(geometry, material);
+        node.position.x = v.pos.x;
+        node.position.y = v.pos.y;
+        scene.add(node);
+      });
     });
 
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(width, height);
-    document.body.appendChild(renderer.domElement);
+    document.addEventListener("resize", () => onWindowResize());
   }
 
-  const textureLabel = v => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    ctx.fillStyle = "red";
-    ctx.font = "30pt arial bold"
-    ctx.fillText(v.value, v.pos.x, v.pos.y);
-
-    return canvas;
+  const onWindowResize = () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   const render = () => {

@@ -7,8 +7,22 @@ const canvasWidth = window.innerWidth; // 750;
 const canvasHeight = window.innerHeight; // 600;
 const circleRadius = 25;
 
+const buttonStyle = {
+  position: "absolute",
+  top: 20,
+  left: 20,
+  color: "black",
+  height: 45,
+  opacity: 0.5,
+  borderRadius: 5,
+  cursor: "pointer"
+}
+
 /* GraphView */
 class GraphView extends Component {
+  state = {
+    randomize: true
+  }
   /* On mount */
   componentDidMount() {
     this.updateCanvas();
@@ -19,18 +33,9 @@ class GraphView extends Component {
     this.updateCanvas();
   }
 
-  blue_yellow_gradient(gradient) {
+  processGradient(gradient, color) {
     gradient.addColorStop(0.0, "white");
-    gradient.addColorStop(0.3, "yellow");
-    gradient.addColorStop(0.8, "skyblue");
-    gradient.addColorStop(1.0, "transparent");
-    return gradient;
-  }
-
-  processGradient(gradient, color1, color2) {
-    gradient.addColorStop(0.0, "white");
-    gradient.addColorStop(0.3, color1); // yellow
-    gradient.addColorStop(0.8, color2); // skyblue
+    gradient.addColorStop(0.8, color); // skyblue
     gradient.addColorStop(1.0, "transparent");
     return gradient;
   }
@@ -40,7 +45,7 @@ class GraphView extends Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     const connections = this.props.graph.getConnectedComponents();
-    const colors = ["skyblue", "limegreen", "hotpink", "yellow", "gray", "orange", "red"];
+    const colors = ["skyblue", "limegreen", "pink", "yellow", "gray", "orange", "red"];
 
     // Clear it
     ctx.fillStyle = 'black';
@@ -67,10 +72,11 @@ class GraphView extends Component {
 
       connection.forEach(v => {
         const x = v.pos.x, y = v.pos.y;
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, circleRadius);
 
         ctx.strokeStyle = "transparent";
         ctx.beginPath();
-        ctx.fillStyle = color;
+        ctx.fillStyle = this.processGradient(gradient, color);
         ctx.arc(x, y, circleRadius, 0, Math.PI*2);
         ctx.stroke();
         ctx.fill();
@@ -80,10 +86,19 @@ class GraphView extends Component {
       });
     });
   }
+
+  handleClick() {
+    this.props.graph.randomize(5, 4, canvasHeight/5, 0.6);
+  }
   
   /* Render */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+      <div width={canvasWidth} height={canvasHeight}>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+        <button onClick={() => this.handleClick()} style={buttonStyle}>randomize</button>
+      </div>
+    );
   }
 }
 
@@ -95,12 +110,13 @@ class App extends Component {
     this.state = {
       graph: new Graph(),
     };
-    this.state.graph.randomize(5, 4, canvasHeight/5, 0.6);
+    // this.state.graph.randomize(5, 4, canvasHeight/5, 0.6);
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
 
-  // componentDidMount() {
-  //   threeD(this.state.graph.vertexes);
-  // }
+  componentDidMount() {
+    threeD(this.state.graph.vertexes, this.state.graph.getConnectedComponents());
+  }
 
   render() {
     return (
