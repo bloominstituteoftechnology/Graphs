@@ -3,9 +3,8 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME (Phase 1)
-  constructor(destination, weight) {
+  constructor(destination) {
     this.destination = destination;
-    this.weight = weight;
   }
 }
 
@@ -29,7 +28,6 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
-
   // DUMMY GRAPH--------------------------------------------
   // createDummyGraph() {
   //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
@@ -46,7 +44,6 @@ export class Graph {
   //   this.vertexes.push(dummyVertex3);
   // }
   // DUMMY GRAPH--------------------------------------------
-
   /**
    * Create a random graph
    */
@@ -98,7 +95,7 @@ export class Graph {
 
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        grid[y][x].pos = {
+        grid[y][x].pos = { //converts the coordinates from decimals to integers using bitwise OR
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
@@ -136,39 +133,31 @@ export class Graph {
   /**
    * BFS = Breadth-First Search (Phase 4)
    */
-  bfs(start, rgbColor) { // <-- added rgbColor parameter
+  bfs(start) {
     // !!! IMPLEMENT ME
-    // This will choose an rgb color at random
-    let randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
-    
-    // bfs logic here
-    // Add (start) to component list
-    const component = [];
-    component.push(start);
+    const component = new Set(); 
+    const queue = [];
 
-    // Then add (start) to the queue
-    let queue = [];
+    start.color = 'gray';
     queue.push(start);
 
-    // Then add a random rgb color
-    start.color = rgbColor;
+    while (queue.length > 0) {
+      const node = queue[0];
 
-    // Next make sure the queue has emptied and if not then continue the loop
-    while (!queue.isEmpty()) {
-      const vertex = queue[0]; // edge
-      for (let edge of vertex.edges) {
-        // checking to see if the destination is not in component
-        if (!component.includes(edge.destination)) {
-          // if not it will add to component array
-          component.push(edge.destination);
-          // this will push to the end of the queue
-          queue.push(edge.destination);
-          // this will add a random rgb color
-          edge.destination.color = rgbColor;
+      for (let edge of node.edges) {
+        const vertex = edge.destination;
+        if (vertex.color === 'white') {
+          vertex.color = 'gray';
+          queue.push(vertex);
         }
       }
+
+      queue.shift();
+      node.color = 'black';
+
+      component.add(node);
     }
-    queue.dequeue();
+    // console.log('component: ', component);
     return component;
   }
 
@@ -177,5 +166,17 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const componentsSet = new Set();
+    // loop through all the vertexes in the graph
+    for (let vertex of this.vertexes) {
+      // if it sees a white vertex, call bfs on that vertex
+       // since we know that vertex hasn't been traversed  
+       if (vertex.color === 'white') {
+        const component = this.bfs(vertex);
+        componentsSet.add(component);
+      }
+    }
+    
+    return componentsSet;
   }
 }
