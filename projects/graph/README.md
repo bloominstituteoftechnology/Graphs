@@ -85,7 +85,7 @@ const g = new Graph();
 // graph (5*150=750, 4*150=600). The probability of any edge of the grid
 // existing is 0.6.
 
-g.randomize(5, 4, 150, 0.6);
+g.randomize(4);
 ```
 
 The _x_ and _y_ pixel coordinates of the verts will be in the `.pos.x`
