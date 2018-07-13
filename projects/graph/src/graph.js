@@ -96,6 +96,14 @@ export class Graph {
   }
 
   /**
+   * Check if two vertexes are connected
+   */
+  areConnected(v1, v2) {
+    const group = this.dfs(v1);
+    return group.includes(v2);
+  }
+
+  /**
    * Dump graph data to the console
    */
   dump() {
@@ -147,8 +155,43 @@ export class Graph {
       }
     }
 
+    // Begin search
     search(start);
     return resultArr;
+  }
+
+  /**
+   * Find shortest distance between two vertexes
+   */
+  findShortestPath(v1, v2) {
+    // Return null if vertexes are not connected
+    if (!this.areConnected(v1, v2)) return null;
+
+    let shortestPath = [];
+
+    function search(vtarget, path = []) {
+      // Prevent infinite loops
+      if (path.includes(vtarget)) return;
+      else path.push(vtarget);
+
+      // If path reaches end point and is shortest traveled
+      if (vtarget === v2 && (shortestPath.length === 0 || path.length < shortestPath.length)) {
+        // Set as shortest path
+        shortestPath = path;
+      } else {
+        // Otherwise search all edge paths
+        vtarget.edges.forEach(edge => {
+          // Slice to prevent adding to original array
+          const splitPath = path.slice();
+          search(edge.destination, splitPath);
+        });
+      }
+    }
+
+    // Begin search
+    search(v1);
+    console.log(shortestPath);
+    return shortestPath;
   }
 
   /**
@@ -172,13 +215,5 @@ export class Graph {
     });
 
     return connectedGroups;
-  }
-
-  /**
-   * Check if two vertexes are connected
-   */
-  areConnected(v1, v2) {
-    const group = this.dfs(v1);
-    return group.includes(v2);
   }
 }
