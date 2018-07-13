@@ -139,8 +139,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <button onClick={this.randomize}> Rando! </button>
+      
         <GraphView graph={this.state.graph}></GraphView>
+        <div>
+        <button onClick={this.randomize}> Rando! </button>
+        </div>
       </div>
     );
   }
