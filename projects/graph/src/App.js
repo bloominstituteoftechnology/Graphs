@@ -29,8 +29,14 @@ class GraphView extends Component {
    * Render the canvas
    */
   updateCanvas() {
+    console.log('updating canvas');
     let canvas = this.refs.canvas;
     let ctx = canvas.getContext('2d');
+    // ctx.beginPath();
+    // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    // ctx.stroke();
+    // ctx.closePath();
+    canvas.width = canvas.height;
 
     // this.props.graph.createDummyGraph();
     // Clear it
@@ -47,6 +53,7 @@ class GraphView extends Component {
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
         ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
         ctx.stroke();
+        ctx.closePath();
       }
     }
 
@@ -60,6 +67,7 @@ class GraphView extends Component {
       // fill in text
       ctx.fillStyle = 'black';
       ctx.fillText(v.value, v.pos.x, v.pos.y);
+      ctx.closePath();
     });
 
     
@@ -76,7 +84,11 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return (
+      <div>
+        <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
+      </div>
+    );
   }
 }
 
@@ -97,6 +109,11 @@ class App extends Component {
   }
 
   componentWillMount() {
+    this.newGraph();
+  }
+
+  newGraph = () => {
+    this.state.graph = new Graph();
     this.state.graph.randomize(5, 4, 160, 0.6);
     const components = this.state.graph.getConnectedComponents();
     const colors = ['red', 'blue', 'green', 'yellow', 'pink', 'orange', 'purple', 'black', 'white', 'brown'];
@@ -106,12 +123,15 @@ class App extends Component {
         vertex.color = colors[i];
       }
     });
+
+    this.setState({ graph: this.state.graph });
   }
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph}></GraphView>
+        <button className="btn" onClick={this.newGraph}>Refresh</button>
       </div>
     );
   }
