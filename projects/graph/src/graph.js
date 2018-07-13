@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value = 'default', pos = { x: -1, y: -1 }) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -87,6 +96,14 @@ export class Graph {
   }
 
   /**
+   * Check if two vertexes are connected
+   */
+  areConnected(v1, v2) {
+    const group = this.dfs(v1);
+    return group.includes(v2);
+  }
+
+  /**
    * Dump graph data to the console
    */
   dump() {
@@ -109,8 +126,72 @@ export class Graph {
   /**
    * BFS
    */
-  bfs(start) {
+  dfs(start) {
     // !!! IMPLEMENT ME
+    const resultArr = [start];
+
+    // Create nested function for recursion
+    function search(target) {
+      // Track vertexes pushed
+      const tempArr = [];
+      let pushed = 0;
+
+      target.edges.forEach(edge => {
+        // If vertex is not included in result array
+        if (!resultArr.includes(edge.destination)) {
+          // Push vertex to result and temp arrays
+          resultArr.push(edge.destination);
+          tempArr.push(edge.destination);
+          pushed++;
+        }
+      });
+
+      // If vertexes were pushed
+      if (pushed) {
+        // Check their connections
+        tempArr.forEach(v => {
+          search(v);
+        });
+      }
+    }
+
+    // Begin search
+    search(start);
+    return resultArr;
+  }
+
+  /**
+   * Find shortest distance between two vertexes
+   */
+  findShortestPath(v1, v2) {
+    // Return null if vertexes are not connected
+    if (!this.areConnected(v1, v2)) return null;
+
+    let shortestPath = [];
+
+    function search(vtarget, path = []) {
+      // Prevent infinite loops
+      if (path.includes(vtarget)) return;
+      else path.push(vtarget);
+
+      // If path reaches end point and is shortest traveled
+      if (vtarget === v2 && (shortestPath.length === 0 || path.length < shortestPath.length)) {
+        // Set as shortest path
+        shortestPath = path;
+      } else {
+        // Otherwise search all edge paths
+        vtarget.edges.forEach(edge => {
+          // Slice to prevent adding to original array
+          const splitPath = path.slice();
+          search(edge.destination, splitPath);
+        });
+      }
+    }
+
+    // Begin search
+    search(v1);
+    console.log(shortestPath);
+    return shortestPath;
   }
 
   /**
@@ -118,5 +199,21 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    // 2D list of connected groups
+    const connectedGroups = [];
+    // Track all searched vertexes to prevent repetition
+    let trackedVertexes = [];
+
+    this.vertexes.forEach(v => {
+      if (!trackedVertexes.includes(v)) {
+        // Grab all connected vertexes and push to groups array
+        const group = this.dfs(v)
+        connectedGroups.push(group);
+        // All all vertexes from group to tracked array
+        trackedVertexes = trackedVertexes.concat(group);
+      }
+    });
+
+    return connectedGroups;
   }
 }
