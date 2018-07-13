@@ -113,6 +113,12 @@ class App extends Component {
   }
 
   // generate new graph function (for button)
+  newGraph = () => {
+    this.state.graph = new Graph();
+    this.state.graph.randomize(7, 7, 100, 0.6);    
+    this.setState(this);
+  };
+
   claudGraph = () => {
     this.state.graph.randomize(7, 7, 100, 0.6);
     this.setState(this);
@@ -121,8 +127,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <h1>G R A P H S</h1>
         <GraphView graph={this.state.graph} />
-        <button onClick={this.claudGraph}>Click to make a new graph</button>
+        <br/>
+        <br/>
+        <button onClick={this.newGraph}>Click to make a new graph</button>
+        <button onClick={this.claudGraph}>Chaos</button>
       </div>
     );
   }
