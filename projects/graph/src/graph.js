@@ -1,28 +1,28 @@
-/**
- * Edge
- */
+/* Edge */
 export class Edge {
-  // !!! IMPLEMENT ME
+  constructor(destination, weight = 0) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
-/**
- * Vertex
- */
+/* Vertex */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  constructor(value="default", pos={ x: -1, y: -1, z: -1 }) {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.connected = 0;
+  }
 }
 
-/**
- * Graph
- */
+/* Graph */
 export class Graph {
   constructor() {
     this.vertexes = [];
   }
 
-  /**
-   * Create a random graph
-   */
+  /* Create a random graph */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
     function connectVerts(v0, v1) {
@@ -73,7 +73,8 @@ export class Graph {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
-          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
+          'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
+          'z': Math.random()*(1000-500)+500 || 0
         };
       }
     }
@@ -86,9 +87,7 @@ export class Graph {
     }
   }
 
-  /**
-   * Dump graph data to the console
-   */
+  /* Dump graph data to the console */
   dump() {
     let s;
 
@@ -106,17 +105,34 @@ export class Graph {
     }
   }
 
-  /**
-   * BFS
-   */
+  /* BFS */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const queue = [start];
+    const connections = [];
+
+    while (queue.length) {
+      const node = queue.shift();
+
+      node.connected = 1;
+      connections.push(node);
+
+      node.edges.forEach(e => {
+        const target = e.destination;
+        if (!target.connected) {
+          target.connected = 1;
+          queue.push(target);
+        }
+      });
+    }
+
+    return connections;
   }
 
-  /**
-   * Get the connected components
-   */
+  /* Get the connected components */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const connections = [];
+    this.vertexes.forEach(v => v.connected = 0);
+    this.vertexes.forEach(v => !v.connected ? connections.push(this.bfs(v)) : null);
+    return connections;
   }
 }
