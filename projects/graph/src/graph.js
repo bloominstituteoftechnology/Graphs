@@ -134,27 +134,42 @@ export class Graph {
    */
   bfs(start, reset = true) {
     // !!! IMPLEMENT ME
+    const component = [];
     let queue = [];
 
+    start.color = "gray";
     queue.push(start);
 
     while (queue.length > 0) {
       const head = queue[0];
 
-      for (let i = 0; i < queue.length; i++) {
-        let node = queue.shift();
-        if (node === reset) {
-          return true;
-        }
-        if (node.left) {
-          queue.push(start[node.left]);
-        }
-        if (node.right) {
-          queue.push(start[node.right]);
+      for (let edge of head.edges) {
+        const vertex = edge.destination;
+        if (vertex.color === "white") {
+          vertex.color = "gray";
+          queue.push(vertex);
         }
       }
+
+      queue.shift();
+      head.color = "black";
+
+      component.add(head);
+
+      // for (let i = 0; i < queue.length; i++) {
+      //   let node = queue.shift();
+      //   if (node === reset) {
+      //     return true;
+      //   }
+      //   if (node.left) {
+      //     queue.push(start[node.left]);
+      //   }
+      //   if (node.right) {
+      //     queue.push(start[node.right]);
+      //   }
+      // }
     }
-    return null;
+    return component;
   }
 
   /**
@@ -162,5 +177,16 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const componentsSet = new Set();
+    // loop through all the vertexes in the graph
+    for (let vertex of this.vertexes) {
+      if ((vertex.color = "white")) {
+        const component = this.bfs(vertex);
+        componentsSet.add(component);
+      }
+    }
+    // if it sees a white vertex, call bfs on that vertex
+    // since we know that vertex hasn't been traversed
+    return componentsSet;
   }
 }
