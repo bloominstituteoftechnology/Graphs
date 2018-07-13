@@ -7,7 +7,6 @@ export class Edge {
     this.weight = weight;
   }
 }
-
 /**
  * Vertex
  */
@@ -17,7 +16,6 @@ export class Vertex {
     this.value = value;
     }
 }
-
 /**
  * Graph
  */
@@ -25,7 +23,6 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
-
   /**
    * Create a random graph
    */
@@ -60,12 +57,9 @@ export class Graph {
         }
       }
     }
-
-    // Last pass, set the x and y coordinates for drawing
     const boxBuffer = 0.5;
     const boxInner = pxBox * boxBuffer;
     const boxInnerOffset = (pxBox - boxInner) / 2;
-
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
