@@ -109,8 +109,8 @@ class GraphView extends Component {
     this.props.graph.vertexes.forEach(vertex => {
       // Check to see if click was within circle of vertex
       // Account for canvas offset and window scroll
-      const xMatch = clickX > vertex.pos.x - circleRadius && clickX < vertex.pos.x + circleRadius;
-      const yMatch = clickY > vertex.pos.y - circleRadius && clickY < vertex.pos.y + circleRadius;
+      const xMatch = clickX > vertex.pos.x - circleRadius + 5 && clickX < vertex.pos.x + circleRadius + 5;
+      const yMatch = clickY > vertex.pos.y - circleRadius + 5 && clickY < vertex.pos.y + circleRadius + 5;
       const duplicate = this.selectedVertexes.includes(vertex);
       
       // Cap target vertexes at 2 and check if duplicate
