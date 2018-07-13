@@ -1,0 +1,5 @@
+ === Phase 4 ===
+ BFS => Start at a leftmost index, search outwards horizontally left to right,
+        then go down, then continue to the next 'ring.'
+
+
