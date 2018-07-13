@@ -2,14 +2,23 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
+  // !!! IMPLEMENT ME (Phase 1)
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
+  // !!! IMPLEMENT ME (Phase 1)
+  constructor(value='default', pos={x: -1, y: -1}, color='white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+  }
 }
 
 /**
@@ -19,7 +28,22 @@ export class Graph {
   constructor() {
     this.vertexes = [];
   }
+  // DUMMY GRAPH--------------------------------------------
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+  //   const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
 
+  //   dummyVertex1.edges.push(new Edge(dummyVertex2));
+  //   dummyVertex2.edges.push(new Edge(dummyVertex1));
+  //   dummyVertex2.edges.push(new Edge(dummyVertex3));
+  //   dummyVertex3.edges.push(new Edge(dummyVertex2));
+
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  // }
+  // DUMMY GRAPH--------------------------------------------
   /**
    * Create a random graph
    */
@@ -30,7 +54,7 @@ export class Graph {
       v1.edges.push(new Edge(v0));
     }
 
-    let count = 0;
+    let count = 1; // This makes the circles start at #1 in stead of 0
 
     // Build a grid of verts
     let grid = [];
@@ -71,7 +95,7 @@ export class Graph {
 
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        grid[y][x].pos = {
+        grid[y][x].pos = { //converts the coordinates from decimals to integers using bitwise OR
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
@@ -107,16 +131,52 @@ export class Graph {
   }
 
   /**
-   * BFS
+   * BFS = Breadth-First Search (Phase 4)
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const component = new Set(); 
+    const queue = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const node = queue[0];
+
+      for (let edge of node.edges) {
+        const vertex = edge.destination;
+        if (vertex.color === 'white') {
+          vertex.color = 'gray';
+          queue.push(vertex);
+        }
+      }
+
+      queue.shift();
+      node.color = 'black';
+
+      component.add(node);
+    }
+    // console.log('component: ', component);
+    return component;
   }
 
-  /**
+   /**
    * Get the connected components
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const componentsSet = new Set();
+    // loop through all the vertexes in the graph
+    for (let vertex of this.vertexes) {
+      // if it sees a white vertex, call bfs on that vertex
+       // since we know that vertex hasn't been traversed  
+       if (vertex.color === 'white') {
+        const component = this.bfs(vertex);
+        componentsSet.add(component);
+      }
+    }
+    
+    return componentsSet;
   }
 }

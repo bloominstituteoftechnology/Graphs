@@ -1,0 +1,32 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\kaitl\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
+
+PATH: 
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Users\kaitl\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Users\kaitl\AppData\Roaming\npm;C:\Program Files\MongoDB\Server\3.6\bin\;C:\Program Files\Heroku\bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.9.4
+
+Platform: 
+  win32 x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Couldn't find a package.json file in "C:\\Users\\kaitl\\Desktop\\Lambda\\LambdaChallenges\\Graphs"
+      at new MessageError (C:\Users\kaitl\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:186:110)
+      at C:\Users\kaitl\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:40048:15
+      at Generator.next (<anonymous>)
+      at step (C:\Users\kaitl\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:98:30)
+      at C:\Users\kaitl\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:109:13
+      at <anonymous>
