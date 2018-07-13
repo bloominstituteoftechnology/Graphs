@@ -13,10 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
-  constructor(value = "default", pos = { x: -1, y: -1 }) {
+  constructor(value = "default", pos = { x: -1, y: -1 }, color = "white") {
     this.value = value;
     this.edges = [];
     this.pos = pos;
+    this.color = color;
   }
 }
 
@@ -41,6 +42,16 @@ export class Graph {
     this.vertexes.push(dummyVertex1);
     this.vertexes.push(dummyVertex2);
     this.vertexes.push(dummyVertex3);
+  }
+
+  // random color
+  randomColor() {
+    const hex = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += hex[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   /**
