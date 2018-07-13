@@ -166,7 +166,7 @@ class GraphView extends Component {
         // - Color vertexes and edges appropriately -
         // Edges
         ctx.strokeStyle = 'blue';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 4;
 
         // Render connection with blue line
         connection.forEach(vertex => {
@@ -180,47 +180,10 @@ class GraphView extends Component {
             }
           });
         });
-
-        ctx.lineWidth = 2;
-        // - Draw vertex 1 -
-        // Outline/Fill vertex 1
-        ctx.fillStyle = 'green';
-        ctx.beginPath();
-        ctx.arc(v1.pos.x, v1.pos.y, circleRadius, 0, 2 * Math.PI);
-        ctx.stroke();
-        ctx.fill();
-
-        // Highlight vertex 1
-        ctx.strokeStyle = 'yellow';
-        ctx.beginPath();
-        ctx.arc(v1.pos.x, v1.pos.y, circleRadius - 2, 0, 2 * Math.PI);
-        ctx.stroke();
-
-        // Fill text
-        ctx.fillStyle = 'white';
-        ctx.fillText(v1.value, v1.pos.x, v1.pos.y);
-
-        // - Draw vertex 2 -
-        // Outline/Fill vertex 2
-        ctx.strokeStyle = 'blue';
-        ctx.fillStyle = 'red';
-        ctx.beginPath();
-        ctx.arc(v2.pos.x, v2.pos.y, circleRadius, 0, 2 * Math.PI);
-        ctx.stroke();
-        ctx.fill();
-
-        // Highlight vertex 2
-        ctx.strokeStyle = 'yellow';
-        ctx.beginPath();
-        ctx.arc(v2.pos.x, v2.pos.y, circleRadius - 2, 0, 2 * Math.PI);
-        ctx.stroke();
-
-        // Fill text
-        ctx.fillStyle = 'white';
-        ctx.fillText(v2.value, v2.pos.x, v2.pos.y);
       }
     }
-    console.log(this.selectedVertexes);
+    
+    this.clearSelection();
   }
   
   /**
