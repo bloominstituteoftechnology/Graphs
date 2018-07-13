@@ -110,17 +110,19 @@ class App extends Component {
     // !!! IMPLEMENT ME
     // use the graph randomize() method
     this.state.graph.randomize(7, 7, 100, 0.6);
-
-    // claudGraph = () => {
-    //   this.state.graph = new Graph();
-    //   this.props.graph.randomize(7, 7, 100, 0.6);
-    // };
   }
+
+  // generate new graph function (for button)
+  claudGraph = () => {
+    this.state.graph.randomize(7, 7, 100, 0.6);
+    this.setState(this);
+  };
 
   render() {
     return (
       <div className="App">
         <GraphView graph={this.state.graph} />
+        <button onClick={this.claudGraph}>Click to make a new graph</button>
       </div>
     );
   }
