@@ -33,23 +33,29 @@ class GraphView extends Component {
     let ctx = canvas.getContext('2d');
 
 //randomize feature moved and props implemented to give 'onClick' functionality to my button for updating to a new random graph
-    this.props.graph.vertexes = [];
-    this.props.graph.randomize(5, 4, 150, 0.6);
+    // this.props.graph.vertexes = [];
+    // this.props.graph.randomize(5, 4, 150, 0.6);
 
     // Clear it
-    ctx.fillStyle = 'grey';
+    ctx.fillStyle = '#8a92a0';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    this.drawVertexes(ctx);
-  }
-
-  drawVertexes(ctx) {
-    ctx.font = '13px Arial';
+    ctx.font = '18px Impact';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+    // set containing all of the connected components
+    const components = this.props.graph.getConnectedComponents();
+    // loop through all of the components, passing each to `drawVertexes` 
+    components.forEach((component) => {
+      this.drawVertexes(ctx, component, this.generateRandomColor());
+    });
+  }
 
+  drawVertexes(ctx, vertexes, color) {
     // draw the lines between vertexes
-    for (let vertex of this.props.graph.vertexes) {
+    ctx.strokeStyle = color;
+
+    for (let vertex of vertexes) {
       for (let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -57,10 +63,10 @@ class GraphView extends Component {
         ctx.stroke();
       }
     }
-
-    for (let v of this.props.graph.vertexes) {
+    // drawing the circles
+    for (let v of vertexes) {
       ctx.beginPath();
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = color;
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
       ctx.fill();
       ctx.stroke();
@@ -78,18 +84,20 @@ class GraphView extends Component {
     // console.log('called createDummyGraph');
     // DUMMY GRAPH--------------------------------------------  
   
-  /**
+generateRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+/**
    * Render
    */
-render() { 
-  return (
-  <div>
-    <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>
-    {/* Added button to populate new graph at random */}
-    <button onClick={this.updateCanvas}>Update Graph</button>
-  </div>
-    )
-    // console.log(this.updateCanvas);
+  render() {
+    return <canvas ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
   }
 }
 
@@ -106,16 +114,25 @@ class App extends Component {
 
     // !!! IMPLEMENT ME (Phase 4)
     // use the graph randomize() method
-    // this.state.graph.randomize(5, 4, 150, 0.6);
-    this.state.graph.getConnectedComponents();
+    this.state.graph.randomize(5, 4, 150, 0.6);
   }
+
+  randomize = () => {
+    const state = {
+      graph: new Graph()
+    };
+
+    state.graph.randomize(5, 4, 150, 0.6);
+    this.setState(state);
+  };
 
   render() {
     return (
       <div className="App">
+        <button onClick={this.randomize}>Update Graph</button>
         <GraphView graph={this.state.graph}></GraphView>
       </div>
-    );
+    )
   }
 }
 
