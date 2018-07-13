@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,11 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}) {
+    this.edges = []; // told us below in randomize that there is an edges array
+    this.value = value;
+    this.pos = pos;
+  }
 }
 
 /**
@@ -20,21 +28,30 @@ export class Graph {
     this.vertexes = [];
   }
 
+  // createDummyGraph() {
+  //   const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+  //   const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+  //   const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+  //   this.vertexes.push(dummyVertex1);
+  //   this.vertexes.push(dummyVertex2);
+  //   this.vertexes.push(dummyVertex3);
+  // }
+
   /**
    * Create a random graph
    */
   randomize(width, height, pxBox, probability=0.6) {
     // Helper function to set up two-way edges
-    function connectVerts(v0, v1) {
-      v0.edges.push(new Edge(v1));
-      v1.edges.push(new Edge(v0));
+    function connectVerts(v0, v1) { // 2 vertexes
+      v0.edges.push(new Edge(v1)); // this is an array. edge pushed onto its edges array. 
+      v1.edges.push(new Edge(v0)); // v0 is the destination.
     }
 
     let count = 0;
 
     // Build a grid of verts
     let grid = [];
-    for (let y = 0; y < height; y++) {
+    for (let y = 0; y < height; y++) { 
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
@@ -110,13 +127,51 @@ export class Graph {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
+    const component = [];
+    const queue = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const u = queue[0];// getting the first item
+
+      for (let e of u.edges) { // looping over the edges array in u
+        const v = e.destination;// grabbing the destination property in  u
+        if (v.color === 'white') { // if not visited yet
+          v.color = 'gray';
+          queue.push(v);
+        }
+      }
+
+      queue.shift(); // de-queue
+      u.color = 'black';
+      component.push(u);
+    }
+
+    return component;
   }
 
   /**
    * Get the connected components
    */
   getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    const componentsList = [];
+
+    for (let v of this.vertexes) {
+      v.color = 'white'; 
+    }
+    console.log(this.vertexes)
+    
+
+    for (let v of this.vertexes) {
+      if (v.color === 'white') {
+        const component = this.bfs(v);
+        componentsList.push(component);
+      }
+    }
+
+    return componentsList;
   }
 }
+// was unable to move to stretch goals. Still studying how everything works on this assignment. 
