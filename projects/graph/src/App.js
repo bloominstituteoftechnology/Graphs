@@ -11,7 +11,7 @@ const circleRadius = 15;
  * GraphView
  */
 class GraphView extends Component {
-  targetVertexes = [];
+  selectedVertexes = [];
   
   /**
    * On mount
@@ -56,6 +56,7 @@ class GraphView extends Component {
       // compute connected components
       // draw edges
       ctx.strokeStyle = 'black';
+      ctx.lineWidth = 1.5;
 
       group.forEach(v => {
         v.edges.forEach(edge => {
@@ -80,7 +81,10 @@ class GraphView extends Component {
       // draw verts
       // draw vert values (labels)
       const color = getRandomColor();
+      ctx.lineWidth = 3;
+
       group.forEach(v => {
+        v.color = color;
         ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
@@ -94,9 +98,10 @@ class GraphView extends Component {
     });
   }
 
-  targetVertex = e => {
+  selectVertex = e => {
     // Reference to canvas and click coordinates
     const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
     const clickX = e.clientX - canvas.offsetLeft;
     const clickY = e.clientY - canvas.offsetTop + window.scrollY;
     let foundMatch = false;
@@ -106,57 +111,116 @@ class GraphView extends Component {
       // Account for canvas offset and window scroll
       const xMatch = clickX > vertex.pos.x - circleRadius && clickX < vertex.pos.x + circleRadius;
       const yMatch = clickY > vertex.pos.y - circleRadius && clickY < vertex.pos.y + circleRadius;
-      const duplicate = this.targetVertexes.includes(vertex);
+      const duplicate = this.selectedVertexes.includes(vertex);
       
       // Cap target vertexes at 2 and check if duplicate
-      if (xMatch && yMatch && !duplicate &&this.targetVertexes.length < 2) {
-        this.targetVertexes.push(vertex);
+      if (xMatch && yMatch && !duplicate &&this.selectedVertexes.length < 2) {
+        this.selectedVertexes.push(vertex);
         foundMatch = true;
+
+        // Highlight selection
+        ctx.strokeStyle = 'yellow';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius - 2, 0, 2 * Math.PI);
+        ctx.stroke();
       }
     });
 
-    if (!foundMatch) this.targetVertexes = [];
+    if (!foundMatch) {
+      this.selectedVertexes = [];
+      this.clearSelection();
+    }
+  }
+
+  clearSelection() {
+    const canvas = this.refs.canvas;
+    const ctx = canvas.getContext('2d');
+
+    this.props.graph.vertexes.forEach(vertex => {
+       // Outline/Fill vertex
+       ctx.fillStyle = vertex.color;
+       ctx.strokeStyle = 'black';
+       ctx.beginPath();
+       ctx.arc(vertex.pos.x, vertex.pos.y, circleRadius, 0, 2 * Math.PI);
+       ctx.stroke();
+       ctx.fill();
+
+       // Fill text
+       ctx.fillStyle = 'white';
+       ctx.fillText(vertex.value, vertex.pos.x, vertex.pos.y);
+    });
   }
 
   path = () => {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
-    const v1 = this.targetVertexes[0];
-    const v2 = this.targetVertexes[1];
+    const v1 = this.selectedVertexes[0];
+    const v2 = this.selectedVertexes[1];
 
-    if (this.targetVertexes.length === 2) {
-      const connected = this.props.graph.areConnected(v1, v2);
+    if (this.selectedVertexes.length === 2) {
+      const connection = this.props.graph.findShortestPath(v1, v2);
       
       // If vertexes are connected then
-      if (connected) {
-        // Find quickest path
-        
+      if (connection) {
+        // - Color vertexes and edges appropriately -
+        // Edges
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 3;
 
-        // Color vertexes and edges appropriately
-        // Vertex 1
+        // Render connection with blue line
+        connection.forEach(vertex => {
+          vertex.edges.forEach(edge => {
+            // Only color lines in connection route
+            if (connection.includes(vertex) && connection.includes(edge.destination)) {
+              ctx.beginPath();
+              ctx.moveTo(vertex.pos.x, vertex.pos.y);
+              ctx.lineTo(edge.destination.pos.x, edge.destination.pos.y);
+              ctx.stroke();
+            }
+          });
+        });
+
+        ctx.lineWidth = 2;
+        // - Draw vertex 1 -
+        // Outline/Fill vertex 1
         ctx.fillStyle = 'green';
         ctx.beginPath();
         ctx.arc(v1.pos.x, v1.pos.y, circleRadius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
 
-        // fill in the text
+        // Highlight vertex 1
+        ctx.strokeStyle = 'yellow';
+        ctx.beginPath();
+        ctx.arc(v1.pos.x, v1.pos.y, circleRadius - 2, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // Fill text
         ctx.fillStyle = 'white';
         ctx.fillText(v1.value, v1.pos.x, v1.pos.y);
 
-        // Vertex 2
+        // - Draw vertex 2 -
+        // Outline/Fill vertex 2
+        ctx.strokeStyle = 'blue';
         ctx.fillStyle = 'red';
         ctx.beginPath();
         ctx.arc(v2.pos.x, v2.pos.y, circleRadius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
 
-        // fill in the text
+        // Highlight vertex 2
+        ctx.strokeStyle = 'yellow';
+        ctx.beginPath();
+        ctx.arc(v2.pos.x, v2.pos.y, circleRadius - 2, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // Fill text
         ctx.fillStyle = 'white';
         ctx.fillText(v2.value, v2.pos.x, v2.pos.y);
       }
     }
-    console.log(this.targetVertexes);
+    console.log(this.selectedVertexes);
   }
   
   /**
@@ -168,7 +232,7 @@ class GraphView extends Component {
         <canvas ref="canvas"
           width={canvasWidth}
           height={canvasHeight}
-          onClick={(e) => this.targetVertex(e)}>
+          onClick={(e) => this.selectVertex(e)}>
         </canvas>
         <button onClick={this.updateCanvas}>Generate New Graph</button>
         <button onClick={this.path}>Path</button>
