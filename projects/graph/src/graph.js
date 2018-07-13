@@ -3,6 +3,9 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination) {
+    this.destination = destination;
+  }
 }
 
 /**
@@ -10,6 +13,12 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value='default', pos={x: -1, y: -1}, color='white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+  }
 }
 
 /**
@@ -18,6 +27,21 @@ export class Vertex {
 export class Graph {
   constructor() {
     this.vertexes = [];
+  }
+
+  createDummyGraph() {
+    const dummyVertex1 = new Vertex('v1', {x: 20, y: 25});
+    const dummyVertex2 = new Vertex('v2', {x: 100, y: 75});
+    const dummyVertex3 = new Vertex('v3', {x: 500, y: 605});
+
+    dummyVertex1.edges.push(new Edge(dummyVertex2));
+    dummyVertex2.edges.push(new Edge(dummyVertex1));
+    dummyVertex2.edges.push(new Edge(dummyVertex3));
+    dummyVertex3.edges.push(new Edge(dummyVertex2));
+    
+    this.vertexes.push(dummyVertex1);
+    this.vertexes.push(dummyVertex2);
+    this.vertexes.push(dummyVertex3);
   }
 
   /**
@@ -72,6 +96,7 @@ export class Graph {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         grid[y][x].pos = {
+          // converts the coordinates from decimals to integers using bitwise OR
           'x': (x * pxBox + boxInnerOffset + Math.random() * boxInner) | 0,
           'y': (y * pxBox + boxInnerOffset + Math.random() * boxInner) | 0
         };
@@ -111,6 +136,30 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const component = new Set();
+    const queue = [];
+
+    start.color = 'gray';
+    queue.push(start);
+
+    while (queue.length > 0) {
+      const node = queue[0];
+
+      for (let edge of node.edges) {
+        const vertex = edge.destination;
+        if (vertex.color === 'white') {
+          vertex.color = 'gray';
+          queue.push(vertex);
+        }
+      }
+
+      queue.shift();
+      node.color = 'black';
+
+      component.add(node);
+    }
+    
+    return component;
   }
 
   /**
@@ -118,5 +167,17 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const componentsSet = new Set();
+    // loop through all the vertexes in the graph
+    for (let vertex of this.vertexes) {
+      // if it sees a white vertex, call bfs on that vertex
+      // since we know that vertex hasn't been traversed
+      if (vertex.color === 'white') {
+        const component = this.bfs(vertex);
+        componentsSet.add(component);
+      }
+    }
+    
+    return componentsSet;
   }
 }
