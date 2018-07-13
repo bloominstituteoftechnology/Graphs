@@ -44,16 +44,6 @@ export class Graph {
     this.vertexes.push(dummyVertex3);
   }
 
-  // random color
-  randomColor() {
-    const hex = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += hex[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
   /**
    * Create a random graph
    */
@@ -145,7 +135,7 @@ export class Graph {
    */
   bfs(start, reset = true) {
     // !!! IMPLEMENT ME
-    const component = [];
+    const component = new Set();
     let queue = [];
 
     start.color = "gray";

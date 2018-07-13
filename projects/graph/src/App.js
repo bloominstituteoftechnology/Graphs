@@ -45,11 +45,17 @@ class GraphView extends Component {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // randomize
-    this.props.graph.randomize(7, 7, 100, 0.6);
+    const components = this.props.graph.getConnectedComponents();
+    components.forEach(component => {
+      this.drawVertexes(ctx, component, this.getRandomColor());
+    });
+  }
 
-    // draw edges
-    for (let vertex of this.props.graph.vertexes) {
+  // draw edges
+  drawVertexes(ctx, vertexes, color) {
+    ctx.strokeStyle = color;
+
+    for (let vertex of vertexes) {
       for (let edge of vertex.edges) {
         ctx.beginPath();
         ctx.moveTo(vertex.pos.x, vertex.pos.y);
@@ -59,7 +65,7 @@ class GraphView extends Component {
     }
 
     // draw  verts
-    for (let v of this.props.graph.vertexes) {
+    for (let v of vertexes) {
       ctx.beginPath();
       ctx.fillStyle = "white";
       ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
@@ -70,6 +76,16 @@ class GraphView extends Component {
       ctx.fillStyle = "black";
       ctx.fillText(v.value, v.pos.x, v.pos.y);
     }
+  }
+
+  // random color
+  getRandomColor() {
+    const hex = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += hex[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   /**
@@ -93,6 +109,12 @@ class App extends Component {
 
     // !!! IMPLEMENT ME
     // use the graph randomize() method
+    this.state.graph.randomize(7, 7, 100, 0.6);
+
+    // claudGraph = () => {
+    //   this.state.graph = new Graph();
+    //   this.props.graph.randomize(7, 7, 100, 0.6);
+    // };
   }
 
   render() {
