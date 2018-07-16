@@ -3,6 +3,11 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 3, color = 'black') {
+    this.destination = destination;
+    this.weight = weight;
+    this.color = color;
+  }
 }
 
 /**
@@ -10,16 +15,21 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value, pos={x: -1, y: -1}, color='white') {
+    this.edges = [];
+    this.value = value;
+    this.pos = pos;
+    this.color = color;
+  }
 }
 
 /**
  * Graph
  */
 export class Graph {
-  constructor() {
+    constructor() {
     this.vertexes = [];
   }
-
   /**
    * Create a random graph
    */
@@ -111,12 +121,22 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
-  }
+    const randColor = 'rgba(' + Math.floor(Math.random()*255) + ', ' + Math.floor(Math.random()*255) +  ', ' + Math.floor(Math.random()*255) + ', 1)';
+    const component = [];
+    start.color = 'gray';
+    component.push(start);
 
-  /**
-   * Get the connected components
-   */
-  getConnectedComponents() {
-    // !!! IMPLEMENT ME
+    while(component.length !== 0){
+      const u = component[0];
+      for(let i = 0; i < u.edges.length; i++) {
+        if (u.edges[i].destination.color === 'white') {
+          u.edges[i].destination.color = 'gray';
+          u.edges[i].color = randColor;
+          component.push(u.edges[i].destination);
+        }
+      }
+      component.shift();
+      u.color = randColor;
+    }
   }
 }
