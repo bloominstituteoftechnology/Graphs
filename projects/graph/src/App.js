@@ -54,6 +54,8 @@ class GraphView extends Component {
     // draw the lines
     let color;
     let connected = [];
+    let min = 500;
+    let max = 0;
     for (let vertex of this.props.graph.vertexes) {
       if (vertex.color !== "black") {
         color = TinyColor(getRandomColor(vertex.pos.x));
@@ -66,6 +68,9 @@ class GraphView extends Component {
           ctx.strokeStyle = "hsl(0,0%,50%)";
           ctx.setTransform(1, 0, 0, 1, 0.5, 0.5);
           i.edges.forEach(j => {
+            min > j.weight ? (min = j.weight) : null;
+            max < j.weight ? (max = j.weight) : null;
+
             ctx.moveTo(i.pos.x, i.pos.y);
             ctx.lineTo(j.destination.pos.x, j.destination.pos.y);
             ctx.stroke();
@@ -73,12 +78,33 @@ class GraphView extends Component {
         });
 
         // draw our vertexes
+        console.log(connected);
         connected.forEach(v => {
+          // vertexes
           ctx.beginPath();
           ctx.fillStyle = color;
           ctx.arc(v.pos.x, v.pos.y, circleRadius, 0, 2 * Math.PI);
           ctx.fill();
           ctx.stroke();
+
+          v.edges.forEach(e => {
+            // weight bubbles
+            ctx.beginPath();
+            ctx.fillStyle = "white";
+            ctx.arc(e.middle.x, e.middle.y, circleRadius * 0.5, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            // weight text
+            ctx.beginPath();
+            ctx.font = "13px Arial";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.textShadowColor = "rgba(0, 0, 0, 0.75)";
+            ctx.textShadowOffset = { width: -1, height: 1 };
+            ctx.textShadowRadius = 10;
+            ctx.fillStyle = "Black";
+            ctx.fillText(e.weight, e.middle.x, e.middle.y);
+          });
 
           // fill in the text
           ctx.beginPath();
@@ -93,6 +119,7 @@ class GraphView extends Component {
         });
       }
     }
+    console.log(min, max);
   }
 
   /**
