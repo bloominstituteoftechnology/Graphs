@@ -5,8 +5,8 @@ import './App.css';
 // !!! IMPLEMENT ME
 // const canvasWidth = 1200;
 // const canvasHeight = 900;
-const canvasWidth = window.innerWidth;
-const canvasHeight = window.innerHeight - 50;
+// const canvasWidth = window.innerWidth;
+// const canvasHeight = window.innerHeight - 50;
 const circleRadius = 15;
 const canvasStartX = 0;
 const canvasStartY = 0;
@@ -37,17 +37,31 @@ class GraphView extends Component {
     let left = canvas.offsetLeft;
     let top = canvas.offsetTop;
     let ctx = canvas.getContext('2d');
+    let myGraph = this.props.graph;
     // this.props.graph.createDummyGraph();
     // this.props.graph.dump();
-    let myGraph = this.props.graph;
-    
-    
+
+    canvas.addEventListener('click', function (event) {
+      let x = event.pageX - left;
+      let y = event.pageY - top;
+
+      myGraph.vertexes.forEach(v => {
+        let vertX = v.pos.x;
+        let vertY = v.pos.y;
+        let xDiff = Math.abs(vertX - x);
+        let yDiff = Math.abs(vertY - y);
+        if (xDiff < circleRadius && yDiff < circleRadius) {
+          console.log(`${v.value} was clicked`);
+        }
+      })
+    }, false);
+
     // Clear it
     ctx.fillStyle = 'black';
-    ctx.fillRect(canvasStartX, canvasStartY, canvasWidth, canvasHeight);
+    ctx.fillRect(canvasStartX, canvasStartY, this.props.width, this.props.height);
     // ctx.fillRect(100, 100, canvas.width, canvas.height);
 
-    myGraph.randomize(canvasWidth / 155, canvasHeight / 170, 149, .4);
+    myGraph.randomize(this.props.width / 155, this.props.height / 170, 140, Math.random());
     ctx.font = '13px Arial';  //font and size of text
     ctx.textAlign = 'center';  //location of text on x axis 
     ctx.textBaseline = 'middle';  //location of text on y axis
@@ -60,21 +74,6 @@ class GraphView extends Component {
       checkedVerts[v.value] = false;
       checkedEdges[v.value] = false;
     })
-
-    canvas.addEventListener('click', function(event) {
-      let x = event.pageX - left;
-      let y = event.pageY - top;
-
-      myGraph.vertexes.forEach(v => {
-        let vertX = v.pos.x;
-        let vertY = v.pos.y;
-        let xDiff = Math.abs(vertX - x);
-        let yDiff = Math.abs(vertY - y);
-        if(xDiff < circleRadius && yDiff < circleRadius) {
-          console.log(`${v.value} was clicked`);
-        }
-      })
-    }, false);
 
     const uncheckedEdges = [];
     for (let i = 0; i < myGraph.vertexes.length; i++) {
@@ -148,7 +147,7 @@ class GraphView extends Component {
    * Render
    */
   render() {
-    return <canvas id='myCanvas' ref="canvas" width={canvasWidth} height={canvasHeight}></canvas>;
+    return <canvas id='myCanvas' ref="canvas" width={this.props.width} height={this.props.height}></canvas>;
   }
 }
 
@@ -161,7 +160,9 @@ class App extends Component {
     super(props);
 
     this.state = {
-      graph: new Graph()
+      graph: new Graph(),
+      width: window.innerWidth - 50,
+      height: window.innerHeight - 50
     };
 
     this.timer = null;
@@ -169,6 +170,22 @@ class App extends Component {
     this.stopRandomize.bind(this);
     this.setDefault = true;
   }
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({
+      width: window.innerWidth - 50,
+      height: window.innerHeight - 50
+    });
+  };
 
   // !!! IMPLEMENT ME
   // use the graph randomize() method
@@ -182,21 +199,26 @@ class App extends Component {
   }
 
   increaseRandomize = () => {
-    this.setDefault = false;
-    this.stopRandomize();
-    this.counter *= .8;
-    this.timer = setInterval(this.randomize, this.counter);
+    if (this.timer) {
+      this.setDefault = false;
+      this.stopRandomize();
+      this.counter *= .8;
+      this.timer = setInterval(this.randomize, this.counter);
+    }
   }
 
   decreaseRandomize = () => {
-    this.setDefault = false;
-    this.stopRandomize();
-    this.counter *= 1.2;
-    this.timer = setInterval(this.randomize, this.counter);
+    if (this.timer) {
+      this.setDefault = false;
+      this.stopRandomize();
+      this.counter *= 1.2;
+      this.timer = setInterval(this.randomize, this.counter);
+    }
   }
 
   stopRandomize = () => {
     clearInterval(this.timer);
+    this.timer = null;
     if (this.setDefault) this.counter = 1000;
     this.setDefault = true;
   }
@@ -210,14 +232,14 @@ class App extends Component {
     return (
       <div className="App">
         <div>
-          <GraphView elemFinder={this.findThisElem} graph={this.state.graph}></GraphView>
+          <GraphView elemFinder={this.findThisElem} graph={this.state.graph} width={this.state.width} height={this.state.height} ></GraphView>
         </div>
         <div>
-          <button onClick={this.randomize}>Random </button>
-          <button onClick={this.increaseRandomize}>Speed Up </button>
-          <button onClick={this.randomizeIndefinitely}>Continuous </button>
-          <button onClick={this.decreaseRandomize}>Slow Down </button>
-          <button onClick={this.stopRandomize}>STOP </button>
+          <button onClick={this.randomize}> Randomize </button>
+          <button onClick={this.increaseRandomize}> Speed Up </button>
+          <button onClick={this.randomizeIndefinitely}> Continuous </button>
+          <button onClick={this.decreaseRandomize}> Slow Down </button>
+          <button onClick={this.stopRandomize}> STOP </button>
         </div>
       </div>
     );
