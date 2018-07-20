@@ -6,9 +6,9 @@ class Edge:
 class Vertex:
     def __init__(self, value):
         self.value = value
-        self.edges = []
+        self.edges = set()
 
 
 class Graph:
     def __init__(self):
-        self.vertices = []
+        self.vertices = set()
