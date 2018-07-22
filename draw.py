@@ -85,6 +85,7 @@ class BokehGraph:
     def randomize(self, show_graph=True):
         """Randomize vertex position and optionally show the graph."""
         for vertex in self.graph.vertices:
-            self.pos[vertex] = (random() * self.width, random() * self.height)
+            self.pos[vertex] = (1 + (random() * (self.width - 2)),
+                                1 + (random() * (self.height - 2)))
         if show_graph:
             self.show()
