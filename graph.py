@@ -37,7 +37,7 @@ def main(num_vertices=8, num_edges=8):
     # Add some random edges
     from random import sample
     for _ in range(num_edges):
-        vertices = sample(graph.vertices, 2)
+        vertices = sample(graph.vertices.keys(), 2)
         graph.add_edge(vertices[0], vertices[1])
 
     bokeh = BokehGraph(graph)

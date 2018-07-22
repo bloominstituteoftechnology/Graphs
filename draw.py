@@ -2,7 +2,7 @@
 General drawing methods for graphs using Bokeh.
 """
 
-from random import random
+from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
@@ -31,8 +31,9 @@ class BokehGraph:
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
 
-        graph_renderer.node_renderer.data_source.add(self.graph.keys(), 'index')
-        graph_renderer.node_renderer.data_source.add(self.graph.get_colors(),
+        graph_renderer.node_renderer.data_source.add(
+            list(self.graph.vertices.keys()), 'index')
+        graph_renderer.node_renderer.data_source.add(self._get_random_colors(),
                                                      'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
                                                     fill_color='color')
@@ -41,14 +42,24 @@ class BokehGraph:
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
+    def _get_random_colors(self):
+        colors = []
+        for _ in range(len(self.graph.vertices)):
+            color = "#"+''.join([choice('0123456789ABCDEF') for j in range(6)])
+            colors.append(color)
+        return colors
+
     def _get_edge_indexes(self):
         start_indices = []
         end_indices = []
+        checked = set()
 
-        for start_index, vertex in enumerate(self.graph.vertice):
-            for edge in vertex.edges:
-                start_indices.append(start_index)
-                end_indices.append(self.graph.vertexes.index(edge.destination))
+        for vertex, edges in self.graph.vertices.items():
+            if vertex not in checked:
+                for destination in edges:
+                    start_indices.append(vertex)
+                    end_indices.append(destination)
+                checked.add(vertex)
 
         return dict(start=start_indices, end=end_indices)
 
@@ -73,7 +84,7 @@ class BokehGraph:
 
     def randomize(self, show_graph=True):
         """Randomize vertex position and optionally show the graph."""
-        for vertex in self.graph:
-            self.pos[vertex] = (random() * self.width, random() * self.height())
+        for vertex in self.graph.vertices:
+            self.pos[vertex] = (random() * self.width, random() * self.height)
         if show_graph:
             self.show()
