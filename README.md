@@ -1,5 +1,5 @@
 # Graphs
-
+booo
 ## Objectives
 
 * [Graph Intro](objectives/graph-intro)
