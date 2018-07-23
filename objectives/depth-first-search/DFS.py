@@ -62,14 +62,17 @@ class ListGraph:
     def depth_first_search(self, target):
         stack = []
         def dfs_helper(stack):
+            if stack == []:
+                return False
             current = stack.pop(0)
             if current.label == target:
                 return True
-            if current.color == "black":
-                return False
-            current.color = "grey"
-            
-            stack.insert(0, list(current.edges)[0])
+            for x in current.edges:
+                if x not in stack and not x.color == "black":
+                    stack.append(x)
+                else:
+                    continue
+            current.color = "black"
             return dfs_helper(stack)
 
         stack.insert(0, list(self.vertices)[0])
@@ -87,4 +90,4 @@ for x in range(0,75):
     lg.add_edge(list(lg.vertices)[randint(0, 49)], list(lg.vertices)[randint(0, 49)])
 
 #print(lg.breadth_first_search("v 700"))
-print(lg.depth_first_search("v 15"))
+print(lg.depth_first_search("v 9600"))
