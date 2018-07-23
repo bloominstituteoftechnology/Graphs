@@ -11,5 +11,3 @@
 ## Projects
 
 * [Drawing Connected Components](projects/graph)
-
-Just some comment...
