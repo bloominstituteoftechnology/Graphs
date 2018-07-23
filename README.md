@@ -11,3 +11,5 @@
 ## Projects
 
 * [Drawing Connected Components](projects/graph)
+
+Max Washington
