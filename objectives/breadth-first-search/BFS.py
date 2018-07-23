@@ -35,19 +35,20 @@ class ListGraph:
 
     def breadth_first_search(self, target):
         queue = []
-        #visited = []
+        visited = []
         def bfs_helper(queue):
             if queue == []:
-                return False
+                return False, visited
             current = queue.pop(0)
+            visited.append(current)
             #print(current)
             #if current in visited:
             #    return False
             #visited.append(current)
             if current.color == "black":
-                return False
+                return False, visited
             if current.label == target:
-                return True
+                return True, visited
             else:
                 for x in current.edges:
                     if not x.color == "grey" and not x.color == "black":
@@ -72,4 +73,4 @@ for x in ints:
 for x in range(0,75):
     lg.add_edge(list(lg.vertices)[randint(0, 49)], list(lg.vertices)[randint(0, 49)])
 
-print(lg.breadth_first_search("v 700"))
+print(lg.breadth_first_search("v 19"))
