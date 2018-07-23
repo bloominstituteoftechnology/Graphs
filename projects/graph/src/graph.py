@@ -25,8 +25,10 @@ class Graph:
         self.vertices[vertex] = set() 
 
     def add_edge(self, start, end, bidirectional=True):
-        if start not in self.vertices or end not in self.vertices:
-            raise Exception('Error - vertices not in graph!')
+        if start not in self.vertices:
+            raise Exception('Error - {} vertices not in graph!'.format(start))
+        if end not in self.vertices:
+            raise Exception('Error - {} vertices not in graph!'.format(end))
         self.vertices[start].add(end)
         if bidirectional:
             self.vertices[end].add(start)
