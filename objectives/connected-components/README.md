@@ -1,3 +1,4 @@
+
 # Connected Components in a Graph
 
 A _connected component_ of a graph is a subgraph where all vertices are
