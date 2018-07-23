@@ -1,6 +1,6 @@
 # Implement a Graph
 
-## Using an Adjacency Matrix 
+## Using an Adjacency Matrix
 
 One way of representing connections between verts is with a matrix that
 records `1` for a connection or `0` for no connection.
