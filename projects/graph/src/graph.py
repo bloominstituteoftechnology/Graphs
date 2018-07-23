@@ -17,6 +17,8 @@ class Graph:
     def add_vertex(self, vertex):
         if vertex.label:
             self.vertices[vertex] = set()
+        else:
+            raise Exception("This is not a vertex")
 
     def add_edge(self, start, end, bidirectional = True):
         self.vertices[start].add(end)
