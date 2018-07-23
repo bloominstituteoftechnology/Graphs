@@ -18,18 +18,20 @@ class Vertex:
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges"""
     def __init__(self):
-        self.vertices = set()
+        self.vertices = {}
 
     def add_edge(self, start, end, bidirectional=True):
         """Add an edge from start to end."""
         if start not in self.vertices or end not in self.vertices:
             raise Exception('Error - vertices not in graph!')
-        start.vertices.add(end)
+        else:
+            self.vertices[start].add(end)
         if bidirectional:
-            end.vertices.add(start)
+            self.vertices[end].add(start)
 
     def add_vertex(self, vertex):
-        self.vertices.add(vertex)
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
 
 
 graph = Graph()  # Instantiate your graph
