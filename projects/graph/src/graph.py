@@ -17,7 +17,7 @@ class Graph:
     def add_edge(self, start, end, bidirectional=True):
         if start in self.vertices and end in self.vertices:
             self.vertices[start].add(end)
+            if bidirectional:
+                self.vertices[end].add(start)
         else:
             raise ValueError("Please provide start and end vertices that exist.")
-        if bidirectional:
-            self.vertices[end].add(start)
