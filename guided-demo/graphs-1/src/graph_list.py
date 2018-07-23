@@ -18,9 +18,9 @@ class ListGraph:
         """Add an edge from start to end."""
         if start not in self.vertices or end not in self.vertices:
             raise Exception('Error - vertices not in graph!')
-        start.edges.add(end)
+        start.edge.add(end)
         if bidirectional:
-            end.edges.add(start)
+            end.edge.add(start)
 
     def add_vertex(self, vertex):
         if not hasattr(vertex, 'label'):
