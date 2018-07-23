@@ -6,6 +6,9 @@ class Edge:
     # pylint: disable=too-few-public-methods
     def __init__(self, destination):
         self.destination = destination
+    def getdestination(self):
+        return self.destination
+    
 
 
 class Vertex:
