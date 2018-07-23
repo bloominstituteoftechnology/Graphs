@@ -8,8 +8,8 @@ class Graph:
        self.vertices = {}
           
     def add_vertex(self, vertex):
-        if v not in self.vertices:
-            self.vertices[v] = set()
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
         else:
             raise ValueError("That value already exist")
 
