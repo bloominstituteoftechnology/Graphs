@@ -17,22 +17,26 @@ class Graph:
     """ Represent a graph as a dictionary of vertices mapping labels to edges. """
     """ Type of graph: adjacency list """
     def __init__(self):
-        self.vertices = set()
+        self.vertices = {}
 
     def add_edge(self, start, end, bidirectional=True):
         """ Adding an edge from start to end. """
         if start not in self.vertices or end not in self.vertices:
-            raise Exception("Error: vertices not in graph!")
-        start.edges.add(end)
-        if bidirectional:
-            end.edges.add(start)
+            raise Exception("%s or %s does not exist" %(start, end))
+        else:
+            self.vertices[start].add(end)
+            if bidirectional == True:
+                self.vertices[end].add(start)
 
     def add_vertex(self, vertex):
-        if not hasattr(vertex, 'label'):
-            raise Exception('This is not a vertex!')
-        self.vertices.add(vertex)
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+        else:
+            raise ValueError("That vertex already exists in the graph.")
 
-graph = Graph()
+# Testing Graph implementation:
+
+graph = Graph() # Instantiating an empty graph
 graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
