@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/pyth
 
 """
 Simple graph implementation compatible with BokehGraph class.
@@ -12,3 +12,10 @@ class Graph:
 
     def add_vertex(self, vertex):
         self.vertices[vertex] = set()
+
+    def add_edge(self, start, end, bidirectional=True):
+        self.vertices[start].add(end)
+
+        if bidirectional:
+            self.vertices[end].add(start)
+    
