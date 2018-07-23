@@ -61,12 +61,14 @@ class ListGraph:
 
     def depth_first_search(self, target):
         stack = []
+        visited = []
         def dfs_helper(stack):
             if stack == []:
-                return False
+                return False, visited
             current = stack.pop(0)
+            visited.append(current)
             if current.label == target:
-                return True
+                return True, visited
             for x in current.edges:
                 if x not in stack and not x.color == "black":
                     stack.append(x)
