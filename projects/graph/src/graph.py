@@ -24,9 +24,15 @@ class Graph:
 
         self.verts[str(label)] = connect
 
+        if bidir:
+
+            for y in connect:
+
+                self.verts[str(y)].append(label)
+
     def delete_vert(self, label):
        
-        label - str(label)
+        label = str(label)
         paths = []
 
         if label not in list(self.verts.keys()):
@@ -44,7 +50,7 @@ class Graph:
     def delete_conn(self, node, conn, bidir = False):
 
         node = str(node)
-        conn - str(conn)
+        conn = str(conn)
         
         self.verts[node].remove(conn)
 
