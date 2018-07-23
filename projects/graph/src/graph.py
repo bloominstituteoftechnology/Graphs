@@ -21,4 +21,7 @@ class Graph:
         else:
             self.vertices[start].add(end)
             self.vertices[end].add(start)
-        
+    
+    def __repr__(self):
+        for vertex in self.vertices:
+            print({f'Vertex {vertex} is connected to {self.vertices[vertex]}'})
