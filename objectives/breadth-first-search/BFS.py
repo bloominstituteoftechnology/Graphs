@@ -1,5 +1,5 @@
 """Graph representation using adjacency list."""
-
+from random import randint
 
 class Vertex:
     """Vertices have a label and a set of edges."""
@@ -35,59 +35,41 @@ class ListGraph:
 
     def breadth_first_search(self, target):
         queue = []
+        #visited = []
         def bfs_helper(queue):
             if queue == []:
                 return False
             current = queue.pop(0)
+            #print(current)
+            #if current in visited:
+            #    return False
+            #visited.append(current)
             if current.color == "black":
                 return False
             if current.label == target:
                 return True
             else:
                 for x in current.edges:
-                    x.color = "grey"
-                    queue.append(x)
+                    if not x.color == "grey" and not x.color == "black":
+                        x.color = "grey"
+                        queue.append(x)
+                    else:
+                        continue
                 current.color = "black"
                 return bfs_helper(queue)
 
         queue.append(list(self.vertices)[0])
         return bfs_helper(queue)
 
-    
-
-#k jokilsfd
 lg = ListGraph()
+ints = []
+for x in range(0, 50):
+    ints.append(x)
 
-v1 = Vertex("v 1")
-lg.add_vertex(v1)
-v2 = Vertex("v 2")
-lg.add_vertex(v2)
-v3 = Vertex("v 3") 
-lg.add_vertex(v3)
-v4 = Vertex("v 4")
-lg.add_vertex(v4)
-v5 = Vertex("v 5")
-lg.add_vertex(v5)
-v6 = Vertex("v 6")
-lg.add_vertex(v6)
-v7 = Vertex("v 7")
-lg.add_vertex(v7)
-v8 = Vertex("v 8")
-lg.add_vertex(v8)
-v9 = Vertex("v 9")
-lg.add_vertex(v9)
-v10 = Vertex("v 10")
-lg.add_vertex(v10)
+for x in ints:
+    lg.add_vertex(Vertex(f"v {x}"))
 
-lg.add_edge(v1, v2)
-lg.add_edge(v2, v3)
-lg.add_edge(v2, v9)
-lg.add_edge(v3, v4)
-lg.add_edge(v3, v10)
-lg.add_edge(v4, v5)
-lg.add_edge(v5, v6)
-lg.add_edge(v6, v7)
-lg.add_edge(v7, v8)
+for x in range(0,75):
+    lg.add_edge(list(lg.vertices)[randint(0, 49)], list(lg.vertices)[randint(0, 49)])
 
-
-print(lg.breadth_first_search("v 25"))
+print(lg.breadth_first_search("v 700"))
