@@ -19,6 +19,8 @@ class Graph:
             end.edges.add(start)
 
     def add_vertex(self, vertex):
+        if not prop(vertex, 'label'):
+            raise Exception('NOT a vertex!!')
         self.vertices.add(vertex)
 
 graph = Graph()  # Instantiate your graph (from repo)
