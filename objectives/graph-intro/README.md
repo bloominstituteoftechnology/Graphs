@@ -1,4 +1,4 @@
-# Intro to Graphs
+# Intro to Graphs 
 
 ![Directed Graph](img/graph.png)
 
