@@ -42,7 +42,7 @@ class BokehGraph:
             self.pos[vertex] = (random.uniform(0.5,9.5), random.uniform(0.5,9.5))
         
     def draw(self, title='Graph', width=10, height=10,
-                show_axis=False, show_grid=False, circle_size=35):
+                show_axis=False, show_grid=False, circle_size=15):
         plot = figure(title=title, x_range=(0,width), y_range=(0,height))
         
         plot.axis.visible = show_axis
@@ -64,24 +64,24 @@ class BokehGraph:
         output_file('./graph.html')
         show(plot)
 
-graph = Graph()
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_vertex('4')
-graph.add_vertex('5')
-graph.add_vertex('6')
-graph.add_vertex('7')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('0', '7')
-graph.add_edge('1', '6', bidirectional=False)
-graph.add_edge('3', '6')
-graph.add_edge('6', '7')
-graph.add_edge('0', '5')
-graph.add_edge('4', '2')
-print(graph.vertices)
-
-bokeh = BokehGraph(graph)
-bokeh.draw()
+def randomize_graph(size=10):
+    graph = Graph()
+    for i in range(size):
+        graph.add_vertex(str(i))
+    # make connections
+    for vertex in graph.vertices.keys():
+        vertices = list(graph.vertices.keys())
+        vertices.remove(vertex)
+        # 30% chance that a vertex will have connections
+        if random.random() > 0.5:
+            num_connections = random.randint(0, min(size//3, 3))
+            if num_connections > 0:
+                for i in range(num_connections):
+                    end = random.choice(vertices)
+                    vertices.remove(end)
+                    graph.add_edge(vertex, end)
+    bokeh = BokehGraph(graph)
+    bokeh.draw()
+    
+if __name__ == '__main__':
+    randomize_graph()
