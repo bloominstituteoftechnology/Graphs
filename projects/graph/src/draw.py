@@ -4,8 +4,8 @@ General drawing methods for graphs using Bokeh.
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-                          ColumnDataSource)
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, Arrow,
+                          NormalHead, LabelSet, ColumnDataSource)
 
 
 class BokehGraph:
@@ -35,6 +35,28 @@ class BokehGraph:
                                                     fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indices()
         self.randomize()
+
+        for i in range(len(graph_renderer.edge_renderer.data_source.data['start'])):
+            print(i)
+            self.plot.add_layout(
+                Arrow(
+                    end=NormalHead(fill_color='green'),
+                    x_start=self.pos[
+                        graph_renderer.edge_renderer.data_source.data['start'][i]
+                    ][0],
+                    y_start=self.pos[
+                        graph_renderer.edge_renderer.data_source.data['start'][i]
+                    ][1],
+                    x_end=self.pos[
+                        graph_renderer.edge_renderer.data_source.data['end'][i]
+                    ][0],
+                    y_end=self.pos[
+                        graph_renderer.edge_renderer.data_source.data['end'][i]
+                    ][1],
+                )
+            )
+
+
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
@@ -65,6 +87,6 @@ class BokehGraph:
     def randomize(self):
         #for vertex positions
         for vertex in self.graph.vertices:
-            #TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
-                                1 + random() * (self.height - 2)) 
+                                random() * (self.height - 2))
+        print('self.pos', self.pos)
