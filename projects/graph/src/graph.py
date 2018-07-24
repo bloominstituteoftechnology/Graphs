@@ -19,9 +19,10 @@ class Graph:
             self.vertices[end].add(start)
 
     def add_vertex(self, vertex):
-        if not hasattr(vertex, 'label'):
-            raise Exception('Error -- This is not a vertex!')
+        if vertex not in self.vertices:
             self.vertices[vertex] = set()
+        else:
+            raise Exception('Error -- This is not a vertex!')
 
 class Vertex:
     def __init__(self, label, bidirectional=True):
@@ -31,3 +32,12 @@ class Vertex:
 class Edge:
     def __init__(self, destination, bidirectional=True):
         self.destination = destination
+
+graph = Graph()
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+print(graph.vertices)
