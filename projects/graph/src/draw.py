@@ -10,6 +10,8 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self):
-        pass  # TODO
+    def __init__(self, graph):
+        if not graph.vertices:
+            raise Exception("Graph should contain vetices!")
+        self.graph = graph
 
