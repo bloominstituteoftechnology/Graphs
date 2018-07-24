@@ -23,19 +23,23 @@ class BokehGraph:
         self.x_range = (0, width)
         self.y_range = (0, height)
         # List of vertex labels
-        self.vertices = [int(x) for x in self.graph.vertices.keys()]
+        # self.vertices = [int(x) for x in self.graph.vertices.keys()]
+        self.vertices = [*self.graph.vertices.keys()]
         self.bokeh_graph = GraphRenderer()
         self.show()
 
     def show(self):
         '''Paint the graph object'''
 
-        plot = figure(plot_width=self.width,
-                      plot_height=self.height,
-                      title=self.title,
-                      x_range=(0, self.width),
-                      y_range=(0, self.height)
-                      )
+        plot = figure(
+            plot_width=self.width,
+            plot_height=self.height,
+            title=self.title,
+            x_range=(0, self.width),
+            y_range=(0, self.height)
+        )
+        plot.axis.visible = False
+        plot.grid.visible = False
         self.define_vertex_shape()
         self.define_edges()
         self.map_to_coordinates()
