@@ -29,9 +29,13 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def add_vertex(self, vertex):
+    def add_vertex(self, vertex, edges=()):
+        if vertex in self.vertices:
+            raise Exception("Error: trying to add vertex that already exists")
+        if not set(edges).issubset(self.vertices):
+            raise Exception("Error:: cannot have edge to nonexistent vertex")
         if vertex not in self.vertices:
-            self.vertices[vertex] = set()
+            self.vertices[vertex] = set(edges)
 
 
 graph = Graph()  # Instantiate your graph

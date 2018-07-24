@@ -1,5 +1,6 @@
 """Graph representation using adjacency list."""
 
+
 class Edge:
     """Edges in the adjacency list are just a destination."""
     # Using simple classes for illustrative purposes
