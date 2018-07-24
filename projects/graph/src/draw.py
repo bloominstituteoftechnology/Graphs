@@ -6,7 +6,7 @@ from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-                          ColumnDataSource)
+                          ColumnDataSource, VeeHead, Arrow)
 
 
 class BokehGraph:
@@ -38,6 +38,27 @@ class BokehGraph:
                                                     fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
+
+        for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
+            self.plot.add_layout(
+                Arrow(
+                    end=VeeHead(fill_color="black"),
+                    x_start=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["start"][i]
+                    ][0],
+                    y_start=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["start"][i]
+                    ][1],
+                    x_end=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["end"][i]
+                    ][0],
+                    y_end=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["end"][i]
+                    ][1],
+                )
+            )
+
+
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
@@ -81,6 +102,7 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+graph.add_edge('1', '2')
 graph.add_edge('0', '2')
 graph.add_edge('0', '2')
 
