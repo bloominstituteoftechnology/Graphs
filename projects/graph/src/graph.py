@@ -22,13 +22,15 @@ class Graph:
             self.vertices[end].add(start)
 
     def add_vertex(self, vertex):
-        if not hasattr(vertex, self):
-            raise Exception('NOT a vertex!!')
+        #if not hasattr(vertex, self):
+            #raise Exception('NOT a vertex!!')
         self.vertices[vertex] = set()
 
 #creating main method per AG
+
 def main():
     graph = Graph()  # Instantiate your graph (from repo)
+    graph.add_vertex('0')
     graph.add_vertex('1')
     graph.add_vertex('2')
     graph.add_vertex('3')
@@ -47,4 +49,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 

@@ -1,7 +1,8 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-from graph import Graph
+#from graph import Graph
+#from draw import BokehGraph
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -80,14 +81,20 @@ class BokehGraph:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
+"""
+def main():
+    graph = Graph()
+    graph.add_vertex('A')
+    graph.add_vertex('B')
+    graph.add_edge('A', 'B')
+    graph.vertices
 
-graph = Graph()
-graph.add_vertex('A')
-graph.add_vertex('B')
-graph.add_edge('A', 'B')
-graph.vertices
+    bg = BokehGraph(graph)
+    dir(bg)
+    bg.pos
+    bg.plot
+    bg.show()
 
-bg = BokehGraph(graph)
-bg.pos
-bg.plot
-bg.show()
+if __name__ == "__main__":
+    main()
+"""
