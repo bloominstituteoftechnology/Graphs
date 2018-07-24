@@ -14,10 +14,20 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
     # TODO
-        self.vertices = set()
+        self.vertices = {}
+
     def add_edge(self, start, end, bidirectional=True):
-        pass
+        if start not in self.vertices or end not in self.vertices:
+            raise Exception("Start and or end doesn't exist here")
+        else:
+            self.vertices[start].add(end)
+            if bidirectional == True:
+                self.vertices[end].add(start)
+
     def add_vertex(self, vertex):
-        pass
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+        else:
+            raise ValueError("that vertex already exists")
 
 
