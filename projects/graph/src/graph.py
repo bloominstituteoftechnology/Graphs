@@ -27,6 +27,10 @@ class Graph:
         raise Exception('Error: adding vertex that already exists')
       # if exists don't do anything, if not intilize it
       self.vertices[vertex] = set(edges)
+    def bsf(self, vertex, edge=()):
+      pass
+    def dsf(self, vertex, edge()):
+      pass
 
 # graph = Graph()  # Instantiate your graph
 # graph.add_vertex('0')

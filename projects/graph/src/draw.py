@@ -1,6 +1,8 @@
 """
 General drawing methods for graphs using Bokeh.
 """
+from bokeh.models.annotations import Arrow
+from bokeh.models.arrow_heads import OpenHead, NormalHead, VeeHead
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -14,7 +16,6 @@ class BokehGraph:
       if not graph.vertices:
         raise Exception('Graph should contain vertices!')
       self.graph= graph
-
       self. width= width
       self.height= height
       self.pos= {} # dict to map vertices to x, y positions
