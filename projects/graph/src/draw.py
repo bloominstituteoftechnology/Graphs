@@ -1,6 +1,7 @@
 """
 General drawing methods for graphs using Bokeh.
 """
+from graph import Graph
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -16,11 +17,10 @@ class BokehGraph:
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
         self.graph = graph
-
-        # Setup plot
         self.width = width
         self.height = height
         self.pos = {}  # dict to map vertices to x, y positions
+        # Set up plot, the canvas/space to draw on
         self.plot = figure(title=title, x_range=(
             0, width), y_range=(0, height))
         self.plot.axis.visible = show_axis
@@ -28,18 +28,25 @@ class BokehGraph:
         self._setup_graph_renderer(circle_size)
 
     def _setup_graph_renderer(self, circle_size):
+        # The renderer will have the actual logic for drawing
         graph_renderer = GraphRenderer()
 
+        # Add the vertex data as instructions for drawing nodes
         graph_renderer.node_renderer.data_source.add(
             list(self.graph.vertices.keys()), 'index')
+        # Nodes will be random colors
         graph_renderer.node_renderer.data_source.add(
             self._get_random_colors(), 'color')
+        # And circles
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
                                                     fill_color='color')
+
+        # Add the edge [start, end] indices as instructions for drawing edges
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
-        self.randomize()
+        self.randomize()  # Randomize vertex coordinates, and set as layout
         graph_renderer.layout_provider = StaticLayoutProvider(
             graph_layout=self.pos)
+        # Attach the prepared renderer to the plot so it can be shown
         self.plot.renderers.append(graph_renderer)
 
     def _get_random_colors(self):
@@ -73,4 +80,14 @@ class BokehGraph:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
-        pass  # TODO
+
+graph = Graph()
+graph.add_vertex('A')
+graph.add_vertex('B')
+graph.add_edge('A', 'B')
+graph.vertices
+
+bg = BokehGraph(graph)
+bg.pos
+bg.plot
+bg.show()
