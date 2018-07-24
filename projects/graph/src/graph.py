@@ -4,6 +4,7 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
+from draw import BokehGraph
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -33,3 +34,5 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 #graph.add_edge('0', '4')
 print(graph.vertices)
+
+BokehGraph(graph).show()
