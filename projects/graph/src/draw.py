@@ -68,4 +68,4 @@ class BokehGraph:
         """Randomize vertex positions"""
 
         for vertex in self.graph.vertices:
-            self.pos[vertex] = (random.randint(0, 10), random.randint(0, 10))
+            self.pos[vertex] = (random.randint(15, 45), random.randint(15, 45))
