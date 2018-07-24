@@ -5,13 +5,7 @@ General drawing methods for graphs using Bokeh.
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import (
-    GraphRenderer,
-    StaticLayoutProvider,
-    Circle,
-    LabelSet,
-    ColumnDataSource,
-)
+from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, Arrow, NormalHead
 
 
 class BokehGraph:
@@ -51,7 +45,28 @@ class BokehGraph:
             size=circle_size, fill_color="color"
         )
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
+
         self.randomize()
+        print(self.pos)
+        for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
+            self.plot.add_layout(
+                Arrow(
+                    end=NormalHead(fill_color="orange", size=10),
+                    x_start=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["start"][i]
+                    ][0],
+                    y_start=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["start"][i]
+                    ][1],
+                    x_end=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["end"][i]
+                    ][0],
+                    y_end=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["end"][i]
+                    ][1],
+                )
+            )
+
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
@@ -83,8 +98,19 @@ class BokehGraph:
     def randomize(self):
         """Randomize vertex positions."""
         for vertex in self.graph.vertices:
-            # TODO make bounds and random draws less hacky
-            self.pos[vertex] = (
-                1 + random() * (self.width - 2),
-                1 + random() * (self.height - 2),
-            )
+
+            acceptable = False
+
+            while not acceptable:
+                random_x = 1 + random() * (self.width - 2)
+                random_y = 1 + random() * (self.height - 2)
+                acceptable = True
+                for i in self.pos:
+                    if (
+                        (random_x - self.pos[i][0]) ** 2
+                        + (random_y - self.pos[i][1]) ** 2
+                    ) ** .5 < 1:
+                        acceptable = False
+                        print("Rejected position, rerolling...")
+
+            self.pos[vertex] = (random_x, random_y)
