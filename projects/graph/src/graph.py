@@ -1,8 +1,7 @@
 <<<<<<< HEAD
 =======
 #!/usr/bin/python
-
-from collections import defaultdict
+from draw import BokehGraph
 
 >>>>>>> 2a3a1aa... Finished writing out the starter code for the Graph class.
 """
@@ -25,7 +24,7 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
     def __init__(self):
-        self.vertices = defaultdict(set)
+        self.vertices = {}
 
     def add_edge(self, start, end, bidirectional=True):
         """Add an edge from start to end."""
@@ -35,15 +34,26 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def add_vertex(self, vertex):
-        self.vertices[vertex] = set()
+    def add_vertex(self, vertex, edges=()):
+        if not set(edges).issubset(self.vertices):
+            raise Exception("Error: Cannot have edge to nonexistent vertices")
+        if vertex in self.vertices:
+            raise Exception("Error: Vertex already exists.")
+        self.vertices[vertex] = set(edges)
 
 
-graph = Graph()
-graph.add_vertex("0")
-graph.add_vertex("1")
-graph.add_vertex("2")
-graph.add_vertex("3")
-graph.add_edge("0", "1")
-graph.add_edge("0", "3")
-print(graph.vertices)
+def main():
+    graph = Graph()
+    graph.add_vertex("0")
+    graph.add_vertex("1")
+    graph.add_vertex("2")
+    graph.add_vertex("3")
+    graph.add_edge("0", "1")
+    graph.add_edge("0", "3")
+
+    b = BokehGraph(graph)
+    b.show()
+
+
+if __name__ == "__main__":
+    main()
