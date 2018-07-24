@@ -7,7 +7,7 @@ Simple graph implementation compatible with BokehGraph class.
 
 class Vertex:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self):
+    def __init__(self, label):
         self.label = label
         self.edges = set()
 
@@ -16,21 +16,15 @@ class Vertex:
 
 class Graph:
     def __init__(self):        
-        self.vertices = {}
-        # self.matrix = [[0 for _ in range(num_vertices)]
-        #                 for _ in range(num_vertices)]
-        # self.vertices = [Graph(str(i)) for i in range(num_vertices)]
+        self.vertices = {}        
     
-    def add_edge(self, start_index, end_index, birectional=True):
-        if start not in self.vertices or end_index not in self.vertices:
-            raise Exception("%s or %s does not exist" %(start, end_index))
+    def add_edge(self, start_index, end_index, bidirectional=True):
+        if start_index not in self.vertices or end_index not in self.vertices:
+            raise Exception("%s or %s does not exist" %(start_index, end_index))
         else:
-            self.vertices[start].add(end)
-            if birectional == True:
-                self.vertices[end_index].add(start)
-        # self.matrix[start_index][end_index] = 1
-            # if birectional:
-            #     self.matrix[end_index][start_index] = 1
+            self.vertices[start_index].add(end_index)
+            if bidirectional == True:
+                self.vertices[end_index].add(start_index)        
 
     def add_vertex(self, vertex):
         if vertex not in self.vertices:
@@ -47,3 +41,5 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
+
+graph.add_edge('0', '4')
