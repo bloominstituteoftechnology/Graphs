@@ -23,9 +23,11 @@ class Graph:
         self.vertices = {}
 
     def add_edge(self, start, end, bidirectional=True):
+        """Add a 'line' that runs from point to point"""
         pass
 
     def add_vertex(self, vertex, edges=()):
+        """Add a 'point' that the 'edge/line' will run between"""
         pass
 
 
