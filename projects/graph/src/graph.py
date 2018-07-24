@@ -25,13 +25,17 @@ class Graph:
                 self.vertices[end].add(start)
 
 
-g = Graph()
-g.add_vertex('2')
-g.add_vertex('3')
-g.add_vertex('8')
-g.add_edge('2','3')
 
-print(g.vertices)
+#     g = Graph()
+#     g.add_vertex('2')
+#     g.add_vertex('3')
+#     g.add_vertex('8')
+#     g.add_edge('2','3')
+#     g.add_edge('2','8')
+#     g.add_edge('8','3')
+
+
+# # print(g.vertices)
 
 
 
