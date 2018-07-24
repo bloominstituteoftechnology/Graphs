@@ -28,7 +28,7 @@ class BokehGraph:
         self.source = ColumnDataSource(data=dict(xs=self.xs, ys=self.ys, vertex_labels=self.vertex_labels))
 
 
-        self.labels = LabelSet(x='xs', y='ys', text='vertex_labels', source=self.source)
+        self.labels = LabelSet(x='xs', y='ys', text='vertex_labels', x_offset=-5, y_offset=-8, text_color='white', source=self.source)
 
 
         self.plot.axis.visible = show_axis
@@ -93,7 +93,6 @@ class BokehGraph:
     def show(self, output_path='./graph.html'):
         output_file(output_path)
         show(self.plot)
-        print (self.pos)
 
     def randomize(self):
         """Randomize vertex positions."""
