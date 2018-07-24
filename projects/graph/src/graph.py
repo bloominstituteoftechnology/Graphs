@@ -13,12 +13,18 @@ class Graph:
     def add_vertex(self, vertice):
         self.graph[ vertice ] = set()
 
-    def add_edge(graph):
-        edges = []
-        
+    def add_edge(self, node, connect_node):
+        self.graph[ node ].add(connect_node)
 
 graph = Graph()
 
+graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
-print(graph.graph)
+graph.add_vertex('3')
+
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+graph.add_edge('1', '2')
+graph.add_edge('2', '3')
+graph.add_edge('3', '1')
