@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from draw import BokehGraph
 
 """
 Simple graph implementation compatible with BokehGraph class.
@@ -19,18 +20,23 @@ class Graph:
             end.edges.add(start)
 
     def add_vertex(self, vertex):
-        if not hasattr(vertex, 'label'):
-            raise Exception('NOT a vertex!!')
+        #if not hasattr(vertex, self):
+            #raise Exception('NOT a vertex!!')
         self.vertices[vertex] = set()
 
-"""
-graph = Graph()  # Instantiate your graph (from repo)
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_vertex('4')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
-"""
+#creating main method per AG
+def main():
+    graph = Graph()  # Instantiate your graph (from repo)
+    graph.add_vertex('1')
+    graph.add_vertex('2')
+    graph.add_vertex('3')
+    graph.add_vertex('4')
+    graph.add_edge('0', '1')
+    graph.add_edge('0', '3')
+
+    bg = BokehGraph(graph)
+    bg.show()
+
+if __name__ == "__main__":
+    main()
 
