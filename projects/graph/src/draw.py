@@ -36,6 +36,9 @@ class BokehGraph:
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indices()
         self.randomize()
 
+# The following was a joint effort among classmates from different PM groups
+# We all wanted to do arrows
+
         for i in range(len(graph_renderer.edge_renderer.data_source.data['start'])):
             print(i)
             self.plot.add_layout(
@@ -89,4 +92,3 @@ class BokehGraph:
         for vertex in self.graph.vertices:
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 random() * (self.height - 2))
-        print('self.pos', self.pos)
