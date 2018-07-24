@@ -7,8 +7,13 @@ Simple graph implementation compatible with BokehGraph class.
 
 
 class Vertex:
-    def __init__(self):
-        pass
+  """Vertices have a 'label' and a set of edges"""
+    def __init__(self, label):
+        self.label = label
+        self.edges = set()
+
+    def __repr__(self):
+      retun str(self.label)
 
 
 class Graph:
