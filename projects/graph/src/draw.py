@@ -89,7 +89,13 @@ from draw import BokehGraph
 graph = Graph()
 graph.create_vertex('One')
 graph.create_vertex('Two')
+graph.create_vertex('Three')
+graph.create_vertex('Four')
+graph.create_vertex('Five')
 graph.create_edge('One', 'Two')
+graph.create_edge('Two', 'Three')
+graph.create_edge('Three', 'Five')
+
 
 graph.vertices
 
