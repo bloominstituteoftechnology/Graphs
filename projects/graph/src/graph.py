@@ -5,19 +5,33 @@ from collections import defaultdict
 Simple graph implementation compatible with BokehGraph class.
 """
 
+# After seeing examples and reading docs, the following is not needed.
+# class Vertex:
+#   """Vertices have a 'label' and a set of edges"""
+#     def __init__(self, label):
+#         self.label = label
+#         self.edges = set()
 
-class Vertex:
-  """Vertices have a 'label' and a set of edges"""
-    def __init__(self, label):
-        self.label = label
-        self.edges = set()
-
-    def __repr__(self):
-      retun str(self.label)
+#     def __repr__(self):
+#       retun str(self.label)
 
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
     def __init__(self):
-        pass  # TODO
+        self.vertices = {}
+
+    def add_edge(self, start, end, bidirectional=True):
+        pass
+
+    def add_vertex(self, vertex, edges=()):
+        pass
+
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()
