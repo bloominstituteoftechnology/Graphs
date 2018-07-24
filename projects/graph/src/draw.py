@@ -1,13 +1,6 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-
-from bokeh.io import show, output_file
-from bokeh.plotting import figure
-from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-                          ColumnDataSource)
-
-
 # class BokehGraph:
 #     """Class that takes a graph and exposes drawing methods."""
 #     def __init__(self):
@@ -17,6 +10,14 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 # from bokeh.plotting import figure
 # from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 #                           ColumnDataSource)
+
+from random import choice, random
+from bokeh.io import show, output_file
+from bokeh.plotting import figure
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
+                          ColumnDataSource)
+
+
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -81,3 +82,20 @@ class BokehGraph:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
+
+from graph import Graph
+from draw import BokehGraph
+
+graph = Graph()
+graph.create_vertex('One')
+graph.create_vertex('Two')
+graph.create_edge('One', 'Two')
+
+graph.vertices
+
+bokeh_graph = BokehGraph(graph)
+dir(bokeh_graph)
+bokeh_graph.pos
+bokeh_graph.plot
+bokeh_graph.show()
+graph
