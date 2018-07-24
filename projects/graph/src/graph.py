@@ -3,11 +3,13 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+from random import random, randint
 
 class Vertex:
     """Object representation of Vertex"""
     def __init__(self, label=None):
         self.label = label
+        self.coords = None
     
     def __repr__(self):
         return str(self.label)
@@ -21,9 +23,18 @@ class Vertex:
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self):
+    def __init__(self, num_of_vertices=0, chance=0.6):
         self.vertices = {}
-    
+
+        if num_of_vertices > 0:
+            for i in range(num_of_vertices - 1):
+                self.vertices[i] = set()
+        
+            for i in range(num_of_vertices - 1):
+                p = randint(0,num_of_vertices - 1)
+                if random() <= chance:
+                    self.vertices[i].add(p)
+
     def add_vertex(self, vertex, edges=()):
         """Add a new vertex, optionally with edges to other vertices."""
         if vertex in self.vertices:
@@ -39,6 +50,7 @@ class Graph:
         self.vertices[start].add(end)
         if bidirectional:
             self.vertices[end].add(start)
+
         
 
 def main():

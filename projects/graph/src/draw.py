@@ -1,69 +1,107 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-import math
+from graph import Graph, Vertex
 
-from graph import Graph
-
+from random import choice, random, randrange
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-                          Oval, ColumnDataSource)
-from bokeh.palettes import Spectral4
+                          ColumnDataSource)
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph):
+    def __init__(self, graph, title='Graph', width=10, height=10,
+                 show_axis=False, show_grid=False, circle_size=35):
+        if not graph.vertices:
+            raise Exception('Graph should contain vertices!')
         self.graph = graph
-        self.node_indices = graph.vertices.keys()
+        self.width = width
+        self.height = height
+        self.circle_size = circle_size
+        self.pos = {}  # dict to map vertices to x, y positions
+        # Set up plot, the canvas/space to draw on
+        self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
+        self.plot.axis.visible = show_axis
+        self.plot.grid.visible = show_grid
+        self._setup_graph_renderer(circle_size)
 
-    def __get_edge_indexes(self):
+
+    def _setup_graph_renderer(self, circle_size):
+        # The renderer will have the actual logic for drawing
+        graph_renderer = GraphRenderer()
+
+        # Add the vertex data as instructions for drawing nodes
+        graph_renderer.node_renderer.data_source.add(
+            list(self.graph.vertices.keys()), 'index')
+        # Nodes will be random colors
+        graph_renderer.node_renderer.data_source.add(
+            self._get_random_colors(), 'color')
+        # And circles
+        graph_renderer.node_renderer.glyph = Circle(size=circle_size,
+                                                    fill_color='color')
+
+        # Add the edge [start, end] indices as instructions for drawing edges
+        graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
+        self._randomize()  # Randomize vertex coordinates, and set as layout
+        print('self.pos:',self.pos)
+        graph_renderer.layout_provider = StaticLayoutProvider(
+            graph_layout=self.pos)
+        # Attach the prepared renderer to the plot so it can be shown
+        self.plot.renderers.append(graph_renderer)
+
+    def _get_random_colors(self):
+        colors = []
+        for _ in range(len(self.graph.vertices)):
+            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
+            colors.append(color)
+        return colors
+
+    def _get_edge_indexes(self):
         start_indices = []
         end_indices = []
-        checked = set() # study this more
+        checked = set()
 
-        # you can iterate for both keys and values at the same time
-        # for a given dict with `items()`
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
                 for destination in edges:
                     start_indices.append(vertex)
                     end_indices.append(destination)
-                    checked.add(vertex)
+                checked.add(vertex)
 
         return dict(start=start_indices, end=end_indices)
 
-    def render(self):
-        plot = figure(title="Graph Layout Demonstration", x_range=(-1.1,1.1), y_range=(-1.1,1.1),
-              tools="", toolbar_location=None)
-        
-        graph = GraphRenderer()
+    def show(self, output_path='./graph.html'):
+        output_file(output_path)
+        show(self.plot)
 
-        graph.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color="fill_color")
+    def _randomize(self):
+        """Randomize vertex positions."""
+        for vertex in self.graph.vertices:
+            # TODO make bounds and random draws less hacky
+            # Attempt 1
+            # self.pos[vertex] = (1 + random() * (self.width - 2),
+            #                     1 + random() * (self.height - 2))\
+            # Attempt 2
+            # self.pos[vertex] = (random.uniform(0, self.width), random.uniform(0, self.height))
+            self.pos[vertex] = [0.35 + random() * (self.width - 0.5),
+                                0.35 + random() * (self.height - 0.5)]
+            
+            for coords in self.pos:
+                
 
-        graph.node_renderer.data_source.data = dict(
-            index=list(self.node_indices),
-            fill_color=Spectral4)
-        
-        graph.edge_renderer.data_source.data = self.__get_edge_indexes()
 
-        print('node_indicies:',self.node_indices)
-        ### start of layout code
-        circ = [float(i)*2*math.pi/4 for i in self.node_indices]
-        x = [math.cos(i) for i in circ]
-        y = [math.sin(i) for i in circ]
+class RandomGraph(BokehGraph):
+    def __init__(self, width=5, height=4, chance=0.75, circle_size=35, title='Graph', show_axis=False, show_grid=False):
+        self.graph = Graph(width * height // 2, chance)
 
-        graph_layout = dict(zip(self.node_indices, zip(x, y)))
-        graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+        BokehGraph.__init__(self, self.graph, title, width, height,
+                 show_axis, show_grid, circle_size)
 
-        plot.renderers.append(graph)
-
-        output_file('graph.html')
-        show(plot)
-    
 def main():
     graph = Graph()  # Instantiate your graph
+
     graph.add_vertex('0')
     graph.add_vertex('1')
     graph.add_vertex('2')
@@ -72,8 +110,8 @@ def main():
     graph.add_edge('0', '3')
     print(graph.vertices)
 
-    b_graph = BokehGraph(graph)
-    b_graph.render()
+    b_graph = RandomGraph()
+    b_graph.show()
 
 if __name__ == '__main__':
     main()

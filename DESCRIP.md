@@ -1,12 +1,17 @@
 ## Main Goals
 
-* [ ] Implement a `Graph` class that supports the API expected by `draw.py`.
-
-*More goals to added as I progress through the repo throughout the week.*
+* [X] Implement a `Graph` class that supports the API expected by `draw.py`.
+* [X] Implement the `BokehGraph` class in `draw.py` which works with `Graph` object instances.
+* [ ] Draw a Random Graph
+* [ ] Implement either Breadth-First Search of Depth-First Search
 
 ## Stretch Goals
 
-* [ ] Implement the `BokehGraph` class in `draw.py` which works with `Graph` object instances.
+* [ ] Color the connected components differently.
+* [ ] Add a UI Button to generate a new graph.
+* [ ] Add random edge weights.
+* [ ] Figure out which vertex a user is clicking on when they click with a mouse.
+* [ ] Implement Dijkstra's Algorithm
 
 *Stretch goals may become main goals later in the week.*
 
