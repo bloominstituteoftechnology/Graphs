@@ -1,103 +1,83 @@
-"""
-General drawing methods for graphs using Bokeh.
-"""
-from graph import Graph
-from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
+from graph import Graph
+import random
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Infected Quadrant', width=20, height=20,
-                 show_axis=True, show_grid=True, circle_size=10):
+    def __init__(self, graph):
         if not graph.vertices:
-            raise Exception('Graph should contain vertices!')
+            raise Exception("Graph should contain vertices")
         self.graph = graph
+        self.pos = {}
 
-        # Setup plot
-        self.width = width
-        self.height = height
-        self.pos = {}  # dict to map vertices to x, y positions
-        self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
-        self.plot.axis.visible = show_axis
-        self.plot.grid.visible = show_grid
-        self._setup_graph_renderer(circle_size)
-
-
-    def _setup_graph_renderer(self, circle_size):
-        graph_renderer = GraphRenderer()
-
-        graph_renderer.node_renderer.data_source.add(
-            list(self.graph.vertices.keys()), 'index')
-        graph_renderer.node_renderer.data_source.add(
-            self._get_random_colors(), 'color')
-        graph_renderer.node_renderer.glyph = Circle(size=circle_size,
-                                                    fill_color='color')
-        graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
-        self.randomize()
-        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
-        self.plot.renderers.append(graph_renderer)
+    def _get_edges(self):
+        start = []
+        end = []
+        checked = set()
+        for startpoint, endpoints in self.graph.vertices.items():
+            for endpoint in endpoints:
+                if (startpoint, endpoint) not in checked:
+                    checked.add((startpoint, endpoint))
+                    start.append(startpoint)
+                    end.append(endpoint)
+        return dict(start=start, end=end)
 
     def _get_random_colors(self):
         colors = []
-        for _ in range(len(self.graph.vertices)):
-            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(2)])
+        for vertex in self.graph.vertices:
+            color = "#{:06x}".format(random.randint(0, 0xFFFF))
             colors.append(color)
         return colors
 
-    def _get_edge_indexes(self):
-        start_indices = []
-        end_indices = []
-        checked = set()
+    def map_coords(self):
+        for vertex in self.graph.vertices.keys():
+            self.pos[vertex] = (random.uniform(0.5,9.5), random.uniform(0.5,9.5))
+        
+    def draw(self, title='Graph', width=10, height=10,
+                show_axis=False, show_grid=False, circle_size=15):
+        plot = figure(title=title, x_range=(0,width), y_range=(0,height))
+        
+        plot.axis.visible = show_axis
+        plot.grid.visible = show_grid
 
-        for vertex, edges in self.graph.vertices.items():
-            if vertex not in checked:
-                for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
-                checked.add(vertex)
+        graph = GraphRenderer()
+        graph.node_renderer.data_source.add(
+            list(self.graph.vertices.keys()), 'index')
+        graph.node_renderer.data_source.add(
+            self._get_random_colors(), 'color')
+        graph.node_renderer.glyph = Circle(size=circle_size,
+            fill_color='color')
+        graph.edge_renderer.data_source.data = self._get_edges()
 
-        return dict(start=start_indices, end=end_indices)
+        self.map_coords()
+        graph.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
+        plot.renderers.append(graph)
 
-    def show(self, output_path='./graph.html'):
-        output_file(output_path)
-        show(self.plot)
+        output_file('./graph.html')
+        show(plot)
 
-    def randomize(self):
-        """Randomize vertex positions."""
-        for vertex in self.graph.vertices:
-            # TODO make bounds and random draws less hacky
-            self.pos[vertex] = (1 + random() * (self.width - 2)/2,
-                                1 + random() * (self.height - 2)/2)
-
-
-g = Graph()
-g.add_vertex('2')
-g.add_vertex('0')
-g.add_vertex('12')
-g.add_vertex('5')
-g.add_vertex('7')
-g.add_vertex('3')
-g.add_vertex('8')
-g.add_vertex('9')
-g.add_vertex('17')
-g.add_vertex('10')
-g.add_vertex('11')
-g.add_vertex('4')
-g.add_vertex('6')
-g.add_edge('2','3')
-g.add_edge('5','8')
-g.add_edge('8','3')
-g.add_edge('2','8')
-g.add_edge('9','3')
-g.add_edge('12','11')
-g.add_edge('17','10')
-g.add_edge('4','0')
-g.add_edge('4','10')
-bg = BokehGraph(g)
-bg.plot
-
-bg.show()
+def randomize_graph(size=10):
+    graph = Graph()
+    for i in range(size):
+        graph.add_vertex(str(i))
+    # make connections
+    for vertex in graph.vertices.keys():
+        vertices = list(graph.vertices.keys())
+        vertices.remove(vertex)
+        # 30% chance that a vertex will have connections
+        if random.random() > 0.7:
+            num_connections = random.randint(0, min(size//3, 3))
+            if num_connections > 0:
+                for i in range(num_connections):
+                    end = random.choice(vertices)
+                    vertices.remove(end)
+                    graph.add_edge(vertex, end)
+    bokeh = BokehGraph(graph)
+    bokeh.draw()
+    
+if __name__ == '__main__':
+    randomize_graph()
