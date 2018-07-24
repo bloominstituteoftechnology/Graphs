@@ -4,9 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-bokeh = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
