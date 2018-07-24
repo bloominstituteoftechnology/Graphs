@@ -17,7 +17,17 @@ class Graph:
     def add_edge(self, start, end, bi = True):
         if start not in self.vertices or end not in self.vertices:
             raise Exception('Vertex does not exist')
-        self.vetices[start].add(end)
+        self.vertices[start].add(end)
         if bi:
             self.vertices[end].add(start)
+            
+graph = Graph()
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+graph.add_edge('0', '4') #tests error raiser 
+print(graph.vertices)
         
