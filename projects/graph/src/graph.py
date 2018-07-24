@@ -23,29 +23,29 @@ class Graph:
       self.vertices[end].add(start)
 
 
-graph = Graph()  # Instantiate your graph
-print(graph)
+# graph = Graph()  # Instantiate your graph
+# print(graph)
 
-graph.add_vertex('0')
-print(graph)
+# graph.add_vertex('0')
+# print(graph)
 
-graph.add_vertex('1')
-print(graph)
+# graph.add_vertex('1')
+# print(graph)
 
-graph.add_vertex('2')
-print(graph)
-
-graph.add_vertex('3')
-print(graph)
-
-graph.add_edge('0', '1')
-print(graph)
-
-graph.add_edge('0', '3')
-print(graph)
+# graph.add_vertex('2')
+# print(graph)
 
 # graph.add_vertex('3')
 # print(graph)
 
-graph.add_edge('2', '4')
-print(graph)
+# graph.add_edge('0', '1')
+# print(graph)
+
+# graph.add_edge('0', '3')
+# print(graph)
+
+# graph.add_vertex('3')
+# print(graph)
+
+# graph.add_edge('2', '4')
+# print(graph)
