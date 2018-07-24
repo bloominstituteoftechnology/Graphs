@@ -11,8 +11,8 @@ from bokeh.models import (
     Circle,
     LabelSet,
     ColumnDataSource,
-    # VeeHead,
-    # Arrow,
+    VeeHead,
+    Arrow,
 )
 
 
@@ -53,8 +53,29 @@ class BokehGraph:
             size=circle_size, fill_color="color"
         )
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
+
         self.randomize()
-        print(graph_renderer.edge_renderer.data_source.data["start"])
+        for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
+            self.plot.add_layout(
+                Arrow(
+                    end=VeeHead(fill_color="orange"),
+                    x_start=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["start"][i]
+                    ][0],
+                    y_start=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["start"][i]
+                    ][1],
+                    x_end=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["end"][i]
+                    ][0],
+                    y_end=self.pos[
+                        graph_renderer.edge_renderer.data_source.data["end"][i]
+                    ][1],
+                )
+            )
+
+        print("start vertex", graph_renderer.edge_renderer.data_source.data["start"])
+        print("end vertex", graph_renderer.edge_renderer.data_source.data["end"])
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
@@ -91,18 +112,23 @@ class BokehGraph:
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
                 for destination in edges:
-                    # self.plot.add_layout(
-                    #     Arrow(
-                    #         end=VeeHead(line_color="gray", line_width=4),
-                    #         x_range_name=vertex,
-                    #         y_range_name=destination,
-                    #     )
-                    # )
                     start_indices.append(vertex)
                     end_indices.append(destination)
                 checked.add(vertex)
 
         return dict(start=start_indices, end=end_indices)
+
+    # def _make_arrows(self):
+    #     for vertex, edges in self.pos.items():
+    #         self.plot.add_layout(
+    #             Arrow(
+    #                 end=VeeHead(size=30),
+    #                 line_color="black",
+    #                 x_start=edges[0],
+    #                 y_start=edges[1],
+    #             )
+    #         )
+    #         print("arrrrrrrrrrrrrow", edges[0], edges[1])
 
     def show(self, output_path="./graph.html"):
         output_file(output_path)
@@ -116,4 +142,8 @@ class BokehGraph:
                 1 + random() * (self.width - 2),
                 1 + random() * (self.height - 2),
             )
+            # random stuff for making vertex
+            # make if statement to take into account positions already in self.pos
+        print("self.pos", self.pos)
+        # print(self.pos.items())
 
