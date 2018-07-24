@@ -42,4 +42,4 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
 
-graph.add_edge('0', '4')
+# graph.add_edge('0', '4')
