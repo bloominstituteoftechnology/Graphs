@@ -16,8 +16,8 @@ contains a dictionary mapping vertex labels to edges. For example:
 ```python
 {
     '0': {'1', '3'},
-    '1': {'0'},
-    '2': set(),
+    '1': {'0', '2'},
+    '2': {'1'},
     '3': {'0'}
 }
 ```
