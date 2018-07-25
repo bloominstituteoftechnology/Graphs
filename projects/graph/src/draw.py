@@ -3,7 +3,7 @@ General drawing methods for graphs using Bokeh.
 """
 
 from graph import Graph
-from random import choice, random
+from random import choice, random, randint
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
@@ -23,6 +23,7 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
+        self._setup_labels()
         
 
     def _setup_graph_renderer(self, circle_size):
@@ -61,6 +62,16 @@ class BokehGraph:
 
         return dict(start=start_indices, end=end_indices)
 
+    def _setup_labels(self):
+        label_data = {'x': [], 'y': [], 'names': []}
+        for vertex, position in self.pos.items():
+            label_data['x'].append(position[0])
+            label_data['y'].append(position[1])
+            label_data['names'].append(str(vertex))
+        label_source = ColumnDataSource(data=label_data)
+        labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center', text_baseline='middle', text_color='white', source=label_source, render_mode='canvas')
+        self.plot.add_layout(labels)
+
     def show(self, output_path='./graph.html'):
         output_file(output_path)
         show(self.plot)
@@ -68,13 +79,15 @@ class BokehGraph:
     def randomize(self):
         """Randomize vertex positions."""
         for vertex in self.graph.vertices:
-            self.pos[vertex] = (1 + random() * (self.width - 2), 1 + random() * (self.height - 2)) 
+            randomx = 1 + random() * (self.width - 2)
+            randomy = 1 + random() * (self.height - 2)
+            self.pos[vertex] = (randomx, randomy) 
 
-graph = Graph()
-graph.add_vertex('A')
-graph.add_vertex('B')
-graph.add_edge('A', 'B')
-print(graph.vertices)
-bg = BokehGraph(graph)
-print(bg.pos)
-bg.show()
+# graph = Graph()
+# graph.add_vertex('A')
+# graph.add_vertex('B')
+# graph.add_edge('A', 'B')
+# print(graph.vertices)
+# bg = BokehGraph(graph)
+# print(bg.pos)
+# bg.show()
