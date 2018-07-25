@@ -28,6 +28,9 @@ class BokehGraph:
 
 
     def _setup_graph_renderer(self, circle_size):
+        #source = ColumnDataSource(data={
+        #"names": list(self.graph.vertices.keys())
+        #})
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(
@@ -40,6 +43,7 @@ class BokehGraph:
         self.randomize()
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
+        self._get_labels()
 
     def _get_random_colors(self):
         colors = []
@@ -68,27 +72,65 @@ class BokehGraph:
 
     def randomize(self):
         """Randomize vertex positions."""
+        def __random_helper():
+            x = 1 + random() * (self.width - 2)
+            y = 1 + random() * (self.height - 2)
+
+            for item in self.pos:
+                if self.pos[item][0] - x < 1 and x < 28:
+                    x += 1
+                elif self.pos[item][0] - x < 1:
+                    x -= 5
+                if self.pos[item][1] - y < 1 and y < 28:
+                    y += 1
+                elif self.pos[item][0] - y < 1:
+                    print(self.pos[item][0])
+                    y -= 5
+            return x, y
+        
         for vertex in self.graph.vertices:
-            # TODO make bounds and random draws less hacky
-            self.pos[vertex] = (1 + random() * (self.width - 2),
-                                1 + random() * (self.height - 2))
+            self.pos[vertex] = (__random_helper())
+
+    def _get_labels(self):
+        label_data = {"x": [], "y": [], "name": []}
+        for vertex, edges in self.pos.items():
+            label_data["x"].append(edges[0])
+            label_data["y"].append(edges[1])
+            label_data["name"].append(vertex)
+        label_source = ColumnDataSource(label_data)
+
+        labels = LabelSet(
+            x="x",
+            y="y",
+            text="name",
+            text_color="black",
+            level="glyph",
+            text_align="center",
+            text_baseline="middle",
+            text_line_height=1,
+            source=label_source,
+            render_mode="canvas",
+        )
+        self.plot.add_layout(labels)
 
 
-def initiate_Graph():
+def initiate_Graph(verts_num):
     new_graph = Graph()
 
     ints = []
-    for x in range(0, 50):
+    for x in range(0, verts_num):
         ints.append(x)
 
     for x in ints:
         new_graph.add_vert(f"v {x}")
 
-    for x in range(0,75):
-        new_graph.add_edge(f"v {randint(0, 49)}", f"v {randint(0, 47) + 2}")
+    for x in range(0,int(verts_num * 1.25)):
+        new_graph.add_edge(f"v {randint(0, verts_num - 1)}", f"v {randint(0, verts_num - 3) + 2}")
     return new_graph
 
-x = initiate_Graph()
+x = initiate_Graph(10)
 
-bokeh = BokehGraph(x, "AWESOME GRAPH!", 20, 20, True, True, 25)
+
+
+bokeh = BokehGraph(x, "AWESOME GRAPH!", 30, 30, True, True, 25)
 bokeh.show()
