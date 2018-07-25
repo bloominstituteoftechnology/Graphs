@@ -31,7 +31,7 @@ class GraphTests(unittest.TestCase):
     def test_add_vertex(self):
         self.graph.add_vertex('V0')
         self.graph.add_vertex('V1', ['V0'])
-        v0 = Vertex.get_obj_instance('V0')
+        v0 = Vertex._get_obj_instance('V0')
 
         """
         Should create a Vertex instance
@@ -53,8 +53,8 @@ class GraphTests(unittest.TestCase):
     def test_add_edge(self):
         self.graph.add_vertex('V0')
         self.graph.add_vertex('V1')
-        v0 = Vertex.get_obj_instance('V0')
-        v1 = Vertex.get_obj_instance('V1')
+        v0 = Vertex._get_obj_instance('V0')
+        v1 = Vertex._get_obj_instance('V1')
 
         """
         Raise exception when attempting to add an edge that does not exist in

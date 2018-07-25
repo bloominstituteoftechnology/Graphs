@@ -24,7 +24,7 @@ class Vertex:
     def __repr__(self):
         return str(self.label)
 
-    def get_obj_instance(label):
+    def _get_obj_instance(label):
         """
         Return Vertex object instance of string representation
         """
@@ -85,7 +85,7 @@ class Graph:
         for vertex in self.vertex_obj_map.values():
             vertex.visited = False
 
-        while len(queue) > 0:
+        while queue:
             current = queue.pop(0)
             if not current.visited:
                 for vertex in self.vertices[current.label]:
@@ -108,7 +108,7 @@ class Graph:
         for vertex in self.vertex_obj_map.values():
             vertex.visited = False
 
-        while len(stack) > 0:
+        while stack:
             current = stack.pop()
             if not current.visited:
                 for vertex in self.vertices[current.label]:
