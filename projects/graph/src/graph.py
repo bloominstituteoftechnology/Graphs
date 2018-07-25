@@ -37,6 +37,31 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
+    def DFS(self):
+        """
+        Depth-first Search
+        """
+        pass
+    
+    
+    def BFS(self, start):
+        pass
+        # """
+        # Breadth-first Search
+        # """
+        # visited = [False] * (len(self.vertices))
+        # q = []
+        # q.append(source)
+        # visited[source] = True
+
+        # while q:
+        #     source = q.pop(0)
+        #     print(source, end = " ")
+        #     for i in self.vertices[source]:
+        #         if visited[i] == False:
+        #             q.append(i)
+        #             visited[i] = True
+
 # def main():
 graph = Graph()
 
@@ -52,6 +77,18 @@ graph.add_edge('2', '3')
 graph.add_edge('3', '1')
 
 print(graph.vertices)
+# print ("Following is Breadth First Traversal"
+#                   " (starting from vertex 2)")
+# graph.BFS('2')
 
 # if __name__ == '__main__':
 #     main()
+
+
+# connected_components = []
+# visited = set()
+
+# for v in graph.vertices:
+#     if v not in visited:
+#         visited.update(component)
+#         connected_components.append(component)
