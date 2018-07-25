@@ -6,7 +6,7 @@ Simple graph implementation compatible with BokehGraph class.
 
 class Vertex:
     """Object representation of Vertex"""
-    def __init__(self, label = name):
+    def __init__(self, label):
         self.label = label
         self.edges = set()
 
@@ -28,7 +28,7 @@ class Graph:
         if start not in self.vertices or end not in self.vertices:
             raise Exception('Vertices to connect not in graph!')    
         self.vertices[start].add(end)
-        if bidrectional:
+        if bidirectional:
             self.vertices[end].add(start)
 
 def main(): #instantiate your graph
