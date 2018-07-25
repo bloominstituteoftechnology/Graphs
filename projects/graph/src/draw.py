@@ -11,8 +11,8 @@ from bokeh.models import (
     Circle,
     LabelSet,
     ColumnDataSource,
-    # VeeHead,
-    # Arrow,
+    VeeHead,
+    Arrow,
 )
 
 
@@ -55,10 +55,25 @@ class BokehGraph:
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes(
         )
         self.randomize()
-        print(graph_renderer.edge_renderer.data_source.data["start"])
+        for i in range(
+                len(graph_renderer.edge_renderer.data_source.data["start"])):
+            self.plot.add_layout(
+                Arrow(
+                    end=VeeHead(size=20, fill_color="black"),
+                    x_start=self.pos[graph_renderer.edge_renderer.data_source.
+                                     data["start"][i]][0],
+                    y_start=self.pos[graph_renderer.edge_renderer.data_source.
+                                     data["start"][i]][1],
+                    x_end=self.pos[graph_renderer.edge_renderer.data_source.
+                                   data["end"][i]][0],
+                    y_end=self.pos[graph_renderer.edge_renderer.data_source.
+                                   data["end"][i]][1],
+                ))
+
         graph_renderer.layout_provider = StaticLayoutProvider(
             graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
+        self._get_labels()
 
     def _get_random_colors(self):
         colors = []
@@ -68,24 +83,6 @@ class BokehGraph:
             colors.append(color)
         return colors
 
-    def _get_labels(self):
-        label_data = {"x": [], "y": [], "name": []}
-        for vertex, position in self.pos.items():
-            label_data["x"], label_data["y"] = position
-            label_data["name"] = str(vertex)
-        label_source = ColumnDataSource(label_data)
-
-        labels = LabelSet(
-            x="x",
-            y="y",
-            text="name",
-            level="glyph",
-            text_align="center",
-            source=label_source,
-            render_mode="canvas",
-        )
-        self.plot.add_layout(labels)
-
     def _get_edge_indexes(self):
         start_indices = []
         end_indices = []
@@ -94,13 +91,6 @@ class BokehGraph:
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
                 for destination in edges:
-                    # self.plot.add_layout(
-                    #     Arrow(
-                    #         end=VeeHead(line_color="gray", line_width=4),
-                    #         x_range_name=vertex,
-                    #         y_range_name=destination,
-                    #     )
-                    # )
                     start_indices.append(vertex)
                     end_indices.append(destination)
                 checked.add(vertex)
@@ -119,3 +109,29 @@ class BokehGraph:
                 1 + random() * (self.width - 2),
                 1 + random() * (self.height - 2),
             )
+            # random stuff for making vertex
+            # make if statement to take into account positions already in self.pos
+
+    def _get_labels(self):
+        label_data = {"x": [], "y": [], "name": []}
+        for vertex, edges in self.pos.items():
+            label_data["x"].append(edges[0])
+            label_data["y"].append(edges[1])
+            label_data["name"].append(vertex)
+        print("label", label_data)
+        label_source = ColumnDataSource(label_data)
+        print("label source:", label_source)
+
+        labels = LabelSet(
+            x="x",
+            y="y",
+            text="name",
+            text_color="white",
+            level="glyph",
+            text_align="center",
+            text_baseline="middle",
+            text_line_height=1,
+            source=label_source,
+            render_mode="canvas",
+        )
+        self.plot.add_layout(labels)
