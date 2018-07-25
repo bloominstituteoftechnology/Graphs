@@ -25,8 +25,9 @@ class BokehGraph:
         # List of vertex labels
         # self.vertices = [int(x) for x in self.graph.vertices.keys()]
         self.vertices = [*self.graph.vertices.keys()]
+        self.verticesSET = set([*self.graph.vertices.keys()])
         self.bokeh_graph = GraphRenderer()
-        self.show()
+        print(f'''VERTICES TREE {self.verticesSET}''')
 
     def show(self):
         '''Paint the graph object'''
@@ -58,6 +59,7 @@ class BokehGraph:
         self.bokeh_graph.node_renderer.glyph = Oval(
             width=10, height=10, fill_color="fill_color"
         )
+
         # MAP vertex to its color
         self.bokeh_graph.node_renderer.data_source.data = dict(
             index=self.vertices, fill_color=self._get_random_colors())
@@ -101,21 +103,3 @@ class BokehGraph:
                                  for j in range(6)])
             colors.append(color)
         return colors
-
-
-_graph = graph.Graph()  # Instantiate your graph
-_graph.add_vertex('0')
-_graph.add_vertex('1')
-_graph.add_vertex('2')
-_graph.add_vertex('3')
-_graph.add_vertex('4')
-_graph.add_vertex('5')
-_graph.add_vertex('6')
-_graph.add_vertex('7')
-_graph.add_edge('0', '1')
-_graph.add_edge('0', '3')
-# print(_graph.vertices)
-# graph.add_edge('0', '4')
-
-bokeh_graph = BokehGraph(_graph)
-# print(bokeh_graph)
