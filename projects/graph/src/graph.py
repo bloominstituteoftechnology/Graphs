@@ -4,7 +4,7 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 """
-# from the lecture
+# from Monday lecture
 # Vertices have a label and a set of edges.
 class Vertex:
     def __init__(self, label):
@@ -14,24 +14,25 @@ class Vertex:
     #to make it easier to read. without it, it just prints the position index in memory
     def __repr__(self):
         return str(self.label)
-"""
 
-class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+class ListGraph:
+    # Adjacent lest graph.
     def __init__(self):
-        self.vertices = {}  # represent as a dict
+        self.vertices = set()
+
+    def add_edge(self, start, end, bidirectional = True):
+        # Add an edge from start to end.
+        if start not in self.vertices or end not in self.vertices:
+            raise Exception('Error - vertices not in graph!')
+        start.edges.add(end)
+        if bidirectional:
+            end.edges.add(start)
 
     def add_vertex(self, vertex):
-        self.vertices[vertex] = set() 
-
-    def add_edge(self, start, end, bidirectional=True):
-        if start not in self.vertices:
-            raise Exception('Error - {} vertices not in graph!'.format(start))
-        if end not in self.vertices:
-            raise Exception('Error - {} vertices not in graph!'.format(end))
-        self.vertices[start].add(end)
-        if bidirectional:
-            self.vertices[end].add(start)
+        if not hasattr(vertex, 'label'):
+            raise Exception('This is not a vertex!')
+        self.vertices.add(vertex)
+"""
 
 """
 # solution
@@ -55,6 +56,24 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 """
+
+class Graph:
+    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    def __init__(self):
+        self.vertices = {}  # represent as a dict
+
+    def add_vertex(self, vertex):
+        self.vertices[vertex] = set() 
+
+    def add_edge(self, start, end, bidirectional=True):
+        if start not in self.vertices:
+            raise Exception('Error - {} vertices not in graph!'.format(start))
+        if end not in self.vertices:
+            raise Exception('Error - {} vertices not in graph!'.format(end))
+        self.vertices[start].add(end)
+        if bidirectional:
+            self.vertices[end].add(start)
+
 
 
 graph = Graph()  # Instantiate your graph

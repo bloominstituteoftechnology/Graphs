@@ -12,7 +12,7 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Graph', width=10, height=10,
+    def __init__(self, graph, title="Ja's Graph", width=10, height=10,
                  show_axis=True, show_grid=True, circle_size=35):
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
@@ -26,6 +26,7 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
+        self._setup_labels()
 
 
     def _setup_graph_renderer(self, circle_size):
@@ -74,25 +75,49 @@ class BokehGraph:
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
 
+    def _setup_labels(self):
+        label_data = {'x': [], 'y': [], 'names': []}
+        for vertex, position in self.pos.items():
+            label_data['x'].append(position[0])
+            label_data['y'].append(position[1])
+            label_data['names'].append(str(vertex))
+        label_source = ColumnDataSource(label_data)
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                        text_align='center', text_baseline='middle',
+                        source=label_source, render_mode='canvas')
+        self.plot.add_layout(labels)
+
 
 def main():
-   graph = Graph()  # Instantiate your graph
-   graph.add_vertex('0')
-   graph.add_vertex('1')
-   graph.add_vertex('2')
-   graph.add_vertex('3')
-   graph.add_vertex('4')
-   graph.add_vertex('5')
-   graph.add_edge('0', '1')
-   graph.add_edge('0', '2')
-   graph.add_edge('1', '3')
-   graph.add_edge('1', '4')
-   graph.add_edge('2', '5')
+    graph = Graph()  # Instantiate your graph
+    graph.add_vertex('0')
+    graph.add_vertex('1')
+    graph.add_vertex('2')
+    graph.add_vertex('3')
+    graph.add_vertex('4')
+    graph.add_vertex('5')
+    graph.add_vertex('6')
+    graph.add_vertex('7')
+    graph.add_vertex('8')
+    graph.add_vertex('9')
+    graph.add_vertex('10')
+    
+    graph.add_edge('0', '1')
+    graph.add_edge('0', '2')
+    graph.add_edge('1', '3')
+    graph.add_edge('1', '4')
+    graph.add_edge('2', '5')
+    graph.add_edge('2', '6')
+    graph.add_edge('3', '1')
+    graph.add_edge('4', '8')
+    graph.add_edge('5', '9')
+    graph.add_edge('9', '10')
+    
 
-   bg = BokehGraph(graph)
-   bg.show()
+    bg = BokehGraph(graph)
+    bg.show()
 
 if __name__ == '__main__':
-   main()
+    main()
 print(__name__)
 
