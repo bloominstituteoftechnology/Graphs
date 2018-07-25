@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import numpy as np
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -12,18 +13,123 @@ Simple graph implementation compatible with BokehGraph class.
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self, vertices):
-        self.matrix = [[0] * vertices] * vertices
+
+    def __init__(self):
+        self.vertices = {}
 
     def add_edge(self, start, end, bidirectional=True):
-        self.matrix[start][end] = 1
+        """Add an edge from start to end."""
+        if start not in self.vertices or end not in self.vertices:
+            raise Exception("Error - vertices not in graph!")
+        self.vertices[start].add(end)
         if bidirectional:
-            self.matrix[end][start] = 1
-        
+            self.vertices[end].add(start)
 
-        pass  # TODO
+    def add_vertex(self, vertex):
+        if not hasattr(vertex, "label"):
+            raise Exception("This is not a vertex!")
+        self.vertices.add(vertex)
+
+    def _get_labels(self):
+        label_data = {"x": [], "y": [], "name": []}
+        for vertex, edges in self.pos.items():
+            label_data["x"].append(edges[0])
+            label_data["y"].append(edges[1])
+            label_data["name"].append(vertex)
+        print("label", label_data)
+        label_source = ColumnDataSource(label_data)
+        print("label source:", label_source)
+
+        labels = LabelSet(
+            x="x",
+            y="y",
+            text="name",
+            text_color="white",
+            level="glyph",
+            text_align="center",
+            text_baseline="middle",
+            text_line_height=1,
+            source=label_source,
+            render_mode="canvas",
+        )
+        self.plot.add_layout(labels)
 
 
+class Vertex:
+    """Vertices have a label and a set of edges."""
+
+    def __init__(self, label):
+        self.label = label
+        self.edges = set()
+
+    def __repr__(self):
+        return str(self.label)
+
+
+class ListGraph:
+    """Adjacency list graph."""
+
+    def __init__(self):
+        self.vertices = set()
+
+    def add_edge(self, start, end, bidirectional=True):
+        """Add an edge from start to end."""
+        if start not in self.vertices or end not in self.vertices:
+            raise Exception("Error - vertices not in graph!")
+        start.edges.add(end)
+        if bidirectional:
+            end.edges.add(start)
+
+    def add_vertex(self, vertex):
+        if not hasattr(vertex, "label"):
+            raise Exception("This is not a vertex!")
+        self.vertices.add(vertex)
+   
+    def dfs(start, reset=true) {
+        const component = [];
+        const stack = [];
+
+    if (reset) {
+      for (let v of this.vertexes) {
+        v.color = 'white';}
+    }
+
+    stack.push(start);
+
+    while (stack.length > 0) {
+      const u = stack.pop();
+      if (u.color === 'white') {
+        u.color = 'gray';
+        for (let e of u.edges) {
+          stack.push(e.destination);}
+      }
+
+      stack.unshift(); // de-stack
+      u.color = 'black';
+
+      component.push(u);}
+
+    return component;}
+
+  /**
+   * Get the connected components
+   */
+  getConnectedComponents() {
+    const componentsList = [];
+
+    let needReset = true;
+
+    for (let v of this.vertexes) {
+      if (needReset || v.color === 'white') {
+        const component = this.dfs(v, needReset);
+        needReset = false;
+
+        componentsList.push(component);
+      }
+    }
+
+    return componentsList;
+  }
 """
 General drawing methods for graphs using Bokeh.
 """
@@ -94,3 +200,24 @@ class BokehGraph:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
+
+
+def main():
+    graph = Graph()
+    graph.add_vertex("0")
+    graph.add_vertex("1")
+    graph.add_vertex("2")
+    graph.add_vertex("3")
+    graph.add_vertex("4")
+    graph.add_vertex("5")
+    graph.add_vertex("6")
+    graph.add_vertex("7")
+    graph.add_edge("0", "1")
+    graph.add_edge("0", "3")
+    graph.add_edge("7", "5", False)
+
+
+
+# Random Graph
+adj = np.random.randint(0,2,(n,n))
+n = np.random.randint(1, N+1)
