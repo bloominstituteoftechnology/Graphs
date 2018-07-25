@@ -76,8 +76,6 @@ class Graph:
         grid = []
         for i in range(n_verts):
             grid.append(Vertex(str(i)))
-
-        # randomly loop through verts and randomly connect it to the next one, passing in the random bidirection
         for i in range(n_verts - 1):
             if (random.randrange(n_verts) < n_verts // 2):
                 if(random.randrange(n_verts) < n_verts // 2):
@@ -95,18 +93,13 @@ class Graph:
         self.add_vertex(v0)
         self.add_vertex("1")
         self.add_vertex("2")
-
         self.add_vertex("3")
         self.add_vertex("4")
         self.add_vertex("5")
         self.add_vertex("6")
-
-        v7 = Vertex("7")
-        v8 = Vertex("8")
-        v9 = Vertex("9")
-        self.add_vertex(v7)
-        self.add_vertex(v8)
-        self.add_vertex(v9)
+        self.add_vertex("7")
+        self.add_vertex("8")
+        self.add_vertex("9")
         self.add_vertex("10")
 
         self.add_edge("0", "1")
