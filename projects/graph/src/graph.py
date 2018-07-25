@@ -35,27 +35,28 @@ class Graph:
             if bidirectional == True:
                 self.vertices[end].add(start)
 
-     def bfs(self, start):
-
+   def breadth_first_search(self, target):
         queue = []
-        trail = []
-        start_vertex = self.vertices[start]
-        queue.append(start_vertex)
 
-        for vertex in self.vertices.values():
-            vertex.visited = False
-
-        while len(queue) > 0:
+        def bfs_helper(queue):
+            if queue == []:
+                return False
             current = queue.pop(0)
-            if not current.visited:
+            if current.color == "black":
+                return False
+            if current.label == target:
+                return True
+            else:
+                for x in current.edges:
+                    x.color = "grey"
+                    queue.append(x)
+                current.color = "black"
+                return bfs_helper(queue)
 
-                        queue.append(vertex)
-                current.visited = True
-                trail.append(current.label)
+        queue.append(list(self.vertices)[0])
+        return bfs_helper(queue)
 
-        return trail
-
-
+print(lg.breadth_first_search("v 6"))
 
 #     g = Graph()
 #     g.add_vertex('2')
