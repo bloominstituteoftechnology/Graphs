@@ -14,7 +14,7 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph, title='Graph', width=10, height=10,
-                 show_axis=False, show_grid=False, circle_size=35):
+                 show_axis=False, show_grid=False, circle_size=35,):
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
         self.graph = graph
@@ -28,22 +28,11 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
+        self._setup_labels()
 
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
 
-        source = ColumnDataSource(data=dict(
-            x=[1, 2, 3, 4, 5],
-            y=[2, 5, 8, 2, 7],
-            desc=['A', 'b', 'C', 'd', 'E'],
-            ))
-
-        TOOLS = "hover,crosshair,pan,wheel_zoom,zoom_in,zoom_out,box_zoom"
-
-        TOOLTIPS = [
-            ("index", "$index")
-        ]
-        label_source = 
         graph_renderer.node_renderer.data_source.add(
             list(self.graph.vertices.keys()), 'index')
         graph_renderer.node_renderer.data_source.add(
@@ -51,7 +40,7 @@ class BokehGraph:
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
                                                     fill_color='color',
                                                     line_color="#000000",
-                                                    line_width=3)
+                                                    line_width=2)
         graph_renderer.edge_renderer.data_source.data = (
             self._get_edge_indexes())
         self.randomize()
@@ -90,3 +79,15 @@ class BokehGraph:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
+
+    def _setup_labels(self):
+        label_data = {'x': [], 'y': [], 'names': []}
+        for vertex, position in self.pos.items():
+            label_data['x'].append(position[0])
+            label_data['y'].append(position[1])
+            label_data['names'].append(str(vertex))
+        label_source = ColumnDataSource(label_data)
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                          text_align='center', text_baseline='middle',
+                          source=label_source, render_mode='canvas')
+        self.plot.add_layout(labels)
