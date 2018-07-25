@@ -10,7 +10,7 @@ class Graph:
     def __init__(self):
         self.verts = {}
 
-    def add_vert(self,label,connect = [], bidir = True):
+    def add_vert(self,label,connect = [], bidir = False):
 
         for x in connect:
 
