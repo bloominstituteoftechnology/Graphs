@@ -46,7 +46,6 @@ class BokehGraph:
         )
 
         self.generate()
-        print(self.pos)
 
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
@@ -76,26 +75,30 @@ class BokehGraph:
         output_file(output_path)
         show(self.plot)
 
+    def place_vert(self, vertex):
+        acceptable = False
+
+        while not acceptable:
+            random_x = 1 + random() * (self.width - 2)
+            random_y = 1 + random() * (self.height - 2)
+            acceptable = True
+            for i in self.pos:
+                if (
+                    (random_x - self.pos[i][0]) ** 2 + (random_y - self.pos[i][1]) ** 2
+                ) ** .5 < 1:
+                    acceptable = False
+                    print("Rejected position, rerolling...")
+
+        self.pos[vertex] = (random_x, random_y)
+
     def generate(self):
         """Randomize vertex positions."""
         edges = self._get_edge_indexes()
+
+        print(edges)
+
         for vertex in self.graph.vertices:
-
-            acceptable = False
-
-            while not acceptable:
-                random_x = 1 + random() * (self.width - 2)
-                random_y = 1 + random() * (self.height - 2)
-                acceptable = True
-                for i in self.pos:
-                    if (
-                        (random_x - self.pos[i][0]) ** 2
-                        + (random_y - self.pos[i][1]) ** 2
-                    ) ** .5 < 1:
-                        acceptable = False
-                        print("Rejected position, rerolling...")
-
-            self.pos[vertex] = (random_x, random_y)
+            self.place_vert(vertex)
 
         for i in range(len(edges["start"])):
             if edges["start"][i] > edges["end"][i]:
