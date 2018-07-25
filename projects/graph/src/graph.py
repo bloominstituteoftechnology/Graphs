@@ -57,7 +57,7 @@ class Graph:
         q.append(root)
         print("Queue with root value appended: ", q)
         # mark root node as visited
-        visited[root] = True
+        visited[int(root)] = True
         print("Root has been visited: ", visited)
         while q:
             # dequeue a vertex from the queue
@@ -69,11 +69,10 @@ class Graph:
             # get all adjacent vertices of dequeued root
             # if adjacent vertexes have no been visted:
             # mark them as visted and enqueue them
-            # TODO get loop working
             for adjacents in self.vertices[root]: 
-                if visited[adjacents] == False:
-                    q.append[adjacents]
-                    visted[adjacents] = True
+                if visited[int(adjacents)] == False:
+                    q.append(adjacents)
+                    visited[int(adjacents)] = True
 
 # def main():
 graph = Graph()
@@ -107,7 +106,7 @@ print ("Following is Breadth First Traversal"
                   " (starting from vertex 2)")
 
 # graph.BFS(graph.vertices)
-graph.BFS(2)
+graph.BFS('2')
 
 # if __name__ == '__main__':
 #     main()
