@@ -121,3 +121,6 @@ bg.pos
 bg.plot
 bg.show()
 graph
+
+# g = Graph()
+# g.randomize(5, 4, 150, 0.6)

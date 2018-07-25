@@ -44,6 +44,29 @@ class Graph:
         for vert in grid:
             self.add_vertex(vertex)
 
+
+    def bfs(self, start_index):
+        random_color = '#' + \
+            ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+        queue = []
+        found = []
+        queue.append(start_index)
+        found.append(start_index)
+
+        start_index.color = random_color
+
+        while (len(queue) > 0):
+            v = queue[0]
+            for edge in v.edges:
+                if edge not in found:
+                    found.append(edge)
+                    queue.append(edge)
+                    edge.color = random_color
+
+            queue.pop(0)
+        return found
+
+
 # Test: 
 graph = Graph() # Instantiating an empty graph
 graph.add_vertex('0')
@@ -55,4 +78,3 @@ graph.add_edge('0', '3')
 print(graph.vertices)
 
 # graph.add_edge('0', '4')
-
