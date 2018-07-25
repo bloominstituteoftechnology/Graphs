@@ -1,12 +1,14 @@
-<<<<<<< HEAD
-=======
 #!/usr/bin/python
 from draw import BokehGraph
 
->>>>>>> 2a3a1aa... Finished writing out the starter code for the Graph class.
+
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+
+# """
+# Simple graph implementation compatible with BokehGraph class.
+# """
 
 
 # class Vertex:
