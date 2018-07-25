@@ -68,14 +68,14 @@ class BokehGraph:
         colors = self._get_random_colors(len(connected_components))
 
         # MAP vertex to its color
-        vertex_color = {
+        vertex_color_map = {
             'index': self.vertices,
             'fill_color': [0] * len(self.vertices)
         }
-        print(f'''Colors: {colors}
-        colors Len: {len(colors)}
-        connected_components Len: {len(connected_components)}
-        Vertex_colors: {vertex_color}
+        print(f'''
+        Colors Len: {len(colors)}
+        Connected_components Len: {len(connected_components)}
+        Vertex_color_map: {vertex_color_map}
         ''')
 
         # Assign to each connected component a unique single color.
@@ -83,9 +83,9 @@ class BokehGraph:
             color = colors[i]
             component = connected_components[i]
             for vertex in component:
-                vertex_color['fill_color'][int(vertex)] = color
+                vertex_color_map['fill_color'][int(vertex)] = color
 
-        self.bokeh_graph.node_renderer.data_source.data = vertex_color
+        self.bokeh_graph.node_renderer.data_source.data = vertex_color_map
 
     def define_edges(self):
         start = []

@@ -1,5 +1,14 @@
 #!/usr/bin/python
 
+from random import (randint, sample)
+
+
+class Vertex:
+    def __init__(self, label):
+        self.label = label
+        self.edges = set()
+
+
 """
 Simple graph implementation compatible with BokehGraph class.
 """
@@ -10,7 +19,7 @@ class Graph:
     Represent a graph as a dictionary of vertices mapping labels to edges.
     """
 
-    def __init__(self):
+    def __init__(self, random=True):
         self.vertices = {}
         self.connected_components = self.bfs()
 
@@ -70,6 +79,9 @@ class Graph:
         self.connected_components = connected_components
 
     def _bfs_connected_nodes(self, to_search, deep, visited_nodes, bf):
+        '''
+        BFS for each Component in the Graph
+        '''
         # print('\nDEF _BFS_CONNECTED', visited_nodes)
         control = set()
         while bf:
@@ -111,11 +123,49 @@ class Graph:
     def dfs(self, starting_vertex=0, to_search=None):
         pass
 
+    def add_random_data(self, vertices=None, edges=None):
+        '''
+        Fill the Graph with mock data.
+        '''
+        self._random_vertices(vertices)
+        self._random_edges(edges)
 
-class Vertex:
-    def __init__(self, label):
-        self.label = label
-        self.edges = set()
+    def _random_vertices(self, number=None):
+        '''
+        Add random vertices, is not argument provided
+        add between 10 and 30 vertices.
+        '''
+        if not number:
+            number = randint(10, 30)
+
+        for i in range(number):
+            self.add_vertex(str(i))
+
+    def _random_edges(self, num_edges=None):
+        '''
+        Add random Edges.
+        If argument provided, it checks for the the
+        Maxnumber of allowed edges (based on the number of Vertices)
+
+        If not argument provided, it assign a random number of edges
+        from 1 to the 'Max_number_of_allowed_edges'
+        '''
+        # Get max numner of edges
+        num_vertices = len(self.vertices.keys())
+        max_edges = num_vertices * (num_vertices - 1)
+
+        # Check number of edges
+        if not num_edges:  # Assign a random num of edges
+            num_edges = randint(1, max_edges) // 3
+
+        # Check if the passed number is not greater than the
+        # allowed number of edges
+        elif num_edges > max_edges:
+            num_edges = max_edges
+
+        for _ in range(num_edges):
+            vertices = sample(self.vertices.keys(), 2)
+            self.add_edge(vertices[0], vertices[1])
 
 
 # _graph = Graph()  # Instantiate your graph
