@@ -34,9 +34,9 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(
-            list(self.graph.vertices.keys()), 'index')
+            list(sorted(self.graph.vertices.keys())), 'index')
         graph_renderer.node_renderer.data_source.add(
-            brewer['YlGnBu'][4], 'color')
+            self._get_colors(), 'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
                                                     fill_color='color',
                                                     line_color="#000000",
@@ -49,10 +49,18 @@ class BokehGraph:
         self.plot.renderers.append(graph_renderer)
 
     def _get_random_colors(self):
-        colors = []
+        pass
+        """colors = []
         for _ in range(len(self.graph.vertices)):
             color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
             colors.append(color)
+        return colors"""
+
+    def _get_colors(self):
+        colors = []
+        for i in range(len(self.graph.vertices)):
+            colors.append(self.graph.vertices[str(i)].color)
+        print(colors)
         return colors
 
     def _get_edge_indexes(self):
@@ -60,11 +68,11 @@ class BokehGraph:
         end_indices = []
         checked = set()
 
-        for vertex, edges in self.graph.vertices.items():
+        for index, vertex in self.graph.vertices.items():
             if vertex not in checked:
-                for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
+                for destination in vertex.edges:
+                    start_indices.append(vertex.label)
+                    end_indices.append(destination.label)
                 checked.add(vertex)
 
         return dict(start=start_indices, end=end_indices)
@@ -82,12 +90,13 @@ class BokehGraph:
 
     def _setup_labels(self):
         label_data = {'x': [], 'y': [], 'names': []}
-        for vertex, position in self.pos.items():
-            label_data['x'].append(position[0])
-            label_data['y'].append(position[1])
-            label_data['names'].append(str(vertex))
+        for vertex, edges in self.pos.items():
+            label_data['x'].append(edges[0])
+            label_data['y'].append(edges[1])
+            label_data['names'].append(vertex)
         label_source = ColumnDataSource(label_data)
         labels = LabelSet(x='x', y='y', text='names', level='glyph',
                           text_align='center', text_baseline='middle',
-                          source=label_source, render_mode='canvas')
+                          source=label_source, render_mode='canvas',
+                          text_color="white")
         self.plot.add_layout(labels)
