@@ -41,6 +41,7 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
+        print(self.graph.vertices)
 
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
@@ -48,12 +49,13 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(
             list(self.graph.vertices.keys()), "index"
         )
-        graph_renderer.node_renderer.data_source.add(self._get_random_colors(), "color")
+        graph_renderer.node_renderer.data_source.add(self._get_colors(), "color")
         graph_renderer.node_renderer.glyph = Circle(
             size=circle_size, fill_color="color"
         )
+        # print("vertices", self.graph.vertices)
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
-        self.randomize()
+        self.get_positions()
         for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
             self.plot.add_layout(
                 Arrow(
@@ -77,11 +79,11 @@ class BokehGraph:
         self.plot.renderers.append(graph_renderer)
         self._get_labels()
 
-    def _get_random_colors(self):
+    def _get_colors(self):
         colors = []
-        for _ in range(len(self.graph.vertices)):
-            color = "#" + "".join([choice("0123456789ABCDEF") for j in range(6)])
-            colors.append(color)
+        for i in self.graph.vertices:
+            # color = "#" + "".join([choice("0123456789ABCDEF") for j in range(6)])
+            colors.append(self.graph.vertices[str(i)].color)
         return colors
 
     def _get_edge_indexes(self):
@@ -89,11 +91,11 @@ class BokehGraph:
         end_indices = []
         checked = set()
 
-        for vertex, edges in self.graph.vertices.items():
+        for index, vertex in self.graph.vertices.items():
             if vertex not in checked:
-                for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
+                for destination in vertex.edges:
+                    start_indices.append(vertex.label)
+                    end_indices.append(destination.label)
                 checked.add(vertex)
 
         return dict(start=start_indices, end=end_indices)
@@ -113,15 +115,21 @@ class BokehGraph:
             # random stuff for making vertex
             # make if statement to take into account positions already in self.pos
 
+    def get_positions(self):
+        for vertex in self.graph.vertices:
+            # color = "#" + "".join([choice("0123456789ABCDEF") for j in range(6)])
+            self.pos[vertex] = (
+                str(self.graph.vertices[vertex].x),
+                str(self.graph.vertices[vertex].y),
+            )
+
     def _get_labels(self):
         label_data = {"x": [], "y": [], "name": []}
-        for vertex, edges in self.pos.items():
-            label_data["x"].append(edges[0])
-            label_data["y"].append(edges[1])
+        for vertex, position in self.pos.items():
+            label_data["x"].append(position[0])
+            label_data["y"].append(position[1])
             label_data["name"].append(vertex)
-        print("label", label_data)
         label_source = ColumnDataSource(label_data)
-        print("label source:", label_source)
 
         labels = LabelSet(
             x="x",
@@ -136,3 +144,19 @@ class BokehGraph:
             render_mode="canvas",
         )
         self.plot.add_layout(labels)
+
+    # def dfs(self):
+    #     connected_components = []
+    #     visited = set()
+
+    #     for v in self.graph.vertices:
+    #         if v not in visited:
+    #             component = bfs(v)
+    #             visted.update(component)
+    #             connected_components.append(component)
+    #     for v in self.graph.vertices:
+    #         v.color = white
+    #     for v in self.graph.vertices:
+    #         if v.color == white:
+    #             component = bfs(v)
+    #             connected_components.append(component)
