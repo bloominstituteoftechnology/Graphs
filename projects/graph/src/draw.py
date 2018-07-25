@@ -29,7 +29,8 @@ class BokehGraph:
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(
-            list(self.graph.vertices.keys()), 'index')
+            list(sorted(self.graph.vertices.keys())), 'index')
+#this sorts the vertices so that connected components are color coordinated
         graph_renderer.node_renderer.data_source.add(
             self._get_random_colors(), 'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
@@ -68,6 +69,8 @@ class BokehGraph:
         for vertex in self.graph.vertices:
             self.pos[vertex] = (randrange(1, self.width-1),
                                 randrange(1, self.height-1))
+#I thought randrange might work better than a totally random number
+#in terms of avoiding the edge of the screen
 
     def _get_labels(self):
         label_data = {'x': [], 'y': [], 'name': []}

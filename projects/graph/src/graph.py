@@ -20,7 +20,7 @@ class Vertex:
             pos = self.pos
         return "Vertex is {}".format(self.label)
     #I think the __str__ method is more readable than __repr__
-
+    #to see what the properties are
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -35,7 +35,7 @@ class Graph:
             start = start.label
 #isinstance will return True if (in this case) start is an instance of Vertex
 #so basically, this part labels the starting point
-
+#using key, if we are passed an object just get the key
         if isinstance(end, Vertex):
             end = end.label
 
@@ -63,6 +63,7 @@ class Graph:
         for i in range(n_verts):
             grid.append(Vertex(str(i)))
 
+#randomly loop through verts, and randomly connect each to the next
         for i in range(n_verts - 1):
             if (random.randrange(n_verts) < n_verts // 2):
                 if(random.randrange(n_verts) < n_verts // 2):
@@ -130,6 +131,7 @@ class Graph:
     def get_connected_components(self):
         searched = []
         for index, vertex in self.vertices.items():
+#find the next vertex that hasn't already been found and run dfs on it
             if vertex not in searched:
                 searched.append(self.dfs(vertex))
         return searched
