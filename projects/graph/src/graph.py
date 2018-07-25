@@ -24,7 +24,11 @@ class Graph:
 
     def add_edge(self, start, end, bidirectional=True):
         """Add a 'line' that runs from point to point"""
-        pass
+        if start not in self.vertices or end not in self.vertices:
+            raise Exception("ERROR!")
+        self.vertices[start].add(end)
+        if bidirectional
+            self.vertices[end].add(start)
 
     def add_vertex(self, vertex, edges=()):
         """Add a 'point' that the 'edge/line' will run between"""
