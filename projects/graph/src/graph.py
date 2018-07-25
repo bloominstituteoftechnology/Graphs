@@ -25,6 +25,15 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
+    def randomize(self, num_vertex, num_edge):
+        num_list = []
+        for num in xrange(0, num_vertex):
+            self.add_vertex(x)
+            num_list.append(x)
+        
+        
+        
+
     
 
 graph = Graph()  # Instantiate your graph
