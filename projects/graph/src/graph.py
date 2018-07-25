@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#from Graph import Graph
+
 from draw import BokehGraph
 
 """
@@ -43,6 +43,8 @@ def main():
     graph.add_vertex('10')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
+    graph.add_edge('4', '3')
+    graph.add_edge('1', '3')
 
     bg = BokehGraph(graph)
     bg.show()

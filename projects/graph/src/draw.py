@@ -27,6 +27,7 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
+        self._setup_labels()
 
     def _setup_graph_renderer(self, circle_size):
         # The renderer will have the actual logic for drawing
@@ -81,6 +82,18 @@ class BokehGraph:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
+
+    def _setup_labels(self):
+        label_data = {'x': [], 'y': [], 'names': []}
+        for vertex, position in self.pos.items():
+            label_data['x'].append(position[0])
+            label_data['y'].append(position[1])
+            label_data['names'].append(str(vertex))
+        label_source = ColumnDataSource(label_data)
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                          text_align='center', text_baseline='middle',
+                          source=label_source, render_mode='canvas')
+        self.plot.add_layout(labels)
 """
 def main():
     graph = Graph()
