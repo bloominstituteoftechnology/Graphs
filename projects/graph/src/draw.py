@@ -24,22 +24,28 @@ class BokehGraph:
         checked = set()
         for startpoint, endpoints in self.graph.vertices.items():
             for endpoint in endpoints:
-                if (startpoint, endpoint) not in checked:
-                    checked.add((startpoint, endpoint))
-                    start.append(startpoint)
-                    end.append(endpoint)
+                if (startpoint.label, endpoint.label) not in checked:
+                    checked.add((startpoint.label, endpoint.label))
+                    start.append(startpoint.label)
+                    end.append(endpoint.label)
         return dict(start=start, end=end)
 
-    def _get_random_colors(self):
+    def _get_colors(self):
         colors = []
-        for vertex in self.graph.vertices:
-            color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
+        for vertex in self.graph.vertices.keys():
+            color = vertex.color
             colors.append(color)
         return colors
 
     def map_coords(self):
         for vertex in self.graph.vertices.keys():
-            self.pos[vertex] = (random.uniform(0.5,9.5), random.uniform(0.5,9.5))
+            self.pos[vertex.label] = (random.uniform(0.5,9.5), random.uniform(0.5,9.5))
+    
+    def _get_labels(self):
+        labels = []
+        for vertex in self.graph.vertices.keys():
+            labels.append(vertex.label)
+        return labels
         
     def draw(self, title='Graph', width=10, height=10,
                 show_axis=False, show_grid=False, circle_size=15):
@@ -50,9 +56,9 @@ class BokehGraph:
 
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(
-            list(self.graph.vertices.keys()), 'index')
+            self._get_labels(), 'index')
         graph.node_renderer.data_source.add(
-            self._get_random_colors(), 'color')
+            self._get_colors(), 'color')
         graph.node_renderer.glyph = Circle(size=circle_size,
             fill_color='color')
         graph.edge_renderer.data_source.data = self._get_edges()
@@ -80,6 +86,10 @@ def randomize_graph(size=10):
                     end = random.choice(vertices)
                     vertices.remove(end)
                     graph.add_edge(vertex, end)
+    searched = set()
+    for vertex in graph.vertices:
+        if vertex not in searched:
+            searched.update(graph.search(vertex))
     bokeh = BokehGraph(graph)
     bokeh.draw()
     
