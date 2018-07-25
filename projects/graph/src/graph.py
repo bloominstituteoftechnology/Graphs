@@ -18,6 +18,9 @@ class Vertex:
             pos = dict(x=None, y=None)
         else:
             pos = self.pos
+        return "Vertex is {}".format(self.label)
+    #I think the __str__ method is more readable than __repr__
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -30,6 +33,8 @@ class Graph:
     def add_edge(self, start, end, bidirectional=True):
         if isinstance(start, Vertex):
             start = start.label
+#isinstance will return True if (in this case) start is an instance of Vertex
+#so basically, this part labels the starting point
 
         if isinstance(end, Vertex):
             end = end.label
@@ -68,32 +73,68 @@ class Graph:
             self.add_vertex(vert)
 
 
-    def bfs(self, start):
-        random_color = '#' + ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
-        queue = []
+#    def bfs(self, start):
+#
+#        #pick a random color
+#        random_color = '#' + ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+#
+#        #create queue and found lists, and append our start to each 
+#        queue = []
+#        found = []
+#        queue.append(start)
+#        found.append(start)
+#
+#        #add the color
+#        start.color = random_color
+#
+#        #as long as there are items in the queue, for each edge in the edge array, if
+#        #destination is not found in the found list, add it to the found list, add it
+#        #to the queue, and add the color property. Then dequeue queue[0].
+#        while (len(queue) > 0):
+#            v = queue[0]
+#            for edge in v.edges:
+#                if edge not in found:
+#                    found.append(edge)
+#                    queue.append(edge)
+#                    edge.color = random_color
+#            queue.pop(0)
+#        return found
+
+    def dfs(self, start):
+        #pick a random color
+        random_color = '#' + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) 
+        
+        #create stack and found lists, append start to each
+        stack = []
         found = []
-        queue.append(start)
-        queue.append(start)
-
+        stack.append(start)
+        found.append(start)
+        
+        #add the color
         start.color = random_color
-
-        while (len(queue) > 0):
-            v = queue[0]
+        
+        #as long as there are items in the stack, pop the last element. If popped
+        #element is not in found, append it. For each edge in the edge array, if
+        #destination not in found, assign it v's color and append it to stack.
+        while (len(stack) > 0):
+            v = stack.pop()
+            if v not in found:
+                found.append(v)
             for edge in v.edges:
                 if edge not in found:
-                    found.append(edge)
-                    queue.append(edge)
-                    edge.color = random_color
-            queue.pop(0)
+                    edge.color = v.color
+                    stack.append(edge)
         return found
+
 
     def get_connected_components(self):
         searched = []
         for index, vertex in self.vertices.items():
             if vertex not in searched:
-                searched.append(self.bfs(vertex))
+                searched.append(self.dfs(vertex))
         return searched
 
+#instantiate
 graph=Graph()
 graph.create_vertices_and_edges(10)
 graph.get_connected_components()

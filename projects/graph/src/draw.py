@@ -44,6 +44,7 @@ class BokehGraph:
         for i in range(len(self.graph.vertices)):
             colors.append(self.graph.vertices[str(i)].color)
         return colors
+# a lot of this now gets generated over in graph.py, in bfs and dfs
 
     def _get_edge_indices(self):
         start_indices = []
