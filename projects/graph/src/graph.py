@@ -82,3 +82,10 @@ class Graph:
                 self.verts[start].append(stop)
 
 
+gd = Graph()
+gd.add_vert("A")
+gd.add_vert("B",["A","B"])
+gd.add_vert("C",["A","B"])
+
+
+
