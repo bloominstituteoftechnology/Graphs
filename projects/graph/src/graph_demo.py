@@ -1,3 +1,9 @@
+#!/usr/bin/python
+
+"""
+Demonstration of Graph and BokehGraph functionality.
+"""
+
 from sys import argv
 from random import sample
 from draw import BokehGraph
@@ -24,4 +30,3 @@ if __name__ == "__main__":
         main(NUM_VERTICES, NUM_EDGES)
     else:
         main()
-
