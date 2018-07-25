@@ -5,23 +5,27 @@ General drawing methods for graphs using Bokeh.
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, Label,
-                            ColumnDataSource)
+                            ColumnDataSource, Title)
 import random
 from random import choice
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title="Graph", width=600, height=600,
+    def __init__(self, graph, title="Coordinates", width=600, height=600,
                 show_axis=False, show_grid=False, circle_size=15):
         if not graph.vertices:
             raise Exception('Graph should contain vertices')
         self.graph = graph
         # setup plot
+        TOOLTIPS = [
+            ("index", "$index"),
+            ("(x,y)", "($x, $y)"),
+        ]
         self.width = width
         self.height = height
         self.pos = {} #dict to map vertices (x.y coordinates)
-        self.plot = figure(title=title, toolbar_location="above", x_range=(0, width), y_range=(0, height))
+        self.plot = figure(title=title, toolbar_location="above", tooltips=TOOLTIPS, x_range=(0, width), y_range=(0, height))
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
@@ -37,6 +41,8 @@ class BokehGraph:
         graph_renderer.node_renderer.glyph = Circle(size=circle_size, line_color="black", fill_color="color")
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indices()
         self.randomize()
+        self.plot.add_layout(Title(text="Whys", align="left"), "left")
+        self.plot.add_layout(Title(text="Exes", align="center"), "below")
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout = self.pos)
         self.plot.renderers.append(graph_renderer)
 
