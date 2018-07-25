@@ -29,17 +29,3 @@ class Graph:
         self.vertices[start].add(end)
         if bidirectional:
             self.vertices[end].add(start)
-
-graph = Graph()
-v1 = Vertex('A')
-v2 = Vertex('B')
-v3 = Vertex('C')
-
-graph.add_vertex(v1)
-graph.add_vertex(v2)
-graph.add_vertex(v3)
-
-graph.add_edge(v1,v2,bidirectional=True)
-graph.add_edge(v1, v3, bidirectional=True)
-
-print(graph.vertices)
