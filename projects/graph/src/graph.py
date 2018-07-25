@@ -39,8 +39,17 @@ class Graph:
 
     def bfs(self, to_search=None):
         '''
-        Search Breath first. Argunments:
-        'to_search': Node to search
+        Search Breath first.
+        Arguments:
+            'to_search': Node to search in the Graph
+        Returns:
+            a. If passed the arguments:
+                True: if the argument/node is in the Graph
+                None: If the argument/node is not in the Graph
+            b. If not argument is passed:
+                It builds a list with all the 'connected_components'
+                in the Graph and put it in 'self.connected_components'
+                property.
         '''
         deep = 0
         connected_components = []
@@ -73,12 +82,12 @@ class Graph:
                 visited = bf.pop(0)
                 control.add(visited)
                 visited_nodes.add(visited)
-                print('\n\n', {
-                    'Found value': current_vertex,
-                    'deep': deep,
-                    'Connected Nodes': control,
-                    'Visited nodes': visited_nodes,
-                })
+                # print('\n\n', {
+                #     'Found value': current_vertex,
+                #     'deep': deep,
+                #     'Connected Nodes': control,
+                #     'Visited nodes': visited_nodes,
+                # })
                 return current_vertex
             elif current_vertex in control:
                 bf.remove(current_vertex)
