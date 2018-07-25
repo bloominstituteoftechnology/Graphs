@@ -21,19 +21,24 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def search(self, start=0, cb=lambda x: print(x), algo='breadth'):
-        queue = list(list(self.vertices)[start])
+    def search(self, start=None, algo='breadth'):
+        if not start:
+            start = list(self.vertices.keys())[0]
+
+        queue = list(list(self.vertices[start]))
         visited = set()
+        order = []
 
         while queue:
             if algo == 'breadth':
                 current_vert = queue.pop(0)
             elif algo == 'depth':
                 current_vert = queue.pop()
-            cb(current_vert)
             visited.add(current_vert)
+            order.append(current_vert)
             for child in self.vertices[current_vert]:
                 if child not in visited:
                     queue.append(child)
                     visited.add(child)
-                    
+
+        return order

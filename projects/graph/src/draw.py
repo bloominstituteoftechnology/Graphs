@@ -30,7 +30,8 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(list(self.graph.vertices.keys()), 'index')
-        graph_renderer.node_renderer.data_source.add(self._get_random_colors(), 'color')
+        # graph_renderer.node_renderer.data_source.add(self._get_random_colors(), 'color')
+        graph_renderer.node_renderer.data_source.add(self._color_connected_components(), 'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size, fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
@@ -54,31 +55,26 @@ class BokehGraph:
 
         return labels
 
-    def _get_random_colors(self):
+    def _color_connected_components(self):
+        vertex_colors_dict = dict((vertex, 'black') for vertex in list(self.graph.vertices.keys()))
         
-        # def get_random_color(pastel_factor = 0.5):
-        #     return [(x+pastel_factor)/(1.0+pastel_factor) for x in [random.uniform(0,1.0) for i in [1,2,3]]]
-
-        # def color_distance(c1,c2):
-        #     return sum([abs(x[0]-x[1]) for x in zip(c1,c2)])
-
-        # def generate_new_color(existing_colors,pastel_factor = 0.5):
-        #     max_distance = None
-        #     best_color = None
-        #     for _ in range(0,100):
-        #         color = get_random_color(pastel_factor = pastel_factor)
-        #         if not existing_colors:
-        #             return color
-        #         best_distance = min([color_distance(color,c) for c in existing_colors])
-        #         if not max_distance or best_distance > max_distance:
-        #             max_distance = best_distance
-        #             best_color = color
-        #     return best_color
-
+        for vertex in vertex_colors_dict:
+            if vertex_colors_dict[vertex] is 'black':
+                rand_color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
+                vertex_colors_dict[vertex] = rand_color
+                for connected_node in self.graph.search(start=vertex):
+                    vertex_colors_dict[connected_node] = rand_color
+        
         colors = []
-        
+        for vertex, color in vertex_colors_dict.items():
+            colors.append(color)
+
+        print (colors)
+        return colors
+
+    def _get_random_colors(self):
+        colors = []
         for _ in range(len(self.graph.vertices)):
-            # colors.append(generate_new_color(colors,pastel_factor = 0.9))
             color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
             colors.append(color)
         return colors
