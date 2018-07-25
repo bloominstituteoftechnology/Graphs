@@ -20,7 +20,7 @@ def main(num_vertices=8, num_edges=8):
     print (graph.vertices)
     graph.search()
     print (graph.vertices)
-    graph.search('depth')
+    graph.search(start=9, algo='depth')
 
     bg = BokehGraph(graph)
     bg.show()

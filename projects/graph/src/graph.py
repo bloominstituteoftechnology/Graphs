@@ -21,9 +21,9 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def search(self, algo='breadth', cb=lambda x: print(x)):
+    def search(self, start=0, cb=lambda x: print(x), algo='breadth'):
         if algo == 'breadth':
-            queue = list(list(self.vertices)[0])
+            queue = list(list(self.vertices)[start])
             visited = set()
 
             while queue:
@@ -36,7 +36,7 @@ class Graph:
                         visited.add(child)
         
         elif algo == 'depth':
-            stack = list(list(self.vertices)[0])
+            stack = list(list(self.vertices)[start])
             visited = set()
 
             while stack:
