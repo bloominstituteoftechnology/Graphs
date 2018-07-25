@@ -6,8 +6,8 @@ Demonstration of Graph and BokehGraph functionality.
 
 from random import sample
 from sys import argv
-from draw import BokehGraph
-from graph import Graph
+from aaronDraw import BokehGraph
+from aaronGraph import Graph
 
 
 def main(num_vertices=8, num_edges=8):
