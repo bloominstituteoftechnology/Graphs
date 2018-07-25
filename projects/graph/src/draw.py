@@ -54,10 +54,10 @@ class BokehGraph:
 
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
-                for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
-                checked.add(vertex)
+                for destination in edges.edges:
+                    start_indices.append(edges.label)
+                    end_indices.append(destination.label)
+                checked.add(edges)
 
         return dict(start=start_indices, end=end_indices)
 
