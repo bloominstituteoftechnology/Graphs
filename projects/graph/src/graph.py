@@ -3,6 +3,7 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+from draw import BokehGraph
 
 
 class Graph:
@@ -23,11 +24,19 @@ class Graph:
             self.vertices[end].add(start)
 
 
-graph = Graph()
-graph.add_vertex("0")
-graph.add_vertex("1")
-graph.add_vertex("2")
-graph.add_vertex("3")
-graph.add_edge("0", "1")
-graph.add_edge("0", "3")
-print(graph.vertices)
+def main():
+    from graph import Graph
+
+    graph = Graph()
+    graph.add_vertex("0")
+    graph.add_vertex("1")
+    graph.add_vertex("2")
+    graph.add_vertex("3")
+    graph.add_edge("0", "1")
+    graph.add_edge("0", "3")
+    bg = BokehGraph(graph)
+    bg.show()
+
+
+if __name__ == "__main__":
+    main()
