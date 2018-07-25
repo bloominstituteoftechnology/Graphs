@@ -86,7 +86,10 @@ def randomize_graph(size=10):
                     end = choice(vertices)
                     vertices.remove(end)
                     graph.add_edge(vertex, end)
-    graph.depth_first_search()
+
+    # graph.depth_first_search()
+    graph.breadth_first_search()
+
     bokeh = BokehGraph(graph)
     bokeh.show()
 

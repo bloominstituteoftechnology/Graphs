@@ -55,6 +55,26 @@ class Graph:
         else:
           print('Visted {} {}'.format(v.value, v.color))
 
+  def breadth_first_search(self):
+    visited = set()
+    for vertex in self.vertices:
+      queue = []
+      queue.append(self.vertices[vertex])
+      color = get_random_color()
+      print('start')
+      while len(queue) > 0:
+        v = queue.pop(0)
+        print('pop from queue {} {}'.format(v.value, v.color))
+        if v not in visited:
+          print('Not visted {} {}'.format(v.value, v.color))
+          v.color = color
+          visited.add(v)
+          print('Visted change color {} {}'.format(v.value, v.color))
+          for edge in v.edges:
+            queue.append(self.vertices[edge])
+        else:
+          print('Visted {} {}'.format(v.value, v.color))
+
 def get_random_color():
   color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
   return color
