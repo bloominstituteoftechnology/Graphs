@@ -39,35 +39,75 @@ class Graph:
 
     def DFS(self):
         """
-        Depth-first Search
+        Depth-first Search (Stack?)
         """
         pass
     
     
-    def BFS(self, start):
+    def BFS(self, root):
         """
-        Breadth-first Search
+        Breadth-first Search (Boolean Method)
         """
-        
+        # mark all vertices as not visited
+        visited = [False] * (len(self.vertices))
+        print("initially, all nodes are False ", visited)
+        # init a queue as a list
+        q = [] 
+        # enqueue the root
+        q.append(root)
+        print("Queue with root value appended: ", q)
+        # mark root node as visited
+        visited[root] = True
+        print("Root has been visited: ", visited)
+        while q:
+            # dequeue a vertex from the queue
+            # and then print it
+            root = q.pop(0)
+            print("Dequeued Root: ", root)
+            print("Queue after the Root's gone: ", q)
+            print("Root still visited -> ", visited)
+            # get all adjacent vertices of dequeued root
+            # if adjacent vertexes have no been visted:
+            # mark them as visted and enqueue them
+            # TODO get loop working
+            for adjacents in self.vertices[root]: 
+                if visited[adjacents] == False:
+                    q.append[adjacents]
+                    visted[adjacents] = True
 
 # def main():
-# graph = Graph()
+graph = Graph()
 
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
 
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '3')
-# graph.add_edge('1', '2')
-# graph.add_edge('2', '3')
-# graph.add_edge('3', '1')
+graph.add_edge('0', '1')
+graph.add_edge('0', '2')
+graph.add_edge('1', '2')
+graph.add_edge('2', '0')
+graph.add_edge('2', '3')
+graph.add_edge('2', '3')
+
+# graph.add_vertex(0)
+# graph.add_vertex(1)
+# graph.add_vertex(2)
+# graph.add_vertex(3)
+
+# graph.add_edge(0, 1)
+# graph.add_edge(0, 2)
+# graph.add_edge(1, 2)
+# graph.add_edge(2, 0)
+# graph.add_edge(2, 3)
+# graph.add_edge(2, 3)
 
 # print(graph.vertices)
-# print ("Following is Breadth First Traversal"
-#                   " (starting from vertex 2)")
-# graph.BFS(2)
+print ("Following is Breadth First Traversal"
+                  " (starting from vertex 2)")
+
+# graph.BFS(graph.vertices)
+graph.BFS(2)
 
 # if __name__ == '__main__':
 #     main()
