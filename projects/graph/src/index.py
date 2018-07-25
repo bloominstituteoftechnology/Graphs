@@ -2,7 +2,8 @@ from graph import Graph
 from draw import BokehGraph
 
 def main():
-    graph = Graph()
+    graph = Graph()    
+    
     graph.add_vertex("0")
     graph.add_vertex("1")
     graph.add_vertex("2")
