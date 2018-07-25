@@ -3,10 +3,6 @@
 This is a multi-stage project to draw a graph and show the connected
 components of that graph in different colors.
 
-A designer on your team has provided a mockup for what the final product should look like:  https://github.com/LambdaSchool/Graphs/blob/master/projects/graph/UI:UX%20Mockup.png
-
-Note that it should not always appear exactly like this.  The vertexes, edges, and colors should vary randomly each time the program is run.  
-
 
 ## Part 1: Graph, Vertex, Edge Classes
 
