@@ -22,13 +22,6 @@ class BokehGraph:
         self.pos = {}
         self.plot = figure(title=title, x_range=(0,width), y_range=(0, height))
 
-        self.xs = []
-        self.ys = []
-        self.vertex_labels = []
-        self.source = ColumnDataSource(data=dict(xs=self.xs, ys=self.ys, vertex_labels=self.vertex_labels))
-
-        self.labels = LabelSet(x='xs', y='ys', text='vertex_labels', text_align='center', text_baseline='middle', text_color='white', source=self.source)
-
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
@@ -42,8 +35,24 @@ class BokehGraph:
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
-        self.plot.add_layout(self.labels)
+        self.plot.add_layout(self._draw_labels())
         self.plot.renderers.append(graph_renderer)
+
+    def _draw_labels(self):
+        xs = []
+        ys = []
+        vertex_labels = []
+
+        for vertex, position in self.pos.items():
+            xs.append(position[0])
+            ys.append(position[1])
+            vertex_labels.append(vertex)
+
+        source = ColumnDataSource(data=dict(xs=xs, ys=ys, vertex_labels=vertex_labels))
+
+        labels = LabelSet(x='xs', y='ys', text='vertex_labels', text_align='center', text_baseline='middle', text_color='white', source=source)
+
+        return labels
 
     def _get_random_colors(self):
         
@@ -98,6 +107,3 @@ class BokehGraph:
             randomx = 1 + random() * (self.width - 2)
             randomy = 1 + random() * (self.height - 2)
             self.pos[vertex] = (randomx, randomy)
-            self.vertex_labels.append(vertex)
-            self.xs.append(randomx)
-            self.ys.append(randomy)
