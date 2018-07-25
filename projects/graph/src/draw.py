@@ -102,3 +102,4 @@ y_range=(0, height))
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
+a
