@@ -1,7 +1,7 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-from random import choice, random
+from random import choice, random, randrange
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, Arrow,
@@ -24,6 +24,7 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
+        self._get_labels()
 
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
@@ -39,35 +40,34 @@ class BokehGraph:
 # The following was a joint effort among classmates from different PM groups
 # We all wanted to do arrows
 
-        for i in range(len(graph_renderer.edge_renderer.data_source.data['start'])):
-            print(i)
-            self.plot.add_layout(
-                Arrow(
-                    end=NormalHead(fill_color='green'),
-                    x_start=self.pos[
-                        graph_renderer.edge_renderer.data_source.data['start'][i]
-                    ][0],
-                    y_start=self.pos[
-                        graph_renderer.edge_renderer.data_source.data['start'][i]
-                    ][1],
-                    x_end=self.pos[
-                        graph_renderer.edge_renderer.data_source.data['end'][i]
-                    ][0],
-                    y_end=self.pos[
-                        graph_renderer.edge_renderer.data_source.data['end'][i]
-                    ][1],
-                )
-            )
-
-
+#        for i in range(len(graph_renderer.edge_renderer.data_source.data['start'])):
+#            print(i)
+#            self.plot.add_layout(
+#                Arrow(
+#                    end=NormalHead(fill_color='green'),
+#                    x_start=self.pos[
+#                        graph_renderer.edge_renderer.data_source.data['start'][i]
+#                    ][0],
+#                    y_start=self.pos[
+#                        graph_renderer.edge_renderer.data_source.data['start'][i]
+#                    ][1],
+#                    x_end=self.pos[
+#                        graph_renderer.edge_renderer.data_source.data['end'][i]
+#                    ][0],
+#                    y_end=self.pos[
+#                        graph_renderer.edge_renderer.data_source.data['end'][i]
+#                    ][1],
+#                )
+#            )
+#
+#
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
     def _get_random_colors(self):
         colors = []
         for i in range(len(self.graph.vertices)):
-            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
-            colors.append(color)
+            colors.append(self.graph.vertices[str(i)].color)
         return colors
 
     def _get_edge_indices(self):
@@ -75,11 +75,11 @@ class BokehGraph:
         end_indices = []
         checked = set()
 
-        for vertex, edges in self.graph.vertices.items():
+        for index, vertex in self.graph.vertices.items():
             if vertex not in checked:
-                for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
+                for destination in vertex.edges:
+                    start_indices.append(vertex.label)
+                    end_indices.append(destination.label)
                 checked.add(vertex)
         return dict(start=start_indices, end=end_indices)
 
@@ -90,5 +90,27 @@ class BokehGraph:
     def randomize(self):
         #for vertex positions
         for vertex in self.graph.vertices:
-            self.pos[vertex] = (1 + random() * (self.width - 2),
-                                random() * (self.height - 2))
+            self.pos[vertex] = (randrange(1, self.width-1),
+                                randrange(1, self.height-1))
+
+    def _get_labels(self):
+        label_data = {'x': [], 'y': [], 'name': []}
+        for vertex, edges in self.pos.items():
+            label_data['x'].append(edges[0])
+            label_data['y'].append(edges[1])
+            label_data['name'].append(vertex)
+        label_source = ColumnDataSource(label_data)
+
+        labels = LabelSet(
+            x='x',
+            y='y',
+            text='name',
+            text_color='white',
+            level='glyph',
+            text_align='center',
+            text_baseline='middle',
+            text_line_height=1,
+            source=label_source,
+            render_mode='canvas',
+        )
+        self.plot.add_layout(labels)
