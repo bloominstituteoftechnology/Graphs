@@ -7,37 +7,38 @@ from random import random, randint
 
 class Vertex:
     """Object representation of Vertex"""
-    def __init__(self, label=None, coords=None, color='gray'):
+    def __init__(self, label, pos=None, color='gray'):
         self.label = label
-        self.coords = coords
+        self.pos = pos
         self.color = color
+        self.edges = set()
     
     def __repr__(self):
         return str(self.label)
     
-    # def __hash__(self):
-    #     return hash(str(self.label))
+    def __hash__(self):
+        return hash(str(self.label))
     
-    # def __eq__(self, other):
-    #     return self.label == str(other)
+    def __eq__(self, other):
+        return self.label == str(other)
 
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self, num_of_vertices=0, chance=0.6):
         self.vertices = {}
-        self.vertex_keys = []
 
         if num_of_vertices > 0:
-            for i in range(num_of_vertices - 1):
+            for i in range(0, num_of_vertices):
                 new_vertex = Vertex(i)
                 self.add_vertex(new_vertex)
-                self.vertex_keys.append(new_vertex)
         
-            for edges in self.vertices.values():
+            for vertex in self.vertices.values():
                 if random() <= chance:
-                    p = randint(0,num_of_vertices - 1)
-                    edges.add(self.vertex_keys[p])
+                    p = randint(0, num_of_vertices - 1)
+                    # print('self.vertices:',self.vertices)
+                    # print('p:',p,'self.vertices[p]:',self.vertices[p])
+                    vertex.edges.add(self.vertices[p])
 
     def add_vertex(self, vertex, edges=()):
         """Add a new vertex, optionally with edges to other vertices."""
@@ -45,15 +46,17 @@ class Graph:
             raise Exception('Error: adding vertex that already exists')
         if not set(edges).issubset(self.vertices):
             raise Exception('Error: cannot have edge to nonexistent vertices')
-        self.vertices[vertex] = set(edges)
+        self.vertices[vertex.label] = vertex
+        for edge in edges:
+            self.vertices[vertex.label].edges.add(edge)
     
     def add_edge(self, start, end, bidirectional=True):
         """Add an edge (default bidirectional) between two vertices."""
         if start not in self.vertices or end not in self.vertices:
             raise Exception('Vertices to connect not in graph!')
-        self.vertices[start].add(end)
+        self.vertices[start.label].edges.add(end)
         if bidirectional:
-            self.vertices[end].add(start)
+            self.vertices[end.label].edges.add(start)
 
         
 
