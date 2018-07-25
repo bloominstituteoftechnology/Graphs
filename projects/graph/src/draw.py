@@ -7,7 +7,6 @@ from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, Label,
                             ColumnDataSource, Title)
 import random
-from random import choice
 
 
 class BokehGraph:
@@ -54,7 +53,7 @@ class BokehGraph:
     def _get_random_colors(self):
         colors = []
         for _ in range(len(self.graph.vertices)):
-            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
+            color = '#'+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
             colors.append(color)
         return colors
 
