@@ -17,6 +17,7 @@ class Vertex:
             raise Exception('Error: vertex {} already exists'.format(label))
 
         self.label = label
+        self.visited = False
         Vertex.all_vertices.add(self)
         Vertex.all_vertix_labels.add(self.label)
 
@@ -71,3 +72,28 @@ class Graph:
         self.vertices[start_vertex.label].add(end_vertex)
         if bidirectional:
             self.vertices[end_vertex.label].add(start_vertex)
+
+    def bfs(self, start):
+        """
+        Search graph with breadth first algorithm
+        """
+        queue = []
+        trail = []
+        start_vertex = self.vertex_obj_map[start]
+
+        for vertex in self.vertex_obj_map.values():
+            vertex.visited = False
+
+        start_vertex.visited = True
+        queue.append(start_vertex)
+
+        while len(queue) > 0:
+            current = queue[0]
+            for vertex in self.vertices[current.label]:
+                if not vertex.visited:
+                    queue.append(vertex)
+            current.visited = True
+            trail.append(current.label)
+            queue.pop(0)
+
+        return trail
