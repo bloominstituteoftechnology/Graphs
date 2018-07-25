@@ -1,38 +1,21 @@
 """
 General drawing methods for graphs using Bokeh.
 """
+from graph import Graph
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 
-class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self):
-        self.vertices = {}
-
-    def add_vortex(self, vertex, edges=set()):
-        if vertex not in self.vertices:
-            self.vertices[v] = set(edges)
-        else:
-            raise ValueError("Vertice not found")
-
-    def add_edge(self, start, end, bidirectional=True):
-        if start not in self.vertices or end not in self.vertices:
-            raise Exception("Verices not connecting in graph")
-        else:
-            self.vertices[start].add(end)
-            if bidirectional:
-                self.vertices[end].add(start)
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph, title='Graph', width=10, height=10,
                  show_axis=False, show_grid=False, circle_size=35):
-        # if not graph.vertices:
-        #     raise Exception('Graph should contain vertices!')
+        if not graph.vertices:
+            raise Exception('Graph should contain vertices!')
         self.graph = graph
 
         # Setup plot
@@ -93,29 +76,32 @@ class BokehGraph:
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
 
-graph = Graph()
-graph.add_vortex('A')
-graph.add_vortex('B')
-graph.add_vortex('C')
-graph.add_vortex('D')
-graph.add_vortex('F')
-graph.add_vortex('G')
-graph.add_vortex('H')
-graph.add_vortex('I')
-graph.add_vortex('J')
+    def main():
+        graph = Graph()
 
-graph.add_edge('H','A','J',)
-graph.add_edge('B','D','J',)
-graph.add_edge('B','F','E',)
-graph.add_edge('B','F','A',)
-graph.add_edge('B','C','G',)
-graph.add_edge('D','I','G',)
-graph.add_edge('D','I','A',)
-graph.add_edge('J','I','J',)
-graph.add_edge('A','G')
-graph.add_edge('E','I')
-graph.add_edge('B','J')
-graph.add_edge('H','E')
-graph.add_edge('B','F')
-bokeh = BokehGraph(graph)
-bokeh.show()
+        graph.add_vortex('A')
+        graph.add_vortex('B')
+        graph.add_vortex('C')
+        graph.add_vortex('D')
+        graph.add_vortex('F')
+        graph.add_vortex('G')
+        graph.add_vortex('H')
+        graph.add_vortex('I')
+        graph.add_vortex('J')
+
+        graph.add_edge('H','A')
+      
+
+        bg = BokehGraph(graph)
+        
+        print(bg.pos)
+        print(bg.pos.keys())
+        bg.plot()
+        bg.show()
+
+    if __name__ == '__main__':
+        main()
+        
+    
+
+

@@ -18,11 +18,30 @@ class Graph:
 
     def add_edge(self, start, end, bidirectional=True):
         if start not in self.vertices or end not in self.vertices:
-            raise Exception("Verices not connecting in graph")
+            raise Exception("Vertices not connecting in graph")
         else:
             self.vertices[start].add(end)
             if bidirectional:
                 self.vertices[end].add(start)
 
-graph = Graph()
+    def breath_First_Search(self, start, reset):
+        counter = 0
+        component = []
+        queue = []
+        queue.append(start)
 
+        queue.append(start)
+
+        while counter < len(queue):
+            node = queue[0]
+            if node.color == 'white':
+                node.color = 'gray'
+                for edge in node.edges:
+                    if edge not in component:
+                        queue.append(edge)
+                        found.append(edge)
+                        counter += 1
+
+            queue.pop(0)
+        return found
+        
