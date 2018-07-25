@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 """
 Simple graph implementation compatible with BokehGraph class.
 """
