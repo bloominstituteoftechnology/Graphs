@@ -42,7 +42,7 @@ class BokehGraph:
         for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
             self.plot.add_layout(
                 Arrow(
-                    end=VeeHead(fill_color="black"),
+                    end=VeeHead(fill_color="black", size=10),
                     x_start=self.pos[
                         graph_renderer.edge_renderer.data_source.data["start"][i]
                     ][0],
