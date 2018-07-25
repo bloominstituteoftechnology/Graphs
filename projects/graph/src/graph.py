@@ -22,28 +22,18 @@ class Graph:
             self.vertices[end].add(start)
 
     def search(self, start=0, cb=lambda x: print(x), algo='breadth'):
-        if algo == 'breadth':
-            queue = list(list(self.vertices)[start])
-            visited = set()
+        queue = list(list(self.vertices)[start])
+        visited = set()
 
-            while queue:
+        while queue:
+            if algo == 'breadth':
                 current_vert = queue.pop(0)
-                cb(current_vert)
-                visited.add(current_vert)
-                for child in self.vertices[current_vert]:
-                    if child not in visited:
-                        queue.append(child)
-                        visited.add(child)
-        
-        elif algo == 'depth':
-            stack = list(list(self.vertices)[start])
-            visited = set()
-
-            while stack:
-                current_vert = stack.pop()
-                cb(current_vert)
-                visited.add(current_vert)
-                for child in self.vertices[current_vert]:
-                    if child not in visited:
-                        stack.append(child)
-                        visited.add(child)
+            elif algo == 'depth':
+                current_vert = queue.pop()
+            cb(current_vert)
+            visited.add(current_vert)
+            for child in self.vertices[current_vert]:
+                if child not in visited:
+                    queue.append(child)
+                    visited.add(child)
+                    

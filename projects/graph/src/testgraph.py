@@ -18,9 +18,9 @@ def main(num_vertices=8, num_edges=8):
         verts.append(vertices[::-1])
 
     print (graph.vertices)
-    graph.search()
+    graph.search(start=1)
     print (graph.vertices)
-    graph.search(start=9, algo='depth')
+    graph.search(start=1, algo='depth')
 
     bg = BokehGraph(graph)
     bg.show()
