@@ -2,6 +2,16 @@
 
 """
 Simple graph implementation compatible with BokehGraph class."""
+class Vertex:
+    """Vertices have a label and a set of edges."""
+
+    def __init__(self, label, color="white"):
+        self.label = label
+        self.edges = set()
+        self.color = color
+
+    def __repr__(self):
+       return str(self.label)
 
 
 class Graph:
@@ -9,6 +19,7 @@ class Graph:
     def __init__(self):
         pass  # TODO
         self.vertices = {}
+        self.visited = False
 
     def add_vertex(self, v):
         if v not in self.vertices:
@@ -23,6 +34,26 @@ class Graph:
             self.vertices[start].add(end)
             if bidirectional == True:
                 self.vertices[end].add(start)
+
+     def bfs(self, start):
+
+        queue = []
+        trail = []
+        start_vertex = self.vertices[start]
+        queue.append(start_vertex)
+
+        for vertex in self.vertices.values():
+            vertex.visited = False
+
+        while len(queue) > 0:
+            current = queue.pop(0)
+            if not current.visited:
+
+                        queue.append(vertex)
+                current.visited = True
+                trail.append(current.label)
+
+        return trail
 
 
 
