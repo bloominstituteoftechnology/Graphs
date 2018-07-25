@@ -4,6 +4,7 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
+from random import randint
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -39,16 +40,23 @@ class Graph:
             i += 1
 
 graph = Graph()
+graph_list = []
 
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
+for _ in range(randint(1, 9)):
+    rand = randint(1, 9)
 
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('1', '2')
-graph.add_edge('2', '3')
-graph.add_edge('3', '1')
+    if rand not in graph.graph:
+        graph.add_vertex(rand)
+        graph_list.append(rand)
 
-graph.breadth_first_search(1) # {'0': {'1', '3'}, '1': {'2'}, '2': {'3'}, '3': {'1'}}
+# graph.add_vertex(rand_int)
+# graph.add_vertex(rand_int)
+# graph.add_vertex(rand_int)
+
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
+# graph.add_edge('1', '2')
+# graph.add_edge('2', '3')
+# graph.add_edge('3', '1')
+
+# graph.breadth_first_search(1) # {'0': {'1', '3'}, '1': {'2'}, '2': {'3'}, '3': {'1'}}
