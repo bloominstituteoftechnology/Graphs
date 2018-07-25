@@ -102,3 +102,6 @@ ENV/
 
 # The generated html
 src/graph.html
+
+# VScode insists on dropping garbage in my directories
+.vscode/
