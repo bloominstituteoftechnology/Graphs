@@ -3,7 +3,6 @@
 This is a multi-stage project to draw a graph and show the connected
 components of that graph in different colors.
 
-
 ## Part 1: Graph, Vertex, Edge Classes
 
 In the file `graph.py`, implement a `Graph` class that supports the API expected
@@ -45,7 +44,6 @@ to your graph to ensure that edges to nonexistent vertices are rejected.
 graph.add_edge('0', '4')  # No '4' vertex, should raise an Exception!
 ```
 
-
 ## Part 2: Drawing with Bokeh
 
 In `draw.py`, implement the `BokehGraph` class. The constructor should accept a
@@ -59,12 +57,12 @@ questions to avoid being blocked, and generally discuss and work from lecture
 examples.
 
 Helpful resources:
+
 - https://bokeh.pydata.org/en/latest/
 - https://bokeh.pydata.org/en/latest/docs/user_guide/graph.html
 
 To test your implementation, try drawing your graph from part 1, and share your
 result with the class!
-
 
 ## Part 3: Draw a Random Graph
 
@@ -75,7 +73,7 @@ vertices and 6 edges. Edges should by default by bidirectional, be added
 randomly and should be unique. You should pick reasonable default parameters,
 but also allow them to be passed in as arguments.
 
-*Challenge question* - what's the largest number of edges you should allow?
+_Challenge question_ - what's the largest number of edges you should allow?
 Think about this, and if you think you know the answer add it as a check to
 reject input when the number of edges is too large.
 
@@ -85,15 +83,16 @@ line arguments, e.g. `python graph_demo.py arg1 arg2`, and pass them along to
 the graph and drawing functionality to further configure.
 
 Suggested functionality that could be set via arguments:
+
 - Directional edges: allow edges to not be bidirectional (this will change how
-many you would allow maximum)
+  many you would allow maximum)
 - Layout: should it be random, or set to follow a pattern?
 - Jitter/bounding boxes: how should layout be tuned to avoid overlap?
 - Colors: again should they be random, specified, or somewhere in betwen?
 - Output: configure where the file is output, or support other Bokeh outputs
 - Edge probability: this would replace the number of edges, and instead be a
-probability between 0 and 1 of the likelihood of an edge between any two
-vertices (supporting this *and* edge number is a bit tricky, but good to try)
+  probability between 0 and 1 of the likelihood of an edge between any two
+  vertices (supporting this _and_ edge number is a bit tricky, but good to try)
 
 As with number of vertices and edges, pick reasonable defaults so the user
 doesn't have to specify anything to get results (i.e. `python graph_demo.py`
@@ -102,7 +101,6 @@ can also come up with your own - any feature that you think would be cool to
 expose for the user to configure is worth considering.
 
 Modify the `GraphView` code to draw the graph itself.
-
 
 ## Part 4: Implement Breadth-First Search (or Depth-First Search)
 
@@ -113,7 +111,6 @@ both, or a general `search` method that takes an argument to specify type.
 For implementing depth-first search, try to use a stack instead of recursion.
 Hint: Python lists already have the methods needed to function as a stack (`pop`
 and `append`).
-
 
 ## Part 5: Color the Connected Components Differently
 
@@ -127,7 +124,6 @@ It is also suggested to add another command line argument to `graph_demo.py` to
 allow you to select whether or not connected components should run (i.e. to
 choose between just drawing a random graph, and drawing a random graph with the
 connected components indicated by common color).
-
 
 ## Part 6: Refactor
 
@@ -149,7 +145,6 @@ good stuff?
 
 Picture two audiences for your code - coworkers, and future you. Both will care
 and benefit from your code being as readable as possible.
-
 
 ### Stretch 1: Interactivity
 
@@ -189,6 +184,6 @@ Highlight the route.
 ### Stretch 5: Travelling saleperson
 
 Read about the [travelling salesperson problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem).
-This is a *hard* problem, literally, so even as a stretch goal a real
+This is a _hard_ problem, literally, so even as a stretch goal a real
 implementation is not expected - but it's an interesting and famous problem
 in the space, and worth learning about if you want to go deep in graphs.
