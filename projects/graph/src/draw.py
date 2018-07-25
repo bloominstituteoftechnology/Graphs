@@ -8,6 +8,14 @@ from bokeh.plotting import figure
 from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, Arrow, NormalHead
 
 
+def ccw(A, B, C):
+    return (C[1] - A[1]) * (B[0] - A[0]) > (B[1] - A[1]) * (C[0] - A[0])
+
+
+def intersect(A, B, C, D):
+    return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
+
+
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
 
@@ -26,6 +34,7 @@ class BokehGraph:
         self.graph = graph
 
         # Setup plot
+        self.edge_coords = []
         self.width = width
         self.height = height
         self.pos = {}  # dict to map vertices to x, y positions
@@ -88,29 +97,97 @@ class BokehGraph:
                 ) ** .5 < 1:
                     acceptable = False
                     print("Rejected position, rerolling...")
+            for edge_coord in self.edge_coords:
+                x_start, x_end, y_start, y_end = edge_coord
+                x_vert = random_x
+                y_vert = random_y
+                if (
+                    abs(
+                        (y_end - y_start) * x_vert
+                        - (x_end - x_start) * y_vert
+                        + x_end * y_start
+                        - y_end * x_start
+                    )
+                    / (((y_end - y_start) ** 2 + (x_end - x_start) ** 2) ** (1 / 2))
+                    < .6
+                ):
+                    acceptable = False
+                    print("Rejected position due to line conflict")
 
         self.pos[vertex] = (random_x, random_y)
 
     def place_edge(self, start, end):
 
+        print(self.edge_coords)
         if start > end:
             coefficient = 1
         else:
             coefficient = -1
 
+        start_new = False
+        end_new = False
+
         if start not in self.pos:
             self.place_vert(start)
+            start_new = True
 
         if end not in self.pos:
             self.place_vert(end)
+            end_new = True
+
+        acceptable = False
+
+        while not acceptable:
+            x_start = self.pos[start][0]
+            y_start = self.pos[start][1]
+            x_end = self.pos[end][0]
+            y_end = self.pos[end][1]
+            acceptable = True
+            for i in self.pos:
+                if i != start and i != end:
+                    x_vert = self.pos[i][0]
+                    y_vert = self.pos[i][1]
+                    if (
+                        abs(
+                            (y_end - y_start) * x_vert
+                            - (x_end - x_start) * y_vert
+                            + x_end * y_start
+                            - y_end * x_start
+                        )
+                        / (((y_end - y_start) ** 2 + (x_end - x_start) ** 2) ** (1 / 2))
+                        < .6
+                    ):
+                        print("AAAAAAHHH!")
+                        if start_new:
+                            self.place_vert(start)
+                            acceptable = False
+                        elif end_new:
+                            self.place_vert(end)
+                            acceptable = False
+
+            for edge_coord in self.edge_coords:
+                if intersect(
+                    (x_start, y_start),
+                    (x_end, y_end),
+                    (edge_coord[0], edge_coord[2]),
+                    (edge_coord[1], edge_coord[3]),
+                ):
+                    if start_new:
+                        self.place_vert(start)
+                        acceptable = False
+                    elif end_new:
+                        self.place_vert(end)
+                        acceptable = False
+
+        self.edge_coords.append([x_start, x_end, y_start, y_end])
 
         self.plot.add_layout(
             Arrow(
                 end=NormalHead(fill_color="orange", size=10),
-                x_start=self.pos[start][0] + .2 * coefficient,
-                y_start=self.pos[start][1],
-                x_end=self.pos[end][0] + .2 * coefficient,
-                y_end=self.pos[end][1],
+                x_start=x_start + .2 * coefficient,
+                y_start=y_start,
+                x_end=x_end + .2 * coefficient,
+                y_end=y_end,
             )
         )
 
