@@ -29,3 +29,34 @@ class Graph:
         self.vertices[start].add(end)
         if bidirectional:
             self.vertices[end].add(start)
+
+    def BFS(self, s):
+        visited = [False] * len(self.vertices)
+        queue = []
+        queue.append(s)
+        visited[s] = True
+        
+
+        while len(queue) > 0:
+            s = queue.pop(0)
+            for i in self.vertices[s]:
+                if  visited[i] == False:
+                    queue.append(i)
+                    visited[i] == True
+                    print(queue)
+                queue.remove(i)
+
+    def DFS(self, s):
+        stack = []
+        visited = [False] * len(self.vertices)
+        stack.append(s)
+        visited[s] = True
+
+        while len(stack)> 0:
+            s= stack.pop()
+            for i in self.vertices[s]:
+                if visited[i] == False:
+                    stack.append(i)
+                    visited[i] == True
+                    print(stack)
+                stack.remove(i)

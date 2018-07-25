@@ -134,3 +134,38 @@ DFS(graph, start)
 What's the difference between pixel based and vector based graphics?    - how they are rendered. 
     - bitmaps / pixels have colors at coordinate levels that tell you what color something is. As you zoom in, gets pixelly. 
     - vector based graphics follow a mathematical formula that tells you how to draw something. As you zoom in, renders perfectly because the math equation is responsible for creating the graphic. 
+
+----------
+
+# Connected Components
+
+Usefulness of Connected Components
+* Social Networks
+* Predict the spread of a zombie apocalypse
+* Determining which parts of a computer network are reachable from another
+* Finding clusters of related information
+* Spread of disease
+
+degree - the number of edges a vertex is connected to
+cut - what you lose when you cut out a vertex. 
+
+Finding Connected Components
+
+If you have a BFS or DFS finding connected components is pretty straightforward if you modify your search to return number of verts visited. Also modify the search to not always color the verts white at the start. 
+
+```
+connected_components = []
+visited = set()
+
+for v in graph.vertices:
+    v.color = white
+
+for v in graph.vertices:
+    if v not in visited:
+        component = bfs(v)
+        visited.update(component)
+        connected_components.append(component)
+
+```
+
+asymptotic data - approach something without ever getting there. 
