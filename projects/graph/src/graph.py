@@ -1,14 +1,18 @@
 #!/usr/bin/python
-
+from draw import BokehGraph
+from random import sample
+from sys import argv
+from graph import Graph
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-graph1 = {
-    '0': {'1', '3'},
-    '1': {'0'},
-    '2': set(),
-    '3': {'0'}
-}
+# graph.add_edge('A', 'B')
+# graph = {
+#     '0': {'1', '3'},
+#     '1': {'0'},
+#     '2': set(),
+#     '3': {'0'}
+# }
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -30,4 +34,22 @@ class Graph:
         else:
             raise ValueError("that vertex already exists")
 
+def main():
+    graph = Graph()
+    graph.add_vertex('A')
+    graph.add_vertex('B')
+    graph.add_vertex('C')
+    graph.add_vertex('D')
+    graph.add_vertex('E')
+    graph.add_vertex('F')
+    graph.add_vertex('G')
+    graph.add_vertex('H')
+    graph.add_edge('B', 'C')
+    graph.add_edge('A', 'H')
+    graph.add_edge('D', 'G')
 
+    bg = BokehGraph(graph)
+    bg.show()
+
+if __name__ == "__main__":
+    main()
