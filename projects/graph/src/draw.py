@@ -24,7 +24,7 @@ pos = {}
 color = ['black', 'red', 'blue', 'green']
 
 for vert in graph.graph:
-    pos[ int(vert) ] = [ randint(0, len(graph.graph)), randint(0, len(graph.graph)) ]
+    pos[ int(vert) ] = [ randint(1, len(graph.graph)), randint(1, len(graph.graph)) ]
 
     for edge in graph.graph[ vert ]:
         start.append(int(vert))
