@@ -18,7 +18,6 @@ class Vertex:
             pos = dict(x=None, y=None)
         else:
             pos = self.pos
-        return self.edges
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -27,17 +26,6 @@ class Graph:
 
     def __str__(self):
         return str(self.vertices)
-
-
-    def add_vertex(self,vertex):
-        if not isinstance(vertex, Vertex):
-            vertex = Vertex(vertex)
-
-        if vertex in self.vertices:
-            raise ValueError('oops, vertex already there') 
-
-        self.vertices[vertex.label] = vertex
-        return True
 
     def add_edge(self, start, end, bidirectional=True):
         if isinstance(start, Vertex):
@@ -56,6 +44,15 @@ class Graph:
         if bidirectional:
             self.vertices[end].edges.add(self.vertices[start])
 
+    def add_vertex(self, vertex):
+        if not isinstance(vertex, Vertex):
+            vertex= Vertex(vertex)
+        if vertex.label in self.vertices:
+            return False
+        self.vertices[vertex.label] = vertex
+        return True
+
+
     def create_vertices_and_edges(self, n_verts):
         grid = []
         for i in range(n_verts):
@@ -69,10 +66,6 @@ class Graph:
 
         for vert in grid:
             self.add_vertex(vert)
-
-    def debug(self):
-        self.add_edge('0', '1')
-        self.add_edge('5', '1')
 
 
     def bfs(self, start):

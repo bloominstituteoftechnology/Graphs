@@ -36,31 +36,6 @@ class BokehGraph:
                                                     fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indices()
         self.randomize()
-
-# The following was a joint effort among classmates from different PM groups
-# We all wanted to do arrows
-
-#        for i in range(len(graph_renderer.edge_renderer.data_source.data['start'])):
-#            print(i)
-#            self.plot.add_layout(
-#                Arrow(
-#                    end=NormalHead(fill_color='green'),
-#                    x_start=self.pos[
-#                        graph_renderer.edge_renderer.data_source.data['start'][i]
-#                    ][0],
-#                    y_start=self.pos[
-#                        graph_renderer.edge_renderer.data_source.data['start'][i]
-#                    ][1],
-#                    x_end=self.pos[
-#                        graph_renderer.edge_renderer.data_source.data['end'][i]
-#                    ][0],
-#                    y_end=self.pos[
-#                        graph_renderer.edge_renderer.data_source.data['end'][i]
-#                    ][1],
-#                )
-#            )
-#
-#
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
