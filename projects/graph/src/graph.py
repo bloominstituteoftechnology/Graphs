@@ -2,10 +2,14 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
+import random
+
 class Vertex:
     """ Vertices always have a label and a set of edges. """
-    def __init__(self, label):
+    def __init__(self, label, color="gray", **pos):
         self.label = label
+        self.color = color
+        self.pos = pos
         self.edges = set()
 
     def __repr__(self):
@@ -33,8 +37,8 @@ class Graph:
             raise ValueError("That vertex already exists in the graph.")
 
     def bfs(self, start):
-        random_color = "#" + \
-        "".join([random.choice('0123456789ABCDEF') for j in range(6)])
+        random_color = '#' + \
+            ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
         queue = []
         found = []
         queue.append(start)
@@ -51,7 +55,17 @@ class Graph:
                     edge.color = random_color
 
             queue.pop(0)
-        return found    
+        return found
+
+    def get_connected_components(self):
+        
+        searched = []
+
+        for index, vertex in self.vertices.items():
+            if vertex not in searched:
+                searched.append(self.bfs(vertex))
+
+        return searched
 
 # Testing Graph implementation:
 

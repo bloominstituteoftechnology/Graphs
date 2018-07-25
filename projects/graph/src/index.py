@@ -1,4 +1,4 @@
-from graph import Graph
+from graph import Graph, Vertex
 from draw import BokehGraph
 
 def main():
@@ -42,6 +42,7 @@ def main():
 
     # graph.vertices
 
+    graph.get_connected_components()
     bg = BokehGraph(graph)
 
     # dir(bg)
