@@ -10,28 +10,27 @@ class Vertex:
     Represent a single vertex that is aware of all existing verrtices
     """
     all_vertices = set()
+    all_vertix_labels = set()
 
-    def __init__(self, label, edges=()):
-        if label in Vertex.all_vertices:
+    def __init__(self, label):
+        if label in Vertex.all_vertix_labels:
             raise Exception('Error: vertex {} already exists'.format(label))
-        if not set(edges).issubset(Vertex.all_vertices):
-            raise Exception('Error: cannot create edge to nonexistent vertex')
+
         self.label = label
-        self.edges = set(edges)
-        Vertex.all_vertices.add(self.label)
+        Vertex.all_vertices.add(self)
+        Vertex.all_vertix_labels.add(self.label)
 
     def __repr__(self):
         return str(self.label)
 
-    def add_edge(self, end):
+    def get_obj_instance(label):
         """
-        Add edge to vertex if vertex exists and edge does not already exist
+        Return Vertex object instance of string representation
         """
-        if end.label not in Vertex.all_vertices:
-            raise Exception('Error: cannot create edge to nonexistent vertex')
-        if end in self.edges:
-            raise Exception('Error: Edge already exists')
-        self.edges.add(end)
+        for vertex in Vertex.all_vertices:
+            if vertex.label == label:
+                return vertex
+        return None
 
 
 class Graph:
@@ -40,14 +39,35 @@ class Graph:
     """
     def __init__(self):
         self.vertices = {}
+        self.vertex_obj_map = {}
 
-    def add_vertex(self, vertex):
-        self.vertices[vertex] = set()
+    def add_vertex(self, vertex, edges=()):
+        """
+        Create Vertex instances and add to graph
+        """
+        vertex_edges = set()
+        for edge in edges:
+            if edge not in self.vertex_obj_map.keys():
+                raise Exception(
+                    'Error: cannot create edge to nonexistent vertex')
+            vertex_edges.add(self.vertex_obj_map[edge])
+
+        vertex = Vertex(vertex)
+        self.vertex_obj_map[vertex.label] = vertex
+        self.vertices[vertex.label] = vertex_edges
 
     def add_edge(self, start, end, bidirectional=True):
-        if start in self.vertices and end in self.vertices:
-            self.vertices[start].add(end)
-            if bidirectional:
-                self.vertices[end].add(start)
-        else:
-            raise Exception('Vertex does not exist')
+        """
+        Add edge to existing vertex
+        """
+        if start not in self.vertex_obj_map.keys():
+            raise Exception('Error: vertex {} does not exist'.format(start))
+        if end not in self.vertex_obj_map.keys():
+            raise Exception('Error: vertex {} does not exist'.format(end))
+
+        start_vertex = self.vertex_obj_map[start]
+        end_vertex = self.vertex_obj_map[end]
+
+        self.vertices[start_vertex.label].add(end_vertex)
+        if bidirectional:
+            self.vertices[end_vertex.label].add(start_vertex)

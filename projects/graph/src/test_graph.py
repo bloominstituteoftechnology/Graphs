@@ -1,50 +1,73 @@
 import unittest
-from graph import Vertex
+from graph import Vertex, Graph
 
 
 class VertexTests(unittest.TestCase):
+    def setUp(self):
+        Vertex.all_vertices = set()
+        Vertex.all_vertix_labels = set()
+
     def tearDown(self):
         Vertex.all_vertices = set()
+        Vertex.all_vertix_labels = set()
 
     def test_constructor(self):
-        v0 = Vertex('V0')
-
         """
         Raise exception if there is an attempt to create vertices with
         duplicate labels
         """
-        vertex = 'V0'
-        self.assertRaises(Exception, Vertex, vertex)
+        Vertex('V0')
+        self.assertRaises(Exception, Vertex, 'V0')
+
+
+class GraphTests(unittest.TestCase):
+    def setUp(self):
+        self.graph = Graph()
+
+    def tearDown(self):
+        Vertex.all_vertices = set()
+        Vertex.all_vertix_labels = set()
+
+    def test_add_vertex(self):
+        self.graph.add_vertex('V0')
+        self.graph.add_vertex('V1', ['V0'])
+        v0 = Vertex.get_obj_instance('V0')
 
         """
-        Raise exception if there is an attempt to create a vertex with an edge
-        that does not exist
+        Should create a Vertex instance
         """
-        vertex = 'V4'
-        edges = ['V5']
-        self.assertRaises(Exception, Vertex, vertex, edges)
+        self.assertTrue('V0' in Vertex.all_vertix_labels)
+        self.assertTrue('V1' in Vertex.all_vertix_labels)
+
+        """
+        Should add vertex as a vertices key in Graph instance
+        """
+        self.assertTrue('V0' in self.graph.vertices.keys())
+        self.assertTrue('V1' in self.graph.vertices.keys())
+
+        """
+        Provided edges should be added to vertices
+        """
+        self.assertTrue(v0 in self.graph.vertices['V1'])
 
     def test_add_edge(self):
-        v0 = Vertex('V0')
-        v1 = Vertex('V1')
-        v10 = ''
+        self.graph.add_vertex('V0')
+        self.graph.add_vertex('V1')
+        v0 = Vertex.get_obj_instance('V0')
+        v1 = Vertex.get_obj_instance('V1')
 
         """
-        Add edge to vertex
+        Raise exception when attempting to add an edge that does not exist in
+        graph
         """
-        v0.add_edge(v1)
-        self.assertTrue(v1 in v0.edges)
+        self.assertRaises(Exception, self.graph.add_edge, 'V0', 'V2')
 
         """
-        Raise exception if there is an attempt to create an edge with
-        nonexistent vertex
+        Should add an edge to start vertex
         """
-        self.assertRaises(Exception, v0.add_edge, v10)
-
-        """
-        Raise an exception is there is an attempt to create duplicate edges
-        """
-        self.assertRaises(Exception, v0.add_edge, v1)
+        self.graph.add_edge('V0', 'V1')
+        self.assertTrue(v0 in self.graph.vertices['V1'])
+        self.assertTrue(v1 in self.graph.vertices['V0'])
 
 
 if __name__ == '__main__':
