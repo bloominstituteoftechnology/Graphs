@@ -71,9 +71,9 @@ result with the class!
 In `graph_demo.py` write a function that demonstrates `Graph` and `BokehGraph`
 by instantiating a random graph and drawing it. The main parameters should be
 the number of vertices and the number of edges - for instance, you could have 4
-vertices and 6 edges. Edges should be added randomly and should be unique. You
-should pick reasonable default parameters, but also allow them to be passed in
-as arguments.
+vertices and 6 edges. Edges should by default by bidirectional, be added
+randomly and should be unique. You should pick reasonable default parameters,
+but also allow them to be passed in as arguments.
 
 *Challenge question* - what's the largest number of edges you should allow?
 Think about this, and if you think you know the answer add it as a check to
@@ -85,6 +85,8 @@ line arguments, e.g. `python graph_demo.py arg1 arg2`, and pass them along to
 the graph and drawing functionality to further configure.
 
 Suggested functionality that could be set via arguments:
+- Directional edges: allow edges to not be bidirectional (this will change how
+many you would allow maximum)
 - Layout: should it be random, or set to follow a pattern?
 - Jitter/bounding boxes: how should layout be tuned to avoid overlap?
 - Colors: again should they be random, specified, or somewhere in betwen?
