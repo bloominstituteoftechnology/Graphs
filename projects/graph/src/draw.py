@@ -33,8 +33,9 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
 
         # Add the vertex data as instructions for drawing nodes
+        print('labels:',[x.label for x in self.graph.vertices.keys()])
         graph_renderer.node_renderer.data_source.add(
-            list(self.graph.vertices.keys()), 'index')
+            [x.label for x in self.graph.vertices.keys()], 'index')
         # Nodes will be random colors
         graph_renderer.node_renderer.data_source.add(
             self._get_random_colors(), 'color')
@@ -66,8 +67,8 @@ class BokehGraph:
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
                 for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
+                    start_indices.append(vertex.label)
+                    end_indices.append(destination.label)
                 checked.add(vertex)
 
         return dict(start=start_indices, end=end_indices)
@@ -85,16 +86,14 @@ class BokehGraph:
             #                     1 + random() * (self.height - 2))\
             # Attempt 2
             # self.pos[vertex] = (random.uniform(0, self.width), random.uniform(0, self.height))
-            self.pos[vertex] = [0.35 + random() * (self.width - 0.5),
+            self.pos[vertex.label] = [0.35 + random() * (self.width - 0.5),
                                 0.35 + random() * (self.height - 0.5)]
-            
-            for coords in self.pos:
                 
 
 
 class RandomGraph(BokehGraph):
-    def __init__(self, width=5, height=4, chance=0.75, circle_size=35, title='Graph', show_axis=False, show_grid=False):
-        self.graph = Graph(width * height // 2, chance)
+    def __init__(self, width=5, height=4, chance=0.6, circle_size=15, title='Graph', show_axis=True, show_grid=True):
+        self.graph = Graph(width * height, chance)
 
         BokehGraph.__init__(self, self.graph, title, width, height,
                  show_axis, show_grid, circle_size)
@@ -102,15 +101,25 @@ class RandomGraph(BokehGraph):
 def main():
     graph = Graph()  # Instantiate your graph
 
-    graph.add_vertex('0')
-    graph.add_vertex('1')
-    graph.add_vertex('2')
-    graph.add_vertex('3')
-    graph.add_edge('0', '1')
-    graph.add_edge('0', '3')
+    vl = [
+        Vertex('0'),
+        Vertex('1'),
+        Vertex('2'),
+        Vertex('3'),
+    ]
+
+    for v in vl:
+        graph.add_vertex(v)
+
+    graph.add_edge(vl[0], vl[1])
+    graph.add_edge(vl[0], vl[3])
     print(graph.vertices)
 
+    # a_graph = BokehGraph(graph)
+    # a_graph.show()
+
     b_graph = RandomGraph()
+    print("b_graph vertices:",b_graph.graph.vertices)
     b_graph.show()
 
 if __name__ == '__main__':
