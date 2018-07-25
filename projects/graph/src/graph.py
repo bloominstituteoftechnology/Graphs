@@ -80,20 +80,41 @@ class Graph:
         queue = []
         trail = []
         start_vertex = self.vertex_obj_map[start]
+        queue.append(start_vertex)
 
         for vertex in self.vertex_obj_map.values():
             vertex.visited = False
 
-        start_vertex.visited = True
-        queue.append(start_vertex)
-
         while len(queue) > 0:
-            current = queue[0]
-            for vertex in self.vertices[current.label]:
-                if not vertex.visited:
-                    queue.append(vertex)
-            current.visited = True
-            trail.append(current.label)
-            queue.pop(0)
+            current = queue.pop(0)
+            if not current.visited:
+                for vertex in self.vertices[current.label]:
+                    if not vertex.visited:
+                        queue.append(vertex)
+                current.visited = True
+                trail.append(current.label)
+
+        return trail
+
+    def dfs(self, start):
+        """
+        Search graph with depth first search
+        """
+        stack = []
+        trail = []
+        start_vertex = self.vertex_obj_map[start]
+        stack.append(start_vertex)
+
+        for vertex in self.vertex_obj_map.values():
+            vertex.visited = False
+
+        while len(stack) > 0:
+            current = stack.pop()
+            if not current.visited:
+                for vertex in self.vertices[current.label]:
+                    if not vertex.visited:
+                        stack.append(vertex)
+                current.visited = True
+                trail.append(current.label)
 
         return trail

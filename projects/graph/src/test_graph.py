@@ -93,6 +93,33 @@ class GraphTests(unittest.TestCase):
             correct_path = False
         self.assertTrue(correct_path)
 
+    def test_dfs(self):
+        self.graph.add_vertex('V1')
+        self.graph.add_vertex('V2')
+        self.graph.add_vertex('V3')
+        self.graph.add_vertex('V4', ['V3'])
+        self.graph.add_vertex('V5')
+        self.graph.add_vertex('V6', ['V3'])
+        self.graph.add_vertex('V7', ['V6', 'V1'])
+        self.graph.add_edge('V1', 'V2', False)
+        self.graph.add_edge('V2', 'V5', False)
+        self.graph.add_edge('V2', 'V3', False)
+        self.graph.add_edge('V3', 'V4', False)
+        self.graph.add_edge('V5', 'V7', False)
+        self.graph.add_edge('V5', 'V6', False)
+        dfs = self.graph.dfs('V1')
+        # Getting different results because of the sets -> can't control order
+        if (dfs == ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7']) or (
+                dfs == ['V1', 'V2', 'V3', 'V4', 'V5', 'V7', 'V6']) or (
+                dfs == ['V1', 'V2', 'V5', 'V6', 'V7', 'V3', 'V4']) or (
+                dfs == ['V1', 'V2', 'V5', 'V7', 'V6', 'V3', 'V4']) or (
+                dfs == ['V1', 'V2', 'V5', 'V6', 'V3', 'V4', 'V7']
+                ):
+            correct_path = True
+        else:
+            correct_path = False
+        self.assertTrue(correct_path)
+
 
 if __name__ == '__main__':
     unittest.main()
