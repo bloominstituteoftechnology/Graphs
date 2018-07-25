@@ -27,9 +27,7 @@ class BokehGraph:
         self.vertex_labels = []
         self.source = ColumnDataSource(data=dict(xs=self.xs, ys=self.ys, vertex_labels=self.vertex_labels))
 
-
-        self.labels = LabelSet(x='xs', y='ys', text='vertex_labels', x_offset=-5, y_offset=-8, text_color='white', source=self.source)
-
+        self.labels = LabelSet(x='xs', y='ys', text='vertex_labels', text_align='center', text_baseline='middle', text_color='white', source=self.source)
 
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
@@ -103,22 +101,3 @@ class BokehGraph:
             self.vertex_labels.append(vertex)
             self.xs.append(randomx)
             self.ys.append(randomy)
-
-def main():
-    from graph import Graph
-    graph = Graph()
-    graph.add_vertex('A')
-    graph.add_vertex('B')
-    graph.add_vertex('C')
-    graph.add_vertex('D')
-    graph.add_vertex('E')
-    graph.add_edge('A', 'B')
-    graph.add_edge('A', 'D')
-    graph.add_edge('C', 'B')
-    graph.add_edge('C', 'A')
-
-    bg = BokehGraph(graph)
-    bg.show()
-
-if __name__ == '__main__':
-    main()
