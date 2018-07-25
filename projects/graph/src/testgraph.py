@@ -17,6 +17,9 @@ def main(num_vertices=8, num_edges=8):
         verts.append(vertices)
         verts.append(vertices[::-1])
 
+    print (graph.vertices)
+    graph.bfs(lambda x: print (x))
+
     bg = BokehGraph(graph)
     bg.show()
 

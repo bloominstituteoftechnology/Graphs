@@ -20,3 +20,17 @@ class Graph:
         self.vertices[start].add(end)
         if bidirectional:
             self.vertices[end].add(start)
+
+    def bfs(self, cb):
+        queue = list(list(self.vertices)[0])
+        visited = set()
+
+        while queue:
+            current_vert = queue.pop(0)
+            cb(current_vert)
+            visited.add(current_vert)
+            for child in self.vertices[current_vert]:
+                if child not in visited:
+                    queue.append(child)
+                    visited.add(child)
+                    
