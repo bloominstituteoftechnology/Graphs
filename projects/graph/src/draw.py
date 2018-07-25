@@ -13,7 +13,7 @@ from random import choice
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph, title="Coordinates", width=600, height=600,
-                show_axis=False, show_grid=False, circle_size=15):
+                show_axis=True, show_grid=True, circle_size=15):
         if not graph.vertices:
             raise Exception('Graph should contain vertices')
         self.graph = graph
@@ -21,6 +21,7 @@ class BokehGraph:
         TOOLTIPS = [
             ("index", "$index"),
             ("(x,y)", "($x, $y)"),
+            ("name", "")
         ]
         self.width = width
         self.height = height
@@ -84,6 +85,7 @@ class BokehGraph:
             label_data["y"].append(edges[1])
             label_data["name"].append(vertex)
         print("label", label_data)
+        print("label name", label_data["name"])
         label_source = ColumnDataSource(label_data)
 
         labels = LabelSet(
