@@ -101,7 +101,7 @@ class BokehGraph:
         show(self.plot)
 
 
-def main(num_vertices=100, num_edges=100):
+def main(num_vertices=5, num_edges=5):
     """
     Build and show random graph
     """
@@ -124,24 +124,3 @@ if __name__ == '__main__':
         main(NUM_VERTICES, NUM_EDGES)
     else:
         main()
-
-# def main():
-#     graph = Graph()
-
-#     graph.add_vertex('0')
-#     graph.add_vertex('1')
-#     graph.add_vertex('2')
-#     graph.add_vertex('3')
-
-#     graph.add_edge('0', '1')
-#     graph.add_edge('0', '3')
-#     graph.add_edge('1', '2')
-#     graph.add_edge('2', '3')
-#     graph.add_edge('3', '1')
-
-#     bg = BokehGraph(graph)
-#     print(graph.vertices)
-#     bg.show()
-
-# if __name__ == '__main__':
-#     main()

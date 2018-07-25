@@ -45,41 +45,29 @@ class Graph:
     
     
     def BFS(self, start):
-        pass
-        # """
-        # Breadth-first Search
-        # """
-        # visited = [False] * (len(self.vertices))
-        # q = []
-        # q.append(source)
-        # visited[source] = True
-
-        # while q:
-        #     source = q.pop(0)
-        #     print(source, end = " ")
-        #     for i in self.vertices[source]:
-        #         if visited[i] == False:
-        #             q.append(i)
-        #             visited[i] = True
+        """
+        Breadth-first Search
+        """
+        
 
 # def main():
-graph = Graph()
+# graph = Graph()
 
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
 
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('1', '2')
-graph.add_edge('2', '3')
-graph.add_edge('3', '1')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
+# graph.add_edge('1', '2')
+# graph.add_edge('2', '3')
+# graph.add_edge('3', '1')
 
-print(graph.vertices)
+# print(graph.vertices)
 # print ("Following is Breadth First Traversal"
 #                   " (starting from vertex 2)")
-# graph.BFS('2')
+# graph.BFS(2)
 
 # if __name__ == '__main__':
 #     main()
