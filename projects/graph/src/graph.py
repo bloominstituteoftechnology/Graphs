@@ -30,8 +30,34 @@ class Graph:
         for num in xrange(0, num_vertex):
             self.add_vertex(x)
             num_list.append(x)
+
+    def bfs(self, start):
+      
+        starting = start
+        adjacent = list(self.vertices[start])
+        visited = []
+        queue = []
+        queue.append(starting)
+        visited.append(starting)
+        print(starting)
+
+        while (queue):
+            v = queue.pop(0)
+            print("visited", type(v))
+            print(self.vertices[v])
+            for num in list(self.vertices[v]):
+                print("visited", num)
+                if num in visited:
+                    print("testing")
+                else:
+                    visited.append(num)
+                    queue.append(num)
+                    
+        print(visited)
+            
+          
         
-        
+
         
 
     

@@ -93,30 +93,39 @@ def main(num_vertices=8, num_edges=8):
     graph = Graph()  # Instantiate your graph
 
     # random way
-    for num in range(num_vertices):
-        graph.add_vertex(str(num))
+    # for num in range(num_vertices):
+    #     graph.add_vertex(str(num))
     
-    for _ in range(num_edges):
-        vertices = sample(graph.vertices.keys(), 2)
-        graph.add_edge(vertices[0], vertices[1])
+    # for _ in range(num_edges):
+    #     vertices = sample(graph.vertices.keys(), 2)
+    #     graph.add_edge(vertices[0], vertices[1])
 
-    print(len(vertices))
+    # print(len(vertices))
 
-
+    # graph.bfs("1")
     # hard coded way
     
-    # graph.add_vertex('0')
-    # graph.add_vertex('1')
-    # graph.add_vertex('2')
-    # graph.add_vertex('3')
-    # graph.add_vertex('4')
-    # graph.add_vertex('5')
-    # graph.add_vertex('6')
-    # graph.add_vertex('7')
-    # graph.add_vertex('8')
-    # graph.add_vertex('9')
-    # graph.add_vertex('10')
+    graph.add_vertex('0')
+    graph.add_vertex('1')
+    graph.add_vertex('2')
+    graph.add_vertex('3')
+    graph.add_vertex('4')
+    graph.add_vertex('5')
+    graph.add_vertex('6')
+    graph.add_vertex('7')
+    graph.add_vertex('8')
+    graph.add_vertex('9')
+    graph.add_vertex('10')
 
+
+    graph.add_edge('2', '10')
+    graph.add_edge('2', '7')
+    graph.add_edge('2', '4')
+    graph.add_edge('7', '3')
+    graph.add_edge('3', '8')
+    graph.add_edge('4', '5')
+    graph.add_edge('5', '3')
+    graph.add_edge('2', '8')
 
     # graph.add_edge('1', '10')
     # graph.add_edge('2', '7')
@@ -129,6 +138,8 @@ def main(num_vertices=8, num_edges=8):
     # graph.add_edge('7', '6')
     # graph.add_edge('9', '3')
     # graph.add_edge('5', '8')
+
+    graph.bfs("2")
 
 
 
