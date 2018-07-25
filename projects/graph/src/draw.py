@@ -37,7 +37,7 @@ class BokehGraph:
                                                     fill_color='color')
         
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
-        self.randomize()
+        self.generate_vertex()
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
@@ -76,12 +76,26 @@ class BokehGraph:
         output_file(output_path)
         show(self.plot)
 
-    def randomize(self):
+    def randomize(self, vertex):
         """Randomize vertex positions."""
-        for vertex in self.graph.vertices:
+        overlap = True
+
+        while overlap:
             randomx = 1 + random() * (self.width - 2)
             randomy = 1 + random() * (self.height - 2)
-            self.pos[vertex] = (randomx, randomy) 
+            overlap = False
+            for i in self.pos:
+                if (
+                    (randomx - self.pos[i][0]) ** 2 + (randomy - self.pos[i][1]) ** 2
+                ) ** .5 < 1:
+                    overlap = True
+
+        self.pos[vertex] = (randomx, randomy) 
+    
+    def generate_vertex(self):
+        for vertex in self.graph.vertices:
+            if vertex not in self.pos:
+                self.randomize(vertex)
 
 # graph = Graph()
 # graph.add_vertex('A')
