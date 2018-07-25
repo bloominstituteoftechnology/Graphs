@@ -23,6 +23,7 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
+        self._setup_labels()
 
 
     def _setup_graph_renderer(self, circle_size):
@@ -34,6 +35,18 @@ class BokehGraph:
             self._get_random_colors(), 'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
                                                     fill_color='color')
+
+
+        graph_renderer = GraphRenderer()
+
+        graph_renderer.node_renderer.data_source.add(
+            list(self.graph.vertices.keys()), 'index')
+        graph_renderer.node_renderer.data_source.add(
+            self._get_random_colors(), 'color')
+        graph_renderer.node_renderer.glyph = Circle(size=circle_size,
+                                                    fill_color='color')                                    
+
+
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
@@ -60,6 +73,30 @@ class BokehGraph:
 
         return dict(start=start_indices, end=end_indices)
 
+    def _setup_labels(self):
+
+        label_data = {'x': [], 'y': [], 'names': []}
+
+        for vertex, position in self.pos.items():
+
+            label_data['x'].append(position[0])
+
+            label_data['y'].append(position[1])
+
+            label_data['names'].append(str(vertex))
+
+        label_source = ColumnDataSource(label_data)
+
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+
+                        text_align='center', text_baseline='middle',
+
+                        source=label_source, render_mode='canvas')
+
+        self.plot.add_layout(labels)
+
+    
+
     def show(self, output_path='./graph.html'):
         output_file(output_path)
         show(self.plot)
@@ -70,7 +107,6 @@ class BokehGraph:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
-
 
 def main():
     graph = Graph()  # Instantiate your graph

@@ -27,6 +27,27 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
+    def bfs(self, start,)
+        #he making thats hexadecimal
+        random_color = '#' + \
+            ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+        queue = []
+        found = []
+        queue.append(start)
+        found.append(start)
+
+        start.color = random_color
+
+        while (len(queue) > 0):
+            v = queue[0]
+            for edge in v.edges:
+                if edge not in found:
+                    found.append(edge)
+                    queue.color = random_color
+            queue.pop(0)
+        return found         
+        
+
 def main(): #instantiate your graph
     graph = Graph()
     graph.add_vertex('0')
