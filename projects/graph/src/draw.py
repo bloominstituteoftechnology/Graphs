@@ -50,7 +50,7 @@ class BokehGraph:
 
         source = ColumnDataSource(data=dict(xs=xs, ys=ys, vertex_labels=vertex_labels))
 
-        labels = LabelSet(x='xs', y='ys', text='vertex_labels', text_align='center', text_baseline='middle', text_color='white', source=source)
+        labels = LabelSet(x='xs', y='ys', text='vertex_labels', text_align='center', text_baseline='middle', text_color='white', text_font_size= '20pt', source=source)
 
         return labels
 

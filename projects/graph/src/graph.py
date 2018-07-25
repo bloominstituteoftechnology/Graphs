@@ -21,16 +21,29 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def bfs(self, cb):
-        queue = list(list(self.vertices)[0])
-        visited = set()
+    def search(self, algo='breadth', cb=lambda x: print(x)):
+        if algo == 'breadth':
+            queue = list(list(self.vertices)[0])
+            visited = set()
 
-        while queue:
-            current_vert = queue.pop(0)
-            cb(current_vert)
-            visited.add(current_vert)
-            for child in self.vertices[current_vert]:
-                if child not in visited:
-                    queue.append(child)
-                    visited.add(child)
-                    
+            while queue:
+                current_vert = queue.pop(0)
+                cb(current_vert)
+                visited.add(current_vert)
+                for child in self.vertices[current_vert]:
+                    if child not in visited:
+                        queue.append(child)
+                        visited.add(child)
+        
+        elif algo == 'depth':
+            stack = list(list(self.vertices)[0])
+            visited = set()
+
+            while stack:
+                current_vert = stack.pop()
+                cb(current_vert)
+                visited.add(current_vert)
+                for child in self.vertices[current_vert]:
+                    if child not in visited:
+                        stack.append(child)
+                        visited.add(child)
