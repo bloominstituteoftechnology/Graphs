@@ -5,6 +5,15 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 
+class Vertex:
+    def __init__(self, label, color='white'):
+        self.label = label
+        self.color = color
+
+
+from collections import namedtuple
+Vertex = namedtuple('Vertex', ['label', 'color'])
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
