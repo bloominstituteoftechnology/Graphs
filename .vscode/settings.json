@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\kevin\\.virtualenvs\\Sprint-Challenge--Data-Structures-Algorith-alPeOn9k\\Scripts\\python.exe"
+    "python.pythonPath": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python36\\python.exe",
+    "python.formatting.provider": "black",
+    "python.linting.pylintEnabled": false
 }
