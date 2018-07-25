@@ -44,28 +44,9 @@ class BokehGraph:
         graph_renderer.node_renderer.glyph = Circle(
             size=circle_size, fill_color="color"
         )
-        graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
 
-        self.randomize()
+        self.generate()
         print(self.pos)
-        for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
-            self.plot.add_layout(
-                Arrow(
-                    end=NormalHead(fill_color="orange", size=10),
-                    x_start=self.pos[
-                        graph_renderer.edge_renderer.data_source.data["start"][i]
-                    ][0],
-                    y_start=self.pos[
-                        graph_renderer.edge_renderer.data_source.data["start"][i]
-                    ][1],
-                    x_end=self.pos[
-                        graph_renderer.edge_renderer.data_source.data["end"][i]
-                    ][0],
-                    y_end=self.pos[
-                        graph_renderer.edge_renderer.data_source.data["end"][i]
-                    ][1],
-                )
-            )
 
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
@@ -95,8 +76,9 @@ class BokehGraph:
         output_file(output_path)
         show(self.plot)
 
-    def randomize(self):
+    def generate(self):
         """Randomize vertex positions."""
+        edges = self._get_edge_indexes()
         for vertex in self.graph.vertices:
 
             acceptable = False
@@ -114,3 +96,18 @@ class BokehGraph:
                         print("Rejected position, rerolling...")
 
             self.pos[vertex] = (random_x, random_y)
+
+        for i in range(len(edges["start"])):
+            if edges["start"][i] > edges["end"][i]:
+                coefficient = 1
+            else:
+                coefficient = -1
+            self.plot.add_layout(
+                Arrow(
+                    end=NormalHead(fill_color="orange", size=10),
+                    x_start=self.pos[edges["start"][i]][0] + .2 * coefficient,
+                    y_start=self.pos[edges["start"][i]][1],
+                    x_end=self.pos[edges["end"][i]][0] + .2 * coefficient,
+                    y_end=self.pos[edges["end"][i]][1],
+                )
+            )
