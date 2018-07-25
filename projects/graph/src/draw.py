@@ -1,15 +1,6 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-# class BokehGraph:
-#     """Class that takes a graph and exposes drawing methods."""
-#     def __init__(self):
-#         pass  # TODO
-# from random import choice, random
-# from bokeh.io import show, output_file
-# from bokeh.plotting import figure
-# from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-#                           ColumnDataSource)
 
 from random import choice, random
 from bokeh.io import show, output_file
@@ -21,13 +12,16 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Graph', width=10, height=10,
+    def __init__(self, graph, title='Bokeh_Graph', width=10, height=10,
                  show_axis=False, show_grid=False, circle_size=35):
+        # Catch error if vertices are not declared
         if not graph.vertices:
-            raise Exception('Graph should contain vertices!')
+            raise Exception('Graph needs vertices in order to render properly!')
         self.graph = graph
 
         # Setup plot
+        self.title = title
+        self.graph = graph
         self.width = width
         self.height = height
         self.pos = {}  # dict to map vertices to x, y positions
@@ -104,4 +98,3 @@ dir(bokeh_graph)
 bokeh_graph.pos
 bokeh_graph.plot
 bokeh_graph.show()
-graph
