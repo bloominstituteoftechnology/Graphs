@@ -12,6 +12,7 @@ class Graph:
 
     def __init__(self):
         self.vertices = {}
+        self.connected_components = self.bfs()
 
     def add_vertex(self, label):
         if label in self.vertices:
@@ -36,24 +37,49 @@ class Graph:
             else:
                 self.vertices[str(start_vertex)].add(str(end_vertex))
 
-    def bfs(self, starting_vertex=0, to_search=None):
+    def bfs(self, to_search=None):
         '''
         Search Breath first. Argunments:
-        'starting_vertex': vertex from which start the search.
-        to_search: Node to search
+        'to_search': Node to search
         '''
         deep = 0
-        control = set()
-        bf = [str(starting_vertex)]
+        connected_components = []
+        visited_nodes = set()
 
+        # print(f'''SELF VERTICES {self.vertices.keys()}''')
+        for vertex in self.vertices.keys():
+            bf = [vertex]
+            if vertex not in visited_nodes:  # if fvertex no visited.
+                # print('\n\nNO PASSED', vertex, '\n')
+                response = self._bfs_connected_nodes(
+                    to_search, deep, visited_nodes, bf)
+                if isinstance(response, str):
+                    return True
+                else:
+                    connected_components.append(response)
+        # print('\nconnected_components', connected_components)
+        self.connected_components = connected_components
+
+    def _bfs_connected_nodes(self, to_search, deep, visited_nodes, bf):
+        # print('\nDEF _BFS_CONNECTED', visited_nodes)
+        control = set()
         while bf:
-            print(f'''BF{bf}\n{control}''')
+            # print(f'''BF{bf}\n{control}''')
             deep += 1
             current_vertex = bf[0]
 
             if str(to_search) == current_vertex:
                 bf += [*self.vertices[current_vertex]]
-                return {'Found value': current_vertex, 'deep': deep, 'Connected Nodes': control}
+                visited = bf.pop(0)
+                control.add(visited)
+                visited_nodes.add(visited)
+                print('\n\n', {
+                    'Found value': current_vertex,
+                    'deep': deep,
+                    'Connected Nodes': control,
+                    'Visited nodes': visited_nodes,
+                })
+                return current_vertex
             elif current_vertex in control:
                 bf.remove(current_vertex)
             else:
@@ -61,13 +87,20 @@ class Graph:
                 bf += [*self.vertices[current_vertex]]
 
                 # Remove the curent_vertex from 'bf', and add it to 'control'
-                control.add(bf.pop(0))
+                visited = bf.pop(0)
+                control.add(visited)
+                visited_nodes.add(visited)
 
-        return {
-            'Searched value': f'''{to_search} No found''',
-            'deep': deep,
-            'Minimum Spanning Tree': control
-        }
+        # print({
+        #     'Searched value': f'''{to_search} No found''',
+        #     'deep': deep,
+        #     'Connected Components': control,
+        #     'Visited nodes': visited_nodes,
+        # })
+        return control
+
+    def dfs(self, starting_vertex=0, to_search=None):
+        pass
 
 
 class Vertex:
@@ -87,7 +120,9 @@ _graph.add_vertex('6')
 _graph.add_vertex('7')
 _graph.add_edge('0', '1')
 _graph.add_edge('0', '3')
-print('\n', _graph.vertices)
-print('\n', _graph.bfs(0, 3))
-print('\n', _graph.bfs(0, 100))
+print('\nGraph vertices: ', _graph.vertices)
+_graph.bfs()
+print('\nConnected components', _graph.connected_components)
+# print('\nVertex 3 in graph:', _graph.bfs(3))
+# print('\nVertex 100 in graph:', _graph.bfs(100))
 # graph.add_edge('0', '4')
