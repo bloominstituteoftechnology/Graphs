@@ -30,19 +30,19 @@ class Graph:
         else:
             raise ValueError("That vertex already exists in the graph.")
 
-    def create_random_graph(self, n_verts):
-        grid = []
-        for i in range(n_verts):
-            grid.append(Vertex(str(i)))
+    # def create_random_graph(self, n_verts):
+    #     grid = []
+    #     for i in range(n_verts):
+    #         grid.append(Vertex(str(i)))
         
-        for i in range(n_verts - 1):
-            if (random.randrange(n_verts) < n_verts // 2):
-                if (random.randrange(n_verts) < n_verts // 2):
-                    self.add_edge(grid[i].label, grid[i + 1].label, False)
-                self.add_edge(grid[i].label, grid[i + 1].label)
+    #     for i in range(n_verts - 1):
+    #         if (random.randrange(n_verts) < n_verts // 2):
+    #             if (random.randrange(n_verts) < n_verts // 2):
+    #                 self.add_edge(grid[i].label, grid[i + 1].label, False)
+    #             self.add_edge(grid[i].label, grid[i + 1].label)
 
-        for vert in grid:
-            self.add_vertex(vertex)
+    #     for vert in grid:
+    #         self.add_vertex(vertex)
 
 
     def bfs(self, start_index):
