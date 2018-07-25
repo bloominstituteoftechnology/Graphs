@@ -87,7 +87,7 @@ class BokehGraph:
                         source=label_source, render_mode='canvas')
         self.plot.add_layout(labels)
 
-
+"""
 def main():
     graph = Graph()  # Instantiate your graph
     graph.add_vertex('0')
@@ -120,4 +120,5 @@ def main():
 if __name__ == '__main__':
     main()
 print(__name__)
+"""
 
