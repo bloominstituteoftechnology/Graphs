@@ -5,14 +5,22 @@ General drawing methods for graphs using Bokeh.
 from random import choice, random, randint
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, ColumnDataSource)
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
+                          LabelSet, ColumnDataSource)
 from graph import Graph
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Graph', width=10, height=10,
-                show_axis=False, show_grid=False, circle_size=35):
+
+    def __init__(self,
+                 graph,
+                 title='Graph',
+                 width=10,
+                 height=10,
+                 show_axis=False,
+                 show_grid=False,
+                 circle_size=35):
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
         self.graph = graph
@@ -21,30 +29,33 @@ class BokehGraph:
         self.width = width
         self.height = height
         self.pos = {}  # dict to map vertices to x, y positions
-        self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
+        self.plot = figure(
+            title=title, x_range=(0, width), y_range=(0, height))
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
-
 
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(
             list(self.graph.vertices.keys()), 'index')
-        graph_renderer.node_renderer.data_source.add(
-            self._get_random_colors(), 'color')
-        graph_renderer.node_renderer.glyph = Circle(size=circle_size,
-                                                    fill_color='color')
-        graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
+        graph_renderer.node_renderer.data_source.add(self._get_random_colors(),
+                                                     'color')
+        graph_renderer.node_renderer.glyph = Circle(
+            size=circle_size, fill_color='color')
+        graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes(
+        )
         self.randomize()
-        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
+        graph_renderer.layout_provider = StaticLayoutProvider(
+            graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
     def _get_random_colors(self):
         colors = []
         for _ in range(len(self.graph.vertices)):
-            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
+            color = '#' + ''.join(
+                [choice('0123456789ABCDEF') for j in range(6)])
             colors.append(color)
         return colors
 
@@ -78,17 +89,17 @@ def initiate_Graph():
     new_graph = Graph()
 
     ints = []
-    for x in range(0, 50):
+    for x in range(0, 25):
         ints.append(x)
 
     for x in ints:
         new_graph.add_vert(f"v {x}")
 
-    for x in range(0,75):
-        new_graph.add_edge(f"v {randint(0, 49)}", f"v {randint(0, 47) + 2}")
+    for x in range(0, 15):
+        new_graph.add_edge(f"v {randint(0, 24)}", f"v {randint(0, 22) + 2}")
     return new_graph
 
 x = initiate_Graph()
 
-bokeh = BokehGraph(x, "AWESOME GRAPH!", 20, 20, True, True, 25)
+bokeh = BokehGraph(x, "AWESOME GRAPH!", 10, 10, True, True, 25)
 bokeh.show()
