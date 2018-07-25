@@ -95,16 +95,21 @@ class BokehGraph:
         """Randomize vertex positions."""
         edges = self._get_edge_indexes()
 
-        print(edges)
-
-        for vertex in self.graph.vertices:
-            self.place_vert(vertex)
-
         for i in range(len(edges["start"])):
+
             if edges["start"][i] > edges["end"][i]:
                 coefficient = 1
             else:
                 coefficient = -1
+
+            print(edges["end"][i])
+
+            if not edges["start"][i] in self.pos:
+                self.place_vert(edges["start"][i])
+
+            if not edges["end"][i] in self.pos:
+                self.place_vert(edges["end"][i])
+
             self.plot.add_layout(
                 Arrow(
                     end=NormalHead(fill_color="orange", size=10),
@@ -114,3 +119,7 @@ class BokehGraph:
                     y_end=self.pos[edges["end"][i]][1],
                 )
             )
+
+        for vertex in self.graph.vertices:
+            if vertex not in self.pos:
+                self.place_vert(vertex)
