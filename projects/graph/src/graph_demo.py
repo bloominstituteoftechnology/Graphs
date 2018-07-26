@@ -34,6 +34,8 @@ def main():
     print("...")
     graph.breadth_first("4", lambda x: print("callback", x))
 
+    print(graph.get_islands())
+
 
 if __name__ == "__main__":
     # TODO - parse argv

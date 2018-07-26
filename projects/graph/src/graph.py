@@ -35,6 +35,20 @@ class Graph:
                 if i not in visited:
                     queue.append(i)
 
+    def get_islands(self):
+        islands = []
+        island = None
+        for i in self.vertices:
+            for j in range(len(islands)):
+                if i in islands[j]:
+                    island = j
+            if not island:
+                island = len(islands)
+                print("island!!!", island)
+                islands.append(set())
+            self.breadth_first(i, lambda x: islands[island].add(x))
+        return islands
+
 
 def main():
     graph = Graph()
