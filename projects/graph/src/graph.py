@@ -45,11 +45,9 @@ class Graph:
             if bidirectional == True:
                 self.vertices[end_vertex].add(start_vertex)
 
-    def search(self, start, search_type='bfs'):
-        colors = ['#FF395B', '#FC928F', '#F9C6A3', '#C0BF9F','#79A792']
+    def search(self, start, color, search_type='bfs'):
         if start not in self.vertex_labels:
             raise Exception("%s is not a vertex in the graph")
-        color = random.choice(colors)
         searched = set()
         q = []
         next_node = 0 if search_type == 'bfs' else -1

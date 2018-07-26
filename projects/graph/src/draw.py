@@ -8,6 +8,7 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from graph import Graph
 import random
+import math
 
 
 class BokehGraph:
@@ -49,15 +50,25 @@ class BokehGraph:
             colors.append(color)
         return colors
 
-    def map_coords(self):
+    def _map_coords(self, width, height):
+        cells = math.ceil(len(self.graph.vertices.keys())**(1/2))
+        cube = (width-1)/cells
+        x_grid = 0.5
+        y_grid = 0.5
         for vertex in self.graph.vertices.keys():
-            self.pos[vertex.label] = (random.uniform(0.5,9.5), random.uniform(0.5,9.5))
+            self.pos[vertex.label] = (random.uniform(x_grid,x_grid+cube), 
+                                    random.uniform(y_grid,y_grid+cube))
+            if x_grid + cube >= (width - cube):
+                x_grid = 0.5
+                y_grid += cube
+            else:
+                x_grid += cube
     
-    def _get_labels(self):
-        labels = []
+    def _get_indices(self):
+        indices = []
         for vertex in self.graph.vertices.keys():
-            labels.append(vertex.label)
-        return labels
+            indices.append(vertex.label)
+        return indices
         
     def draw(self, title='Graph', width=10, height=10,
                 show_axis=False, show_grid=False, circle_size=25):
@@ -68,15 +79,14 @@ class BokehGraph:
 
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(
-            self._get_labels(), 'index')
+            self._get_indices(), 'index')
         graph.node_renderer.data_source.add(
             self._get_colors(), 'color')
         graph.node_renderer.glyph = Circle(size=circle_size,
             fill_color='color')
         graph.edge_renderer.data_source.data = self._get_edges()
 
-        self.map_coords()
-
+        self._map_coords(width, height)
         graph.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         plot.renderers.append(graph)
 
@@ -86,28 +96,26 @@ class BokehGraph:
         output_file('./graph.html')
         show(plot)
 
-def randomize_graph(size=10):
+def randomize_graph(vertices=10, connections=5):
     graph = Graph()
-    for i in range(size):
+    for i in range(vertices):
         graph.add_vertex(str(i))
-    # make connections
-    for vertex in graph.vertices.keys():
-        vertices = list(graph.vertices.keys())
-        vertices.remove(vertex)
-        # 30% chance that a vertex will have connections
-        if random.random() > 0.5:
-            num_connections = random.randint(0, min(size//3, 3))
-            if num_connections > 0:
-                for i in range(num_connections):
-                    end = random.choice(vertices)
-                    vertices.remove(end)
-                    graph.add_edge(vertex, end)
+    for i in range(connections):
+        start, end = random.sample(list(graph.vertices), 2)
+        graph.add_edge(start, end)
+    colors = ['#FF395B', '#FC928F', '#F9C6A3', '#C0BF9F',
+                '#79A792', '#1A8CC1', '#FECE6B', '#F69D61']
+    color_index = 0
     searched = set()
     for vertex in graph.vertices:
         if vertex not in searched:
-            searched.update(graph.search(vertex))
+            if color_index > len(colors):
+                color_index = 0
+            color = colors[-color_index]
+            searched.update(graph.search(vertex, color))
+            color_index += 1
     bokeh = BokehGraph(graph)
     bokeh.draw()
     
 if __name__ == '__main__':
-    randomize_graph()
+    randomize_graph(16, 6)
