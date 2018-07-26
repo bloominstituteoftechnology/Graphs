@@ -83,7 +83,7 @@ class GraphTests(unittest.TestCase):
         self.graph.add_edge('V3', 'V5')
         self.graph.add_edge('V4', 'V7', False)
         self.graph.add_edge('V4', 'V6', False)
-        bfs = self.graph.bfs('V1')
+        bfs = self.graph.search('V1', 'bfs')
         # Getting different results because of the sets -> can't control order
         if (bfs == ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7']) or (
                 bfs == ['V1', 'V2', 'V4', 'V3', 'V6', 'V7', 'V5']) or (
@@ -107,7 +107,7 @@ class GraphTests(unittest.TestCase):
         self.graph.add_edge('V3', 'V4', False)
         self.graph.add_edge('V5', 'V7', False)
         self.graph.add_edge('V5', 'V6', False)
-        dfs = self.graph.dfs('V1')
+        dfs = self.graph.search('V1', 'dfs')
         # Getting different results because of the sets -> can't control order
         if (dfs == ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7']) or (
                 dfs == ['V1', 'V2', 'V3', 'V4', 'V5', 'V7', 'V6']) or (
