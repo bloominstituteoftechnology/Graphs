@@ -14,7 +14,7 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Graph', width=10, height=10,
+    def __init__(self, graph, title='Graph', width=40, height=40,
                  show_axis=False, show_grid=False, circle_size=35,):
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
@@ -25,7 +25,15 @@ class BokehGraph:
         self.height = height
         self.pos = {}  # dict to map vertices to x, y positions
         self.plot = figure(title=title, x_range=(
-            0, width * 2), y_range=(0, height * 2), width=800, height=600)
+            -2, width * 2), y_range=(-2, height * 2), width=800, height=800,
+                tools="wheel_zoom, box_zoom, reset, hover, pan", active_drag="pan")
+        hover = self.plot.select(dict(type=HoverTool))
+        hover.tooltips = [
+            ("index:", "$index"),
+            ("x Co-Ordinates: ", "$x"),
+            ("y Co-Ordinates: ", "$y"),
+            ("Node Color: ", "$color")
+        ]
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
@@ -85,36 +93,28 @@ class BokehGraph:
     def randomize(self):
         storage = set()
         counter = 0
+        neg_num_check = False
         while len(storage) < len(self.graph.vertices):
             for vertex in self.graph.vertices:
                 # TODO make bounds and random draws less hacky
-                temp = (int(counter + random() * (self.width - 2)),
-                        int(counter + random() * (self.height - 2)))
+                temp = (int(counter + random() * (self.width - 10)),
+                        int(counter + random() * (self.height - 7)))
                 counter += 1
-                if temp and reversed(temp) not in storage:
-                    if temp[0] and temp[1] not in storage:
-                        if (temp[0] + 1 and temp[0] + 2 and
-                            temp[0] + 3 and temp[1] + 4 and
-                            temp[0] + 4 and temp[1] + 1 and
-                                temp[1] + 2 and temp[1] + 3 not in storage):
-                            if (temp[0] - 1 and temp[0] - 2 and
-                                temp[0] - 3 and temp[0] - 4 and
-                                temp[1] - 1 and temp[1] - 4 and
-                                temp[1] - 2 and
-                                temp[1] - 3 not in storage):
+                if temp[0] - 40 < 0:
+                    neg_num_check = True
+                    while neg_num_check is not True:
+                        for i in range(temp[0], temp[0] + 40):
+                            for j in range(temp[0], temp[0] - 40):
+                                if i not in storage:
+                                    if j not in storage:
+                                        self.pos[vertex] = temp
+                                        storage.add(self.pos[vertex])
+                else:
+                    for i in range(temp[0], temp[0] + 40):
+                        for j in range(temp[1], temp[1] + 40):
+                            if i and j not in storage:
                                 self.pos[vertex] = temp
                                 storage.add(self.pos[vertex])
-                """if temp and reversed(temp) not in storage:
-                    if temp[0] and temp[1] not in storage:
-                        if temp[0] + 1 and temp[0] + 2
-                        and temp[0] + 3 > (prev_vert[0]):
-                            if (temp[1] + 3) > (prev_vert[1]):
-                                self.pos[vertex] = temp
-                                prev_vert = temp
-                                print(prev_vert)
-                                storage.add(self.pos[vertex])
-"""
-        print("storage", storage)
 
         """ while len(storage) < len(self.graph.vertices):
             for vertex in self.graph.vertices:
