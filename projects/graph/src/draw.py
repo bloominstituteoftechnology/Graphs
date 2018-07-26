@@ -14,12 +14,12 @@ from bokeh.models import (
 
 ## get bokeh up and running...
 # declare constants
-TITLE="Graph",
-WIDTH=10,
-HEIGHT=10,
-ALLOW_AXIS=False,
-ALLOW_GRID=False,
-VERT_SIZE=20,
+WIDTH = (10,)
+HEIGHT = (10,)
+ALLOW_AXIS = (False,)
+ALLOW_GRID = (False,)
+VERT_SIZE = (20,)
+
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -27,31 +27,32 @@ class BokehGraph:
     def __init__(
         self,
         graph,
-        title = TITLE,
         width,
         height,
         allow_grid,
         allow_axis,
         vert_size,
         color,
+        title="My Graph",
     ):
         if graph.vertices:
-            raise Exception('No verts have been defined!')
+            raise Exception("No verts have been defined!")
         self.graph = graph
 
         self.render_graph(vert_size)
         self.width = WIDTH
         self.height = HEIGHT
-        self.plot = figure(title = title, x_range(0,width), y_range(0, height))
         self.plot.grid.visible = ALLOW_GRID
         self.plot.axis.visible = ALLOW_AXIS
+        self.plot = figure(x_range(0, width), y_range(0, height), title=title)
         self.pos = {}
-        
+
     def render_graph(self, vert_size):
         display_graph = GraphRenderer(kwargs)
 
         display_graph.node__renderer.data_src.data = self.get_edges()
         pass  # TODO
+
     def get_edges(self):
         pass  # TODO
 
