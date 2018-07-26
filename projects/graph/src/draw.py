@@ -18,6 +18,18 @@ class BokehGraph:
         self.graph = graph
         self.pos = {}
 
+    def _setup_labels(self):
+        label_data = {'x': [], 'y': [], 'names': []}
+        for vertex, position in self.pos.items():
+            label_data['x'].append(position[0])
+            label_data['y'].append(position[1])
+            label_data['names'].append(vertex)
+        label_source = ColumnDataSource(label_data)
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                            text_align='center', text_baseline='middle',
+                            source=label_source, render_mode='canvas')
+        return labels
+
     def _get_edges(self):
         start = []
         end = []
@@ -48,7 +60,7 @@ class BokehGraph:
         return labels
         
     def draw(self, title='Graph', width=10, height=10,
-                show_axis=False, show_grid=False, circle_size=15):
+                show_axis=False, show_grid=False, circle_size=25):
         plot = figure(title=title, x_range=(0,width), y_range=(0,height))
         
         plot.axis.visible = show_axis
@@ -64,8 +76,12 @@ class BokehGraph:
         graph.edge_renderer.data_source.data = self._get_edges()
 
         self.map_coords()
+
         graph.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         plot.renderers.append(graph)
+
+        labels = self._setup_labels()
+        plot.add_layout(labels)
 
         output_file('./graph.html')
         show(plot)
