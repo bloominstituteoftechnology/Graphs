@@ -5,11 +5,13 @@ from draw import BokehGraph
 from random import random
 
 class Vertex:
-    def __init__(self, label, color="gray", **pos):
+    def __init__(self, label, color="gray", component=-1, **pos):
         self.label = label
         self.color = color
         self.pos = pos
+        self.component = component
         self.edges = set()
+        
 
     # Use the str method instead
     def __str__(self):
@@ -18,7 +20,6 @@ class Vertex:
         else:
             pos = self.pos
         return "Vartex is {}, position at ({}, {}), color is {} and has edges  {}".format(self.label, pos['x'], pos['y'], self.color, self.edges)
-
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -51,6 +52,58 @@ class Graph:
         self.vertices[start].edges.add(self.vertices[end])
         if multidirectional:
             self.vertices[end].edges.add(self.vertices[start])
+
+    # # breadth first search
+    # def bfs(self, start, target=None):
+    #     queue = [start]
+    #     visited = set()
+
+    #     while queue:
+    #         current = queue.pop(0)
+    #         if current == target:
+    #             break
+    #         visited.add(current)
+    #         # try to add possible unvisited vertices to the queue
+    #         queue.extend(self.vertices[current] - visited)
+
+    #     return visited
+
+    # # depth first search    
+    # def dfs(self, start, target=None):
+    #     stack = [start]
+    #     visited = set()
+
+    #     while stack:
+    #         current = stack.pop()
+    #         if current == target:
+    #             break
+    #         visited.add(current)
+    #         # try to add possible unvisited vertices to the queue
+    #         stack.extend(self.vertices[current] - visited)
+
+    #     return visited
+
+    def search(self, start, target=None, method='dfs'):
+        #search the graph using either BFS or DFS 
+        queueOrStack = [start]
+        popIndex = 0 if method == 'bfs' else -1
+        visited = set()
+
+        while queueOrStack:
+            current = queueOrStack.pop(popIndex)
+            if current == target:
+                break
+            visited.add(current)
+            # try to add possible unvisited vertices to the queue
+            queueOrStack.extend(self.vertices[current] - visited)
+
+        return visited
+
+
+    def find_components(self):
+        # identify components and update vertex component id's
+        for Vertex in self.vertices:
+                    
 
      # creating random graph part       
     def create_random_graph(self, n_verts):
