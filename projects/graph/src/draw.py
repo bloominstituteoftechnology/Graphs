@@ -2,7 +2,7 @@
 General drawing methods for graphs using Bokeh.
 """
 
-from random import choice, random
+from random import random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (
@@ -120,8 +120,8 @@ class BokehGraph:
             label_data["x"].append(position[0])
             label_data["y"].append(position[1])
             label_data["name"].append(vertex)
-        label_source = ColumnDataSource(label_data)
 
+        label_source = ColumnDataSource(label_data)
         labels = LabelSet(
             x="x",
             y="y",

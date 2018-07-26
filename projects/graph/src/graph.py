@@ -2,7 +2,7 @@
 from draw import BokehGraph
 from sys import argv
 import random
-from collections import deque
+
 
 
 """
@@ -17,7 +17,7 @@ Simple graph implementation compatible with BokehGraph class.
 class Vertex:
     """Vertices have a label and a set of edges."""
 
-    def __init__(self, label, color="gray", **pos):
+    def __init__(self, label, color="#808080", **pos):
         self.label = label
         self.color = color
         self.pos = pos
@@ -71,8 +71,18 @@ class Graph:
         random_color = "#" + "".join(
             [random.choice("0123456789ABCDEF") for j in range(6)]
         )
+        print("before", random_color)
+        if (
+            random_color.count("F") > 0
+            or random_color.count("E") > 0
+            or random_color.count("D") > 1
+        ):
+            random_color = "#" + "".join(random_color[1:][::-1])
+            print('after', random_color)
+
         queue = []
         found = []
+
         queue.append(start)
         found.append(start)
 
