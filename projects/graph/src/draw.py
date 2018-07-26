@@ -24,8 +24,8 @@ class BokehGraph:
         self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
-        #self._setup_graph_renderer(circle_size)
-        self.depth_first_search()
+        self._setup_graph_renderer(circle_size)
+        #self.depth_first_search()
         self._setup_labels()
 
 
@@ -118,12 +118,15 @@ class BokehGraph:
         colors=['#1f77b4','#aec7e8','#ff7f0e','#ffbb78','#2ca02c','#98df8a','#d62728','#ff9896','#9467bd','#c5b0d5','#8c564b','#c49c94','#e377c2','#f7b6d2','#7f7f7f','#c7c7c7','#bcbd22','#dbdb8d','#17becf','#9edae5']
         color_choice=0
         for vertex, edges in self.graph.vertices.items():
+            temp_components=[]
             if vertex not in visited:
                 visited.add(vertex)
+                temp_components.append(vertex)
                 render_not_random(circle_size, colors[color_choice])
                 for destination in edges:
                     depth_first_search(destination)
             color_choice+=1
+            connected_components.append(temp_components)
             #else:
              #   for destination in edges:
               #      depth_first_search(destination)

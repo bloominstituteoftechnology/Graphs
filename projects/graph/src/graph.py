@@ -33,7 +33,7 @@ class Graph:
             raise Exception('Error: cannot have edge to nonexistent vertices')
         self.vertices[vertex]=set(edges)
 
-    def randomize(self, grid_x=5, grid_y=4, jitter=150, edge_prob=0.1):
+    def randomize(self, grid_x=5, grid_y=4, jitter=150, edge_prob=0.6):
         #graph=self.Graph()
         for i in range(20): #0 to 19
             string=str(i)
