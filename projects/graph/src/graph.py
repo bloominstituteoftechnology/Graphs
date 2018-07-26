@@ -45,27 +45,24 @@ class Graph:
             if bidirectional == True:
                 self.vertices[end_vertex].add(start_vertex)
 
-    def search(self, start, type='bfs'):
+    def search(self, start, search_type='bfs'):
         colors = ['#FF395B', '#FC928F', '#F9C6A3', '#C0BF9F','#79A792']
         if start not in self.vertex_labels:
             raise Exception("%s is not a vertex in the graph")
-        # color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
         color = random.choice(colors)
-        if type == 'bfs':
-            searched = set()
-            q = queue.Queue()
-            if isinstance(start, str):
-                for v in self.vertices.keys():
-                    if v.label == start:
-                        start = v
-            q.put(start)
-            while not q.empty():
-                current = q.get()
-                for child in self.vertices[current]:
-                    if child not in searched:
-                        q.put(child)
-                current.color = color
-                searched.add(current)
-            return searched
-        elif type == 'dfs':
-            pass
+        searched = set()
+        q = []
+        next_node = 0 if search_type == 'bfs' else -1
+        if isinstance(start, str):
+            for v in self.vertices.keys():
+                if v.label == start:
+                    start = v
+        q.append(start)
+        while len(q) > 0:
+            current = q.pop(next_node)
+            for child in self.vertices[current]:
+                if child not in searched:
+                    q.append(child)
+            current.color = color
+            searched.add(current)
+        return searched
