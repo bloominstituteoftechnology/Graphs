@@ -77,15 +77,15 @@ class Graph:
     def find_components(self):
         visited = set()
 
+        current_component = 0
         for vertex in self.vertices:
             if vertex not in visited:
                 reachable = self.search(vertex)
-                current_component = 0
                 for other_vertex in reachable:
                     other_vertex.component = current_component
                 current_component += 1
                 visited.update(reachable)
-        self.components += 1
+        self.components = current_component
 
 def main(num_vertices=8, num_edges=8, draw_components=True):
     graph = Graph()
