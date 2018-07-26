@@ -1,23 +1,22 @@
 """Graph representation using adjacency list."""
 from random import randint
 
+
 class Vertex:
-    """Vertices have a label and a set of edges."""
-    def __init__(self, label, color="white"):
-        self.label = label
-        self.edges = set()
-        self.color = color
 
-    def __repr__(self):
-        return str(self.label)
+    def __init__(self, label, component=-1):
+        self.label = str(label)
+        self.component = component
 
 
-class ListGraph:
+class Graph:
+
     """Adjacency list graph."""
     def __init__(self):
-        self.vertices = set()
+        self.vertices = {}
+        self.components
 
-    def __str__(self):  
+    def __str__(self):
         return str(self.vertices)
 
     def add_edge(self, start, end, bidirectional=True):
@@ -33,44 +32,28 @@ class ListGraph:
             raise Exception('This is not a vertex!')
         self.vertices.add(vertex)
 
-    def breadth_first_search(self, target):
-        queue = []
-        visited = []
-        def bfs_helper(queue):
-            if queue == []:
-                return False, visited
-            current = queue.pop(0)
-            visited.append(current)
-            #print(current)
-            #if current in visited:
-            #    return False
-            #visited.append(current)
-            if current.color == "black":
-                return False, visited
-            if current.label == target:
-                return True, visited
-            else:
-                for x in current.edges:
-                    if not x.color == "grey" and not x.color == "black":
-                        x.color = "grey"
-                        queue.append(x)
-                    else:
-                        continue
-                current.color = "black"
-                return bfs_helper(queue)
+    def search(self, start, target=None, method='dfs'):
+        quack = [start]
+        pop_index = 0 if method == 'bfs' else -1
+        visited = set()
+        while quack:
+            current = quack.pop(pop_index)
+            if current == target:
+                break
+            visited.add(current)
+            quack.extend(self.vertices[current] - visited)
+        return visited
 
-        queue.append(list(self.vertices)[0])
-        return bfs_helper(queue)
+    def find_components(self):
+        ''' Identify components and updtae vertex component ids'''
+        visited = set()
+        current_component = 0
 
-lg = ListGraph()
-ints = []
-for x in range(0, 50):
-    ints.append(x)
-
-for x in ints:
-    lg.add_vertex(Vertex(f"v {x}"))
-
-for x in range(0,75):
-    lg.add_edge(list(lg.vertices)[randint(0, 49)], list(lg.vertices)[randint(0, 49)])
-
-print(lg.breadth_first_search("v 19"))
+        for vertex in self.vertices:
+            if vertex not in visited:
+                reachable = self.search(vertex)
+                for other_vertex in reachable:
+                    other_vertex.component = current_component
+                current_component += 1
+                visited.update(reachable)
+        self.components = current_component
