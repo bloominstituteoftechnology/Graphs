@@ -4,9 +4,19 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
+class Vertex:
+    """Represent a vertex with a label and possible connected component."""
+    def __init__(self, label, component=-1):
+        self.label = str(label)
+        self.component = component
+
+    def __repr__(self):
+        return 'Vertex: ' + self.label
+
 class Graph:
     def __init__(self):
         self.vertices = dict()
+        self.components = 0
 
     def add_edge(self, start, end, bidirectional=True):
         if start not in self.vertices or end not in self.vertices:
@@ -35,6 +45,20 @@ class Graph:
             quack.extend(self.vertices[current] - visited)
 
         return visited
+
+    def find_components(self):
+        """Identify components and update vertex component ids."""
+        visited = set()
+        current_component = 0
+
+        for vertex in self.vertices:
+            if vertex not in visited:
+                reachable = self.search(vertex)
+                for other_vertex in reachable:
+                    other_vertex.component = current_component
+                current_component += 1
+                visited.update(reachable)
+        self.components = current_component
 
 def main():
     graph = Graph()
