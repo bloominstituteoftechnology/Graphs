@@ -106,11 +106,20 @@ class BokehGraph:
     def randomize(self):
         """Randomize vertex positions."""
         for vertex in self.graph.vertices:
-            # TODO make bounds and random draws less hacky
-            self.pos[vertex] = (
-                1 + random() * (self.width - 2),
-                1 + random() * (self.height - 2),
-            )
+            taken = []
+            if vertex not in taken:
+                x = 10 if len(taken) % 2 == 0 else -10
+                y = 10 if len(taken) % 2 == 0 else -10
+                # TODO make bounds and random draws less hacky
+                self.pos[vertex] = (
+                    x / random() % self.width - 2
+                    if len(taken) % 2 == 0
+                    else x * random() % self.width + 2,
+                    y / random() % self.height - 2
+                    if len(taken) % 2 == 0
+                    else x * random() % self.height + 2,
+                )
+                taken.append(vertex)
             # random stuff for making vertex
             # make if statement to take into account positions already in self.pos
 
@@ -133,6 +142,10 @@ class BokehGraph:
             source=label_source,
             render_mode="canvas",
         )
+        # for i in self.graph.vertices:
+        #     random_color = "#" + "".join(self.graph.vertices[(i)].color[1:][::-1])
+        #     return random_color
+        # self.plot.patches(text_color=random_color)
         self.plot.add_layout(labels)
 
     # def dfs(self):
