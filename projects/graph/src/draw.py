@@ -25,12 +25,11 @@ class BokehGraph:
         self.height = height
         self.pos = {}  # dict to map vertices to x, y positions
         self.plot = figure(title=title, x_range=(
-            0, width), y_range=(0, height))
+            -5, width), y_range=(-3, height), width=800, height=600)
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
         self._setup_labels()
-        self.trial()
 
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
@@ -84,21 +83,42 @@ class BokehGraph:
         show(self.plot)
 
     def randomize(self):
-        storage = []
+        prev_vert = (0, 0)
+        storage = set()
         counter = 0
         while len(storage) < len(self.graph.vertices):
+            for vertex in self.graph.vertices:
+                # TODO make bounds and random draws less hacky
+                temp = (int(counter + random() * (self.width - 3)),
+                        int(counter + random() * (self.height - 3)))
+                counter += 1
+                if temp and reversed(temp) not in storage:
+                    if (temp[0] + 3) > (prev_vert[0]):
+                        if (temp[1] + 3) > (prev_vert[1]):
+                            self.pos[vertex] = temp
+                            prev_vert = temp
+                            print(prev_vert)
+                            storage.add(self.pos[vertex])
+                        else:
+                            self.pos[vertex] = temp
+                            prev_vert = temp
+                            storage.add(self.pos[vertex])
+
+        print("storage", storage)
+
+        """ while len(storage) < len(self.graph.vertices):
             for vertex in self.graph.vertices:
                 # TODO make bounds and random draws less hacky
                 temp = (counter + random() * (self.width - 2),
                         counter + random() * (self.height - 2))
                 counter += 2
                 if counter > 7:
-                    counter -= 3
+                    counter -= 1.5
                 print(counter)
                 if temp not in storage:
                     self.pos[vertex] = temp
                     storage.append(self.pos[vertex])
-        print("storage", storage[0])
+        print("storage", storage[0])"""
 # ############ More Hackey Stuff ###############
 # #### working on implementation ###############
         """Randomize vertex positions."""
@@ -128,27 +148,18 @@ class BokehGraph:
                           text_color="white")
         self.plot.add_layout(labels)
 
-    def trial(self):
-        storage = []
-        counter = 0
-        while len(storage) < len(self.graph.vertices):
-            for vertex in self.graph.vertices:
-                # TODO make bounds and random draws less hacky
-                temp = (counter + random() * (self.width - counter),
-                        counter + random() * (self.height - counter))
-                counter += 1
-                if temp not in storage:
-                    self.pos[vertex] = temp
-                    storage.append(self.pos[vertex])
-        print("storage", storage[0])
-
-
 # ########### Hackey bits ################
 """
 for vertex in self.graph.vertices:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
+turn tuple to list
+comp prev tuple to current tuple
+append
+counter
+if statement
+
 
 while l:
     for x, y in l:
