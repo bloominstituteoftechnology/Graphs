@@ -6,6 +6,7 @@ from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
                           LabelSet, ColumnDataSource)
 from graph import Graph, Vertex
+from math import floor
 from random import choice, random
 
 
@@ -113,7 +114,7 @@ class BokehGraph:
             if v.color:
                 colors.append(v.color)
             else:
-                color = '#' + ''.join([choice('456789ABCDEF') for j in range(6)])
+                color = '#' + ''.join([choice('56789ABCDEF') for j in range(6)])
                 colors.append(color)
         return colors
 
@@ -123,45 +124,51 @@ class BokehGraph:
         connected_components = self.graph.find_connected_components()
 
         for component in connected_components:
-            color = '#'+''.join([choice('456789ABCDEF') for j in range(6)])
+            color = '#'+''.join([choice('56789ABCDEF') for j in range(6)])
             for vertex in component:
                 vertex.color = color
         return connected_components
 
 
 class RandomGraph(BokehGraph):
-    def __init__(self, width=8, height=5, circle_size=25, chance=0.6,
-                 title='Graph', show_axis=True, show_grid=True):
-        self.graph = Graph(width * height // 2, chance)
+    """Class which automatically constructs a random graph and makes it
+       Bokeh renderable"""
+    def __init__(self, num_vertices=None, num_edges=0, chance=0.75, width=10,
+                 height=10, circle_size=25, title='Graph', show_axis=True,
+                 show_grid=True):
+        if not num_vertices:
+            num_vertices = floor(width * height * 0.15)
+        if not num_edges:
+            num_edges = floor(num_vertices * 0.8)
+        # Create graph then pass it to super `BokehGraph`'s constructor
+        self.graph = Graph(num_vertices, num_edges, chance)
         BokehGraph.__init__(self, self.graph, title, width, height,
                             show_axis, show_grid, circle_size)
 
 
 def main():
-    graph = Graph()  # Instantiate your graph
+    # graph = Graph()  # Instantiate your graph
 
-    vl = [
-        Vertex('0', (2, 5)),
-        Vertex('1', (5, 2)),
-        Vertex('2', (2, 8)),
-        Vertex('3', (8, 2)),
-    ]
+    # vl = [
+    #     Vertex('0', (2, 5)),
+    #     Vertex('1', (5, 2)),
+    #     Vertex('2', (2, 8)),
+    #     Vertex('3', (8, 2)),
+    # ]
 
-    for v in vl:
-        graph.add_vertex(v)
+    # for v in vl:
+    #     graph.add_vertex(v)
 
-    graph.add_edge(vl[0], vl[1])
-    graph.add_edge(vl[0], vl[3])
-    print(graph.vertices)
+    # graph.add_edge(vl[0], vl[1])
+    # graph.add_edge(vl[0], vl[3])
+    # print(graph.vertices)
 
-    a_graph = BokehGraph(graph)
-    a_graph.show()
+    # a_graph = BokehGraph(graph)
+    # a_graph.show()
 
-    # b_graph = RandomGraph()
-    # print("b_graph vertices:", b_graph.graph.vertices)
-    # print('start vertex:', b_graph.graph.vertices[0].edges)
-    # print('bfs result:', b_graph._color_connections(b_graph.graph))
-    # b_graph.show()
+    b_graph = RandomGraph()
+    print('bfs result:', b_graph._color_connections(b_graph.graph))
+    b_graph.show()
 
 
 if __name__ == '__main__':
