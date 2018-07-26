@@ -2,7 +2,7 @@
 from draw import BokehGraph
 from random import sample
 from sys import argv
-from graph import *
+# from graph import *
 
 """
 Simple graph implementation compatible with BokehGraph class.
@@ -11,7 +11,7 @@ Simple graph implementation compatible with BokehGraph class.
 class Vertex:
     def __init__(self, label, color='white'):
         self.label = str(label)
-        self.component = component
+        self.component = 0
     
     def __repr__(self):
         return 'Vertex: ' + self.label
@@ -61,7 +61,7 @@ class Graph:
     #         stack.extend(self.vertices[current] - visited)
     #     return visited
     
-    def search(self, start, target=None, method='dfs')
+    def search(self, start, target=None, method='dfs'):
         quack = [start]
         pop_index = 0 if method == 'bfs' else -1
         visited = set()
@@ -76,31 +76,47 @@ class Graph:
     
     def find_components(self):
         visited = set()
-        
+
         for vertex in self.vertices:
             if vertex not in visited:
                 reachable = self.search(vertex)
+                current_component = 0
                 for other_vertex in reachable:
                     other_vertex.component = current_component
                 current_component += 1
                 visited.update(reachable)
-        self.components = current_component
+        self.components += 1
 
-def main():
+def main(num_vertices=8, num_edges=8, draw_components=True):
     graph = Graph()
-    graph.add_vertex('A')
-    graph.add_vertex('B')
-    graph.add_vertex('C')
-    graph.add_vertex('D')
-    graph.add_vertex('E')
-    graph.add_vertex('F')
-    graph.add_vertex('G')
-    graph.add_vertex('H')
-    graph.add_edge('B', 'C')
-    graph.add_edge('A', 'H')
-    graph.add_edge('D', 'G')
 
-    bg = BokehGraph(graph)
+    for num in range(num_vertices):
+        graph.add_vertex(Vertex(label=str(num)))
+
+    for _ in range(num_edges):
+        vertices = sample(graph.vertices.keys(), 2)
+        graph.add_edge(vertices[0], vertices[1])
+    # a = Vertex('a')
+    # graph.add_vertex(a)
+    # b = Vertex('b')
+    # graph.add_vertex(b)
+    # c = Vertex('c')
+    # graph.add_vertex(c)
+    # a = Vertex('a')
+    # graph.add_vertex('D')
+    # a = Vertex('a')
+    # graph.add_vertex('E')
+    # a = Vertex('a')
+    # graph.add_vertex('F')
+    # a = Vertex('a')
+    # graph.add_vertex('G')
+    # a = Vertex('a')
+    # graph.add_vertex('H')
+    # graph.add_edge(b, c)
+    # graph.add_edge('A', 'H')
+    # graph.add_edge('D', 'G')
+
+    bg = BokehGraph(graph, draw_components=draw_components)
     bg.show()
 
 if __name__ == "__main__":
