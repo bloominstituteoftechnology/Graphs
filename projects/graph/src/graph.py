@@ -7,11 +7,12 @@ class Graph:
     def __init__(self):
        self.vertices = {}
           
-    def add_vertex(self, vertex):
-        if vertex not in self.vertices:
-            self.vertices[vertex] = set()
-        else:
-            raise ValueError("That value already exist")
+    def add_vertex(self, vertex, edges=()):
+        if not set(edges).issubset(self.vertices):
+            raise ValueError("That value does not exist")
+        if vertex is self.vertices:
+            raise Exception('Error adding vertex that already exist')
+            self.vertices[vertex] = set(edges)
 
     def add_edge(self, start, end, bidirectional=True):
         if start not in self.vertices or end not in self.vertices:
@@ -20,7 +21,8 @@ class Graph:
             self.vertices[start].add(end)
         if bidirectional == True:
                 self.vertices[end].add(start)
-        
+    
+
 
     
 graph = Graph()  # Instantiate your graph
