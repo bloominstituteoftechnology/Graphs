@@ -5,15 +5,6 @@ name = "pypi"
 
 [packages]
 bokeh = "*"
-"jinja2" = "*"
-markupsafe = "*"
-numpy = "*"
-packaging = "*"
-pyparsing = "*"
-python-dateutil = "*"
-pyyaml = "*"
-six = "*"
-tornado = "*"
 
 [dev-packages]
 
