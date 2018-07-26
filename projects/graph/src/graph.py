@@ -1,75 +1,65 @@
-#!/usr/bin/python
+import queue
+import random
 
-"""
-Simple graph implementation compatible with BokehGraph class."""
+# class Vertex:
+#     """Vertices have a label and a set of edges."""
+
+#     def __init__(self, label, color="white"):
+#         self.label = label
+#         self.edges = set()
+#         self.color = color
+
+#     def __repr__(self):
+#        return str(self.label)
+
 class Vertex:
-    """Vertices have a label and a set of edges."""
-
-    def __init__(self, label, color="white"):
+    def __init__(self, label):
         self.label = label
-        self.edges = set()
-        self.color = color
-
-    def __repr__(self):
-       return str(self.label)
-
+        self.color = "#FFFFFF"
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        pass  # TODO
         self.vertices = {}
-        self.visited = False
+        self.vert_labels = []
 
     def add_vertex(self, v):
-        if v not in self.vertices:
-            self.vertices[v] = set()
+        if v not in self.vert_labels:
+            self.vert_labels.append(v)
+            vertex = Vertex(v)
+            self.vertices[vertex] = set()
         else:
-            raise ValueError("vertex already exists in the Graph")
+            raise ValueError("that vertex already exists in the graph")
 
     def add_edge(self, start, end, bidirectional=True):
-        if start not in self.vertices or end not in self.vertices:
-            raise Exception("%s or %s does not exist" %(start, end))
+        if start not in self.vert_labels or end not in self.vert_labels:
+            raise Exception("%s or %s is not a vertex in the graph" %(start, end))
         else:
-            self.vertices[start].add(end)
+            for v in self.vertices.keys():
+                if v.label == start:
+                    start_vertex = v
+                if v.label == end:
+                    end_vertex = v
+            self.vertices[start_vertex].add(end_vertex)
             if bidirectional == True:
-                self.vertices[end].add(start)
+                self.vertices[end_vertex].add(start_vertex)
 
-   def breadth_first_search(self, target):
-        queue = []
-
-        def bfs_helper(queue):
-            if queue == []:
-                return False
-            current = queue.pop(0)
-            if current.color == "black":
-                return False
-            if current.label == target:
-                return True
-            else:
-                for x in current.edges:
-                    x.color = "grey"
-                    queue.append(x)
-                current.color = "black"
-                return bfs_helper(queue)
-
-        queue.append(list(self.vertices)[0])
-        return bfs_helper(queue)
-
-print(lg.breadth_first_search("v 6"))
-
-#     g = Graph()
-#     g.add_vertex('2')
-#     g.add_vertex('3')
-#     g.add_vertex('8')
-#     g.add_edge('2','3')
-#     g.add_edge('2','8')
-#     g.add_edge('8','3')
-
-
-# # print(g.vertices)
-
-
-
-
-
+    def search(self, start, color, search_type='bfs'):
+        if start not in self.vert_labels:
+            raise Exception("%s is not a vertex in the graph")
+        searched = set()
+       queue = []
+        next_node = 0 if search_type == 'bfs' else -1
+        if isinstance(start, str):
+            for v in self.vertices.keys():
+                if v.label == start:
+                    start = v
+       queue.append(start)
+        while len(queue) > 0:
+            current = queue.pop(next_node)
+            for child in self.vertices[current]:
+                if child not in searched:
+                   queue.append(child)
+            current.color = color
+            searched.add(current)
+        return searched
