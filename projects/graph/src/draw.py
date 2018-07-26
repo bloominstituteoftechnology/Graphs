@@ -2,12 +2,15 @@
 General drawing methods for graphs using Bokeh.
 """
 from sys import argv
-from random import choice, random, sample
+from random import choice, random, sample, randint
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from graph import Graph
+
+def RNG():
+    return randint(1, 10)
 
 class BokehGraph:
     """
@@ -101,7 +104,7 @@ class BokehGraph:
         show(self.plot)
 
 
-def main(num_vertices=5, num_edges=5):
+def main(num_vertices=RNG(), num_edges=RNG()):
     """
     Build and show random graph
     """

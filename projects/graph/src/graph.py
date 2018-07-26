@@ -11,12 +11,6 @@ class Graph:
     def __init__(self):
         self.vertices = {}
 
-    # def add_vertex_original(self, vertex):
-    #     self.vertices[vertex] = set()
-
-    # def add_edge_original(self, node_a, node_b):
-    #     self.vertices[node_a].add(node_b)
-
     def add_vertex(self, vertex, edges=()):
         """
         Adds a new vertex, optionally with edges to other vertices.
@@ -37,20 +31,37 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def DFS(self):
+    def _dfs_helper(self, root, visited):
         """
-        Depth-first Search (Stack?)
+        Recursive helper function for Depth-First Search
         """
-        pass
-    
-    
+        # mark current node visited
+        visited[int(root)] = True
+        print("Current Node:", root)
+        print("Visited Status Change: ", visited)
+        # recur over all vertices adjacent to the current node
+        for adjacents in self.vertices[root]:
+            if visited[int(adjacents)] == False:
+                self._dfs_helper(adjacents, visited)
+
+    def DFS(self, vertex):
+        """
+        Depth-first Search (Recursive)
+        """
+        # mark all vertices as not visited
+        visited = [False] * (len(self.vertices))
+        print("Initially, all nodes are False ", visited)
+        # call recursive helper function to
+        # print out DFS traversal
+        self._dfs_helper(vertex, visited)
+
     def BFS(self, root):
         """
         Breadth-first Search (Boolean Method)
         """
         # mark all vertices as not visited
         visited = [False] * (len(self.vertices))
-        print("initially, all nodes are False ", visited)
+        print("Initially, all nodes are False ", visited)
         # init a queue as a list
         q = [] 
         # enqueue the root
@@ -74,48 +85,41 @@ class Graph:
                     q.append(adjacents)
                     visited[int(adjacents)] = True
 
-# def main():
-graph = Graph()
+        # def connected_component(self, component):
+        #     connected_components = []
+        #     visited = set()
 
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
+        #     for v in graph.vertices:
+        #         if v not in visited:
+        #             visited.update(component)
+        #             connected_components.append(component)
 
-graph.add_edge('0', '1')
-graph.add_edge('0', '2')
-graph.add_edge('1', '2')
-graph.add_edge('2', '0')
-graph.add_edge('2', '3')
-graph.add_edge('2', '3')
+def main():
+    graph = Graph()
 
-# graph.add_vertex(0)
-# graph.add_vertex(1)
-# graph.add_vertex(2)
-# graph.add_vertex(3)
+    graph.add_vertex('0')
+    graph.add_vertex('1')
+    graph.add_vertex('2')
+    graph.add_vertex('3')
 
-# graph.add_edge(0, 1)
-# graph.add_edge(0, 2)
-# graph.add_edge(1, 2)
-# graph.add_edge(2, 0)
-# graph.add_edge(2, 3)
-# graph.add_edge(2, 3)
+    graph.add_edge('0', '1')
+    graph.add_edge('0', '2')
+    graph.add_edge('1', '2')
+    graph.add_edge('2', '0')
+    graph.add_edge('2', '3')
+    graph.add_edge('2', '3')
 
-# print(graph.vertices)
-print ("Following is Breadth First Traversal"
+    print("\n")
+    print("The Graph: ", graph.vertices)
+    print("\n")
+    print("Following is Breadth First Traversal"
                   " (starting from vertex 2)")
+    graph.BFS('2')
+    print("\n")
+    print("Following is Depth First Traversal"
+                  " (starting from vertex 2)")
+    graph.DFS('2')
+    print("\n")
 
-# graph.BFS(graph.vertices)
-graph.BFS('2')
-
-# if __name__ == '__main__':
-#     main()
-
-
-# connected_components = []
-# visited = set()
-
-# for v in graph.vertices:
-#     if v not in visited:
-#         visited.update(component)
-#         connected_components.append(component)
+if __name__ == '__main__':
+    main()
