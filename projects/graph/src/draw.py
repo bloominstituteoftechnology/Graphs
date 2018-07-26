@@ -24,7 +24,8 @@ class BokehGraph:
         self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
-        self._setup_graph_renderer(circle_size)
+        #self._setup_graph_renderer(circle_size)
+        self.depth_first_search()
         self._setup_labels()
 
 
@@ -35,6 +36,20 @@ class BokehGraph:
             list(self.graph.vertices.keys()), 'index')
         graph_renderer.node_renderer.data_source.add(
             self._get_random_colors(), 'color')
+        graph_renderer.node_renderer.glyph = Circle(size=circle_size,
+                                                    fill_color='color')
+        graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
+        self.randomize()
+        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
+        self.plot.renderers.append(graph_renderer)
+
+    def render_not_random(self, circle_size, color):
+        graph_renderer = GraphRenderer()
+
+        graph_renderer.node_renderer.data_source.add(
+            list(self.graph.vertices.keys()), 'index')
+        graph_renderer.node_renderer.data_source.add(
+            self.color, 'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
                                                     fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
@@ -96,3 +111,22 @@ class BokehGraph:
                           text_align='center', text_baseline='middle',
                           source=label_source, render_mode='canvas')
         self.plot.add_layout(labels)
+
+    def depth_first_search(self):
+        connected_components=[]
+        visited = set()
+        colors=['#1f77b4','#aec7e8','#ff7f0e','#ffbb78','#2ca02c','#98df8a','#d62728','#ff9896','#9467bd','#c5b0d5','#8c564b','#c49c94','#e377c2','#f7b6d2','#7f7f7f','#c7c7c7','#bcbd22','#dbdb8d','#17becf','#9edae5']
+        color_choice=0
+        for vertex, edges in self.graph.vertices.items():
+            if vertex not in visited:
+                visited.add(vertex)
+                render_not_random(circle_size, colors[color_choice])
+                for destination in edges:
+                    depth_first_search(destination)
+            color_choice+=1
+            #else:
+             #   for destination in edges:
+              #      depth_first_search(destination)
+
+                
+

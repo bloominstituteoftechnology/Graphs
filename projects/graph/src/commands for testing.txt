@@ -13,3 +13,31 @@ Type "help", "copyright", "credits" or "license" for more information.
 {'A': {'B'}, 'B': {'A'}}
 >>> bg = BokehGraph(graph)
 >>> bg.show()
+
+
+
+
+from graph import Graph
+from draw import BokehGraph
+graph=Graph()
+graph.add_vertex('A')
+graph.add_vertex('B')
+graph.add_vertex('C')
+graph.add_vertex('D')
+graph.add_vertex('E')
+graph.add_vertex('F')
+graph.add_vertex('G')
+graph.add_vertex('H')
+graph.add_vertex('I')
+graph.add_vertex('J')
+graph.add_vertex('K')
+graph.add_vertex('L')
+graph.add_vertex('M')
+graph.add_vertex('N')
+graph.add_vertex('O')
+graph.add_vertex('P')
+graph.add_edge('A','B')
+graph.add_edge('D','N')
+graph.add_edge('G','P')
+bg = BokehGraph(graph)
+bg.show()
