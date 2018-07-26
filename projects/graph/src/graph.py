@@ -1,43 +1,108 @@
 #!/usr/bin/python
-#Start Here
+
 
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import random 
+from draw import BokehGraph
 
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        self.vertices = dict()
+        self.vertices = {}
+    
+    def __str__(self):
+        return str(self.vertices)
     
     def add_edge(self, start, end, bidirectional=True):
-        if start not in self.vertices or end not in self.vertices:
-            raise Exception('Error - vertices not in graph!')
-        self.vertices[start].add(end)
-        if bidirectional:
-            self.vertices[end].add(start)
-
+ 
+         if isinstance(start, Vertex):
+             start = start.label
+             
+         if isinstance(end, Vertex):
+             end = end.label
+ 
+         if start not in list(self.vertices.keys()):
+             self.add_vertex(Vertex(start))
+ 
+         if end not in list(self.vertices.keys()):
+             self.add_vertex(Vertex(end))
+ 
+         self.vertices[start].edges.add(self.vertices[end])
+         if bidirectional:
+             self.vertices[end].edges.add(self.vertices[start])
+ 
     def add_vertex(self, vertex):
-        if vertex not in self.vertices:
-            self.vertices[vertex] = set()
-        else:
-            raise Exception('Error -- This is not a vertex!')
+ 
+         if not isinstance(vertex, Vertex):
+             vertex= Vertex(vertex)
+         if vertex.label in self.vertices:
+             return False
+         self.vertices[vertex.label] = vertex
+         return True
+ 
+
+    def create_vertices_and_edges(self, n_verts):
+        grid = []
+        for i in range(n_verts):
+            grid.append(Vertex(str(i)))
+
+        for i in range(n_verts - 1):
+            if (random.randrange(n_verts) < n_verts // 2):
+                if(random.randrange(n_verts) < n_verts // 2):
+                    self.add_edge(grid[i].label, grid[i+1].label, False)
+                self.add_edge(grid[i].label, grid[i+1].label)
+
+        for vert in grid:
+            self.add_vertex(vert)
+
+    def dfs(self, start):
+        random_color = '#' + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) 
+        
+        stack = []
+        found = []
+        stack.append(start)
+        found.append(start)
+        
+        start.color = random_color
+        
+        while (len(stack) > 0):
+            v = stack.pop()
+            if v not in found:
+                found.append(v)
+            for edge in v.edges:
+                if edge not in found:
+                    edge.color = v.color
+                    stack.append(edge)
+        return found
+
+
+    def get_connected_components(self):
+        searched = []
+        for index, vertex in self.vertices.items():
+            if vertex not in searched:
+                searched.append(self.dfs(vertex))
+        return searched
+
+
 
 class Vertex:
-    def __init__(self, label, bidirectional=True):
+    def __init__(self, label, color='gray', **pos):
         self.label = label
+        self.color = color
+        self.pos = pos
         self.edge = set()
+    
+    def __str__(self):
+        if not self.pos:
+            pos = dict(x=None, y=None)
+        else:
+            pos = self.pos
+        return "The Vertex is {}".format(self.label)
 
-class Edge:
-    def __init__(self, destination, bidirectional=True):
-        self.destination = destination
-
-graph = Graph()
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
+graph=Graph()
+graph.create_vertices_and_edges(10)
+graph.get_connected_components()
+BokehGraph(graph).show()

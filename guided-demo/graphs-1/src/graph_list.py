@@ -21,3 +21,26 @@ class Graph:
     # pylint: disable=too-few-public-methods
     def __init__(self):
         self.vertices = set()
+
+
+'''
+Simple graph implementation compatible with BokehGraph Class
+'''
+def __init__(self):
+    self.vertices = {}
+    
+    def add_vertex(self, vertex, edges=()):
+        #add a new vertex, optionally with edges to other vertices.
+        if not set(edges).issubset(self.vertices):
+            raise Exception('Error: Cannot have edge to nonexistent vertices')
+        if vertex in self.vertices:
+            raise Exception("Error: Adding vertex that already exists")
+        self.vertices[vertex] = set(edges)
+
+    def add_edge(self, start, end, bidirectional=True):
+        #add an edge (default bidirectional) between two vertices.
+        if start not in self.vertices or end not in self.vertices:
+            raise Exception('Error: Vertices to connect not in graph!')
+        self.vertices[start].add(end)
+        if bidirectional:
+            self.vertices[end].add(start)
