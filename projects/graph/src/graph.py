@@ -4,7 +4,6 @@ from sys import argv
 import random
 
 
-
 """
 Simple graph implementation compatible with BokehGraph class.
 """
@@ -78,7 +77,7 @@ class Graph:
             or random_color.count("D") > 1
         ):
             random_color = "#" + "".join(random_color[1:][::-1])
-            print('after', random_color)
+            print("after", random_color)
 
         queue = []
         found = []
@@ -153,7 +152,7 @@ def main(num_vertices=8, num_edges=8):
         graph.add_edge(v7, v1, False)
         graph.add_edge(v1, v2)
         graph.add_edge(v3, v8, False)
-        graph.bfs(v7)
+        graph.connected_components()
 
     b = BokehGraph(graph)
     b.show()

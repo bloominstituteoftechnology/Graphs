@@ -126,7 +126,6 @@ class BokehGraph:
             x="x",
             y="y",
             text="name",
-            text_color="white",
             level="glyph",
             text_align="center",
             text_baseline="middle",
