@@ -6,7 +6,7 @@ from collections import deque
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, 
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
                           LabelSet, ColumnDataSource)
 
 
@@ -19,10 +19,12 @@ class BokehGraph:
         self.graph = graph
         self.width = width
         self.height = height
+
         self.circle_size = circle_size
         self.pos = {}  # dict to map vertices to x, y positions
         # Set up plot, the canvas/space to draw on
-        self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
+        self.plot = figure(title=title, x_range=(0, width),
+                           y_range=(0, height))
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
@@ -32,10 +34,11 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
 
         # Add the vertex data as instructions for drawing nodes
-        print('labels:',[x.label for x in self.graph.vertices.values()])
+        print('labels:', [x.label for x in self.graph.vertices.values()])
         graph_renderer.node_renderer.data_source.add(
             [x.label for x in self.graph.vertices.values()], 'index')
         # Nodes will be random colors
+        self.color_connections(self.graph)
         graph_renderer.node_renderer.data_source.add(
             self._get_random_colors(), 'color')
         # And circles
@@ -45,21 +48,17 @@ class BokehGraph:
         # Add the edge [start, end] indices as instructions for drawing edges
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self._assign_pos()  # Randomize vertex coordinates, and set as layout
-        print('self.pos:',self.pos)
+        print('self.pos:', self.pos)
         graph_renderer.layout_provider = StaticLayoutProvider(
             graph_layout=self.pos)
         # Attach the prepared renderer to the plot so it can be shown
         self.plot.renderers.append(graph_renderer)
         self._setup_labels()
 
-    def _get_random_colors(self):
-        colors = []
-        for _ in range(len(self.graph.vertices)):
-            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
-            colors.append(color)
-        return colors
-
     def _get_edge_indexes(self):
+        """Generates a dict filled with start/end indicies for edges.
+        The output of this method should be assigned to:
+        graph_renderer.edge_renderer.data_source.data"""
         start_indices = []
         end_indices = []
         checked = set()
@@ -74,6 +73,7 @@ class BokehGraph:
         return dict(start=start_indices, end=end_indices)
 
     def show(self, output_path='./graph.html'):
+        """Generates the visual representation of the graph in HTML format"""
         output_file(output_path)
         show(self.plot)
 
@@ -81,9 +81,6 @@ class BokehGraph:
         """Assign vertex positions to self.pos"""
         for vertex in self.graph.vertices.values():
             # TODO make bounds and random draws less hacky
-            # Attempt
-            # self.pos[vertex] = (random.uniform(0, self.width),
-            #                     random.uniform(0, self.height))
             if not vertex.pos:
                 self.pos[vertex.label] = [
                                          0.35 + random() * (self.width - 0.5),
@@ -91,7 +88,7 @@ class BokehGraph:
                                         ]
             else:
                 self.pos[vertex.label] = vertex.pos
- 
+
     def _setup_labels(self):
         label_data = {'x': [], 'y': [], 'names': []}
 
@@ -101,12 +98,21 @@ class BokehGraph:
             label_data['names'].append(str(vertex))
 
         label_source = ColumnDataSource(label_data)
-        # End Target
-        # labels - LabelSet(...)
         labels = LabelSet(x='x', y='y', text='names', level='glyph',
                             text_align='center', text_baseline='middle',
                             source=label_source)
         self.plot.add_layout(labels)
+
+    def _get_random_colors(self):
+        colors = []
+
+        for v in self.graph.vertices.values():
+            if v.color != 'gray':
+                colors.append(v.color)
+            else:
+                color = '#' + ''.join([choice('0123456789ABCDEF') for j in range(6)])
+                colors.append(color)
+        return colors
 
     def color_connections(self, graph):
         connected_components = []
@@ -121,6 +127,12 @@ class BokehGraph:
                 component = self._bfs(v)
             if component:
                 connected_components.append(component)
+
+        for component in connected_components:
+            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
+
+            for vertex in component:
+                vertex.color = color
 
         return connected_components
 
@@ -151,6 +163,7 @@ class BokehGraph:
 class RandomGraph(BokehGraph):
     def __init__(self, width=5, height=4, chance=0.6, circle_size=20,
                  title='Graph', show_axis=True, show_grid=True):
+
         self.graph = Graph(width * height // 2, chance)
 
         BokehGraph.__init__(self, self.graph, title, width, height,
