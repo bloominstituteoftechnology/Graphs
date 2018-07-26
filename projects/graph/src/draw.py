@@ -3,7 +3,8 @@ General drawing methods for graphs using Bokeh.
 """
 
 import random
-from random import choice, random, uniform
+from colour import Color
+from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
@@ -57,19 +58,46 @@ class BokehGraph:
 
     def _color_connected_components(self):
         vertex_colors_dict = dict((vertex, 'black') for vertex in list(self.graph.vertices.keys()))
+
+        def _get_rainbow_color(value):
+            if value >= 0 and value <= .2:
+                ff = value / .2
+                color = '#%02x%02x%02x' % (255, int(255 * ff), 0)
+
+            elif value > .2 and value <= .4:
+                ff = (value - .2) / .2
+                color = '#%02x%02x%02x' % (255 - int(255 * ff), 255, 0)
+
+            elif value > .4 and value <= .6:
+                ff = (value - .4) / .2
+                color = '#%02x%02x%02x' % (0, 255, int(255 * ff))
+
+            elif value > .6 and value <= .8:
+                ff = (value - .6) / .2
+                color = '#%02x%02x%02x' % (0, 255 - int(255 * ff), 255)
+
+            elif value > .8 and value <= 1:
+                ff = (value - .8) / .2
+                color = '#%02x%02x%02x' % (int(255 * ff), 0, 255)
+
+            return color
         
         for vertex in vertex_colors_dict:
             if vertex_colors_dict[vertex] is 'black':
-                rand_color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
-                vertex_colors_dict[vertex] = rand_color
-                for connected_node in self.graph.search(start=vertex):
-                    vertex_colors_dict[connected_node] = rand_color
+                connected_length = len(self.graph.search(start=vertex))
+                rand_start_color = Color( '#'+''.join([choice('0123456789ABCDEF') for j in range(6)]) )
+                gradients = list(Color('green').range_to(Color('red'), connected_length))
+                for index, connected_node in enumerate(self.graph.search(start=vertex)):
+                    # vertex_colors_dict[connected_node] = str(gradients[index])
+                    
+                    # vertex_colors_dict[connected_node] = str(rand_start_color)
+
+                    vertex_colors_dict[connected_node] = _get_rainbow_color( (index) / ((connected_length-1) or 1 ) )
         
         colors = []
         for vertex, color in vertex_colors_dict.items():
             colors.append(color)
 
-        # print (colors)
         return colors
 
     def _get_random_colors(self):

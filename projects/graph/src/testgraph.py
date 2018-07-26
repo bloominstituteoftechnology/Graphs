@@ -16,12 +16,15 @@ def main(num_vertices=8, num_edges=8, letters=False):
         graph.add_vertex('G')
 
         graph.add_edge('A', 'B')
+        # graph.add_edge('A', 'D')
+        # graph.add_edge('A', 'C')
         graph.add_edge('B', 'D')
         graph.add_edge('D', 'G')
+        # graph.add_edge('G', 'F')
         graph.add_edge('E', 'F')
 
-        # print (graph.vertices)
-        # print (graph.search())
+        print (graph.vertices)
+        print (graph.search())
 
     else:
         for num in range(num_vertices):
@@ -36,8 +39,8 @@ def main(num_vertices=8, num_edges=8, letters=False):
             verts.append(vertices)
             verts.append(vertices[::-1])
 
-        # print (graph.vertices)
-        # print (graph.search())
+        print (graph.vertices)
+        print (graph.search())
 
     bg = BokehGraph(graph)
     bg.show()
