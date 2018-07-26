@@ -18,15 +18,16 @@ class BokehGraph:
     """
     Class that takes a graph and exposes drawing methods.
     """
-    def __init__(self, graph, title='Graph', width=200, height=200,
+    def __init__(self, graph, title='Graph', width=1000, height=800,
                  vertex_size=20, grid_visible=False, axis_visible=False):
         self.graph = graph
         self.title = title
         self.height = height
         self.width = width
         self.vertex_size = vertex_size
-        self.plot = figure(title=title, x_range=(0, width),
-                           y_range=(0, height), toolbar_location=None)
+        self.plot = figure(title=title, plot_width=width, plot_height=height,
+                           x_range=(0, width), y_range=(0, height),
+                           toolbar_location=None)
         self.plot.axis.visible = axis_visible
         self.plot.grid.visible = grid_visible
         self._render_graph()
@@ -63,7 +64,7 @@ class BokehGraph:
         Assigns a random x, y position to each vertex and returns coordinates
         in a dictionary
         """
-        start = math.ceil(self.vertex_size/2)
+        start = self.vertex_size
         x_range = list(range(start, int(self.width - start), start))
         y_range = list(range(start, int(self.height - start), start))
         x = sample(x_range, len(self.graph.vertices))
