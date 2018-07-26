@@ -2,6 +2,7 @@
 from draw import BokehGraph
 from sys import argv
 import random
+from collections import deque
 
 
 """
@@ -66,34 +67,28 @@ class Graph:
             raise Exception("Error: Vertex already exists.")
         self.vertices[vertex.label] = vertex
 
-    def bfs(self, start=None):
-        if not start:
-            print(list(self.vertices.items()))
+    def bfs(self, start):
         random_color = "#" + "".join(
             [random.choice("0123456789ABCDEF") for j in range(6)]
         )
         queue = []
         found = []
-
         queue.append(start)
         found.append(start)
 
         start.color = random_color
-        for v in self.vertices.items():
-            print("self.vertices.items():", self.vertices.items(), "\nv:", v)
-        #     if v not in visited:
-        #         queue.append(v)
-        #         found.append()
-        #     while len(queue) > 0:
-        #         v = queue[0]
-        #         for edge in v.edges:
-        #             if edge not in found:
-        #                 found.append(edge)
-        #                 queue.append(edge)
-        #                 edge.color = random_color
 
-        #     queue.pop(0)
-        # return found
+        while len(queue) > 0:
+            v = queue[0]
+            for edge in v.edges:
+                if edge not in found:
+                    found.append(edge)
+                    queue.append(edge)
+                    edge.color = random_color
+
+            queue.pop(0)
+        for i in found:
+            print("found", [i.label])
 
     def connected_components(self):
         searched = []
@@ -106,7 +101,7 @@ class Graph:
 
 def main(num_vertices=8, num_edges=8):
     graph = Graph()
-    if num_vertices:
+    if num_vertices != 8:
         # Add appropriate number of vertices
         for num in range(num_vertices):
             graph.add_vertex(Vertex(str(num)))
@@ -114,18 +109,41 @@ def main(num_vertices=8, num_edges=8):
         for _ in range(num_edges):
             vertices = random.sample(graph.vertices.keys(), 2)
             graph.add_edge(vertices[0], vertices[1])
+
     else:
         v0 = Vertex("0")
         v1 = Vertex("1")
         v2 = Vertex("2")
         v3 = Vertex("3")
+        v4 = Vertex("4")
+        v5 = Vertex("5")
+        v6 = Vertex("6")
+        v7 = Vertex("7")
+        v8 = Vertex("8")
+        v9 = Vertex("9")
+        v10 = Vertex("10")
+        v11 = Vertex("11")
         graph.add_vertex(v0)
         graph.add_vertex(v1)
         graph.add_vertex(v2)
         graph.add_vertex(v3)
+        graph.add_vertex(v4)
+        graph.add_vertex(v5)
+        graph.add_vertex(v6)
+        graph.add_vertex(v7)
+        graph.add_vertex(v8)
+        graph.add_vertex(v9)
+        graph.add_vertex(v10)
+        graph.add_vertex(v11)
+        graph.add_edge(v1, v11)
+        graph.add_edge(v2, v5, False)
+        graph.add_edge(v6, v2)
+        graph.add_edge(v8, v5, False)
+        graph.add_edge(v1, v4)
+        graph.add_edge(v7, v1, False)
         graph.add_edge(v1, v2)
-        graph.add_edge(v2, v3, False)
-        graph.bfs()
+        graph.add_edge(v3, v8, False)
+        graph.bfs(v7)
 
     b = BokehGraph(graph)
     b.show()

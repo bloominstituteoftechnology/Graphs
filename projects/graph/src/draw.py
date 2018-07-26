@@ -41,13 +41,12 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
-        print(self.graph.vertices)
 
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(
-            list(sorted(self.graph.vertices.keys())), "index"
+            list(self.graph.vertices.keys()), "index"
         )
         graph_renderer.node_renderer.data_source.add(self._get_colors(), "color")
         graph_renderer.node_renderer.glyph = Circle(
