@@ -37,9 +37,6 @@ def main(num_vertices=8, num_edges=8, test=False):
         graph.add_edge('5', '9')
         graph.add_edge('9', '10')
 
-        print(graph.search('10', 'bfs'))
-        print(graph.vertices)
-
     else:
         # Add appropriate number of vertices
         for num in range(num_vertices):
@@ -51,7 +48,7 @@ def main(num_vertices=8, num_edges=8, test=False):
             # check if edge already exists
             graph.add_edge(vertices[0], vertices[1])
 
-        print(graph.search('10'))
+        print(graph.search('5', method='dfs'))
         print(graph.vertices)
 
     bokeh_graph = BokehGraph(graph)

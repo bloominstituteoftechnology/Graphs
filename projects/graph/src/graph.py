@@ -75,23 +75,8 @@ class Graph:
             self.vertices[end].add(start)
 
     """ function to print a BFS of graph"""
-    def search(self, target=None, method='bfs'):
-        """
-        visited = [False] * (len(self.vertices))  # mark all the vertices as not visited
-        queue = [] # crate a queue for BFS
-        queue.append(start) #mark the vertices as visited and enqueue it
-        visited[int(start)] = True
-
-        while queue:
-            start = queue.pop(0)
-            print (start, end=" ")
-
-            for i in self.vertices[start]:
-                if not visited[int(i)]:
-                    queue.append(i)
-                    visited[int(i)] = True
-        """
-        quack = [target]
+    def search(self, start, target=None, method='bfs'):
+        quack = [start]
         pop_index = 0 if method == 'bfs' else -1
         visited = set()
         order = []
@@ -102,10 +87,12 @@ class Graph:
                 break
             visited.add(current)
             order.append(current)
+            
             for node in self.vertices[current]:
                 if node not in visited:
                     quack.append(node)
                     visited.add(node)
+        return order
     
 
 
