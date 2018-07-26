@@ -108,22 +108,6 @@ class BokehGraph:
                             source=label_source)
         self.plot.add_layout(labels)
 
-    def color_connections(self, graph):
-        connected_components = []
-
-        for v in graph.vertices.values():
-            v.color = 'white'
-
-        for v in graph.vertices.values():
-            component = None
-
-            if v.color == 'white':
-                component = self._bfs(v)
-            if component:
-                connected_components.append(component)
-
-        return connected_components
-
     def _bfs(self, startVert):
         v_queue = deque()
         visited = set()
@@ -180,9 +164,8 @@ def main():
     # a_graph.show()
 
     b_graph = RandomGraph()
-    print("b_graph vertices:", b_graph.graph.vertices)
-    print('start vertex:', b_graph.graph.vertices[0].edges)
-    print('bfs result:', b_graph.color_connections(b_graph.graph))
+    # print("b_graph vertices:", b_graph.graph.vertices)
+    # print('start vertex:', b_graph.graph.vertices[0].edges)
     b_graph.show()
 
 

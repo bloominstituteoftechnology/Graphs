@@ -1,30 +1,68 @@
-"""Graph representation using adjacency list."""
+#!/usr/bin/python
+
+"""
+Simple graph implementation compatible with BokehGraph class.
+"""
 
 
 class Vertex:
-    """Vertices have a label and a set of edges."""
-    def __init__(self, label):
-        self.label = label
-        self.edges = set()
+    """Represent a vertex with a label and possible connected component."""
+    def __init__(self, label, component=-1):
+        self.label = str(label)
+        self.component = component
 
     def __repr__(self):
-        return str(self.label)
+        return 'Vertex: ' + self.label
 
 
 class Graph:
-    """Adjacency list graph."""
+    """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        self.vertices = set()
+        self.vertices = {}
+        self.components = 0
+
+    def add_vertex(self, vertex, edges=()):
+        """Add a new vertex, optionally with edges to other vertices."""
+        if vertex in self.vertices:
+            raise Exception('Error: adding vertex that already exists')
+        if not set(edges).issubset(self.vertices):
+            raise Exception('Error: cannot have edge to nonexistent vertices')
+        self.vertices[vertex] = set(edges)
 
     def add_edge(self, start, end, bidirectional=True):
-        """Add an edge from start to end."""
+        """Add a edge (default bidirectional) between two vertices."""
         if start not in self.vertices or end not in self.vertices:
-            raise Exception('Error - vertices not in graph!')
-        start.edges.add(end)
+            raise Exception('Vertices to connect not in graph!')
+        self.vertices[start].add(end)
         if bidirectional:
-            end.edges.add(start)
+            self.vertices[end].add(start)
 
-    def add_vertex(self, vertex):
-        if not hasattr(vertex, 'label'):
-            raise Exception('This is not a vertex!')
-        self.vertices.add(vertex)
+    def search(self, start, target=None, method='dfs'):
+        """Search the graph using BFS or DFS."""
+        quack = [start]  # Queue or stack, depending on method
+        pop_index = 0 if method == 'bfs' else -1
+        visited = set()
+
+        while quack:
+            current = quack.pop(pop_index)
+            if current == target:
+                break
+            visited.add(current)
+            # Add possible (unvisited) vertices to queue
+            quack.extend(self.vertices[current] - visited)
+
+        return visited
+
+    def find_components(self):
+        """Identify components and update vertex component ids."""
+        visited = set()
+        current_component = 0
+
+        for vertex in self.vertices:
+            if vertex not in visited:
+                reachable = self.search(vertex)
+                for other_vertex in reachable:
+                    other_vertex.component = current_component
+                current_component += 1
+                visited.update(reachable)
+        self.components = current_component
