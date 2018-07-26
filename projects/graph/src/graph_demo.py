@@ -31,6 +31,9 @@ def main(vertices, edges):
 
 
 if __name__ == '__main__':
+    # TODO: limit number of vertices and edges
+    # TODO: file name argument
+    # TODO: connected components argument
     if len(argv) == 3:
         NUMBER_VERTICES = int(argv[1])
         NUMBER_EDGES = int(argv[2])
