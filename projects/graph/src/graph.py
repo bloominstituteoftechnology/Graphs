@@ -20,14 +20,21 @@ class Graph:
             raise Exception('Error no edges to nonexistent vertices')
         self.vertices[vertex] = set(edges)
 
-    # def depth_first_search(self, start):
-    #     visited, stack = set(), [start]
-    #     while stack:
-    #         vertex = stack.pop()
-    #         if vertex not in visited:
-    #             visited.add(vertex)
-    #     current = start
-    #     if self.vertices[current].keys() is search_value:
+    def search(self, start, target=None, method='dfs'):
+        """Search the graph using BFS or DFS."""
+        quack = [start]  # Queue or stack, depending on method
+        pop_index = 0 if method == 'bfs' else -1
+        visited = set()
+
+        while quack:
+            current = quack.pop(pop_index)
+            if current == target:
+                break
+            visited.add(current)
+            # Add possible (unvisited) vertices to queue
+            quack.extend(self.vertices[current] - visited)
+
+        return visited
 
 def main():
     graph = Graph()
