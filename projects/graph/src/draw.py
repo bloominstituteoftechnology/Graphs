@@ -1,7 +1,7 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-from random import choice, random
+from random import choice, random, randint
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.layouts import widgetbox
@@ -12,9 +12,9 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Graph', width=10, height=10,
-            show_axis=False, show_grid=False, circle_size=35,
-            draw_components=False):
+    def __init__(self, graph, title='Graph', width=30, height=30,
+            show_axis=True, show_grid=True, circle_size=25,
+            draw_components=True):
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
         self.graph = graph
@@ -94,10 +94,37 @@ class BokehGraph:
 
     def randomize(self):
         """Randomize vertex positions."""
-        for vertex in self.vertex_keys:
-            # TODO make bounds and random draws less hacky
-            self.pos[vertex.label] = (1 + random() * (self.width - 2),
-                                      1 + random() * (self.height - 2))
+        # x = list(self.graph.vertices.keys()) / 4
+        # q1 = (1, 1, self.width / 2, self.height / 2)
+        # q2 = (self.width / 2, self.height / 2, self.width, 1)
+        # q3 = (self.width / 2, self.height / 2, self.width, self.height)
+        # q4 = (1, self.height / 2, self.width / 2, self.height)
+
+        def _q1_put():
+            return (random() * randint(2, self.width / 2 - 1),
+                    random() * randint(2, self.height / 2 - 1))
+
+        def _q2_put():
+            return (random() * randint(self.width / 2 - 1, self.width - 2),
+                    random() * randint(2, self.height / 2 - 1))
+
+        def _q3_put():
+            return (random() * randint(self.width / 2 - 1, self.width - 2),
+                    random() * randint(self.height / 2 - 1, self.height - 2))
+
+        def _q4_put():
+            return (random() * randint(2, self.width / 2 - 2),
+                    random() * randint(self.height / 2 - 1, self.height - 2))
+
+        for index, vertex in enumerate(self.vertex_keys):
+            if index < len(self.vertex_keys) / 4:
+                self.pos[vertex.label] = _q1_put()
+            elif index < len(self.vertex_keys) / 2:
+                self.pos[vertex.label] = _q2_put()
+            elif index < len(self.vertex_keys) and index < len(self.vertex_keys) * 0.75:
+                self.pos[vertex.label] = _q3_put()
+            else:
+                self.pos[vertex.label] = _q4_put()
 
     def _get_connected_component_colors(self):
         """Return same-colors for vertices in connected components."""
