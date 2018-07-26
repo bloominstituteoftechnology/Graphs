@@ -1,15 +1,17 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+from collections import deque
 from random import random, randint
 
 
 class Vertex:
     """Object representation of Vertex"""
-    def __init__(self, label, pos=None, color='gray'):
+    def __init__(self, label, pos=None, color=None):
         self.label = label
         self.pos = pos
         self.color = color
+        self.status = 'new'
         self.edges = set()
 
     def __repr__(self):
@@ -43,6 +45,7 @@ class Graph:
         """Add a new vertex, optionally with edges to other vertices."""
         if vertex in self.vertices:
             raise Exception('Error: adding vertex that already exists')
+        # TODO: check if the below error condition still works
         if not set(edges).issubset(self.vertices):
             raise Exception('Error: cannot have edge to nonexistent vertices')
         self.vertices[vertex.label] = vertex
@@ -56,6 +59,50 @@ class Graph:
         self.vertices[start.label].edges.add(end)
         if bidirectional:
             self.vertices[end.label].edges.add(start)
+
+    def find_connected_components(self):
+        """Iterates over object's vertices property and finds all
+           connected components"""
+        connected_components = []
+
+        for vertex in self.vertices.values():
+            vertex.status = 'new'
+        for vertex in self.vertices.values():
+            component = None
+            if vertex.status == 'new':
+                component = self.find_connections(vertex)
+            if component:
+                connected_components.append(component)
+        return connected_components
+
+    def find_connections(self, startVert):
+        """Given a starting vertex, find all vertices connected
+           with the vertex."""
+        visited = set()
+
+        def add_to_visited(vertex): visited.add(vertex)
+
+        self._bfs(add_to_visited, startVert)
+        return visited
+
+    def _bfs(self, cb, startVert):
+        """General BFS method which accepts a callback function.
+           Think of it as a `forEach` for trees"""
+        vert_queue = deque()
+
+        if startVert.status != 'done':
+            startVert.status = 'visited'
+            cb(startVert)
+            vert_queue.append(startVert)
+            while len(vert_queue) > 0:
+                u = vert_queue[0]
+                for vertex in u.edges:
+                    if vertex.status == 'new':
+                        vertex.status = 'visited'
+                        cb(vertex)
+                        vert_queue.append(vertex)
+                u.status = 'done'
+                vert_queue.popleft()
 
 
 def main():
@@ -73,6 +120,7 @@ def main():
 
     graph.add_edge(vl[0], vl[1])
     graph.add_edge(vl[0], vl[3])
+    print(graph.find_connected_components())
     print(graph.vertices)
 
 

@@ -1,13 +1,12 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-from graph import Graph, Vertex
-from collections import deque
-from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
                           LabelSet, ColumnDataSource)
+from graph import Graph, Vertex
+from random import choice, random
 
 
 class BokehGraph:
@@ -33,14 +32,13 @@ class BokehGraph:
         # The renderer will have the actual logic for drawing
         graph_renderer = GraphRenderer()
 
-        # Add the vertex data as instructions for drawing nodes
-        print('labels:', [x.label for x in self.graph.vertices.values()])
+        # Add the vertex data as instructions for drawing nodes\
         graph_renderer.node_renderer.data_source.add(
             [x.label for x in self.graph.vertices.values()], 'index')
         # Nodes will be random colors
-        self.color_connections(self.graph)
+        self._color_connections(self.graph)
         graph_renderer.node_renderer.data_source.add(
-            self._get_random_colors(), 'color')
+            self._assign_colors(), 'color')
         # And circles
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
                                                     fill_color='color')
@@ -48,7 +46,6 @@ class BokehGraph:
         # Add the edge [start, end] indices as instructions for drawing edges
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self._assign_pos()  # Randomize vertex coordinates, and set as layout
-        print('self.pos:', self.pos)
         graph_renderer.layout_provider = StaticLayoutProvider(
             graph_layout=self.pos)
         # Attach the prepared renderer to the plot so it can be shown
@@ -69,7 +66,6 @@ class BokehGraph:
                     start_indices.append(vertex.label)
                     end_indices.append(destination.label)
                 checked.add(vertex)
-
         return dict(start=start_indices, end=end_indices)
 
     def show(self, output_path='./graph.html'):
@@ -98,74 +94,45 @@ class BokehGraph:
             label_data['names'].append(str(vertex))
 
         label_source = ColumnDataSource(label_data)
+
         labels = LabelSet(x='x', y='y', text='names', level='glyph',
                             text_align='center', text_baseline='middle',
                             source=label_source)
         self.plot.add_layout(labels)
 
-    def _get_random_colors(self):
+    def _assign_colors(self):
+        """Outputs a color array containing the hex RGB color value of each
+           vertex. The value is based off the vertex's color property. If a
+           given vertex does not have a valid color property (i.e. None), a
+           random color is assigned.
+           Output is meant to be used in:
+           graph_renderer.node_renderer.data_source.add"""
         colors = []
 
         for v in self.graph.vertices.values():
-            if v.color != 'gray':
+            if v.color:
                 colors.append(v.color)
             else:
-                color = '#' + ''.join([choice('0123456789ABCDEF') for j in range(6)])
+                color = '#' + ''.join([choice('456789ABCDEF') for j in range(6)])
                 colors.append(color)
         return colors
 
-    def color_connections(self, graph):
-        connected_components = []
-
-        for v in graph.vertices.values():
-            v.color = 'white'
-
-        for v in graph.vertices.values():
-            component = None
-
-            if v.color == 'white':
-                component = self._bfs(v)
-            if component:
-                connected_components.append(component)
+    def _color_connections(self, graph):
+        """Assigns all vertices in a connected component the same random
+           color"""
+        connected_components = self.graph.find_connected_components()
 
         for component in connected_components:
-            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
-
+            color = '#'+''.join([choice('456789ABCDEF') for j in range(6)])
             for vertex in component:
                 vertex.color = color
-
         return connected_components
-
-    def _bfs(self, startVert):
-        v_queue = deque()
-        visited = set()
-
-        if startVert.color != 'black':
-            startVert.color = 'gray'
-            visited.add(startVert)
-            v_queue.append(startVert)
-
-            while len(v_queue) > 0:
-                u = v_queue[0]
-
-                for vertex in u.edges:
-                    if vertex.color == 'white':
-                        vertex.color = 'gray'
-                        visited.add(vertex)
-                        v_queue.append(vertex)
-
-                u.color = 'black'
-                v_queue.popleft()
-
-        return visited
 
 
 class RandomGraph(BokehGraph):
-    def __init__(self, width=5, height=4, chance=0.6, circle_size=20,
+    def __init__(self, width=8, height=5, circle_size=25, chance=0.6,
                  title='Graph', show_axis=True, show_grid=True):
-
         self.graph = Graph(width * height // 2, chance)
-
         BokehGraph.__init__(self, self.graph, title, width, height,
                             show_axis, show_grid, circle_size)
 
@@ -187,16 +154,14 @@ def main():
     graph.add_edge(vl[0], vl[3])
     print(graph.vertices)
 
-    # a_graph = BokehGraph(graph)
-    # print('start vertex:', a_graph.graph.vertices['0'].edges)
-    # print('bfs result:', a_graph.color_connections(a_graph.graph))
-    # a_graph.show()
+    a_graph = BokehGraph(graph)
+    a_graph.show()
 
-    b_graph = RandomGraph()
-    print("b_graph vertices:", b_graph.graph.vertices)
-    print('start vertex:', b_graph.graph.vertices[0].edges)
-    print('bfs result:', b_graph.color_connections(b_graph.graph))
-    b_graph.show()
+    # b_graph = RandomGraph()
+    # print("b_graph vertices:", b_graph.graph.vertices)
+    # print('start vertex:', b_graph.graph.vertices[0].edges)
+    # print('bfs result:', b_graph._color_connections(b_graph.graph))
+    # b_graph.show()
 
 
 if __name__ == '__main__':
