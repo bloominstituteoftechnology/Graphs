@@ -13,7 +13,7 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Graph', width=10, height=10, show_axis=False, show_grid=False, circle_size=35):
+    def __init__(self, graph, title='Graph', width=10, height=10, show_axis=False, show_grid=False, circle_size=30):
         if not graph.vertices:
             raise Exception('Graph must have vertices')
         self.graph = graph
@@ -52,7 +52,7 @@ class BokehGraph:
 
         source = ColumnDataSource(data=dict(xs=xs, ys=ys, vertex_labels=vertex_labels))
 
-        labels = LabelSet(x='xs', y='ys', text='vertex_labels', text_align='center', text_baseline='middle', text_color='white', text_font_size= '20pt', source=source)
+        labels = LabelSet(x='xs', y='ys', text='vertex_labels', text_align='center', text_baseline='middle', text_color='white', source=source)
 
         return labels
 
@@ -85,11 +85,8 @@ class BokehGraph:
         for vertex in vertex_colors_dict:
             if vertex_colors_dict[vertex] is 'black':
                 connected_length = len(self.graph.search(start=vertex))
-                rand_start_color = Color( '#'+''.join([choice('0123456789ABCDEF') for j in range(6)]) )
-                gradients = list(Color('green').range_to(Color('red'), connected_length))
+                rand_start_color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
                 for index, connected_node in enumerate(self.graph.search(start=vertex)):
-                    # vertex_colors_dict[connected_node] = str(gradients[index])
-                    
                     # vertex_colors_dict[connected_node] = str(rand_start_color)
 
                     vertex_colors_dict[connected_node] = _get_rainbow_color( (index) / ((connected_length-1) or 1 ) )
