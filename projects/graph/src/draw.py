@@ -9,7 +9,7 @@ from bokeh.palettes import Spectral8
 from random import (choice, randint)
 
 # custom class
-from graph import (graph, Graph)
+from graph import Graph
 
 # class BokehGraph:
 #     """Class that takes a graph and exposes drawing methods."""
@@ -25,7 +25,16 @@ from graph import (graph, Graph)
 #         pos = {}
 #         colors = []
 
-plot           = figure(x_range=(0, 10), y_range=(0, 10))
+graph = Graph()
+graph.add_random_vertices(20)
+graph.add_random_edges()
+
+print(graph.graph)
+
+plot = figure(x_range=(0, 100), y_range=(0, 100))
+plot.xgrid.grid_line_color = None
+plot.ygrid.grid_line_color = None
+
 graph_renderer = GraphRenderer()
 start          = []
 end            = []
@@ -34,18 +43,13 @@ color          = []
 
 for vert in graph.graph:
     random_color   = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
-    
+
     pos[ int(vert) ] = [ randint(1, len(graph.graph)), randint(1, len(graph.graph)) ]
     color.append(random_color)
 
     for edge in graph.graph[ vert ]:
         start.append(int(vert))
         end.append(int(edge))
-
-print(pos)
-print(start)
-
-print(color)
 
 # add data to `data_source`
 graph_renderer.node_renderer.data_source.add([ key for key in graph.graph ], 'index')
