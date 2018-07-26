@@ -50,7 +50,7 @@ class Graph:
         """
         # mark all vertices as not visited
         visited = [False] * (len(self.vertices))
-        print("Initially, all nodes are False ", visited)
+        print("Initially, all nodes are False: ", visited)
         # call recursive helper function to
         # print out DFS traversal
         self._dfs_helper(vertex, visited)
@@ -61,7 +61,7 @@ class Graph:
         """
         # mark all vertices as not visited
         visited = [False] * (len(self.vertices))
-        print("Initially, all nodes are False ", visited)
+        print("Initially, all nodes are False: ", visited)
         # init a queue as a list
         q = [] 
         # enqueue the root
@@ -93,33 +93,3 @@ class Graph:
         #         if v not in visited:
         #             visited.update(component)
         #             connected_components.append(component)
-
-def main():
-    graph = Graph()
-
-    graph.add_vertex('0')
-    graph.add_vertex('1')
-    graph.add_vertex('2')
-    graph.add_vertex('3')
-
-    graph.add_edge('0', '1')
-    graph.add_edge('0', '2')
-    graph.add_edge('1', '2')
-    graph.add_edge('2', '0')
-    graph.add_edge('2', '3')
-    graph.add_edge('2', '3')
-
-    print("\n")
-    print("The Graph: ", graph.vertices)
-    print("\n")
-    print("Following is Breadth First Traversal"
-                  " (starting from vertex 2)")
-    graph.BFS('2')
-    print("\n")
-    print("Following is Depth First Traversal"
-                  " (starting from vertex 2)")
-    graph.DFS('2')
-    print("\n")
-
-if __name__ == '__main__':
-    main()

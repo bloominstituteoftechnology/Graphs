@@ -9,7 +9,10 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from graph import Graph
 
-def RNG():
+# Random Number Generators:
+def RNG_vert():
+    return randint(1, 20)
+def RNG_edge():
     return randint(1, 10)
 
 class BokehGraph:
@@ -104,9 +107,9 @@ class BokehGraph:
         show(self.plot)
 
 
-def main(num_vertices=RNG(), num_edges=RNG()):
+def main(num_vertices=RNG_vert(), num_edges=RNG_edge()):
     """
-    Build and show random graph
+    Random Graph
     """
     graph = Graph()
     # Add appropriate num of vertices
@@ -119,6 +122,38 @@ def main(num_vertices=RNG(), num_edges=RNG()):
         graph.add_edge(vertices[0], vertices[1])
     bokeh_graph = BokehGraph(graph)
     bokeh_graph.show()
+
+# def main():
+#     """
+#     BFS & DFS Graph
+#     """
+#     graph = Graph()
+
+#     graph.add_vertex('0')
+#     graph.add_vertex('1')
+#     graph.add_vertex('2')
+#     graph.add_vertex('3')
+
+#     graph.add_edge('0', '1')
+#     graph.add_edge('0', '2')
+#     graph.add_edge('1', '2')
+#     graph.add_edge('2', '0')
+#     graph.add_edge('2', '3')
+#     graph.add_edge('2', '3')
+
+#     print("\n")
+#     print("The Graph: ", graph.vertices)
+#     print("\n")
+#     print("Following is Breadth First Traversal"
+#                     " (starting from vertex 2)")
+#     graph.BFS('0')
+#     print("\n")
+#     print("Following is Depth First Traversal"
+#                     " (starting from vertex 2)")
+#     graph.DFS('3')
+#     print("\n")
+#     bgraph = BokehGraph(graph)
+#     bgraph.show()
 
 if __name__ == '__main__':
     if len(argv) == 3:
