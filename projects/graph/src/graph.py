@@ -31,32 +31,34 @@ class Graph:
         return str(self.vertices)
 
     def add_edge(self, start, end, bidirectional=True):
-        if isinstance(start, Vertex):
-            start = start.label
-#isinstance will return True if (in this case) start is an instance of Vertex
-#so basically, this part labels the starting point
-#using key, if we are passed an object just get the key
-        if isinstance(end, Vertex):
-            end = end.label
-
-        if start not in list(self.vertices.keys()):
-            self.add_vertex(Vertex(start))
-
-        if end not in list(self.vertices.keys()):
-            self.add_vertex(Vertex(end))
-
-        self.vertices[start].edges.add(self.vertices[end])
-        if bidirectional:
-            self.vertices[end].edges.add(self.vertices[start])
-
+ 
+         if isinstance(start, Vertex):
+             start = start.label
+ #isinstance will return True if (in this case) start is an instance of Vertex
+ #so basically, this part labels the starting point
+ #using key, if we are passed an object just get the key
+         if isinstance(end, Vertex):
+             end = end.label
+ 
+         if start not in list(self.vertices.keys()):
+             self.add_vertex(Vertex(start))
+ 
+         if end not in list(self.vertices.keys()):
+             self.add_vertex(Vertex(end))
+ 
+         self.vertices[start].edges.add(self.vertices[end])
+         if bidirectional:
+             self.vertices[end].edges.add(self.vertices[start])
+ 
     def add_vertex(self, vertex):
-        if not isinstance(vertex, Vertex):
-            vertex= Vertex(vertex)
-        if vertex.label in self.vertices:
-            return False
-        self.vertices[vertex.label] = vertex
-        return True
-
+ 
+         if not isinstance(vertex, Vertex):
+             vertex= Vertex(vertex)
+         if vertex.label in self.vertices:
+             return False
+         self.vertices[vertex.label] = vertex
+         return True
+ 
 
     def create_vertices_and_edges(self, n_verts):
         grid = []
