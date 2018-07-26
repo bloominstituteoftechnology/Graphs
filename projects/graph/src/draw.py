@@ -69,7 +69,7 @@ class BokehGraph:
         for vertex, color in vertex_colors_dict.items():
             colors.append(color)
 
-        print (colors)
+        # print (colors)
         return colors
 
     def _get_random_colors(self):

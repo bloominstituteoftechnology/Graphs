@@ -25,7 +25,9 @@ class Graph:
         if not start:
             start = list(self.vertices.keys())[0]
 
-        queue = list(list(self.vertices[start]))
+        print ('start= ' + start)
+
+        queue = list(start)
         visited = set()
         order = []
 
@@ -34,6 +36,7 @@ class Graph:
                 current_vert = queue.pop(0)
             elif algo == 'depth':
                 current_vert = queue.pop()
+            print (current_vert)
             visited.add(current_vert)
             order.append(current_vert)
             for child in self.vertices[current_vert]:

@@ -20,8 +20,8 @@ def main(num_vertices=8, num_edges=8, letters=False):
         graph.add_edge('D', 'G')
         graph.add_edge('E', 'F')
 
-        print (graph.vertices)
-        print (graph.search(start='B'))
+        # print (graph.vertices)
+        # print (graph.search())
 
     else:
         for num in range(num_vertices):
@@ -36,10 +36,8 @@ def main(num_vertices=8, num_edges=8, letters=False):
             verts.append(vertices)
             verts.append(vertices[::-1])
 
-        print (graph.vertices)
-        print (graph.search(start='1'))
-        print (graph.vertices)
-        print (graph.search(start='1', algo='depth'))
+        # print (graph.vertices)
+        # print (graph.search())
 
     bg = BokehGraph(graph)
     bg.show()
