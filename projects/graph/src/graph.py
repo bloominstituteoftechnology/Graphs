@@ -25,6 +25,7 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        self.components = 0
 
     def add_vertex(self, vertex):
         if not isinstance(vertex, Vertex):
@@ -102,8 +103,18 @@ class Graph:
 
     def find_components(self):
         # identify components and update vertex component id's
-        for Vertex in self.vertices:
-                    
+        visited = set()
+        current_component = 0
+
+
+        for vertex in self.vertices:
+            if vertex not in visited:
+                reachableVertices = self.search(vertex)      
+                for other_vertex in reachableVertices:
+                    other_vertex.component = current_component
+                current_component += 1
+                visited.update(reachableVertices)
+        self.components = current_component
 
      # creating random graph part       
     def create_random_graph(self, n_verts):
