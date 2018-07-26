@@ -47,7 +47,7 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(
-            list(self.graph.vertices.keys()), "index"
+            list(sorted(self.graph.vertices.keys())), "index"
         )
         graph_renderer.node_renderer.data_source.add(self._get_colors(), "color")
         graph_renderer.node_renderer.glyph = Circle(
@@ -55,7 +55,7 @@ class BokehGraph:
         )
         # print("vertices", self.graph.vertices)
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
-        self.get_positions()
+        self.randomize()
         for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
             self.plot.add_layout(
                 Arrow(
@@ -83,7 +83,7 @@ class BokehGraph:
         colors = []
         for i in self.graph.vertices:
             # color = "#" + "".join([choice("0123456789ABCDEF") for j in range(6)])
-            colors.append(self.graph.vertices[str(i)].color)
+            colors.append(self.graph.vertices[(i)].color)
         return colors
 
     def _get_edge_indexes(self):
@@ -114,14 +114,6 @@ class BokehGraph:
             )
             # random stuff for making vertex
             # make if statement to take into account positions already in self.pos
-
-    def get_positions(self):
-        for vertex in self.graph.vertices:
-            # color = "#" + "".join([choice("0123456789ABCDEF") for j in range(6)])
-            self.pos[vertex] = (
-                str(self.graph.vertices[vertex].x),
-                str(self.graph.vertices[vertex].y),
-            )
 
     def _get_labels(self):
         label_data = {"x": [], "y": [], "name": []}
