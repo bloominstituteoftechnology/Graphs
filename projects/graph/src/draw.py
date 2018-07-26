@@ -25,7 +25,7 @@ class BokehGraph:
         self.height = height
         self.pos = {}  # dict to map vertices to x, y positions
         self.plot = figure(title=title, x_range=(
-            -5, width), y_range=(-3, height), width=800, height=600)
+            0, width * 2), y_range=(0, height * 2), width=800, height=600)
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
@@ -93,16 +93,13 @@ class BokehGraph:
                         int(counter + random() * (self.height - 3)))
                 counter += 1
                 if temp and reversed(temp) not in storage:
-                    if (temp[0] + 3) > (prev_vert[0]):
-                        if (temp[1] + 3) > (prev_vert[1]):
-                            self.pos[vertex] = temp
-                            prev_vert = temp
-                            print(prev_vert)
-                            storage.add(self.pos[vertex])
-                        else:
-                            self.pos[vertex] = temp
-                            prev_vert = temp
-                            storage.add(self.pos[vertex])
+                    if temp[0] and temp[1] not in storage:
+                        if temp[0] + 3, 2, 1 > (prev_vert[0]):
+                            if (temp[1] + 3) > (prev_vert[1]):
+                                self.pos[vertex] = temp
+                                prev_vert = temp
+                                print(prev_vert)
+                                storage.add(self.pos[vertex])
 
         print("storage", storage)
 
