@@ -31,32 +31,37 @@ class Graph:
             self.vertices[end].add(start)
 
     def BFS(self, s):
-        visited = [False] * len(self.vertices)
         queue = []
-        queue.append(s)
-        visited[s] = True
-        
+        order = []
+        visited = set()
+        queue.append(self)        
 
         while len(queue) > 0:
-            s = queue.pop(0)
-            for i in self.vertices[s]:
-                if  visited[i] == False:
+            current_vert = queue.pop(0)
+            order.append(current_vert)
+            visited.add(current_vert)
+            for i in self.vertices[current_vert]:
+                if i not in visited:
                     queue.append(i)
-                    visited[i] == True
-                    print(queue)
-                queue.remove(i)
+                    order.append(i)
+        print(order)
+        return order
 
     def DFS(self, s):
         stack = []
-        visited = [False] * len(self.vertices)
-        stack.append(s)
-        visited[s] = True
+        order = []
+        visited = set()
+        stack.append(self)
 
         while len(stack)> 0:
-            s= stack.pop()
-            for i in self.vertices[s]:
-                if visited[i] == False:
+            current_vert= stack.pop()
+            visited.add(current_vert)
+            order.append(current_vert)
+            for i in self.vertices[current_vert]:
+                if i not in visited:
                     stack.append(i)
-                    visited[i] == True
-                    print(stack)
+                    order.append(i)
+                    visited.add(i)
                 stack.remove(i)
+        print(order)
+        return order

@@ -37,7 +37,7 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(
             list(self.graph.vertices.keys()), "index")
         
-        graph_renderer.node_renderer.glyph = Circle(size=circle_size, fill_color="ivory", line_color="black")
+        graph_renderer.node_renderer.glyph = Circle(size=circle_size, fill_color="lightblue", line_color="black")
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indices()
         self.randomize()
         self.plot.add_layout(Title(text="Whys", align="left"), "left")
@@ -89,7 +89,7 @@ class BokehGraph:
             x="x",
             y="y",
             text="name",
-            text_color="darkorange",
+            text_color="black",
             level="glyph",
             text_align="center",
             text_baseline="middle",

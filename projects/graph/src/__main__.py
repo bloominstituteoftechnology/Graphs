@@ -69,7 +69,8 @@ def main():
     graph.add_edge('v15', 'v16')
     graph.add_edge('v16', 'v17')
 
-
+    graph.BFS("v1")
+    graph.DFS("v1")
 
     bg = BokehGraph(graph)
     print(bg.pos)
