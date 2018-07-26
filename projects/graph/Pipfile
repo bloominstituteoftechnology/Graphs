@@ -5,9 +5,8 @@ name = "pypi"
 
 [packages]
 bokeh = "*"
-pipfile = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3"
+python_version = "3.6"
