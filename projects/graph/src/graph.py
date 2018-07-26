@@ -30,38 +30,39 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def BFS(self, s):
-        queue = []
+    def BFS(self, start, target=None):
+        if start not in self.vertices:
+            raise Exception("Start vertex not in graph!")
+        visit_queue = [start]
         order = []
         visited = set()
-        queue.append(self)        
+        
 
-        while len(queue) > 0:
-            current_vert = queue.pop(0)
-            order.append(current_vert)
-            visited.add(current_vert)
-            for i in self.vertices[current_vert]:
-                if i not in visited:
-                    queue.append(i)
-                    order.append(i)
-        print(order)
-        return order
+        while visit_queue:
+            visiting = visit_queue.pop(0)
+            visited.add(visiting)
+            order.append(visiting)
+            for i in self.vertices[visiting]:
+                if i not in visited and i not in visit_queue:
+                    visit_queue.append(i)
+                    print(visit_queue)
+        print("BFS visited", order)
 
-    def DFS(self, s):
-        stack = []
-        order = []
+    def DFS(self, start, target=None):
+        if start not in self.vertices:
+            raise Exception("Start vertex not in graph!")
+        visit_stack = [start]
+        visit_order = []
         visited = set()
-        stack.append(self)
+        
 
-        while len(stack)> 0:
-            current_vert= stack.pop()
-            visited.add(current_vert)
-            order.append(current_vert)
-            for i in self.vertices[current_vert]:
-                if i not in visited:
-                    stack.append(i)
-                    order.append(i)
-                    visited.add(i)
-                stack.remove(i)
-        print(order)
-        return order
+        while visit_stack: ##not sure why this is producing trips to nodes multiple times.
+            visiting= visit_stack.pop(-1)
+            visited.add(visiting)
+            visit_order.append(visiting)
+            for i in self.vertices[visiting]:
+                if i not in visited and i not in visit_stack:
+                    visit_stack.append(i)
+                    visit_order.append(i)
+        print("DFS visit", visit_order)
+        return visit_order   

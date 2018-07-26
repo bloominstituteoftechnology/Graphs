@@ -6,10 +6,11 @@ from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, Label,
                             ColumnDataSource, Title, Instance)
+from graph import Graph
 import random
 
 
-class BokehGraph:
+class BokehGraph(Graph):
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph, title="Coordinates", width=600, height=600,
                 show_axis=True, show_grid=True, circle_size=15):
@@ -37,7 +38,7 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(
             list(self.graph.vertices.keys()), "index")
         
-        graph_renderer.node_renderer.glyph = Circle(size=circle_size, fill_color="lightblue", line_color="black")
+        graph_renderer.node_renderer.glyph = Circle(size=circle_size, line_color="black")
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indices()
         self.randomize()
         self.plot.add_layout(Title(text="Whys", align="left"), "left")
@@ -48,13 +49,7 @@ class BokehGraph:
     def show(self, output_path='./graph.html'):
         output_file(output_path)
         show(self.plot)
-
-    # def _get_random_colors(self):
-    #     colors = []
-    #     for _ in range(len(self.graph.vertices)):
-    #         color = '#FFFFFF'
-    #         colors.append(color)
-    #     return colors
+        
     def _get_edge_indices(self):
         start_indices = []
         end_indices = []
