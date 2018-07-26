@@ -46,9 +46,11 @@ class Graph:
                 self.vertices[end_vertex].add(start_vertex)
 
     def search(self, start, type='bfs'):
+        colors = ['#FF395B', '#FC928F', '#F9C6A3', '#C0BF9F','#79A792']
         if start not in self.vertex_labels:
             raise Exception("%s is not a vertex in the graph")
-        color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
+        # color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
+        color = random.choice(colors)
         if type == 'bfs':
             searched = set()
             q = queue.Queue()
