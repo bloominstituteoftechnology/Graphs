@@ -1,7 +1,6 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-import math
 from random import sample
 from bokeh.io import show, output_file
 from bokeh.palettes import Category10
@@ -11,7 +10,6 @@ from bokeh.models import (
     StaticLayoutProvider,
     Circle
 )
-from graph import Graph
 
 
 class BokehGraph:
@@ -77,22 +75,3 @@ class BokehGraph:
         """
         output_file(output_path)
         show(self.plot)
-
-
-# Temp test code
-graph = Graph()
-graph.add_vertex('V1')
-graph.add_vertex('V2')
-graph.add_vertex('V3')
-graph.add_vertex('V4')
-graph.add_vertex('V5', ['V3'])
-graph.add_vertex('V6')
-graph.add_vertex('V7', ['V6', 'V1'])
-graph.add_edge('V1', 'V2', False)
-graph.add_edge('V2', 'V4', False)
-graph.add_edge('V2', 'V3', False)
-graph.add_edge('V3', 'V5')
-graph.add_edge('V4', 'V7', False)
-graph.add_edge('V4', 'V6', False)
-bg = BokehGraph(graph)
-bg.show()
