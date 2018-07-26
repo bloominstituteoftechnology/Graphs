@@ -1,7 +1,7 @@
 from sys import argv
 
 from draw import BokehGraph
-from graph import Graph, Vertex
+from graph import Graph
 
 from random import sample
 
@@ -10,7 +10,7 @@ def main(num_vertices=8, num_edges=8, draw_components=False):
     graph = Graph()
     #add appropriate num of vertices
     for _ in range(num_vertices):
-        graph.add_vertex(Vertex(label=str(_)))
+        graph.add_vertex(str(_))
     # add appropriate num of edges
 
     for _ in range(num_edges):

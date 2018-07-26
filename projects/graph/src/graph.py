@@ -49,17 +49,4 @@ class Graph:
         print("visited", visited)
         return visited
 
-    def find_components(self):
-        ''' ID components and update vertex component IDs'''
-        visited = set() #empty set
-        current_component = 0   #current count of components
-
-        for vertex in self.vertices: #for the vertex in our dictionary of vertices
-            if vertex not in visited: #if the vertex has not yet been visited:
-                contiguous_comp = self.search(vertex) #one contiguous component will be the result of a search on that vertex
-                for i in contiguous_comp: #for all the visited vertices in this component:
-                    i.component = current_component #i.component = curr component number
-                current_component +=1
-                visited.update(contiguous_comp) #visited will update
-        self.components = current_component #curr component number
-        return current_component
+    
