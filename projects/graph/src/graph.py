@@ -24,6 +24,17 @@ class Graph:
         else:
             raise ValueError("Please provide start and end vertices that exist.")
 
+    def breadth_first(self, vertex, callback):
+        queue = [vertex]
+        visited = set()
+        while queue:
+            current = int(queue.pop(0))
+            callback(current)
+            visited.add(current)
+            for i in self.vertices[current]:
+                if i not in visited:
+                    queue.append(i)
+
 
 def main():
     graph = Graph()

@@ -5,7 +5,6 @@ Demonstration of Graph and BokehGraph functionality.
 """
 from draw import BokehGraph
 from graph import Graph
-from sys import argv
 import random
 
 
@@ -24,6 +23,16 @@ def main():
 
     b = BokehGraph(graph)
     b.show()
+
+    graph.breadth_first("0", lambda x: print("callback", x))
+    print("...")
+    graph.breadth_first("1", lambda x: print("callback", x))
+    print("...")
+    graph.breadth_first("2", lambda x: print("callback", x))
+    print("...")
+    graph.breadth_first("3", lambda x: print("callback", x))
+    print("...")
+    graph.breadth_first("4", lambda x: print("callback", x))
 
 
 if __name__ == "__main__":

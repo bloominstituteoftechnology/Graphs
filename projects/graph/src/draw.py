@@ -119,10 +119,6 @@ class BokehGraph:
     def place_edge(self, start, end):
 
         print(self.edge_coords)
-        if start > end:
-            coefficient = 1
-        else:
-            coefficient = -1
 
         start_new = False
         end_new = False
