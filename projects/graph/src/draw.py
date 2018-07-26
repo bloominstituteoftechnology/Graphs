@@ -83,24 +83,37 @@ class BokehGraph:
         show(self.plot)
 
     def randomize(self):
-        prev_vert = (0, 0)
         storage = set()
         counter = 0
         while len(storage) < len(self.graph.vertices):
             for vertex in self.graph.vertices:
                 # TODO make bounds and random draws less hacky
-                temp = (int(counter + random() * (self.width - 3)),
-                        int(counter + random() * (self.height - 3)))
+                temp = (int(counter + random() * (self.width - 2)),
+                        int(counter + random() * (self.height - 2)))
                 counter += 1
                 if temp and reversed(temp) not in storage:
                     if temp[0] and temp[1] not in storage:
-                        if temp[0] + 3, 2, 1 > (prev_vert[0]):
+                        if (temp[0] + 1 and temp[0] + 2 and
+                            temp[0] + 3 and temp[1] + 4 and
+                            temp[0] + 4 and temp[1] + 1 and
+                                temp[1] + 2 and temp[1] + 3 not in storage):
+                            if (temp[0] - 1 and temp[0] - 2 and
+                                temp[0] - 3 and temp[0] - 4 and
+                                temp[1] - 1 and temp[1] - 4 and
+                                temp[1] - 2 and
+                                temp[1] - 3 not in storage):
+                                self.pos[vertex] = temp
+                                storage.add(self.pos[vertex])
+                """if temp and reversed(temp) not in storage:
+                    if temp[0] and temp[1] not in storage:
+                        if temp[0] + 1 and temp[0] + 2
+                        and temp[0] + 3 > (prev_vert[0]):
                             if (temp[1] + 3) > (prev_vert[1]):
                                 self.pos[vertex] = temp
                                 prev_vert = temp
                                 print(prev_vert)
                                 storage.add(self.pos[vertex])
-
+"""
         print("storage", storage)
 
         """ while len(storage) < len(self.graph.vertices):
