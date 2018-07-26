@@ -39,7 +39,7 @@ class Graph:
         """Search the graph using BFS or DFS."""
         quack = [start]  # Queue or stack, depending on method
         pop_index = 0 if method == 'bfs' else -1
-        visited = set()
+        visited = set([start])
 
         while quack:
             current = quack.pop(pop_index)
@@ -48,6 +48,7 @@ class Graph:
             visited.add(current)
             # Add possible (unvisited) vertices to queue
             quack.extend(self.vertices[current] - visited)
+            visited.update(self.vertices[current])
 
         return visited
 
