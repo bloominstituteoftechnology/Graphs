@@ -9,9 +9,11 @@ class Vert:
     def __init__(self, label):
         self.label = label
         self.edges = set()
+        self.pos = pos
+        self.color = color
 
     def __repr__(self):
-        return str(self.label)
+        return str(self.label, self.color, self.edges)
 
 
 # class Graph:
@@ -36,10 +38,10 @@ class DictGraph:
     def __init__(self):
         self.verts = set()
 
-    def add_edge(self, x_pos, y_pos, is_bidirectional=True):
-        x_pos.edges.add(y_pos)
+    def add_edge(self, start, end, is_bidirectional=True):
+        start.edges.add(end)
         if is_bidirectional:
-            y_pos.edges.add(x_pos)
+            end.edges.add(start)
 
     def add_vert(self, vert):
         self.verts.add(vert)

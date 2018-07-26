@@ -11,6 +11,7 @@ from bokeh.models import (
     LabelSet,
     ColumnDataSource,
 )
+from bokeh.models import Arrow, NormalHead
 
 ## get bokeh up and running...
 # declare constants
@@ -32,7 +33,7 @@ class BokehGraph:
         allow_grid,
         allow_axis,
         vert_size,
-        color,
+        # color,
         title="My Graph",
     ):
         if graph.vertices:
@@ -50,8 +51,32 @@ class BokehGraph:
     def render_graph(self, vert_size):
         display_graph = GraphRenderer(kwargs)
 
+        display_graph.node_renderer.data_src.add(
+            list(self.graph.vertices.keys()), "index"
+        )
+        display_graph.node_renderer.data_src.add(self.get_colors(), "color")
+        display_graph.node_renderer.glyph = Circle(size=vert_size, fill_color="color")
+
         display_graph.node__renderer.data_src.data = self.get_edges()
-        pass  # TODO
+        self.randomize()
+        for i in range(len(display_graph.edge_renderer.data_src.data["start"])):
+            self.plot.add_layout(
+                Arrow(
+                    end=NormalHead(fill_color="blue"),
+                    x_start=self.pos[
+                        display_graph.edge_renderer.ddata.src.data["start"][i]
+                    ][0],
+                    x_end=self.pos[
+                        display_graph.edge_renderer.ddata.src.data["end"][i]
+                    ][0],
+                    y_start=self.pos[
+                        display_graph.edge_renderer.ddata.src.data["start"][i]
+                    ][1],
+                    y_end=self.pos[
+                        display_graph.edge_renderer.ddata.src.data["end"][i]
+                    ][1],
+                )
+            )
 
     def get_edges(self):
         pass  # TODO
