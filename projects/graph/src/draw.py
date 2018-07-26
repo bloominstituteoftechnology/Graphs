@@ -25,31 +25,45 @@ from graph import Graph
 #         pos = {}
 #         colors = []
 
+# create new instance of `Graph` custom class
 graph = Graph()
 graph.add_random_vertices(20)
 graph.add_random_edges()
 
 print(graph.graph)
 
-plot = figure(x_range=(0, 100), y_range=(0, 100))
+plot = figure(x_range=(0, 10), y_range=(0, 10)) # create the graph's canvas
+# remove X and Y grid lines
 plot.xgrid.grid_line_color = None
 plot.ygrid.grid_line_color = None
 
 graph_renderer = GraphRenderer()
-start          = []
-end            = []
-pos            = {}
-color          = []
+
+start      = []
+end        = []
+color      = []
+position   = {}
 
 for vert in graph.graph:
-    random_color   = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
+    position[ int(vert) ] = [ randint(1, len(graph.graph)), randint(1, len(graph.graph)) ]
+    random_color     = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
 
-    pos[ int(vert) ] = [ randint(1, len(graph.graph)), randint(1, len(graph.graph)) ]
     color.append(random_color)
 
     for edge in graph.graph[ vert ]:
         start.append(int(vert))
         end.append(int(edge))
+        
+# create labels for each vertice
+source = ColumnDataSource(data={
+        'x': [ position[ pos ][0] for pos in position ], # retrieve the X axis from each vertice
+        'y': [ position[ pos ][1] for pos in position ], # retrieve the Y axis from each vertice
+        'names': [ vert for vert in graph.graph ] # grab the KEY of each vertice and use it as the label
+    }
+)
+
+# create a label set
+labels = LabelSet(x='x', y='y', text='names', level='glyph', x_offset=5, y_offset=5, source=source, render_mode='canvas')
 
 # add data to `data_source`
 graph_renderer.node_renderer.data_source.add([ key for key in graph.graph ], 'index')
@@ -66,7 +80,8 @@ graph_renderer.node_renderer.glyph = Circle(size=10, fill_color='color')
 graph_renderer.edge_renderer.data_source.data = { 'start': start, 'end': end }
 
 # let our graph know where we want our nodes to render on the graph
-graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=pos)
+graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=position)
+plot.add_layout(labels)
 
 plot.renderers.append(graph_renderer)
 
