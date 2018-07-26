@@ -120,6 +120,45 @@ class GraphTests(unittest.TestCase):
             correct_path = False
         self.assertTrue(correct_path)
 
+    def test_connected_components(self):
+        self.graph.add_vertex('V1')
+        self.graph.add_vertex('V2')
+        self.graph.add_vertex('V3')
+        self.graph.add_vertex('V4')
+        self.graph.add_vertex('V5')
+        self.graph.add_vertex('V6')
+        self.graph.add_vertex('V7')
+        self.graph.add_edge('V4', 'V7')
+        self.graph.add_edge('V3', 'V6')
+        self.graph.add_edge('V3', 'V5')
+        self.graph.find_connected_components()
+
+        self.assertEqual(self.graph.components, 4)
+
+        component_1 = []
+        for vertex in self.graph.vertex_obj_map:
+            if self.graph.vertex_obj_map[vertex].component == 1:
+                component_1.append(vertex)
+        self.assertEqual(component_1, ['V1'])
+
+        component_2 = []
+        for vertex in self.graph.vertex_obj_map:
+            if self.graph.vertex_obj_map[vertex].component == 2:
+                component_2.append(vertex)
+        self.assertEqual(component_2, ['V2'])
+
+        component_3 = []
+        for vertex in self.graph.vertex_obj_map:
+            if self.graph.vertex_obj_map[vertex].component == 3:
+                component_3.append(vertex)
+        self.assertEqual(component_3, ['V3', 'V5', 'V6'])
+
+        component_4 = []
+        for vertex in self.graph.vertex_obj_map:
+            if self.graph.vertex_obj_map[vertex].component == 4:
+                component_4.append(vertex)
+        self.assertEqual(component_4, ['V4', 'V7'])
+
 
 if __name__ == '__main__':
     unittest.main()

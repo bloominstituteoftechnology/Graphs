@@ -16,6 +16,7 @@ class Vertex:
 
         self.label = label
         self.visited = False
+        self.component = None
         Vertex.all_vertices.add(self)
         Vertex.all_vertix_labels.add(self.label)
 
@@ -39,6 +40,7 @@ class Graph:
     def __init__(self):
         self.vertices = {}
         self.vertex_obj_map = {}
+        self.components = 0
 
     def add_vertex(self, vertex, edges=()):
         """
@@ -92,6 +94,24 @@ class Graph:
                     if not vertex.visited:
                         quack.append(vertex)
                 current.visited = True
+                current.component = self.components
                 trail.append(current.label)
 
         return trail
+
+    def find_connected_components(self):
+        unvisited = self._find_unvisited_vertices()
+        while unvisited:
+            self.components += 1
+            self.search(unvisited[0], 'bfs', False)
+            unvisited = self._find_unvisited_vertices()
+
+    def _find_unvisited_vertices(self):
+        """
+        Return a list of all vertices that have not been visited
+        """
+        unvisited = []
+        for vertex in self.vertex_obj_map:
+            if not self.vertex_obj_map[vertex].visited:
+                unvisited.append(vertex)
+        return unvisited
