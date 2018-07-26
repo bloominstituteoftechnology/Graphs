@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-"""
-Demonstration of Graph and BokehGraph functionality.
-"""
+# """
+# Demonstration of Graph and BokehGraph functionality.
+# """
 
 from random import sample
 from sys import argv
@@ -15,6 +15,7 @@ def main(num_vertices=8, num_edges=8):
     graph = Graph()
     # Add appropriate number of vertices
     for num in range(num_vertices):
+        print('adding vertex')
         graph.add_vertex(str(num))
 
     # Add random edges between vertices
@@ -24,8 +25,9 @@ def main(num_vertices=8, num_edges=8):
         graph.add_edge(vertices[0], vertices[1])
 
     bokeh_graph = BokehGraph(graph)
+    print('before show')
     bokeh_graph.show()
-
+    print('after show')
 
 if __name__ == '__main__':
     if len(argv) == 3:
