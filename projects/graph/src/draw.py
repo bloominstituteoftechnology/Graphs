@@ -28,7 +28,7 @@ class BokehGraph:
         self._setup_graph_renderer(circle_size)
 
 
-    def _setup_graph_renderer(self, circle_size, square_size):
+    def _setup_graph_renderer(self, circle_size, ):
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(
@@ -36,8 +36,6 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(
             self._get_random_colors(), 'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
-                                                    fill_color='color')
-        graph_renderer.node_renderer.glyph = Square(size=square_size,
                                                     fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
@@ -76,31 +74,50 @@ class BokehGraph:
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
 
-    def main():
-        graph = Graph()
+def main():
+    graph = Graph()
 
-        graph.add_vortex('A')
-        graph.add_vortex('B')
-        graph.add_vortex('C')
-        graph.add_vortex('D')
-        graph.add_vortex('F')
-        graph.add_vortex('G')
-        graph.add_vortex('H')
-        graph.add_vortex('I')
-        graph.add_vortex('J')
+    graph.add_vortex('A')
+    graph.add_vortex('B')
+    graph.add_vortex('C')
+    graph.add_vortex('D')
+    graph.add_vortex('E')
+    graph.add_vortex('F')
+    graph.add_vortex('G')
+    graph.add_vortex('H')
+    graph.add_vortex('I')
+    graph.add_vortex('J')
 
-        graph.add_edge('H','A')
-      
+    graph.add_edge('H','A','J',)
+    graph.add_edge('B','D','J',)
+    graph.add_edge('B','F','E',)
+    graph.add_edge('B','F','A',)
+    graph.add_edge('B','C','G',)
+    graph.add_edge('D','I','G',)
+    graph.add_edge('D','I','A',)
+    graph.add_edge('J','I','J',)
+    graph.add_edge('A','G')
+    graph.add_edge('E','I')
+    graph.add_edge('B','J')
+    graph.add_edge('H','E')
+    graph.add_edge('B','F')
+    graph.add_edge('H','C','J',)
+    graph.add_edge('B','A','J',)
+    graph.add_edge('B','H','E',)
+    graph.add_edge('B','F','B',)
+    graph.add_edge('B','E','G',)
+    graph.add_edge('D','I','G',)
+    graph.add_edge('B','I','A',)
+    graph.add_edge('J','I','F',)
 
-        bg = BokehGraph(graph)
-        
-        print(bg.pos)
-        print(bg.pos.keys())
-        bg.plot()
-        bg.show()
+    bg = BokehGraph(graph)
+    
+    print(bg.pos)
+    print(bg.pos.keys())
+    bg.show()
 
-    if __name__ == '__main__':
-        main()
+if __name__ == '__main__':
+    main()
         
     
 

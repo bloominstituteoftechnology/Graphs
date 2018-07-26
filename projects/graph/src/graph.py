@@ -24,24 +24,28 @@ class Graph:
             if bidirectional:
                 self.vertices[end].add(start)
 
-    def breath_First_Search(self, start, reset):
-        counter = 0
-        component = []
-        queue = []
-        queue.append(start)
+    def breathFS(self, start, target=None):
+        queue = [start]
+        visited = set()
 
-        queue.append(start)
-
-        while counter < len(queue):
-            node = queue[0]
-            if node.color == 'white':
-                node.color = 'gray'
-                for edge in node.edges:
-                    if edge not in component:
-                        queue.append(edge)
-                        found.append(edge)
-                        counter += 1
-
-            queue.pop(0)
+        while queue:
+            current = queue.pop(0)
+            if current == target:
+                return
+            visited.add(current)
+            # Add possible (univisited) vertices to queue
+            queue.extend(self.vertices[current] - visited)
         return found
         
+    def depthFS(self, start):
+        stack = [start]
+        visited = set()
+
+        while stack:
+            current = stack.pop(0)
+            if current == target:
+                return
+            visited.add(current)
+            # Add possible (univisited) vertices to stack
+            stack.extend(self.vertices[current] - visited)
+        return found
