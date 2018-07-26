@@ -1,11 +1,10 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-                          ColumnDataSource)
+                          ColumnDataSource, Jitter)
 
 from random import choice, random, randrange, randint
 from functools import reduce
@@ -62,10 +61,20 @@ class BokehGraph:
 
   def randomize(self):
     """Randomize vertex positions."""
-    for vertex in self.graph.vertices:
-      self.pos[vertex] = (randrange(self.circle_size,self.width-self.circle_size),
-                          randrange(self.circle_size,self.height-self.circle_size))
+    box_width = self.width / len(self.graph.vertices)
+    half_height = self.height/2
 
+    i = 0
+    factor = 0
+    for vertex in self.graph.vertices:
+      i += 1
+      factor = i % 2
+      x = (i * box_width) - (box_width/2)
+      y = randrange(self.circle_size + half_height*factor, half_height + half_height*factor - self.circle_size)
+
+      self.pos[vertex] = (x,y)
+      
+    print(self.pos)
   def show(self, output_path='./graph.html'):
     output_file(output_path)
     show(self.plot)
@@ -79,7 +88,7 @@ def randomize_graph(size=10):
     for vertex in graph.vertices.keys():
         vertices = list(graph.vertices.keys())
         vertices.remove(vertex)
-        if random() > 0.65:
+        if random() > 0.7:
             num_connections = randint(0, 3)
             if num_connections > 0:
                 for i in range(num_connections):
@@ -90,11 +99,11 @@ def randomize_graph(size=10):
     # graph.depth_first_search()
     graph.breadth_first_search()
 
-    bokeh = BokehGraph(graph)
+    bokeh = BokehGraph(graph,'Graph',20,20)
     bokeh.show()
 
 if __name__ == '__main__':
-    randomize_graph(15)
+    randomize_graph(25)
 
 # test = Graph()  # Instantiate your graph
 
