@@ -44,7 +44,7 @@ class Graph:
         for _ in range(randint(2, int(max_vertice))):
             rand = randint(0, int(max_vertice))
 
-            if rand not in graph.graph:
+            if rand not in self.graph:
                 self.add_vertex(rand)
                 self.graph_list.append(rand)
 
@@ -73,12 +73,12 @@ class Graph:
 
             j += 1
 
-graph = Graph()
+# graph = Graph()
 
-graph.add_random_vertices(9)
-graph.add_random_edges()
+# graph.add_random_vertices(9)
+# graph.add_random_edges()
 
-print(graph.graph, '\n')
+# print(graph.graph, '\n')
 
 # graph.add_vertex(rand_int)
 # graph.add_vertex(rand_int)
