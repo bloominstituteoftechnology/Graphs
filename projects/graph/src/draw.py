@@ -2,6 +2,7 @@
 General drawing methods for graphs using Bokeh.
 """
 
+import itertools
 from bokeh.palettes import brewer
 from graph import Graph
 from random import choice, random
@@ -29,6 +30,7 @@ class BokehGraph:
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
         self._setup_labels()
+        self.trial()
 
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
@@ -82,11 +84,36 @@ class BokehGraph:
         show(self.plot)
 
     def randomize(self):
+        storage = []
+        counter = 0
+        while len(storage) < len(self.graph.vertices):
+            for vertex in self.graph.vertices:
+                # TODO make bounds and random draws less hacky
+                temp = (counter + random() * (self.width - 2),
+                        counter + random() * (self.height - 2))
+                counter += 2
+                if counter > 7:
+                    counter -= 3
+                print(counter)
+                if temp not in storage:
+                    self.pos[vertex] = temp
+                    storage.append(self.pos[vertex])
+        print("storage", storage[0])
+# ############ More Hackey Stuff ###############
+# #### working on implementation ###############
         """Randomize vertex positions."""
-        for vertex in self.graph.vertices:
-            # TODO make bounds and random draws less hacky
-            self.pos[vertex] = (1 + random() * (self.width - 2),
-                                1 + random() * (self.height - 2))
+        """storage = set()
+        storage = {}
+        counter = 0
+        numbers = (random(0, 30), random(0, 30))
+        pairs = list(itertools.combinations(numbers, 2))
+        print(pairs)"""
+        """while counter < len(self.graph.vertices):
+            r = (random.randint(0, 30), random.randint(0, 30))
+            if r not in storage:
+                counter += 1
+                storage.add(r)
+                self.pos[vertex] = r"""
 
     def _setup_labels(self):
         label_data = {'x': [], 'y': [], 'names': []}
@@ -100,3 +127,34 @@ class BokehGraph:
                           source=label_source, render_mode='canvas',
                           text_color="white")
         self.plot.add_layout(labels)
+
+    def trial(self):
+        storage = []
+        counter = 0
+        while len(storage) < len(self.graph.vertices):
+            for vertex in self.graph.vertices:
+                # TODO make bounds and random draws less hacky
+                temp = (counter + random() * (self.width - counter),
+                        counter + random() * (self.height - counter))
+                counter += 1
+                if temp not in storage:
+                    self.pos[vertex] = temp
+                    storage.append(self.pos[vertex])
+        print("storage", storage[0])
+
+
+# ########### Hackey bits ################
+"""
+for vertex in self.graph.vertices:
+            # TODO make bounds and random draws less hacky
+            self.pos[vertex] = (1 + random() * (self.width - 2),
+                                1 + random() * (self.height - 2))
+
+while l:
+    for x, y in l:
+        if x <= x + 1 or x - 1:
+            print(x)
+        else:
+            l.pop(x)
+            r.append(x)
+            print(l)"""

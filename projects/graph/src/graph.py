@@ -128,12 +128,34 @@ class Graph:
             que.pop(0)
         return checked
 
+    def depth_first_search(self, start):
+        checked_color = '#' + \
+            ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+        stack = []
+        checked = []
+
+        stack.append(start)
+        checked.append(start)
+
+        start.color = checked_color
+
+        while len(stack):
+            vert = stack[-1]
+            for edge in vert.edges:
+                if edge not in checked:
+                    checked.append(edge)
+                    stack.append(edge)
+                    edge.color = checked_color
+            stack.pop()
+        return checked
+
     def get_connected_components(self):
         checked = []
 
         for index, vertex in self.vertices.items():
             if vertex not in checked:
                 checked.append(self.breadth_first_search(vertex))
+                # checked.append(self.depth_first_search(vertex))
         print(type(checked))
         return checked
 """t = [1, 2, 3]
