@@ -21,6 +21,22 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
+    def search(self, start, target=None, method="dfs"):
+        """Search the graph using BFS or DFS."""
+        quack = [start]  # Queue or stack, depending on method
+        pop_index = 0 if method == "bfs" else -1
+        visited = set()
+
+        while quack:
+            current = quack.pop(pop_index)
+            if current == target:
+                break
+            visited.add(current)
+            # Add possible (unvisited) vertices to queue
+            quack.extend(self.vertices[current] - visited)
+
+        return visited
+
 
 def main():
     from graph import Graph
