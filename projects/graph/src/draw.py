@@ -184,9 +184,9 @@ class BokehGraph:
         self.plot.add_layout(
             Arrow(
                 end=NormalHead(fill_color="orange", size=10),
-                x_start=x_start + .2 * coefficient,
+                x_start=x_start,
                 y_start=y_start,
-                x_end=x_end + .2 * coefficient,
+                x_end=x_end,
                 y_end=y_end,
             )
         )
