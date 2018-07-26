@@ -2,7 +2,11 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 from collections import deque
-from random import randint, random, sample
+from random import random, sample
+
+# If your class is merely a collection of properties, you can
+# use a named tuple. This is an alternative: use the one that
+# best makes sense for your code and your use cases.
 
 
 class Vertex:
@@ -27,7 +31,7 @@ class Vertex:
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to
        edges."""
-    def __init__(self, num_vertices=0, num_edges=0, chance=0.6):
+    def __init__(self, num_vertices=0, num_edges=0, chance=1):
         self.vertices = {}
 
         if num_vertices > 0:
