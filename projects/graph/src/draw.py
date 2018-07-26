@@ -7,13 +7,13 @@ from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-                          ColumnDataSource)
+                            ColumnDataSource)
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph, title="Ja's Graph", width=10, height=10,
-                 show_axis=True, show_grid=True, circle_size=35):
+                show_axis=True, show_grid=True, circle_size=35):
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
         self.graph = graph
@@ -32,12 +32,9 @@ class BokehGraph:
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
 
-        graph_renderer.node_renderer.data_source.add(
-            list(self.graph.vertices.keys()), 'index')
-        graph_renderer.node_renderer.data_source.add(
-            self._get_random_colors(), 'color')
-        graph_renderer.node_renderer.glyph = Circle(size=circle_size,
-                                                    fill_color='color')
+        graph_renderer.node_renderer.data_source.add(list(self.graph.vertices.keys()), 'index')
+        graph_renderer.node_renderer.data_source.add(self._get_random_colors(), 'color')
+        graph_renderer.node_renderer.glyph = Circle(size=circle_size, fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
@@ -45,9 +42,10 @@ class BokehGraph:
 
     def _get_random_colors(self):
         colors = []
-        for _ in range(len(self.graph.vertices)):
+        for i in range(len(self.graph.vertices)):
             color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
             colors.append(color)
+            # colors.append(self.graph.vertices[str(i)].color)
         return colors
 
     def _get_edge_indexes(self):
@@ -84,7 +82,8 @@ class BokehGraph:
         label_source = ColumnDataSource(label_data)
         labels = LabelSet(x='x', y='y', text='names', level='glyph',
                         text_align='center', text_baseline='middle',
-                        source=label_source, render_mode='canvas')
+                        text_color='white', source=label_source, 
+                        render_mode='canvas')
         self.plot.add_layout(labels)
 
 """
