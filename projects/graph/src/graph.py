@@ -39,15 +39,25 @@ class Graph:
             if self.right.vertices:
                 self.right.vertices = queue.pop(self.right.vertices)
 
+        return start
+
+    def depth_first_search(self, start, target=None):
+        stack = [start]
+        hit = set()
+
+        while stack:
+            current = stack.pop()
+            if current == target:
+                break
+            hit.add(current)
+
+            stack.extend(self.vertices[current] - hit)
+
+        return hit
 
 
-    
-
-    
-
-# creating main method per AG
-
-
+# creating main method per AG.  helps in not having to re-enter information
+# in this repo vertices and edges
 def main():
     graph = Graph()  # Instantiate your graph (from repo)
     graph.add_vertex('0')
