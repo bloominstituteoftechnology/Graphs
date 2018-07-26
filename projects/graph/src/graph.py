@@ -6,7 +6,6 @@ Simple graph implementation compatible with BokehGraph class.
 
 
 class Vertex:
-    """Represent a vertex with a label and possible connected component."""
     def __init__(self, label, component=-1):
         self.label = str(label)
         self.component = component
@@ -22,11 +21,10 @@ class Graph:
         self.components = 0
 
     def add_vertex(self, vertex, edges=()):
-        if vertex in self.vertices:
-            raise Exception('Error: adding vertex that already exists')
-        if not set(edges).issubset(self.vertices):
-            raise Exception('Error: cannot have edge to nonexistent vertices')
-        self.vertices[vertex] = set(edges)
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+        else:
+            raise ValueError("Error: Vertex already exists")
 
     def add_edge(self, start, end, bidirectional=True):
         if start not in self.vertices or end not in self.vertices:
@@ -47,7 +45,6 @@ class Graph:
             if current == target:
                 break
             visited.add(current)
-            # Add possible (unvisited) vertices to queue
             queue_stack.extend(self.vertices[current] - visited)
 
         return visited

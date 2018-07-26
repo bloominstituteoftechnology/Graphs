@@ -12,30 +12,30 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Graph', width=10, height=10,
-                 show_axis=False, show_grid=False, circle_size=35,
-                 draw_components=False):
+    def __init__(self, graph, title='Graph', width=12, height=14,
+                 show_axis=True, show_grid=False, circle_size=25,
+                 draw_comps=False):
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
         self.graph = graph
         self.width = width
         self.height = height
         self.pos = {}  # dict to map vertices to x, y positions
-        # Set up plot, the canvas/space to draw on
+        # Set up for plot/canvas
         self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
-        self._setup_graph_renderer(circle_size, draw_components)
+        self._setup_graph_renderer(circle_size, draw_comps)
         self._setup_labels()
 
 
-    def _setup_graph_renderer(self, circle_size, draw_components):
+    def _setup_graph_renderer(self, circle_size, draw_comps):
         graph_renderer = GraphRenderer()
         self.vertex_keys = list(self.graph.vertices.keys())
 
         graph_renderer.node_renderer.data_source.add(
             [vertex.label for vertex in self.vertex_keys], 'index')
-        colors = (self._get_connected_component_colors() if draw_components
+        colors = (self._get_connected_component_colors() if draw_comps
                   else self._get_random_colors())
         graph_renderer.node_renderer.data_source.add(colors, 'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
@@ -98,11 +98,3 @@ class BokehGraph:
             vertex_colors.append(component_colors[vertex.component])
         return vertex_colors
 
-# graph = Graph()
-# graph.add_vertex('A')
-# graph.add_vertex('B')
-# graph.add_edge('A', 'B')
-# print(graph.vertices)
-# bg = BokehGraph(graph)
-# print(bg.pos)
-# bg.show()
