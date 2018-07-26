@@ -12,7 +12,7 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph, title='Graph', width=10, height=10,
-                 show_axis=False, show_grid=False, circle_size=35):
+                 show_axis=False, show_grid=False, circle_size=25):
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
         self.graph = graph
@@ -26,7 +26,6 @@ class BokehGraph:
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size)
 
-
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
 
@@ -38,7 +37,8 @@ class BokehGraph:
                                                     fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
-        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
+        graph_renderer.layout_provider = StaticLayoutProvider(
+            graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
     def _get_random_colors(self):
@@ -62,7 +62,7 @@ class BokehGraph:
 
         return dict(start=start_indices, end=end_indices)
 
-    def show(self, output_path='./graph.html', mode="inline"):
+    def show(self, output_path='./graph.html'):
         output_file(output_path)
         show(self.plot)
 
@@ -72,39 +72,3 @@ class BokehGraph:
             # TODO make bounds and random draws less hacky
             self.pos[vertex] = (1 + random() * (self.width - 2),
                                 1 + random() * (self.height - 2))
-
-def main():
-    import bokeh
-    from graph import Graph
-    from draw import BokehGraph
-    graph = Graph()
-    graph.add_vertex(1)
-    graph.add_vertex(2)
-    graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    graph.add_vertex(8)
-    graph.add_vertex(9)
-    graph.add_vertex(10)
-    graph.add_edge(1,2)
-    graph.add_edge(1,4)
-    graph.add_edge(1,7)
-    graph.add_edge(3,7)
-    graph.add_edge(6,7)
-    graph.add_edge(8,7)
-    graph.add_edge(8,10)
-    graph.add_edge(8,1)
-    graph.add_edge(7,1)
-    graph.add_edge(10,8)
-    graph.add_edge(2,10)
-    graph.add_edge(4,10)
-    graph.add_edge(3,4)
-    graph.add_edge(3,6)
-    bg = BokehGraph(graph)
-    bg.show()
-
-if __name__ == '__main__':
-    main()
-
