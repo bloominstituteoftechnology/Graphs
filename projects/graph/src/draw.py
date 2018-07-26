@@ -8,7 +8,7 @@ from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (
     GraphRenderer, StaticLayoutProvider,
-    Circle, LabelSet, ColumnDataSource, Oval)
+    Circle, LabelSet, ColumnDataSource, Oval, MultiLine)
 # import graph
 
 
@@ -27,7 +27,7 @@ class BokehGraph:
         self.vertices = [*self.graph.vertices.keys()]
         self.verticesSET = set([*self.graph.vertices.keys()])
         self.bokeh_graph = GraphRenderer()
-        print(f'''VERTICES TREE {self.verticesSET}''')
+        # print(f'''VERTICES TREE {self.verticesSET}''')
 
     def show(self):
         '''Paint the graph object'''
@@ -57,7 +57,7 @@ class BokehGraph:
     def define_vertex_shape(self):
         # Get Connected components
         self.graph.bfs()
-        connected_components = self.graph.connected_components
+        connected_components = self.graph.connected_components  # Is a list
 
         # define Vertex shape and color
         self.bokeh_graph.node_renderer.glyph = Oval(
@@ -67,16 +67,16 @@ class BokehGraph:
         # Get colors for each connected component.
         colors = self._get_random_colors(len(connected_components))
 
-        # MAP vertex to its color
+        # MAP vertex (that belongs to a Component) to its color
         vertex_color_map = {
             'index': self.vertices,
             'fill_color': [0] * len(self.vertices)
         }
-        print(f'''
-        Colors Len: {len(colors)}
-        Connected_components Len: {len(connected_components)}
-        Vertex_color_map: {vertex_color_map}
-        ''')
+        # print(f'''
+        # Colors Len: {len(colors)}
+        # Connected_components Len: {len(connected_components)}
+        # Vertex_color_map: {vertex_color_map}
+        # ''')
 
         # Assign to each connected component a unique single color.
         for i in range(len(colors)):
@@ -92,10 +92,12 @@ class BokehGraph:
         end = []
         for key in self.vertices:
 
-            # Make a copy of the edges in roder to preserve the integrity of the Graph
+            # Make a copy of the edges in roder to preserve the integrity of
+            # the Graph
             connected_nodes = self.graph.vertices[str(key)].copy()
 
-            if len(connected_nodes):  # If there are Edges for the current looped Vertex
+            # If there are Edges for the current looped Vertex
+            if len(connected_nodes):
                 for i in range(len(connected_nodes)):
                     start.append(key)  # Add node
                     end.append(int(connected_nodes.pop()))  # Add related edge
@@ -103,9 +105,13 @@ class BokehGraph:
             #     print(end)
             # print(self.graph.vertices[str(key)])
 
+        color = ['#111111']*len(start)
         self.bokeh_graph.edge_renderer.data_source.data = dict(
-            start=start, end=end
+            start=start, end=end, line_color=color
         )
+        self.bokeh_graph.edge_renderer.glyph = MultiLine(
+            line_color=color, line_alpha=0.8, line_width=2)
+        print(self.bokeh_graph.edge_renderer.data_source.data.keys())
 
     def map_to_coordinates(self):
         # Define random coordintes for each node
