@@ -85,9 +85,8 @@ class BokehGraph:
       data['x'].append(coordinate[0])
       data['y'].append(coordinate[1])
       data['labels'].append(str(v))
-    source = ColumnDataSource(data)
     return LabelSet(x='x', y='y', text='labels', level='glyph',
-                    text_align='center', text_baseline='middle', source=source, render_mode='canvas')
+                    text_align='center', text_baseline='middle', source=ColumnDataSource(data), render_mode='canvas')
 
   def _random_color(self):
     return '#' + ''.join([choice('0123456789ABCDEF') for _ in range(6)])
