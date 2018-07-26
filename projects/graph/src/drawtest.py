@@ -33,13 +33,12 @@ class BokehGraph:
 
     node_indices = [*self.graph.vertices.keys()]
     colors = [self.graph.vertices[i].color for i in node_indices]
-    alphas = [0.8 for _ in node_indices]
     print(colors)
     graph_renderer.node_renderer.data_source.data = dict(
       index=node_indices,
-      fill_color = colors, fill_alpha=alphas)
+      fill_color = colors)
 
-    graph_renderer.node_renderer.glyph = Circle(size=circle_size, fill_color='fill_color', fill_alpha='fill_alpha')
+    graph_renderer.node_renderer.glyph = Circle(size=circle_size, fill_color='fill_color')
     
     graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
     self.randomize()
@@ -78,8 +77,17 @@ class BokehGraph:
       self.pos[vertex] = (x,y)
           
   def show(self, output_path='./graph.html'):
-    output_file(output_path)
+    # output_file(output_path)
     show(self.plot)
+
+  def refresh(self):
+    # add a button widget and configure with the call back
+    button = Button(label="Press Me")
+    button.on_click(test)
+
+    # put the button and plot in a layout and add to the document
+    curdoc().add_root(column(button))
+    self.show()
 
 def randomize_graph(size=10):
   graph = Graph()
@@ -100,11 +108,13 @@ def randomize_graph(size=10):
   # graph.depth_first_search()
   graph.breadth_first_search()  
   bokeh = BokehGraph(graph,'Graph',20,20)
-  bokeh.show()
+  bokeh.refresh()
 
+def test():
+  print('test')
 
 if __name__ == '__main__':
-  randomize_graph(2000000)
+  randomize_graph()
 
 # test = Graph()  # Instantiate your graph
 

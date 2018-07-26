@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from random import choice
+from random import choice, randrange
 
 """
 Simple graph implementation compatible with BokehGraph class.
@@ -62,7 +62,7 @@ class Graph:
       queue.append(self.vertices[vertex])
       color = get_random_color()
       print('start')
-      while len(queue) > 0:
+      while queue:
         v = queue.pop(0)
         print('pop from queue {} {}'.format(v.value, v.color))
         if v not in visited:
@@ -76,8 +76,6 @@ class Graph:
           print('Visted {} {}'.format(v.value, v.color))
 
 def get_random_color():
-  color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
+  # color = '#'+''.join([choice('56789ABCDEFF') for j in range(6)])
+  color = "#%02x%02x%02x" % (randrange(100,255),randrange(100,255), randrange(100,255))
   return color
-
-
-  
