@@ -15,7 +15,7 @@ class BokehGraph:
 
     self.width = 15
     self.height = 15
-    self.plot = figure(title="Graph",
+    self.plot = figure(title="Graph Demo",
                       x_range=(-self.width, self.width),
                       y_range=(-self.height, self.height),
                       tools="",
