@@ -104,7 +104,7 @@ def randomize_graph(size=10):
 
 
 if __name__ == '__main__':
-  randomize_graph(2000000)
+  randomize_graph(50)
 
 # test = Graph()  # Instantiate your graph
 
