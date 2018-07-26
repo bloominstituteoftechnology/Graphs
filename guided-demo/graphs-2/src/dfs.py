@@ -6,15 +6,20 @@ generated graph containing a given number of vertices and edges (default 8).
 """
 
 from sys import argv
+#from draw import BokehGraph
+
+
+
 
 
 class Vertex:
     """Represent a vertex with label and set of edges to other vertices."""
     # Just holds data, but is class and not namedtuple/dict so it is hashable
     # pylint: disable=too-few-public-methods
-    def __init__(self, label):
+    def __init__(self, label, color='red'):
         self.label = label
         self.edges = set()
+        self.color = color
 
     def __str__(self):
         return "Vertex " + str(self.label)
@@ -67,6 +72,9 @@ def main(num_vertices=8, num_edges=8):
     # DFS with random start/target
     start, target = sample(graph.vertices, 2)
     graph.dfs(start, target)
+    # I added these two lines
+    #bokeh_graph = BokeGraph(graph)
+    #bokeh_graph.show()
 
 
 if __name__ == '__main__':
