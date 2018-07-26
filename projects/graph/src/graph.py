@@ -26,7 +26,7 @@ class Graph:
   def search(self, root, method=SearchMethod.BFS):
     collection = [root]
     marked = set(root)
-    index = 0 if method == 'bfs' else -1
+    index = 0 if method == SearchMethod.BFS else -1
 
     while len(collection) > 0:
       v = collection.pop(index)
