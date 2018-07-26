@@ -42,7 +42,7 @@ def main():
 
     # graph.vertices
 
-    graph.get_connected_components()
+    # graph.get_connected_components()
     bg = BokehGraph(graph)
 
     # dir(bg)
