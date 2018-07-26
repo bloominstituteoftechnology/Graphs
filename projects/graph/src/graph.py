@@ -1,6 +1,7 @@
 #!/usr/bin/python
 """Graph representation using adjacency list."""
-
+from random import choice, random
+from draw import BokehGraph
 class Vertex:
     """ Vertices always have a label and a set of edges. """
     def __init__(self, label):
@@ -25,14 +26,35 @@ class Graph:
             if bidirectional == True:
                 self.vertices[end].add(start)
 
-    def add_vertex(self, vertex):
-        if vertex not in self.vertices:
+    def add_vertex(self, vertex, edges=()):
+        if vertex in self.vertices:
+            raise Exception('Error: adding vertex that already exists')
+        if not set(edges).issubset(self.vertices):
+            raise Exception('Error: cannot have edge to nonexistent vertices')
+        self.vertices[vertex]=set(edges)
+
+    def randomize(self, grid_x=5, grid_y=4, jitter=150, edge_prob=0.1):
+        #graph=self.Graph()
+        for i in range(20): #0 to 19
+            string=str(i)
+            self.add_vertex(string)
+        for vertex in self.vertices:
+            for vertex1 in self.vertices:
+                decision=random()
+                if decision <= edge_prob:
+                    self.add_edge(vertex,vertex1)
+        bg=BokehGraph(self)
+        bg.show()
+
+
+
+        """if vertex not in self.vertices:
             self.vertices[vertex] = set()
         else:
             raise ValueError("That vertex already exists in the graph.")
+"""
 
-
-
+"""
 graph = Graph()  # Instantiate your graph
 v0=Vertex('V 0')
 graph.add_vertex('0')
@@ -46,3 +68,4 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 #graph.add_edge('0', '21')
 print(graph.vertices)
+"""
