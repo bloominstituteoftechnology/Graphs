@@ -100,6 +100,10 @@ class Graph:
         return trail
 
     def find_connected_components(self):
+        """
+        Identify the connected components in the graph and update component
+        counter
+        """
         unvisited = self._find_unvisited_vertices()
         while unvisited:
             self.components += 1
