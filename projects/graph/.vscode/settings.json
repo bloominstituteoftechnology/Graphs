@@ -1,0 +1,7 @@
+{
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
+  "python.linting.flake8Path": "flake8",
+  "python.pythonPath": "/home/linuxlite/.local/share/virtualenvs/graph-6A5qAaog/bin/python",
+}
