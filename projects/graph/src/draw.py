@@ -9,8 +9,7 @@ from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 
-# print(type(Spectral8))
-print("********")
+
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph, title='Graph', width=10, height=10,
@@ -37,6 +36,7 @@ class BokehGraph:
 
         graph_renderer.node_renderer.data_source.add(
             list(sorted(self.graph.vertices.keys())), 'index')
+        
         graph_renderer.node_renderer.data_source.add(
             self._get_random_colors(), 'color')
         # graph_renderer.node_renderer.data_source.add(Spectral8,'color')

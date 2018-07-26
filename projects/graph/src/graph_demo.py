@@ -10,7 +10,7 @@ from draw import BokehGraph
 from graph import Graph, Vertex
 
 
-def main(num_vertices=8, num_edges=8):
+def main(num_vertices=8, num_edges=4):
     """Build and show random graph."""
     graph = Graph()
 
