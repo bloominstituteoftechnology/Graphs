@@ -2,7 +2,11 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 from collections import deque
-from random import random, randint
+from random import random, sample
+
+# If your class is merely a collection of properties, you can
+# use a named tuple. This is an alternative: use the one that
+# best makes sense for your code and your use cases.
 
 
 class Vertex:
@@ -27,19 +31,18 @@ class Vertex:
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to
        edges."""
-    def __init__(self, num_of_vertices=0, chance=0.6):
+    def __init__(self, num_vertices=0, num_edges=0, chance=1):
         self.vertices = {}
 
-        if num_of_vertices > 0:
-            for i in range(0, num_of_vertices):
+        if num_vertices > 0:
+            for i in range(0, num_vertices):
                 new_vertex = Vertex(i)
                 self.add_vertex(new_vertex)
 
-            for vertex in self.vertices.values():
+            for _ in range(num_edges):
                 if random() <= chance:
-                    p = randint(0, num_of_vertices - 1)
-                    vertex.edges.add(self.vertices[p])
-                    self.vertices[p].edges.add(vertex)
+                    vertices = sample(list(self.vertices.values()), 2)
+                    self.add_edge(vertices[0], vertices[1])
 
     def add_vertex(self, vertex, edges=()):
         """Add a new vertex, optionally with edges to other vertices."""
@@ -54,7 +57,7 @@ class Graph:
 
     def add_edge(self, start, end, bidirectional=True):
         """Add an edge (default bidirectional) between two vertices."""
-        if start not in self.vertices or end not in self.vertices:
+        if start.label not in self.vertices or end.label not in self.vertices:
             raise Exception('Vertices to connect not in graph!')
         self.vertices[start.label].edges.add(end)
         if bidirectional:
