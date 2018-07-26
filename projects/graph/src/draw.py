@@ -67,11 +67,15 @@ class BokehGraph:
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
                 for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
+                    start_indices.append(vertex.label)
+                    end_indices.append(destination.label)
                 checked.add(vertex)
 
         return dict(start=start_indices, end=end_indices)
+
+        def show(self, output_path='./graph.htm'):
+            output_file(output_path)
+            show(self.plot)
 
     def _setup_labels(self):
 

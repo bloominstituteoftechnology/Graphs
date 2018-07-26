@@ -1,10 +1,13 @@
 #!/usr/bin/python
+import random
 
 class Vertex:
     """Object representation of Vertex"""
     def __init__(self, label ):
         self.label = label
         self.edges = set()
+        self.pos = pos
+        self.color = color
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -27,7 +30,7 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def bfs(self, start,)
+    def bfs(self, start):
         #he making thats hexadecimal
         random_color = '#' + \
             ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
@@ -45,7 +48,17 @@ class Graph:
                     found.append(edge)
                     queue.color = random_color
             queue.pop(0)
-        return found         
+        return found
+            
+    def get_connected_components(self):
+        
+        searched = []
+
+        for index, vertex in self.vertices.items():
+            if vertex not in searched:
+                searched.append(self.bfs(vertex))
+
+            return searched
         
 
 def main(): #instantiate your graph

@@ -34,7 +34,7 @@ taken first and which vertex is the starting vertex.)
 * Find neighboring locations on graph 
 * Broadcasting in a network 
 * Cycle detection in a graph 
-* Finding [Connected Components](https://en.wikipedia.org/wiki/Connected_component_(graph_theory))
+* Finding [Connected Components](py))
 * Solving a number of theoretical graph problems 
 
 ## Coloring Vertexes
