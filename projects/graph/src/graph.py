@@ -142,14 +142,17 @@
 
 from decimal import Decimal
 
+
 class Node:
     def __init__(self, label):
         self.label = label
+
 
 class Edge:
     def __init__(self, to_node, length):
         self.to_node = to_node
         self.length = length
+
 
 class Graph:
     def __init__(self):
@@ -168,6 +171,7 @@ class Graph:
             from_node_edges = self.edges[from_node.label]
         from_node_edges[to_node.label] = edge
 
+
 def min_dist(q, dist):
     """
     Returns the node with the smallest distance in q.
@@ -182,17 +186,20 @@ def min_dist(q, dist):
 
     return min_node
 
+
 AnswerToTheUniverse = Decimal('Infinity')
+
 
 def dijkstra(graph, source):
     q = set()
     dist = {}
     prev = {}
 
-    for v in graph.nodes:                   # initialization
-        dist[v] = AnswerToTheUniverse       # unknown distance from source to v
-        prev[v] = AnswerToTheUniverse       # previous node in optimal path from source
-        q.add(v)                            # all nodes initially in q (unvisited nodes)
+    for v in graph.nodes:  # initialization
+        dist[v] = AnswerToTheUniverse  # unknown distance from source to v
+        prev[
+            v] = AnswerToTheUniverse  # previous node in optimal path from source
+        q.add(v)  # all nodes initially in q (unvisited nodes)
 
     # distance from source to source
     dist[source] = 0
@@ -226,6 +233,7 @@ def to_array(prev, from_node):
     route.reverse()
     return route
 
+
 graph = Graph()
 node_a = Node("A")
 graph.add_node(node_a)
@@ -258,11 +266,7 @@ graph.add_edge(node_f, node_g, 3)
 dist, prev = dijkstra(graph, node_a)
 
 print("The quickest path from {} to {} is [{}] with a distance of {}".format(
-    node_a.label,
-    node_f.label,
-    " -> ".join(to_array(prev, node_f)),
-    str(dist[node_f])
-    )
-)
+    node_a.label, node_f.label, " -> ".join(to_array(prev, node_f)),
+    str(dist[node_f])))
 
-#Thank to https://gist.github.com/econchick . I would not have understand half of this or even what a shortest path is without his gists and explanation. 
+#Thank to https://gist.github.com/econchick . I would not have understand half of this or even what a shortest path is without his gists and explanation.
