@@ -27,7 +27,7 @@ class BokehGraph:
     def __init__(
         self,
         graph,
-        title,
+        title = TITLE,
         width,
         height,
         allow_grid,
@@ -42,7 +42,7 @@ class BokehGraph:
         self.render_graph(vert_size)
         self.width = WIDTH
         self.height = HEIGHT
-        self.plot = figure(title = TITLE, x_range(0,width), y_range(0, height))
+        self.plot = figure(title = title, x_range(0,width), y_range(0, height))
         self.plot.grid.visible = ALLOW_GRID
         self.plot.axis.visible = ALLOW_AXIS
         self.pos = {}
@@ -51,8 +51,8 @@ class BokehGraph:
         display_graph = GraphRenderer(kwargs)
 
         display_graph.node__renderer.data_src.data = self.get_edges()
-        
-
+        pass  # TODO
+    def get_edges(self):
         pass  # TODO
 
 
