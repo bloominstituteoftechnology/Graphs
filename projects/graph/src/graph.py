@@ -10,6 +10,7 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.graph = {}
+        self.graph_list = []
 
     def add_vertex(self, vertice):
         self.graph[ vertice ] = set()
@@ -18,9 +19,9 @@ class Graph:
         self.graph[ node ].add(connect_node)
 
     def breadth_first_search(self, node_value):
-        if node_value not in self.graph:
-            print(f"Graph.breadth_first_search() expects a single value passed as an argument")
-            return None
+        # if node_value not in self.graph:
+        #     print(f"Graph.breadth_first_search() expects a single value passed as an argument")
+        #     return None
         
         queue = []
         queue_set = set()
@@ -39,15 +40,45 @@ class Graph:
 
             i += 1
 
+    def add_random_vertices(self, max_vertice):
+        for _ in range(randint(2, int(max_vertice))):
+            rand = randint(0, int(max_vertice))
+
+            if rand not in graph.graph:
+                self.add_vertex(rand)
+                self.graph_list.append(rand)
+
+    def add_random_edges(self):
+        done = False
+        i = 0
+        j = 0
+
+        while not done:
+            if j >= len(self.graph_list):
+                j = 0
+                i += 1
+
+            if i >= len(self.graph_list):
+                break
+            
+            current = self.graph_list[ i ]
+
+            if current == self.graph_list[ j ]:
+                j += 1
+                continue
+
+            if self.graph_list[ j ] not in self.graph[ current ]:
+                if randint(0, 1) == True:
+                    self.graph[ current ].add(self.graph_list[ j ])
+
+            j += 1
+
 graph = Graph()
-graph_list = []
 
-for _ in range(randint(1, 9)):
-    rand = randint(1, 9)
+graph.add_random_vertices(9)
+graph.add_random_edges()
 
-    if rand not in graph.graph:
-        graph.add_vertex(rand)
-        graph_list.append(rand)
+print(graph.graph, '\n')
 
 # graph.add_vertex(rand_int)
 # graph.add_vertex(rand_int)
