@@ -2,6 +2,7 @@
 General drawing methods for graphs using Bokeh.
 """
 
+from math import ceil, floor, sqrt
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -11,7 +12,7 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, title='Graph', width=10, height=10,
+    def __init__(self, graph, title='Graph', width=100, height=100,
                  show_axis=False, show_grid=False, circle_size=35,
                  draw_components=False):
         if not graph.vertices:
@@ -76,10 +77,10 @@ class BokehGraph:
 
     def _setup_labels(self):
         label_data = {'x': [], 'y': [], 'names': []}
-        for vertex, position in self.pos.items():
-            label_data['x'].append(position[0])
-            label_data['y'].append(position[1])
-            label_data['names'].append(str(vertex))
+        for vertex_label, (x_pos, y_pos) in self.pos.items():
+            label_data['x'].append(x_pos)
+            label_data['y'].append(y_pos)
+            label_data['names'].append(vertex_label)
         label_source = ColumnDataSource(label_data)
         labels = LabelSet(x='x', y='y', text='names', level='glyph',
                           text_align='center', text_baseline='middle',
@@ -87,15 +88,25 @@ class BokehGraph:
         self.plot.add_layout(labels)
 
     def show(self, output_path='./graph.html'):
+        """Render the graph to a file on disk and open with default browser."""
         output_file(output_path)
         show(self.plot)
 
     def randomize(self):
-        """Randomize vertex positions."""
-        for vertex in self.vertex_list:
-            # TODO make bounds and random draws less hacky
-            self.pos[vertex.label] = (1 + random() * (self.width - 2),
-                                      1 + random() * (self.height - 2))
+        """Randomize vertex positions, trying to minimize collisions."""
+        # Split space into a grid of ~sqrt(num_of_vertices)^2
+        rows = floor(sqrt(len(self.vertex_list)))
+        cols = ceil(sqrt(len(self.vertex_list)))
+        grid_height = self.height / rows
+        grid_width = self.width / cols
+        for i, vertex in enumerate(self.vertex_list):
+            # Randomly place each vertex in a different grid cell
+            # TODO: improve, this spreads things out some but still collides
+            col = (i % rows) + 1
+            row = (i + 1) // cols
+            x_pos = 10 + (col + random()) * grid_width - 15
+            y_pos = 10 + (row + random()) * grid_height - 15
+            self.pos[vertex.label] = (x_pos, y_pos)
 
     def _get_connected_component_colors(self):
         """Return same-colors for vertices in connected components."""

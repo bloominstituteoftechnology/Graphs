@@ -5,6 +5,8 @@ Simple graph implementation compatible with BokehGraph class.
 
 class Vertex:
     """Represent a vertex with a label and possible connected component."""
+    # pylint: disable=too-few-public-methods
+    # Using class so it's hashable, even though it doesn't have public methods
     def __init__(self, label, component=-1):
         self.label = str(label)
         self.component = component
