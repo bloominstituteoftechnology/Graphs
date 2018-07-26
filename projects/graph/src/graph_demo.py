@@ -35,6 +35,7 @@ def main(vertices, edges, show_components, title, file_name):
 
 if __name__ == '__main__':
     # TODO: limit number of vertices and edges
+    # TODO: elaborate on required and optional fields in console message
     if len(argv) > 2:
         NUMBER_VERTICES = int(argv[1])
         NUMBER_EDGES = int(argv[2])
