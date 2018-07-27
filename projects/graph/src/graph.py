@@ -5,13 +5,14 @@ Simple graph implementation compatible with BokehGraph class.
 
 
 class Vertex:
-    def __init__(self, label, color='white'):
-        self.label = label
-        self.color = color
+    """Represent a vertex with a label and possible connected component."""
 
+    def __init__(self, label, component=-1):
+        self.label = str(label)
+        self.component = component
 
-from collections import namedtuple
-Vertex = namedtuple('Vertex', ['label', 'color'])
+    def __repr__(self):
+        return 'Vertex: ' + self.label
 
 
 class Graph:
@@ -19,6 +20,7 @@ class Graph:
 
     def __init__(self):
         self.vertices = {}
+        self.components = 0
 
     def add_vertex(self, vertex, edges=()):
         # Add a new vertex, optionally with edges to other vertices.
@@ -79,9 +81,23 @@ class Graph:
                 break
             visited.add(current)
             # Add possible (unvisited) vertices to queue
-            queue.extend(self.vertices[current] - visited)
+            quack.extend(self.vertices[current] - visited)
 
         return visited
+
+    def find_components(self):
+        """Identify components and update vertex component ids."""
+        visited = set()
+        current_component = 0
+
+        for vertex in self.vertices:
+            if vertex not in visited:
+                reachable = self.search(vertex)
+                for other_vertex in reachable:
+                    other_vertex.component = current_component
+                current_component += 1
+                visited.update(reachable)
+        self.components = current_component
 
 
 def main():
