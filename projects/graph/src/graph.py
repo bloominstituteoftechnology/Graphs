@@ -70,6 +70,5 @@ class Graph:
 def main():
     pass  # TODO write a demo that tests the graph class
 
-
 if __name__ == '__main__':
     main()
