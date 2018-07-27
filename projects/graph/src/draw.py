@@ -8,7 +8,14 @@ from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (
     GraphRenderer, StaticLayoutProvider,
-    Circle, LabelSet, ColumnDataSource, Oval, MultiLine)
+    Circle, LabelSet, ColumnDataSource,
+    Oval, MultiLine, HoverTool, TapTool, BoxSelectTool)
+from bokeh.models.graphs import (
+    NodesAndLinkedEdges,
+    EdgesAndLinkedNodes
+)
+
+from bokeh.palettes import Spectral4
 # import graph
 
 
@@ -41,8 +48,12 @@ class BokehGraph:
         )
         plot.axis.visible = False
         plot.grid.visible = False
+        plot.add_tools(HoverTool(tooltips=None), TapTool(), BoxSelectTool())
         self.define_vertex_shape()
         self.define_edges()
+        self.bokeh_graph.selection_policy = NodesAndLinkedEdges()
+        self.bokeh_graph.inspection_policy = EdgesAndLinkedNodes()
+
         self.map_to_coordinates()
 
         # print('\nSHAPE', self.bokeh_graph.node_renderer.data_source.data)
@@ -61,7 +72,7 @@ class BokehGraph:
 
         # define Vertex shape and color
         self.bokeh_graph.node_renderer.glyph = Oval(
-            width=15, height=15, fill_color="fill_color"
+            width=10, height=10, fill_color="fill_color"
         )
 
         # Get colors for each connected component.
@@ -107,10 +118,14 @@ class BokehGraph:
 
         color = ['#111111']*len(start)
         self.bokeh_graph.edge_renderer.data_source.data = dict(
-            start=start, end=end, line_color=color
+            start=start, end=end,
         )
         self.bokeh_graph.edge_renderer.glyph = MultiLine(
-            line_color=color, line_alpha=0.8, line_width=2)
+            line_color="#CCCCCC", line_alpha=0.8, line_width=1)
+        self.bokeh_graph.edge_renderer.selection_glyph = MultiLine(
+            line_color=Spectral4[2], line_width=3)
+        self.bokeh_graph.edge_renderer.hover_glyph = MultiLine(
+            line_color=Spectral4[1], line_width=3)
         print(self.bokeh_graph.edge_renderer.data_source.data.keys())
 
     def map_to_coordinates(self):
