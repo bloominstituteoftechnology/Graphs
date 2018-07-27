@@ -39,7 +39,7 @@ class BokehGraph(Graph):
         # add the vertex data as instructions for drawing nodes
         graph_renderer.node_renderer.data_source.add(list(self.graph.vertices.keys()), "index")
         graph_renderer.node_renderer.data_source.add(self._get_random_colors(), "color")
-        graph_renderer.node_renderer.glyph = Circle(size=circle_size, line_color="black")
+        graph_renderer.node_renderer.glyph = Circle(size=circle_size, line_color="black", fill_color="color")
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indices()
         self.randomize()
         self.plot.add_layout(Title(text="Whys", align="left"), "left")

@@ -49,4 +49,14 @@ class Graph:
         print("visited", visited)
         return visited
 
+    def find_components(self):
+        queue = [self.vertices]
+        current_component = 0
+        while len(queue):
+            visited = self.search(queue[0], target=None, method="dfs")
+            for vert in queue:
+                if vert in visited:
+                    queue.remove(vert)
+            current_component += 1
+        return current_component
     
