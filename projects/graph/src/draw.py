@@ -35,7 +35,7 @@ class BokehGraph:
         self.vertex_keys = list(self.graph.vertices.keys())
 
         # Add the vertex data as instructions for drawing nodes
-        graph_renderer.node_renderer.data_source.add(self.vertex_keys, 'index')
+        graph_renderer.node_renderer.data_source.add([vertex.label for vertex in self.vertex_keys], 'index')
         colors = (self._get_connected_component_colors() if draw_components
                     else self._get_random_colors())
         graph_renderer.node_renderer.data_source.add(colors, 'color')
@@ -67,8 +67,8 @@ class BokehGraph:
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
                 for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
+                    start_indices.append(vertex.label)
+                    end_indices.append(destination.label)
                 checked.add(vertex)
 
         return dict(start=start_indices, end=end_indices)
