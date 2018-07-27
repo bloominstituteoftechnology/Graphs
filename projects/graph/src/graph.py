@@ -29,7 +29,7 @@ class Graph:
         if not set(edges).issubset(self.vertices):
             raise Exception('Error: cannot have edge to nonexistent vertices')
         self.vertices[vertex] = set(edges)
-
+        
     def add_edge(self, start, end, bidirectional=True):
         # Add a edge (default bidirectional) between two vertices.
         if start not in self.vertices:
