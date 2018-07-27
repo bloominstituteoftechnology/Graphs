@@ -14,7 +14,7 @@ vertex = Vertex(label="", component=-1)
 class BokehGraph(Graph):
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph, title="Coordinates", width=600, height=600,
-                show_axis=True, show_grid=True, circle_size=15):
+                show_axis=True, show_grid=True, circle_size=15, draw_components=False):
         if not graph.vertices:
             raise Exception('Graph should contain vertices')
         self.graph = graph
@@ -22,7 +22,6 @@ class BokehGraph(Graph):
         TOOLTIPS = [
             ("index", "$index"),
             ("(x,y)", "($x, $y)"),
-            ("name", "vertex.label")
         ]
         self.width = width
         self.height = height
@@ -30,15 +29,21 @@ class BokehGraph(Graph):
         self.plot = figure(title=title, toolbar_location="above", tooltips=TOOLTIPS, x_range=(0, width), y_range=(0, height))
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
-        self._setup_graph_renderer(circle_size)
+        self._setup_graph_renderer(circle_size, draw_components)
         self._get_labels()
 
-    def _setup_graph_renderer(self, circle_size):
+    def _setup_graph_renderer(self, circle_size, draw_components):
         #graph_renderer will have the actual logic for drawing
         graph_renderer = GraphRenderer()
+        self.vertex_keys = list(self.graph.vertices.keys())
+
         # add the vertex data as instructions for drawing nodes
-        graph_renderer.node_renderer.data_source.add(list(self.graph.vertices.keys()), "index")
-        graph_renderer.node_renderer.data_source.add(self._get_random_colors(), "color")
+        graph_renderer.node_renderer.data_source.add([vertex.label for vertex in self.vertex_keys], 'index')
+        
+        if draw_components:
+            graph_renderer.node_renderer.data_source.add(self._get_connected_component_colors(), "color")
+        else:
+            graph_renderer.node_renderer.data_source.add(self._get_random_colors(), "color")
         graph_renderer.node_renderer.glyph = Circle(size=circle_size, line_color="black", fill_color="color")
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indices()
         self.randomize()
@@ -59,8 +64,8 @@ class BokehGraph(Graph):
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
                 for destination in edges:
-                    start_indices.append(vertex)
-                    end_indices.append(destination)
+                    start_indices.append(vertex.label)
+                    end_indices.append(destination.label)
                 checked.add(vertex)
         return dict(start=start_indices, end=end_indices)
 
@@ -68,8 +73,8 @@ class BokehGraph(Graph):
     def randomize(self):
         """Randomize vertex positions"""
 
-        for vertex in self.graph.vertices:
-            self.pos[vertex] = (random.randint(10, 500), random.randint(10, 500))
+        for vertex in self.vertex_keys:
+            self.pos[vertex.label] = (random.randint(10, 500), random.randint(10, 500))
     
     def _get_labels(self):
         label_data = {"x": [], "y": [], "name": []}
@@ -105,3 +110,12 @@ class BokehGraph(Graph):
             color = "#" + ''.join([random.choice("0123456789ABCDEF") for j in range(6)])
             colors.append(color)
         return colors
+    
+    def _get_connected_component_colors(self):
+        """Return same-colors for vertices in connected components."""
+        self.graph.find_components()
+        component_colors = self._get_random_colors(self.graph.components)
+        vertex_colors = []
+        for vertex in self.vertex_keys:
+            vertex_colors.append(component_colors[vertex.component])
+        return vertex_colors
