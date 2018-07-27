@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 """Graph representation using adjacency list."""
 class Vertex:
@@ -9,6 +10,7 @@ class Vertex:
 
     def __repr__(self):
         return self.label
+
 
 """
 Simple graph implementation compatible with BokehGraph class.
