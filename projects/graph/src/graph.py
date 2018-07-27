@@ -2,7 +2,6 @@
 from draw import BokehGraph
 from random import sample
 from sys import argv
-# from graph import *
 
 """
 Simple graph implementation compatible with BokehGraph class.
@@ -87,7 +86,7 @@ class Graph:
                 visited.update(reachable)
         self.components = current_component
 
-def main(num_vertices=8, num_edges=8, draw_components=True):
+def main(num_vertices=400, num_edges=10, draw_components=True):
     graph = Graph()
 
     for num in range(num_vertices):
@@ -96,25 +95,6 @@ def main(num_vertices=8, num_edges=8, draw_components=True):
     for _ in range(num_edges):
         vertices = sample(graph.vertices.keys(), 2)
         graph.add_edge(vertices[0], vertices[1])
-    # a = Vertex('a')
-    # graph.add_vertex(a)
-    # b = Vertex('b')
-    # graph.add_vertex(b)
-    # c = Vertex('c')
-    # graph.add_vertex(c)
-    # a = Vertex('a')
-    # graph.add_vertex('D')
-    # a = Vertex('a')
-    # graph.add_vertex('E')
-    # a = Vertex('a')
-    # graph.add_vertex('F')
-    # a = Vertex('a')
-    # graph.add_vertex('G')
-    # a = Vertex('a')
-    # graph.add_vertex('H')
-    # graph.add_edge(b, c)
-    # graph.add_edge('A', 'H')
-    # graph.add_edge('D', 'G')
 
     bg = BokehGraph(graph, draw_components=draw_components)
     bg.show()

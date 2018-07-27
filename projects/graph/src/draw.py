@@ -35,9 +35,7 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(
             [vertex.label for vertex in self.vertex_keys], 'index'
         )
-        # graph_renderer.node_renderer.data_source.add(
-        #     self.vertex_keys, 'index'
-        # )
+        
         if draw_components:
             graph_renderer.node_renderer.data_source.add(
                 self._get_connected_component_colors(), 'color')
