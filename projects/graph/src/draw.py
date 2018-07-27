@@ -8,7 +8,9 @@ from bokeh.plotting import figure
 from bokeh.models import (
     GraphRenderer,
     StaticLayoutProvider,
-    Circle
+    Circle,
+    LabelSet,
+    ColumnDataSource
 )
 
 
@@ -25,6 +27,7 @@ class BokehGraph:
         self.height = height
         self.width = width
         self.vertex_size = vertex_size
+        self.node_positions = self._get_random_node_positions()
         self.show_components = show_components
         self.plot = figure(title=title, plot_width=width, plot_height=height,
                            x_range=(0, width), y_range=(0, height),
@@ -46,8 +49,9 @@ class BokehGraph:
                                                     fill_color='color')
         graph_renderer.edge_renderer.data_source.data = self._get_edges()
         graph_renderer.layout_provider = StaticLayoutProvider(
-            graph_layout=self._get_random_node_positions())
+            graph_layout=self.node_positions)
         self.plot.renderers.append(graph_renderer)
+        self.plot.add_layout(self._get_labels())
 
     def _get_colors(self):
         if self.show_components:
@@ -69,6 +73,19 @@ class BokehGraph:
                 start.append(vertex)
                 end.append(edge.label)
         return {'start': start, 'end': end}
+
+    def _get_labels(self):
+        label_data = {'label':[], 'x': [], 'y': []}
+        for vertex in self.node_positions:
+            label_data['label'].append(vertex)
+            label_data['x'].append(self.node_positions[vertex][0])
+            label_data['y'].append(self.node_positions[vertex][1])
+        source = ColumnDataSource(data=label_data)
+        return LabelSet(x='x', y='y', text='label', level='glyph',
+                        source=source, render_mode='canvas',
+                        text_align='center', text_baseline='middle',
+                        text_font_size='10px', text_font_style='bold',
+                        text_color='#FFFFFF')
 
     def _get_random_node_positions(self):
         """
