@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 bokeh = "*"
+holoviews = "*"
+numpy = "*"
 
 [dev-packages]
 

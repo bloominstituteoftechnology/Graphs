@@ -14,6 +14,10 @@ from bokeh.models import (
     VeeHead,
     Arrow,
 )
+import numpy as np
+import holoviews as hv
+
+hv.extension("bokeh")
 
 
 class BokehGraph:
@@ -23,8 +27,8 @@ class BokehGraph:
         self,
         graph,
         title="Graph",
-        width=10,
-        height=10,
+        width=15,
+        height=15,
         show_axis=False,
         show_grid=False,
         circle_size=35,
@@ -55,6 +59,7 @@ class BokehGraph:
         # print("vertices", self.graph.vertices)
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
+        self.interactive_numpy()
         for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
             self.plot.add_layout(
                 Arrow(
@@ -108,16 +113,16 @@ class BokehGraph:
         for vertex in self.graph.vertices:
             taken = []
             if vertex not in taken:
-                x = 10 if len(taken) % 2 == 0 else -10
-                y = 10 if len(taken) % 2 == 0 else -10
+                x = .2 if len(taken) % 2 == 0 else -.2
+                y = .2 if len(taken) % 2 == 0 else -.2
                 # TODO make bounds and random draws less hacky
                 self.pos[vertex] = (
-                    x / random() % self.width - 2
+                    random() * (self.width - 2)
                     if len(taken) % 2 == 0
-                    else x * random() % self.width + 2,
-                    y / random() % self.height - 2
+                    else random() * (self.width - 2),
+                    y / random() * (self.height - 2)
                     if len(taken) % 2 == 0
-                    else x * random() % self.height + 2,
+                    else x * random() % (self.height - 2),
                 )
                 taken.append(vertex)
             # random stuff for making vertex
@@ -147,6 +152,17 @@ class BokehGraph:
         #     return random_color
         # self.plot.patches(text_color=random_color)
         self.plot.add_layout(labels)
+
+    def interactive_numpy(self):
+        print("values", len(self.graph.vertices.values()))
+        node_indices = np.arange(len(self.graph.vertices.values()), dtype=np.int32)
+        source = np.zeros(len(self.graph.vertices.values()), dtype=np.int32)
+        target = node_indices
+
+        padding = dict(x=(-1.2, 1.2), y=(-1.2, 1.2))
+
+        simple_graph = hv.Graph(((source, target),)).redim.range(**padding)
+        simple_graph
 
     # def dfs(self):
     #     connected_components = []

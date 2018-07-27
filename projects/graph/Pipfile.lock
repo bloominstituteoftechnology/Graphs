@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7f9b495ef5aa19ef9e4e837180cf8f547d73e2fbaefd78db09b28013481bb931"
+            "sha256": "90441f43e4df1dbea760b353baaf3e20d78527bb505cba9e639035c6e1f553b7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -22,6 +22,14 @@
             ],
             "index": "pypi",
             "version": "==0.13.0"
+        },
+        "holoviews": {
+            "hashes": [
+                "sha256:4d1753ae27486e324e2ee5d6a239bf8cc4a9acafecc0e38cb60a476bd7b4abc9",
+                "sha256:7996b25c6132b964cda1dfd2e90e85edc3c234b37ea5529f256013a8678dcbf5"
+            ],
+            "index": "pypi",
+            "version": "==1.10.7"
         },
         "jinja2": {
             "hashes": [
@@ -67,6 +75,7 @@
                 "sha256:f5a758252502b466b9c2b201ea397dae5a914336c987f3a76c3741a82d43c96e",
                 "sha256:fb4c33a404d9eff49a0cdc8ead0af6453f62f19e071b60d283f9dc05581e4134"
             ],
+            "index": "pypi",
             "version": "==1.15.0"
         },
         "packaging": {
@@ -75,6 +84,13 @@
                 "sha256:f019b770dd64e585a99714f1fd5e01c7a8f11b45635aa953fd41c689a657375b"
             ],
             "version": "==17.1"
+        },
+        "param": {
+            "hashes": [
+                "sha256:02307e39323ec7c01aa8874e6512e67e441037a1527196fe4f1c4b00f931cae7",
+                "sha256:24d4235fc560d5786c9e37d4e873a5b9acad38a6bfa043a6626de10e8a4ebb77"
+            ],
+            "version": "==1.7.0"
         },
         "pyparsing": {
             "hashes": [
@@ -89,6 +105,14 @@
                 "sha256:e27001de32f627c22380a688bcc43ce83504a7bc5da472209b4c70f02829f0b8"
             ],
             "version": "==2.7.3"
+        },
+        "pyviz-comms": {
+            "hashes": [
+                "sha256:8b5b205759c6d56ae2ca90729b97c705a954c036d606e51d58179cf0d258dda8",
+                "sha256:ab0f6dcaf9fdb4593ebea43d03078da29a97a3864f3f0a573dfcb18989380389"
+            ],
+            "markers": "python_version >= '2.7'",
+            "version": "==0.1.1"
         },
         "pyyaml": {
             "hashes": [
