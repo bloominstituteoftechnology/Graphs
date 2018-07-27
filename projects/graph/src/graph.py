@@ -9,8 +9,10 @@ class Vertex:
         self.label = label
         self.color = color
 
+
 from collections import namedtuple
 Vertex = namedtuple('Vertex', ['label', 'color'])
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -66,9 +68,25 @@ class Graph:
                 visited.update(reachable)
         self.components = current_component
 
+    def search(self, start, target=None, method='dfs'):
+        quack = [start]  # Queue or stack, depending on method
+        pop_index = 0 if method == 'bfs' else -1
+        visited = set()
+
+        while quack:
+            current = quack.pop(pop_index)
+            if current == target:
+                break
+            visited.add(current)
+            # Add possible (unvisited) vertices to queue
+            queue.extend(self.vertices[current] - visited)
+
+        return visited
+
 
 def main():
     pass  # TODO write a demo that tests the graph class
+
 
 if __name__ == '__main__':
     main()
