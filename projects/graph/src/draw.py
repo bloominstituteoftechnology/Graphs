@@ -18,7 +18,7 @@ class BokehGraph:
     """
     Class that takes a graph and exposes drawing methods.
     """
-    def __init__(self, graph, show_components, title='Graph', 
+    def __init__(self, graph, show_components, title='Graph',
                  file_name='./graph.html', width=1000, height=800,
                  vertex_size=20, grid_visible=False, axis_visible=False):
         self.graph = graph
@@ -75,7 +75,7 @@ class BokehGraph:
         return {'start': start, 'end': end}
 
     def _get_labels(self):
-        label_data = {'label':[], 'x': [], 'y': []}
+        label_data = {'label': [], 'x': [], 'y': []}
         for vertex in self.node_positions:
             label_data['label'].append(vertex)
             label_data['x'].append(self.node_positions[vertex][0])
