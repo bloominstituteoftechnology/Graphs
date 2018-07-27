@@ -3,14 +3,18 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
-class Vertex: 
-    # Represent a vertex with a lebel and possible connected component.
-    def __init__(self, label, component=-1): 
-        self.label = str(label)
-        self.component = component
+
+class Vertex:
+    def __init__(self, label, color='white'):
+        self.label = label
+        self.color = color
+
+from collections import namedtuple
+Vertex = namedtuple('Vertex', ['label', 'color'])
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
 
@@ -34,33 +38,34 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
-    def search(self, start, target=None, method='dfs'): 
+    def search(self, start, target=None, method='dfs'):
         # Search the graph using BFS or DFS.
-        quack = [start] # Queue or stack, depending on method
-        pop_index = 0 if method == 'bfs' else -1 
-        visited = set() 
+        quack = [start]  # Queue or stack, depending on method
+        pop_index = 0 if method == 'bfs' else -1
+        visited = set()
 
-        while quack: 
+        while quack:
             current = quack.pop(pop_index)
-            if current == target: 
-                break 
+            if current == target:
+                break
             visited.add(current)
-            # Add possible (unvisited) vertices to queue 
+            # Add possible (unvisited) vertices to queue
             quack.extend(self.vertices[current] - visited)
-        
+
         return visited
 
-    def find_components(self): 
+    def find_components(self):
         # Identify components and update vertex component ids.
-        visited = set() 
-        for vertex in self.vertices: 
-            if vetex not in visited: 
+        visited = set()
+        for vertex in self.vertices:
+            if vetex not in visited:
                 reachable = self.search(vertex)
-                for other_vertex in reachable: 
+                for other_vertex in reachable:
                     other_vertex.component = current_component
-                current_component += 1 
+                current_component += 1
                 visited.update(reachable)
         self.components = current_component
+
 
 def main():
     pass  # TODO write a demo that tests the graph class
