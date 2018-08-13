@@ -42,7 +42,6 @@ function randomColor() {
   scm.from_hue(20).scheme('tetrade').variation('pastel');
   const colors = scm.colors();
   return '#'+ colors[Math.floor(Math.random() * colors.length)];
-  // return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 }
 
 
@@ -79,7 +78,6 @@ export class Graph {
       let row = [];
       for (let x = 0; x < width; x++) {
         let v = new Vertex();
-        //v.value = 'v' + x + ',' + y;
         v.value = 'v' + count++;
         row.push(v);
       }
@@ -135,7 +133,7 @@ export class Graph {
 
     for (let v of this.vertexes) {
       if (v.pos) {
-        s = v.value + ' (' + v.pos.x + ',' + v.pos.y + '):';
+        s = `${v.value} (${v.pos.x},${v.pos.y}):`;
       } else {
         s = v.value + ':';
       }
@@ -248,8 +246,7 @@ export class Graph {
 
       ranOnce = true;
     }
-    // console.log('DIST: ', distanceMatrix);
-    // console.log('PREV: ', prev);
+
     const path = {};
     let u = end.value;
     while(prev[u]) {
