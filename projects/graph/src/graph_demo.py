@@ -6,7 +6,6 @@ Demonstration of Graph and BokehGraph functionality.
 
 from sys import argv
 
-
 def main():
     pass  # TODO
 
