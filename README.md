@@ -19,4 +19,4 @@
 * [x] Phase 3: Draw a Random Graph
 * [x] Phase 4: Implement Breadth-First Search (or Depth-First Search) - getConnected
 * [x] Phase 5: Color the Connected Components Differently
-* [ ] Phase 6: Add a UI Button to Generate a new Graph
+* [x] Phase 6: Add a UI Button to Generate a new Graph
