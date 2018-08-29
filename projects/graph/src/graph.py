@@ -1,23 +1,34 @@
-"""Graph representation using adjacency list."""
-
-class Edge:
-    """Edges in the adjacency list are just a destination."""
-    # Using simple classes for illustrative purposes
-    # pylint: disable=too-few-public-methods
-    def __init__(self, destination):
-        self.destination = destination
 
 
 class Vertex:
-    """Vertices have a label and a set of edges."""
-    # pylint: disable=too-few-public-methods
     def __init__(self, label):
         self.label = label
         self.edges = set()
 
+    def __repr__(self):
+        return str(self.label)
+
 
 class Graph:
-    """The graph itself is simply a set of vertices."""
-    # pylint: disable=too-few-public-methods
     def __init__(self):
-        self.vertices = set()
+        self.vertices = {}
+
+    def insert_edge(self, start, end):
+        if start not in self.vertices and end not in self.vertices:
+            raise ValueError("No entries!")
+        else:
+            self.vertices[start].add(end)
+            self.vertices[end].add(start)
+
+    def insert_vertex(self, vertex):
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+        else:
+            raise ValueError("Vertex already exists in set!")
+
+    
+my_graph = Graph()
+node_one = Vertex('NodeOne')
+my_graph.insert_vertex(node_one)
+print(my_graph.vertices)
+print(type(my_graph.vertices))
