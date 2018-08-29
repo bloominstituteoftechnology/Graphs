@@ -1,46 +1,26 @@
+
 #!/usr/bin/python
-# copy pasta!
-"""Graph representation using adjacency list."""
-
-class Edge:
-    """Edges in the adjacency list are just a destination."""
-    # Using simple classes for illustrative purposes
-    # pylint: disable=too-few-public-methods
-    def __init__(self, destination):
-        self.destination = destination
-
-
-class Vertex:
-    """Vertices have a label and a set of edges."""
-    # pylint: disable=too-few-public-methods
-    def __init__(self, label):
-        self.label = label
-        self.edges = set()
-
-
-class Graph:
-    """The graph itself is simply a set of vertices."""
-    # pylint: disable=too-few-public-methods
-    def __init__(self):
-        self.vertices = set()
-
-
-
-
-
+from draw import BokehGraph
+from graph import Graph, Vertex
 """
 Demonstration of Graph and BokehGraph functionality.
 """
 
 from sys import argv
 
- def draw_random_graph(graph, vertices, edges):
-     pass
+# def draw_random_graph( graph, vertices, edges ):
+#     pass
 
 def main():
-   
-        
-
+    graph = Graph()
+    graph.insert_vertex('1')
+    graph.insert_vertex('2')
+    graph.insert_vertex('3')
+    graph.insert_edge('1', '2')
+    graph.insert_edge('1', '3')
+    print(graph.vertices)    
+    bg = BokehGraph(graph)
+    bg.show()
 
 if __name__ == '__main__':
     # TODO - parse argv

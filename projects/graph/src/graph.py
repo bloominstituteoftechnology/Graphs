@@ -11,6 +11,7 @@ class Vertex:
 
 class Graph:
     def __init__(self):
+        # this is a dictionary of sets
         self.vertices = {}
 
     def insert_edge(self, start, end):
@@ -22,13 +23,13 @@ class Graph:
 
     def insert_vertex(self, vertex):
         if vertex not in self.vertices:
+            # turning the vertex into a set inside the dictionary
             self.vertices[vertex] = set()
         else:
             raise ValueError("Vertex already exists in set!")
 
     
-my_graph = Graph()
-node_one = Vertex('NodeOne')
-my_graph.insert_vertex(node_one)
-print(my_graph.vertices)
-print(type(my_graph.vertices))
+# my_graph = Graph()
+# node_one = Vertex('NodeOne')
+# my_graph.insert_vertex(node_one)
+# print(my_graph.vertices)
