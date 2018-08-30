@@ -49,6 +49,12 @@ class Graph:
         else:
             raise ValueError("Vertex already exists in set!")
 
+    def breadth_first_search(self, vertex):
+        pass
+    
+    def depth_first_search(self, vertex):
+        pass
+
     
 my_graph = Graph()
 
@@ -58,8 +64,12 @@ node_two = Vertex('NodeTwo')
 my_graph.insert_vertex(node_one)
 my_graph.insert_vertex(node_two)
 # my_graph.insert_edge_uni_directional(node_one, node_two)
-my_graph.insert_edge_bi_directional(node_one, node_two)
+# my_graph.insert_edge_bi_directional(node_one, node_two)
 print(my_graph.vertices)
+
+# for key in my_graph.vertices:
+#     if key == node_one:
+#         print("Yes!")
 
 
 
