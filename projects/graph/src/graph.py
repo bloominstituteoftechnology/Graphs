@@ -76,7 +76,23 @@ class Graph:
         return nodes
     
     def depth_first_search(self, vertex):
-        pass
+        
+        def DFS_visit(vert):
+            colors[str(vert)] = 'gray'
+            nodes.append(vert)
+            for n in self.vertices[vert]:
+                if colors[str(n)] == 'white':
+                    DFS_visit(n)
+            colors[v] = 'black'
+
+        nodes = []
+        colors = {}
+        for key in self.vertices.keys():
+            colors[str(key)] = 'white'
+        for v in self.vertices:
+            if colors[str(v)] == 'white':
+                DFS_visit(v)
+            return nodes
 
     
 my_graph = Graph()
@@ -105,7 +121,9 @@ my_graph.insert_edge_uni_directional(node_two, node_five)
 print(my_graph.vertices)
 
 bfs_result = my_graph.breadth_first_search(node_one)
+dfs_result = my_graph.depth_first_search(node_one)
 print(bfs_result)
+print(dfs_result)
 
 # for key in my_graph.vertices:
 #     if key == node_one:
