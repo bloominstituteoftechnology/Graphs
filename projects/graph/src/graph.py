@@ -20,6 +20,67 @@ class Graph:
         start.edges.add(end)
         if not is_directed:
             end.edges.add(start)
+    
+    def breadth_first_search(self, vertex):
+        nodes = []
+        colors = {}
+        my_queue = deque()
+
+        for key in self.vertices.keys():
+            # all vertices start out white
+            colors[key] = 'white'
+
+        my_queue.append(vertex)
+        # gray means scheduled to be explored
+        colors[vertex] = 'gray'
+
+        while my_queue:
+            node = my_queue[0]
+            neighbors = self.vertices[node]
+
+            for n in neighbors:
+                if colors[n] == 'white':
+                    my_queue.append(n)
+                    colors[n] = 'gray'
+            # black indicates exploration complete
+            colors[node] = 'black'
+            nodes.append(my_queue.popleft())
+        return nodes
+    
+    def depth_first_search(self, vertex):
+        
+        def DFS_visit(vert):
+            colors[str(vert)] = 'gray'
+            nodes.append(vert)
+            for n in self.vertices[vert]:
+                if colors[str(n)] == 'white':
+                    DFS_visit(n)
+            colors[v] = 'black'
+
+        nodes = []
+        colors = {}
+        for key in self.vertices.keys():
+            colors[str(key)] = 'white'
+        for v in self.vertices:
+            if colors[str(v)] == 'white':
+                DFS_visit(v)
+            return nodes
+    
+    def connected_components(self):
+        components = []
+        visited = set()
+        # loop through all nodes in graph
+        # if node not visited
+            # do bfs
+            # save returned component
+        for vertex in self.vertices.keys():
+            if vertex not in visited:
+                comp = self.breadth_first_search(vertex)
+                components.append(comp)
+                for c in comp:
+                    visited.update(comp)
+
+        return components
 
 my_gr = Graph()
 v1 = Vertex('A')
