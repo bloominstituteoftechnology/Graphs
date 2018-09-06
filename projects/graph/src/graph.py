@@ -22,7 +22,8 @@ class Vertex:
 
 class Graph:
     def __init__(self):
-        # this is a dictionary of sets
+        # this is 
+        # a dictionary of sets
         # essentially, this is the graph
         self.vertices = {}
 
@@ -94,7 +95,23 @@ class Graph:
                 DFS_visit(v)
             return nodes
 
-    
+    def connected_components(self):
+        components = []
+        visited = set()
+        # loop through all nodes in graph
+        # if node not visited
+            # do bfs
+            # save returned component
+        for vertex in self.vertices.keys():
+            if vertex not in visited:
+                comp = self.breadth_first_search(vertex)
+                components.append(comp)
+                for c in comp:
+                    visited.update(comp)
+
+        return components
+
+
 my_graph = Graph()
 
 node_zero = Vertex('NodeZero')
@@ -120,8 +137,8 @@ my_graph.insert_edge_uni_directional(node_four, node_two)
 my_graph.insert_edge_uni_directional(node_two, node_five)
 print(my_graph.vertices)
 
-bfs_result = my_graph.breadth_first_search(node_one)
-dfs_result = my_graph.depth_first_search(node_one)
+bfs_result = my_graph.breadth_first_search(node_zero)
+dfs_result = my_graph.depth_first_search(node_zero)
 print(bfs_result)
 print(dfs_result)
 

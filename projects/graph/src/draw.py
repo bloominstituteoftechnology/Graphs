@@ -31,7 +31,8 @@ class BokehGraph:
             list(self.graph.vertices.keys() ), 'index'
         )
         graph_renderer.node_renderer.data_source.add( 
-            self._get_random_colors(), 'color'
+            # self._get_random_colors(), 'color'
+            ['#002245', '#919191', '#610061', '#6BDAD9'], 'color'
         )
         graph_renderer.node_renderer.data_source.add( list(self.graph.vertices.keys() ), 'text' )
         graph_renderer.node_renderer.glyph = Circle( size=circle_size, fill_color='color' )
@@ -43,7 +44,8 @@ class BokehGraph:
     def _get_random_colors(self):
         colors = []
         for _ in range(  len( self.graph.vertices) ):
-            color = "#" + ''.join([choice( '0123456789ABCDEF') for j in range(6)])
+            # color = "#" + ''.join([choice( '0123456789ABCDEF') for j in range(6)])
+            color = '#002245'
             colors.append( color )
         return colors
 
