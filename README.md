@@ -1,7 +1,7 @@
 # Graphs
 
 ## Objectives
-
+ 
 * [Graph Intro](objectives/graph-intro)
 * [Breadth First Search](objectives/breadth-first-search)
 
