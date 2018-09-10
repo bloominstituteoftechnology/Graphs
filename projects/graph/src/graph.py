@@ -9,6 +9,9 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex):
+        if vertex in self.vertices:
+            raise Exception(f'vertex {vertex} already exists')
+        
         self.vertices[vertex] = []
     
     def add_edge(self, vertex1, vertex2):
