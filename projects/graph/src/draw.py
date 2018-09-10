@@ -27,3 +27,7 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size, draw_components)
+
+    def show(self, output_path='./graph.html'):
+        output_file(output_path)
+        show(self.plot)
