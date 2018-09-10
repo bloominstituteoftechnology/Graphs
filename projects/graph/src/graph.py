@@ -1,9 +1,32 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+# {
+# '0': {'1', '3'},
+# '1': {'0'},
+# '2': set(),
+# '3': {'0'}
+# }     
+
+
+class Edge:
+    """Edges in the adjacency list are just a destination."""
+    # Using simple classes for illustrative purposes
+    # pylint: disable=too-few-public-methods
+    def __init__(self, destination):
+        self.destination = destination
+
+
+class Vertex:
+    """Vertices have a label and a set of edges."""
+    # pylint: disable=too-few-public-methods
+    def __init__(self, label):
+        self.label = label
+        self.edges = set()
 
 
 class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    """The graph itself is simply a set of vertices."""
+    # pylint: disable=too-few-public-methods
     def __init__(self):
-        pass  # TODO
+        self.vertices = set()
