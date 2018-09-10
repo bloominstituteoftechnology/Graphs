@@ -10,7 +10,9 @@ class Graph:
     def add_vertex(self, node):
         self.vertices[node] = set()
     def add_edge(self, node, neighbor):
-        if self.vertices[node] != set():
+        if node not in self.vertices or neighbor not in self.vertices:
+            raise Exception('Error: Vertex does not exist')
+        elif self.vertices[node] != set():
             self.vertices[node].add(neighbor)
             self.vertices[neighbor] = {node}
         else:
@@ -26,4 +28,5 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+#graph.add_edge('1', '4')
 print(graph.vertices)
