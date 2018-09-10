@@ -12,18 +12,18 @@ class GraphTests(unittest.TestCase):
         self.graph.add_vertex('2')
         self.graph.add_vertex('3')
         self.assertDictEqual(self.graph.vertices, {
-            '0': [],
-            '1': [],
-            '2': [],
-            '3': [],
+            '0': set(),
+            '1': set(),
+            '2': set(),
+            '3': set(),
         })
         self.graph.add_edge('0', '1')
         self.graph.add_edge('0', '3')
         self.assertDictEqual(self.graph.vertices, {
-            '0': ['1','3'],
-            '1': ['0'],
-            '2': [],
-            '3': ['0'],
+            '0': {'1','3'},
+            '1': {'0'},
+            '2': set(),
+            '3': {'0'},
         })
 
 if __name__ == '__main__':
