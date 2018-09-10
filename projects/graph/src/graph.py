@@ -20,6 +20,9 @@ class Graph:
     #         self.vertices[vertex1] = [vertex2]
 
     def add_edge(self, vertex1, vertex2):
+        if vertex1 not in self.vertices or vertex2 not in self.vertices:
+            print(f"Cannot create edge between {vertex1} and {vertex2}, vertex does not exist")
+            return
         self.vertices[vertex1].add(vertex2)
         self.vertices[vertex2].add(vertex1)
 
@@ -31,3 +34,4 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
+graph.add_edge('0', '4')
