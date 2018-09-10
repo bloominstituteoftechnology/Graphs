@@ -29,9 +29,10 @@ class Graph:
 
 
 # vertices = {
-#     0: {1},
-#     1: {},
-#     2: {}
+#     0: {1,2,3},
+#     1: {0},
+#     2: {0,3},
+#     3: {0,2}
 # }
 
 graph = Graph()  # Instantiate your graph
@@ -43,3 +44,4 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
+print(graph.vertices.values())
