@@ -1,4 +1,4 @@
-# Drawing Connected Components
+q# Drawing Connected Components
 
 This is a multi-stage project to draw a graph and show the connected
 components of that graph in different colors.
