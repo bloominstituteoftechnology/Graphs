@@ -7,7 +7,7 @@ generated graph containing a given number of vertices and edges (default 8).
 
 from sys import argv
 
-
+#for pull request
 class Vertex:
     """Represent a vertex with label and set of edges to other vertices."""
     # Just holds data, but is class and not namedtuple/dict so it is hashable
