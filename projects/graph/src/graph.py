@@ -10,14 +10,15 @@ class Graph:
     
     def add_vertex(self, vertex):
         if vertex not in self.vertices:
-            self.vertices[vertex] = []
+            self.vertices[vertex] = set()
         else:
             raise ValueError(f'Vertex {vertex} already exists')
     
     def add_edge(self, edge, vertex):
         if vertex in self.vertices:
             if edge not in self.vertices[vertex]:
-                self.vertices[vertex].append(edge)
+                self.vertices[vertex].add(edge)
+                self.vertices[edge].add(vertex)
             else:
                 raise ValueError(f'Edge {edge} already exists with Vertex {vertex}')
         else:
