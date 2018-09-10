@@ -11,7 +11,10 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex):
-        self.vertices[vertex] = set()
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+        else:
+            sys.exit("Vertex {} already exists.".format(vertex))
 
     def add_edge(self, vertex1, vertex2):
         if vertex1 not in self.vertices:
