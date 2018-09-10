@@ -12,16 +12,16 @@ class Graph:
         if vertex not in self.vertices:
             self.vertices[vertex] = []
         else:
-            raise ValueError('Vertex already exists')
+            raise ValueError(f'Vertex {vertex} already exists')
     
-    def add_edge(self, vertex, edge):
+    def add_edge(self, edge, vertex):
         if vertex in self.vertices:
             if edge not in self.vertices[vertex]:
                 self.vertices[vertex].append(edge)
             else:
-                raise ValueError('Edge already exists')
+                raise ValueError(f'Edge {edge} already exists with Vertex {vertex}')
         else:
-            raise ValueError('Vertex does not exist')
+            raise ValueError(f'Vertex {vertex} does not exist')
         
 class Node:
     def __init__(self):
