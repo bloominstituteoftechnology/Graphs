@@ -2,6 +2,8 @@
 General drawing methods for graphs using Bokeh.
 """
 import math
+import random
+
 from graph import Graph
 from node import Node
 from bokeh.io import show, output_file
@@ -24,9 +26,9 @@ class BokehGraph:
                     tools='', toolbar_location=None)
 
         graph = GraphRenderer()
-
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(['pink'] * N, 'color')
+        r = lambda: random.randint(0,255)
+        graph.node_renderer.data_source.add(['#%02X%02X%02X' % (r(),r(),r()) for i in range(N)], 'color')
         graph.node_renderer.glyph = Circle(radius=0.1, fill_color='color')
 
       
@@ -59,25 +61,28 @@ class BokehGraph:
 
 
 if __name__ == '__main__':
+    # graph = Graph()
+
+    # Square with a dot in the middle
     graph = Graph()
     # Middle Node
-    node0 = Node(0,0, .2)
+    node0 = Node(0,0)
     # Bottom Left
-    node1 = Node(-0.5,-0.5, .2)
+    node1 = Node(-0.5,-0.5)
     # Top Left
-    node2 = Node(-0.5, 0.5, .2)
+    node2 = Node(-0.5, 0.5)
     # Top Right
-    node3 = Node(0.5,0.5, .2)
+    node3 = Node(0.5,0.5)
     # Bottom Right
-    node4 = Node(0.5,-0.5, .2)
+    node4 = Node(0.5,-0.5)
     graph.add_vertex(node0)
     graph.add_vertex(node1)
     graph.add_vertex(node2)
     graph.add_vertex(node3)
     graph.add_vertex(node4)
-    # Middle to Top Right
-    graph.add_edge(node0, node1)
-    # Middle to Bottom Right
-    graph.add_edge(node0, node2)
+    graph.add_edge(node1, node2)
+    graph.add_edge(node2, node3)
+    graph.add_edge(node3, node4)
+    graph.add_edge(node4, node1)
     bokeh_graph = BokehGraph(graph)
     bokeh_graph.show()
