@@ -26,7 +26,7 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         graph_renderer.node_renderer.data_source.add(
-            ['red', 'green', 'yellow', 'blue'], 'color')
+            ['red', 'blue', 'green', 'orange', 'orange', 'orange', 'orange', 'orange', 'orange'], 'color')
         graph_renderer.node_renderer.glyph = Circle(
             radius=0.2, fill_color='color')
 
