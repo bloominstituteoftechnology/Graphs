@@ -72,7 +72,19 @@ class BokehGraph:
             colors.append(color)
         return colors
 
-    
+    def _get_edge_indexes(self):
+        start_indices = []
+        end_indices = []
+        checked = set()
+
+        for vertex, edges in self.graph.vertices.items():
+            if vertex not in checked:
+                for destination in edges:
+                    start_indices.append(vertex)
+                    end_indices.append(destination)
+                checked.add(vertex)
+
+        return dict(start=start_indices, end=end_indices)
 
 graph = Graph()  
 graph.add_vertex('0')
