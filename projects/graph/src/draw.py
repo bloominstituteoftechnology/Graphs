@@ -47,3 +47,18 @@ class BokehGraph:
         output_file('graph.html')
         show(plot)
 
+
+if __name__ == '__main__':
+    graph = Graph()
+    node0 = Node(0,0, .2)
+    node1 = Node(-0.5,-0.5, .2)
+    node2 = Node(-0.5, 0.5, .2)
+    node3 = Node(0.5,0.5, .2)
+    node4 = Node(0.5,-0.5, .2)
+    graph.add_vertex(node0)
+    graph.add_vertex(node1)
+    graph.add_vertex(node2)
+    graph.add_vertex(node3)
+    graph.add_vertex(node4)
+    bokeh_graph = BokehGraph(graph)
+    bokeh_graph.show()
