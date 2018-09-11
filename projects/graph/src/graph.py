@@ -8,22 +8,22 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
       self.vertices = {}
-    def add_vertice(self, vertice):
-      self.vertices[vertice] = set()
-    def add_edge(self, vertice1, vertice2):
-      if not vertice1 in self.vertices:
-        print(f'Vertice {vertice1} does not exist, create missing vertice prior to creating edge.')
-      elif not vertice2 in self.vertices:
-        print(f'Vertice {vertice2} does not exist, create missing vertice prior to creating edge.')
+    def add_vertex(self, vertex):
+      self.vertices[vertex] = set()
+    def add_edge(self, vertex1, vertex2):
+      if not vertex1 in self.vertices:
+        print(f'vertex {vertex1} does not exist, create missing vertex prior to creating edge.')
+      elif not vertex2 in self.vertices:
+        print(f'vertex {vertex2} does not exist, create missing vertex prior to creating edge.')
       else:
-        self.vertices[vertice1].add(vertice2)
-        self.vertices[vertice2].add(vertice1)
+        self.vertices[vertex1].add(vertex2)
+        self.vertices[vertex2].add(vertex1)
 
 graph = Graph()  # Instantiate your graph
-graph.add_vertice('0')
-graph.add_vertice('1')
-graph.add_vertice('2')
-graph.add_vertice('3')
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.add_edge('0', '7')
