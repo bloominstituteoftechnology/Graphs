@@ -1,8 +1,6 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-
-
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -23,44 +21,13 @@ class Graph:
                 raise ValueError(f'Edge {edge} already exists with Vertex {vertex}')
         else:
             raise ValueError(f'Vertex {vertex} does not exist')
-        
-class Node:
-    def __init__(self):
-        self.neighbors = []
-    # O(1)
-    def addNeigbor(self, neighbor_node):
-        self.neighbors.append(neighbor_node)
-    # O(1)
-    def getNeighbors():
-        return self.neighbors
-    # O(n)
-    def isNeighbor(self, node):
-        return node in self.neighbors
 
-edge_list = [(1,2), (1,4), (1,7), (2,3), (2,5), (3,6), (4,7), (5,6), (6,7)]
-# time: addNeighbor = O(1), getNeighbor = O(n), isNeighbor = O(n), addNode = O(1), removeNode = O(e)
-# space: O(n+e)
-
-adjacency_list = {
-    1: [2,4,7],
-    2: [1,3,5],
-    3: [2,6],
-    4: [1,7],
-    5: [2,6],
-    6: [3,5],
-    7: [1,4,6]
-}
-# addNeighbor = O(1), getNeighbor = O(1), isNeighbor = O(avg_edges), addNode = O(1), removeNode = O(n^2)
-# space: O(e)
-
-adjacency_matrix = {
-    1: [0,1,0,1,0,0,1],
-    2: [1,0,1,0,1,0,0],
-    3: [0,1,0,0,0,1,0],
-    4: [1,0,0,0,0,0,1],
-    5: [0,1,0,0,0,1,0],
-    6: [0,0,1,0,1,0,1],
-    7: [1,0,0,1,0,1,0],
-}
-# addNeighbor = O(1), getNeighbor = O(n), isNeighbor = O(1), addNode = O(n^2), removeNode = O(n^2)
-# space: O(n^2)
+demo_g = Graph()
+demo_g.add_vertex('0')
+demo_g.add_vertex('1')
+demo_g.add_vertex('2')
+demo_g.add_vertex('3')
+demo_g.add_edge('0', '1')
+demo_g.add_edge('0', '3')
+for vertex in demo_g.vertices:
+    print(f'{vertex}: {demo_g.vertices[vertex]}')
