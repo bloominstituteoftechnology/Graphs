@@ -19,14 +19,14 @@ def main(vert_args=5, edge_args=5):
         vertices = sample(g.vertices.keys(), 2)
         g.add_edge(vertices[0], vertices[1])
 
-    b = BokehGraph(g)
+    b = BokehGraph(g, 'Graph Demo')
     b.setup_graph()
     b.show_plot()
 
 if __name__ == '__main__':
-    if len(argv) >= 3:
-        vert_args = int(argv[1])
-        edge_args = int(argv[2])
-        main(vert_args, edge_args)
+    if len(argv) == 1:
+        main()
+    elif len(argv) == 3:
+        main(int(argv[1]), int(argv[2]))
     else:
         print('Expected args: vert_args, edge_args')
