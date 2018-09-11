@@ -23,6 +23,7 @@ def main(vertices=8, edges=8):
         if starting != ending and (starting, ending) not in edgesOut and (ending, starting) not in edgesOut:
             edgesOut.append((starting,ending))
 
+    print("Edges Out", edgesOut)
     for edge in edgesOut:
         graph.add_edge(edge[0], edge[1])             
     

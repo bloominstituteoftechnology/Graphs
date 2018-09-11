@@ -23,3 +23,18 @@ class Graph:
             self.vertices[startpoint].add(endpoint)
             self.vertices[endpoint].add(startpoint)
 
+    # Breadth First Search
+    def bfs(self, item):
+        queue = []
+
+        
+class Node:
+    def __init__(self, value, adjacent=None):
+        self.value = value
+        self.adjacent = adjacent
+        self.color = "white"
+
+    def add_adjacent(self,node):
+        self.adjacent.append(node)
+    
+
