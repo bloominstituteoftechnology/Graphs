@@ -10,6 +10,10 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(self.node.x, 5)
         self.assertEqual(self.node.y, 4)
         self.assertEqual(self.node.radius, .2)
+        self.assertEqual(self.node.id, 0)
+        self.node2 = Node(5,4,.2)  # Instantiate your node
+        self.assertEqual(self.node.id, 0)
+        self.assertEqual(self.node2.id, 1)
 
 if __name__ == '__main__':
     unittest.main()
