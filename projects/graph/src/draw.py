@@ -40,14 +40,21 @@ class BokehGraph:
             end=end_indices)
 
         ### start of layout code
-        circ = [int(v) for v in graph.vertices]
-        x = [2 * (i // 3) for i in circ]
-        y = [2 * (i % 3) for i in circ]
+        grid = [int(v) for v in graph.vertices]
+        x = [2 * (i // 3) for i in grid]
+        y = [2 * (i % 3) for i in grid]
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         plot.renderers.append(graph_renderer)
+
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph', 
+                          text_align='center', text_baseline='middle', source=labelSource,
+                          render_mode='canvas')
+
+        plot.add_layout(labels)
 
         output_file('graph.html')
         show(plot)
