@@ -41,6 +41,41 @@ class Node:
     def isNeighbor(self, node): 
        return node in self.neighbors # O(n) - linear time
 
+    def dfs(self, start, target=None):
+        # create a stack and visited list
+        stack = [start]
+        visited = set()
+        # while there's a stack, pop the last item
+        while len(stack) > 0:
+            current_node = stack.pop()
+            # if found, break
+            if current_node == target:
+                break
+            # otherwise, add the current node to the list of visited notes
+            visited.add(current_node)
+            # add unvisited nodes to the queue
+            stack.extend(self.vertices[current_node] - visited)
+        # return visited
+        return visited
+
+    def bfs(self, start, target=None):
+        # create a queue and visited list
+        queue = [start]
+        visited = set()
+        # while there's a queue, pop the last item
+        while len(queue) > 0:
+            current_node = queue.pop(0)
+            # if found, break
+            if current_node == target:
+                break
+            # otherwise, add the current node to the list of visited notes
+            visited.add(current_node)
+            # add unvisited nodes to the queue
+            queue.extend(self.vertices[current_node] - visited)
+        # return visited
+        return visited
+        
+
 # There are more efficient ways of bulding a graph. 
 # For example, creating an edge list
 
