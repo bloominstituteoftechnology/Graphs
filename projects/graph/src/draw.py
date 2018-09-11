@@ -37,20 +37,28 @@ class BokehGraph:
             start=node_indices,
             end=connected_nodes_lists)
 
-        # ### start of layout code
-        # Circular 
-        # circ = [i*2*math.pi/8 for i in node_indices]
-        # x = [math.cos(i) for i in circ]
-        # y = [math.sin(i) for i in circ]
-
+        #Layout code
+        # Grid or Square Layout
         grid = [int(v) for v in self.graph.vertices]
         x = [(i // 3) for i in grid]
         y = [(i % 3) for i in grid]
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
+        # Circular Layout
+        # circ = [i*2*math.pi/8 for i in node_indices]
+        # x = [math.cos(i) for i in circ]
+        # y = [math.sin(i) for i in circ]
+
+        # Create the labels
+        labelSource = ColumnDataSource(data = dict(x=x, y=y, names= grid))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph', 
+            text_align='center', text_baseline='middle', source=labelSource,
+            render_mode='canvas')
+        
         # Render the plot
         plot.renderers.append(graph)
+        plot.add_layout(labels)
         output_file('graph.html')
         show(plot)
 
