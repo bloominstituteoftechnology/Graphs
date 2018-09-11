@@ -43,3 +43,9 @@ class Graph:
             for next_node in adjList[n]:
                 frontier.append(next_node)
 
+    def dft(adjList, node, visited):
+        print(node)
+        visited.append(node)
+        for child_node in adjList[node]:
+            if child_node not in visited:
+                dft(adjList, child_node, visited)

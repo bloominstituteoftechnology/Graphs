@@ -18,6 +18,9 @@ def main(arr, e_arr):
     bg = BokehGraph(g)
     bg.show()
 
+    g.dft(vertices, vertices[0], [])
+    g.bft(vertices, vertices[0])
+
 vertices = []
 edges = []
 
@@ -34,6 +37,9 @@ for y in range(6):
             edges.append(edge)
 main(vertices, edges)
 
+g.dft(vertices, '0', [])
+
+g.bft(vertices, '0')
 
 #if __name__ == '__main__':
     # TODO - parse argv
