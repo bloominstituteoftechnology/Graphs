@@ -71,8 +71,8 @@ class BokehGraph:
         x_value = [x for (x, y) in self.graph.vertices.items()]
         y_value = [list(y) for (x, y) in self.graph.vertices.items()]
 
-        plot = figure(title='Graph Layout', x_range=(0, 4),
-                y_range=(0,4), tools='', toolbar_location=None)
+        plot = figure(title='Graph Layout', x_range=(0, 9),
+                y_range=(-4,4), tools='', toolbar_location=None)
 
         graph = GraphRenderer()
 
@@ -100,14 +100,23 @@ class BokehGraph:
         show(plot)
 
 
+
 graph = Graph()
 graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_vertex('8')
+graph.add_vertex('9')
+graph.add_vertex('10')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-graph.add_edge('1', '2')
+graph.add_edge('1', '7')
+graph.add_edge('2', '5')
 print(graph.vertices)
 
 bg = BokehGraph(graph)
