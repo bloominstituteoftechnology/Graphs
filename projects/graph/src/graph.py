@@ -20,11 +20,13 @@ class Graph:
             raise IndexError(
                 'That vertex value is not available. please add it first')
 
-    def dft(adjList, node_id, visited):
+    def dfs(adjList, node_id, visited=[]):
         visited.append(node_id)
         for child_node in adjList[node_id]:
             if child_node not in visited:
                 dft(adjList, child_node, visited)
+        if target:
+            print('Target not found!')
 
     def bft(adjList, node_id):
         frontier = []

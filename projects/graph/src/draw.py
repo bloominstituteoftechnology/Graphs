@@ -53,7 +53,8 @@ class BokehGraph:
 
         output_file('graph.html')
         show(plot)
-
+    def dfs(self,start):
+        self.graph.dfs(start)
 
 bg = BokehGraph()  # Instantiate your graph
 bg.graph.add_vertex('0')
@@ -68,4 +69,6 @@ bg.graph.add_vertex('8')
 bg.graph.add_vertex('9')
 bg.graph.add_edge('0', '1')
 bg.graph.add_edge('0', '3')
+bg.dfs(bg.graph.vertices['0'])
 bg.show()
+
