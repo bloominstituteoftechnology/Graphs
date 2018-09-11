@@ -2,9 +2,12 @@ from math import ceil, floor, sqrt
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
+from bokeh.layouts import widgetbox
+from bokeh.models.widgets import Button
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
                           LabelSet, ColumnDataSource)
 
+rando_button = Button(label='Randomize', button_type='success')
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -86,6 +89,7 @@ class BokehGraph:
         """Render the graph to a file on disk and open with default browser."""
         output_file(output_path)
         show(self.plot)
+        show(rando_button)
 
     def randomize(self):
         """Randomize vertex positions, trying to minimize collisions."""
@@ -111,3 +115,7 @@ class BokehGraph:
         for vertex in self.vertex_list:
             vertex_colors.append(component_colors[vertex.component])
         return vertex_colors
+
+    def _button_randomizer(self):
+        self.randomize()
+
