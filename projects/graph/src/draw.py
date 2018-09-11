@@ -7,7 +7,7 @@ from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from bokeh.palettes import Spectral8
-from graph import demo_g
+# from graph import demo_g
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -26,7 +26,7 @@ class BokehGraph:
         
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(Spectral8[:4], 'color')
+        graph.node_renderer.data_source.add(Spectral8[:len(node_indices)], 'color')
         graph.node_renderer.glyph = Circle(radius=circle_radius, fill_color='color')
 
         start_indices = [vertex for vertex, edges in self.graph.vertices.items() for edge in edges]
@@ -61,6 +61,6 @@ class BokehGraph:
         output_file(output_path)
         show(self.plot)
 
-demo_b = BokehGraph(demo_g)
-demo_b.setup_graph()
-demo_b.show_plot()
+# demo_b = BokehGraph(demo_g)
+# demo_b.setup_graph()
+# demo_b.show_plot()
