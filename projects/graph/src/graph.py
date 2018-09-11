@@ -23,3 +23,8 @@ class Graph:
 
         self.vertices[vertex1].add(vertex2)
         self.vertices[vertex2].add(vertex1)
+    
+    def add_directional_edge(self, vertex1, vertex2):
+        if vertex1 in self.vertices[vertex2]:
+            raise Exception(f'Use the add_edge method instead')
+        self.vertices[vertex1].add(vertex2)
