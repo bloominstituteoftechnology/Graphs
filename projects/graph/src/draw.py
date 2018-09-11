@@ -43,6 +43,20 @@ class BokehGraph:
 
         self.plot.renderers.append(graph)
 
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
+        labels = LabelSet(
+            x='x', 
+            y='y', 
+            text='names', 
+            level='glyph',
+            text_align='center',
+            text_baseline='middle',
+            source=labelSource,
+            render_mode='canvas'
+        )
+
+        self.plot.add_layout(labels)
+
     def show_plot(self, output_path = './graph.html'):
         output_file(output_path)
         show(self.plot)

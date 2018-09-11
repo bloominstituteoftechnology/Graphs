@@ -31,3 +31,4 @@ demo_g.add_edge('0', '1')
 demo_g.add_edge('0', '3')
 for vertex in demo_g.vertices:
     print(f'{vertex}: {demo_g.vertices[vertex]}')
+    
