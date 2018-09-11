@@ -12,7 +12,7 @@ class Graph:
         self.vertices[vertex] = set()
 
     def add_edge(self, key, value):
-        if key not in self.vertices:
+        if key not in self.vertices or value not in self.vertices:
             raise Exception(f'No {key} vertex')
         self.vertices[key].add(value)
         self.vertices[value].add(key)
