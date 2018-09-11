@@ -84,7 +84,7 @@ graph_renderer = GraphRenderer()
 graph_renderer.node_renderer.data_source.add(node_indices, 'index')
 graph_renderer.node_renderer.data_source.add(['teal', 'green', 'crimson', 'blue', 'cyan', 'orange', 'yellow', 'olive', 'gold', 'pink', 'red', 'white', 'magenta', 'aquamarine', 'turquoise', 'gray', 'salmon', 'lemonchiffon', 'khaki', 'chartreuse', 'mediumspringgreen', 'seagreen', 'darkcyan', 'hotpink', 'blueviolet', 'skyblue', 'navy', 'lightcoral'], 'color')
 # graph.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color='color')
-graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
+graph_renderer.node_renderer.glyph = Circle(radius=0.75, fill_color='color')
 
 start_indices = []
 end_indices = []
