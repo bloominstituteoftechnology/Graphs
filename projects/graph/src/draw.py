@@ -1,9 +1,11 @@
 from math import ceil, floor, sqrt
 from random import choice, random
 from bokeh.io import show, output_file
-from bokeh.plotting import figure
+from bokeh.plotting import figure, curdoc
 from bokeh.layouts import widgetbox
 from bokeh.models.widgets import Button
+from bokeh.models.callbacks import CustomJS
+from bokeh.client import push_session
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
                           LabelSet, ColumnDataSource)
 
@@ -89,7 +91,7 @@ class BokehGraph:
         """Render the graph to a file on disk and open with default browser."""
         output_file(output_path)
         show(self.plot)
-        show(rando_button)
+        show(widgetbox(rando_button))
 
     def randomize(self):
         """Randomize vertex positions, trying to minimize collisions."""
@@ -116,6 +118,14 @@ class BokehGraph:
             vertex_colors.append(component_colors[vertex.component])
         return vertex_colors
 
-    def _button_randomizer(self):
+    def _rando_button_handler(self, new):
         self.randomize()
+
+callback = CustomJS(code="""
+console.log('clicked')
+""")
+
+rando_button.js_on_click(callback)
+
+
 
