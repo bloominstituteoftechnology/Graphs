@@ -1,7 +1,7 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-
+from draw import BokehGraph
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -15,6 +15,7 @@ class Graph:
         if key not in self.vertices:
             raise Exception(f'No {key} vertex')
         self.vertices[key].add(value)
+        self.vertices[value].add(key)
 
 
 graph = Graph()  # Instantiate your graph
@@ -25,3 +26,4 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
+
