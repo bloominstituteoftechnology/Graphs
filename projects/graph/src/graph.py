@@ -3,39 +3,71 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 
-
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
-      self.vertices = {}
-    def add_vertex(self, vertex):
-      self.vertices[vertex] = set()
-    def add_edge(self, vertex1, vertex2):
-      if not vertex1 in self.vertices:
-        raise IndexError(f'vertex {vertex1} does not exist, create missing vertex prior to creating edge.')
-      elif not vertex2 in self.vertices:
-        raise IndexError(f'vertex {vertex2} does not exist, create missing vertex prior to creating edge.')
-      else:
-        self.vertices[vertex1].add(vertex2)
-        self.vertices[vertex2].add(vertex1)
+        self.vertices = {}
+
+    def add_vertex(self, node):
+        self.vertices[node] = set()
+        return self.vertices
+
+    def add_edge(self, from_node, to_node):
+        if self.vertices[from_node] != None and self.vertices[to_node] != None:
+            self.vertices[from_node].add(to_node)
+            self.vertices[to_node].add(from_node)
+        else:
+            raise IndexError("That vertex doesnt exist")
+        return
+
+    def add_directed_edge(self, from_node, to_node):
+        if self.vertices[from_node] != None and self.vertices[to_node] != None:
+            self.vertices[from_node].add(to_node)
+        else:
+            raise IndexError("That vertex doesnt exist")
+        return
+
+    # def bft(self, target, visited=[]):
+    #     # print('self verticles are: ', self.vertices)
+
+    #     for node in self.vertices:
+    #         # print("node #: ", node)
+    #         # print("node #: ", self.vertices[node])
+    #         visited.append(node)
+    #         if self.vertices[node] not in visited:
+    #             print(node)
+    #             self.bft(target, visited)
+
+    def __str__(self):
+        return f"Graph {self.vertices}"
 
 
+# class Node:
+#     def __init__(self, number):
+#         self.number = number
+
+#     def getnumber(self):
+#         return self.number
+
+#     def __str__(self):
+#         return f"node #{self.number}"
 
 
+# graph = Graph()
 
-
-
-        
-
-# graph = Graph()  # Instantiate your graph
 # graph.add_vertex('0')
 # graph.add_vertex('1')
 # graph.add_vertex('2')
 # graph.add_vertex('3')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '3')
-# graph.add_edge('0', '7')
-# print(graph.vertices)
+# graph.add_vertex('4')
+# graph.add_vertex('5')
+# graph.add_vertex('6')
+# graph.add_vertex('7')
 
+# graph.add_directed_edge('0', '1')
+# graph.add_directed_edge('0', '3')
+# graph.add_edge('0', '9')
 
+# graph.bft(3)
 

@@ -1,66 +1,61 @@
-
-
+"""
+General drawing methods for graphs using Bokeh.
+"""
 import math
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval
-# from bokeh.palettes import Spectral8
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
+                          ColumnDataSource)
+from bokeh.palettes import Spectral8
 from graph import Graph
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
 
+class BokehGraph:
+    """Class that takes a graph and exposes drawing methods."""
 
+    def __init__(self, graph):
+        self.graph = graph
 
-node_indices = list(graph.vertices)
-l = len(graph.vertices)
-print(node_indices)
-plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10), y_range=(-1.1,10),
-              tools='', toolbar_location=None)
+    def show(self):
 
-graph_renderer = GraphRenderer()  
+        node_indices = [k for (k, v) in self.graph.vertices.items()]
+        edge__start = [k for (k, v) in self.graph.vertices.items()]
+        edge__end = [list(v) for (k, v) in self.graph.vertices.items()]
 
-graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-graph_renderer.node_renderer.data_source.add(['red']*l, 'color')
-graph_renderer.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color='color')
+        print("\n grap vertices: ", self.graph.vertices)
+        print("\n edge__start: ", edge__start)
+        print("\n edge__end: ", edge__end)
 
-start_i = []
-end_i = []
+        N = len(edge__start)
+        plot = figure(title="Graph Layout", x_range=(-1, 10),
+                      y_range=(-2, 10), tools="", toolbar_location=None)
 
-for vertex in graph.vertices:
-  for end_point in graph.vertices[vertex]:
-    start_i.append(vertex)
-    end_i.append(end_point)
+        graph = GraphRenderer()
 
-print(start_i)
-print(end_i)
+        graph.node_renderer.data_source.add(node_indices, 'index')
 
+        graph.node_renderer.data_source.add(
+            ['red'] * (N), 'color')
+        graph.node_renderer.glyph = Circle(radius=0.1, fill_color='color')
 
-graph_renderer.edge_renderer.data_source.data = dict(
-    start=start_i,
-    end=end_i)
+        start_i = []
+        end_i = []
+        for vertex in self.graph.vertices:
+            for end_point in self.graph.vertices[vertex]:
+                start_i.append(vertex)
+                end_i.append(end_point)
 
-### start of layout code
-square = [int(v) for v in graph.vertices]
-x = [2 * (i//3) for i in square]
-# x = [i for i in circ]
-# y = [i for i in circ]
-y = [2 * (i % 3) for i in square]
+        graph.edge_renderer.data_source.data = dict(
+            start=start_i, end=end_i)
 
-print(x, y)
+        x = [int(i) for i in node_indices]
+        y = [math.sin(int(i)) for i in node_indices]
 
-graph_layout = dict(zip(node_indices, zip(x, y)))
-print(graph_layout)
-graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+        graph_layout = dict(zip(node_indices, zip(x, y)))
+        graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+        # print(graph_layout)
+        plot.renderers.append(graph)
 
-plot.renderers.append(graph_renderer)
-
-output_file('graph.html')
-show(plot)
+        output_file('graph.html')
+        show(plot)
