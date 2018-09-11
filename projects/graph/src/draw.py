@@ -14,7 +14,7 @@ class BokehGraph:
         self.graph = graph
 
     def show(self):
-        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,1.1), y_range=(-1.1,1.1),
+        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1), y_range=(-1.1,10.1),
                     tools='', toolbar_location=None)
                     
         N = len(self.graph.vertices)
@@ -24,7 +24,7 @@ class BokehGraph:
     
         graph.node_renderer.data_source.add(node_indices, 'index')
         graph.node_renderer.data_source.add(['red'] * N, 'color')
-        graph.node_renderer.glyph = Circle(radius=0.2, fill_color='color')
+        graph.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
         start_indices = []
         end_indices = []
@@ -45,7 +45,12 @@ class BokehGraph:
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph', 
+        text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+        
         plot.renderers.append(graph)
+        plot.add_layout(labels)
 
         output_file('graph.html')
         show(plot)
