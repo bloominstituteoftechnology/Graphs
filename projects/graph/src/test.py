@@ -1,6 +1,10 @@
-from bokeh.plotting import figure, output_file, show
+from bokeh.plotting import figure, output_file, show, labelset
 
 output_file("axes.html")
+source = ColumnDataSource(data=dict(height=[66, 71, 72, 68, 58, ],
+                                    weight=[165, 189, 220, 141, 260],
+                                    names=['Mark', 'Amir', 'Matt', 'Greg',
+                                           'Owen', 'Juan']))
 
 p = figure(plot_width=400, plot_height=400)
 p.circle([1,2,3,4,5], [2,5,8,2,7], size=10)
