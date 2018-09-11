@@ -44,6 +44,18 @@ class BokehGraph:
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
+        #setup labels
+        data = {
+                'x': x,
+                'y': y,
+                'name': node_indices
+            }
+        source = ColumnDataSource(data)
+        labels = LabelSet(x="x", y="y", text="name", y_offset = -5,
+                        text_font_size="12pt", text_color="white",
+                        source=source, text_align='center')
+
+        plot.add_layout(labels)
         plot.renderers.append(graph)
 
         output_file('graph2.html')
@@ -58,6 +70,6 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 
-bokeh = BokehGraph(graph)
+# bokeh = BokehGraph(graph)
 
-bokeh.show()
+# bokeh.show()
