@@ -1,6 +1,12 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import math
+from bokeh.io import show, output_file
+from bokeh.plotting import figure
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
+                          ColumnDataSource, Oval)
+from bokeh.palettes import Spectral8
 
 
 class Graph:
@@ -17,7 +23,7 @@ class Graph:
 
     def add_edge(self, vertex1, vertex2):
         if vertex1 not in self.vertices or vertex2 not in self.vertices:
-            raise valueError(f"There's not vertex there to add an edge to!")
+            raise IndexError(f"There's not vertex there to add an edge to!")
         else:
             self.vertices[vertex1].add(vertex2)
             self.vertices[vertex2].add(vertex1)
