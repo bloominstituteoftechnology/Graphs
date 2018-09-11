@@ -41,6 +41,10 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
 
+# class BokehGraph:
+#     """ Class that takes a graph and exposes drawing methods."""
+#     def __init__(self, graph
+
 N = len(graph.vertices)
 node_indices = list(graph.vertices)
 
