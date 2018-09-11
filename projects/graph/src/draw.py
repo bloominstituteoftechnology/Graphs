@@ -5,6 +5,7 @@ from bokeh.plotting import figure
 from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval, Circle
 from bokeh.palettes import Inferno8
 from graph import Graph
+import random
 
 class BokehGraph:
     def __init__(self, newGraph=None):
@@ -20,7 +21,7 @@ class BokehGraph:
             self.graph.addEdge('0', '3')
             print(self.graph.vertices)
         
-    def draw(self):
+    def show(self):
         N = len(self.graph.vertices)
         node_indices = list(self.graph.vertices)
 
@@ -29,7 +30,7 @@ class BokehGraph:
         
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        graph_renderer.node_renderer.data_source.add(['red', 'blue', 'green', 'orange'], 'color')
+        graph_renderer.node_renderer.data_source.add(getColors(N), 'color')
         graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
         start_indices = []
@@ -44,6 +45,38 @@ class BokehGraph:
             start=start_indices,
             end=end_indices)
 
+        ### start of layout code
+        circ = [int(v) for v in self.graph.vertices]
+        x = [2 * (i // 3) for i in circ]
+        y = [2 * (i % 3) for i in circ]
+
+        # x = [2 * (i // 3) for i in node_indices]
+        # y = [2 * (i % 3) for i in node_indices]
+
+
+        graph_layout = dict(zip(node_indices, zip(x, y)))
+        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+
+        plot.renderers.append(graph_renderer)
+
+        output_file('graph.html')
+        show(plot)
+
+def getColors(numIndices):
+    def randomColor():
+        colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'white', 'black']
+        return colors[random.randint(0, len(colors) - 1)]
+    count = 0
+    colorArr = []
+    while count < numIndices:
+        colorArr.append(randomColor())
+        count += 1
+    return colorArr
+
+    
+
+# mygraph = BokehGraph()
+# mygraph.show()
 
 
 
@@ -54,24 +87,3 @@ class BokehGraph:
 
 
 
-
-
-
-
-
-### start of layout code
-circ = [int(v) for v in graph.vertices]
-x = [2 * (i // 3) for i in circ]
-y = [2 * (i % 3) for i in circ]
-
-# x = [2 * (i // 3) for i in node_indices]
-# y = [2 * (i % 3) for i in node_indices]
-
-
-graph_layout = dict(zip(node_indices, zip(x, y)))
-graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
-
-plot.renderers.append(graph_renderer)
-
-output_file('graph.html')
-show(plot)
