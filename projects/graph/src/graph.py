@@ -32,5 +32,14 @@ class Graph:
                 self.vertices[i] = {j}
                 self.vertices[j] = {i}
             
-
+    def bfs(adjList, node):
+        frontier = []
+        frontier.append(node)
+        visited = []
+        while len(frontier) > 0:
+            n = frontier.pop()
+            visited.append(n)
+            print(n)
+            for next_node in adjList[n]:
+                frontier.append(next_node)
 

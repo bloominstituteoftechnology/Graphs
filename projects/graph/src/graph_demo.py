@@ -7,6 +7,7 @@ Demonstration of Graph and BokehGraph functionality.
 from sys import argv
 from graph import Graph
 from draw import BokehGraph
+import random
 
 
 def main(arr, e_arr):
@@ -17,9 +18,22 @@ def main(arr, e_arr):
     bg = BokehGraph(g)
     bg.show()
 
-vertices = ['1', '3', '7', '11', '19', '27']
-edges = [('1', '19'), ('1', '3'), ('3', '27'), ('7', '11'), ('11', '27')]
+vertices = []
+edges = []
+
+for x in range(10):
+    vertices.append(str(random.randint(1,31))) 
+    print(vertices) 
+
+for y in range(6): 
+    for node in vertices[:-1]:
+        if int(node) % 2 == 0:
+            next = vertices.index(node)+1
+            edge = {node, vertices[next]}
+            print(edge)
+            edges.append(edge)
 main(vertices, edges)
+
 
 #if __name__ == '__main__':
     # TODO - parse argv
