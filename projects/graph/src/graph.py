@@ -23,18 +23,26 @@ class Graph:
             self.vertices[startpoint].add(endpoint)
             self.vertices[endpoint].add(startpoint)
 
-    # Breadth First Search
-    def bfs(self, item):
-        queue = []
+    def breadth_first_for_each(self, start):
+        queue = [] # setup a que to check nodes
+        queue.append(start) # first/root node
+        visited = []
+        while len(queue) > 0:
+            current = queue.pop(0) # first in que pulled out
+            visited.append(current) #push into visited
+            for edge in self.vertices[current]:  #look at connections,  
+                if edge not in visited and edge not in queue:    # if the connected node isn't visited,
+                    queue.append(edge)   # then enqueue it
+        print(visited)
 
-        
-class Node:
-    def __init__(self, value, adjacent=None):
-        self.value = value
-        self.adjacent = adjacent
-        self.color = "white"
-
-    def add_adjacent(self,node):
-        self.adjacent.append(node)
-    
-
+    def depth_first_for_each(self, start):
+        stack = [] # setup a que to check nodes
+        stack.append(start) # first/root node
+        visited = []
+        while len(stack) > 0:
+            current = stack.pop() # first in que pulled out
+            visited.append(current) #push into visited
+            for edge in self.vertices[current]:  #look at connections,  
+                if edge not in visited and edge not in stack:    # if the connected node isn't visited,
+                    stack.append(edge)   # then enqueue it
+        print(visited)
