@@ -6,12 +6,13 @@ from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
-from bokeh.palettes import Spectral8
+from bokeh.palettes import Spectral8, Viridis256
+import random
 # from graph import demo_g
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph=None, title='Simple Graph Title', w=10, h=10):
+    def __init__(self, graph=None, title='Simple Graph Title', h=10, w=10):
         self.graph = graph
         self.plot = figure(
             title=title, 
@@ -23,10 +24,10 @@ class BokehGraph:
 
     def setup_graph(self, circle_radius=0.5):
         node_indices = list(self.graph.vertices)
-        
+        color_indices = [Viridis256[random.randint(0, 255)] for n in range(len(node_indices))]
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(Spectral8[:len(node_indices)], 'color')
+        graph.node_renderer.data_source.add(color_indices, 'color')
         graph.node_renderer.glyph = Circle(radius=circle_radius, fill_color='color')
 
         start_indices = [vertex for vertex, edges in self.graph.vertices.items() for edge in edges]
@@ -51,6 +52,8 @@ class BokehGraph:
             level='glyph',
             text_align='center',
             text_baseline='middle',
+            text_color='white',
+            # text_font_size='18pt',
             source=labelSource,
             render_mode='canvas'
         )
