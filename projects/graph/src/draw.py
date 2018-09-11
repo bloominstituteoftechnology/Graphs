@@ -24,16 +24,9 @@ class BokehGraph:
         graph.node_renderer.data_source.add(Viridis10, 'color')
         graph.node_renderer.glyph = Circle(radius=0.1, fill_color='color', name=str(node_indices))
         
-        starts = []
-        for k in self.graphIn.vertices.keys():
-            starts += [k]*(len(self.graphIn.vertices[k]))
-        ends = []
-        for k, v in self.graphIn.vertices.items():
-            ends += v
-
         graph.edge_renderer.data_source.data = dict(
-            start=starts,
-            end=ends,
+            start= self.vertices,
+            end= [list(y) for y in self.graphIn.vertices.values()],
             )
 
         circ = [int(i)*2*math.pi/len(self.vertices) for i in node_indices]
@@ -66,8 +59,11 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_edge('2', '5')
+graph.add_edge('4', '1')
+graph.add_edge('3', '0')
 
 bokeh = BokehGraph(graph)
 
