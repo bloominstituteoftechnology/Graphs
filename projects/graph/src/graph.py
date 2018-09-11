@@ -23,6 +23,31 @@ class Graph:
             self.verts[x].append(y)
             self.verts[y].append(x)
 
+    def breadth_first_for_each(self, start):
+        queue = [] # setup a que to check nodes
+        queue.append(start) # first/root node
+        visited = []
+        while len(queue) > 0:
+            current = queue.pop(0) # first in que pulled out
+            visited.append(current) #push into visited
+            for edge in self.vertices[current]:  #look at connections,
+                if edge not in visited and edge not in queue:    # if the connected node isn't visited,
+                    queue.append(edge)   # then enqueue it
+        print(visited)
+
+
+    def depth_first_for_each(self, start):
+        stack = [] # setup a que to check nodes
+        stack.append(start) # first/root node
+        visited = []
+        while len(stack) > 0:
+            current = stack.pop() # first in que pulled out
+            visited.append(current) #push into visited
+            for edge in self.vertices[current]:  #look at connections,
+                if edge not in visited and edge not in stack:    # if the connected node isn't visited,
+                    stack.append(edge)   # then enqueue it
+        print(visited)
+
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
 graph.add_vertex('1')
