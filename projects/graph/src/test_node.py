@@ -20,5 +20,10 @@ class NodeTests(unittest.TestCase):
         self.node.assign_random_color()
         self.assertRegex(self.node.color, r'#[0-9A-F]{6}')
 
+    def test_create_with_random_props(self):
+        random_node = Node.create_with_random_props(4,4)
+        self.assertGreater(random_node.x, 0)
+        self.assertLess(random_node.y, 4)
+
 if __name__ == '__main__':
     unittest.main()

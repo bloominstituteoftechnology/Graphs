@@ -15,3 +15,8 @@ class Node:
         r = lambda: random.randint(50,255)
         self.color = '#%02X%02X%02X' % (r(),r(),r())
 
+    @classmethod
+    def create_with_random_props(cls, graph_width, graph_height, radius = .2):
+        random_x = random.random() * graph_width
+        random_y = random.random() * graph_height
+        return cls(random_x, random_y, radius)
