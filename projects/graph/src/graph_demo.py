@@ -22,8 +22,11 @@ def main(num_vertices = 10, num_edges = 10, min_x_range = 0, max_x_range = 10, m
         vertices = random.sample(graph.vertices.keys(), 2)
         graph.add_edge(vertices[0], vertices[1])
 
-    print("BFS Result")
-    print(graph.bfs("4"))
+    # print("BFS Result")
+    # print(graph.bfs("4"))
+
+    print("DFS Result")
+    graph.dfs()
 
     bokeh_graph = BokehGraph(graph, "Random Graph", min_x_range, max_x_range, min_y_range, max_y_range)
     bokeh_graph.show()

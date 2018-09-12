@@ -48,3 +48,17 @@ class Graph:
             queue.pop(0)
 
         return visited
+
+    def dfs(self):
+        stack = []
+
+        for v in self.vertices:
+            if v not in stack:
+                self.dfs_util(v, stack)
+
+    def dfs_util(self, v, visited):
+        visited.append(v)
+        
+        for e in self.vertices[v]:
+            if e not in visited:
+                self.dfs_util(e, visited)
