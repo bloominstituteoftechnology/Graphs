@@ -7,7 +7,7 @@ import sys
 from graph import Graph
 from draw import BokehGraph
 from random import randint
-from images import getAwesomeGraph
+from images import getGraph
 
 def getDefaultGraph():
     graph = Graph()
@@ -47,7 +47,9 @@ def main(**kwargs):
     elif style == "random":
         graph = getRandomGraph(numVerts, numEdges)
     elif style == 'awesome':
-        graph = getAwesomeGraph()
+        graph = getGraph('awesome')
+    elif style == 'radiohead':
+        graph = getGraph('radiohead')
     else:
         graph = getDefaultGraph()
 
