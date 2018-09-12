@@ -8,8 +8,6 @@ from bokeh.models.callbacks import CustomJS
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
                           LabelSet, ColumnDataSource)
 
-rando_button = Button(label='Randomize', button_type='success')
-
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -91,7 +89,6 @@ class BokehGraph:
         """Render the graph to a file on disk and open with default browser."""
         output_file(output_path)
         show(self.plot)
-        show(widgetbox(rando_button))
 
     def randomize(self):
         """Randomize vertex positions, trying to minimize collisions."""
@@ -121,18 +118,21 @@ class BokehGraph:
     def _rando_button_handler(self, new):
         self.randomize()
 
+rando_button = Button(label='Randomize', button_type='success')
+show(widgetbox(rando_button))
 
-source = ColumnDataSource(data=dict(x=BokehGraph.pos['vertex.label'][0], y=BokehGraph.pos['vertex.label'][1]))
+# source = ColumnDataSource(data=dict(x=[], y=[]))
 
-callback = CustomJS(args=dict(source=source), code="""
-          const data = source.data;
-          const x = data['x'];
-          const y = data['y'];
-          for (let i = 0, i < x.length, i++) {
-            x[i] = Math.floor(Math.random() * 6)
-            y[i] = Math.floor(Math.random() * 7)
-          }
-          source.change.emit();
-        """)
+# callback = CustomJS(args=dict(source=source), code="""
+#           console.log('clicked')
+#           const data = source.data;
+#           const x = data['x'];
+#           const y = data['y'];
+#           for (let i = 0; i < 5; i++) {
+#             x.push(Math.floor(Math.random() * 6))
+#             y.push(Math.floor(Math.random() * 7))
+#           }
+#           source.change.emit();
+#         """)
 
-rando_button.js_on_click(callback)
+# rando_button.js_on_click(callback)
