@@ -2,13 +2,13 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 class Vertex:
-    def __init__(self, vertex_id, value, x=None , y=None, color="white"):
+    def __init__(self, vertex_id, value=None, x=None , y=None, color="white"):
         self.id = int(vertex_id)
         self.value = value 
         self.color = color
         self.x = x
         self.y = y
-        self.edges
+        self.edges = set()
         if self.x is None:
             self.x = self.id
         if self.y is None:
@@ -21,13 +21,19 @@ class Graph:
     def __init__(self):
         self.vertices = {}
         
-    def add_vertex(self, vertex):
-        self.vertices[vertex] = set()
+    def add_vertex(self, vertex_id):
+        self.vertices[vertex_id] = Vertex(vertex_id)
         
     def add_edge(self, start, end):
         if start in self.vertices and end in self.vertices:
-            self.vertices[start].add(end)
-            self.vertices[end].add(start)
+            self.vertices[start].edges.add(end)
+            self.vertices[end].edges.add(start)
+        else:
+            raise IndexError("That vertex does not exist!")
+
+    def add_directed_edge(self, start, end):
+        if start in self.vertices and end in self.vertices:
+            self.vertices[start].edges.add(end)
         else:
             raise IndexError("That vertex does not exist!")
     
@@ -56,15 +62,16 @@ class Graph:
 
         
 
-#graph = Graph()  # Instantiate your graph
+# graph = Graph()  # Instantiate your graph
 # graph.add_vertex('0')
 # graph.add_vertex('1')
 # graph.add_vertex('2')
 # graph.add_vertex('3')
 # graph.add_edge('0', '1')
 # graph.add_edge('0', '3')
-#print(graph.vertices)
-#print(bfs_connected_component(graph, '3'))
+# print(graph.vertices)
+# print(graph.bfs_connected_component('3'))
+# print(graph.dfs('3'))
 
 # graph = Graph()  # Instantiate your graph
 # graph.add_vertex('A')
@@ -83,23 +90,23 @@ class Graph:
 # graph.add_edge('C', 'G')
 # graph.add_edge('D', 'E')
 
-graph = Graph()
-graph.add_vertex('A')
-graph.add_vertex('B')
-graph.add_vertex('C')
-graph.add_vertex('D')
-graph.add_vertex('E')
-graph.add_vertex('F')
-graph.add_edge('A', 'B')
-graph.add_edge('A', 'C')
-graph.add_edge('B', 'D')
-graph.add_edge('B', 'E')
-graph.add_edge('C', 'F')
-graph.add_edge('F', 'E')
+# graph = Graph()
+# graph.add_vertex('A')
+# graph.add_vertex('B')
+# graph.add_vertex('C')
+# graph.add_vertex('D')
+# graph.add_vertex('E')
+# graph.add_vertex('F')
+# graph.add_edge('A', 'B')
+# graph.add_edge('A', 'C')
+# graph.add_edge('B', 'D')
+# graph.add_edge('B', 'E')
+# graph.add_edge('C', 'F')
+# graph.add_edge('F', 'E')
 
-print(graph.vertices)
-print(graph.bfs_connected_component('A'))
-print(graph.dfs('A'))
+# print(graph.vertices)
+# print(graph.bfs_connected_component('A'))
+# print(graph.dfs('A'))
 
 # {
 #     '0': {'1', '3'},
