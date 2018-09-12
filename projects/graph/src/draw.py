@@ -52,12 +52,19 @@ class BokehGraph:
         show(plot)
 
 
-graph = Graph()
-bokeh = BokehGraph(graph)
-bokeh.graph.add_vertex('0')
-bokeh.graph.add_vertex('1')
-bokeh.graph.add_vertex('2')
-bokeh.graph.add_vertex('3')
-bokeh.graph.add_edge('0', '1')
-bokeh.graph.add_edge('0', '3')
-bokeh.show()
+# graph = Graph()
+# bokeh = BokehGraph(graph)
+# bokeh.graph.add_vertex('0')
+# bokeh.graph.add_vertex('1')
+# bokeh.graph.add_vertex('2')
+# bokeh.graph.add_vertex('3')
+# bokeh.graph.add_edge('0', '1')
+# bokeh.graph.add_edge('0', '3')
+# bokeh.graph.add_edge('2', '3')
+# bokeh.graph.add_vertex('4')
+# bokeh.graph.add_edge('2', '4')
+# bokeh.graph.add_edge('4', '3')
+
+
+
+# bokeh.show()
