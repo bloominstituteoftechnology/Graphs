@@ -5,7 +5,6 @@ General drawing methods for graphs using Bokeh.
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, ColumnDataSource)
-from bokeh.palettes import Viridis10
 import math
 from graph import Graph
 
@@ -16,20 +15,19 @@ class BokehGraph:
         self.graphIn = graph
     def show(self):
         node_indices = self.vertices       
-        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,1.1), y_range=(-1.1,1.1),
+        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,610.1), y_range=(600.1, -1.1),
               tools='', toolbar_location=None)
               
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(Viridis10, 'color')
-        graph.node_renderer.glyph = Circle(radius=0.1, fill_color='color', name=str(node_indices))
+        graph.node_renderer.data_source.add([self.graphIn.vertices[vertex_id].color for vertex_id in self.graphIn.vertices], 'color')
+        graph.node_renderer.glyph = Circle(radius=7, fill_color='color', name=str(node_indices))
         
-
         start_indices = []
         end_indices = []
 
         for vertex in self.graphIn.vertices:
-            for edge_end in self.graphIn.vertices[vertex]:
+            for edge_end in self.graphIn.vertices[vertex].edges:
                 start_indices.append(vertex)
                 end_indices.append(edge_end)
 
@@ -38,9 +36,8 @@ class BokehGraph:
             end= end_indices,
             )
 
-        circ = [int(i)*2*math.pi/len(self.vertices) for i in node_indices]
-        x = [math.cos(i) for i in circ]
-        y = [math.sin(i) for i in circ]
+        x = [self.graphIn.vertices[vertex_id].x for vertex_id in self.graphIn.vertices]
+        y = [self.graphIn.vertices[vertex_id].y for vertex_id in self.graphIn.vertices]
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
@@ -52,8 +49,8 @@ class BokehGraph:
                 'name': node_indices
             }
         source = ColumnDataSource(data)
-        labels = LabelSet(x="x", y="y", text="name", y_offset = -5,
-                        text_font_size="12pt", text_color="white",
+        labels = LabelSet(x="x", y="y", text="name", y_offset = -7,
+                        text_font_size="8pt", text_color="white",
                         source=source, text_align='center')
 
         plot.add_layout(labels)
@@ -61,19 +58,3 @@ class BokehGraph:
 
         output_file('graph2.html')
         show(plot)
-
-# graph = Graph()
-
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_edge('0', '3')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '2')
-# graph.add_edge('1', '2')
-
-# bokeh = BokehGraph(graph)
-
-# bokeh.show()
-
