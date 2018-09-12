@@ -61,32 +61,18 @@ def main(**kwargs):
     numEdges = kwargs["num_edges"]
 
     if style == 'default':
-        graph = getDefaultGraph
+        graph = getDefaultGraph()
     elif style == "random":
         graph = getRandomGraph(numVerts, numEdges)
     else:
-        graph = getDefaultGraph
+        graph = getDefaultGraph()
+        
     bg = BokehGraph(graph)
     bg.show()
-
+    graph.dft(graph.vertices, 0, [])
     #g.dft(vertices, vertices[0], [])
     #g.bft(vertices, vertices[0])
 
-vertices = []
-edges = []
-
-for x in range(10):
-    vertices.append(str(random.randint(1,31))) 
-    #print(vertices) 
-
-for y in range(6): 
-    for node in vertices[:-1]:
-        if int(node) % 2 == 0:
-            next = vertices.index(node)+1
-            edge = {node, vertices[next]}
-            #print(edge)
-            edges.append(edge)
-#main(vertices, edges)
 
 
 if __name__ == '__main__':

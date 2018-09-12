@@ -16,30 +16,39 @@ class BokehGraph:
         self.graph = Graph()
 
     def show(self):
-        node_indices = list(self.graph.vertices.keys())
-        x_value = [x for (x, y) in self.graph.vertices.items()]
-        y_value = [list(y) for (x, y) in self.graph.vertices.items()]
+        node_indices = list(self.graph.vertices)
+        #x_value = [x for (x, y) in self.graph.vertices]
+        #y_value = [y for (x, y) in self.graph.vertices]
 
-        plot = figure(title="Graph Layout", x_range=(-10, 30),
-                      y_range=(-10, 30), tools="", toolbar_location=None)
+        plot = figure(title="Graph Layout", x_range=(-2, 10),
+                      y_range=(-2, 10), tools="", toolbar_location=None)
 
         graph = GraphRenderer()
 
-        graph.node_renderer.data_source.add(x_value, 'index')
+        graph.node_renderer.data_source.add(node_indices, 'index')
         graph.node_renderer.data_source.add(Spectral8, 'color')
-        graph.node_renderer.glyph = Circle(radius=1.1, fill_color='color')
+        graph.node_renderer.glyph = Circle(radius=0.3, fill_color='color')
 
-        print("\n x value: ", x_value)
-        print("\n y value: ", y_value)
+        #print("\n x value: ", x_value)
+        #print("\n y value: ", y_value)
+
+        
+        start_indices = []
+        end_indices = []
+
+        for vertex_id in self.graph.vertices:
+            for edge_end in self.graph.vertices[vertex_id].edges:
+                start_indices.append(vertex_id)
+                end_indices.append(edge_end)
 
         graph.edge_renderer.data_source.data = dict(
-            start=x_value, end=y_value)
+            start=start_indices, end=end_indices)
 
-        grid = [int(i) for i in x_value]
-        x = [i for i in grid]
-        y = [2 * (i % 5) for i in grid]
+        grid = [int(i) for i in self.graph.vertices]
+        x = [self.graph.vertices[node].x for node in self.graph.vertices]
+        y = [self.graph.vertices[node].y for node in self.graph.vertices]
 
-        graph_layout = dict(zip(x_value, zip(x, y)))
+        graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         plot.renderers.append(graph)

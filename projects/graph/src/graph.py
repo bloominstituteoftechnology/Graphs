@@ -14,7 +14,7 @@ class Vertex:
         if self.x is None:
             self.x = 2 * (self.id // 3) + self.id / 10 * (self.id %3)
         if self.y is None:
-            self.y = 2 * (self.id % 3) + self.id / 10 * (self.id // 3)
+            self.y = 2 * (self.id % 3) + self.id / 5 * (self.id // 3)
         if self.value is None:
             self.value = self.id
         if self.color is None:
@@ -34,15 +34,14 @@ class Graph:
     def add_vertex(self, node):
         if isinstance(node, str):
             self.vertices[node] = Vertex(node)
+        elif isinstance(node, int):
+            self.vertices[node] = Vertex(node)
         elif isinstance(node, list):
             for i in node:
                 self.vertices[i] = Vertex(i)
     def add_edge(self, node, neighbor):
         if node not in self.vertices or neighbor not in self.vertices:
             raise Exception('Error: Vertex does not exist')
-        elif self.vertices[node] != Vertex(node):
-            self.vertices[node].edges.add(neighbor)
-            self.vertices[neighbor].edges.add(node)
         else:
             self.vertices[node].edges.add(neighbor)
             self.vertices[neighbor].edges.add(node)
