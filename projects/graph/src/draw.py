@@ -51,8 +51,8 @@ class BokehGraph:
             end=end_indices)
 
         grid = [int(v) for v in self.graph.vertices]
-        x = [2 * (i // 3) for i in grid]
-        y = [2 * (i % 3) for i in grid]
+        x = [2 * (i // 3) + i / 10 * (i % 3) for i in grid]
+        y = [2 * (i % 3)  + i / 10 * (i // 3)for i in grid]
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
