@@ -7,7 +7,7 @@ Demonstration of Graph and BokehGraph functionality.
 from random import sample
 from sys import argv
 from draw import BokehGraph
-from graph import Graph, Vertex
+from graph import Graph
 
 
 def main(**kwargs):
@@ -28,6 +28,8 @@ def main(**kwargs):
     bg.graph.add_edge('2', '5')
     bg.graph.add_edge('5', '8')
     bg.show()
+    bg.dfs()
+
 
 
 if __name__ == '__main__':

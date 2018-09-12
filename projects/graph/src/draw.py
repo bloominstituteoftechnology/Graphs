@@ -13,6 +13,7 @@ class BokehGraph:
 
     def show(self):
         node_indices = list(self.graph.vertices)
+        n = len(node_indices)
         plot = figure(title='Graph Layout Demonstration', x_range=(-1.1, 10.1), y_range=(-1.1, 10.1),
                       tools='', toolbar_location=None)
 
@@ -36,9 +37,8 @@ class BokehGraph:
 
         # start of layout code
         grid = [int(v) for v in self.graph.vertices]
-        x = [2 * (i // 3) for i in grid]
-        y = [2 * (i % 3) for i in grid]
-
+        x = [i for i in range(0, n)]
+        y = [j for j in range(0, n)]
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(
             graph_layout=graph_layout)
@@ -54,8 +54,8 @@ class BokehGraph:
         output_file('graph.html')
         show(plot)
 
-    def dfs(self, start):
-        self.graph.dfs(start)
+    def dfs(self):
+        self.graph.dfs()
 
 
 
