@@ -9,13 +9,13 @@ from node import Node
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 
-from bokeh.models import (GraphRenderer, Arrow, OpenHead, NormalHead, StaticLayoutProvider, Circle, LabelSet,
+from bokeh.models import (GraphRenderer, Arrow, OpenHead, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, x_range = (0, 2), y_range = (0,2)):
+    def __init__(self, graph, x_range = (-1.1, 1.1), y_range = (-1.1, 1.1)):
         self.graph = graph
         self.x_range = x_range
         self.y_range = y_range
@@ -77,6 +77,24 @@ class BokehGraph:
             node = Node.create_with_random_props(self.x_range[1], self.y_range[1])
             node.assign_random_color()
             self.graph.add_vertex(node)
+
+
+    def generate_one_connect_directional_edges(self):
+        if len(self.graph.vertices) < 2:
+            raise Exception('Please add 2 or more nodes for creating edges')
+        
+        directional_fn = self.graph.add_directional_edge
+        
+        for vertex in self.graph.vertices:
+
+            directional_fn = partial(directional_fn, vertex)
+
+            if len(directional_fn.args) == 2:
+                directional_fn()
+                directional_fn = partial(self.graph.add_directional_edge, vertex)
+    
+
+
 
 if __name__ == '__main__':
     # graph = Graph()
