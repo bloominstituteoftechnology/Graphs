@@ -24,13 +24,38 @@ class Graph:
         self.vertices[vertex].edges.add(edge)
         self.vertices[edge].edges.add(vertex)
 
+    def connectedBFT(self,index):
+        connected = []
+        queue = [self.vertices[str(index)]]
+
+        while queue:
+            node = queue.pop(0)
+            if node not in connected:
+                connected.append(node)
+                for next_node in node.edges:
+                    queue.append(self.vertices[next_node])
+        
+        nuconnected = []
+        for i in connected:
+            nuconnected.append(i.id)
+
+        return nuconnected
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_vertex('8')
+graph.add_vertex('9')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-print(graph.vertices)
+graph.add_edge('3', '4')
+graph.add_edge('4', '7')
+graph.add_edge('4', '9')
 
+print(graph.connectedBFT(1))  
