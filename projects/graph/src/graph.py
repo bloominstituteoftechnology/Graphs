@@ -3,6 +3,20 @@ Simple graph implementation compatible with BokehGraph class.
 """
 import random
 
+class Vertex:
+    def __init__ (self, vertex_id, x=None, y=None, value=None, color="white"):
+        self.id = int(vertex_id)
+        self.x = x
+        self.y = y
+        self.value = value
+        if self.x is None:
+            self.x = self.id
+        if self.y is None:
+            self.y = self.id
+        if self.value is None:
+            self.value = self.id
+    
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self, vertices, probability):
