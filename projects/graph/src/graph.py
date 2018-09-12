@@ -44,6 +44,16 @@ class Graph:
 
         return visited
 
+    def get_components(self):
+        visited = []
+
+        for i in range(len(self.vertices)):
+            components = self.dfs(i)
+            if components not in visited:
+                visited.append(components)
+                
+        return visited
+
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
 graph.add_vertex('1')

@@ -23,19 +23,29 @@ class BokehGraph:
 
         graph = GraphRenderer()
 
+
+
         hexValues = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
         colorString = '#'
         colors = []
 
-        for _ in range(N):
+        components = self.graph.get_components()
+
+        for _ in range(len(components)):
             for _ in range(0, 3):
                 colorString += hexValues[random.randint(0, len(hexValues) - 1)]
 
             colors.append(colorString)
             colorString = '#'
 
+        component_colors = []
+        for component in components:
+            color = colors.pop()
+            for element in component:
+                component_colors.insert(element, color)
+
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(colors, 'color')
+        graph.node_renderer.data_source.add(component_colors, 'color')
         graph.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
         start_indices = []
