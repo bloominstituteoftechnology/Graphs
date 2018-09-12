@@ -1,7 +1,7 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-
+import math
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -26,3 +26,27 @@ class Graph:
             self.vertices[end].add(start)
         else:
             raise Exception("One of your vertices doesn't exist")
+
+    def bfs(self, start_vert):
+        white_color = "#fff"
+        gray_color = "#999"
+        black_color = "#000"
+        queue = []
+        visited = []
+
+        for v in self.vertices:
+            self.colors[v] = white_color   
+
+        self.colors[start_vert] = gray_color  
+        queue.append(start_vert)
+        while len(queue) > 0:
+            u = queue[0]
+            visited.append(u)
+            for v in self.vertices[u]: 
+                if v not in visited:
+                    self.colors[v] = gray_color  
+                    queue.append(v)
+            queue.pop(0)
+            self.colors[u] = black_color
+
+        return visited

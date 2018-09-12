@@ -22,13 +22,8 @@ def main(num_vertices = 10, num_edges = 10, min_x_range = 0, max_x_range = 10, m
         vertices = random.sample(graph.vertices.keys(), 2)
         graph.add_edge(vertices[0], vertices[1])
 
-    # graph.add_vertex('0', 1, 3, '#777C00')
-    # graph.add_vertex('1', 4, 6, '#3F0000')
-    # graph.add_vertex('2', 7, 2, '#E80048')
-    # graph.add_vertex('3', 2, 9, '#FFBEBD')
-    # graph.add_edge('0', '1')
-    # graph.add_edge('0', '3')
-    # print(graph.vertices)
+    print("BFS Result")
+    print(graph.bfs("4"))
 
     bokeh_graph = BokehGraph(graph, "Random Graph", min_x_range, max_x_range, min_y_range, max_y_range)
     bokeh_graph.show()

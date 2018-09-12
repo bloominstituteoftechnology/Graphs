@@ -7,8 +7,6 @@ from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
-from bokeh.palettes import Spectral4
-
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -43,7 +41,7 @@ class BokehGraph:
 
         graph.node_renderer.data_source.add(node_indices, 'index')
         graph.node_renderer.data_source.add(color_values, 'color')
-        graph.node_renderer.glyph = Circle(radius=0.2, fill_color='color')
+        graph.node_renderer.glyph = Circle(radius=0.35, fill_color='color')
 
         graph.edge_renderer.data_source.data = dict(
             start=start_vertices, end=end_vertices)
@@ -52,6 +50,11 @@ class BokehGraph:
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         plot.renderers.append(graph)
+
+        label_source = ColumnDataSource(data=dict(x=x_positions, y=y_positions, names=[i for i in self.graph.vertices.keys()]))
+        labels = LabelSet(x="x", y="y", text='names', level='glyph', text_align='center', text_baseline='middle', source=label_source, render_mode='canvas')
+
+        plot.add_layout(labels)
 
         output_file('index.html')
         show(plot)
