@@ -25,7 +25,9 @@ class BokehGraph:
     def setup_graph(self, circle_radius=0.5):
         node_indices = list(self.graph.vertices)
         color_indices = [Viridis256[random.randint(0, 255)] for n in range(len(node_indices))]
+
         graph = GraphRenderer()
+        
         graph.node_renderer.data_source.add(node_indices, 'index')
         graph.node_renderer.data_source.add(color_indices, 'color')
         graph.node_renderer.glyph = Circle(radius=circle_radius, fill_color='color')
