@@ -37,7 +37,6 @@ class BokehGraph:
         # Draws the edges to neighboring nodes
         start_indices = []
         end_indices = []
-        make_arrow = []
         for vertex in self.graph.vertices:
             for edge_end in self.graph.vertices[vertex]:
                 # Bi-directional
@@ -59,9 +58,11 @@ class BokehGraph:
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
+        # Labels the nodes
         identities = [vertex.id for vertex in self.graph.vertices]
         labelSource = ColumnDataSource(data=dict(x=x, y=y, names=identities))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas', text_color='black')
+
         plot.renderers.append(graph)
 
         plot.add_layout(labels)
