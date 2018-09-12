@@ -26,16 +26,16 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         graph_renderer.node_renderer.data_source.add(
-            ['red', 'blue', 'green', 'orange', 'orange', 'orange', 'orange', 'orange', 'orange'], 'color')
+            [v.color for v in graph.vertices], 'color')
         graph_renderer.node_renderer.glyph = Circle(
             radius=0.2, fill_color='color')
 
         start_indices = []
         end_indices = []
 
-        for vertex in graph.vertices:
-            for edge_end in graph.vertices[vertex]:
-                start_indices.append(vertex)
+        for vertex_id in graph.vertices:
+            for edge_end in graph.vertices[vertex_id]:
+                start_indices.append(vertex_id)
                 end_indices.append(edge_end)
         graph_renderer.edge_renderer.data_source.data = dict(
             start=start_indices,
@@ -43,8 +43,8 @@ class BokehGraph:
 
         # start of layout code
         grid = [int(v) for v in graph.vertices]
-        x = [2 * (i // 3) for i in grid]
-        y = [2 * (i % 3) for i in grid]
+        x = [graph.vertices[vertex_id].x for vertex_id in graph.vertices]
+        y = [graph.vertices[vertex_id].y for vertex_id in graph.vertices]
         # x = [i for i in grid]
         # y = [i ** 2 for i in grid]
 
