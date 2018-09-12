@@ -46,6 +46,8 @@ class BokehGraph:
             start=start_indices,
             end=end_indices)
 
+
+"""
         ### start of layout code
         grid = [int(v) for v in graph.vertices]
         x = [2 * (i // 3) for i in grid]
@@ -57,9 +59,11 @@ class BokehGraph:
         plot.renderers.append(graph_renderer)
 
         labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
-        labels = LabelSet(x='x', y='y', text='names', level='glyph', 
-                          text_align='center', text_baseline='middle',
-                          source=labelSource, render_mode='canvas')
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                        text_align='center',
+                        text_baseline='middle',
+                        text_color='white',
+                        source=labelSource, render_mode='canvas')
 
         plot.add_layout(labels)
 
@@ -67,7 +71,7 @@ class BokehGraph:
         show(plot)
 
         print(graph.vertices)
-
+"""
 
 """uncomment below to run part 1"""
 # graph_part1 = Graph()  # Instantiate your graph
@@ -83,3 +87,31 @@ class BokehGraph:
 #
 # BokehGraph(graph_part1)
 """"end"""
+# """part 4 data"""
+#"""
+graph_part4 = Graph()
+graph_part4.add_vertex('0')
+graph_part4.add_vertex('1')
+graph_part4.add_vertex('2')
+graph_part4.add_vertex('3')
+graph_part4.add_vertex('4')
+graph_part4.add_vertex('5')
+graph_part4.add_vertex('6')
+graph_part4.add_vertex('7')
+graph_part4.add_vertex('8')
+graph_part4.add_vertex('10')
+
+graph_part4.add_edge('0', '1')
+graph_part4.add_edge('0', '3')
+graph_part4.add_edge('0', '4')
+graph_part4.add_edge('3', '6')
+graph_part4.add_edge('4', '5')
+graph_part4.add_edge('4', '7')
+graph_part4.add_edge('4', '8')
+graph_part4.add_edge('5', '2')
+
+# BokehGraph(graph_part4)
+# graph_part4.depth_tranversal()
+print(graph_part4.vertices)
+
+#"""

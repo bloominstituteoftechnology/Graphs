@@ -21,5 +21,17 @@ class Graph:
             self.vertices[v1].add(v2)
         else:
             raise IndexError("That vertex does not exist!")
+    def depth_tranversal(self, vertex_id, visited):
+        print(vertex_id)
+        visited.append(vertex_id)
+        for child_node in vertices[vertex_id]:
+            if child_node not in visited:
+                depth_tranversal(vertices, vertex_id, visited)
+
+#        unvisited = white, 
+#        verts whose neighbors are being explored = gray, 
+#        verts with no unexplored neighbors = black
+
+
 
 
