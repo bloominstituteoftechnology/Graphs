@@ -1,6 +1,7 @@
 """
 General drawing methods for graphs using Bokeh.
 """
+import math
 from graph import Graph
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -22,11 +23,11 @@ print(g.vertices)
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph):
-        self.vertices = graph.vertices
+        self.graph = graph.vertices
         self.size = len(graph.vertices)
 
     def show(self):
-        node_indices = list(self.vertices.keys())
+        node_indices = list(self.graph.keys())
 
         plot = figure(title="Graph Layout Render", x_range=(-1.1, 10.1), y_range=(-1.1, 10.1), tools="", toolbar_location=None)
 
@@ -39,15 +40,15 @@ class BokehGraph:
         start_indices = []
         end_indices = []
 
-        for vertex in self.vertices:
-            for edge_end in self.vertices[vertex]:
+        for vertex in self.graph:
+            for edge_end in self.graph[vertex]:
                 start_indices.append(vertex)
                 end_indices.append(edge_end)
 
         ### start of layout code
         circ = [int(v) for v in g.vertices]
-        x = [2 * (i // 3) for i in circ]
-        y = [2 * (i % 3) for i in circ]
+        x = [math.cos(i) for i in circ]
+        y = [math.sin(i) for i in circ]
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
