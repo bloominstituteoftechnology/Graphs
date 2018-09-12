@@ -5,7 +5,6 @@ class Node:
         self.x = x
         self.y = y
         self.radius = radius
-        self.radius = radius
         self.id = Node.id
         self.color = 'white'
         Node.id += 1
@@ -18,4 +17,10 @@ class Node:
     def create_with_random_props(cls, graph_width, graph_height, radius = .2):
         random_x = random.random() * graph_width
         random_y = random.random() * graph_height
+        if random_x + radius > graph_width:
+            random_x -= radius
+        if random_y + radius > graph_height:
+            random_y -= radius
+        
+        
         return cls(random_x, random_y, radius)
