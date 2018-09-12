@@ -10,7 +10,7 @@ class Vertex:
         if self.x is None:
             self.x = 3 * (self.id // 3)
         if self.y is None:
-            self.y = 3 * (self.id % 3)
+            self.y = 4 * (self.id % 3)
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
