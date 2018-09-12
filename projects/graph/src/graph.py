@@ -44,6 +44,16 @@ class Graph:
                 visited.update(self.vertices[vertex])
         return visited
 
+    def dfs(self, graph, start):
+        stack = [start]
+        visited = set()
+        while stack:
+            vertex = stack.pop()
+            if vertex not in visited:
+                visited.add(vertex)
+                stack.extend(graph.vertices[vertex] - visited)
+        return visited
+
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
 graph.add_vertex('1')
@@ -52,4 +62,4 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
-print(graph.bfs(graph, '0'))
+print(graph.dfs(graph, '0'))
