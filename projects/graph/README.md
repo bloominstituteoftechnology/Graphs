@@ -89,7 +89,7 @@ Suggested functionality that could be set via arguments:
 many you would allow maximum)
 - Layout: should it be random, or set to follow a pattern?
 - Jitter/bounding boxes: how should layout be tuned to avoid overlap?
-- Colors: again should they be random, specified, or somewhere in betwen?
+- Colors: again should they be random, specified, or somewhere in between?
 - Output: configure where the file is output, or support other Bokeh outputs
 - Edge probability: this would replace the number of edges, and instead be a
 probability between 0 and 1 of the likelihood of an edge between any two
