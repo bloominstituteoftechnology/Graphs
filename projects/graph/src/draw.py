@@ -15,15 +15,17 @@ from bokeh.models import (GraphRenderer, Arrow, OpenHead, StaticLayoutProvider, 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph):
+    def __init__(self, graph, x_range = (-1.1, 1.1), y_range = (-1.1, 1.1)):
         self.graph = graph
+        self.x_range = x_range
+        self.y_range = y_range
 
     
     def show(self):
         N = len(self.graph.vertices)
         node_indices = list(range(N))
 
-        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,1.1), y_range=(-1.1,1.1),
+        plot = figure(title='Graph Layout Demonstration', x_range=self.x_range, y_range=self.y_range,
                     tools='', toolbar_location=None)
 
         graph = GraphRenderer()
