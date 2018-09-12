@@ -23,7 +23,7 @@ class Graph:
             raise ValueError(f'Vertex {vertex_2} does not exist')
 
     def bfs(self, start, target=None):
-        visited, queue = set([str(start)]), [str(start)]
+        visited, queue = set(), [str(start)]
 
         while queue:
             vertex = queue.pop(0)
@@ -32,14 +32,15 @@ class Graph:
                 break
 
             print(f'visited: {vertex}')
-            visited.add(vertex)
-            queue.extend(self.vertices[vertex] - visited)
-            visited.update(self.vertices[vertex])
+            if vertex not in visited:
+                visited.add(vertex)
+                queue.extend(self.vertices[vertex] - visited)
+                # visited.update(self.vertices[vertex])
         
-        return visited
+            return visited
         
     def dfs(self, start, target=None):
-        visited, stack = set([str(start)]), [str(start)]
+        visited, stack = set(), [str(start)]
 
         while stack:
             vertex = stack.pop()
@@ -48,11 +49,12 @@ class Graph:
                 break
 
             print(f'visited: {vertex}')
-            visited.add(vertex)
-            stack.extend(self.vertices[vertex] - visited)
-            visited.update(self.vertices[vertex])
+            if vertex not in visited:
+                visited.add(vertex)
+                stack.extend(self.vertices[vertex] - visited)
+                # visited.update(self.vertices[vertex])
 
-        return visited
+            return visited
 
     def search(self, method, start, target=None):
         if method == 'dfs':
@@ -81,4 +83,4 @@ demo_g.add_edge('1', '2')
 # print(demo_g.dfs('3'))
 
 print(demo_g.search(method=None, start='0', target='3'))
-print(demo_g.search(method='dfs',start='0',target='3'))
+print(demo_g.search(method='dfs', start='0', target='3'))
