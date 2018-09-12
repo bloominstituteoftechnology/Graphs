@@ -12,7 +12,7 @@ from flask import Flask, render_template
 from bokeh.client import pull_session
 from bokeh.embed import server_session
 
-app = Flask(__name__) 
+app = Flask(__name__)
 
 app.route('/', methods=['GET'])
 
@@ -31,6 +31,11 @@ def main(num_vertices=8, num_edges=8, draw_components=True):
 
     bokeh_graph = BokehGraph(graph, draw_components=draw_components)
     bokeh_graph.show()
+
+def bkapp_page():
+  with pull_session(url="http://localhost:8000/") as session:
+    script = server_session(session_id=session.id, url="http://localhost:8000/")
+    return render_template("embed.html", script=script, template="Flask")
 
 if __name__ == '__main__':
     if len(argv) == 4:

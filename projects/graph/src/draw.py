@@ -121,18 +121,8 @@ class BokehGraph:
 rando_button = Button(label='Randomize', button_type='success')
 show(widgetbox(rando_button))
 
-# source = ColumnDataSource(data=dict(x=[], y=[]))
+callback = CustomJS(code="""
+          console.log('clicked')
+        """)
 
-# callback = CustomJS(args=dict(source=source), code="""
-#           console.log('clicked')
-#           const data = source.data;
-#           const x = data['x'];
-#           const y = data['y'];
-#           for (let i = 0; i < 5; i++) {
-#             x.push(Math.floor(Math.random() * 6))
-#             y.push(Math.floor(Math.random() * 7))
-#           }
-#           source.change.emit();
-#         """)
-
-# rando_button.js_on_click(callback)
+rando_button.js_on_click(callback)
