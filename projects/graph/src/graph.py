@@ -1,7 +1,16 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-
+class Vertex:
+    def __init__(self, vertex_id, x=None, y=None):
+        self.id = int(vertex_id)
+        self.x = x
+        self.y = y
+        self.edges = set()
+        if self.x is None:
+            self.x = 3 * (self.id // 3)
+        if self.y is None:
+            self.y = 3 * (self.id % 3)
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -9,11 +18,11 @@ class Graph:
         self.vertices = {}
     
     def add_vertex(self, value):
-        self.vertices[value] = set()
+        self.vertices[value] = Vertex(value)
 
     def add_edge(self, vertex, edge):
-        self.vertices[vertex].add(edge)
-        self.vertices[edge].add(vertex)
+        self.vertices[vertex].edges.add(edge)
+        self.vertices[edge].edges.add(vertex)
 
 
 graph = Graph()  # Instantiate your graph
