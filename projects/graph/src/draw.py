@@ -9,13 +9,13 @@ from node import Node
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 
-from bokeh.models import (GraphRenderer, Arrow, OpenHead, StaticLayoutProvider, Circle, LabelSet,
+from bokeh.models import (GraphRenderer, Arrow, OpenHead, NormalHead, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph, x_range = (-1.1, 1.1), y_range = (-1.1, 1.1)):
+    def __init__(self, graph, x_range = (0, 2), y_range = (0,2)):
         self.graph = graph
         self.x_range = x_range
         self.y_range = y_range
@@ -30,15 +30,14 @@ class BokehGraph:
 
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(node_indices, 'index')
-        # Renders the colors
         graph.node_renderer.data_source.add([vertex.color for vertex in self.graph.vertices], 'color')
-        # Renders the shape of the nodes
-        graph.node_renderer.glyph = Circle(radius=0.05, fill_color='color')
+        graph.node_renderer.glyph = Circle(radius=0.1, fill_color='color')
 
 
         # Draws the edges to neighboring nodes
         start_indices = []
         end_indices = []
+        make_arrow = []
         for vertex in self.graph.vertices:
             for edge_end in self.graph.vertices[vertex]:
                 # Bi-directional
@@ -47,7 +46,7 @@ class BokehGraph:
                     end_indices.append(edge_end.id)
                 else:
                     # Directional Edges
-                    plot.add_layout(Arrow(end=NormalHead(fill_color='black', line_color="firebrick", line_width=1),x_start=vertex.x, y_start=vertex.y, x_end=edge_end.x, y_end=edge_end.y))
+                    plot.add_layout(Arrow(end=OpenHead(line_color="firebrick", line_width=4),x_start=vertex.x, y_start=vertex.y, x_end=edge_end.x, y_end=edge_end.y))
         
         # Renders the Bi-directional edges
         graph.edge_renderer.data_source.data = dict(
@@ -60,11 +59,9 @@ class BokehGraph:
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
-        # Labels the nodes
         identities = [vertex.id for vertex in self.graph.vertices]
         labelSource = ColumnDataSource(data=dict(x=x, y=y, names=identities))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas', text_color='black')
-
         plot.renderers.append(graph)
 
         plot.add_layout(labels)
