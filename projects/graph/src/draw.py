@@ -4,13 +4,20 @@ General drawing methods for graphs using Bokeh.
 import math
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, ColumnDataSource, Label, LabelSet
+from bokeh.models import (
+    GraphRenderer, 
+    StaticLayoutProvider, 
+    Circle, 
+    ColumnDataSource, 
+    Label, 
+    LabelSet
+)
 # from bokeh.palettes import Spectral8
 from graph import Graph
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self):
+    def __init__(self, graph):
         # pass  # TODO
         self.graph = graph
 
@@ -18,8 +25,8 @@ class BokehGraph:
 
         node_indices = list(graph.vertices)
 
-        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1), y_range=(-1.1,10.1),
-                       tools='', toolbar_location=None)
+        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1),
+                       y_range=(-1.1,10.1), tools='', toolbar_location=None)
 
         graph_renderer = GraphRenderer()
 
@@ -51,25 +58,28 @@ class BokehGraph:
 
         labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', 
-                          text_align='center', text_baseline='middle', source=labelSource,
-                          render_mode='canvas')
+                          text_align='center', text_baseline='middle',
+                          source=labelSource, render_mode='canvas')
 
         plot.add_layout(labels)
 
         output_file('graph.html')
         show(plot)
 
-
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-# below creates error
-# graph.add_edge('0', '4')
-print(graph.vertices)
+        print(graph.vertices)
 
 
-my_graph = BokehGraph()
+"""uncomment below to run part 1"""
+# graph_part1 = Graph()  # Instantiate your graph
+# graph_part1.add_vertex('0')
+# graph_part1.add_vertex('1')
+# graph_part1.add_vertex('2')
+# graph_part1.add_vertex('3')
+# graph_part1.add_edge('0', '1')
+# graph_part1.add_edge('0', '3')
+# # below creates tests error handling
+# # graph_part1.add_edge('0', '4')
+# print(graph_part1.vertices)
+#
+# BokehGraph(graph_part1)
+""""end"""
