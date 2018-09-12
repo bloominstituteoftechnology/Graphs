@@ -1,6 +1,7 @@
 """
 General drawing methods for graphs using Bokeh.
 """
+import random
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -21,9 +22,20 @@ class BokehGraph:
         node_indices = list(self.graph.vertices)
 
         graph = GraphRenderer()
-    
+
+        hexValues = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+        colorString = '#'
+        colors = []
+
+        for _ in range(N):
+            for _ in range(0, 3):
+                colorString += hexValues[random.randint(0, len(hexValues) - 1)]
+
+            colors.append(colorString)
+            colorString = '#'
+
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(['red'] * N, 'color')
+        graph.node_renderer.data_source.add(colors, 'color')
         graph.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
         start_indices = []
