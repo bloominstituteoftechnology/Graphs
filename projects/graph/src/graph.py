@@ -44,14 +44,12 @@ class Graph:
                     queue.append(neighbour)
         return explored
 
-    def dfs(self, start, target=None):
+    def dfs(self, start):
         stack = []
         stack.append(start)
         visited = set()
         while stack:
             current_vertex = stack.pop()
-            if current_vertex == target:
-                break 
             visited.add(current_vertex)     
             stack.extend(self.vertices[current_vertex] - visited)
         return visited
