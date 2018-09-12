@@ -89,9 +89,6 @@ N = len(graph.vertices)
 node_indices = list(graph.vertices)
 
 
-
-
-
 plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1), y_range=(-1.1,10.1),
               tools='', toolbar_location=None)
 
@@ -138,3 +135,29 @@ plot.add_layout(labels)
 
 output_file('graph.html')
 show(plot)
+
+### Relic code to draw charts without straight lines
+# circ = [int(v)*2*math.pi/8 for v in graph.vertices]
+# x = [math.cos(i + .8) + 5 for i in circ]
+# y = [math.sin(i + .8) + 5 for i in circ]
+# graph_layout = dict(zip(node_indices, zip(x, y)))
+# print('\n', 'graph_layout', graph_layout)
+# graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+#
+# def bezier(start, end, control, steps):
+#     return [(1-s)**2*start + 2*(1-s)*s*control + s**2*end for s in steps]
+#
+# xs, ys = [], []
+# sx, sy = graph_layout['0']
+# steps = [i/100. for i in range(100)]
+# for node_index in node_indices:
+#     ex, ey = graph_layout[node_index]
+#     xs.append(bezier(sx, ex, 0, steps))
+#     ys.append(bezier(sy, ey, 0, steps))
+# graph_renderer.edge_renderer.data_source.data['xs'] = xs
+# graph_renderer.edge_renderer.data_source.data['ys'] = ys
+#
+# plot.renderers.append(graph_renderer)
+#
+# output_file("graph.html")
+# show(plot)
