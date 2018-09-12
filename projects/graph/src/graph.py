@@ -61,7 +61,7 @@ class Graph:
         else: 
             raise Exception('Error: Vertex does not exist')
             
-    def bfs(adjList, node):
+    def bft(self, adjList, node):
         frontier = []
         frontier.append(node)
         visited = []
@@ -69,12 +69,38 @@ class Graph:
             n = frontier.pop()
             visited.append(n)
             print(n)
-            for next_node in adjList[n]:
+            for next_node in adjList[n].edges:
                 frontier.append(next_node)
 
-    def dft(adjList, node, visited):
+    def dft(self, adjList, node, visited):
         print(node)
         visited.append(node)
-        for child_node in adjList[node]:
+        for child_node in adjList[node].edges:
             if child_node not in visited:
-                dft(adjList, child_node, visited)
+                adjList.pop(child_node)
+                visited.append(child_node)
+
+    def dfs(self, adjList, node, visited, search):
+        print(node)
+        if node == search: return True
+        visited.append(node)
+        for child_node in adjList[node].edges:
+            if child_node not in visited:
+                if node == search: return True
+                else:
+                    adjList.pop(child_node)
+                    visited.append(child_node)
+        return False
+
+    def bfs(self, adjList, node, search):
+        frontier = []
+        if node == search: return True
+        frontier.append(node)
+        visited = []
+        while len(frontier) > 0:
+            n = frontier.pop()
+            visited.append(n)
+            print(n)
+            for next_node in adjList[n].edges:
+                frontier.append(next_node)
+        return False
