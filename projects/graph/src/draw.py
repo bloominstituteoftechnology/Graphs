@@ -1,15 +1,15 @@
 from math import ceil, floor, sqrt
-from random import choice, random
+from random import choice, random, _pi
 from bokeh.io import show, output_file
-from bokeh.plotting import figure, curdoc
+from bokeh.plotting import figure
 from bokeh.layouts import widgetbox
 from bokeh.models.widgets import Button
 from bokeh.models.callbacks import CustomJS
-from bokeh.client import push_session
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
                           LabelSet, ColumnDataSource)
 
 rando_button = Button(label='Randomize', button_type='success')
+
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -27,7 +27,7 @@ class BokehGraph:
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
         self._setup_graph_renderer(circle_size, draw_components)
-        self._setup_labels()
+        self._setup_labels()     
 
     def _setup_graph_renderer(self, circle_size, draw_components):
         # The renderer will have the actual logic for drawing
@@ -121,11 +121,18 @@ class BokehGraph:
     def _rando_button_handler(self, new):
         self.randomize()
 
-callback = CustomJS(code="""
-console.log('clicked')
-""")
+
+source = ColumnDataSource(data=dict(x=BokehGraph.pos['vertex.label'][0], y=BokehGraph.pos['vertex.label'][1]))
+
+callback = CustomJS(args=dict(source=source), code="""
+          const data = source.data;
+          const x = data['x'];
+          const y = data['y'];
+          for (let i = 0, i < x.length, i++) {
+            x[i] = Math.floor(Math.random() * 6)
+            y[i] = Math.floor(Math.random() * 7)
+          }
+          source.change.emit();
+        """)
 
 rando_button.js_on_click(callback)
-
-
-
