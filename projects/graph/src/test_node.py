@@ -15,5 +15,10 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(self.node.id, 0)
         self.assertEqual(self.node2.id, 1)
 
+    def test_color_methods(self):
+        self.assertEqual(self.node.color, 'white')
+        self.node.assign_random_color()
+        self.assertRegex(self.node.color, r'#[0-9A-F]{6}')
+
 if __name__ == '__main__':
     unittest.main()

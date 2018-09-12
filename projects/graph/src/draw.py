@@ -28,8 +28,7 @@ class BokehGraph:
 
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(node_indices, 'index')
-        r = lambda: random.randint(50,255)
-        graph.node_renderer.data_source.add(['#%02X%02X%02X' % (r(),r(),r()) for i in range(N)], 'color')
+        graph.node_renderer.data_source.add([vertex.color for vertex in self.graph.vertices], 'color')
         graph.node_renderer.glyph = Circle(radius=0.1, fill_color='color')
 
 
