@@ -30,7 +30,6 @@ class Graph:
     def bfs(self, start_vert):
         white_color = "#fff"
         gray_color = "#999"
-        black_color = "#000"
         queue = []
         visited = []
 
@@ -47,6 +46,5 @@ class Graph:
                     self.colors[v] = gray_color  
                     queue.append(v)
             queue.pop(0)
-            self.colors[u] = black_color
 
         return visited
