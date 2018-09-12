@@ -2,20 +2,35 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
+class Vertex:
+    def __init__(self, v_id, x=None, y=None, value=None, color='white'):
+        self.id = int(v_id)
+        self.x = x
+        self.y = y
+        self.value = value
+        self.color = color
+        self.edges = set()
+        if self.x is None:
+            self.x = self.id
+        if self.y is None:
+            self.y = self.id
+        if self.value is None:
+            self.value = self.id
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
-    def add_vertex(self, vertex):
+    def add_vertex(self, v_id):
         if vertex not in self.vertices:
-            self.vertices[vertex] = set()
+            self.vertices[v_id] = Vertex(v_id)
         else:
             print('Please input a different vertex')
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
-            self.vertices[v2].add(v1)
+            self.vertices[v1].edges.add(v2)
+            self.vertices[v2].edges.add(v1)
         else:
             print("The edge could not be created")
 
