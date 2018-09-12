@@ -1,14 +1,12 @@
 import random
 class Node:
     id = 0
-    def __init__(self, x, y, radius):
+    def __init__(self, x, y, radius = .2):
         self.x = x
         self.y = y
         self.radius = radius
         self.radius = radius
         self.id = Node.id
-        self.color = 'white'
-        Node.id += 1
         self.color = 'white'
         Node.id += 1
     
