@@ -64,6 +64,8 @@ class BokehGraph:
         components = self.graph.get_components()
         length = len(components) if self.connected_components else len(self.graph.vertices)
 
+        print(self.connected_components)
+
         for _ in range(length):
             for _ in range(0, 3):
                 colorString += hexValues[random.randint(0, len(hexValues) - 1)]

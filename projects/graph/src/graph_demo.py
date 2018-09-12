@@ -9,7 +9,7 @@ from sys import argv
 from graph import Graph
 from draw import BokehGraph
 
-def main(vertices=6, edges=4, connected_components=False):
+def main(vertices=6, edges=4, connected_components=True):
     graph = Graph()
 
     for v in range(vertices):
