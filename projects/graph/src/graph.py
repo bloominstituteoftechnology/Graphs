@@ -25,10 +25,9 @@ class Graph:
         for child_node in adjList[node_id]:
             if child_node not in visited:
                 dft(adjList, child_node, visited)
-        if target:
-            print('Target not found!')
+        
 
-    def bft(adjList, node_id):
+    def bfs(adjList, node_id):
         frontier = []
         frontier.append(node_id)
         visited = []

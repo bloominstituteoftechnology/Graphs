@@ -4,35 +4,46 @@
 Demonstration of Graph and BokehGraph functionality.
 """
 
-# from random import sample
-# from sys import argv
-# from draw import BokehGraph
-# from graph import Graph, Vertex
+from random import sample
+from sys import argv
+from draw import BokehGraph
+from graph import Graph, Vertex
 
 
-# def main(num_vertices=8, num_edges=8, draw_components=True):
-#     """Build and show random graph."""
-#     graph = Graph()
-#     # Add appropriate number of vertices
-#     for num in range(num_vertices):
-#         graph.add_vertex(Vertex(label=str(num)))
+def main(**kwargs):
+    bg = BokehGraph()  # Instantiate your graph
+    bg.graph.add_vertex('0')
+    bg.graph.add_vertex('1')
+    bg.graph.add_vertex('2')
+    bg.graph.add_vertex('3')
+    bg.graph.add_vertex('4')
+    bg.graph.add_vertex('5')
+    bg.graph.add_vertex('6')
+    bg.graph.add_vertex('7')
+    bg.graph.add_vertex('8')
+    bg.graph.add_vertex('9')
+    bg.graph.add_edge('0', '1')
+    bg.graph.add_edge('0', '3')
+    bg.graph.add_edge('1', '2')
+    bg.graph.add_edge('2', '5')
+    bg.graph.add_edge('5', '8')
+    bg.show()
 
-#     # Add random edges between vertices
-#     for _ in range(num_edges):
-#         vertices = sample(graph.vertices.keys(), 2)
-#         # TODO check if edge already exists
-#         graph.add_edge(vertices[0], vertices[1])
 
-#     bokeh_graph = BokehGraph(graph, draw_components=draw_components)
-#     bokeh_graph.show()
+if __name__ == '__main__':
+    style = "default"
+    num_verts = 5
+    num_edges = 6
+    for arg in argv[1::]:
+        args = arg.split("=")
+        if len(args) == 2:
+            if arg_split[0] == "style":
+                style = arg_split[1].lower()
+            if arg_split[0] == "verts":
+                num_verts = int(arg_split[1].lower())
+            if arg_split[0] == "edges":
+                num_edges = int(arg_split[1].lower())
 
+    print(style)
 
-# if __name__ == '__main__':
-#     if len(argv) == 4:
-#         NUM_VERTICES = int(argv[1])
-#         NUM_EDGES = int(argv[2])
-#         DRAW_COMPONENTS = bool(int(argv[3]))
-#         main(NUM_VERTICES, NUM_EDGES, DRAW_COMPONENTS)
-#     else:
-#         print('Expected arguments: num_vertices num_edges draw_components')
-#         print('Both numbers should be integers, draw_components should be 0/1')
+    main(style=style, num_verts=num_verts, num_edges=num_edges)
