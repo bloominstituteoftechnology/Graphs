@@ -32,12 +32,24 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
+    def bfs(self, graph, start):
+        queue = [start]
+        visited = set()
 
-# graph = Graph()  # Instantiate your graph
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '3')
-# print(graph.vertices)
+        while queue:
+            vertex = queue.pop(0)
+            if vertex not in visited:
+                visited.add(vertex)
+                queue.extend(self.vertices[vertex] - visited)
+                visited.update(self.vertices[vertex])
+        return visited
+
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+print(graph.vertices)
+print(graph.bfs(graph, '0'))
