@@ -37,6 +37,7 @@ class BokehGraph:
         # Draws the edges to neighboring nodes
         start_indices = []
         end_indices = []
+        make_arrow = []
         for vertex in self.graph.vertices:
             for edge_end in self.graph.vertices[vertex]:
                 # Bi-directional
@@ -58,11 +59,9 @@ class BokehGraph:
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
-        # Labels the nodes
         identities = [vertex.id for vertex in self.graph.vertices]
         labelSource = ColumnDataSource(data=dict(x=x, y=y, names=identities))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas', text_color='black')
-
         plot.renderers.append(graph)
 
         plot.add_layout(labels)
@@ -70,6 +69,14 @@ class BokehGraph:
         output_file('graph.html')
         show(plot)
 
+    def generate_random_nodes(self, node_quantity):
+        print(*self.x_range)
+        for i in range(node_quantity):
+            # The arguments in create_with_random_props, ensure that the
+            # nodes stay within the graph
+            node = Node.create_with_random_props(self.x_range[1], self.y_range[1])
+            node.assign_random_color()
+            self.graph.add_vertex(node)
 
 if __name__ == '__main__':
     # graph = Graph()
