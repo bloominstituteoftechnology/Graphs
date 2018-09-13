@@ -2,7 +2,7 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
-
+from node import Node
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -10,8 +10,9 @@ class Graph:
         self.root = None
 
     def add_vertex(self, vertex):
+
         if self.root is None:
-           self.root = vertex
+           self.set_root_vertex(vertex)
         if vertex in self.vertices:
             raise Exception(f'vertex {vertex} already exists')
         
@@ -30,7 +31,6 @@ class Graph:
     def add_directional_edge(self, vertex1, vertex2):
         if vertex1 in self.vertices[vertex2]:
             raise Exception(f'Use the add_edge method instead')
-        self.vertices[vertex1].add(vertex2)dge method instead')
         self.vertices[vertex1].add(vertex2)
     
     def set_root_vertex(self, root_vertex):
@@ -51,12 +51,15 @@ class Graph:
 
     def bfs(self):
         queue = [self.root]
+        ids = []
         visited = {}
         while len(queue) > 0:
             vert = queue.pop(0)
             if vert not in visited:
-                print(vert.id)
+                ids.append(vert.id)
                 visited[vert] = 1
                 for next_vert in self.vertices[vert]:
                     queue.append(next_vert)
+        
+        return ids
     
