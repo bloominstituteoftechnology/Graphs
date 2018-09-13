@@ -107,24 +107,29 @@ class Graph:
 
     def dfs(self, start_vert, target_value, visited=[]):
         visited.append(start_vert)
-        print(self.vertices[start_vert])
+        print(self.vertices[start_vert].value)
         if self.vertices[start_vert].value == target_value:
+            print(True)
             return True
-        for child_vert in self.vertices[start_vert]:
+        for child_vert in self.vertices[start_vert].edges:
             if child_vert not in visited:
-                return self.dfs(child_vert, target_value)
+                self.dfs(child_vert, target_value)
+        print(False) 
         return False
 
 
-
-    def bfs(self, node, search):
+    def bfs(self, start_vert, target_value):
         q = Queue()
-        q.enqueue(node)
+        q.enqueue(start_vert)
         visited = []
         while q.size() > 0:
             n = q.dequeue()
+            if n == target_value:
+                print(True)
+                return True
             visited.append(n)
-            print(n)
+            
             for next_node in self.vertices[n].edges:
                 q.enqueue(next_node)
+        print(False)
         return False
