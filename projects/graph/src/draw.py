@@ -18,41 +18,45 @@ class BokehGraph:
         graph = self.graph
         node_indices = list(self.graph.vertices)
         N = len(node_indices)
-        print(node_indices)
-        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1, 60.1), y_range=(-1.1, 30.1), tools='', toolbar_location=None)
+        # print(node_indices)
+        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1, 15.1), y_range=(-1.1, 15.1), tools='', toolbar_location=None)
 
         graph_renderer = GraphRenderer()
 
         colors = Viridis256[0:N]
-        print(colors)
+        # print(colors)
 
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         graph_renderer.node_renderer.data_source.add(colors , 'color')
-        graph_renderer.node_renderer.glyph = Circle(radius=1, fill_color='color')
+        graph_renderer.node_renderer.glyph = Circle(radius=.2, fill_color='color')
 
         start_indices = []
         end_indices = []
 
-        for vertex in self.graph.vertices:
-            for edge_end in self.graph.vertices[vertex]:
-                start_indices.append(vertex)
+        for vertex_id in graph.vertices:
+            for edge_end in graph.vertices[vertex_id].edges:
+                start_indices.append(vertex_id)
                 end_indices.append(edge_end)
-                graph_renderer.edge_renderer.data_source.data = dict(start=start_indices, end=end_indices)
+
+        graph_renderer.edge_renderer.data_source.data = dict(
+            start=start_indices,
+            end=end_indices)
 
          # start of layout code
-        circ = [int(v*2*math.pi/8) for v in self.graph.vertices]
+        # circ = [int(v*2*math.pi/8) for v in self.graph.vertices]
+        linear = [int(v*2*math.pi/8) for v in self.graph.vertices]
         # x = [math.cos(i) for i in circ]
         # y = [math.sin(i) for i in circ]
 
-        x = [(node_indices[i]) * (i // 3) for i in circ]
-        y = [(node_indices[i]) * (i % 3) for i in circ]
+        x = [graph.vertices[vertex_id].x for vertex_id in graph.vertices]
+        y = [graph.vertices[vertex_id].y for vertex_id in graph.vertices]
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         plot.renderers.append(graph_renderer)
 
-        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=circ))
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[graph.vertices[vertex_id].value for vertex_id in graph.vertices]))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
 
         plot.add_layout(labels)

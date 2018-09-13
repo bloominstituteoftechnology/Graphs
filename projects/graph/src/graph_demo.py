@@ -65,7 +65,7 @@ def main(**kwargs):
     else:
         graph = getDefaultGraph()
     
-    # graph.breadth_first(2)
+    graph.breadth_first(0)
 
     bokeh_graph = BokehGraph(graph)
 
