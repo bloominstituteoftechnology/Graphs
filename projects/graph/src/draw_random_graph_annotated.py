@@ -54,9 +54,9 @@ graph_renderer.node_renderer.glyph = Circle(radius=0.35, fill_color='color')
 start_indices = []
 end_indices = []
 
-for vertex in graph.vertices:
-    for edge_end in graph.vertices[vertex]:
-        start_indices.append(vertex)
+for vertex_id in graph.vertices:
+    for edge_end in graph.vertices[vertex_id].edges:
+        start_indices.append(vertex_id)
         end_indices.append(edge_end)
 print(start_indices)
 print(end_indices)
