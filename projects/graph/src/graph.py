@@ -1,6 +1,25 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import random
+
+
+# class Queue:
+#     def __init__(self):
+#         self.queue = []
+#     def enqueue(self, vertex):
+#         self.queue.append(vertex)
+#     def dequeue(self)
+#         if self.queue > 0:
+#             self.queue.pop(0)
+#         else:
+#             return None
+
+# class Stack:
+#     def __init__(self):
+#         self.stack = []
+#     def appen
+    
 
 class Vertex:
     def __init__(self, v_id, x=None, y=None, value=None, color='white'):
@@ -9,6 +28,7 @@ class Vertex:
         self.y = y
         self.value = value
         self.color = color
+        self.visited = False
         self.edges = set()
         if self.x is None:
             self.x = self.id
@@ -33,6 +53,19 @@ class Graph:
             self.vertices[v2].edges.add(v1)
         else:
             print("The edge could not be created")
+    def randomize(self):
+        num = random.random() * 10
+        for i in range(int(num)):
+            self.add_vertex(i)
+        for vert in self.vertices:
+            for otherVert in self.vertices:
+                if vert is not otherVert:
+                    if random.random() > .7:
+                        self.add_edge(vert, otherVert)
+        
+
+
+# def dft:
 
 
 graph = Graph()
