@@ -83,81 +83,96 @@ graph.add_edge('0', '3')
 graph.add_edge('3', '6')
 graph.add_edge('0', '8')
 graph.add_edge('0', '9')
+graph.add_edge('1', '5')
+graph.add_edge('2', '5')
+graph.add_edge('1', '2')
+graph.add_edge('2', '4')
+graph.add_edge('5', '6')
+graph.add_edge('8', '9')
+graph.add_edge('9', '7')
 print(graph.vertices)
 
-N = len(graph.vertices)
-node_indices = list(graph.vertices)
+
+class BokehGraph:
+    def __init__(self, graph):
+        self.graph = graph
+    def draw(self):
+        N = len(graph.vertices)
+        node_indices = list(graph.vertices)
 
 
-plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1), y_range=(-1.1,10.1),
-              tools='', toolbar_location=None)
+        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1), y_range=(-1.1,10.1),
+                      tools='', toolbar_location=None)
 
-graph_renderer = GraphRenderer()
+        graph_renderer = GraphRenderer()
 
-graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-graph_renderer.node_renderer.data_source.add(['red', 'blue', 'green', 'orange', 'purple', 'red', 'magenta', 'tan', 'gray', 'yellow'], 'color')
-graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
+        graph_renderer.node_renderer.data_source.add(node_indices, 'index')
+        graph_renderer.node_renderer.data_source.add(Spectral8, 'color')
+        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
-start_indices = []
-end_indices = []
+        start_indices = []
+        end_indices = []
 
-for vertex in graph.vertices:
-    for edge_end in graph.vertices[vertex]:
-        start_indices.append(vertex)
-        end_indices.append(edge_end)
-print(start_indices)
-print(end_indices)
-
-
-graph_renderer.edge_renderer.data_source.data = dict(
-    start=start_indices,
-    end=end_indices)
-
-### start of layout code
-grid = [int(v) for v in graph.vertices]
-x = [2 * (i // 3) for i in grid]
-y = [2 * (i % 3) for i in grid]
-# x = [i for i in grid]
-# y = [i ** 2 for i in grid]
-
-graph_layout = dict(zip(node_indices, zip(x, y)))
-graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
-
-plot.renderers.append(graph_renderer)
-
-labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
-labels = LabelSet(x='x', y='y', text='names', level='glyph',
-             text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+        for vertex in graph.vertices:
+            for edge_end in graph.vertices[vertex]:
+                start_indices.append(vertex)
+                end_indices.append(edge_end)
+        print(start_indices)
+        print(end_indices)
 
 
-plot.add_layout(labels)
+        graph_renderer.edge_renderer.data_source.data = dict(
+            start=start_indices,
+            end=end_indices)
+
+        ### start of layout code
+        grid = [int(v) for v in graph.vertices]
+        x = [2 * (i // 3) for i in grid]
+        y = [2 * (i % 3) for i in grid]
+        # x = [i for i in grid]
+        # y = [i ** 2 for i in grid]
+
+        graph_layout = dict(zip(node_indices, zip(x, y)))
+        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+
+        plot.renderers.append(graph_renderer)
+
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                     text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
 
 
-output_file('graph.html')
-show(plot)
+        plot.add_layout(labels)
 
-### Relic code to draw charts without straight lines
-# circ = [int(v)*2*math.pi/8 for v in graph.vertices]
-# x = [math.cos(i + .8) + 5 for i in circ]
-# y = [math.sin(i + .8) + 5 for i in circ]
-# graph_layout = dict(zip(node_indices, zip(x, y)))
-# print('\n', 'graph_layout', graph_layout)
-# graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
-#
-# def bezier(start, end, control, steps):
-#     return [(1-s)**2*start + 2*(1-s)*s*control + s**2*end for s in steps]
-#
-# xs, ys = [], []
-# sx, sy = graph_layout['0']
-# steps = [i/100. for i in range(100)]
-# for node_index in node_indices:
-#     ex, ey = graph_layout[node_index]
-#     xs.append(bezier(sx, ex, 0, steps))
-#     ys.append(bezier(sy, ey, 0, steps))
-# graph_renderer.edge_renderer.data_source.data['xs'] = xs
-# graph_renderer.edge_renderer.data_source.data['ys'] = ys
-#
-# plot.renderers.append(graph_renderer)
-#
-# output_file("graph.html")
-# show(plot)
+
+        output_file('graph.html')
+        show(plot)
+
+        ### Relic code to draw charts without straight lines
+        # circ = [int(v)*2*math.pi/8 for v in graph.vertices]
+        # x = [math.cos(i + .8) + 5 for i in circ]
+        # y = [math.sin(i + .8) + 5 for i in circ]
+        # graph_layout = dict(zip(node_indices, zip(x, y)))
+        # print('\n', 'graph_layout', graph_layout)
+        # graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+        #
+        # def bezier(start, end, control, steps):
+        #     return [(1-s)**2*start + 2*(1-s)*s*control + s**2*end for s in steps]
+        #
+        # xs, ys = [], []
+        # sx, sy = graph_layout['0']
+        # steps = [i/100. for i in range(100)]
+        # for node_index in node_indices:
+        #     ex, ey = graph_layout[node_index]
+        #     xs.append(bezier(sx, ex, 0, steps))
+        #     ys.append(bezier(sy, ey, 0, steps))
+        # graph_renderer.edge_renderer.data_source.data['xs'] = xs
+        # graph_renderer.edge_renderer.data_source.data['ys'] = ys
+        #
+        # plot.renderers.append(graph_renderer)
+        #
+        # output_file("graph.html")
+        # show(plot)
+
+b_graph = BokehGraph(graph)
+b_graph.draw()
