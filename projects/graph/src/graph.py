@@ -8,10 +8,11 @@ class Vertex:
         self.y = y
         self.edges = set()
         if self.x is None:
-            self.x = 3 * (self.id // 3)
+            # self.x = 3 * (self.id // 3)
+            self.x = 2 * (self.id // 3) + self.id / 10 
         if self.y is None:
-            self.y = 4 * (self.id % 3)
-
+            # self.y = 4 * (self.id % 3)
+            self.y = 2 * (self.id % 3) + self.id / 10 + (self.id // 4)
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -41,6 +42,25 @@ class Graph:
 
         return nuconnected
 
+    def dft(self, index):
+        stack = []
+        stack.append(self.vertices[str(index)])
+        visited = []
+
+        while len(stack) > 0:
+            node = stack.pop()
+            if node not in visited:
+                visited.append(node)
+                for next_node in node.edges:
+                    stack.append(self.vertices[next_node])
+        
+        nuconnected = []
+        for i in visited:
+            nuconnected.append(i.id)
+
+        return nuconnected
+    
+
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
 graph.add_vertex('1')
@@ -58,4 +78,4 @@ graph.add_edge('3', '4')
 graph.add_edge('4', '7')
 graph.add_edge('4', '9')
 
-print(graph.connectedBFT(1))  
+print(graph.dft(0))  

@@ -17,7 +17,6 @@ def randomGraph(vertices, edges):
             random_pos = randint(1, 10)
         else:
             random_pos = randint(1, vertices)
-        print(graph.vertices.keys())
         while random_pos in graph.vertices.keys():
             if vertices <= 10:
                 random_pos = randint(1, 10)
@@ -54,7 +53,7 @@ def main(**kwargs):
     verts = kwargs["verts"]
     edges = kwargs["edges"]
 
-    if style == "random":
+    if style == "funtime":
         graph = randomGraph(verts, edges)
     else:
         graph = regularGraph()
@@ -77,4 +76,5 @@ if __name__ == '__main__':
             elif args[0] == "edges":
                 edges = int(args[1])
     main(style=style, verts=verts, edges=edges)
+
 
