@@ -18,7 +18,7 @@ class BokehGraph:
     def show(self):
         plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1), y_range=(-1.1,10.1),
                     tools='', toolbar_location=None)
-                    
+        
         node_indices = list(self.graph.vertices)
 
         graph = GraphRenderer()
@@ -64,21 +64,26 @@ class BokehGraph:
         components = self.graph.get_components()
         length = len(components) if self.connected_components else len(self.graph.vertices)
 
-        print(self.connected_components)
-
         for _ in range(length):
             for _ in range(0, 3):
                 colorString += hexValues[random.randint(0, len(hexValues) - 1)]
 
             colors.append(colorString)
             colorString = '#'
-        
-        component_colors = []
-        color_copy = colors.copy()
 
-        for component in components:
-            color= color_copy.pop()
-            for element in component:
-                component_colors.insert(element, color)
+        if self.connected_components:
+            component_colors = []
+            color_copy = colors.copy()
 
-        return component_colors if self.connected_components else colors
+            for component in components:
+                for element in component:
+                    component_colors.append(0)
+
+            for component in components:
+                color= color_copy.pop()
+                for element in component:
+                    component_colors[element] = color
+
+            return component_colors
+
+        return colors
