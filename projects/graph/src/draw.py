@@ -22,7 +22,7 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        graph_renderer.node_renderer.data_source.add(Spectral8*N, 'color')
+        graph_renderer.node_renderer.data_source.add([graph.vertices[vertex_id].color for vertex_id in graph.vertices], 'color')
         graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
         start_indices = []

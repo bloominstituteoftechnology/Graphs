@@ -29,6 +29,13 @@ def randomGraph(vertices, edges):
         random_vertices = sample(graph.vertices.keys(),2)
         graph.add_edge(random_vertices[0], random_vertices[1])
 
+    colored = []
+    for i in graph.vertices:
+        print(i)
+        if i not in colored:
+            colored += graph.colorBFT(i)
+            print(colored)
+
     return graph
 
 def regularGraph():
@@ -53,7 +60,7 @@ def main(**kwargs):
     verts = kwargs["verts"]
     edges = kwargs["edges"]
 
-    if style == "funtime":
+    if style == "random":
         graph = randomGraph(verts, edges)
     else:
         graph = regularGraph()
