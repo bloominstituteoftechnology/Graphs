@@ -46,15 +46,18 @@ class Graph:
         queue = [start]
         # remove first if a bfs (queue) and last if dfs (stack)
         remove_index = 0 if type == "bfs" else -1
-        # if we make visited a set, can do set operations with the vertices
+        # set up our visited list
         visited = []
 
         while queue:
+            # get first/last item
             vert = queue.pop(remove_index)
             if vert not in visited:
                 if self.vertices[vert].value == target:
                     return True
-                visited.append(vert)  # ...mark as visited...
+                # add to visited
+                visited.append(vert)
+                # set up to visit all the children
                 for child in self.vertices[vert].edges:
                     queue.append(child)
         return False
