@@ -52,7 +52,7 @@ class BokehGraph:
         colors = []
         num_colors = num_colors or len(self.graph.vertices)
         for _ in range(num_colors):
-            color = '#'+''.join([choice('0123456789ABCDEF') for j in range(6)])
+            color = '#'+''.join([choice('89ABCDEF') for j in range(6)])
             colors.append(color)
         return colors
 
@@ -110,7 +110,8 @@ class BokehGraph:
         for vertex in self.vertex_list:
             vertex_colors.append(component_colors[vertex.component])
         return vertex_colors
-
+    
+    
 # graph = Graph()  # Instantiate your graph
 # graph.add_vertex('0')
 # graph.add_vertex('1')

@@ -54,12 +54,25 @@ class Graph:
                 stack.extend(graph.vertices[vertex] - visited)
         return visited
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
-print(graph.dfs(graph, '0'))
+    def find_components(self):
+        visited = set()
+        current_component = 0
+
+        for vertex in self.vertices:
+            if vertex not in visited:
+                reachable = self.dfs(self, vertex)
+                for next_vertex in reachable:
+                    next_vertex.component = current_component
+                current_component += 1
+                visited.update(reachable)
+        self.components = current_component
+
+# graph = Graph()  # Instantiate your graph
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
+# print(graph.vertices)
+# print(graph.dfs(graph, '0'))
