@@ -23,7 +23,7 @@ class Graph:
     def __init__(self):
         self.vertices = {}
     def add_vertex(self, v_id):
-        if vertex not in self.vertices:
+        if v_id not in self.vertices:
             self.vertices[v_id] = Vertex(v_id)
         else:
             print('Please input a different vertex')
@@ -35,21 +35,18 @@ class Graph:
             print("The edge could not be created")
 
 
-def DFT(adjList, node_id, visited):
-    visited.append(node_id)
-    for child_node in adjList[node_id]:
-        if child_node not in visited:
-            DFT(adjList, child_node, visited)
-
-
-
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+graph = Graph()
+graph.add_vertex(0)
+graph.add_vertex(1)
+graph.add_vertex(2)
+graph.add_vertex(3)
+graph.add_edge(0, 1)
+graph.add_edge(0, 3)
 print(graph.vertices)
 
-DFT(graph.vertices, '0', [])
+
+# def DFT(adjList, node_id, visited):
+#     visited.append(node_id)
+#     for child_node in adjList[node_id]:
+#         if child_node not in visited:
+#             DFT(adjList, child_node, visited)
