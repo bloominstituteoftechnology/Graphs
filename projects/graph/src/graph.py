@@ -1,3 +1,4 @@
+import random
 """
 Simple graph implementation compatible with BokehGraph class.
 """
@@ -21,7 +22,7 @@ class Node:
 #         return 'Vertex: ' + self.label
 
 class Vertex:
-    def __init__(self, vertex_id, x=None, y=None, value=None, color="white"):
+    def __init__(self, vertex_id, x=None, y=None, value=None, color=None):
         self.id = int(vertex_id)
         self.x = x
         self.y = y
@@ -41,8 +42,8 @@ class Vertex:
                 colorString += hexValues[random.randint(0,len(hexValues) - 1)]
             self.color = colorString
 
-    def __repr__(self):
-        return 'Vertex, id:{} value: {}'.format(self.id, self.value)
+    # def __repr__(self):
+    #     return 'Vertex, id:{} value: {}, connections: {}'.format(self.id, self.value, self.edges)
 
 
 class Graph:
@@ -91,6 +92,7 @@ graph.add_edge(1, 2)
 #graph.add_edge('1', '3')
 #graph.add_edge('2','3', False)
 graph.add_vertex(3)
-print(graph.vertices)
+for vertex, vertex_info in graph.vertices.items():
+    print(vertex, "space", vertex_info.value, "space", vertex_info.edges)
 
 #print(graph.search('1', method='bfs'))
