@@ -1,8 +1,9 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import random
 class Vertex:
-    def __init__(self, vertex_id, value=None, x=None , y=None, color="white"):
+    def __init__(self, vertex_id, value=None, x=None , y=None, color=None):
         self.id = int(vertex_id)
         self.value = value 
         self.color = color
@@ -10,11 +11,19 @@ class Vertex:
         self.y = y
         self.edges = set()
         if self.x is None:
-            self.x = self.id
+            self.x = 2 * (self.id // 3) + self.id / 10 * (self.id % 3)
         if self.y is None:
-            self.y = self.id
+            self.y = 2 * (self.id % 3) + self.id / 10 * (self.id // 3)
         if self.value is None:
             self.value = self.id
+        if self.color is None:
+            hexValues = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+            colorArray = ["F"]
+            for i in range(0, 3):
+                colorArray.append(hexValues[random.randint(0,len(hexValues) - 1)])
+                random.shuffle(colorArray)
+            colorString = "#" +"".join(colorArray)
+            self.color = colorString
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
