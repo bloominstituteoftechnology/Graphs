@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 """
 Demonstration of Graph and BokehGraph functionality.
 """
@@ -26,8 +28,26 @@ def main(vertices=8, edges=8):
     for edge in edgesOut:
         graph.add_edge(edge[0], edge[1])
 
+    print('NI: ', graph.vertices)
+    # start with array of ALL NODES
+    # loop through each node and get visited
+        # Assign color
+    # remove all visited nodes from ALL NODES
+    # repeat until done
+    
+    vertices = list(graph.vertices.keys())[:]
+    while vertices:
+        group = graph.breadth_first_for_each(vertices[0]) #==> this is visited
+        vertices = [i for i in vertices if i not in group]
+        graph.groups.append(group)
+        print(vertices)
+    print(graph.groups)
+    print([vertex for subgroup in graph.groups for vertex in subgroup])    
     b_graph = BokehGraph(graph)
 
+    print('visited: ', graph.breadth_first_for_each(0))
+    
+    print(graph.groups)
     b_graph.show()
 
 
@@ -40,3 +60,9 @@ if __name__ == '__main__':
         print("Maximum number of edges exceeded!")
     else:
         main(vertices, edges)
+
+        # i.color for i in self.vertices:
+        #     if i in visited:
+        #         currentcolor = color1
+        #     else:
+        #         currentcolor = color2
