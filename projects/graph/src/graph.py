@@ -30,7 +30,7 @@ class Queue:
     def enqueue(self, value):
         return self.queue.append(value)
     def dequeue(self):
-        if self.size > 0:
+        if self.size() > 0:
             return self.queue.pop(0)
         else: None
     def size(self):
@@ -88,12 +88,12 @@ class Graph:
         q = Queue()
         q.enqueue(node)
         visited = []
-        while len(frontier) > 0:
+        while q.size() > 0:
             n = q.dequeue()
             if n not in visited:
                 print(n)
                 visited.append(n)
-                for next_node in self.vertices[n]:
+                for next_node in self.vertices[n].edges:
                     q.enqueue(next_node)
         
 
@@ -121,10 +121,10 @@ class Graph:
         q = Queue()
         q.enqueue(node)
         visited = []
-        while q.size > 0:
+        while q.size() > 0:
             n = q.dequeue()
             visited.append(n)
             print(n)
-            for next_node in adjList[n].edges:
+            for next_node in self.vertices[n].edges:
                 q.enqueue(next_node)
         return False

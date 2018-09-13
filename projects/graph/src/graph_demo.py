@@ -69,7 +69,7 @@ def main(**kwargs):
         
     bg = BokehGraph(graph)
     bg.show()
-    graph.dft(0, [])
+    #graph.dft(0, [])
     graph.bft(0)
 
 
