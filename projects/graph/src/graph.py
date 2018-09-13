@@ -51,12 +51,12 @@ class Graph:
 
     def bfs(self):
         queue = [self.root]
-        visited = []
+        visited = {}
         while len(queue) > 0:
             vert = queue.pop(0)
             if vert not in visited:
                 print(vert.id)
-                visited.append(vert)
+                visited[vert] = 1
                 for next_vert in self.vertices[vert]:
                     queue.append(next_vert)
     
