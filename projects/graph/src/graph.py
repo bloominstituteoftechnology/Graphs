@@ -7,8 +7,11 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        self.root = None
 
     def add_vertex(self, vertex):
+        if self.root is None:
+           self.root = vertex
         if vertex in self.vertices:
             raise Exception(f'vertex {vertex} already exists')
         
