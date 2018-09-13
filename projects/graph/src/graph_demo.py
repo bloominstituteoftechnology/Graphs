@@ -64,6 +64,8 @@ def main(**kwargs):
         graph = getRandomGraph(numVerts, numEdges)
     else:
         graph = getDefaultGraph()
+    
+    # graph.breadth_first(2)
 
     bokeh_graph = BokehGraph(graph)
 

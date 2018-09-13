@@ -6,7 +6,7 @@ import math
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, ColumnDataSource)
-from bokeh.palettes import Spectral8
+from bokeh.palettes import Viridis256
 from graph import Graph
 
 
@@ -15,14 +15,20 @@ class BokehGraph:
         self.graph = graph
 
     def show(self):
+        graph = self.graph
         node_indices = list(self.graph.vertices)
-        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1, 10.1), y_range=(-1.1, 10.1), tools='', toolbar_location=None)
+        N = len(node_indices)
+        print(node_indices)
+        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1, 60.1), y_range=(-1.1, 30.1), tools='', toolbar_location=None)
 
         graph_renderer = GraphRenderer()
 
+        colors = Viridis256[0:N]
+        print(colors)
+
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        graph_renderer.node_renderer.data_source.add(Spectral8, 'color')
-        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
+        graph_renderer.node_renderer.data_source.add(colors , 'color')
+        graph_renderer.node_renderer.glyph = Circle(radius=1, fill_color='color')
 
         start_indices = []
         end_indices = []
@@ -34,16 +40,19 @@ class BokehGraph:
                 graph_renderer.edge_renderer.data_source.data = dict(start=start_indices, end=end_indices)
 
          # start of layout code
-        grid = [int(v) for v in self.graph.vertices]
-        x = [2 * (i // 3) for i in grid]
-        y = [2 * (i % 3) for i in grid]
+        circ = [int(v*2*math.pi/8) for v in self.graph.vertices]
+        # x = [math.cos(i) for i in circ]
+        # y = [math.sin(i) for i in circ]
+
+        x = [(node_indices[i]) * (i // 3) for i in circ]
+        y = [(node_indices[i]) * (i % 3) for i in circ]
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         plot.renderers.append(graph_renderer)
 
-        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=circ))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
 
         plot.add_layout(labels)
