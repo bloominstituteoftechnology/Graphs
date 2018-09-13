@@ -8,26 +8,35 @@ from graph import Graph
 import random
 
 class BokehGraph:
-    def __init__(self, newGraph=None):
+    def __init__(self, newGraph=None, newPlotArgs = None):
         # Instantiate your graph
         if newGraph: self.graph = newGraph
         else:
             self.graph = Graph()
             self.graph.addVertex('0')
             self.graph.addVertex('1')
-            self.graph.addVertex('2')
-            self.graph.addVertex('3')
             self.graph.addEdge('0', '1')
-            self.graph.addEdge('0', '3')
-            print(self.graph.vertices)
+
+        pArgs = {
+            "title" : 'Graph Layout Demonstration',
+            "x_range" : (-1.1,10.1),
+            "y_range" : (-1.1,10.1),
+            "tools" : '',
+            "toolbar_location" : None
+        }
+        if newPlotArgs:
+            for key, value in newPlotArgs.items():
+                pArgs[key] = value
+
+        self.plot = figure(title= pArgs['title'], x_range= pArgs["x_range"], y_range= pArgs["y_range"],
+        tools=pArgs['tools'], toolbar_location=pArgs['toolbar_location'])
+
         
     def show(self):
         N = len(self.graph.vertices)
         node_indices = list(self.graph.vertices)
+        #default plot
 
-        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1), y_range=(-1.1,10.1),
-              tools='', toolbar_location=None)
-        
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         graph_renderer.node_renderer.data_source.add(getColors(N), 'color')
@@ -57,10 +66,10 @@ class BokehGraph:
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
-        plot.renderers.append(graph_renderer)
+        self.plot.renderers.append(graph_renderer)
 
         output_file('graph.html')
-        show(plot)
+        show(self.plot)
 
 def getColors(numIndices):
     def randomColor():
