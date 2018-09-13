@@ -30,4 +30,9 @@ class Graph:
     def add_directional_edge(self, vertex1, vertex2):
         if vertex1 in self.vertices[vertex2]:
             raise Exception(f'Use the add_edge method instead')
+        self.vertices[vertex1].add(vertex2)dge method instead')
         self.vertices[vertex1].add(vertex2)
+    
+    def set_root_vertex(self, root_vertex):
+        self.root = root_vertex
+    
