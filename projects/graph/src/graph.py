@@ -4,21 +4,23 @@ Simple graph implementation compatible with BokehGraph class.
 import random
 
 
-# class Queue:
-#     def __init__(self):
-#         self.queue = []
-#     def enqueue(self, vertex):
-#         self.queue.append(vertex)
-#     def dequeue(self)
-#         if self.queue > 0:
-#             self.queue.pop(0)
-#         else:
-#             return None
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, vertex):
+        self.queue.append(vertex)
+    def dequeue(self)
+        if len(self.queue) > 0:
+            self.queue.pop(0)
 
-# class Stack:
-#     def __init__(self):
-#         self.stack = []
-#     def appen
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def append(self, vertex):
+        self.stack.append(vertex)
+    def pop(self):
+        if len(self.stack) > 0:
+            self.stack.pop()
     
 
 class Vertex:
@@ -62,10 +64,7 @@ class Graph:
                 if vert is not otherVert:
                     if random.random() > .7:
                         self.add_edge(vert, otherVert)
-        
-
-
-# def dft:
+    def dft:
 
 
 graph = Graph()
