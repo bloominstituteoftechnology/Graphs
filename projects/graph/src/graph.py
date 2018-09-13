@@ -2,11 +2,11 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
-
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        self.groups = []
 
     def add_vertex(self, vertex):
         if vertex in self.vertices:
@@ -33,8 +33,7 @@ class Graph:
             for edge in self.vertices[current]:  #look at connections,
                 if edge not in visited and edge not in queue:    # if the connected node isn't visited,
                     queue.append(edge)   # then enqueue it
-        print(visited)
-
+        return visited
 
     def depth_first_for_each(self, start):
         stack = [] # setup a que to check nodes
@@ -46,7 +45,7 @@ class Graph:
             for edge in self.vertices[current]:  #look at connections,
                 if edge not in visited and edge not in stack:    # if the connected node isn't visited,
                     stack.append(edge)   # then enqueue it
-        print(visited)
+        # print(visited)
 
 # vertices = {
 #     0: {1,3},
@@ -72,8 +71,6 @@ graph.add_edge('0', '3')
 graph.add_edge('4', '2')
 graph.add_edge('1', '4')
 graph.add_edge('5', '3')
-graph.add_edge('6', '3')
-graph.add_edge('7', '4')
 
 # print('vertices',graph.vertices)
 # print('values',graph.vertices.values())
