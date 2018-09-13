@@ -118,7 +118,7 @@ graph.add_edge('1', '2', False)
 graph.add_edge('0', '2', False)
 graph.add_edge('0', '2')
 graph.add_edge('4', '5')
-# print(graph.search('1', '3'))
+print(graph.search('1', '3'))
 
 # print(graph.search)
 

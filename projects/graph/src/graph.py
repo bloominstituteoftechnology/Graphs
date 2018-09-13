@@ -17,6 +17,19 @@ class Graph:
         if bidirectional:
             self.vertices[end].add(start)
 
+    def search(self, start, target=None, method='dfs'):
+        quack = [start]
+        pop_index = 0 if method == 'bfs' else -1
+        visited = set()
+
+        while quack:
+            current = quack.pop(pop_index)
+            if current == target:
+                break
+            visited.add(current)
+            quack.extend(self.vertices[current] - visited)
+
+        return visited
     
 def main():
     graph = Graph()  
