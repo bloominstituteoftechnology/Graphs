@@ -36,3 +36,15 @@ class Graph:
     def set_root_vertex(self, root_vertex):
         self.root = root_vertex
     
+    def dfs(self):
+        ids = []
+        visited = {}
+        def get_node_ids(start_vert = self.root):
+            visited[start_vert] = 1
+            ids.append(start_vert.id)
+            for child_vert in self.vertices[start_vert]:
+                if child_vert not in visited:
+                    get_node_ids(child_vert)
+
+        get_node_ids()
+        return ids
