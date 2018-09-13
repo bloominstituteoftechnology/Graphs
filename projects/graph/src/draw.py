@@ -98,27 +98,26 @@ class BokehGraph:
 
 if __name__ == '__main__':
     # graph = Graph()
+    # node0 = Node(1,1.5)
+    # node1 = Node(.5,1)
+    # node2 = Node(0.25, 0.5)
+    # node3 = Node(.75,.5)
+    # node4 = Node(1.5, 1)
 
-    # Square with a dot in the middle
-    graph = Graph()
-    # Middle Node
-    node0 = Node(0,0)
-    # Bottom Left
-    node1 = Node(-0.5,-0.5)
-    # Top Left
-    node2 = Node(-0.5, 0.5)
-    # Top Right
-    node3 = Node(0.5,0.5)
-    # Bottom Right
-    node4 = Node(0.5,-0.5)
-    graph.add_vertex(node0)
-    graph.add_vertex(node1)
-    graph.add_vertex(node2)
-    graph.add_vertex(node3)
-    graph.add_vertex(node4)
-    graph.add_edge(node1, node2)
-    graph.add_edge(node2, node3)
-    graph.add_directional_edge(node3, node4)
-    graph.add_directional_edge(node4, node1)
-    bokeh_graph = BokehGraph(graph)
+    # graph.add_vertex(node0)
+    # graph.add_vertex(node1)
+    # graph.add_vertex(node2)
+    # graph.add_vertex(node3)
+    # graph.add_vertex(node4)
+
+    # graph.add_edge(node0, node1)
+    # graph.add_edge(node1, node2)
+    # graph.add_edge(node1, node3)
+    # graph.add_edge(node0, node4)
+    # bokeh_graph = BokehGraph(graph)
+    # print(bokeh_graph.bfs())
+    # Directional bokeh_graph
+    bokeh_graph = BokehGraph(Graph())
+    bokeh_graph.generate_random_nodes(5)
+    bokeh_graph.generate_one_connect_directional_edges()
     bokeh_graph.show()
