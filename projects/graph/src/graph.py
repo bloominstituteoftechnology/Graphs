@@ -13,9 +13,9 @@ class Vertex:
         self.color = color
         self.edges = set()
         if x is None:
-            self.x = random.randint(0, 600)
+            self.x = random.uniform(-1, 1)
         if y is None:
-            self.y = random.randint(0, 600)
+            self.y = random.uniform(-1, 1)
         if self.value is None:
             self.value = self.id
         if self.color is None:
@@ -27,8 +27,13 @@ class Vertex:
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self):
+    def __init__(self, circle_radius=.08, labels=True, x_range=(-1.1,1.1), y_range=(-1.1,1.1)):
         self.vertices = {}
+        self.circle_radius = circle_radius
+        self.labels = labels
+        self.x_range = x_range
+        self.y_range = y_range
+        self.groups = []
 
     def add_vertex(self, vertex_id, x=None, y=None, value=None, color=None):
         if vertex_id in self.vertices:
@@ -52,10 +57,10 @@ class Graph:
         while len(queue) > 0:
             current = queue.pop(0) # first in que pulled out
             visited.append(current) #push into visited
-            for edge in self.vertices[current]:  #look at connections,  
+            for edge in self.vertices[current].edges:  #look at connections,  
                 if edge not in visited and edge not in queue:    # if the connected node isn't visited,
                     queue.append(edge)   # then enqueue it
-        print(visited)
+        return visited
 
     def depth_first_for_each(self, start):
         stack = [] # setup a que to check nodes
@@ -64,7 +69,8 @@ class Graph:
         while len(stack) > 0:
             current = stack.pop() # first in que pulled out
             visited.append(current) #push into visited
-            for edge in self.vertices[current]:  #look at connections,  
+            for edge in self.vertices[current].edges:  #look at connections,  
                 if edge not in visited and edge not in stack:    # if the connected node isn't visited,
                     stack.append(edge)   # then enqueue it
-        print(visited)
+        return visited
+

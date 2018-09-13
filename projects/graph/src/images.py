@@ -934,19 +934,21 @@ lambda2a_2 = [
 lambda_logo = [lambda2a_2, lambda_2a, lambda_d2, lambda_d, lambda_l, lambda_a, logo1, logo2, logo3, lambda_a2, lambda_m, lambda_b, lambda_b2]
 
 pictures = {
-    'awesome': [awesome, 'yellow'],
-    'radiohead': [radiohead, 'black'],
-    'bender': [bender, 'grey'],
-    "lambda": [lambda_logo, 'black']
+    'awesome': [awesome, 'yellow', 10, 'labels'],
+    'radiohead': [radiohead, 'black', 5, 'labels'],
+    'bender': [bender, 'grey', 1.5, 'no_labels'],
+    "lambda_logo": [lambda_logo, 'black', 1.5, 'no_labels']
 }
 
 def getGraph(request):
     picture = pictures[request][0]
-    if len(pictures[request]) > 1:
-        color = pictures[request][1]
-    else:
-        color = None
-    graph = Graph()
+    color = pictures[request][1]
+    circle_radius = pictures[request][2]
+    labels = True if pictures[request][3] == 'labels' else False
+    x_range=(-1.1,610.1)
+    y_range=(600.1, -1.1)
+
+    graph = Graph(circle_radius, labels=labels, x_range=x_range, y_range=y_range)
     current_id = 0
     for part in picture:
         for vertex in range(len(part)):

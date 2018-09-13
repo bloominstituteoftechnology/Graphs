@@ -11,17 +11,17 @@ from graph import Graph
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph):
-        self.vertices = list(graph.vertices.keys()) # [0,1,2]        
+        self.vertices = list(graph.vertices.keys())      
         self.graphIn = graph
     def show(self):
         node_indices = self.vertices       
-        plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,610.1), y_range=(600.1, -1.1),
+        plot = figure(title='Graph Layout Demonstration', x_range=self.graphIn.x_range, y_range=self.graphIn.y_range,
               tools='', toolbar_location=None)
               
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(node_indices, 'index')
         graph.node_renderer.data_source.add([self.graphIn.vertices[vertex_id].color for vertex_id in self.graphIn.vertices], 'color')
-        graph.node_renderer.glyph = Circle(radius=1.5, fill_color='color', name=str(node_indices))
+        graph.node_renderer.glyph = Circle(radius=self.graphIn.circle_radius, fill_color='color', name=str(node_indices))
         
         start_indices = []
         end_indices = []
@@ -43,18 +43,40 @@ class BokehGraph:
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         #setup labels
-        # data = {
-        #         'x': x,
-        #         'y': y,
-        #         'name': node_indices
-        #     }
-        # source = ColumnDataSource(data)
-        # labels = LabelSet(x="x", y="y", text="name", y_offset = -7,
-        #                 text_font_size="8pt", text_color="white",
-        #                 source=source, text_align='center')
+        if self.graphIn.labels:
+            data = {
+                    'x': x,
+                    'y': y,
+                    'name': node_indices
+                }
+            source = ColumnDataSource(data)
+            labels = LabelSet(x="x", y="y", text="name", y_offset = -7,
+                            text_font_size="8pt", text_color="white",
+                            source=source, text_align='center')
 
-        # plot.add_layout(labels)
+            plot.add_layout(labels)
         plot.renderers.append(graph)
 
         output_file('graph2.html')
         show(plot)
+
+graph = Graph()
+
+for i in range(10):
+    graph.add_vertex(i)
+
+graph.add_edge(0,1)
+graph.add_edge(1,2)
+graph.add_edge(2,3)
+graph.add_edge(3,4)
+graph.add_edge(3,5)
+graph.add_edge(5,6)
+graph.add_edge(0,6)
+graph.add_edge(0,7)
+graph.add_edge(7,8)
+graph.add_edge(8,9)
+
+b_graph = BokehGraph(graph)
+
+b_graph.show()
+

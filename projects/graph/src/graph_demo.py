@@ -6,8 +6,9 @@ Demonstration of Graph and BokehGraph functionality.
 import sys
 from graph import Graph
 from draw import BokehGraph
-from random import randint
 from images import getGraph
+from random import randint
+from bokeh.palettes import Viridis256
 
 def getDefaultGraph():
     graph = Graph()
@@ -15,16 +16,19 @@ def getDefaultGraph():
         graph.add_vertex(i)
     for i in range(10):
         graph.add_edge(i, i % 5)
+
     return graph
 
-def getRandomGraph(num_verts, num_edges):
+def getRandomGraph(num_verts, num_edges, connected=False):
     graph = Graph()
     vertices = num_verts
     edges = num_edges
-    
+
+    # Add vertices
     for n in range(0, vertices):
         graph.add_vertex(n)
 
+    # Add Edges
     edgesOut = []
     while len(edgesOut) < edges:
         starting = randint(0, vertices - 1)
@@ -33,11 +37,23 @@ def getRandomGraph(num_verts, num_edges):
             edgesOut.append((starting,ending))
 
     for edge in edgesOut:
-        graph.add_edge(edge[0], edge[1])             
-    
+        graph.add_edge(edge[0], edge[1])  
+           
+    # Color connected components the same color
+    if connected:
+        vertices = list(graph.vertices.keys())[:]
+        node_color = 0
+        while vertices:
+            group = graph.breadth_first_for_each(vertices[0])
+            node_color += 20
+            for node in group:
+                graph.vertices[node].color = Viridis256[node_color % 256]
+            
+            vertices = [i for i in vertices if i not in group]
+
     return graph
 
-def main(**kwargs): 
+def main(**kwargs):
     style = kwargs["style"]
     numVerts = kwargs["num_verts"]
     numEdges = kwargs["num_edges"]
@@ -52,9 +68,10 @@ def main(**kwargs):
         graph = getGraph('radiohead')
     elif style == 'bender':
         graph = getGraph('bender')
-        graph = getGraph('radiohead')
     elif style == 'lambda_logo':
-        graph = getGraph('lambda')
+        graph = getGraph('lambda_logo')
+    elif style == 'connected':
+        graph = getRandomGraph(numVerts, numEdges, 'connected')
     else:
         graph = getDefaultGraph()
 
