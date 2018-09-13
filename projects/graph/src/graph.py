@@ -79,7 +79,7 @@ class Graph:
             if vertex not in visited:
 
                 # print value
-                print(self.vertices[vertex].value)
+                # print(self.vertices[vertex].value)
 
                 # add to visited
                 visited.append(vertex)
@@ -90,7 +90,9 @@ class Graph:
                     # add next value to queue
                     q.enqueue(next_vertex)
 
-    def dfs(self, start, target=None):
+        return visited
+
+    def dfs(self, start, target=None, recursive=False, visited=[]):
         # init stack
         s = Stack()
 
@@ -98,33 +100,46 @@ class Graph:
         s.push(start)
 
         # init visited
-        visited = []
+        # visited = []
 
-        # loop over stack size
-        while s.size() > 0:
+        # recursive check
+        if not recursive:
 
-            # declare current value
-            vertex = s.pop()
+            # loop over stack size
+            while s.size() > 0:
 
-            # check visited elements
-            if vertex not in visited:
+                # declare current value
+                vertex = s.pop()
 
-                # print value
-                print(self.vertices[vertex].value)
+                # check visited elements
+                if vertex not in visited:
 
-                # add to visited
-                visited.append(vertex)
+                    # print value
+                    # print(self.vertices[vertex].value)
 
-                # loop for children nodes
-                for next_vertex in self.vertices[vertex].edges:
+                    # add to visited
+                    visited.append(vertex)
+
+                    # loop for children nodes
+                    for next_vertex in self.vertices[vertex].edges:
              
-                    # add next value to stack
-                    s.push(next_vertex)
+                        # add next value to stack
+                        s.push(next_vertex)
 
-    def search(self, method, start, target=None):
-        if method == 'dfs':
-            return self.dfs(start, target)
         else:
+            visited.append(start)
+            for next_vertex in self.vertices[start].edges:
+                if next_vertex not in visited:
+                    self.dfs(next_vertex, visited)
+
+        return visited
+
+    def search(self, method, start, target=None, recursive=False):
+        if method == 'dfs':
+            print('dfs')
+            return self.dfs(start, target, recursive)
+        else:
+            print('bfs')
             return self.bfs(start, target)
 
 demo_g = Graph()
@@ -147,5 +162,7 @@ demo_g.add_edge('1', '2')
 # print(demo_g.dfs('2'))
 # print(demo_g.dfs('3'))
 
-# print(demo_g.search(method=None, start='0', target='3'))
-# print(demo_g.search(method='dfs', start='0', target='3'))
+print(demo_g.search(method=None, start='0', target='3'))
+print(demo_g.search(method='dfs', start='0', target='3'))
+print(demo_g.search(method='dfs', start='0', target='3', recursive=True))
+
