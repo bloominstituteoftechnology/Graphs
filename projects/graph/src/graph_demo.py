@@ -50,6 +50,8 @@ def main(**kwargs):
         graph = getGraph('awesome')
     elif style == 'radiohead':
         graph = getGraph('radiohead')
+    elif style == 'bender':
+        graph = getGraph('bender')
     else:
         graph = getDefaultGraph()
 
