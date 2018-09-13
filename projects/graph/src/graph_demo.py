@@ -52,6 +52,9 @@ def main(**kwargs):
         graph = getGraph('radiohead')
     elif style == 'bender':
         graph = getGraph('bender')
+        graph = getGraph('radiohead')
+    elif style == 'lambda_logo':
+        graph = getGraph('lambda')
     else:
         graph = getDefaultGraph()
 

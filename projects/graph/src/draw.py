@@ -21,7 +21,7 @@ class BokehGraph:
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(node_indices, 'index')
         graph.node_renderer.data_source.add([self.graphIn.vertices[vertex_id].color for vertex_id in self.graphIn.vertices], 'color')
-        graph.node_renderer.glyph = Circle(radius=7, fill_color='color', name=str(node_indices))
+        graph.node_renderer.glyph = Circle(radius=1.5, fill_color='color', name=str(node_indices))
         
         start_indices = []
         end_indices = []
@@ -43,17 +43,17 @@ class BokehGraph:
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         #setup labels
-        data = {
-                'x': x,
-                'y': y,
-                'name': node_indices
-            }
-        source = ColumnDataSource(data)
-        labels = LabelSet(x="x", y="y", text="name", y_offset = -7,
-                        text_font_size="8pt", text_color="white",
-                        source=source, text_align='center')
+        # data = {
+        #         'x': x,
+        #         'y': y,
+        #         'name': node_indices
+        #     }
+        # source = ColumnDataSource(data)
+        # labels = LabelSet(x="x", y="y", text="name", y_offset = -7,
+        #                 text_font_size="8pt", text_color="white",
+        #                 source=source, text_align='center')
 
-        plot.add_layout(labels)
+        # plot.add_layout(labels)
         plot.renderers.append(graph)
 
         output_file('graph2.html')
