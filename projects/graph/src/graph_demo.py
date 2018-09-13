@@ -31,10 +31,8 @@ def randomGraph(vertices, edges):
 
     colored = []
     for i in graph.vertices:
-        print(i)
         if i not in colored:
             colored += graph.colorBFT(i)
-            print(colored)
 
     return graph
 
