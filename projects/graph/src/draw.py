@@ -37,7 +37,7 @@ class BokehGraph:
 
         graph.node_renderer.data_source.add(
             ['red'] * (N), 'color')
-        graph.node_renderer.glyph = Circle(radius=0.1, fill_color='color')
+        graph.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
         start_i = []
         end_i = []
@@ -56,6 +56,12 @@ class BokehGraph:
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
         # print(graph_layout)
         plot.renderers.append(graph)
+
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=node_indices))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                         text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+
+        plot.add_layout(labels)
 
         output_file('graph.html')
         show(plot)
