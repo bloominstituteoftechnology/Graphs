@@ -9,6 +9,7 @@ from sys import argv
 from graph import Graph
 from draw import BokehGraph
 
+
 def main(vertices=6, edges=4, connected_components=True):
     graph = Graph()
 
@@ -20,15 +21,16 @@ def main(vertices=6, edges=4, connected_components=True):
     for i in range(0, vertices):
         for j in range(0, vertices):
             if i < j:
-                all_edges.append( (i, j) )
+                all_edges.append((i, j))
 
     random.shuffle(all_edges)
     random_edges = all_edges[:edges]
 
     for edge in random_edges:
         graph.add_edge(edge[0], edge[1])
-  
+
     BokehGraph(graph, connected_components=connected_components).show()
+
 
 if __name__ == '__main__':
     # TODO - parse argv
