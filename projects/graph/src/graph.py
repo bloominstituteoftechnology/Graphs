@@ -48,3 +48,15 @@ class Graph:
 
         get_node_ids()
         return ids
+
+    def bfs(self):
+        queue = [self.root]
+        visited = []
+        while len(queue) > 0:
+            vert = queue.pop(0)
+            if vert not in visited:
+                print(vert.id)
+                visited.append(vert)
+                for next_vert in self.vertices[vert]:
+                    queue.append(next_vert)
+    
