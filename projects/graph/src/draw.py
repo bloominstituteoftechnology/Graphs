@@ -118,11 +118,4 @@ class BokehGraph:
     def _rando_button_handler(self, new):
         self.randomize()
 
-rando_button = Button(label='Randomize', button_type='success')
-show(widgetbox(rando_button))
 
-callback = CustomJS(code="""
-          console.log('clicked')
-        """)
-
-rando_button.js_on_click(callback)
