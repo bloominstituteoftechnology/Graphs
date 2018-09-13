@@ -1,4 +1,5 @@
 import random
+import math
 class Node:
     id = 0
     def __init__(self, x, y, radius = .2):
