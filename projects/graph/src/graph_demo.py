@@ -69,8 +69,8 @@ def main(**kwargs):
         
     bg = BokehGraph(graph)
     bg.show()
-    graph.dfs(graph.vertices, 0, [], 8)
-    graph.bft(graph.vertices, 0)
+    graph.dft(0, [])
+    graph.bft(0)
 
 
 

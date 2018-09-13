@@ -24,6 +24,29 @@ class Vertex:
                 colorString += hexValues[random.randint(0, len(hexValues)-1)]
             self.color = colorString
         
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        return self.queue.append(value)
+    def dequeue(self):
+        if self.size > 0:
+            return self.queue.pop(0)
+        else: None
+    def size(self):
+        return len(self.queue)
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        return self.stack.append(value)
+    def pop(self):
+        if self.size > 0:
+            return self.stack.pop()
+        else: None
+    def size(self):
+        return len(self.stack)
         
 
 
@@ -61,46 +84,47 @@ class Graph:
         else: 
             raise Exception('Error: Vertex does not exist')
             
-    def bft(self, adjList, node):
-        frontier = []
-        frontier.append(node)
+    def bft(self, node):
+        q = Queue()
+        q.enqueue(node)
         visited = []
         while len(frontier) > 0:
-            n = frontier.pop()
-            visited.append(n)
-            print(n)
-            for next_node in adjList[n].edges:
-                frontier.append(next_node)
+            n = q.dequeue()
+            if n not in visited:
+                print(n)
+                visited.append(n)
+                for next_node in self.vertices[n]:
+                    q.enqueue(next_node)
+        
 
-    def dft(self, adjList, node, visited):
+    def dft(self, node, visited=[]):
         print(node)
         visited.append(node)
-        for child_node in adjList[node].edges:
+        for child_node in self.vertices[node].edges:
             if child_node not in visited:
-                adjList.pop(child_node)
-                visited.append(child_node)
+                self.dft(child_node, visited)
 
-    def dfs(self, adjList, node, visited, search):
-        print(node)
-        if node == search: return True
-        visited.append(node)
-        for child_node in adjList[node].edges:
-            if child_node not in visited:
-                if node == search: return True
-                else:
-                    adjList.pop(child_node)
-                    visited.append(child_node)
+
+    def dfs(self, start_vert, target_value, visited=[]):
+        visited.append(start_vert)
+        print(self.vertices[start_vert])
+        if self.vertices[start_vert].value == target_value:
+            return True
+        for child_vert in self.vertices[start_vert]:
+            if child_vert not in visited:
+                return self.dfs(child_vert, target_value)
         return False
 
-    def bfs(self, adjList, node, search):
-        frontier = []
-        if node == search: return True
-        frontier.append(node)
+
+
+    def bfs(self, node, search):
+        q = Queue()
+        q.enqueue(node)
         visited = []
-        while len(frontier) > 0:
-            n = frontier.pop()
+        while q.size > 0:
+            n = q.dequeue()
             visited.append(n)
             print(n)
             for next_node in adjList[n].edges:
-                frontier.append(next_node)
+                q.enqueue(next_node)
         return False
