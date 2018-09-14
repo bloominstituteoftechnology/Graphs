@@ -154,7 +154,6 @@ class Graph:
                     q.enqueue(next_vert)
 
     def dfs(self, starting_vertex_id, target_value, visited=[]):
-        pass
         visited.append(starting_vertex_id)
         if starting_vertex_id == target_value:
             return True
@@ -179,6 +178,37 @@ class Graph:
                 for next_vert in self.vertices[v].edges:
                     q.enqueue(next_vert)
         return False
+
+    def dfs_path(self, starting_vertex_id, target_value, visited=[], path=[]):
+        visited.append(starting_vertex_id)
+        path = path + [starting_vertex_id]
+        if self.vertices[starting_vertex_id].value == target_value:
+            return path
+        for child_vert in self.vertices[starting_vertex_id].edges:
+            if child_vert not in visited:
+                new_path = self.dfs_path(child_vert, target_value, visited, path)
+                if new_path:
+                    return new_path
+
+        return None
+
+    def bfs_path(self, starting_vertex_id, target_value):
+        q = Queue()
+        q.enqueue([starting_vertex_id])
+        visited = []
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+            if v not in visited:
+                if self.vertices[v].value == target_value:
+                    return path
+                visited.append(v)
+                for next_vert in self.vertices[v].edges:
+                    # q.enqueue(next_vert) is no more
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    q.enqueue(new_path)
+        return None
 
 
 graph = Graph()
@@ -219,4 +249,8 @@ graph.bft(graph.vertices[0].id)
 print('\nDFS:')
 print(graph.dfs(graph.vertices[0].id, 9))
 print('\nBFS:')
-print(graph.bfs(graph.vertices[0].id, "Thanoos"))
+print(graph.bfs(graph.vertices[0].id, "Thanos"))
+print('\nDFS Path:')
+print(graph.dfs_path(graph.vertices[0].id, "Hulk"))
+print('\nBFS Path:')
+print(graph.bfs_path(graph.vertices[0].id, "Hulk"))
