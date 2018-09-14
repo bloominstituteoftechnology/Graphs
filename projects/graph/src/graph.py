@@ -24,6 +24,7 @@ class Graph:
         self.vertices = {}
         self.total_v = int(vertices)
         self.prob = float(probability)
+        self.groups = []
 
     def add_vertex(self, label):
         #check if an object with label already exists

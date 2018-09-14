@@ -11,12 +11,12 @@ from sys import argv
 
 def main(**kwargs):
     print(kwargs)
-    # graph = Graph(vertices, edge_prob)
-    # graph.generate_vertices()
-    # graph.generate_edges()
+    graph = Graph(vertices, edge_prob)
+    graph.generate_vertices()
+    graph.generate_edges()
 
-    # bokeh_graph = BokehGraph(graph)
-    # bokeh_graph.show()
+    bokeh_graph = BokehGraph(graph)
+    bokeh_graph.show()
 
 if __name__ == '__main__':
     # TODO - parse argv
