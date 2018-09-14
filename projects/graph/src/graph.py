@@ -128,7 +128,7 @@ class Graph:
     def dfs(self, curr_vert, target_value, visited=[]):
         # Append curr_vert in visited (optionally print)
         visited.append(curr_vert)
-        print(self.vertices[curr_vert])
+        # print(self.vertices[curr_vert])
 
         # If curr = target return True
         if curr_vert == target_value:
@@ -145,6 +145,31 @@ class Graph:
         # and goes back to for loop from line 138 from where it called from
         return False
 
+
+    # BFS via  Queue
+    # the function takes a the start_vert, target_val
+    def bfs(self, start_vert, target_val):
+        # Init a Q
+        q = Queue()
+        # enq the start_vert
+        q.enq(start_vert)
+        # init the visited list
+        visited = []
+        # while q isnt empty
+        while q.size() > 0:
+            # deq a vert
+            v = q.deq()
+            # if vert is not visited
+            if v not in visited:
+                # if v is target val return true
+                if v == target_val:
+                    return True
+                # append v to visited
+                visited.append(v)
+                # for each child of vert, enq
+                for next_vert in self.vertices[v]:
+                    q.enq(next_vert)
+        return False
 # class Vertex:
 #     def __init__(self, vertex_id, value, color="white"):
 #         self.id = vertex_id
@@ -191,5 +216,14 @@ graph.bftq('0')
 print('\n BFT List:')
 graph.bftl('0')
 
-print('\n Search:')
+print('\n DFSearch for 22:')
 print(graph.dfs('0','22'))
+
+print('\n DFSearch for 2:')
+print(graph.dfs('0','2'))
+
+print('\n BFSearch for 22:')
+print(graph.bfs('0','22'))
+
+print('\n BFSearch for 2:')
+print(graph.bfs('0','2'))
