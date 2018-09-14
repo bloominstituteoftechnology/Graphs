@@ -170,6 +170,53 @@ class Graph:
                 for next_vert in self.vertices[v]:
                     q.enq(next_vert)
         return False
+
+
+    def dfs_path(self, start_vert, target_val, visited=[], path=[]):
+        visited.append(start_vert)
+        path = path + [start_vert]
+        if self.vertices[start_vert] == target_val:
+            return path
+        for child in self.vertices[start_vert]:
+            if child not in visited:
+                new_path = self.dfs_path(child, target_val, visited, path)
+                if new_path:
+                    return new_path
+        return None
+
+
+        # BFS Path via  Queue
+    # the function takes a the start_vert, target_val
+    def bfs_path(self, start_vert, target_val):
+        # Init a Q
+        q = Queue()
+        # enq the start_vert as list
+        q.enq([start_vert])
+        # init the visited list
+        visited = []
+        # while q isnt empty
+        while q.size() > 0:
+            # deq a path
+            path = q.deq()
+            # grab the last vert in the path
+            v = path[-1]
+            # if vert is not visited
+            if v not in visited:
+                # if v is target val return true
+                if v == target_val:
+                    return path
+                # append v to visited
+                visited.append(v)
+                # for each child of vert
+                for next_vert in self.vertices[v]:
+                    # q.enq(next_vert)
+                    # make the new_path a list
+                    new_path = list(path)
+                    # append the child to new_path
+                    new_path.append(next_vert)
+                    # enq
+                    q.enq(new_path)
+        return False
 # class Vertex:
 #     def __init__(self, vertex_id, value, color="white"):
 #         self.id = vertex_id
@@ -202,7 +249,7 @@ graph.add_edge('3', '8')
 graph.add_edge('3', '9')
 
 # Add this edge to turn the tree to a graph:
-# graph.add_edge('9', '7')
+graph.add_edge('9', '7')
 print(graph.vertices)
 print('\n DFT:')
 graph.dft('0',[] )
@@ -227,3 +274,9 @@ print(graph.bfs('0','22'))
 
 print('\n BFSearch for 2:')
 print(graph.bfs('0','2'))
+
+print('\n DFS Path for 2:')
+print(graph.dfs_path('0','5'))
+
+print('\n BFS Path for 2:')
+print(graph.bfs_path('0','9'))
