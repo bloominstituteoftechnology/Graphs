@@ -5,18 +5,34 @@ Demonstration of Graph and BokehGraph functionality.
 """
 
 from sys import argv
-from graph import Graph
-from draw import BokehGraph
+# from graph import Graph
+# from draw import BokehGraph
 
 
-def main(vertices = 4, edge_prob=0.5, layout = 'circle', colors='orange', output=None):
-    graph = Graph(vertices, edge_prob)
-    graph.generate_vertices()
-    graph.generate_edges()
+def main(**kwargs):
+    print(kwargs)
+    # graph = Graph(vertices, edge_prob)
+    # graph.generate_vertices()
+    # graph.generate_edges()
 
-    bokeh_graph = BokehGraph(graph)
-    bokeh_graph.show()
+    # bokeh_graph = BokehGraph(graph)
+    # bokeh_graph.show()
 
 if __name__ == '__main__':
     # TODO - parse argv
-    main(*argv[1:])
+    LAYOUT = 'default'
+    NUM_VERTS = 4
+    NUM_EDGES = 4
+    COLOR = 'orange'
+    for arg in argv[1:]:
+        split_arg = arg.split("=")
+        if len(split_arg) == 2:
+            if split_arg[0] == 'layout':
+                LAYOUT = split_arg[1].lower()
+            elif split_arg[0] == 'vertices':
+                NUM_VERTS = split_arg[1]
+            elif split_arg[0] == 'edges':
+                NUM_EDGES = split_arg[1]
+            elif split_arg[0] == 'color':
+                COLOR = split_arg[1].lower()
+    main(layout = LAYOUT, num_verts = NUM_VERTS, num_edges = NUM_EDGES, color = COLOR)
