@@ -15,13 +15,13 @@ class Queue():
         return len(self.queue)
 
 class Stack():
-    def __init(self):
+    def __init__(self):
         self.stack = []
     def push(self,value):
         self.stack.append(value)
     def pop(self):
         if self.size() > 0:
-            return self.pop()
+            return self.stack.pop()
         else:
             return None
     def size(self):
@@ -60,7 +60,7 @@ class Graph:
         print(f"DFT Recurse Listing: {current_vert}")
         # Add the current_vert to the visited list
         visited.append(current_vert)
-        print(f"DFT Recurse Visited: {visited}")
+        # print(f"DFT Recurse Visited: {visited}")
         # Vertices is a dictionary where the key is a vertex and the value is a list of child vertices
         # Loop through the child vertices
         for child_vert in self.vertices[current_vert]:
@@ -121,7 +121,26 @@ class Graph:
                 for next_vertex in self.vertices[n]:
                     q.enq(next_vertex)
 
-
+    # DFT using a stack is exactly like BFT but with a stack instead!
+    def dfts(self, start_vert):
+        # Create a queue
+        s = Stack()
+        # Enque the start_vert
+        s.push(start_vert)
+        # Initialize the visited list
+        visited = []
+        # while the queue size is > 0:
+        while s.size() > 0:
+            # Dequeue a vertex from the queue
+            n = s.pop()
+            # if that vertex is not visited:
+            if n not in visited:
+                # place in visited
+                visited.append(n)
+                print(f"BFT Listing: {n}")
+                # Enque all of the this vert's children
+                for next_vertex in self.vertices[n]:
+                    s.push(next_vertex)
 
 # class Vertex:
 #     def __init__(self, vertex_id, value, color="white"):
@@ -155,13 +174,19 @@ graph.add_edge('3', '8')
 graph.add_edge('3', '9')
 
 # Add this edge to turn the tree to a graph:
-graph.add_edge('9', '7')
+# graph.add_edge('9', '7')
 print(graph.vertices)
 print('\n DFT:')
 graph.dft('0',[] )
+
+print('\n DFT Stack:')
+graph.dfts('0')
+
 print('\n BFT Q:')
 graph.bftq('0')
+
 print('\n BFT List:')
 graph.bftl('0')
+
 print('\n Search:')
 print(graph.dfs(graph.vertices, '0',[], '2'))
