@@ -68,25 +68,6 @@ class Graph:
             if child_vert not in visited:
                 self.dft(child_vert, visited)
     
-    
-    # def dft(self, start_vert, visited=[]):
-    #     visited.append(start_vert)
-    #     print(self.vertices[start_vert].value)
-    #     for child_vert in self.vertices[start_vert].edges:
-    #         if child_vert not in visited:
-    #             self.dft(child_vert)
-    #             # Should be self.dft(child_vert, visited)
-
-    def dfs(self, adjList,vertex_id, visited, search):
-        if vertex_id == search:
-            return True
-        visited.append(vertex_id)
-        for child in adjList[vertex_id]:
-            if child not in visited:
-                self.dfs(adjList,child,visited, search)
-        return False
-
-
     # BFT using a list
     def bftl(self, start_vert):
         frontier = []
@@ -141,6 +122,28 @@ class Graph:
                 # Enque all of the this vert's children
                 for next_vertex in self.vertices[n]:
                     s.push(next_vertex)
+    
+    # DFS via Recursion
+    # Call the function with the curr_vert, target_val and visited []
+    def dfs(self, curr_vert, target_value, visited=[]):
+        # Append curr_vert in visited (optionally print)
+        visited.append(curr_vert)
+        print(self.vertices[curr_vert])
+
+        # If curr = target return True
+        if curr_vert == target_value:
+            return True
+        
+        # for each child in curr_vert, if they aren't in visited, if dfs(child) = true, return true
+        for child_vert in self.vertices[curr_vert]:
+            if child_vert not in visited:
+                if self.dfs(child_vert, target_value, visited):
+                    return True
+        
+        # If there are no children return false, 
+        # which effectively removes the last call of dfs off the call stack
+        # and goes back to for loop from line 138 from where it called from
+        return False
 
 # class Vertex:
 #     def __init__(self, vertex_id, value, color="white"):
@@ -189,4 +192,4 @@ print('\n BFT List:')
 graph.bftl('0')
 
 print('\n Search:')
-print(graph.dfs(graph.vertices, '0',[], '2'))
+print(graph.dfs('0','22'))
