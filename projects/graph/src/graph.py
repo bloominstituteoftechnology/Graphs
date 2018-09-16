@@ -18,6 +18,11 @@ class Node:
     def isNeighbor(self, node): # O(n)
         return node in self.neighbors
 
+# addNeighbor(): O(1)
+# getNeighbors(): O(n)
+# isNeighbor(): O(n)
+# adNode(): O(1)
+# removingNode(): O(n)
 edge_list = [
     {1,2},
     {1,4},
@@ -29,7 +34,11 @@ edge_list = [
     {5,6},
     {6,7}
 ]
-
+# addNeighbor(): O(1)
+# getNeighbors(): O(1)
+# isNeighbor(): O( avg_edges)
+# adNode(): O(1)
+# removingNode(): O(n ^ 2)
 adjacency_list = {
     1: [2, 4, 7],
     2: [1, 5, 3],
@@ -37,5 +46,22 @@ adjacency_list = {
     4: [1, 7],
     5: [2, 6],
     6: [3, 5, 7],
-    7: [1, 4, 6]
+    7: [1, 4, 6],
+    8: []
+}
+
+# addNeighbor(): O(1)
+# getNeighbors(): O(n)
+# isNeighbor(): O(1)
+# adNode(): O(n*2)
+# removingNode(): O(n ^ 2)
+adjacency_matrix = {
+    1: [0, 1, 0, 1, 0, 0, 1, 0],
+    2: [1, 0, 1, 0, 1, 0, 0, 0],
+    3: [0, 1, 0, 0, 0, 1, 0, 0],
+    4: [1, 0, 0, 0, 0, 0, 1, 0],
+    5: [0, 1, 0, 0, 0, 1, 0, 0],
+    6: [0, 0, 1, 0, 1, 0, 1, 0],
+    7: [1, 0, 0, 1, 0, 1, 0, 0],
+    8: [0, 0, 0, 0, 0, 0, 0, 0]
 }
