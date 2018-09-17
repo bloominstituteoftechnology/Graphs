@@ -22,7 +22,8 @@ class Node:
 # getNeighbors(): O(n)
 # isNeighbor(): O(n)
 # adNode(): O(1)
-# removingNode(): O(n)
+# removingNode(): O(e)
+# how much memory?: O(e)
 edge_list = [
     {1,2},
     {1,4},
@@ -38,7 +39,8 @@ edge_list = [
 # getNeighbors(): O(1)
 # isNeighbor(): O( avg_edges)
 # adNode(): O(1)
-# removingNode(): O(n ^ 2)
+# removingNode(): O(n^2)
+# how much memory?: O(n + e)
 adjacency_list = {
     1: [2, 4, 7],
     2: [1, 5, 3],
@@ -54,7 +56,8 @@ adjacency_list = {
 # getNeighbors(): O(n)
 # isNeighbor(): O(1)
 # adNode(): O(n*2)
-# removingNode(): O(n ^ 2)
+# removingNode(): O(n^2)
+# how much memory?: O(n^2)
 adjacency_matrix = {
     1: [0, 1, 0, 1, 0, 0, 1, 0],
     2: [1, 0, 1, 0, 1, 0, 0, 0],
