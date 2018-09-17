@@ -14,7 +14,14 @@ class Graph:
     def __init__(self, num_vertices):
         # * copying is shallow, so need explicit iteration for unique rows
         self.matrix = [[0] * num_vertices for _ in range(num_vertices)]
+                        for _ in range(num_vertices)]
+        self.vertices = [Vertex(str(i)) for i in range(num_vertices)]
 
     def connect_vertex(self, row, col):
         """Add an edge between vertices indicated by row/col of matrix."""
         self.matrix[row][col] = 1
+
+    def add_edg(self, start, end, bidirectional = True):
+        self.matrix[start][end] = 1
+        if bidirectional:
+            self.matrix[end][start] = 1
