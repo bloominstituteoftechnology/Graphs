@@ -6,7 +6,38 @@ Simple graph implementation compatible with BokehGraph class.
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        pass  # TODO
+        self.vertices = {}
+    def add_vertex(self, vertex_id):
+        self.vertices[vertex_id] = Vertex(vertex_id, f"V_{vertex_id}", color)
+    def get_edges(self, vertex_id):
+        self.vertices(vertex_id)
+    def add_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+            self.vertices[v1].add(v1)
+        else:
+            raise IndexError("THat vertex does not exist!")
+    def add_directed_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("THat vertex does not exist!")
+
+# graph = Graph()  # Instantiate your graph
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
+# print(graph.vertices)
+
+class Vertex:
+    def __init__(self, vertex_id, value, color="white"):
+        self.id = vertex_id
+        self.value = value
+        self.color = color
+        self.edges = []
 
 class Node:
     def __init__(self):
@@ -18,11 +49,10 @@ class Node:
     def isNeighbor(self, node):
         return node in self.neighbors
 
-    def add_vertex(self):
-    
-    def add_edge(self):
-        
 
+# addNeighbor(): O(1)
+# O(n)
+# isNeighbor(): O(1)
 edge_list = [
     (1, 2),
     (1, 4),
@@ -35,6 +65,9 @@ edge_list = [
     (6, 7)
 ]
 
+# addNeighbor()
+# getNeighbors(): )(1)
+# isNeighbor(): O( evg_edges )
 adjacency_list = {
     1: [2, 4, 7],
     2: [1, 3, 5],
@@ -45,5 +78,17 @@ adjacency_list = {
     7: [ 1, 4, 6]
 }
 
-# addNeighbor()
+
+# addNeighbor(): O(1)
+# getNeighbors(): O(n)
+# isNeighbor(): O(1)
+
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+print(graph.vertices)
 
