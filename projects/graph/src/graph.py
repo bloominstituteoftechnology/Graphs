@@ -8,9 +8,7 @@ class Graph:
     def __init__(self):
         self.vertices = {}
     def add_vertex(self, vertex_id):
-        self.vertices[vertex_id] = Vertex(vertex_id, f"V_{vertex_id}", color)
-    def get_edges(self, vertex_id):
-        self.vertices(vertex_id)
+        self.vertices[vertex_id] = set()
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
@@ -33,10 +31,9 @@ class Graph:
 # print(graph.vertices)
 
 class Vertex:
-    def __init__(self, vertex_id, value, color="white"):
-        self.id = vertex_id
-        self.value = value
-        self.color = color
+    def __init__(self, id, color="white"):
+        self.id
+        self.color
         self.edges = []
 
 class Node:
@@ -83,12 +80,12 @@ adjacency_list = {
 # getNeighbors(): O(n)
 # isNeighbor(): O(1)
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
+# graph = Graph()  # Instantiate your graph
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
+# print(graph.vertices)
 

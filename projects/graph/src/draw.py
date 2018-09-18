@@ -13,32 +13,96 @@ from graph import Graph
 
 
 graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_vertex('4')
-graph.add_vertex('5')
-graph.add_vertex('6')
-graph.add_vertex('7')
-graph.add_vertex('8')
-graph.add_vertex('9')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_vertex('4')
+# graph.add_vertex('5')
+# graph.add_vertex('6')
+# graph.add_vertex('7')
+# graph.add_vertex('8')
+# graph.add_vertex('9')
+# graph.add_vertex('10')
+# graph.add_vertex('11')
+# graph.add_vertex('12')
+# graph.add_vertex('13')
+# graph.add_vertex('14')
+# graph.add_vertex('15')
+# graph.add_vertex('16')
+# graph.add_vertex('17')
+# graph.add_vertex('18')
+# graph.add_vertex('19')
+# graph.add_vertex('20')
+# graph.add_vertex('21')
+# graph.add_vertex('22')
+# graph.add_vertex('23')
+# graph.add_vertex('24')
+# graph.add_vertex('25')
+# graph.add_vertex('26')
+# graph.add_vertex('27')
+# graph.add_vertex('28')
+# graph.add_vertex('29')
+# graph.add_vertex('30')
+# graph.add_vertex('31')
+# graph.add_vertex('32')
+# graph.add_vertex('33')
+# graph.add_vertex('34')
+# graph.add_vertex('35')
+# graph.add_vertex('36')
+# graph.add_vertex('37')
+# graph.add_vertex('37')
+# graph.add_vertex('38')
+# graph.add_vertex('39')
+# graph.add_vertex('40')
+# graph.add_vertex('41')
+
+for i in range(0, 300):
+    graph.add_vertex(str(i))
+
+
+
+# Edges
+graph.add_edge('0', '8')
+graph.add_edge('8', '128')
+graph.add_edge('128', '120')
+graph.add_edge('120', '0')
+
+graph.add_edge('8', '100')
+graph.add_edge('0', '96')
+graph.add_edge('120', '156')
+graph.add_edge('128', '160')
+
+
+graph.add_edge('96', '100')
+graph.add_edge('100', '160')
+graph.add_edge('160', '156')
+graph.add_edge('156', '96')
+
+graph.add_edge('100', '146')
+graph.add_edge('96', '144')
+graph.add_edge('156', '174')
+graph.add_edge('160', '176')
+
+graph.add_edge('144', '146')
+graph.add_edge('146', '176')
+graph.add_edge('176', '174')
+graph.add_edge('174', '144')
+
 print(graph.vertices)
 
 N = len(graph.vertices)
 node_indices = list(graph.vertices)
 
 
-plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,10.1), y_range=(-1.1,10.1),
+plot = figure(title='Graph Layout Demonstration', x_range=(-1.1,1000), y_range=(-1.1,1000),
               tools='', toolbar_location=None)
 
 graph_renderer = GraphRenderer()
 
 graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-graph_renderer.node_renderer.data_source.add(['red', 'blue', 'green', 'orange'], 'color')
-graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
+graph_renderer.node_renderer.data_source.add(['orange'], 'color')
+graph_renderer.node_renderer.glyph = Circle(radius=0.4, fill_color='color')
 
 start_indices = []
 end_indices = []
@@ -57,8 +121,8 @@ graph_renderer.edge_renderer.data_source.data = dict(
 
 ### start of layout code
 grid = [int(v) for v in graph.vertices]
-x = [2 * (i // 3) for i in grid]
-y = [2 * (i % 3) for i in grid]
+x = [50 * (i // 15) for i in grid]
+y = [50 * (i % 15) for i in grid]
 # x = [i for i in grid]
 # y = [i ** 2 for i in grid]
 
