@@ -2,45 +2,23 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
+#FROM Class Solutions
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        self.vertices = set()
-
-    def count(self):
-        #Return the number of vertices in the graph
-        return len(self.vertices)
-
-    def add_vertex(self, label):
-        v = self.Vertex(label)
-        # self.vertices[v] = set().append(v)
-        return v
-    
-    def add_edge(self, origin, destination):
-        # Insert and return new Edge from origin to destination 
-        e = self.Edge(origin, destination)
-        origin.edges.add_vertex(destination)
-        destination.edges.add_vertex(origin)
+        self.vertices = {}
+    def add_vertex(self,vertex_id):
+        self.vertices(vertex_id) = set()
+    def add_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices(v1).add(v2)
+            self.vertices(v2).add(v1)
+        else:
+            raise IndexError("That vertex does not exist!")
 
 
-    #Vertex Class
-    class Vertex:
-        def __init__(self, label):
-            self.label= label
-            self.edges = set()
-        
-        def __str__(self):
-            return "Vertex " + str(self.label)
 
-    #Edge Class
-    class Edge:
-        def __init__(self, origin, destination):
-            self.origin = origin
-            self.destination = destination
-        
-        def endpoints(self):
-            return (self.origin, self.destination)
 
 
 
@@ -76,3 +54,46 @@ graph.add_edge('0', '3')
 print(graph.vertices)
 
 
+
+
+
+# #########ORIGINAL ATTEMPT (DIDNT GET IT WORKING)#######
+
+# class Graph:
+#     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+#     def __init__(self):
+#         self.vertices = {}
+
+#     def count(self):
+#         #Return the number of vertices in the graph
+#         return len(self.vertices)
+
+#     def add_vertex(self, label):
+#         v = Vertex(label)
+#         self.vertices[v] = set()
+#         return v
+    
+#     def add_edge(self, origin, destination):
+#         # Insert and return new Edge from origin to destination 
+#         e = self.Edge(origin, destination)
+#         origin.edges.add_vertex(destination)
+#         destination.edges.add_vertex(origin)
+
+
+#     #Vertex Class
+#     class Vertex:
+#         def __init__(self, label):
+#             self.label= label
+#             self.edges = set()
+        
+#         def __str__(self):
+#             return "Vertex " + str(self.label)
+
+#     #Edge Class
+#     class Edge:
+#         def __init__(self, origin, destination):
+#             self.origin = origin
+#             self.destination = destination
+        
+#         def endpoints(self):
+#             return (self.origin, self.destination)
