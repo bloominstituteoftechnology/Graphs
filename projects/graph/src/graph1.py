@@ -81,7 +81,10 @@ class Graph:
 # print(len(graph.vertices))
 # print(graph.vertices)
 
-def dft(adjList, node_id):
+def dft(adjList, node_id, visited):
     print(node_id)
+    visited.append(node_id)
     for child_node in adjList[node_id]:
-        dft(adjList, child_node)
+        if child_node not in visited:
+            dft(adjList, child_node, visited)
+
