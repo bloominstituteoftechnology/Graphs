@@ -23,15 +23,17 @@ print(graph.vertices)
 
 N = len(graph.vertices)
 node_indices = list(graph.vertices)
+print(node_indices)
 
-plot = figure(title="Graph Layout Demonstration", x_range=(-1.1,10.1), y_range=(-1.1,10.1),
+
+plot = figure(title="Graph Layout Demonstration", x_range=(-1.1, 10.1), y_range=(-1.1, 10.1),
               tools="", toolbar_location=None)
 
 graphs = GraphRenderer()
 
-graphs.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 graphs.node_renderer.data_source.add(node_indices, 'index')
-graphs.node_renderer.data_source.add(['red'] * N, 'color')
+graphs.node_renderer.data_source.add(['red', 'blue'] * (N // 2), 'color')
+graphs.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
 start_indices = []
 end_indices = []
@@ -42,8 +44,8 @@ for vertex in graph.vertices:
         end_indices.append(edge_end)
 
 graphs.edge_renderer.data_source.data = dict(
-    start = start_indices,
-    end = end_indices
+    start=start_indices,
+    end=end_indices
 )
 
 circ = [int(v) for v in graph.vertices]
@@ -51,10 +53,10 @@ x = [2 * (i // 3) for i in circ]
 y = [2 * (i % 3) for i in circ]
 
 graph_layout = dict(zip(node_indices, zip(x, y)))
-graph_renderer.layout_provider = StaticLayoutProvider(graph_layout = graph_layout)
+graphs.layout_provider = StaticLayoutProvider(
+    graph_layout=graph_layout)
 
-plot.renderers.append(graph_renderer)
+plot.renderers.append(graphs)
 
 output_file('graph.html')
 show(plot)
-
