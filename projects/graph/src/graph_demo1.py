@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 
 """
@@ -70,6 +71,9 @@ def main(**kwargs):
         graph = getRandomGraph(numVerts, numEdges)
     else:
         graph = getDefaultGraph()
+
+    graph.dft(0)
+    # graph.bft(4)
 
     bokeh_graph = BokehGraph(graph)
 

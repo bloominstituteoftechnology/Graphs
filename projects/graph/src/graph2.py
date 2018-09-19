@@ -44,8 +44,8 @@ def dft(adjList, node_id, visited):
             dft(adjList, el, visited)
 
 def bft(aList, node_id):
-    arr = []
-    arr.append(node_id)
+    queue = []
+    queue.append(node_id)
     visited = []
     while len(frontier) > 0:
         n = frontier.pop()
@@ -53,5 +53,5 @@ def bft(aList, node_id):
             print(n)
             visited.append(n)
             for el in aList[n]:
-                arr.append(el)
+                queue.append(el)
 
