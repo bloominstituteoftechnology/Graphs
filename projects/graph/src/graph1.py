@@ -84,7 +84,27 @@ class Graph:
 def dft(adjList, node_id, visited):
     print(node_id)
     visited.append(node_id)
-    for child_node in adjList[node_id]:
-        if child_node not in visited:
-            dft(adjList, child_node, visited)
+    for el in adjList[node_id]:
+        if el not in visited:
+            dft(adjList, el, visited)
+
+# def dft(adjList, node_id, visited, search_node):
+#     if node_id == search_node: 
+#         return true
+#     visited.append(node_id)
+#     for el in adjList[node_id]:
+#         if el not in visited:
+#             dft(adjList, el, visited, search_node)
+#         return false
+def bft(aList, node_id):
+    arr = []
+    arr.append(node_id)
+    visited = []
+    while len(frontier) > 0:
+        n = frontier.pop()
+        if n not in visited:
+            print(n)
+            visited.append(n)
+            for el in aList[n]:
+                arr.append(el)
 

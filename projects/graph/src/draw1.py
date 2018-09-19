@@ -128,5 +128,6 @@ graph.add_edge('1', '2')
 bg = BokehGraph(graph)
 bg.show()
 
-# dft(graph.vertices, '0', [])
+dft(graph.vertices, '0', [])
+bft(graph.vertices, '0')
 print(graph.vertices)
