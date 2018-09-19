@@ -3,7 +3,7 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 class Vertex:
-    def __init__(self, vertex_id, x=None, y=None, value=None, color='green'):
+    def __init__(self, vertex_id, x=None, y=None, value=None, color='white'):
         self.id=int(vertex_id)
         self.x = x
         self.y = y
@@ -11,9 +11,9 @@ class Vertex:
         self.color=color
         self.edges=set()
         if self.x is None:
-            self.x = self.id
+            self.x = 2 * (self.id // 3) + self.id / 10 * (self.id % 3)
         if self.y is None:
-            self.y = self.id
+            self.y = 2 * (self.id % 3) + self.id / 10 * (self.id // 3)
         if self.value is None:
             self.value = self.id
 
