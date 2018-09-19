@@ -7,9 +7,9 @@ Demonstration of Graph and BokehGraph functionality.
 from sys import argv
 from draw2 import BokehGraph
 from graph2 import Graph
+import random
 
-def main(**kwargs):
-    print(kwargs) # *kwargs vs **kwargs (tuple vs dict)
+def getDefaultGraph():
     graph = Graph()  # Instantiate your graph
     graph.add_vertex(0)
     graph.add_vertex(1)
@@ -29,6 +29,47 @@ def main(**kwargs):
     graph.add_edge(4, 9)
     graph.add_edge(3, 7)
     graph.add_edge(3, 6)
+
+    return graph
+# O(n^2)
+def getRandomGraph(numVerts, numEdges):
+    graph = Graph()  # Instantiate your graph
+    # O(n)
+    for vert_id in range(0, numVerts):
+        graph.add_vertex(vert_id)
+
+    allEdges = []
+    # O(n^2)
+    for i in range(0, numVerts):
+        for j in range(0, numVerts):
+            if i < j:
+                allEdges.append((i, j))
+    # O(n)
+    random.shuffle(allEdges)
+    # O(1)
+    randomEdges = allEdges[:numEdges]
+    # O(n^2)
+    for edge in randomEdges:
+        graph.add_edge(edge[0], edge[1])
+    
+    return graph
+
+    return graph
+
+def main(**kwargs):
+    print(kwargs) # *kwargs vs **kwargs (tuple vs dict)
+
+    style = kwargs['style']
+    numVerts = kwargs['num_verts']
+    numEdges = kwargs['num_edges']
+
+    graph = Graph()  # Instantiate your graph
+    if style == 'default':
+        graph = getDefaultGraph()
+    elif style == 'random':
+        graph = getRandomGraph(numVerts, numEdges)
+    else:
+        graph = getDefaultGraph()
 
     bokeh_graph = BokehGraph(graph)
 
