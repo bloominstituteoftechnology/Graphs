@@ -9,12 +9,12 @@ from graph import Graph
 
 
 graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+graph.add_vertex(0)
+graph.add_vertex(1)
+graph.add_vertex(2)
+graph.add_vertex(3)
+graph.add_edge(0, 1)
+graph.add_edge(0, 3)
 print(graph.vertices)
 
 N = len(graph.vertices)
@@ -28,16 +28,19 @@ graph_renderer = GraphRenderer()
 
 graph_renderer.node_renderer.data_source.add(node_indices, 'index')
 graph_renderer.node_renderer.data_source.add(
-    ['red', 'blue', 'green', 'orange'], 'color')
+    [graph.vertices[vertex_id].color for vertex_id in graph.vertices], 'color')
 graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
 start_indices = []
 end_indices = []
 
-for vertex in graph.vertices:
-    for edge_end in graph.vertices[vertex]:
-        start_indices.append(vertex)
+for vertex_id in graph.vertices:
+    for edge_end in graph.vertices[vertex_id].edges:
+        start_indices.append(vertex_id)
         end_indices.append(edge_end)
+
+print(start_indices)
+print(end_indices)
 
 graph_renderer.edge_renderer.data_source.data = dict(
     start=start_indices,
@@ -45,11 +48,8 @@ graph_renderer.edge_renderer.data_source.data = dict(
 
 # start of layout code
 circ = [int(v) for v in graph.vertices]
-x = [2 * (i // 3) for i in circ]
-y = [2 * (i % 3) for i in circ]
-
-# x = [2 * (i // 3) for i in node_indices]
-# y = [2 * (i % 3) for i in node_indices]
+x = [graph.vertices[vertex_id].x for vertex_id in graph.vertices]
+y = [graph.vertices[vertex_id].y for vertex_id in graph.vertices]
 
 
 graph_layout = dict(zip(node_indices, zip(x, y)))
