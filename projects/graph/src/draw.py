@@ -21,15 +21,15 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        graph_renderer.node_renderer.data_source.add(Spectral8, 'color')
+        graph_renderer.node_renderer.data_source.add([graph.vertices[vertex_id].color for vertex_id in graph.vertices], 'color')
         graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
         start_indices = []
         end_indices = []
 
-        for vertex in graph.vertices:
-            for edge_end in graph.vertices[vertex]:
-                start_indices.append(vertex)
+        for vertex_id in graph.vertices:
+            for edge_end in graph.vertices[vertex_id].edges:
+                start_indices.append(vertex_id)
                 end_indices.append(edge_end)
         print(start_indices)
         print(end_indices)
@@ -39,9 +39,8 @@ class BokehGraph:
             end=end_indices)
 
         ### start of layout code
-        grid = [int(v) for v in graph.vertices]
-        x = [2 * (i // 3) for i in grid]
-        y = [2 * (i % 3) for i in grid]
+        x = [graph.vertices[vertex_id].x for vertex_id in graph.vertices]
+        y = [graph.vertices[vertex_id].x for vertex_id in graph.vertices]
 
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
@@ -49,7 +48,7 @@ class BokehGraph:
 
         plot.renderers.append(graph_renderer)
 
-        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=grid))
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[graph.vertices[vertex_id].value for vertex_id in graph.vertices]))
         labels = LabelSet(x='x', y='y', text='names', level='glyph',
                      text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
 
