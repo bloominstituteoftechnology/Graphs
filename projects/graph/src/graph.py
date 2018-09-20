@@ -52,35 +52,6 @@ class Node:
     def isNeighbor(self, node):
         return node in self.neighbors
 
-
-# addNeighbor(): O(1)
-# O(n)
-# isNeighbor(): O(1)
-edge_list = [
-    (1, 2),
-    (1, 4),
-    (1, 7),
-    (2, 3),
-    (2, 5),
-    (3, 6),
-    (4, 7),
-    (5, 6),
-    (6, 7)
-]
-
-# addNeighbor()
-# getNeighbors(): )(1)
-# isNeighbor(): O( evg_edges )
-adjacency_list = {
-    1: [2, 4, 7],
-    2: [1, 3, 5],
-    3: [2, 6],
-    4: [1, 7],
-    5: [2, 6],
-    6: [3, 5, 7],
-    7: [ 1, 4, 6]
-}
-
 # def dft(adjList, node_id, visited):
 #     print(node_id)
 #     visited.append(node_id)
