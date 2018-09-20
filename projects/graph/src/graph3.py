@@ -114,3 +114,61 @@ class Graph:
                 for next_el in self.vertices[v].edges:
                     q.enqueue(next_el)
 
+
+    def dfs(self, start_vert, target_value, visited=[]):
+        visited.append(start_vert)
+        if self.vertices[start_vert].value == target_value:
+            return True
+        for child_vert in self.vertices[start_vert].edges:
+            if child_vert not in visited:
+                if self.dfs(child_vert, target_value, visited):
+                    return True
+        return False
+    
+
+
+    def bfs(self, starting_vertex_id, target_value):
+        q = Queue()
+        q.enqueue(starting_vertex_id)
+        visited = []
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                if self.vertices[v].value == target_value:
+                    return True
+                # print(self.vertices[v].value)
+                visited.append(v)
+                for next_el in self.vertices[v].edges:
+                    q.enqueue(next_el)
+        return False
+
+    def dfs_path(self, start_vert, target_value, visited=[], path=[]):
+        visited.append(start_vert)
+        path = path + [start_vert]
+        if self.vertices[start_vert].value == target_value:
+            return path
+        for child_vert in self.vertices[start_vert].edges:
+            print(path)
+            if child_vert not in visited:
+                new_path = self.dfs_path(child_vert, target_value, visited, path)
+                if new_path:
+                    return new_path
+        return None
+
+    def bfs_path(self, starting_vertex_id, target_value):
+        q = Queue()
+        q.enqueue([starting_vertex_id])
+        visited = []
+        while q.size() > 0:
+            print(q.queue)
+            path = q.dequeue()
+            v = path[-1]
+            if v not in visited:
+                if self.vertices[v].value == target_value:
+                    return path
+                visited.append(v)
+                for next_vert in self.vertices[v].edges:
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    q.enqueue(new_path)
+        return None
