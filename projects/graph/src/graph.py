@@ -36,11 +36,13 @@ class Vertex:
         self.color = color
         self.edges = set()
         if self.x is None:
-            self.x = self.id
+            self.x = 2 * (self.id // 3) + self.id / 10 * (self.id % 3)
         if self.y is None:
-            self.y = self.id
+            self.y = 2 * (self.id % 3) + self.id / 10 * (self.id // 3)
         if self.value is None:
             self.value = self.id
+        if self.color is None:
+            self.color = "#BFF"
 
 class Node:
     def __init__(self):
