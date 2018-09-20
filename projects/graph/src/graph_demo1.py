@@ -72,7 +72,12 @@ def main(**kwargs):
     else:
         graph = getDefaultGraph()
 
-    graph.dft(0)
+    # graph.dft(0)
+    print(graph.dfs(0, 4))
+    print(graph.dfs(0, 9))
+    # print(graph.bfs(0, 4))
+    # print(graph.bfs(0, 8))
+    # graph.dft_stack(0)
     # graph.bft(4)
 
     bokeh_graph = BokehGraph(graph)

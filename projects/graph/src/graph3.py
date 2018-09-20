@@ -114,3 +114,31 @@ class Graph:
                 for next_el in self.vertices[v].edges:
                     q.enqueue(next_el)
 
+
+    def dfs(self, start_vert, target_value, visited=[]):
+        visited.append(start_vert)
+        if self.vertices[start_vert].value == target_value:
+            return True
+        for child_vert in self.vertices[start_vert].edges:
+            if child_vert not in visited:
+                if self.dfs(child_vert, target_value, visited):
+                    return True
+        return False
+    
+
+
+    def bfs(self, starting_vertex_id, target_value):
+        q = Queue()
+        q.enqueue(starting_vertex_id)
+        visited = []
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                if self.vertices[v].value == target_value:
+                    return True
+                # print(self.vertices[v].value)
+                visited.append(v)
+                for next_el in self.vertices[v].edges:
+                    q.enqueue(next_el)
+        return False
+
