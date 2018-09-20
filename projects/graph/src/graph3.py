@@ -148,6 +148,7 @@ class Graph:
         if self.vertices[start_vert].value == target_value:
             return path
         for child_vert in self.vertices[start_vert].edges:
+            print(path)
             if child_vert not in visited:
                 new_path = self.dfs_path(child_vert, target_value, visited, path)
                 if new_path:
@@ -159,6 +160,7 @@ class Graph:
         q.enqueue([starting_vertex_id])
         visited = []
         while q.size() > 0:
+            print(q.queue)
             path = q.dequeue()
             v = path[-1]
             if v not in visited:
