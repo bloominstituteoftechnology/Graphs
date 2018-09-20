@@ -5,15 +5,17 @@ import math
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle
+from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, ColumnDataSource, Label, LabelSet
+
 from graph import Graph
+
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph):
         self.graph = graph
 
-    def show (graph, node_list):
+    def show (self, graph, node_list):
         N = len(node_list)
         node_indices = list(node_list)
         print(node_indices)
@@ -25,10 +27,10 @@ class BokehGraph:
         graph = GraphRenderer()
 
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(['red', 'blue'] * (N // 2), 'color')
+        graph.node_renderer.data_source.add(['white'] * N, 'color')
         graph.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
-        start_indices = []
+        start_indices = [] 
         end_indices = []
 
         for vertex in node_list:
@@ -50,7 +52,12 @@ class BokehGraph:
             graph_layout=graph_layout)
 
         plot.renderers.append(graph)
-
+        
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=circ))
+       
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                    text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+        plot.add_layout(labels)
         output_file('graph.html')
         show(plot)
 
@@ -76,4 +83,5 @@ graph.add_edge('6', '7')
 
 print(graph.vertices)
 
-BokehGraph.show(graph, graph.vertices)
+newGraph = BokehGraph(graph)
+newGraph.show(graph, graph.vertices)
