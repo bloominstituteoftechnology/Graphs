@@ -28,6 +28,25 @@ def getGraph(**kwargs):
     bokeh_graph.draw()
 
 
+def getRandomGraph(numVerts, numEdges):
+    graph = Graph()
+
+    for vert_id in range(0, numVerts):
+        graph.add_vertex(vert_id)
+
+    allEdges = []
+    for i in range(0, numVerts):
+        for j in range(0, numVerts):
+            if i < j:
+                allEdges.append( (i, j) )
+    random.shuffle(allEdges)
+    randomEdges = allEdges[:numEdges]
+    for edge in randomEdges:
+        graph.add_edge(edge[0], edge[1])
+
+    return graph
+
+
 if __name__ == '__main__':
     style = 'default'
     num_verts = 5
