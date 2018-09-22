@@ -2,50 +2,39 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
-#FROM Class Solutions
+##### Implementation of the graph class with a seperate vertex class (from Graphs Day 3 lecture) #########
+class Vertex: 
+    def __init__(self, vertex_id, x = None, y = None, value = None, color = "white"):
+        self.id = int(vertex_id)
+        self.x = x
+        self.y = y
+        self.value = value
+        self.edges = set()
+        if self.x is None:
+            self.x = self.id
+        if self.y is None:
+            self.y = self.id
+        if self.value is None:
+            self.value = self.id
 
-class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+class Graph: 
     def __init__(self):
         self.vertices = {}
-    def add_vertex(self,vertex_id):
-        self.vertices[vertex_id] = set()
+    def add_vertex(self, vertex_id):
+        #we index vertex into dictionary by id  and we set the value to a vertex object
+        self.vertices[vertex_id] = Vertex(vertex_id)
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
-            self.vertices[v2].add(v1)
+            self.vertices[v1].edges.add(v2)
+            self.vertices[v2].edges.add(v1)
         else:
-            raise IndexError("That vertex does not exist!")
+            raise IndexError("That vertex does not exist!")  
     def directed_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
+            self.vertices[v1].edges.add(v2)
         else:
-            raise IndexError("That vertex does not exist!")
+            raise IndexError("That vertex does not exist!")        
 
-
-
-
-
-
-
-# We want something of the form 
-# {
-#     '0': {'1', '3'},
-#     '1': {'0'},
-#     '2': set(),
-#     '3': {'0'}
-# }
-# where the keys are the vertices and the associated values
-# (contained in a dictionary) are the edges
-
-
-
-#### Graph implementation must be compatible with BokehGraph (see: https://bokeh.pydata.org/en/latest/docs/user_guide/graph.html)
-# -The ColumnDataSource associated with the node sub-renderer must have 
-# a column named "index" that contains the unique indices of the nodes.
-# -The ColumnDataSource associated with the edge sub-renderer has two 
-# required columns: "start" and "end". These columns contain the node
-# indices of for the start and end of the edges.
 
 
 # graph = Graph()
@@ -61,7 +50,39 @@ class Graph:
 
 
 
-# #########ORIGINAL ATTEMPT (DIDNT GET IT WORKING)#######
+
+
+
+
+
+
+
+
+# ########## Graph class code from Graphs Day 2 lecture (this implementation doesn't have the seperate Vertex class) #########
+# class Graph:
+#     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+#     def __init__(self):
+#         self.vertices = {}
+#     def add_vertex(self,vertex_id):
+#         self.vertices[vertex_id] = set()
+#     def add_edge(self, v1, v2):
+#         if v1 in self.vertices and v2 in self.vertices:
+#             self.vertices[v1].add(v2)
+#             self.vertices[v2].add(v1)
+#         else:
+#             raise IndexError("That vertex does not exist!")
+#     def directed_edge(self, v1, v2):
+#         if v1 in self.vertices and v2 in self.vertices:
+#             self.vertices[v1].add(v2)
+#         else:
+#             raise IndexError("That vertex does not exist!")
+
+
+
+
+
+
+# #########  ORIGINAL ATTEMPT (DIDNT GET IT WORKING)  #######
 
 # class Graph:
 #     """Represent a graph as a dictionary of vertices mapping labels to edges."""
