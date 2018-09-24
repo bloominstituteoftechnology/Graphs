@@ -10,6 +10,7 @@ class Vertex:
         self.y = y
         self.value = value
         self.edges = set()
+        self.color = color
         if self.x is None:
             self.x = self.id
         if self.y is None:
