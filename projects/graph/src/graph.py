@@ -37,27 +37,7 @@ class Graph:
             raise IndexError("That vertex does not exist!")        
 
 
-#### DFT (depth first traversal) code from lecture 2 ####### (as an exercise, use the code below to make a DFS method)
-# def dft(adjList, node_id, visited):
-#     print(node_id)
-#     visited.append(node_id)
-#     for child_node in adjList[node_id]:
-#         if child_node not in visited:
-#             dft(adjList, child_node, visited)
 
-
-# #### BFT (breadth first traversal) code from lecture 2 ####### (as an exercise, use the code below to make a BFS method)
-# def bft(adjList, node_id):
-#     frontier = [] #unexplored nodes 
-#     frontier.append(node_id)
-#     visited = []
-#     while len(frontier) > 0:
-#         n = frontier.pop(0)
-#         if n not in visited:
-#             print(n)
-#             visited.append(n)
-#             for next_node in adjList(n):
-#                 frontier.append(next_node)
 
 # graph = Graph()
 # graph.add_vertex('0')
@@ -100,6 +80,27 @@ class Graph:
 #             raise IndexError("That vertex does not exist!")
 
 
+#### DFT (depth first traversal) code from lecture 3 ####### (as an exercise, use the code below to make a DFS method)
+# def dft(adjList, node_id, visited):
+#     print(node_id)
+#     visited.append(node_id)
+#     for child_node in adjList[node_id]:
+#         if child_node not in visited:
+#             dft(adjList, child_node, visited)
+
+
+# #### BFT (breadth first traversal) code from lecture 3 ####### (as an exercise, use the code below to make a BFS method)
+# def bft(adjList, node_id):
+#     frontier = [] #unexplored nodes 
+#     frontier.append(node_id)
+#     visited = []
+#     while len(frontier) > 0:
+#         n = frontier.pop(0)
+#         if n not in visited:
+#             print(n)
+#             visited.append(n)
+#             for next_node in adjList(n):
+#                 frontier.append(next_node)
 
 
 
