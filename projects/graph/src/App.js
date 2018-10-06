@@ -3,7 +3,8 @@ import { Graph } from './graph';
 import './App.css';
 
 // !!! IMPLEMENT ME
-const canvasWidth = 750
+const canvasWidth = 750; 
+
 const canvasHeight = 600
 
 const circleRadius = 15
@@ -46,6 +47,7 @@ class GraphView extends Component {
     //clear it
     ctx.fillStyle = 'lightBlue';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+   
     //     ctx.font = '13px Arial';
     //     ctx.textAlign = 'center';
     //     ctx.textBaseline = 'middle';

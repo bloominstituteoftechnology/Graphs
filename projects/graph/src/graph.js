@@ -2,7 +2,6 @@
  * Edge
  */
 export class Edge {
-  // !!! IMPLEMENT ME
   constructor(destination) {
     this.destination = destination; 
   }
@@ -12,7 +11,6 @@ export class Edge {
  * Vertex
  */
 export class Vertex {
-  // !!! IMPLEMENT ME
   constructor(value= 'default', pos={x: -1, y: -1}) {
     this.edges = []; 
     this.value; 
@@ -73,7 +71,7 @@ createDummyGraph() {
       grid.push(row);
     }
 
-    // Go through the grid randomly hooking up edges
+    // Goes through the grid randomly hooking up edges
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         // Connect down
@@ -138,7 +136,6 @@ createDummyGraph() {
    * BFS
    */
   bfs(start) {
-    // !!! IMPLEMENT ME
     let queue = []; 
     let random = randomColor(); 
 
