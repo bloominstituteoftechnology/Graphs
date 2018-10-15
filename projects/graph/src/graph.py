@@ -12,4 +12,6 @@ class Graph:
         self.vertices[vertex] = set(edges)
 
     def add_edge(self, start, end, undirected = True):
-        pass
+        self.vertices[start].add(end)
+        if undirected is True:
+            self.vertices[end].add(start)
