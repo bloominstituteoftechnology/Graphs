@@ -21,23 +21,31 @@ class Edge:
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self, directed = False):
+    def __init__(self):
         self.graph_dict = {}
-        self.directed = directed
     #ability to add to the dict needed 
     def add_vertex(self, value):
         new_vertex = Vertex(value)
         self.graph_dict[new_vertex] = set()
         
     def add_edge(self, from_vertex, to_vertex):
-        self.graph_dict[from_vertex].add(to_vertex)
-        self.graph_dict[to_vertex].add(from_vertex)
-        #not sure on this at the moment seems like 
-        # the same thing twice though the instructions say 
-        # to build a dictionary best practice is to have Edge
-        # and Vertex classes 
-        from_vertex.add_edge(to_vertex)
-        to_vertex.add_edge(from_vertex)
+        new_edge = Edge(to_vertex)
+        from_vertex.add(new_edge)#using sets must use add() method
+        
+        #self.graph_dict[from_vertex] = from_vertex.edges
+
+        
+        #add to the edges then we swap the edges that is there
+        #out with self.edges though adding might be quicker.
+        #not sure copy o(N)  but add is O(1)
+
+        self.graph_dict[from_vertex].add(new_edge)
+        #went with this out of being unsure of line 35
+        #I know adding to the set is O(1) for sure though. 
+        # A seperate edge case is needed for if to_vertex
+        #links from_vertex   this method only handles 
+        #one direction 
+
 
 
 
