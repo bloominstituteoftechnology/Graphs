@@ -22,7 +22,7 @@ class Graph:
         # self.vertices[vert].update(edge) 
         # print(self.vertices)
 
-        self.vertices[vert].update(edge2)
+        self.vertices[vert].add(edge2)
 
 
 
@@ -34,6 +34,9 @@ if __name__ == '__main__':
     graph.add_vertex('3')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
-    graph.add_edge('2', '1')
-    graph.add_edge('1', '2')
+    graph.add_edge('1', '0')
+    # graph.add_edge('2', None)
+    graph.add_edge('3', '0')
+
+
     print(graph.vertices)
