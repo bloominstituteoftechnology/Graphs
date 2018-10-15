@@ -7,6 +7,7 @@ Demonstration of Graph and BokehGraph functionality.
 """
 
 from sys import argv
+import argparse
 
 
 def main(numVertices=None,numEdges=None):
@@ -41,4 +42,8 @@ def main(numVertices=None,numEdges=None):
 if __name__ == '__main__':
     # TODO - parse argv
     # print(argv[1])
-    main()
+    parser = argparse.ArgumentParser(description='Generate a graph!')
+    parser.add_argument('--vertices', nargs='?', type=int, help='number of vertices wanted (default is random)')
+    parser.add_argument('--edges', nargs='?', type=int, help='number of edges wanted (default is random)')
+    args = parser.parse_args()
+    main(args.vertices,args.edges)
