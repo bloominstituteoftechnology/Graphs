@@ -31,7 +31,7 @@ It could represent trade relationships between nations.
 
 And so on.
 
-![Different ways to represent a graph](img/representations.png)
+![Different ways to represent a graph](img/representations.PNG)
 
 ## Definitions
 
