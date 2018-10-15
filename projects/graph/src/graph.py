@@ -34,3 +34,23 @@ class Graph:
             raise Exception('One or both vertices are not in graph.')
         self.vertices[v1].edges.add(v2)
         self.vertices[v2].edges.add(v1)
+
+    def get_nodes(self):
+        x = []
+        y = []
+        for vertex in self.vertices:
+            x.append(self.vertices[vertex].x)
+            y.append(self.vertices[vertex].y)
+        return zip(x, y)
+
+    def get_edges(self):
+        s = []
+        e = []
+        checked = set()
+        for vertex, edges in self.vertices.items():
+            if vertex not in checked:
+                for connection in edges.edges:
+                    s.append(vertex)
+                    e.append(connection)
+                checked.add(vertex)
+        return dict(start=s, end=e)
