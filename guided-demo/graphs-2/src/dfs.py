@@ -5,6 +5,8 @@ Represent a graph with depth-first-search, and run a demo with a randomly
 generated graph containing a given number of vertices and edges (default 8).
 """
 
+
+
 from sys import argv
 
 
@@ -15,6 +17,8 @@ class Vertex:
     def __init__(self, label):
         self.label = label
         self.edges = set()
+
+        
 
     def __str__(self):
         return "Vertex " + str(self.label)
