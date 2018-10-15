@@ -21,8 +21,16 @@ class Graph:
         
         # self.vertices[vert].update(edge) 
         # print(self.vertices)
+        if vert not in self.vertices:
+            raise Exception(f"No{vert} vertex")
+            self.vertices[vert].add(edge2)
+            if vert not in self.vertices:
+                raise Exception(f"No {edge2} vertex")
+            self.vertices[vert].add(edge2)
+
 
         self.vertices[vert].add(edge2)
+        self.vertices[edge2].add(vert)
 
 
 
@@ -34,9 +42,8 @@ if __name__ == '__main__':
     graph.add_vertex('3')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
-    graph.add_edge('1', '0')
-    # graph.add_edge('2', None)
-    graph.add_edge('3', '0')
+    graph.add_edge('0', '4')
+
 
 
     print(graph.vertices)
