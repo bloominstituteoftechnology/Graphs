@@ -31,7 +31,6 @@ class BokehGraph:
         circ = [i*2*math.pi/8 for i in node_indices]
         xcir = [math.cos(i) for i in circ]
         ycir = [math.sin(i) for i in circ]
-        print(xcir, ycir)
         graph_layout = dict(zip(node_indices, zip(xcir, ycir)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
@@ -39,9 +38,3 @@ class BokehGraph:
         output_file('graph.html')
         show(plot)
 
-test = BokehGraph(graphStorage={
-    '0': {'1', '3'},
-    '1': {'0'},
-    '2': set(),
-    '3': {'0'}
-})
