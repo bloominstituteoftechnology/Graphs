@@ -10,6 +10,10 @@ class Graph:
         self.directed = directed
     #ability to add to the dict needed 
     def add_vertex(self, vertex):
-        #self.graph_dict[] = vertex
-        pass
+        self.graph_dict[vertex] = set()
+        
+    def add_edge(self, from_vertex, to_vertex):
+        self.graph_dict[from_vertex] = to_vertex
+        self.graph_dict[to_vertex] = from_vertex
+
     
