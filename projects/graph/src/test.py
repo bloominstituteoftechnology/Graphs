@@ -19,8 +19,8 @@ grapher.node_renderer.data_source.add(Spectral8, 'color')
 grapher.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color='color')
 
 grapher.edge_renderer.data_source.data = dict(
-    start=[0]*N,
-    end=node_indices
+    start=[0, 0, 3],
+    end=[1, 3, 0, 1, 2, 3]
     )
 print(grapher.edge_renderer.data_source.data)
 
