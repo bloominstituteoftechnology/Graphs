@@ -62,8 +62,7 @@ Helpful resources:
 - https://bokeh.pydata.org/en/latest/
 - https://bokeh.pydata.org/en/latest/docs/user_guide/graph.html
 
-To test your implementation, try drawing your graph from part 1, and share your
-result with the class!
+To test your implementation, try drawing your graph from part 1, and share your result with the class!
 
 
 ## Part 3: Draw a Random Graph
