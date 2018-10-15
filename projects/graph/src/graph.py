@@ -2,11 +2,13 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
-
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self, vertices_list={}):
         self.vertices_list = vertices_list
+
+    def show_graph(self):
+        print(self.vertices_list)
 
     def add_vertex(self, vertex):
         self.vertices_list[vertex] = set()
@@ -28,5 +30,3 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-graph.add_edge('0', '4')
-print(graph.vertices_list)
