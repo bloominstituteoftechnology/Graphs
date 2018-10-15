@@ -12,8 +12,11 @@ class Graph:
         self.vertices[vertex] = set()
 
     def add_edge(self, vertex1, vertex2):
-        self.vertices[vertex1].add(vertex2)
-        self.vertices[vertex2].add(vertex1)
+        if vertex1 in self.vertices and vertex2 in self.vertices:
+            self.vertices[vertex1].add(vertex2)
+            self.vertices[vertex2].add(vertex1)
+        else:
+            print('Invalid vertex(ices)')
 
 # graph = Graph()
 # graph.add_vertex('0')
