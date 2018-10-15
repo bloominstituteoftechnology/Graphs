@@ -4,6 +4,7 @@ Simple graph implementation compatible with BokehGraph class.
 # http://interactivepython.org/courselib/static/pythonds/Graphs/Implementation.html
 # https://www.python.org/doc/essays/graphs/
 # https://www.programiz.com/python-programming/methods/built-in/hash
+# https://www.geeksforgeeks.org/generate-graph-using-dictionary-python/
 
 # the vertex class will create a single object with a key and an attached array of connections
     # vertex = {'A': ['B', 'C']}
@@ -46,8 +47,10 @@ class Graph:
         if vertex in self.vertices:
         #  https://realpython.com/python-exceptions/            
             raise Exception('Error: that vertex already exists')
+            # https://www.programiz.com/python-programming/methods/set/issubset
         if not set(edges).issubset(self.vertices):
             raise Exception('Error: that vertex does not exist')
+            #https://docs.python.org/2/library/sets.html
         self.vertices[vertex] = set(edges)
     
     def get_vertex(self,n):
@@ -61,7 +64,7 @@ class Graph:
 
     def add_edge(self, start, end, bothWays = True):
         if start not in self.vertices or end not in self.vertices:
-            raise Exception('These vertices are not in the graph!')
+            raise Exception('These vertices are not in the graph')
         self.vertices[start].add(end)
         if bothWays:
             self.vertices[end].add(start)
