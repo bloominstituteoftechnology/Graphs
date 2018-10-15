@@ -2,6 +2,8 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 # http://interactivepython.org/courselib/static/pythonds/Graphs/Implementation.html
+# https://www.python.org/doc/essays/graphs/
+# https://www.programiz.com/python-programming/methods/built-in/hash
 
 # the vertex class will create a single object with a key and an attached array of connections
     # vertex = {'A': ['B', 'C']}
@@ -19,19 +21,20 @@ Simple graph implementation compatible with BokehGraph class.
 class Vertex:
     def __init__(self, key):
         # storage space for neighboring nodes
-        self.id = key
+        self.id = id
         self.neighbors = []
-    def _repr__(self):
-        return 'Vertex: ' + self.key
-        # method to add an adjoining node
-    def addNeighbor(self, neighbor):
-        self.neighbors.append(neighbor_node)
-        # method to return a list of adjoining nodes
-    def getNeighbors(self):
-        return self.getNeighbors
-        # method to check if an inputted node is connected to the node
-    def isNeighbor(self, node):
-        return node in self.neighbors
+
+    # method to retrieve the key associated with a vertex
+    def __repr__(self):
+        return str(self.key)
+
+    # method to access the key associated with the vertex
+    def __hash__(self):
+        return hash(str(self.key))
+
+    # method to check the key on a vertex, returns True if equal
+    def __equal__(self, input):
+        return self.key == str(input)
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -39,11 +42,13 @@ class Graph:
         self.vertices = {}
         self.vertCount = 0
 
-    def add_vertex(self)
-        self.vertCount =+ 1
-        newVertex = Vertex(key)
-        self.vertCount[key] = newVertex
-        return newVertex
+    def add_vertex(self, vertex, edges = ()):
+        if vertex in self.vertices:
+        #  https://realpython.com/python-exceptions/            
+            raise Exception('Error: that vertex already exists')
+        if not set(edges).issubset(self.vertices):
+            raise Exception('Error: that vertex does not exist')
+        self.vertices[vertex] = set(edges)
     
     def get_vertex(self,n):
         if n in self.vertices:
@@ -54,12 +59,12 @@ class Graph:
     def __contains__(self,n):
         return n in self.vertices
 
-    def add_edge(self, f, t)
-        if f not in self.vertices:
-            nv = self.add_vertex(f)
-        if t not in self.vertices:
-            nv = self.add_vertex(t)
-        self.vertices[f].add_neighbor(t)
+    def add_edge(self, start, end, bothWays = True):
+        if start not in self.vertices or end not in self.vertices:
+            raise Exception('These vertices are not in the graph!')
+        self.vertices[start].add(end)
+        if bothWays:
+            self.vertices[end].add(start)
 
     def vertices(self):
         return self.vertices.keys()
