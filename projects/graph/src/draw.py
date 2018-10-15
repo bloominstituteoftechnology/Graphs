@@ -29,11 +29,11 @@ class BokehGraph:
         plot.circle(x, y, size = 15, color = "grey")
         # initiate edges
         for vertex in vertices_list:
-            # set contains element
+            # if set is not empty
             if len(vertices_list[vertex]) != 0:
                 to_vertices = list(vertices_list[vertex])
                 for to_vertex in to_vertices:
-
+                    # draw edge 
                     plot.line([x[int(vertex)], x[int(to_vertex)]],
                               [y[int(vertex)], y[int(to_vertex)]],
                               line_width = 3,
