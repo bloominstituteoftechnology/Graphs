@@ -9,7 +9,10 @@ class Graph:
         self.verts = {}
     
     def add_vertex(self, vert):
-        self.verts[vert] = set()
+        if not vert in self.verts:
+            self.verts[vert] = set()
+        else:
+            print(f"Vert {vert} already exists")
     
     def add_edge(self, vert, edge):
         if vert in self.verts:
@@ -20,6 +23,7 @@ class Graph:
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
+graph.add_vertex('1')
 graph.add_vertex('1')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
