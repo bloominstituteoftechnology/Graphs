@@ -40,5 +40,5 @@ def main(numVertices=None,numEdges=None):
 
 if __name__ == '__main__':
     # TODO - parse argv
-    print(argv[1])
+    # print(argv[1])
     main()
