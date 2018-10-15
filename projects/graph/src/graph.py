@@ -41,6 +41,7 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.add_edge('3', '0')
+graph.add_edge('3', '2')
 
 
 print(graph.graph)

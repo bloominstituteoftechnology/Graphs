@@ -18,9 +18,12 @@ grapher.node_renderer.data_source.add(node_indices, 'index')
 grapher.node_renderer.data_source.add(Spectral8, 'color')
 grapher.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color='color')
 
+start =  [int(k) for k,v in graph.graph.items() for i in range(len(v))]
+start.extend([int(k) for k,v in graph.graph.items() if len(v) == 0])
+
 grapher.edge_renderer.data_source.data = dict(
-    start=[0, 0, 3],
-    end=[1, 3, 0, 1, 2, 3]
+    start=start,
+    end=[1, 3, 0, 2, 1]
     )
 print(grapher.edge_renderer.data_source.data)
 
