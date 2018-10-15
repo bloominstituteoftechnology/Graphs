@@ -29,23 +29,30 @@ circ = [i*2*math.pi/8 for i in node_indices]
 x = [math.cos(i) for i in circ]
 y = [math.sin(i) for i in circ]
 
+source = ColumnDataSource(
+    data=dict(
+        x = x,
+        y = y,
+        names = node_indices
+    )
+)
+
 grapher_layout = dict(zip(node_indices, zip(x, y)))
 grapher.layout_provider = StaticLayoutProvider(graph_layout=grapher_layout)
 
-labels = LabelSet(
-    x=x,
-    y=y,
-    text= 'index',
+labels= LabelSet(
+    x = 'x', 
+    y = 'y', 
+    text='names', 
     level='glyph',
-    x_offset=5, 
-    y_offset=5, 
-    source=ColumnDataSource('index'), 
-    render_mode='canvas'
-    )
-
+    x_offset = -4,
+    y_offset = -8,
+    source = source,
+    render_mode = 'canvas' 
+)
 
 plot.renderers.append(grapher)
+plot.add_layout(labels)
 
 output_file('graph.html')
-plot.add_layout(labels)
 show(plot)
