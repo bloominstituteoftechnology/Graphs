@@ -1,23 +1,55 @@
-"""
-Simple graph implementation compatible with BokehGraph class.
-"""
 import random
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        self.graph = {}
+        """
+        Create an empty graph
+        """
+        self.vertices = {}
     def add_vertex(self, vertex_id):
-        self.graph[vertex_id] = Vertex(vertex_id)
+        """
+        Add an vertex to the graph
+        """
+        self.vertices[vertex_id] = Vertex(vertex_id)
     def add_edge(self, v1, v2):
-        if v1 in self.graph and v2 in self.graph:
-            self.graph[v1].edges.add(v2)
-            self.graph[v2].edges.add(v1)
+        """
+        Add an undirected edge to the graph
+        """
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].edges.add(v2)
+            self.vertices[v2].edges.add(v1)
         else:
             raise IndexError("That vertex does not exist!")
+    def add_directed_edge(self, v1, v2):
+        """
+        Add a directed edge to the graph
+        """
+        if v1 in self.vertices:
+            self.vertices[v1].edges.add(v2)
+        else:
+            raise IndexError("That vertex does not exist!")
+    def dft(self, starting_node=None, visited=None):
+        print('starting node', starting_node)
+        if visited is None:
+            visited = []
+        if starting_node is None: 
+            verticies = list(self.vertices.keys())
+            starting_node = verticies[0]
+            print('first starting node', starting_node)
+        visited.append(starting_node)
+        
+        for child in self.vertices[starting_node].edges:
+            if child not in visited:
+                  self.dft(child, visited)
+
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
+        """
+        Create an empty vertex
+        """
         self.id = vertex_id
         self.edges = set()
         if x is None:
@@ -28,8 +60,6 @@ class Vertex:
             self.y = random.random() * 10 - 5
         else:
             self.y = y
-    def __str__(self):
+    def __repr__(self):
         return f"{self.edges}"
-   
-
 

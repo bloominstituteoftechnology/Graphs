@@ -11,9 +11,9 @@ class BokehGraph:
     def __init__(self, graph):
         self.graph = graph
     def draw(self):
-        graphDraw = self.graph
-        N = len(graphDraw.graph)
-        node_indices = list(graphDraw.graph.keys())
+        graph = self.graph
+        N = len(graph.vertices)
+        node_indices = list(graph.vertices.keys())
 
         plot = figure(title='Graph Layout Demonstration', x_range=(-7,7), y_range=(-7,7),
                     tools='', toolbar_location=None)
@@ -28,7 +28,7 @@ class BokehGraph:
         edge_end = []
 
         for vertex in node_indices:
-            for v in graphDraw.graph[vertex].edges:
+            for v in graph.vertices[vertex].edges:
                 edge_start.append(vertex)
                 edge_end.append(v)
         print('start', edge_start)
@@ -44,7 +44,7 @@ class BokehGraph:
         y = []
         ### start of layout code
         for vertex_id in node_indices:
-            vertex = graphDraw.graph[vertex_id]
+            vertex = graph.vertices[vertex_id]
             x.append(vertex.x)
             y.append(vertex.y)
 
@@ -89,3 +89,5 @@ graph.add_edge('1', '2')
 
 bg = BokehGraph(graph)
 bg.draw()
+
+print(graph.dft())
