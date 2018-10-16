@@ -54,6 +54,11 @@ class BokehGraph:
             position[vertex] = (random.random() * 4, random.random() * 4)
 
         graph.layout_provider = StaticLayoutProvider(graph_layout=position)
+        source = ColumnDataSource(dict(x=[x for x, y in position.values()], y=[y for x, y in position.values()], name=node_indices))
+        labels = LabelSet(x='x', y='y', text='name', level='glyph',
+                          x_offset=7, y_offset=7, source=source, render_mode='canvas')
+
+        plot.add_layout(labels)
         plot.renderers.append(graph)
 
         output_file('graph.html')
