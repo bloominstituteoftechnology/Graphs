@@ -5,11 +5,11 @@ from random import random
 
 
 class Vertex:
-    def __init__(self, label):
+    def __init__(self, label, height_mod, width_mod):
         self.label = label
         self.edges = set()
-        self.x = random() * 5
-        self.y = random() * 5
+        self.x = random() * width_mod
+        self.y = random() * height_mod
 
     def __str__(self):
         return f'Vertex {self.label}'
@@ -20,12 +20,14 @@ class Graph:
     Represent a graph as a dictionary of vertices mapping labels to edges.
     """
 
-    def __init__(self):
+    def __init__(self, height, width):
         self.vertices = {}
+        self.height = height
+        self.width = width
 
     def add_vertex(self, vertex):
         if vertex not in self.vertices:
-            self.vertices[vertex] = Vertex(vertex)
+            self.vertices[vertex] = Vertex(vertex, self.height, self.width)
         else:
             raise Exception('That vertex already exists')
 

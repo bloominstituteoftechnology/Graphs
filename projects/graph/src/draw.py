@@ -11,11 +11,12 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
 
-    def __init__(self, graph):
+    def __init__(self, graph, height, width):
         self.graph = graph
         self.node_indices = list(graph.vertices.keys())
-        self.plot = figure(title='Graph', x_range=(-1, 6), y_range=(-1, 6),
-                           tools='', toolbar_location=None)
+        self.plot = figure(title='Graph', x_range=(0, width),
+                           y_range=(0, height), tools='',
+                           toolbar_location=None)
         self.renderer = GraphRenderer()
 
     def make_graph(self):
