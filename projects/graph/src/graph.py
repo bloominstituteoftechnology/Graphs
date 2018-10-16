@@ -29,10 +29,7 @@ class Graph:
 
         for key in self.vertices[sourceVextix]:
             queue.append(key)
-
-
         while(len(queue) is not 0):
-
             currentKey = queue.pop(0)
             visited.append(currentKey)
             if currentKey == searchItem:
@@ -40,5 +37,5 @@ class Graph:
             for childkey in self.vertices[currentKey]:
                 if childkey not in visited:
                     queue.append(childkey)
-
         return False
+  

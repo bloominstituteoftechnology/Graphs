@@ -8,7 +8,6 @@ Demonstration of Graph and BokehGraph functionality.
 
 from sys import argv
 import argparse
-outputTest ={}
 
 def main(numVertices=None, numEdges=None):
     if numVertices is None:
@@ -35,7 +34,6 @@ def main(numVertices=None, numEdges=None):
         if ranNum2 not in graphConstruct.vertices[ranNum1]:
             graphConstruct.add_edge(ranNum1, ranNum2)
             numEdges -= 1
-    outputTest =graphConstruct
     graphDisplay = BokehGraph(graphConstruct.vertices)
     graphDisplay.show()
 
