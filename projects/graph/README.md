@@ -82,8 +82,7 @@ reject input when the number of edges is too large.
 
 `graph_demo.py` is set to be executable from the command line, e.g.
 `python graph_demo.py`. You can use `argv` (already imported) to parse command
-line arguments, e.g. `python graph_demo.py arg1 arg2`, and pass them along to
-the graph and drawing functionality to further configure.
+line arguments, e.g. `python graph_demo.py arg1 arg2`, and pass them along to the graph and drawing functionality to further configure.
 
 Suggested functionality that could be set via arguments:
 - Directional edges: allow edges to not be bidirectional (this will change how

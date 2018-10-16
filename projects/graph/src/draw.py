@@ -12,15 +12,16 @@ class BokehGraph:
         self.graph = graph
     def draw(self):
         graph = self.graph
-        N = 8
+        N = len(graph.vertices)
         node_indices = list(range(N))
 
-        plot = figure(title="Graph Layout Demonstration", x_range=(-1.1,1.1), y_range=(-1.1,1.1),
+        plot = figure(title="Graph Layout Demonstration", x_range=(-7,7), y_range=(-7,7),
                     tools="", toolbar_location=None)
 
         graph = GraphRenderer()
 
         graph.node_renderer.data_source.add(node_indices, 'index')
+        
         graph.node_renderer.data_source.add(Spectral8, 'color')
         graph.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color="color")
 
