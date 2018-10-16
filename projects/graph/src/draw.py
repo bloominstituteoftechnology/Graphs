@@ -1,25 +1,30 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-
+import math
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-                          ColumnDataSource)
+                          ColumnDataSource, Oval)
+from bokeh.palettes import Spectral8
 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self):
-        pass  # TODO
+    def __init__(self, graph):
+        self.graph = graph
+    # def show(self):
 
 
-import math
 
-from bokeh.io import show, output_file
-from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval
-from bokeh.palettes import Spectral8
+
+
+
+
+
+
+
+
 
 N = 8
 node_indices = list(range(N))
@@ -31,7 +36,7 @@ graph = GraphRenderer()
 
 graph.node_renderer.data_source.add(node_indices, 'index')
 graph.node_renderer.data_source.add(Spectral8, 'color')
-graph.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color="color")
+graph.node_renderer.glyph = Circle(radius=0.1, fill_color="color")
 
 graph.edge_renderer.data_source.data = dict(
     start=[0]*N,
