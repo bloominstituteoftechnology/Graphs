@@ -1,7 +1,7 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-
+import random
 
 # class Graph:
 #     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -48,9 +48,17 @@ class Graph:
 
 
 class Vertex:
-    def __init__(self, vertex_id):
+    def __init__(self, vertex_id, x=None, y=None):
         self.id = vertex_id
         self.edges = set()
+        if x == None:
+            self.x = random.random() * 10 - 5
+        else:
+            self.x = x
+        if y == None:
+            self.y = random.random() * 10 - 5
+        else:
+            self.y = y
 # creates an empty vvertex
 
     def __repr__(self):
