@@ -1,4 +1,5 @@
 import random
+import queue
 """
 Simple graph implementation compatible with BokehGraph class.
 """
@@ -42,27 +43,41 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist!")
 
-    def dft(self, starting_node, visited=None):
+    def dfs(self, starting_node, visited=None):
         # Mark the node as visited
         if visited is None:
+            # quese of visited nodes
             visited = []
         visited.append(starting_node)
         # For each child, if that child hasn't been visited, call dft() on that node
+        for node in self.vertices[starting_node]:
+            if node not in visited:
+                self.dfs(node, visited)
+        return visited
         # for child in children:
         #    if child not in visited:
         # dft(child, visted)
 
-    def bft(self, starting_node):
+    def bfs(self, starting_node):
         # create an empty queue
         q = Queue()
         # Put starting vert in the queue
         q.enqueue(starting_node)
         visited = []
         # while q.size() > 0:
-        #     # Remove the first node from the queue...
-        #     # If it has not been visited yet,...
-        #     # Mark it as visited....
-        #     # Then put all it's children in the back of the queue
+        while len(q) > 0:
+                    # Remove the first node from the queue...
+            new_node = queue.pop()
+            # If it has not been visited yet,...
+            if new_node not in visited:
+                # Mark it as visited....
+                visited += new_node
+            # Then put all it's children in the back of the queue
+            queue.extend(self.vertices[new_node])
+
+
+
+
 
 
 class Vertex:
