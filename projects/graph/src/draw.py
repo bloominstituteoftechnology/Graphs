@@ -77,6 +77,7 @@ graph.add_edge('1', '4')
 graph.add_edge('2', '2')
 graph.add_edge('4', '2')
 
+print(len(graph))
 bkg = BokehGraph(graph)
 bkg.display()
 

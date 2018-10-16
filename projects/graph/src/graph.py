@@ -1,6 +1,10 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+
+import random
+from collections import defaultdict
+
 # http://interactivepython.org/courselib/static/pythonds/Graphs/Implementation.html
 # https://www.python.org/doc/essays/graphs/
 # https://www.programiz.com/python-programming/methods/built-in/hash
@@ -71,6 +75,30 @@ class Graph:
     def vertices(self):
         return self.vertices.keys()
 
+    def BFS(self, s):
+    # https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+        self.graph = defaultdict(list)
+        # mark all of the vertices as not visited
+        visited = [False] * (len(self.graph))
+
+        # create a queue for BFS
+        queue = []
+
+        # mark the source node as visited and enqueue
+        queue.append(s)
+        visited[s] = True
+
+        while queue:
+
+            # Dequeue a vertex from the queue and print it
+            start = queue.pop(0)
+            print (s, end = " ")
+
+            # Get all adjacent vertices of the dequeued vertex.  If adjacent has not been visited, then mark it visited and enqueue it
+            for i in self.graph[s]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
 
 # Tests for Graph Class
 graph = Graph()  # Instantiate your graph
@@ -84,5 +112,7 @@ graph.add_edge('0', '3')
 graph.add_edge('1', '2')
 graph.add_edge('1', '4')
 print(graph.vertices)
+print(graph.vertices['0'])
+
 
 
