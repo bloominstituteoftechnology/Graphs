@@ -1,3 +1,4 @@
 {
-    "python.linting.pylintEnabled": false
+    "python.linting.pylintEnabled": false,
+    "python.pythonPath": "/Users/shannonatkinson/.local/share/virtualenvs/Data-Structures-1mtO6yQW/bin/python"
 }
