@@ -1,8 +1,7 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-
-import random 
+import random
 
 class Vertex:
     def __init__(self, data, x=None, y=None):
@@ -29,8 +28,9 @@ class Graph:
         self.vertices[vertex] = node
 
     def add_edge(self, src, dest):
-        self.vertices[src].edges.add(dest)
-        self.vertices[dest].edges.add(src)
+        if src in self.vertices and dest in self.vertices:
+            self.vertices[src].edges.add(dest)
+            self.vertices[dest].edges.add(src)
 
     def num_nodes(self):
         num_nodes = 0
