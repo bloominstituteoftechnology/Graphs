@@ -39,4 +39,5 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+graph.add_edge('0', '4') # Should throw error
 print(graph.vertices)
