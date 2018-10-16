@@ -1,4 +1,5 @@
 import random
+import collections
 
 """
 Simple graph implementation compatible with BokehGraph class.
@@ -76,4 +77,15 @@ class Graph:
                 self.dfs(child, visited)
         return visited
 
-
+    def bfs(self, starting_node):
+        visited, queue = set(), collections.deque([starting_node])
+        while queue:
+            print(queue)
+            vertex = queue.popleft()
+            for neighbor in self.vertices[vertex].edges:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+        return visited
+                
+            
