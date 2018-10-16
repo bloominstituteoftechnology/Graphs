@@ -17,7 +17,7 @@ class Graph:
 
     def add_edge(self, vert1, vert2):
         """
-        vert1 and vert 2 are a vertex object
+        vert1 and vert 2 are vertex objects
         gives both vertices a bidirectional edge
         vert1 and vert2 has an `add_edge` method
         """
@@ -33,8 +33,12 @@ class Vertex:
         self.name = str(name)    # 0
         self.edges = set()  # a set to all other vertices it's connected to
 
-    def __eq__(self, other):
-        return self.name == str(other) 
+    """
+    The below __eq__ method probably needs to be paired with __hash__ to work properly, but what all this stuff 
+    even does is starting to go beyond my head. More research needed.
+    """
+    # def __eq__(self, other):
+    #     return self.name == str(other) 
 
     def add_edge(self, vertex):
         self.edges.add(vertex)
@@ -81,11 +85,26 @@ if __name__ == '__main__':
         vertex_list.append(Vertex(i))
 
     # vertex_list.append(Vertex('4'))
-
+    """
+    Which test is failing?
+    """
     for vertex in vertex_list:
         graph.add_vertex(vertex)
     
-    graph.add_edge(vertex_list[0], vertex_list[1])
+    graph.add_edge(vertex_list[0], vertex_list[1]) #this one maybe
+
+    # """
+    #     C:\Users\aReJay\Lambda\Graphs\projects\graph\src>python graph.py
+    #     Traceback (most recent call last):
+    #     File "graph.py", line 90, in <module>
+    #     graph.add_edge(vertex_list[0], vertex_list[1])
+    #       File "graph.py", line 24, in add_edge
+    #         vert1.add_edge(vert2)
+    #      File "graph.py", line 40, in add_edge
+    #     self.edges.add(vertex)
+    #      TypeError: unhashable type: 'Vertex'
+    # """
+    # Thinking about it. We didn't have this issue yesterday, did we?
     graph.add_edge(vertex_list[0], vertex_list[2])
     graph.add_edge(vertex_list[3], vertex_list[5])
 
@@ -95,7 +114,7 @@ if __name__ == '__main__':
     vertex_list[1].get_edges()
     vertex_list[2].get_edges()
     vertex_list[3].get_edges()
-    vertex_list[5].get_edges()
+    vertex_list[5].get_edges() #there shouldn't be any errors here :thinkingface:
     # print(graph.vertices)
 
 
