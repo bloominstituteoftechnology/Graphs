@@ -1,3 +1,54 @@
+import random
+
+class Graph:
+    def __init__(self):
+        """
+        Create an empty graph
+        """
+        self.vertices = {} # dictionary
+    def add_vertex(self, vertex_id):
+        """
+        Add a vertex to the graph
+        """
+        self.vertices[vertex_id] = Vertex(vertex_id)
+    def add_edge(self, v1, v2):
+        """
+        Add an undirected edge to the graph
+        """
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].edges.add(v2)
+            self.vertices[v2].edges.add(v1)
+        else:
+            raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
+    def add_directed_edge(self, v1, v2):
+        """
+        Add a directed edge to the graph
+        """
+        if v1 in self.vertices:
+            self.vertices[v1].edges.add(v2)
+        else:
+            raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
+
+
+class Vertex:
+    def __init__(self, vertex_id, x=None, y=None):
+        """
+        Create an empty vertex
+        """
+        self.id = vertex_id
+        self.edges = set()
+    def __repr__(self):
+        return f"{self.edges}"
+
+# g = Graph()
+# g.add_vertex('0')
+# g.add_vertex('1')
+# g.add_vertex('2')
+# g.add_vertex('3')
+# g.add_edge('0', '3')
+# g.add_edge('0', '1')
+# print(g.vertices)
+
 # class Vertex:
 #     def __init__(self, n):
 #         self.name = n
@@ -37,53 +88,3 @@
 # graph.add_edge('0', '3') still not working
 # graph.add_edge('0', '1') still not working
 # print(graph.vertices)
-
-
-class Graph:
-    def __init__(self):
-        """
-        Create an empty graph
-        """
-        self.vertices = {} # dictionary
-    def add_vertex(self, vertex_id):
-        """
-        Add a vertex to the graph
-        """
-        self.vertices[vertex_id] = Vertex(vertex_id)
-    def add_edge(self, v1, v2):
-        """
-        Add an undirected edge to the graph
-        """
-        if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].edges.add(v2)
-            self.vertices[v2].edges.add(v1)
-        else:
-            raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
-    def add_directed_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph
-        """
-        if v1 in self.vertices:
-            self.vertices[v1].edges.add(v2)
-        else:
-            raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
-
-
-class Vertex:
-    def __init__(self, vertex_id):
-        """
-        Create an empty vertex
-        """
-        self.id = vertex_id
-        self.edges = set()
-    def __repr__(self):
-        return f"{self.edges}"
-
-g = Graph()
-g.add_vertex('0')
-g.add_vertex('1')
-g.add_vertex('2')
-g.add_vertex('3')
-g.add_edge('0', '3')
-g.add_edge('0', '1')
-print(g.vertices)
