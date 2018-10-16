@@ -15,6 +15,7 @@ def main(v=5, e=5):
     for i in range(v):
         graph.add_vertex(i)
     for j in range(e):
+        # TODO: Need to check if edge is unique
         rand_vert = int(random.random() * v)
         rand_edge = int(random.random() * e)
         print(rand_vert, rand_edge)
