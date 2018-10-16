@@ -10,7 +10,7 @@ from graph import Graph
 from draw import BokehGraph
 
 
-def main(v, e):
+def main(v=5, e=5):
     graph = Graph()
     for i in range(v):
         graph.add_vertex(i)
@@ -25,7 +25,9 @@ def main(v, e):
 
 
 if __name__ == '__main__':
-    if len(argv) > 1:
+    if len(argv) == 3:
         v = argv[1]
         e = argv[2]
-    main(int(v), int(e))
+        main(int(v), int(e))
+    else:
+        main()

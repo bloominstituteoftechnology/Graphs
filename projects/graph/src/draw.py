@@ -31,9 +31,17 @@ class BokehGraph:
         graph.node_renderer.data_source.add(Spectral8, 'color')
         graph.node_renderer.glyph = Circle(size=20, fill_color='color')
 
+        edge_start = []
+        edge_end = []
+
+        for vertex in self.graph.vertices:
+            for edge in self.graph.vertices[vertex]:
+                edge_start.append(vertex)
+                edge_end.append(edge)
+
         graph.edge_renderer.data_source.data = dict(
-            start=node_indices,
-            end=edges)
+            start=edge_start,
+            end=edge_end)
 
         position = {}
         for vertex in self.graph.vertices:
