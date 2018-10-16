@@ -31,5 +31,5 @@ graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
 plot.renderers.append(graph)
 
-output_file('graph.html')
+output_file('graph_demo.html')
 show(plot)
