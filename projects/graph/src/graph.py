@@ -22,15 +22,16 @@ class Edge:
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        self.graph_dict = {}
+        self.vertices = {}
     #ability to add to the dict needed 
     def add_vertex(self, value):
         new_vertex = Vertex(value)
-        self.graph_dict[new_vertex] = set()
+        self.vertices[new_vertex] = set()
+        return new_vertex
         
     def add_edge(self, from_vertex, to_vertex):
         new_edge = Edge(to_vertex)
-        from_vertex.add(new_edge)#using sets must use add() method
+        from_vertex.edges.add(new_edge)#using sets must use add() method
         
         #self.graph_dict[from_vertex] = from_vertex.edges
 
@@ -39,7 +40,7 @@ class Graph:
         #out with self.edges though adding might be quicker.
         #not sure copy o(N)  but add is O(1)
 
-        self.graph_dict[from_vertex].add(new_edge)
+        self.vertices[from_vertex].add(new_edge)
         #went with this out of being unsure of line 35
         #I know adding to the set is O(1) for sure though. 
         # A seperate edge case is needed for if to_vertex
