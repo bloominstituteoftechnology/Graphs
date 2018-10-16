@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="928f2cbe-94ec-45e2-88c2-fafd2957fa3a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/graph/src/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/src/graph.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,29 +23,32 @@
           <entry key="Pipfile" value="1" />
           <entry key="html" value="1" />
           <entry key="py" value="4" />
+          <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="HTML" value="1" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="PLAIN_TEXT" value="2" />
           <entry key="Python" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="491" />
+          <entry key="py" value="612" />
+          <entry key="txt" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="491" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="Python" value="612" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.45102185">
       <split-first>
         <leaf>
           <file pinned="false" current-in-tab="false">
@@ -65,8 +67,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/projects/graph/src/graph.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="285">
-                  <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+                <state relative-caret-position="170">
+                  <caret line="16" column="45" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
                 </state>
               </provider>
             </entry>
@@ -83,8 +85,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/projects/graph/src/draw.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="315">
-                  <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+                <state relative-caret-position="420">
+                  <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
                   <folding>
                     <element signature="e#57#95#0" expanded="true" />
                     <marker date="1539633974985" expanded="true" signature="336:355" ph="..." />
@@ -112,6 +114,7 @@
       <list>
         <option value="$PROJECT_DIR$/projects/graph/src/lines.html" />
         <option value="$PROJECT_DIR$/projects/graph/src/draw.py" />
+        <option value="$PROJECT_DIR$/projects/graph/pull_request.txt" />
         <option value="$PROJECT_DIR$/projects/graph/src/graph.py" />
       </list>
     </option>
@@ -207,7 +210,7 @@
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.1663143" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="0" weight="0.23057325" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="0" visible="true" weight="0.42929935" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="2" weight="0.3299363" />
       <window_info anchor="bottom" id="Message" order="3" />
@@ -240,6 +243,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/projects/graph/pull_request.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/projects/graph/src/draw.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -253,8 +263,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/projects/graph/src/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+        <state relative-caret-position="170">
+          <caret line="16" column="45" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
         </state>
       </provider>
     </entry>

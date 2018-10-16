@@ -13,11 +13,10 @@ class Graph:
         pass
 
     def add_edge(self, a, b):
-        if(a not in self.vertices):
-            self.add_vertex((a))
-            self.vertices[a] = set(b)
-        elif(a in self.vertices):
-            self.vertices[a]
+        if(b not in self.vertices):
+            print(f"Node {b} is not in vertex")
+        else:
+            self.vertices[a].add(b)
         pass
 
     def get_vertices(self):
@@ -26,8 +25,12 @@ class Graph:
 
 
 
-g = Graph()
-g.add_vertex("0")
-g.add_vertex("1")
-g.add_edge()
-g.get_vertices()
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+graph.add_edge('0', '4')
+print(graph.vertices)
