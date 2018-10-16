@@ -3,6 +3,7 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 import random
+import json
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -19,11 +20,11 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist")
 
-    def add_directed_edge(self, vertex1, vertex2):
-        if vertex1 in self.vertices:
-            self.vertices[vertex1].edges.add(vertex2)
-        else:
-            raise IndexError("That vertex does not exist")
+    # def add_directed_edge(self, vertex1, vertex2):
+    #     if vertex1 in self.vertices:
+    #         self.vertices[vertex1].edges.add(vertex2)
+    #     else:
+    #         raise IndexError("That vertex does not exist")
             
     # def add_vertex(self, vertex):
     #     self.vertices[vertex] = set()
@@ -36,27 +37,17 @@ class Graph:
     #         print('Invalid vertex(ices)')
 
 class Vertex:
-    def __init__(self, vertex_id):
-    # def __init__(self, vertex_id, x = None, y = None):
+    def __init__(self, vertex_id, x = None, y = None):
         self.id = vertex_id
         self.edges = set()
-        # if x == None:
-        #     self.x = random.random() * 10 - 5
-        # else:
-        #     self.x = x
-        # if y == None:
-        #     self.y = random.random() * 10 - 5
-        # else:
-        #     self.y = y
+        if x == None:
+            self.x = random.random() * 10 - 5
+        else:
+            self.x = x
+        if y == None:
+            self.y = random.random() * 10 - 5
+        else:
+            self.y = y
     
     def __repr__(self):
-        return f"{self.edges}"
-
-# graph = Graph()
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '3')
-# print(graph.vertices)
+        return json.dumps(self.edges)
