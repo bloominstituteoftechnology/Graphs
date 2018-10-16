@@ -16,18 +16,6 @@ class BokehGraph:
         self.x = []
         self.y = []
 
-    # def map_x_y_lists(self):
-    #     for val in graph
-
-    def tellme(self):
-        output_file("lines.html")
-        x = [1, 2, 3, 4, 5]
-        y = [6, 7, 2, 4, 5]
-        p = figure(plot_width=600, plot_height=600)
-        # p.line(x, y, legend="Temp.", line_width=2)
-        p.diamond(x, y, size=335, line_color="pink", fill_color="#b7d2ff", fill_alpha=0.6)
-        # show(p)
-
     def create_data_lists(self):
         for key in self.graph_data:
             for val in self.graph_data[key]:
@@ -35,7 +23,10 @@ class BokehGraph:
                 self.y.append(val)
                 print(f"x of x list:: {self.x}, y of y list:: {self.y}")
 
-    def 
+    def create_edges(self):
+    #     Brady made the edges an "edges" sub-dict
+    def draw(self):
+        self.create_data_lists()
 
 
 

@@ -27,22 +27,3 @@ class Graph:
         print(self.vertices)
         return self.vertices
 
-
-
-# class Vertex:
-#     self.value = value
-#     def __index__(self, value):
-#         pass
-
-
-
-
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('0', '4')
-print(graph.vertices)
