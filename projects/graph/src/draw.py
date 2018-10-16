@@ -7,11 +7,10 @@ from bokeh.palettes import Spectral8
 from graph import Graph
 
 
-
-
 class BokehGraph:
     def __init__(self, graph):
         self.graph = graph
+
     def draw(self):
         graph = self.graph
 
@@ -41,7 +40,7 @@ class BokehGraph:
             start=edge_start,
             end=edge_end)
 
-        ### start of layout code
+        # start of layout code
         # circ = [i*2*math.pi/8 for i in node_indices]
         # x = [math.cos(i) for i in circ]
         # y = [math.sin(i) for i in circ]
@@ -68,6 +67,8 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+graph.add_edge('1', '2')
+graph.add_edge('3', '2')
 
 bg = BokehGraph(graph)
 bg.draw()

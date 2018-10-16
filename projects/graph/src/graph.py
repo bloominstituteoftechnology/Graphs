@@ -3,7 +3,7 @@ import random
 Simple graph implementation compatible with BokehGraph class.
 """
 
-#lecture solution
+# lecture solution
 """
 Simple graph implementation compatible with BokehGraph class.
 """
@@ -96,7 +96,3 @@ class Vertex:
 #     def add_edge(self, v1, v2):
 #         self.vertices[v1].add(v2)
 #         self.vertices[v1].add(v2)
-
-
-graph = Graph()  # Instantiate your graph
-print(graph.vertices)
