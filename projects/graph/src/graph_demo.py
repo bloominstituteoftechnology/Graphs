@@ -12,7 +12,6 @@ import argparse
 def main(numVertices=None, numEdges=None):
     if numVertices is None:
         numVertices = randint(2, 12)
-    global outputTest
     verticesList = list(range(0, numVertices))
 
     if numEdges is None:
