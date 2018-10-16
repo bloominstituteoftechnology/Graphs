@@ -8,11 +8,14 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from bokeh.palettes import Spectral8
 
+
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self,graph):
         self.graph = graph
-
+    def draw(self):
+        graph = self.graph
+        
         N = len( graph.vertices )
         node_indices = list(graph.vertices.keys())
 
