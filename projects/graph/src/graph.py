@@ -1,6 +1,22 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import random 
+
+class Vertex:
+    def __init__(self, vertex_id, x=None, y=None):
+        self.id = vertex_id
+        self.edges = set()
+        if x is None:
+            self.x = random.random() * 10 - 5
+        else:
+            self.x = x
+        if y is None:
+            self.y = random.random() * 10 - 5
+        else:
+            self.y = y
+    def __repr__(self):
+        return f"{self.edges}"
 
 
 class Graph:
@@ -34,20 +50,4 @@ class Graph:
             raise IndexError("That vertex does not exist!")
 
 
-    class Vertex:
-        def __init__(self, vertex_id, x=None, y=None):
-            """
-            Create an empty vertex
-            """
-            self.id = vertex_id
-            self.edges = set()
-            if x is None:
-                self.x = random.random() * 10 - 5
-            else:
-                self.x = x
-            if y is None:
-                self.y = random.random() * 10 - 5
-            else:
-                self.y = y
-        def __repr__(self):
-            return f"{self.edges}"
+   
