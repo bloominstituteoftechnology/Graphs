@@ -46,12 +46,13 @@ class Graph:
     #ability to add to the dict needed 
     def add_vertex(self, value):
         new_vertex = Vertex(value)
-        self.vertices[new_vertex] = set()
+        self.vertices[value] = new_vertex
         return new_vertex
         
+        
     def add_edge_one_way(self, from_vertex, to_vertex):
-        new_edge = Edge(to_vertex)
-        from_vertex.edges.add(new_edge)#using sets must use add() method 
+        # new_edge = Edge(to_vertex)
+        # from_vertex.edges.add(new_edge)#using sets must use add() method 
         # 
         
         
@@ -61,8 +62,11 @@ class Graph:
         #add to the edges then we swap the edges that is there
         #out with self.edges though adding might be quicker.
         #not sure copy o(N)  but add is O(1)
+        if from_vertex in self.vertices and to_vertex in self.vertices:
+            self.vertices[from_vertex].edges.add(to_vertex)
+        else:
+            raise IndexError("That vertex does not exist!")
 
-        self.vertices[from_vertex].add(new_edge)
         #went with this out of being unsure of line 35
         #I know adding to the set is O(1) for sure though. 
         # A seperate edge case is needed for if to_vertex
@@ -72,10 +76,12 @@ class Graph:
         """
         This is a bidirectional method to the edges.
         """
-        new_edge = Edge(vertex1)
-        new_edge2 = Edge(vertex2)
-        vertex1.edges.add(vertex2)
-        vertex2.edges.add(vertex1)
+        # new_edge = Edge(vertex1)
+        # new_edge2 = Edge(vertex2)
+        # vertex1.edges.add(vertex2)
+        # vertex2.edges.add(vertex1)
+        self.add_edge_one_way(vertex1, vertex2)
+        self.add_edge_one_way(vertex2, vertex1)
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -107,6 +113,7 @@ class BokehGraph:
         # y = [math.sin(i) for i in circ]
         x = []
         y = []
+
         for vertex_id in vertex_indices:
             vertex = self.graph.vertices[vertex_id]
             x.append(vertex.x)
@@ -119,35 +126,38 @@ class BokehGraph:
         output_file('graph.html')
         show(plot)
 
-test = Graph()
-vertex_one = test.add_vertex("0")
-vertex_two = test.add_vertex("1")
-vertex_three = test.add_vertex("2")
-test.add_edge_two_way(vertex_one, vertex_two)
-test.add_edge_two_way(vertex_two, vertex_three)
-test_Bokeh = BokehGraph(test)
+# test = Graph()
+# vertex_one = test.add_vertex("0")
+# vertex_two = test.add_vertex("1")
+# vertex_three = test.add_vertex("2")
+# test.add_edge_two_way(vertex_one, vertex_two)
+# test.add_edge_two_way(vertex_two, vertex_three)
+# test_Bokeh = BokehGraph(test)
 
-test_Bokeh.show()
+# test_Bokeh.show()
 
 def main():
     colors = ["blue", "red", "orange", "yellow"]
-    random_color = colors[round(random.random() * len(colors))]
+    color_index = round(random.random() * len(colors))-1
+    random_color = colors[color_index]
     potential_labels = ["A", "B", "C", "D","E", "F", "G", "1", "2", "3", "4", "5", "6", "7"]
     random.shuffle(potential_labels) #to make it random we shuffle the labels. 
-    random_number = random.randint(4,len(potential_labels)+1)
-    vertices_count = random_number
+    random_number = random.randint(4,len(potential_labels))
+    num_vertices = random_number
     num_edges = random_number
     graph = Graph()
     vertices_count = 0
     edges_count = 0
+
     while vertices_count < num_vertices and edges_count < num_edges:
-        new_vertex = graph.add_vertex(potential_labels[vertices_count])
-        vertices_count += 1
+        new_vertex = potential_labels[vertices_count]
+        graph.add_vertex(new_vertex)
         if vertices_count > 0:
             graph.add_edge_two_way(new_vertex, previous_vertex)
             edges_count += 1
         previous_vertex = new_vertex
-    bokeh_graph =(graph, random_color)
+        vertices_count += 1
+    bokeh_graph = BokehGraph(graph, random_color)
     bokeh_graph.show()
     
 
