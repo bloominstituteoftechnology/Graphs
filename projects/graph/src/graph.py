@@ -29,9 +29,11 @@ class Graph:
         self.vertices[new_vertex] = set()
         return new_vertex
         
-    def add_edge(self, from_vertex, to_vertex):
+    def add_edge_one_way(self, from_vertex, to_vertex):
         new_edge = Edge(to_vertex)
-        from_vertex.edges.add(new_edge)#using sets must use add() method
+        from_vertex.edges.add(new_edge)#using sets must use add() method 
+        # 
+        
         
         #self.graph_dict[from_vertex] = from_vertex.edges
 
@@ -45,7 +47,15 @@ class Graph:
         #I know adding to the set is O(1) for sure though. 
         # A seperate edge case is needed for if to_vertex
         #links from_vertex   this method only handles 
-        #one direction 
+        #one direction
+    def add_edge_two_way(self, vertex1, vertex2):
+        """
+        This is a bidirectional method to the edges.
+        """
+        new_edge = Edge(vertex1)
+        new_edge2 = Edge(vertex2)
+        vertex1.edges.add(vertex2)
+        vertex2.edges.add(vertex1)
 
 
 
