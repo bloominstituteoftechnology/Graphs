@@ -10,11 +10,19 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
-        self.vertices[vertex_id] = set()
+        self.vertices[vertex_id] = Vertex(vertex_id)
 
     def add_edge(self, vertex1, vertex2):
-        self.vertices[vertex1].add(vertex2)
-        self.vertices[vertex2].add(vertex1)
+        if vertex1 in self.vertices and vertex2 in self.vertices:
+            self.vertices[vertex1].add(vertex2)
+            self.vertices[vertex2].add(vertex1)
+        else:
+            raise IndexError("That vertex does not exist.")
+
+class Vertex:
+    def __init__(self, vertex_id):
+        self.id = vertex_id
+        self.edges = set()
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
