@@ -33,8 +33,8 @@ class Vertex:
             self.y = random.random() * 10 - 5
         else:
             self.y = y
-    def __repr__(self):
-        return f"{self.edges}"
+    # def __repr__(self):
+    #     return f"{self.edges}"
 
 
 graph = Graph()  # Instantiate your graph
