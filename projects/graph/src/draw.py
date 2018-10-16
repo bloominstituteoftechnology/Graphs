@@ -7,7 +7,7 @@ from bokeh.palettes import Spectral8
 from graph import Graph
 
 class BokehGraph:
-    def __init__(self, graph):
+    def __init__(self, graph, draw_components=True):
         self.graph = graph
     def draw(self):
         myGraph = self.graph
@@ -30,8 +30,7 @@ class BokehGraph:
         for vertex_id in node_indices:
             for v in myGraph.vertices[vertex_id].edges:
                 edge_start.append(vertex_id)
-                if v is not set():
-                    edge_end.append(v)
+                edge_end.append(v)
 
         graph.edge_renderer.data_source.data = dict(
             start=edge_start,
@@ -52,16 +51,16 @@ class BokehGraph:
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         ### Draw quadratic bezier paths
-        def bezier(start, end, control, steps):
-            return [(1-s)**2*start + 2*(1-s)*s*control + s**2*end for s in steps]
+        # def bezier(start, end, control, steps):
+        #     return [(1-s)**2*start + 2*(1-s)*s*control + s**2*end for s in steps]
 
-        xs, ys = [], []
-        sx, sy = graph_layout[0]
-        steps = [i/100. for i in range(100)]
-        for node_index in node_indices:
-            ex, ey = graph_layout[node_index]
-            xs.append(bezier(sx, ex, 0, steps))
-            ys.append(bezier(sy, ey, 0, steps))
+        # xs, ys = [], []
+        # sx, sy = graph_layout[0]
+        # steps = [i/100. for i in range(100)]
+        # for node_index in node_indices:
+        #     ex, ey = graph_layout[node_index]
+        #     xs.append(bezier(sx, ex, 0, steps))
+        #     ys.append(bezier(sy, ey, 0, steps))
         # graph.edge_renderer.data_source.data['xs'] = xs
         # graph.edge_renderer.data_source.data['ys'] = ys
 
@@ -71,14 +70,14 @@ class BokehGraph:
         show(plot)
 
 
-graph = Graph()
-graph.add_vertex(0)
-graph.add_vertex(1)
-graph.add_vertex(2)
-graph.add_vertex(3)
+# graph = Graph()
+# graph.add_vertex(0)
+# graph.add_vertex(1)
+# graph.add_vertex(2)
+# graph.add_vertex(3)
 
-graph.add_edge(0, 1)
-graph.add_edge(0, 3)
+# graph.add_edge(0, 1)
+# graph.add_edge(0, 3)
 
-bokehGraph = BokehGraph(graph)
-bokehGraph.draw()
+# bokehGraph = BokehGraph(graph)
+# bokehGraph.draw()
