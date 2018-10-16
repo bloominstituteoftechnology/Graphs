@@ -8,7 +8,10 @@ class Graph:
     def __init__(self):
         self.vertices = {}
     def add_vertex(self, value):
-        self.vertices[value] = set()
+        if value not in self.vertices:
+            self.vertices[value] = set()
+        else:
+            print("you already have that vertex in this graph")
     def add_edge(self, v1, v2):
         self.vertices[v1].add(v2)
         self.vertices[v1].add(v2)
