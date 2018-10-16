@@ -4,7 +4,7 @@ This is a multi-stage project to draw a graph and show the connected
 components of that graph in different colors.
 
 
-## Part 1: Graph, Vertex, Edge Classes
+## Part 1:  , Vertex, Edge Classes
 
 In the file `graph.py`, implement a `Graph` class that supports the API expected
 by `draw.py`. In particular, this means there should be a field `vertices` that
@@ -16,6 +16,7 @@ contains a dictionary mapping vertex labels to edges. For example:
     '1': {'0'}, 
     '2': set(), 
     '3': {'0'}
+
 }
 ```
 
