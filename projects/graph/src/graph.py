@@ -15,12 +15,20 @@ class Graph:
             raise ValueError(f'Duplicate vertex {value} found')
         self.vertices[vertex_id] = Vertex(vertex_id)
 
-    def add_edge(self, value, edge):
-        if value not in self.vertices:
-            raise ValueError(f'Provided vertex {value} does not exist')
-        if edge not in self.vertices:
-              raise ValueError(f'Provided vertex {edge} does not exist')
-        self.vertices[value].edges.add(edge)
+    def add_undirected_edge(self, start_edge, end_edge):
+        if start_edge not in self.vertices:
+            raise ValueError(f'Provided vertex {start_edge} does not exist')
+        if end_edge not in self.vertices:
+              raise ValueError(f'Provided vertex {end_edge} does not exist')
+        self.vertices[start_edge].edges.add(end_edge)
+        self.vertices[end_edge].edges.add(start_edge)
+
+    def add_directed_edge(self, start_edge, end_edge):
+        if start_edge not in self.vertices:
+            IndexError(f'Vertex {start_edge} does not exist!')
+        if end_edge not in self.vertices:
+            IndexError(f'Vertex {end_edge} does not exist!')
+        self.vertices[start_edge].edges.add(end_edge)    
 
 
 
