@@ -13,14 +13,9 @@ class Graph:
 
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].edges.add(v2)
-            self.vertices[v2].edges.add(v1)
-        else:
-            raise IndexError("That vertex does not exist!")
-
-    def add_directed_edge(self, v1, v2):
-        if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].edges.add(v2)
+            if not v1 in self.vertices[v2].edges:
+                self.vertices[v1].edges.add(v2)
+                self.vertices[v2].edges.add(v1)
         else:
             raise IndexError("That vertex does not exist!")
 
@@ -30,11 +25,11 @@ class Vertex:
         self.id = vertex_id
         self.edges = set()
         if x is None:
-            self.x = random.random() * 10 - 5
+            self.x = random.random() * 20 - 10
         else:
             self.x = x
         if y is None:
-            self.y = random.random() * 10 - 5
+            self.y = random.random() * 20 - 10
         else:
             self.y = y
             
