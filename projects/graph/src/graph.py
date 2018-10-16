@@ -33,7 +33,8 @@ class Vertex:
             self.y = random.random() * 10 - 5
         else:
             self.y = y
-    # def __repr__(self):
+    def __repr__(self):
+        return "{}".format(self.edges)
     #     return f"{self.edges}"
 
 
