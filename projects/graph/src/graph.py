@@ -18,6 +18,23 @@ class Graph:
         else:
             self.vertices[vertex].add(edge)
             self.vertices[edge].add(vertex)
+
+
+class Vertex:
+    def __init__(self, vertex, x=None, y=None):
+        self.id = vertex
+        self.edges = set()
+        if x is None:
+            self.x = random.random() * 10 - 5
+        else:
+            self.x = x
+        if y is None:
+            self.y = random.random() * 10 - 5
+        else:
+            self.y = y
+    def __repr__(self):
+        return f"{self.edges}"
+
         
 thegraph = Graph()
 thegraph.add_vertex('0')
