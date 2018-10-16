@@ -21,7 +21,7 @@ class BokehGraph:
         N = len(graph.vertices)
         node_indices = list(graph.vertices)
 
-        plot = figure(title='Graph', x_range=(self.x_min, self.x_max), y_range=(self.y_min, self.y_max), tools='', toolbar_location=None)
+        plot = figure(title='Graph', x_range=(self.x_min, self.x_max), y_range=(self.y_min, self.y_max))
 
         graph_renderer = GraphRenderer()
 
