@@ -7,7 +7,7 @@ from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from bokeh.palettes import Spectral8
-
+from graph import Graph
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""

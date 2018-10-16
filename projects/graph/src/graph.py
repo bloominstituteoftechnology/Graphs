@@ -9,7 +9,7 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
-        if vertex not in self.vertices:
+
            self.vertices[vertex_id] = Vertex(vertex_id)
 
     def add_edge(self, v1, v2):
