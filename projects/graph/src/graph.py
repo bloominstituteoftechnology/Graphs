@@ -1,47 +1,35 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-
+import random
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.graph = {}
-    
-    def get_vertices(self):
-        return [int(k) for k in self.graph]
-        
-    def add_vertex(self, vertex):
-        if vertex not in self.graph: 
-            self.graph[vertex] = {}
-    
-    def add_edge(self, vertex, edge):
-        if edge in self.graph:
-            if self.graph[vertex] == {}:
-                self.graph[vertex] = {edge}
-
-            temp = []
-
-            for k in self.graph[vertex]:
-                temp.append(k)
-
-            temp.append(edge)
-
-            self.graph[vertex].update(temp)
+    def add_vertex(self, vertex_id):
+        self.graph[vertex_id] = Vertex(vertex_id)
+    def add_edge(self, v1, v2):
+        if v1 in self.graph and v2 in self.graph:
+            self.graph[v1].edges.add(v2)
+            self.graph[v2].edges.add(v1)
         else:
-            print(f"Cannot add edge number {edge}. Corresponding vertex doesn't exst.")
+            raise IndexError("That vertex does not exist!")
 
-        
+class Vertex:
+    def __init__(self, vertex_id, x=None, y=None):
+        self.id = vertex_id
+        self.edges = set()
+        if x is None:
+            self.x = random.random() * 10 - 5
+        else:
+            self.x = x
+        if y is None:
+            self.y = random.random() * 10 - 5
+        else:
+            self.y = y
+    def __str__(self):
+        return f"{self.edges}"
+   
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('3', '0')
-graph.add_edge('3', '2')
 
-
-print(graph.graph)
