@@ -53,15 +53,32 @@ class Graph:
         q.enqueue(starting_node)
         visited = []
         while q.size() > 0:
-            q.pop(0)
+            q.dequeue
+            if q.dequeue not in visited:
+                visited.append(q.dequeue)
+                bft(self, q.dequeue)
+
             # Remove the first node from the queue...
             # If it has not been visited yet,...
             # Mark it as visited....
             # Then put all it's children in the back of the queue
 
 
+class Queue(maxsize = 0):
+    def __init__(self):
+        self.items = []
 
+    def isEmpty(self):
+        return self.items == []
 
+    def enqueue(self, item):
+        self.items.insert(0,item)
+
+    def dequeue(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)  
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
