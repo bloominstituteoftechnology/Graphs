@@ -39,10 +39,11 @@ def main():
         rando_edges = math.floor(random.randrange(0, len(keys)))
         print(rando_edges, "rando_edges")
         for v2 in range(0, rando_edges):
-            if v2 != v1:
+            if v2 != v: #v1 if want to loop on itself
                 rando_graph.add_edge(v, v2)  
 
     BokehGraph(rando_graph).show()
+    rando_graph.dfs(2)
     
 
 if __name__ == '__main__':
