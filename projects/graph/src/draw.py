@@ -28,7 +28,7 @@ class BokehGraph:
                 y.append(num)
         graph.edge_renderer.data_source.data = dict(start=x,end=y)
 
-        circ = [i*2*math.pi/8 for i in node_indices]
+        circ = [i*2*math.pi/len(node_indices) for i in node_indices]
         xcir = [math.cos(i) for i in circ]
         ycir = [math.sin(i) for i in circ]
         graph_layout = dict(zip(node_indices, zip(xcir, ycir)))
