@@ -84,3 +84,5 @@ graph.add_edge('0', '3')
 graph.add_edge('1', '2')
 graph.add_edge('1', '4')
 print(graph.vertices)
+
+

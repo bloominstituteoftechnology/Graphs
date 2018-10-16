@@ -26,6 +26,8 @@ circ = [i*2*math.pi/8 for i in node_indices]
 x = [math.cos(i) for i in circ]
 y = [math.sin(i) for i in circ]
 
+# https://www.programiz.com/python-programming/methods/built-in/zip
+# this connects the point x,y with the node index (node_index = 4, (4,4))
 graph_layout = dict(zip(node_indices, zip(x, y)))
 graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
