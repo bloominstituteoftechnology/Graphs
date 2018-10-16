@@ -8,9 +8,13 @@ class Graph:
     def __init__(self):
         self.vertices = {}
 
+
     def add_vertex(self, a):
-        self.vertices[a] = set()
-        pass
+        if (a not in self.vertices):
+            self.vertices[a] = set()
+        else:
+            return print("Already a vertex")
+
 
     def add_edge(self, a, b):
         if(b not in self.vertices):
@@ -22,6 +26,14 @@ class Graph:
     def get_vertices(self):
         print(self.vertices)
         return self.vertices
+
+
+
+# class Vertex:
+#     self.value = value
+#     def __index__(self, value):
+#         pass
+
 
 
 
