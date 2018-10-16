@@ -1,6 +1,7 @@
 """
 General drawing methods for graphs using Bokeh.
 """
+import random
 import math
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -16,7 +17,7 @@ class BokehGraph:
         graph = self.graph
         N = len(graph.vertices)
         node_indices = list(graph.vertices.keys())
-        plot = figure(title='graph_demo', x_range = (-10, 10), y_range = (-10, 10), tools="", toolbar_location=None)
+        plot = figure(title='graph_demo', x_range = (-1, 10), y_range = (-1, 10), tools="", toolbar_location=None)
 
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices,'index')
@@ -33,16 +34,18 @@ class BokehGraph:
             start=edge_start,
             end=edge_end)
 
-        x = []
-        y = []
-        for vertex_id in node_indices:
-            vertex = graph.vertices[vertex_id]
-            x.append(int(vertex.id))
-            y.append(vertex)
-        print(x,y)
+        axis = {}
+        for vertex in self.graph.vertices:
+           axis[vertex] = (random.random() * 10, random.random() * 10)
+        # x = []
+        # y = []
+        # for vertex_id in node_indices:
+        #     vertex = graph.vertices[vertex_id]
+        #     x.append(int(vertex.id))
+        #     y.append(vertex)
 
-        graph_layout = dict(zip(node_indices, zip(x, y)))
-        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+        # graph_layout = dict(zip(node_indices, zip(x, y)))
+        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=axis)
 
         plot.renderers.append(graph_renderer)
         output_file('graph.html')

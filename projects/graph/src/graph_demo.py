@@ -21,7 +21,6 @@ def main(v, e):
                 edges.append((i,j))
     random.shuffle(edges)
     randomEdges = edges[:e]
-    print(randomEdges)
     for edge in randomEdges:
         graph.add_edge(edge[0], edge[1])
     bg = BokehGraph(graph)

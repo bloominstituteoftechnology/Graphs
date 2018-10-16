@@ -50,4 +50,5 @@ class Vertex:
             self.y = y
     
     def __repr__(self):
-        return json.dumps(self.edges)
+        return f"{self.edges}"
+        # return json.dumps(self.edges)
