@@ -8,43 +8,52 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from graph import Graph
 
-g = Graph()
-g.add_vertex('0')
-g.add_vertex('1')
-g.add_vertex('2')
-g.add_vertex('3')
-g.add_edge('0', '1')
-g.add_edge('0', '2')
-g.add_edge('0', '3')
-
 class BokehGraph:
-    """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph):
-        self.vertices = graph.vertices
-        self.size = len(graph.vertices)
+        self.graph = graph
 
     def show(self):
-        node_indices = list(range(self.size))
-        plot = figure(title='graph_demo', x_range = (-1.1, 5.1), y_range = (-1.1, 5.1), tools="", toolbar_location=None)
-        graph = GraphRenderer()
+        graph = self.graph
+        N = len(graph.vertices)
+        node_indices = list(graph.vertices.keys())
+        plot = figure(title='graph_demo', x_range = (-5, 5), y_range = (-5, 5), tools="", toolbar_location=None)
 
-        graph.node_renderer.data_source.add(node_indices,'index')
-        graph.node_renderer.data_source.add(['green'], 'color')
-        graph.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
-        graph.edge_renderer.data_source.data = dict(
-            start=[0]*self.size,
-            end=node_indices)
+        graph_renderer = GraphRenderer()
+        graph_renderer.node_renderer.data_source.add(node_indices,'index')
+        graph_renderer.node_renderer.glyph = Circle(radius=0.25, fill_color='green')
 
-        circ = [int(v) for v in g.vertices]
-        x = [2 * (i // 3) for i in circ]
-        y = [2 * (i % 3) for i in circ]
+        edge_start = []
+        edge_end = []
+        for vertex_id in node_indices:
+            for v in graph.vertices[vertex_id].edges:
+                edge_start.append(vertex_id)
+                edge_end.append(v)
+
+        graph_renderer.edge_renderer.data_source.data = dict(
+            start=edge_start,
+            end=edge_end)
+
+        x = []
+        y = [1,3,5,2]
+        for vertex_id in node_indices:
+            vertex = graph.vertices[vertex_id]
+            x.append(int(vertex.id))
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
-        graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
-        plot.renderers.append(graph)
+        plot.renderers.append(graph_renderer)
         output_file('graph.html')
         show(plot)
 
-bg = BokehGraph(g)
+graph = Graph()
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+# graph.add_edge('0', '2')
+graph.add_edge('0', '3')
+
+bg = BokehGraph(graph)
 bg.show()
