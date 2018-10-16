@@ -39,7 +39,6 @@ class Stack:
 
 
 class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
        self.vertices = {}
 
@@ -48,7 +47,7 @@ class Graph:
             self.vertices[v1].edges.add(v2)
             self.vertices[v2].edges.add(v1)
         else:
-            raise Exception('Sorry!!! Vertices are not in the graph')
+            raise Exception('Sorry!!! Vertices are not in the graph!!!')
 
     def add_vertex(self, vertex_id):
         if vertex_id not in self.vertices:
@@ -57,13 +56,13 @@ class Graph:
             print('Provide vertex')
 
     def randomize(self):
-        num = random.random() * 20
+        num = random.random() * 10
         for i in range(int(num)):
             self.add_vertex(i)
         for vert1 in self.vertices:
             for vert2 in self.vertices:
                 if vert1 is not vert2:
-                    if random.random() > 0.7:
+                    if random.random() > 0.6:
                         self.add_edge(vert1, vert2)
 
 
