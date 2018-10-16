@@ -1,17 +1,48 @@
-from bokeh.plotting import figure, output_file, show
+import math
 
-# prepare some data
-x = [1, 2, 3, 4, 5]
-y = [6, 7, 2, 4, 5]
+from bokeh.io import show, output_file
+from bokeh.plotting import figure
+from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval
+from bokeh.palettes import Spectral8
 
-# output to static HTML file
-output_file("lines.html")
+N = 8
+node_indices = list(range(N))
 
-# create a new plot with a title and axis labels
-p = figure(title="simple line example", x_axis_label='x', y_axis_label='y')
+plot = figure(title="Graph Layout Demonstration", x_range=(-1.1,1.1), y_range=(-1.1,1.1),
+              tools="", toolbar_location=None)
 
-# add a line renderer with legend and line thickness
-p.line(x, y, legend="Temp.", line_width=2)
+graph = GraphRenderer()
 
-# show the results
-show(p)
+graph.node_renderer.data_source.add(node_indices, 'index')
+graph.node_renderer.data_source.add(Spectral8, 'color')
+graph.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color="color")
+
+graph.edge_renderer.data_source.data = dict(
+    start=[0]*N,
+    end=node_indices)
+
+### start of layout code
+circ = [i*2*math.pi/8 for i in node_indices]
+x = [math.cos(i) for i in circ]
+y = [math.sin(i) for i in circ]
+graph_layout = dict(zip(node_indices, zip(x, y)))
+graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+
+### Draw quadratic bezier paths
+def bezier(start, end, control, steps):
+    return [(1-s)**2*start + 2*(1-s)*s*control + s**2*end for s in steps]
+
+xs, ys = [], []
+sx, sy = graph_layout[0]
+steps = [i/100. for i in range(100)]
+for node_index in node_indices:
+    ex, ey = graph_layout[node_index]
+    xs.append(bezier(sx, ex, 0, steps))
+    ys.append(bezier(sy, ey, 0, steps))
+graph.edge_renderer.data_source.data['xs'] = xs
+graph.edge_renderer.data_source.data['ys'] = ys
+
+plot.renderers.append(graph)
+
+output_file("graph.html")
+show(plot)
