@@ -19,9 +19,10 @@ def main():
     graph.add_edge(0, 1)
     graph.add_edge(0, 3)
     print(graph.vertices)
-    keys = graph.vertices.keys()
-    print(list(keys))
-    BokehGraph(list(keys)).show()
+
+    # keys = graph.vertices.keys()
+    # print(list(keys), "24")
+    BokehGraph(graph).show()
 
 if __name__ == '__main__':
     # TODO - parse argv
