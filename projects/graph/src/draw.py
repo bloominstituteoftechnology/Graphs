@@ -69,5 +69,5 @@ class BokehGraph:
         output_file('graph.html')
         show(plot)
 
-graph = BokehGraph()
-graph.show()
+# graph = BokehGraph()
+# graph.show()

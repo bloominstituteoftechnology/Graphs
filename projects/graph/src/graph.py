@@ -47,7 +47,22 @@ class Graph:
             if self.add_edge(from_vertex, to_vertex):
                 edge += 1 
 
-        self.show_graph()
+    def breadth_first_search(self, target):
+        """
+        Search each vertex in vertices_list in order (FIFO)
+        to check whether target is connected within graph
+        """
+        for from_vertex in self.vertices_list:
+            to_vertices = self.vertices_list[from_vertex]
+            for to_vertex in to_vertices:
+                if to_vertex == str(target):
+                    print(f"{target} is connected by {from_vertex}")
+                    return 
+            
+        print(f"{target} is not connected in the graph")
+    
+    def depth_first_search(self, target):
+        pass 
 
 graph = Graph()  # Instantiate your graph
 # graph.add_vertex('0')
@@ -58,3 +73,4 @@ graph = Graph()  # Instantiate your graph
 # graph.add_edge('0', '2')
 # graph.add_edge('2', '3')
 graph.randomise_graph(5, 6)
+graph.breadth_first_search(1)
