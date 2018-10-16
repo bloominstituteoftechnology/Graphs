@@ -15,7 +15,6 @@ def main(num_vertices, num_edges, draw_components=True):
 
     for _ in range(num_edges):
         vertex1 = sample(graph.vertices.keys(), 1)[0]
-        print(vertex1)
         vertex2 = sample(graph.vertices.keys(), 1)[0]
         graph.add_edge(vertex1, vertex2)
 
