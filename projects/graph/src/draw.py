@@ -18,7 +18,6 @@ class BokehGraph:
 
     def show(self):
         node_indices = list(self.graph.vertices.keys())
-        edges = [list(v) for v in self.graph.vertices.values()]
 
         plot = figure(title='Graph Layout Demonstration', x_range=(-1, 5), y_range=(-1, 5),
                       tools='', toolbar_location=None)
@@ -28,7 +27,13 @@ class BokehGraph:
         graph = GraphRenderer()
 
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(Spectral8, 'color')
+
+        # Random color generator
+        number_of_colors = len(node_indices)
+        color = ["#" + ''.join([random.choice('0123456789ABCDEF') for _ in range(6)])
+                 for _ in range(number_of_colors)]
+
+        graph.node_renderer.data_source.add(color, 'color')
         graph.node_renderer.glyph = Circle(size=20, fill_color='color')
 
         edge_start = []
@@ -43,6 +48,7 @@ class BokehGraph:
             start=edge_start,
             end=edge_end)
 
+        # TODO: Need to implement a way that nodes don't overlap, or are too close
         position = {}
         for vertex in self.graph.vertices:
             position[vertex] = (random.random() * 4, random.random() * 4)

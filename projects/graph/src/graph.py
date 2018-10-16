@@ -15,12 +15,13 @@ class Graph:
         else:
             self.vertices[value] = set()
 
-    def add_edge(self, v1, v2):
+    def add_edge(self, v1, v2, bidirectional=True):
         if v1 not in self.vertices or v2 not in self.vertices:
             raise Exception('Invalid vertex: one or more of the vertices provided is invalid.')
         else:
             self.vertices[v1].add(v2)
-            self.vertices[v2].add(v1)
+            if bidirectional:
+                self.vertices[v2].add(v1)
 
     def dfs(self, start):
         """
