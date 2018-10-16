@@ -15,14 +15,21 @@ class Graph:
             self.vertices[v2].edges.add(v1)
         else:
             raise IndexError("That vertex does not exist!")
-
+    def add_directed_edge(self, v1, v2):
+        if v1 in self.vertices:
+            self.vertices[v1].edges.add(v2)
+        else:
+            raise IndexError("That vertex does not exist!")    
 
 class Vertex:
     def __init__(self, vertex_id):
         self.id = vertex_id
         self.edges = set()
+        # self.x = 
     def __repr__(self):
         return f" {self.edges}"
+
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
