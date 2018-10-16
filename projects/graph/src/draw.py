@@ -13,13 +13,20 @@ from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, LabelSet, 
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self, graph):
-        self.graph = graph
+    def __init__(self, num_vertices = 0, num_edges = 0):
+        self.graph = Graph()
+        self.num_vertices = num_vertices
+        self.num_edges = num_edges
     """
     Use Bokeh to generate and display HTML that draws the graph
     included Pipfile will install Bokeh and necessarily dependencies
     """
+    def initialise_graph(self):
+        self.graph.randomise_graph(self.num_vertices, self.num_edges)
+
     def show(self):
+        self.initialise_graph()
+
         vertices_list = self.graph.vertices_list
         N = len(vertices_list)
         node_indices = list(range(N))
@@ -62,6 +69,5 @@ class BokehGraph:
         output_file('graph.html')
         show(plot)
 
-graph = Graph()
-graph = BokehGraph(graph)
+graph = BokehGraph()
 graph.show()

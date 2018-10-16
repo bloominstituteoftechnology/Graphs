@@ -57,4 +57,4 @@ graph = Graph()  # Instantiate your graph
 # graph.add_edge('0', '1')
 # graph.add_edge('0', '2')
 # graph.add_edge('2', '3')
-graph.randomise_graph(3, 5)
+graph.randomise_graph(5, 6)
