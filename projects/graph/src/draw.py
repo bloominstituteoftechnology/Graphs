@@ -37,6 +37,7 @@ class BokehGraph:
         axis = {}
         for vertex in self.graph.vertices:
            axis[vertex] = (random.random() * 10, random.random() * 10)
+        
         # x = []
         # y = []
         # for vertex_id in node_indices:
