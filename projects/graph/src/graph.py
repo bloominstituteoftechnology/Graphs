@@ -37,6 +37,11 @@ class Vertex:
         """
         self.id = vertex_id
         self.edges = set()
+        if x is None:
+            self.x = random.random() * 10 - 5
+        if y is None:
+            self.y = random.random() * 10 - 5 
+
     def __repr__(self):
         return f"{self.edges}"
 
