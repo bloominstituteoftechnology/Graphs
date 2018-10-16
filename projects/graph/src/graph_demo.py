@@ -39,6 +39,7 @@ def main(numVertices=None,numEdges=None):
     graphDisplay = BokehGraph(graphConstruct.vertices)
     graphDisplay.show()
 
+
 if __name__ == '__main__':
     # TODO - parse argv
     # print(argv[1])
