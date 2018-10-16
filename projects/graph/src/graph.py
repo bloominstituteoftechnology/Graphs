@@ -18,7 +18,6 @@ Simple graph implementation compatible with BokehGraph class.
     #          'E': ['F'],
     #          'F': ['C']}
 
-
 class Vertex:
     def __init__(self, key):
         # storage space for neighboring nodes
@@ -79,6 +78,9 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+graph.add_edge('1', '2')
+graph.add_edge('1', '4')
 print(graph.vertices)
