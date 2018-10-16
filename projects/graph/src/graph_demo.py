@@ -5,7 +5,8 @@ Demonstration of Graph and BokehGraph functionality.
 """
 
 from sys import argv
-
+from graph import Vertex,Graph
+from draw import BokehGraph
 
 def main():
     pass  # TODO
