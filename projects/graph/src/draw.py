@@ -90,4 +90,4 @@ graph.add_edge('1', '2')
 bg = BokehGraph(graph)
 bg.draw()
 
-print(graph.dft())
+print(graph.bft())

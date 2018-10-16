@@ -43,6 +43,19 @@ class Graph:
         for child in self.vertices[starting_node].edges:
             if child not in visited:
                   self.dft(child, visited)
+    def bft(self):
+        verticies = list(self.vertices.keys())
+        q = [verticies[0]]
+        print('first q', q)
+        visited = []
+        
+        while len(q) > 0:
+            nextQ = q.pop()
+            if nextQ not in visited:
+                visited.append(nextQ)
+            q.extend(list(self.vertices[nextQ].edges))
+            print('q', q)
+            print('visited', visited)
 
 
 class Vertex:
