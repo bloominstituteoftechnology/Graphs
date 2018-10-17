@@ -2,22 +2,7 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
-# x = [1, 2, 3, 4, 5]
-# y = [6, 7, 2, 4, 5]
-# # output to static HTML file
-# output_file("graph.html")
 
-# # create a new plot with a title and axis labels
-# p = figure(title="simple line example", x_axis_label='x', y_axis_label='y')
-
-# # add a line renderer with legend and line thickness
-# p.line(x, y, legend="Temp.", line_width=2)
-
-# # show the results
-# show(p)
-
-
-# output_file("graph.html")
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -47,6 +32,8 @@ graph.add_edge('0', '3')
 print(graph.vertices)
 
 
+
+
 # class MatrixGraph:
 #     """ Adjacency Matrix Represeation of a graph"""
 #     def __init__(self, num_vertices):
@@ -72,11 +59,26 @@ print(graph.vertices)
         
         
         
+# x = [1, 2, 3, 4, 5]
+# y = [6, 7, 2, 4, 5]
+# # output to static HTML file
+# output_file("graph.html")
+
+# # create a new plot with a title and axis labels
+# p = figure(title="simple line example", x_axis_label='x', y_axis_label='y')
+
+# # add a line renderer with legend and line thickness
+# p.line(x, y, legend="Temp.", line_width=2)
+
+# # show the results
+# show(p)
+
+
+# output_file("graph.html")
         
         
         
-        
-        # graph = {
+# graph = {
 #     '0': {'1', '3'},
 #     '1': {'0'},
 #     '2': set(),
