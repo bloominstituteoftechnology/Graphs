@@ -33,9 +33,11 @@ class Vertex:
         return f"{self.edges}"
     
 class Edge:
-    def __init__(self, destination, weight = 0):
-        self.destination = destination
-        self.weight = weight 
+    def __init__(self, label, destination, weight = 0, color = None):
+        self.label = label
+        self.destination = destination # edges
+        self.weight = weight
+        self.color = color
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -49,10 +51,13 @@ class Graph:
         
         
     def add_edge_one_way(self, from_vertex, to_vertex):
+        
         if from_vertex in self.vertices and to_vertex in self.vertices:
             self.vertices[from_vertex].add_edge(to_vertex)
         else:
             raise IndexError("That vertex does not exist!")
+        
+        new_edge = Edge(from_vertex, self.vertices[from_vertex].edges)
 
     def add_edge_two_way(self, vertex1, vertex2):
         """
@@ -98,7 +103,7 @@ class BokehGraph:
         
         x = []
         y = []
-
+        
         for vertex_id in vertex_indices:
             vertex = self.graph.vertices[vertex_id]
             x.append(vertex.x)
@@ -108,6 +113,12 @@ class BokehGraph:
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         plot.renderers.append(graph_renderer)
+
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[self.graph.vertices[vertex_id].value for vertex_id in self.graph.vertices]))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+        
+        plot.add_layout(labels)
+
         output_file('random.html')
         show(plot)
 
@@ -118,23 +129,50 @@ def main():
     random_color = colors[color_index]
     potential_labels = ["A", "B", "C", "D","E", "F", "G", "1", "2", "3", "4", "5", "6", "7"]
     random.shuffle(potential_labels) #to make it random we shuffle the labels. 
-    random_number = random.randint(4,len(potential_labels))
+    random_number = random.randint(4,len(potential_labels)-1)
     num_vertices = random_number
-    num_edges = random_number
+    num_edges = random_number//2
     graph = Graph()
     vertices_count = 0
     edges_count = 0
-
-    while vertices_count <= num_vertices and edges_count <= num_edges:
-        new_vertex = potential_labels[vertices_count]
+    vertices_created = [] # keep track of each creation. 
+    edges_created = [] # keep track avoid duplicates. 
+    edge_track = {}
+    while vertices_count <= num_vertices:
+        try:
+            new_vertex = potential_labels[vertices_count]
+        except:
+            print (vertices_count)
+            print(len(potential_labels))
         graph.add_vertex(new_vertex)
-        if vertices_count > 0:
-            graph.add_edge_two_way(new_vertex, previous_vertex)
-            edges_count += 1
-        previous_vertex = new_vertex
+        vertices_created.append(new_vertex)
         vertices_count += 1
-    # while edges_count <= num_edges:
-    #     pass 
+    
+    # shuffle the vertices_created so that the edges are randomly created
+    random.shuffle(vertices_created)
+    vertices_index_track = 0 
+    while  edges_count <= num_edges and vertices_index_track + 1 < len(vertices_created):
+        from_edge = vertices_created[vertices_index_track] # starts off at 0. 
+        to_edge = vertices_created[vertices_index_track+1]
+        if from_edge not in edge_track:
+            edge_track[from_edge] = set()
+            edge_track[from_edge].add(to_edge)
+            graph.add_edge_two_way(from_edge, to_edge)
+        else:
+            edge_track[from_edge].add(to_edge)
+            graph.add_edge_two_way(from_edge, to_edge)
+        if to_edge not in edge_track:
+            edge_track[to_edge] = set()
+            edge_track[to_edge].add(from_edge)
+            graph.add_edge_two_way(to_edge, from_edge)
+        else:
+            edge_track[to_edge].add(from_edge)
+            graph.add_edge_two_way(to_edge,from_edge)
+
+        
+        edges_count += 1
+        vertices_index_track += 1 
+        
 
     bokeh_graph = BokehGraph(graph, random_color)
     bokeh_graph.show()
