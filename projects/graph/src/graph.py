@@ -11,17 +11,13 @@ Simple graph implementation compatible with BokehGraph class.
 
 
 class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    # Represent a graph as a dictionary of vertices mapping labels to edges.
     def __init__(self):
-        """
-        Create an empty graph
-        """
+        # Create an empty graph
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
-        """
-        Add an vertex to the graph
-        """
+        # Add an vertex to the graph
         self.vertices[vertex_id] = Vertex(vertex_id)
 
     def add_edge(self, v1, v2):
@@ -76,10 +72,6 @@ class Graph:
             queue.extend(self.vertices[new_node])
 
 
-
-
-
-
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
         """
@@ -112,3 +104,16 @@ class Vertex:
 #     def add_edge(self, v1, v2):
 #         self.vertices[v1].add(v2)
 #         self.vertices[v1].add(v2)
+
+
+# graph = Graph()
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
+# graph.add_edge('1', '2')
+# graph.add_edge('3', '2')
+#
+# graph.dfs('0')
