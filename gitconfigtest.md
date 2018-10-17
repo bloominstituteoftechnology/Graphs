@@ -1,3 +1,5 @@
+# GIT GLOBAL CONFIGURATION
+
 Run these two commands:
 
 ```
@@ -8,16 +10,13 @@ $
 
 If these commands result in an empty return, then your `.gitconfig` file has yet to be set up.
 
-With macOS you can use
-`$ open ~/``
+With macOS you can use `$ open ~/` ...to open your home directory file in the Finder. Then use `cmd+shift+.` to toggle displaying invisible files in the Finder.
 
-...to open your home directory file. Then use `cmd+shift+.` to see invisible files in the Finder.
+NOTE: With Windows in PowerShell you can use the `ls ~/` command to see a list of all the files including "invisible" ones which start with a period.
 
-With Windows in PowerShell you can use the `ls ~/` command to see a list of all the files inclduing "invisible" ones which start with a period.
+NOTE: With Linux, the `ls -al ~/` command will show the same.
 
-With Linux, the `ls -al ~/` command will show the same.
-
-Having made a commit to a project, you may at first see a message like so:
+Having forked, cloned, and made the first commit to a project, you may at first see a message like so:
 
 ```
 $ git commit -m "gitconfig demo" -m "initial commit"
@@ -39,7 +38,7 @@ After doing this, you may fix the identity used for this commit with:
  create mode 100644 gitconfigtest.md
  ```
 
-...and using `git log` you may see that the commit is associated to something other than what you registered to github with, e.g.
+...and using `git log` you may see that the commit is associated to something other than what you registered to GitHub with, e.g.
 
 ```
 commit 9e522d8b1c6675739f10d9c0fffb6da0daabd286 (HEAD -> master)
@@ -56,11 +55,11 @@ Pushing this commit to GitHub, you will be prompted for your username and passwo
 
 Look at the commit history on GitHub and you will see an anonymous icon.
 
-Now let's set the username and email with the following command:
+Now let's globally set the username with the following command:
 
 `$ git config --global user.name "pdktestlambda"`
 
-You will see in the Finder window (macOS, or if you run the ls commands) that there is now a `gitconfig` file in your home directory. Open it up, it should look something like:
+You will see in the Finder window that there is now a `gitconfig` file in your home directory (or, if you run the `ls` commands on Win/Lin) Open up the ".gitconfig" file, it should look something like:
 ```
 [user]
 	name = pdktestlambda
@@ -88,19 +87,19 @@ After doing this, you may fix the identity used for this commit with:
  ```
 (Yes I mis-spelled global ;) )
 
-This time I was not prompted for my password, but my commit still shows up on GitHub anonymously.
+This time I was not prompted for my password - GitHub recognizes the username! ...but my commit still shows up on GitHub anonymously. So let's set the global e-mail setting:
 
-So let's set the global e-mail setting:
 `$ git config --global user.email "pakelika@mail.com"`
 
 We can verify a couple of ways. In the `.gitconfig` file we should see
+
 ```
 [user]
 	name = pdktestlambda
 	email = pakelika@mail.com
 ```
 
-Or, we use the `git config` commands (the `--global` flag is optional):
+...or, we can use the `git config` commands (the `--global` flag is optional):
 ```
 Patricks-MBP:Graphs Guest$ git config user.email
 pakelika@mail.com
@@ -111,3 +110,17 @@ pdktestlambda
 Patricks-MBP:Graphs Guest$ git config user.name
 pdktestlambda
 ```
+
+Now the Git commits are correctly associated with my username and email. On GitHub, the commits display with my user icon :+1:
+
+***
+
+# CONTRIBUTION GRAPH
+
+So, now we have our commits accurately reflecting our registered account with GitHub, why aren't the commits I push up reflected in my contribution graph?
+
+https://help.github.com/articles/why-are-my-contributions-not-showing-up-on-my-profile/#commit-was-made-in-a-fork
+
+How can we get this work reflected in the chronological "heat map"?
+
+Easy, de-forking!
