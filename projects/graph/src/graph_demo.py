@@ -45,7 +45,8 @@ def getRandomGraph(numVerts, numEdges):
     for edge in randomEdges:
         graph.add_edge(edge[0], edge[1])
 
-    return graph
+    bokeh_graph = BokehGraph(graph)
+    bokeh_graph.draw()
 
 
 if __name__ == '__main__':

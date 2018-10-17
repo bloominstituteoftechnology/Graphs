@@ -53,3 +53,27 @@ class Graph:
             raise Exception('Error: End vertex not found')
         else:
             self.vertices[start].edges.add(end)
+
+    def breadth_first_search(self, start):
+        queue = []
+        queue.append(start)
+        visited = []
+        while len(queue) > 0:
+            current = queue.pop(0)
+            visited.append(current)
+            for edge in self.vertices[current]:
+                if edge not in visited and edge not in queue:
+                    queue.append(edge)
+        print(visited)
+
+    def depth_first_search(self, start):
+        stack = []
+        stack.append(start)
+        visited = []
+        while len(stack) > 0:
+            current = stack.pop()
+            visited.append(current)
+            for edge in self.vertices[current]:
+                if edge not in visited and edge not in stack:
+                    stack.append(edge)
+        print(visited)
