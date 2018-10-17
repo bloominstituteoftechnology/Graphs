@@ -36,9 +36,6 @@ class BokehGraph:
         print(d)
 
         ### start of layout code
-        # circ = [i*2*math.pi/8 for i in node_indices]
-        # x = [math.cos(i) for i in circ]
-        # y = [math.sin(i) for i in circ]
         x = []
         y = []
         for vertex_id in node_indices:
@@ -61,7 +58,6 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '3')
 graph.add_edge('0', '1')
-# print(g.vertices)
 
 bg = BokehGraph(graph)
 bg.draw()
