@@ -10,7 +10,7 @@ from graph import Graph
 from draw import BokehGraph
 
 
-def main(v=5, e=5):
+def main(v=10, e=5):
     graph = Graph()
     for i in range(v):
         graph.add_vertex(i)
@@ -26,9 +26,9 @@ def main(v=5, e=5):
     for edge in edges:
         graph.add_edge(edge[0], edge[1])
 
-    print(graph.vertices)
+    print(graph.connected())
     bokeh_graph = BokehGraph(graph)
-    bokeh_graph.show()
+    bokeh_graph.show(True)
 
 
 if __name__ == '__main__':

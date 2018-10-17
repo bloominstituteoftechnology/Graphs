@@ -13,7 +13,7 @@ class BokehGraph:
     def __init__(self, graph):
         self.graph = graph
 
-    def show(self):
+    def show(self, connected=False):
         node_indices = list(self.graph.vertices.keys())
 
         plot = figure(title='Graph Layout Demonstration', x_range=(-1, 5), y_range=(-1, 5),
@@ -26,9 +26,16 @@ class BokehGraph:
         graph.node_renderer.data_source.add(node_indices, 'index')
 
         # Random color generator
-        number_of_colors = len(node_indices)
-        color = ["#" + ''.join([random.choice('0123456789ABCDEF') for _ in range(6)])
-                 for _ in range(number_of_colors)]
+        if connected:
+            graph.node_renderer.data_source.add(sorted(node_indices), 'index')
+            color = []
+            for vertex in self.graph.vertices:
+                color.append(self.graph.vertices[vertex].color)
+        else:
+            graph.node_renderer.data_source.add(node_indices, 'index')
+            number_of_colors = len(node_indices)
+            color = ["#" + ''.join([random.choice('0123456789ABCDEF') for _ in range(6)])
+                     for _ in range(number_of_colors)]
 
         graph.node_renderer.data_source.add(color, 'color')
         graph.node_renderer.glyph = Circle(size=20, fill_color='color')
@@ -37,9 +44,9 @@ class BokehGraph:
         edge_end = []
 
         for vertex in self.graph.vertices:
-            for edge in self.graph.vertices[vertex]:
+            for edge in self.graph.vertices[vertex].edges:
                 edge_start.append(vertex)
-                edge_end.append(edge)
+                edge_end.append(edge.name)
 
         graph.edge_renderer.data_source.data = dict(
             start=edge_start,
