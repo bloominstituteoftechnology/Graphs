@@ -23,7 +23,7 @@ class WeightedGraph:
         :param finish: str of vertex name
         :return: tuple, (distance, [path])
         This is an implementation of Dijkstra's algorithm by utilizing a priority queue. I used Python's built in
-        heapq library to implement a simple priority queue, and uses BFS to look for the shortest path from the
+        heapq library to implement a simple priority queue, and used BFS to look for the shortest path from the
         start vertex to the finish.
         """
         q = [(0, start, [])]
