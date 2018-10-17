@@ -19,46 +19,37 @@ class BokehGraph:
         N=len(nodes)
 
         #Create plot
-        plot = figure(title = 'Graph', x_range = (-7, 7) , y_range = (-7, 7), tools = "", toolbar_location = None)
+        plot = figure(title = 'Graph', x_range = (-1.5, 1.5) , y_range = (-1.5, 1.5), tools = "", toolbar_location = None)
 
         g = GraphRenderer()
         
-        g.node_renderer.glyph = Circle(radius = 0.5, fill_color = "fill_color")  
+        g.node_renderer.glyph = Circle(radius = 0.1, fill_color = "fill_color")  
         g.node_renderer.data_source.data = dict(
             index = nodes,
             fill_color = ['red']*N
             )
 
-        '''start_edge = []
+        # Create the edge renderer data
+        start_edge = []
         end_edge = []
-        for keys, values in self.graph.vertices.items():
-            start_edge += [keys]*len(values)
-            end_edge += values'''
 
-        edge_start = []
-        edge_end = []
+        for vertex in self.graph.vertices:
+            for edge in self.graph.vertices[vertex]:
+                start_edge.append(vertex)
+                end_edge.append(edge)
         
-        for vertex_id in nodes:
-            for value in graph.vertices[vertex_id].edges:
-                edge_start.append(vertex_id)
-                edge_end.append(value)    
 
         g.edge_renderer.data_source.data = dict(
-            start=edge_start,
-            end=edge_end)
+            start=start_edge,
+            end=end_edge)
+
+
 
         ##start of layout code
-        #circ = [i*2*math.pi/len(nodes) for i in range(len(nodes))]
-        #x = [math.cos(i) for i in circ]
-        #y = [math.sin(i) for i in circ]
+        circ = [i*2*math.pi/len(nodes) for i in range(len(nodes))]
+        x = [math.cos(i) for i in circ]
+        y = [math.sin(i) for i in circ]
         
-        x = []
-        y = []
-
-        for vertex_id in nodes:
-            vertex = graph.vertices[vertex_id]
-            x.append(vertex.x)
-            y.append(vertex.y)
         
         graph_layout = dict(zip(nodes, zip(x, y)))
         g.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
@@ -98,9 +89,10 @@ graph.add_undirected_edge('0', '1')
 graph.add_undirected_edge('0', '3')
 graph.add_directed_edge('1', '2')
 graph.add_directed_edge('1', '4')
-graph.add_directed_edge('4', '5')
-graph.add_directed_edge('4', '6')
+graph.add_directed_edge('2', '5')
+graph.add_directed_edge('2', '6')
 graph.breadth_first_search('0')
+graph.depth_first_search('0')
 #graph.add_directed_edge('7','4')
 #graph.add_directed_edge('7','4')
 g1 = BokehGraph(graph)
