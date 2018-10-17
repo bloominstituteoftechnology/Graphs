@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="928f2cbe-94ec-45e2-88c2-fafd2957fa3a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/projects/graph/src/draw.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/src/draw.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/graph/src/graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/src/graph.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +39,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="38" />
-          <entry key="py" value="2502" />
+          <entry key="py" value="2673" />
           <entry key="txt" value="50" />
         </counts>
       </usages-collector>
@@ -46,7 +47,7 @@
         <counts>
           <entry key="HTML" value="38" />
           <entry key="PLAIN_TEXT" value="50" />
-          <entry key="Python" value="2502" />
+          <entry key="Python" value="2673" />
         </counts>
       </usages-collector>
     </session>
@@ -103,13 +104,12 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/projects/graph/src/draw.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="129">
-                  <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="49" selection-end-column="62" />
+                <state relative-caret-position="158">
+                  <caret line="48" column="56" selection-start-line="48" selection-start-column="56" selection-end-line="48" selection-end-column="56" />
                   <folding>
                     <element signature="e#57#95#0" expanded="true" />
-                    <marker date="1539784177779" expanded="true" signature="1091:1096" ph="..." />
-                    <marker date="1539784177779" expanded="true" signature="1111:1190" ph="..." />
-                    <marker date="1539784177779" expanded="true" signature="1386:1395" ph="..." />
+                    <marker date="1539786397251" expanded="true" signature="1165:1170" ph="..." />
+                    <marker date="1539786397251" expanded="true" signature="1185:1256" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -134,6 +134,11 @@
         <option value="HTML File" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>print</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -239,9 +244,9 @@
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.1663143" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="0" sideWeight="0.5990134" side_tool="true" visible="true" weight="0.43821657" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="0" sideWeight="0.5990134" side_tool="true" visible="true" weight="0.37197453" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="2" sideWeight="0.4009866" visible="true" weight="0.43821657" />
+      <window_info anchor="bottom" id="Python Console" order="2" sideWeight="0.4009866" visible="true" weight="0.37197453" />
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" weight="0.3299363" />
       <window_info anchor="bottom" id="Version Control" order="5" show_stripe_button="false" />
@@ -311,13 +316,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/projects/graph/src/draw.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="49" selection-end-column="62" />
+        <state relative-caret-position="158">
+          <caret line="48" column="56" selection-start-line="48" selection-start-column="56" selection-end-line="48" selection-end-column="56" />
           <folding>
             <element signature="e#57#95#0" expanded="true" />
-            <marker date="1539784177779" expanded="true" signature="1091:1096" ph="..." />
-            <marker date="1539784177779" expanded="true" signature="1111:1190" ph="..." />
-            <marker date="1539784177779" expanded="true" signature="1386:1395" ph="..." />
+            <marker date="1539786397251" expanded="true" signature="1165:1170" ph="..." />
+            <marker date="1539786397251" expanded="true" signature="1185:1256" ph="..." />
           </folding>
         </state>
       </provider>
