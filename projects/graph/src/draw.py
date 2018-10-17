@@ -69,7 +69,7 @@ class BokehGraph:
 # graph.add_edge('0', '3')
 # graph.add_edge('1', '2')
 # graph.add_edge('3', '2')
-
+#
 # bg = BokehGraph(graph)
 # bg.draw()
 # print(graph.vertices)
