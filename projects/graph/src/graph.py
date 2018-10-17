@@ -9,7 +9,6 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
-
            self.vertices[vertex_id] = Vertex(vertex_id)
 
     def add_edge(self, v1, v2):
@@ -23,7 +22,23 @@ class Graph:
         if v1 in self.vertices:
             self.vertices[v1].edges.add(v2)
         else:
-            raise IndexError("That vertext does not exist")
+            raise IndexError("That vertex does not exist")
+
+    def depth_first_search(self, starting_node):
+        stack = [starting_node]
+        collected = []
+        if len(self.vertices) == 0:
+            visited == False
+        while stack:
+            current = stack.pop()
+            collected.append(current)
+            for child in self.vertices[current]:
+                if visited[child] == False:
+                    stack.append(child)
+                    visited[child] == True
+
+    def breadth_first_search(self, starting_node):
+       pass
 
 class Vertex:
     def __init__(self, vertex, x=None, y=None):
