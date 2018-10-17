@@ -1,5 +1,5 @@
 import math
-import bokeh
+
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval
