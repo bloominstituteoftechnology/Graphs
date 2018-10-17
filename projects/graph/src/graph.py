@@ -60,18 +60,21 @@ class Graph:
                     return True
         return False
 
-    def bfs(self, current, target):
+    def bfs(self, current, target, visited=None):
         q = Queue()
+        if visited is None:
+            visited = [False] * len(self.vertices)
         q.enqueue(current)
-        visited = []
+        visited[current] = True
         while q.size() > 0:
             if q.dequeue() == target:
                 return True
-            else:
-                visited.append(q.dequeue())
+            for i in self.vertices:
+                if visited[i] == False:
+                    q.enqueue(i)
+                    visited[i] == True
         return False
         
-
 
     # def add_directed_edge(self, vertex1, vertex2):
     #     if vertex1 in self.vertices:
