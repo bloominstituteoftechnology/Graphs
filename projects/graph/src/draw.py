@@ -15,7 +15,7 @@ class BokehGraph:
     def __init__(self, graphStorage):
         self.graphStorage = graphStorage
 
-    def show(self, graphstyle='circle', graphcolor="connectedOnly"):
+    def show(self, graphstyle='square', graphcolor="connectedOnly"):
 
         node_indices = list(map(int,  self.graphStorage.keys()))
 
@@ -28,7 +28,6 @@ class BokehGraph:
         elif graphcolor is "connectedOnly":
             outputArr = []
             for node in self.graphStorage:
-                print(self.graphStorage[node])
                 if len(self.graphStorage[node]) > 0:
                     outputArr.append('green')
                 else:
@@ -50,6 +49,33 @@ class BokehGraph:
             circ = [i*2*math.pi/len(node_indices) for i in node_indices]
             xpos = [math.cos(i) for i in circ]
             ypos = [math.sin(i) for i in circ]
+        elif graphstyle == "square":
+            pointDistribation = 4/len(node_indices)
+            totalTrack = 0
+            counter = 0 
+            xpos=[]
+            ypos=[]
+            while(counter  < len(node_indices) ):
+                if totalTrack <= 1:
+                    xPosition = (totalTrack )-.5
+                    xpos.append(xPosition)
+                    ypos.append(-.5)
+                elif totalTrack >1 and totalTrack <=2:
+                    yPosition = (totalTrack )-1.5
+                    xpos.append(.5)
+                    ypos.append(yPosition)
+                elif totalTrack >2 and totalTrack <=3:
+                    xPosition = (totalTrack )-2.5
+                    xpos.append(-xPosition)
+                    ypos.append(.5)
+                elif totalTrack >3 and totalTrack <=4:
+                    yPosition = (totalTrack )-3.5
+                    xpos.append(-.5)
+                    ypos.append(-yPosition)    
+                totalTrack+=pointDistribation
+                counter +=1
+                               
+            
         graph_layout = dict(zip(node_indices, zip(xpos, ypos)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
         source = ColumnDataSource(
