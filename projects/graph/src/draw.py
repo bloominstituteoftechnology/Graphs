@@ -23,9 +23,18 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(['red'] * N, 'color')
         graph_renderer.node_renderer.glyph = Circle(radius=0.3, fill_color='color')
 
+        edge_start = []
+        edge_end = []
+
+        for vert_id in node_indices:
+            for v in graph.vertices[vert_id].edges:
+                edge_start.append(vert_id)
+                edge_end.append(v.destination)
+
         graph_renderer.edge_renderer.data_source.data = dict(
-            start=[0]*N,
-            end=node_indices)
+            start = edge_start,
+            end = edge_end
+        )
 
         x = []
         y = []
