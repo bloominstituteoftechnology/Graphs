@@ -1,10 +1,12 @@
+Run these two commands:
+
 ```
 $ git config user.email
 $ git config user.name
 $
 ```
 
-If these two `git config` commands result in an empty return, then your `.gitconfig` file has yet to be set up.
+If these commands result in an empty return, then your `.gitconfig` file has yet to be set up.
 
 With macOS you can use
 `$ open ~/``
@@ -65,3 +67,47 @@ You will see in the Finder window (macOS, or if you run the ls commands) that th
 ```
 
 (yes, that's a TAB before `name =`)
+
+So let's try another commit:
+```
+Patricks-MBP:Graphs Guest$ git commit -am "glabal user.name set" -m "only global user.name, not the email yet"
+[master a9fbab8] glabal user.name set
+ Committer: pdktestlambda <Guest@patricks-mbp.home>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 23 insertions(+), 5 deletions(-)
+ ```
+(Yes I mis-spelled global ;) )
+
+This time I was not prompted for my password, but my commit still shows up on GitHub anonymously.
+
+So let's set the global e-mail setting:
+`$ git config --global user.email "pakelika@mail.com"`
+
+We can verify a couple of ways. In the `.gitconfig` file we should see
+```
+[user]
+	name = pdktestlambda
+	email = pakelika@mail.com
+```
+
+Or, we use the `git config` commands (the `--global` flag is optional):
+```
+Patricks-MBP:Graphs Guest$ git config user.email
+pakelika@mail.com
+Patricks-MBP:Graphs Guest$ git config --global user.email
+pakelika@mail.com
+Patricks-MBP:Graphs Guest$ git config --global user.name
+pdktestlambda
+Patricks-MBP:Graphs Guest$ git config user.name
+pdktestlambda
+```
