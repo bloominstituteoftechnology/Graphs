@@ -1,30 +1,30 @@
 import random
 
-class Queue:
-    def __init__(self):
-        self.queue = []
-    def enqueue(self, value):
-        self.queue.append(value)
-    def dequeue(self, value):
-        if (self.size()) > 0:
-            return self.queue.pop(0)
-        else:
-            return None
-    def size(self):
-        return len(self.queue)
+# class Queue:
+#     def __init__(self):
+#         self.queue = []
+#     def enqueue(self, value):
+#         self.queue.append(value)
+#     def dequeue(self, value):
+#         if (self.size()) > 0:
+#             return self.queue.pop(0)
+#         else:
+#             return None
+#     def size(self):
+#         return len(self.queue)
 
-class Stack:
-    def __init__(self):
-        self.stack = []
-    def push(self, value):
-        self.stack.push(value)
-    def pop(self):
-        if (self.size()) > 0:
-            return self.stack.pop()
-        else:
-            return None
-    def size(self):
-        return len(self.stack)
+# class Stack:
+#     def __init__(self):
+#         self.stack = []
+#     def push(self, value):
+#         self.stack.push(value)
+#     def pop(self):
+#         if (self.size()) > 0:
+#             return self.stack.pop()
+#         else:
+#             return None
+#     def size(self):
+#         return len(self.stack)
 
 class Graph:
     def __init__(self):
@@ -54,6 +54,17 @@ class Graph:
             self.vertices[v1].edges.add(v2)
         else:
             raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
+    
+    def bfs(self, starting_node):
+        queue = [starting_node]
+        visited = [starting_node]
+        while len(queue) > 0:
+            cur_node = queue.pop(0)
+            for edge in self.vertices[cur_node].edges:
+                if edge not in visited:
+                    visited.append(edge)
+                    queue.append(edge)
+        return visited
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
@@ -69,52 +80,3 @@ class Vertex:
 
     def __repr__(self):
         return f"{self.edges}"
-
-# g = Graph()
-# g.add_vertex('0')
-# g.add_vertex('1')
-# g.add_vertex('2')
-# g.add_vertex('3')
-# g.add_edge('0', '3')
-# g.add_edge('0', '1')
-# print(g.vertices)
-
-# class Vertex:
-#     def __init__(self, n):
-#         self.name = n
-#         self.neighbors = list()
-#     def add_neighbor(self, vertex):
-#         if vertex not in self.neighbors:
-#             self.neighbors.append(v)
-#             self.neighbors.sort()
-
-# class Graph:
-#     vertices = {}
-#     def add_vertex(self, vertex):
-#         if isinstance(vertex, Vertex) and vertex.name not in self.vertices:
-#             self.vertices[vertex.name] = vertex
-#             return True
-#         else:
-#             return False
-#     def add_edge(self, v1, v2):
-#         if v1 in self.vertices and v2 in self.vertices:
-#             for key, value in self.vertices.items():
-#                 if key == v1:
-#                     value.add_neighbor(v2)
-#                 if key == v2:
-#                     value.add_neighbor(v1)
-#             return True
-#         else:
-#             return False
-#     def print_graph(self):
-#         for key in sorted(list(self.vertices.keys())):
-#             print(key + str(self.vertices[key].neighbors))
-
-# graph = Graph()
-# graph.add_vertex(Vertex('0'))
-# graph.add_vertex(Vertex('1'))
-# graph.add_vertex(Vertex('2'))
-# graph.add_vertex(Vertex('3'))
-# graph.add_edge('0', '3') still not working
-# graph.add_edge('0', '1') still not working
-# print(graph.vertices)
