@@ -7,6 +7,8 @@ Demonstration of Graph and BokehGraph functionality.
 from sys import argv
 from graph import Graph
 from draw import BokehGraph
+
+import math
 import random
 
 # exploration with random functions
@@ -20,7 +22,7 @@ random.shuffle(x)
 print(x)
 
 # make a graph with vertices and edges for demonstration purposes
-def createTestGraph():
+def createDefaultGraph():
     graph = Graph() # instantiate the graph using the Graph class
     graph.add_vertex('0')
     graph.add_vertex('1')
@@ -31,6 +33,9 @@ def createTestGraph():
     graph.add_edge('0', '3')
     graph.add_edge('1', '2')
     graph.add_edge('1', '4')
+
+    bg = BokehGraph(graph)
+    bg.display()    
 
 # create a random graph
 
@@ -62,13 +67,36 @@ def createRandomGraph(numVertices, numEdges):
     print(len(edges))
 
     bg = BokehGraph(graph)
-    bg.draw()    
+    bg.display()    
 
 
-# def main():
-#     pass  # TODO
+def main(style, numVertices,  numEdges):
+    if style  == "default":
+        createDefaultGraph()
+    elif style  == "random":
+        createRandomGraph(numVertices, numEdges)
+    else:
+        createDefaultGraph()
 
 
-# if __name__ == '__main__':
-#     # TODO - parse argv
-#     main()
+if __name__ == '__main__':
+    # TODO - parse argv
+    style = "random"
+    numVertices = 15
+    numEdges = 15
+
+    # this block parses the command so that it is readable in the program
+    for arg in argv[1:]:
+        arg_split = arg.split("=") # separate at the "="" sign
+        if len(arg_split) == 2:
+            if arg_split[0] == "style":
+                style = arg.split[1].lower()
+            elif arg_split[0] == "nodes":
+                numVertices = int(arg_split[1])
+            elif arg_split[0] == "edges":
+                numEdges = int(arg_split[1])
+            else:
+                print("Invalid Command")
+
+
+    main(style, numVertices, numEdges)
