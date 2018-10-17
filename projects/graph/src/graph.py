@@ -19,6 +19,7 @@ class Graph:
         if value not in self.vertices:
             raise Exception(f"No {value} vertex")
         self.vertices[value].add(key)
+        #self.vertices[key].add(value)
 
 
 if __name__ == "__main__":
