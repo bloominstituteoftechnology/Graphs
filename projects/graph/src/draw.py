@@ -42,10 +42,19 @@ class BokehGraph:
             start=self.keys,
             end=self.values)
 
-        ### start of layout code
+        ## start of layout code
         circ = [int(i)*2*math.pi/8 for i in node_indices]
         x = [math.cos(i) for i in circ]
         y = [math.sin(i) for i in circ]
+
+        # x = []
+        # y = []
+        # for vertex_id in node_indices:
+        #     vertex = graph.vertices[vertex_id]
+        #     x.append(vertex.x)
+        #     y.append(vertex.y)
+
+
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
@@ -65,6 +74,7 @@ class BokehGraph:
 
         plot.renderers.append(graph)
 
+        labelSource 
         output_file("graph.html")
         show(plot)
 
@@ -81,4 +91,4 @@ def main():
     test_graph.draw()
 
 if __name__ == '__main__':
-    main()                                                        
+    main()                                                            
