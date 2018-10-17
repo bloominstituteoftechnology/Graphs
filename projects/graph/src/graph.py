@@ -10,8 +10,11 @@ class Graph:
     def add_vertex(self,vertex):#Vertices are keys in dictionary
         self.vertices[vertex] = set()
     def add_edge(self,start,end):
-        self.vertices[start].add(end)
-        self.vertices[end].add(start)
+        if start in self.vertices and end in self.vertices:
+            self.vertices[start].add(end)
+            self.vertices[end].add(start)
+        else:
+            raise IndexError("That vertex does not exist!")
 
 
 
@@ -22,4 +25,5 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+graph.add_edge('0', '4')
 print(graph.vertices)
