@@ -1,27 +1,88 @@
-# # """
-# # General drawing methods for graphs using Bokeh.
-# # """
+"""
+General drawing methods for graphs using Bokeh.
+"""
+from random import choice, random
+from bokeh.io import show, output_file
+from bokeh.plotting import figure
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
+                          ColumnDataSource)
 
-# # from bokeh.io import show, output_file
-# # from bokeh.plotting import figure
-# # from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
-# #                           ColumnDataSource)
+class BokehGraph:
+    """Class that takes a graph and exposes drawing methods."""
+    def __init__(self, graph, title='Graph', width=10, height=10,
+                show_axis=False, show_grid=False, circle_size=35):
+        if not graph.vertices:
+            raise Exception('Graph should contain vertices!')
+        self.graph = graph
 
-# # graph = {
-# #     '0': {'1', '3'},
-# #     '1': {'0'},
-# #     '2': set(),
-# #     '3': {'0'}
-# # }
+        #setup plot
+        self.width = width
+        self.height = height
+        self.pos = {}
+        self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
+        self.plot.axis.visible = show_axis
+        self.plot.grid.visible = show_grid
+        self._setup_graph_renderer(circle_size)
 
-# # p = figure(title="simple line example", x_axis_label='x', y_axis_label='y')
+    # starting with underscore means that it's internal, warning, no need to change things here for UX.
+    def _setup_graph_renderer(self, circle_size):
+        graph_renderer = GraphRenderer()
 
-# # p.line(x, y, legend="Temp.", line_width=2)
+        graph_renderer.node_renderer.data_source.add(
+            list(self.graph.vertices.keys()), 'index')
+        graph.renderer.node_renderer.data_source.add(
+            self._get_random_colors(), 'color')
+        graph_renderer.node_renderer.glyph = Circle(size=circle_size,
+                                                    fill_color='color')
+        graph_render.edge_end.data_source.data = self._get_edge_indexes()
+        self.randomize()
+        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
+        self.plot.renderers.append(graph_renderer)
 
-# # class BokehGraph:
-# #     """Class that takes a graph and exposes drawing methods."""
-# #     def __init__(self):
-# #         pass  # TODO
+    def _get_random_colors(self):
+        colors = []
+        for _ in range(len(self.graph_vertices)):
+            color = "#"+''.join([voice('0123456789ABCDEF') for j in range(6)])
+            colors.append(color)
+        return colors
+
+    def _get_edge_indexes(self):
+        start_indicies = []
+        end_indices = []
+        checked = set()
+
+        for vertex, edges in self.graph.vertices.items():
+            if vertex not in checked:
+                for destination in edges:
+                    start_indices.apend(vertex)
+                    end_indices.append(destination)
+                checked.add(vertex)
+
+        return dict(start=start_indicies, end=end_indices)
+
+    def show(self, output_path='./draw.html'):
+        output_file(output_path)
+        show(self.plot)
+
+    def randomize(self):
+        """Randomize vertex positions."""
+        for vertex in self.graph.vertices:
+            self.pos[vertex] = (1 + random() * (self.width - 2),
+                                1 + random() * (self.height - 2))
+        
+
+
+# graph = {
+#     '0': {'1', '3'},
+#     '1': {'0'},
+#     '2': set(),
+#     '3': {'0'}
+# }
+
+# p = figure(title="simple line example", x_axis_label='x', y_axis_label='y')
+
+# p.line(x, y, legend="Temp.", line_width=2)
+
 
 # import math
 
@@ -30,18 +91,6 @@
 # from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval
 # from bokeh.palettes import Spectral8
 # from graph import Graph
-
-# graph = Graph()  # Instantiate your graph
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '3')
-# print(graph.vertices)
-
-# class BokehGraph:
-
 
 
 # N = len(graph.vertices)
@@ -65,7 +114,7 @@
 # end_indices = []
 
 # for vertex in graph.vertices:
-#     for edge_end in graph.vertices[vertex]:
+#     for edge in graph.vertices[vertex]:
 #         start_indices.append(vertex)
 #         end_indices.append(edge_end)
 
@@ -86,86 +135,3 @@
 
 # output_file("graph.html")
 # show(plot)
-
-
-"""
-Simple graph implementation compatible with BokehGraph class.
-"""
-import random
-
-
-class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self):
-        """
-        Create an empty graph
-        """
-        self.vertices = {}
-    def add_vertex(self, vertex_id):
-        """
-        Add an vertex to the graph
-        """
-        self.vertices[vertex_id] = Vertex(vertex_id)
-    def add_edge(self, v1, v2):
-        """
-        Add an undirected edge to the graph
-        """
-        if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].edges.add(v2)
-            self.vertices[v2].edges.add(v1)
-        else:
-            raise IndexError("That vertex does not exist!")
-    def add_directed_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph
-        """
-        if v1 in self.vertices:
-            self.vertices[v1].edges.add(v2)
-        else:
-            raise IndexError("That vertex does not exist!")
-    def dft(self, starting_node, visited=None):
-        # Mark the node as visited
-        if visited is None:
-            visited = []
-        visited.append(starting_node)
-        # For each child, if that child hasn't been visited, call dft() on that node
-        for child in children:
-            if child not in visited:
-                dft(child, visted)
-    def bft(self, starting_node):
-        # create an empty queue
-        q = Queue()
-        # Put starting vert in the queue
-        q.enqueue(starting_node)
-        visited = []
-        while q.size() > 0:
-            # Remove the first node from the queue...
-            q.shift(first_node)
-            # If it has not been visited yet,...
-            if not first_node in visited:
-            # Mark it as visited....
-                visited.append(first_node)
-            # Then put all it's children in the back of the queue
-                for child of q:
-                    q.append(child)
-
-
-
-
-class Vertex:
-    def __init__(self, vertex_id, x=None, y=None):
-        """
-        Create an empty vertex
-        """
-        self.id = vertex_id
-        self.edges = set()
-        if x is None:
-            self.x = random.random() * 10 - 5
-        else:
-            self.x = x
-        if y is None:
-            self.y = random.random() * 10 - 5
-        else:
-            self.y = y
-    def __repr__(self):
-        return f"{self.edges}"
