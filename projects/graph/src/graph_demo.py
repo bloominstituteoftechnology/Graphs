@@ -124,9 +124,6 @@ class BokehGraph:
 
 
 def main():
-    colors = ["blue", "red", "orange", "yellow"]
-    color_index = round(random.random() * len(colors))-1
-    random_color = colors[color_index]
     potential_labels = ["A", "B", "C", "D","E", "F", "G", "1", "2", "3", "4", "5", "6", "7"]
     random.shuffle(potential_labels) #to make it random we shuffle the labels. 
     random_number = random.randint(4,len(potential_labels)-1)
@@ -173,7 +170,8 @@ def main():
         edges_count += 1
         vertices_index_track += 1 
         
-
+    valid_chars = '0123456789ABCDEF'
+    random_color = f"#{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}"
     bokeh_graph = BokehGraph(graph, random_color)
     bokeh_graph.show()
     
