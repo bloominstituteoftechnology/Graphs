@@ -30,7 +30,7 @@ def main(numVertices=None, numEdges=None):
     while(numEdges >= 0):
         ranNum1 = randint(0, numVertices-1)
         ranNum2 = randint(0, numVertices-1)
-        if ranNum2 not in graphConstruct.vertices[ranNum1]:
+        if ranNum2 not in graphConstruct.vertices[ranNum1] and ranNum1 != ranNum2:
             graphConstruct.add_edge(ranNum1, ranNum2)
             numEdges -= 1
     graphDisplay = BokehGraph(graphConstruct.vertices)

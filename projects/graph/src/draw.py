@@ -6,6 +6,7 @@ from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
+from bokeh.palettes import viridis
 
 
 class BokehGraph:
@@ -14,7 +15,7 @@ class BokehGraph:
     def __init__(self, graphStorage):
         self.graphStorage = graphStorage
 
-    def show(self):
+    def show(self, graphstyle='circle', graphcolor="connectedOnly"):
 
         node_indices = list(map(int,  self.graphStorage.keys()))
 
@@ -22,7 +23,22 @@ class BokehGraph:
                       y_range=(-1.1, 1.1), tools="", toolbar_location=None)
         graph = GraphRenderer()
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.glyph = Circle(radius=.05, fill_color='black')
+        if graphcolor is "viridis":
+            graph.node_renderer.data_source.add(viridis(len(node_indices)), 'color')
+        elif graphcolor is "connectedOnly":
+            outputArr = []
+            for node in self.graphStorage:
+                print(self.graphStorage[node])
+                if len(self.graphStorage[node]) > 0:
+                    outputArr.append('green')
+                else:
+                    outputArr.append('black')
+            graph.node_renderer.data_source.add(outputArr, 'color')
+
+        else:
+            graph.node_renderer.data_source.add([graphcolor] *len(node_indices), 'color')
+        
+        graph.node_renderer.glyph = Circle(radius=.05, fill_color='color')
         x = []
         y = []
         for key in self.graphStorage:
@@ -30,17 +46,17 @@ class BokehGraph:
                 x.append(key)
                 y.append(num)
         graph.edge_renderer.data_source.data = dict(start=x, end=y)
-
-        circ = [i*2*math.pi/len(node_indices) for i in node_indices]
-        xcir = [math.cos(i) for i in circ]
-        ycir = [math.sin(i) for i in circ]
-        graph_layout = dict(zip(node_indices, zip(xcir, ycir)))
+        if graphstyle == "circle":
+            circ = [i*2*math.pi/len(node_indices) for i in node_indices]
+            xpos = [math.cos(i) for i in circ]
+            ypos = [math.sin(i) for i in circ]
+        graph_layout = dict(zip(node_indices, zip(xpos, ypos)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
         source = ColumnDataSource(
-            dict(xvals=xcir, yvals=ycir, name=node_indices))
+            dict(xvals=xpos, yvals=ypos, name=node_indices))
 
-        labels = LabelSet(x='xvals', y='yvals', text='name', x_offset=-4,
-                          y_offset=-8, level='glyph', source=source, text_color='white')
+        labels = LabelSet(x='xvals', y='yvals', text='name', text_align='center',
+                       level='glyph',text_baseline='middle', source=source, text_color='white')
 
         plot.renderers.append(graph)
         plot.add_layout(labels)
