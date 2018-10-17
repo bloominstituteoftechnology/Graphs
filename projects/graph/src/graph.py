@@ -80,8 +80,10 @@ class Graph:
     def bfs(self, starting_node):
         visited, queue = set(), collections.deque([starting_node])
         while queue:
-            print(queue)
+            # print(queue)
             vertex = queue.popleft()
+            visited.add(vertex)
+            print(vertex)
             for neighbor in self.vertices[vertex].edges:
                 if neighbor not in visited:
                     visited.add(neighbor)

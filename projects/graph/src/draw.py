@@ -28,6 +28,7 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
+        # changes color of nodes
         # node_colors = ['red'] * N
         # graph.node_renderer.data_source.add(node_colors, 'color')
         graph_renderer.node_renderer.glyph = Circle(
@@ -42,9 +43,15 @@ class BokehGraph:
                 edge_start.append(vertex_id)
                 edge_end.append(v)
 
+        print("EDGES:")
+        print(edge_start)
+        print(edge_end)
+
         graph_renderer.edge_renderer.data_source.data = dict(
             start=edge_start,
             end=edge_end)
+
+
 
         # start of layout code
         # circ = [i*2*math.pi/8 for i in node_indices]
@@ -68,19 +75,25 @@ class BokehGraph:
 
 
 graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
+graph.add_vertex('5')
 graph.add_vertex('2')
+graph.add_vertex('6')
+graph.add_vertex('1')
+graph.add_vertex('4')
+graph.add_vertex('7')
 graph.add_vertex('3')
-# graph.add_vertex('4')
-graph.add_edge('0', '1')
-graph.add_edge('0', '2')
-# graph.add_edge('0', '4')
-graph.add_edge('2', '3')
+
+graph.add_edge('5', '2')
+graph.add_edge('5', '6')
+graph.add_edge('2', '1')
+graph.add_edge('2', '4')
+graph.add_edge('4', '3')
+graph.add_edge('6', '7')
+
 print(graph.vertices)
 
-# print(graph.dfs('0'))
-print(graph.bfs('0'))
+print(graph.dfs('5'))
+print(graph.bfs('5'))
 
 # help(graph.add_edge)
 
