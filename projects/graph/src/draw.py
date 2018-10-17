@@ -93,8 +93,8 @@ graph.add_vertex('6')
 graph.add_vertex('7')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-print(graph.vertices)
-bg = BokehGraph(graph)
+# print(graph.vertices)
+# bg = BokehGraph(graph)
 
 
 
