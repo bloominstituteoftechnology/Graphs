@@ -68,6 +68,7 @@ class Network_Graph_Builder:
 
 
 
+
 # def main():
 #
 #
@@ -78,5 +79,5 @@ class Network_Graph_Builder:
 #     main()
 
 
-ntx = Network_Graph_Builder(5,5)
+ntx = Network_Graph_Builder(20,10)
 ntx.init_graph()
