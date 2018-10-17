@@ -10,7 +10,7 @@ from draw import BokehGraph
 from random import choice
 
 
-def main(height=6, width=6, nodes=6, connections=6):
+def main(height=25, width=25, nodes=6, connections=0):
     new_graph = Graph(height, width)
     for x in range(nodes):
         new_graph.add_vertex(x)

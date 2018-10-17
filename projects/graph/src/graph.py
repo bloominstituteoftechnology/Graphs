@@ -1,18 +1,24 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-from random import random
+from random import random, randint
 
 
 class Vertex:
     def __init__(self, label, height_mod, width_mod):
         self.label = label
         self.edges = set()
-        self.x = random() * width_mod
-        self.y = random() * height_mod
+        self.x = None
+        self.y = None
+        self.color = None
 
     def __str__(self):
         return f'Vertex {self.label}'
+
+    def random_color(self):
+        return '#{:02x}{:02x}{:02x}'.format(randint(198, 255),
+                                            randint(198, 255),
+                                            randint(198, 255))
 
 
 class Graph:
@@ -57,19 +63,37 @@ class Graph:
                 checked.add(vertex)
         return dict(start=s, end=e)
 
-    def search(self, node, cb, type='bfs'):
+    def get_colors(self):
+        colors = []
+        for node in self.vertices:
+            colors.append(self.vertices[node].color)
+        return colors
+
+    def search(self, node, base_x, base_y, type='bfs'):
         if node not in self.vertices:
             raise Exception('Starting point does not exist')
 
-        if type != 'bfs' or type != 'dfs':
+        if type != 'bfs' and type != 'dfs':
             raise Exception('Invalid search type')
         storage = []
         storage.append(node)
         visited = set()
         remove_index = -1 if type == 'dfs' else 0
+        base_color = self.vertices[node].random_color()
+        count = 1
+        x = base_x
+        y = base_y
         while storage:
             current = storage.pop(remove_index)
-            visited.add(current)
-            storage.extend(current.edges)
-            # do what needs to be done to change colors
-            # still planning
+            if current not in visited:
+                visited.add(current)
+                storage.extend(list(self.vertices[current].edges))
+                self.vertices[current].color = base_color
+                self.vertices[current].x = x
+                self.vertices[current].y = y
+                print(x)
+                x += (x * -3) + (random() * count)
+                print(x)
+                y += (y * -3) + (random() * count)
+                count += 1
+        return visited
