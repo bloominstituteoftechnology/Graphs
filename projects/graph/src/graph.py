@@ -63,7 +63,7 @@ class Graph:
         else:
             raise IndexError("That vertext does not exist!")
 
-    def dfs(self, starting_vertex, visited = None):
+    def dft(self, starting_vertex, visited = None):
         """
         Mark vertex as visited
         """
@@ -75,24 +75,28 @@ class Graph:
         """
         for child in self.vertices[starting_vertex].edges:
             if child not in visited:
-                self.dfs(child, visited)
+                self.dft(child, visited)
         return visited
 
-    def bfs(self, starting_node):
+    def bft(self, starting_node):
         visited, queue = set(), collections.deque([starting_node])
         while queue:
             # print(queue)
             vertex = queue.popleft()
             if vertex not in visited:
                 visited.add(vertex)
+                
+                for neighbor in self.vertices[vertex].edges:
+                    if neighbor not in visited:
+                        queue.append(neighbor)
             print("Vertex:")
             print(vertex)
             print("Visited:")
             print(visited)
-            for neighbor in self.vertices[vertex].edges:
-                if neighbor not in visited:
-                    visited.add(neighbor)
-                    queue.append(neighbor)
+            # for neighbor in self.vertices[vertex].edges:
+            #     if neighbor not in visited:
+            #         visited.add(neighbor)
+            #         queue.append(neighbor)
         return visited
                 
             

@@ -93,8 +93,8 @@ graph.add_edge('6', '7')
 
 print(graph.vertices)
 
-print(graph.dfs('5'))
-print(graph.bfs('5'))
+print(graph.dft('5'))
+print(graph.bft('5'))
 
 # help(graph.add_edge)
 
