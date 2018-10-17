@@ -2,6 +2,7 @@
 General drawing methods for graphs using Bokeh.
 """
 import math
+from graph import Graph
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Oval, LabelSet,
@@ -50,7 +51,7 @@ class BokehGraph:
         self.keys = []
         self.values = [] 
         for key in self.lilgraph.vertices:
-            for value in self.lilgraph.vertices[key]:
+            for value in self.lilgraph.vertices[key].edges:
                 self.keys.append(key)
                 self.values.append(value)
         vertices = list(lilgraph.vertices.keys())
@@ -71,6 +72,14 @@ class BokehGraph:
         show(plot)
         output_file('graph.html')
 
-# output_file('graph.html')
+test = Graph()
+test.add_vertex(1)
+test.vertices[1].add_edge(2)
+test.vertices[1].add_edge(3)
+test.add_vertex(2)
+test.add_vertex(3)
+test.add_vertex(4)
+
+draw = BokehGraph(test)
 
     

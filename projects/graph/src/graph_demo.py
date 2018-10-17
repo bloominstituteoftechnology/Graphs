@@ -12,13 +12,13 @@ import random
 def main():
     randomgraph = Graph()
     def rand():
-        return random.randint(1,11)
+        return random.randint(1,20)
     for i in range(rand()):
         randomgraph.add_vertex(rand())
     def randedge():
-        return random.randint(randomgraph.vertices.index(0), randomgraph.vertices.index(-1)
-    for i in randomgraph.vertices:
-        randomgraph.add_edge(i, randedge())
+        return random.randint(1, len(randomgraph.vertices))
+    for i in randomgraph.vertices.keys():
+        randomgraph.vertices[i].add_edge(randomgraph.vertices.values()randedge())
     boke = BokehGraph(randomgraph)
 
 
