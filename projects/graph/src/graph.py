@@ -6,15 +6,23 @@ Simple graph implementation compatible with BokehGraph class.
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        self.graph = dict()
+        self.vertices = dict()
 
-    def add_vertex(self, vert):
-        if vert not in self.graph.keys():
-            self.graph[vert] = set()
+    def add_vertex(self, label):
+        self.vertices[label] = (Vertex(label))
 
-    def add_edge(self, start, end):
-        if start in self.graph.keys():
-            self.graph[start].add(end)
+    def show_graph(self):
+        return self.vertices
 
-    def get_graph(self):
-        return self.graph
+    def add_edge(self, vertex, destination):
+        vert = self.vertices[vertex]
+        vert.edges.add(Edge(destination))
+
+class Vertex:
+    def __init__(self, label):
+        self.label = label
+        self.edges = set()
+
+class Edge:
+    def __init__(self, destination):
+        self.destination = destination
