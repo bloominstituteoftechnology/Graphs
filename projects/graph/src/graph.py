@@ -31,18 +31,26 @@ class Graph:
         self.vertices[start_edge].add(end_edge)    
 
     def breadth_first_search(self, start_node):
-        q = []
-        q.append(start_node)
+        queue = []
+        queue.append(start_node)
         visited = []
-        while len(q) > 0:
-            current = q.pop(0)
+        while len(queue) > 0:
+            current = queue.pop(0)
             visited.append(current)
             for edge in self.vertices[current]: 
-                if edge not in visited and edge not in q:
-                    q.append(edge)
-        print(visited)
+                if edge not in visited and edge not in queue:
+                    queue.append(edge)
+        print(f'breadth first seacrh {visited}')
 
-
+    def depth_first_search(self, start_node, visited=[]):
+        visited=visited
+        
+        if self.vertices[start_node]!=None:
+            if start_node not in visited:
+               visited.append(start_node)
+               for edge in self.vertices[start_node]:
+                   self.depth_first_search(edge, visited) #using recurssion           
+        print(f'depth first search{visited}')        
 
                 
         
