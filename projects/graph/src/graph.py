@@ -2,11 +2,13 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 import random
+from queue import PriorityQueue
 
 class Vertex:
     def __init__(self, data, x=None, y=None):
         self.id = data
         self.edges = set()
+        self.color = 'white'
         if x is None:
             self.x = random.random() * 10 - 5
         else:
@@ -43,6 +45,24 @@ class Graph:
         for node in self.vertices:
             node_list.append(node)
         return node_list
+    
+    def BFS(self, startVert):
+        q = PriorityQueue()
+        for v in self.vertices:
+            self.vertices[v].color = 'white'
+        
+        self.vertices[startVert].color = 'gray'
+        q.put(startVert)
+
+        while not q.empty():
+            u = q.queue[0]
+
+            for v in self.vertices[u].edges:
+                if self.vertices[v].color == 'white':
+                    self.vertices[v].color = 'gray'
+                    q.put(v)
+            q.get()
+            self.vertices[u].color = 'black'
 
 if __name__ == "__main__":
     graph = Graph()

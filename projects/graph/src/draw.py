@@ -21,8 +21,13 @@ class BokehGraph:
         graph = GraphRenderer()
 
         graph.node_renderer.data_source.add(node_indices, 'index')
-        # graph.node_renderer.data_source.add(Spectral8, 'color')
-        graph.node_renderer.glyph = Circle(radius=0.5, fill_color="blue")
+        myGraph.BFS(node_indices[0])
+        node_colors = []
+        for v in myGraph.vertices:
+            print(myGraph.vertices[v].color)
+            node_colors.append(myGraph.vertices[v].color)
+        graph.node_renderer.data_source.add(node_colors, 'color')
+        graph.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
 
         edge_start = []
         edge_end = []
@@ -63,7 +68,7 @@ class BokehGraph:
         #     ys.append(bezier(sy, ey, 0, steps))
         # graph.edge_renderer.data_source.data['xs'] = xs
         # graph.edge_renderer.data_source.data['ys'] = ys
-
+        myGraph.BFS(node_indices[0])
         plot.renderers.append(graph)
 
         output_file("graph.html")
