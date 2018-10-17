@@ -48,6 +48,47 @@ class Graph:
         self.vertices[value].add(key)
         # self.vertices[key].add(value)
 
+    def add_directed_edge(self, v1, v2):
+        """
+        Add a directed edge to the graph
+        """
+        if v1 in self.vertices:
+            self.vertices[v1].edges.add(v2)
+        else:
+            raise IndexError("That vertex does not exist")
+        
+    def dft(self, starting_node, visited=None):
+        """
+        Depth first traversal using recursion
+
+        """
+
+        if visited is None:
+            visited = []
+        visited.append(starting_node)
+
+    def bft(self, starting_node):
+        """
+        Breath first traversal using a queue
+        """
+
+        q = Queue()
+
+        q.enqueue(starting_node)
+        visited = []
+        while q.size() > 0:
+    
+    def dft_s(self, starting_node):
+        """
+        Depth first traversal using stack
+        """
+
+        s = Stack()
+
+        s.push(starting_node)
+        visited = []
+        while s.size() > 0:
+            
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
