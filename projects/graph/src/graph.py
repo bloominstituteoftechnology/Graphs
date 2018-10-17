@@ -23,7 +23,7 @@ class Graph:
             current_item=queue.pop(0)
             if current_item not in visited:
                 visited.append(current_item)
-                queue.extend(list(current_item.edges))
+                queue.extend(list(self.vertices[current_item].edges))
 
 class Vertex:
     def __init__(self,vertex_id,x=None,y=None):
