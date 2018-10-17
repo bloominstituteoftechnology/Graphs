@@ -21,7 +21,7 @@ class BokehGraph:
 
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices,'index')
-        graph_renderer.node_renderer.glyph = Circle(radius=0.25, fill_color='green')
+        graph_renderer.node_renderer.glyph = Circle(radius=0.25, fill_color='yellow')
 
         edge_start = []
         edge_end = []
@@ -34,21 +34,29 @@ class BokehGraph:
             start=edge_start,
             end=edge_end)
 
-        axis = {}
-        for vertex in self.graph.vertices:
-           axis[vertex] = (random.random() * 10, random.random() * 10)
+        # axis = {}
+        # for vertex in self.graph.vertices:
+        #    axis[vertex] = (random.random() * 10, random.random() * 10)
         
-        # x = []
-        # y = []
-        # for vertex_id in node_indices:
-        #     vertex = graph.vertices[vertex_id]
-        #     x.append(int(vertex.id))
-        #     y.append(vertex)
+        # graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=axis)
 
-        # graph_layout = dict(zip(node_indices, zip(x, y)))
-        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=axis)
+        x = []
+        y = []
+        for vertex_id in node_indices:
+            vertex = graph.vertices[vertex_id]
+            x.append(vertex.x)
+            y.append(vertex.y)
+
+        graph_layout = dict(zip(node_indices, zip(x, y)))
+        graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
         plot.renderers.append(graph_renderer)
+
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in graph.vertices]))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                     text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+        plot.add_layout(labels)
+
         output_file('graph.html')
         show(plot)
 
