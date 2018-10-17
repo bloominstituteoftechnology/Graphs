@@ -55,7 +55,6 @@ class Graph:
         else:
             raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
 
-
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
         """
