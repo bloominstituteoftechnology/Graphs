@@ -39,11 +39,17 @@ class Graph:
                     visited[child] == True
 
     def breadth_first_search(self, starting_node):
-       pass
-
-            
-
-
+        stack = [starting_node]
+        collected = []
+        if len(self.vertices) == 0:
+            visited == False
+        while stack:
+            current = stack.pop(0)
+            collected.append(current)
+            for child in self.vertices[current]:
+                if visited[child] == False:
+                    stack.append(child)
+                    visited[child] == True
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
