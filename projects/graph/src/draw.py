@@ -17,9 +17,9 @@ class BokehGraph:
     def draw(self):
         graph = self.graph
         N = len(graph.vertices)
-        node_indices = list(range(N))
+        node_indices = list(graph.vertices.keys())
 
-        plot = figure(title="Graph Layout Demonstration", x_range=(-4, 4), y_range=(-4, 4),
+        plot = figure(title="Graph Layout Demonstration", x_range=(-7, 7), y_range=(-7, 7),
                     tools="", toolbar_location=None)
 
         graph_renderer = GraphRenderer()
@@ -37,10 +37,15 @@ class BokehGraph:
         print('d is: ', d)
 
         ### start of layout code
-        circ = [i for i in node_indices]
-        x = [i for i in circ]
-        y = [i for i in circ]
-        
+        # circ = [i*2*math.pi/8 for i in node_indices]
+        # x = [math.cos(i) for i in circ]
+        # y = [math.sin(i) for i in circ]
+        x = []
+        y = []
+        for vertex_id in node_indices:
+            vertex = graph.vertices[vertex_id]
+            x.append(vertex.x)
+            y.append(vertex.y)
         
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
