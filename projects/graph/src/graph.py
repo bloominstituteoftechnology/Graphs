@@ -56,3 +56,20 @@ class Graph:
                     e.append(connection)
                 checked.add(vertex)
         return dict(start=s, end=e)
+
+    def search(self, node, cb, type='bfs'):
+        if node not in self.vertices:
+            raise Exception('Starting point does not exist')
+
+        if type != 'bfs' or type != 'dfs':
+            raise Exception('Invalid search type')
+        storage = []
+        storage.append(node)
+        visited = set()
+        remove_index = -1 if type == 'dfs' else 0
+        while storage:
+            current = storage.pop(remove_index)
+            visited.add(current)
+            storage.extend(current.edges)
+            # do what needs to be done to change colors
+            # still planning
