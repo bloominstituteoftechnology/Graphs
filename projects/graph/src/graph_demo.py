@@ -36,21 +36,20 @@ import random
 class Network_Graph_Builder:
     def __init__(self, num_v, num_e):
         self.num_v = num_v
-        if(num_e > num_v):
-            print("Cannot have more edges than vertices")
-        else:
-            self.num_e = num_e
+        self.num_e = num_e
         self.grf = Graph()
         self.verts = self.grf.get_vertices()
-        self.bok = BokehGraph()
+        self.bok = BokehGraph(self.grf)
 
     def create_vertices(self):
-        for v in range(len(self.num_v)):
+        for v in range(self.num_v):
             self.grf.add_vertex(v)
 
     def create_edges(self):
         for ez in range(self.num_e):
-            self.grf.add_edge(self.rndm_int(self.num_v),self.rndm_int(self.num_v))
+            a = self.rndm_int(self.num_v)
+            b = self.rndm_int(self.num_v)
+            self.grf.add_edge(a, b)
 
     def get_rndm_vertex(self):
         rndm_int =  random.randint(self.num_v)
@@ -58,11 +57,12 @@ class Network_Graph_Builder:
         return verts[rndm_int]
 
     def rndm_int(self, qty):
-        return random.randint(qty)
+        return random.randint(0, qty-1)
 
     def init_graph(self):
         self.create_vertices()
         self.create_edges()
+        self.bok.draw()
 
 
 

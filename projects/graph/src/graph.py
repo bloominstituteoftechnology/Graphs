@@ -17,11 +17,12 @@ class Graph:
 
 
     def add_edge(self, a, b):
+        print(a)
         if(b not in self.vertices):
             print(f"Node {b} is not in vertex")
         else:
             self.vertices[a].add(b)
-        pass
+            print(self.vertices)
 
     def get_vertices(self):
         print(self.vertices)
