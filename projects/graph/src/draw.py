@@ -33,7 +33,6 @@ class BokehGraph:
             y_val = random.randint(-len(self.graph_data), len(self.graph_data))
             self.node_x.append(x_val)
             self.node_y.append(y_val)
-            self.node_y.append(y_val)
 
 
     def draw(self):
@@ -49,7 +48,8 @@ class BokehGraph:
             start=self.edge_x,
             end=self.edge_y)
 
-        graph_layout = dict(zip(self.edge_x, zip(self.node_x, self.node_y)))
+        graph_layout = dict(zip(self.graph_data.keys(), zip(self.node_x, self.node_y)))
+        print(graph_layout)
         graphR.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
         plot.renderers.append(graphR)
 

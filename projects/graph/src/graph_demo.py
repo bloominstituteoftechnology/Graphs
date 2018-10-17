@@ -52,8 +52,8 @@ class Network_Graph_Builder:
             self.grf.add_edge(a, b)
 
     def get_rndm_vertex(self):
-        rndm_int =  random.randint(self.num_v)
-        verts = self.grh.get_vertices()
+        rndm_int = random.randint(self.num_v)
+        verts = self.grf.get_vertices()
         return verts[rndm_int]
 
     def rndm_int(self, qty):
