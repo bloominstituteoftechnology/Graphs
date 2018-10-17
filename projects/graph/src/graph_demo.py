@@ -1,5 +1,3 @@
-
-
 """
 Demonstration of Graph and BokehGraph functionality.
 """
@@ -72,7 +70,6 @@ class BokehGraph:
 
     def show(self):
         N = len(self.graph.vertices) #length of vertices
-        print(self.graph.vertices)
         vertex_indices = list(self.graph.vertices.keys())
 
         plot = figure(title="Random Generated Graph", x_range=(-7,7), y_range=(-7,7),
@@ -93,7 +90,6 @@ class BokehGraph:
             start=[vertex_indices[0]] * N,
             end=vertex_indices
         )
-        print(d)
         
         x = []
         y = []
