@@ -1,11 +1,13 @@
-Patricks-MBP:Graphs Guest$ git config user.email
-Patricks-MBP:Graphs Guest$ git config user.name
-Patricks-MBP:Graphs Guest$
+```
+$ git config user.email
+$ git config user.name
+$
+```
 
 If these two `git config` commands result in an empty return, then your `.gitconfig` file has yet to be set up.
 
 With macOS you can use
-Patricks-MBP:Graphs Guest$ open ~/
+`$ open ~/``
 
 ...to open your home directory file. Then use `cmd+shift+.` to see invisible files in the Finder.
 
@@ -16,7 +18,7 @@ With Linux, the `ls -al ~/` command will show the same.
 Having made a commit to a project, you may at first see a message like so:
 
 ```
-Patricks-MBP:Graphs Guest$ git commit -m "gitconfig demo" -m "initial commit"
+$ git commit -m "gitconfig demo" -m "initial commit"
 [master 9e522d8] gitconfig demo
  Committer: Guest User <Guest@patricks-mbp.home>
 Your name and email address were configured automatically based
@@ -47,3 +49,19 @@ Date:   Tue Oct 16 23:18:37 2018 -0400
     initial commit
 
 ```
+
+Pushing this commit to GitHub, you will be prompted for your username and password.
+
+Look at the commit history on GitHub and you will see an anonymous icon.
+
+Now let's set the username and email with the following command:
+
+`$ git config --global user.name "pdktestlambda"`
+
+You will see in the Finder window (macOS, or if you run the ls commands) that there is now a `gitconfig` file in your home directory. Open it up, it should look something like:
+```
+[user]
+	name = pdktestlambda
+```
+
+(yes, that's a TAB before `name =`)
