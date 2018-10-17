@@ -25,13 +25,27 @@ def createDefaultGraph():
 def createRandomGraph(numNodes):
     graph = Graph()
 
+    edges = []
+    
+    for i in range(numNodes):
+        for j in range(i + 1, numNodes):
+            edges.append((i , j))
+    
+    random.shuffle(edges)
+    edges=[edge for index, edge in enumerate(edges) if 1 < index < random.randrange(2, len(edges))]
+    
+    print('edges', edges)
+    
     for i in range(numNodes):
         graph.add_vertex(i)
     
+    for edge in edges:
+        graph.add_edge(edge[0], edge[1])
+
     bg = BokehGraph(graph)
     bg.draw()
     
-def main(style, numNodes):
+def main(style, numNodes, edges):
     if style == 'default':
         createDefaultGraph()
     elif style == 'random':
@@ -43,20 +57,22 @@ def main(style, numNodes):
 if __name__ == '__main__':
     style = 'default'
     numNodes = 2
+    edges = 1
     
     for arg in argv:
         arg_split = arg.split('=')
         if len(arg_split) == 2:
             if arg_split[0] == 'style':
                 style = arg_split[1].lower()
-            elif len(arg_split) == 2:
-                if arg_split[0] == 'nodes':
-                    if arg_split[1] == 'random':
-                        numNodes = random.randrange(1,20)
-                    else:
-                        numNodes = int(arg_split[1])
+            elif arg_split[0] == 'nodes':
+                if arg_split[1] == 'random':
+                    numNodes = random.randrange(2,20)
+                else:
+                    numNodes = int(arg_split[1])
+            elif arg_split[0] == 'edges':
+                edges = int(arg_split[1])
             else: 
                 print("I don't understand that command")
             
 
-    main(style, numNodes)
+    main(style, numNodes, edges)

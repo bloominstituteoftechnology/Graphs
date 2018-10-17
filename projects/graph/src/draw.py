@@ -28,16 +28,15 @@ class BokehGraph:
         edge_end = []
 
         for vertex in node_indices:
-            for v in graph.vertices[vertex].edges:
+            for edge in graph.vertices[vertex].edges:
                 edge_start.append(vertex)
-                edge_end.append(v)
+                edge_end.append(edge)
 
         graph_renderer.edge_renderer.data_source.data = dict(
             start=edge_start,
             end=edge_end
             )
-        print(graph_renderer.edge_renderer.data_source.data)
-
+        
         x = []
         y = []
         ### start of layout code
