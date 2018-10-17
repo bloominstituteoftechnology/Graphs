@@ -46,23 +46,34 @@ class Graph:
             node_list.append(node)
         return node_list
     
-    def BFS(self, startVert):
+    def BFS(self, graph, startVert):
         q = PriorityQueue()
-        for v in self.vertices:
-            self.vertices[v].color = 'white'
+        for v in graph.vertices:
+            graph.vertices[v].color = 'white'
         
-        self.vertices[startVert].color = 'gray'
+        graph.vertices[startVert].color = 'red'
         q.put(startVert)
 
         while not q.empty():
             u = q.queue[0]
 
-            for v in self.vertices[u].edges:
-                if self.vertices[v].color == 'white':
-                    self.vertices[v].color = 'gray'
+            for v in graph.vertices[u].edges:
+                if graph.vertices[v].color == 'white':
+                    graph.vertices[v].color = 'red'
                     q.put(v)
             q.get()
-            self.vertices[u].color = 'black'
+            graph.vertices[u].color = 'blue'
+        
+        # connected_components = []
+        # for v in graph.vertices:
+        #     graph.vertices[v].color = 'white'
+
+        # for v in graph.vertices:
+        #     if graph.vertices[v].color == 'white':
+        #         component = self.BFS(graph, graph.vertices[v].id)
+        #         graph.vertices[v].color = 'green'
+        #         connected_components.append(component)
+        # return connected_components
 
 if __name__ == "__main__":
     graph = Graph()

@@ -2,7 +2,7 @@ import math
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle
+from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, ColumnDataSource, Label, LabelSet
 from bokeh.palettes import Spectral8
 from graph import Graph
 
@@ -14,17 +14,16 @@ class BokehGraph:
         N = len(myGraph.vertices)
         node_indices = list(myGraph.vertices.keys())
 
-
         plot = figure(title="Graph Layout Demonstration", x_range=(-7, 7), y_range=(-7, 7),
                     tools="", toolbar_location=None)
 
         graph = GraphRenderer()
 
         graph.node_renderer.data_source.add(node_indices, 'index')
-        myGraph.BFS(node_indices[0])
+        myGraph.BFS(myGraph, node_indices[0])
         node_colors = []
         for v in myGraph.vertices:
-            print(myGraph.vertices[v].color)
+            # print(myGraph.vertices[v].color)
             node_colors.append(myGraph.vertices[v].color)
         graph.node_renderer.data_source.add(node_colors, 'color')
         graph.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
@@ -68,8 +67,13 @@ class BokehGraph:
         #     ys.append(bezier(sy, ey, 0, steps))
         # graph.edge_renderer.data_source.data['xs'] = xs
         # graph.edge_renderer.data_source.data['ys'] = ys
-        myGraph.BFS(node_indices[0])
         plot.renderers.append(graph)
+
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in myGraph.vertices]))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+
+        plot.add_layout(labels)
 
         output_file("graph.html")
         show(plot)
