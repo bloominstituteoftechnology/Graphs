@@ -1,6 +1,8 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import random
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -15,6 +17,7 @@ class Graph:
             self.vertices[v2].edges.add(v1)
         else:
             raise IndexError("That vertex does not exist!")
+    
     def add_directed_edge(self, v1, v2):
         if v1 in self.vertices:
             self.vertices[v1].edges.add(v2)
@@ -25,12 +28,18 @@ class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
         self.id = vertex_id
         self.edges = set()
-        if self.x is None:
+
+        if x is None:
             self.x = random.random() * 10 -5
-        if self.y is None:
-            self.y = random.random() * 10 - 5 
+        else:
+            self.x = x  
+        if y is None:
+            self.y = random.random() * 10 - 5
+        else:
+            self.y = y
+
     def __repr__(self):
-        return f" {self.edges}"
+        return f"{self.edges}"
 
 
 
@@ -44,7 +53,7 @@ if __name__ == '__main__':
     graph.add_edge('0', '3')
     # graph.add_edge('0', '4')
     # graph.add_edge('3', '0')
-
+    print(graph.vertices)
 
 
 
@@ -92,4 +101,4 @@ if __name__ == '__main__':
 
 
 
-    print(graph.vertices)
+    

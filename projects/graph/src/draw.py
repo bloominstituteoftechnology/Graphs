@@ -8,15 +8,14 @@ from graph import Graph
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
-    def __init__(self):
+    def __init__(self, graph):
         self.graph = graph
+
     def draw(self):
-        graph = self.graph
-        N = len(graph.vertices)
+        N = len(self.graph.vertices)
         node_indices = list(range(N))
 
-        plot = figure(title="Graph Layout Demonstration", x_range=(-7,7), y_range=(-7,7),
-                    tools="", toolbar_location=None)
+        plot = figure(title="Graph Layout Demonstration", x_range=(-7,7), y_range=(-7,7), tools="", toolbar_location=None)
 
         graph = GraphRenderer()
 
