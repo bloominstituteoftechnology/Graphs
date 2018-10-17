@@ -1,16 +1,24 @@
-#!/usr/bin/python
+# #!/usr/bin/python
 
-"""
-Demonstration of Graph and BokehGraph functionality.
-"""
+# """
+# Demonstration of Graph and BokehGraph functionality.
+# """
+# import random
+# from sys import argv
+# from graph import Graph, Vertex
+# from draw import BokehGraph
 
-from sys import argv
+# def main(v=8, e=8):
+#     graph = Graph()
+    
+#     bg= BokehGraph(graph)
+#     bg.show()
 
 
-def main():
-    pass  # TODO
-
-
-if __name__ == '__main__':
-    # TODO - parse argv
-    main()
+# if __name__ == '__main__':
+#     if len(argv) ==3:
+#         v=argv[1]
+#         e=argv[2]
+#         main(int(v), int(e))
+#     else:
+#         main(5,5)
