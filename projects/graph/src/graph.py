@@ -1,6 +1,7 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import random
 
 
 class Graph:
