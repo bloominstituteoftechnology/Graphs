@@ -16,8 +16,8 @@ class BokehGraph:
     def draw(self):
         graph = self.graph
 
-        N = len(graph.vertices)
-        node_indices = list(graph.vertices.keys())
+        N = len(self.graph.vertices)
+        node_indices = list(self.graph.vertices.keys())
 
         plot = figure(title="Graph Layout Demonstration", x_range=(-6,6), y_range=(-6,6),
                     tools="", toolbar_location=None)
@@ -25,7 +25,10 @@ class BokehGraph:
         graph_render = GraphRenderer()
 
         graph_render.node_renderer.data_source.add(node_indices, 'index')
-        graph_render.node_renderer.data_source.add(Spectral4, 'color')
+        node_colors = ['red'] * int(N / 2)
+        another_color = ['blue'] * int(N/2)
+        node_colors.extend(another_color)
+        graph_render.node_renderer.data_source.add(node_colors, 'color')
         graph_render.node_renderer.glyph = Circle(radius=0.2, fill_color="color")
 
         edge_start = []
@@ -70,18 +73,18 @@ class BokehGraph:
 
         plot.renderers.append(graph_render)
 
-        output_file("graph.html")
+        output_file("graph_demo.html")
         show(plot)
 
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+# graph = Graph()  # Instantiate your graph
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
 
 
-bg = BokehGraph(graph)
-bg.draw()
+# bg = BokehGraph(graph)
+# bg.draw()
