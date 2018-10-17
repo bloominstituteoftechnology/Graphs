@@ -3,7 +3,7 @@
 """
 Demonstration of Graph and BokehGraph functionality.
 """
-import math
+import random
 
 from sys import argv
 from graph import Graph
@@ -40,6 +40,7 @@ def getRandomGraph(numVerts, numEdges):
         for j in range(0, numVerts):
             if i < j:
                 allEdges.append( (i, j) )
+    random.shuffle(allEdges)
     randomEdges = allEdges[:numEdges]
     for edge in randomEdges:
         graph.add_edge(edge[0], edge[1])
