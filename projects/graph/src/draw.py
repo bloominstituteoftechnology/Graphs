@@ -71,9 +71,10 @@ def main():
     from graph import Graph
     from draw import BokehGraph
     graph = Graph()
-    graph.add_vertex('A')
-    graph.add_vertex('B')
-    graph.add_edge('A','B' )
+    graph.add_vertex('0')
+    graph.add_vertex('1')
+    graph.add_vertex('2')
+    graph.add_edge('0', '1')
     bg = BokehGraph(graph)
     dir(bg)
     bg.pos

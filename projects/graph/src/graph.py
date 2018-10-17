@@ -1,37 +1,60 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import random
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
 
-    def add_vertex(self, vertex):
+    def add_vertex(self, name):
 # if key doesn't exsist in the keys we create above then add it to the end of the dictionary. This should just maybe do a "'6': set()" for expample ^set command
-        if vertex.name in self.vertices:
+        if name in self.vertices:
             raise Exception("ALREADY EXSISTS!")
 
-        self.vertices[vertex.name] = vertex
+        self.vertices[name] = Vertex(name)
         # pass
 
-    def add_edge(self, vert1, vert2):
+    def add_edge(self, str1, str2, bidirectional=True):
         """
-        vert1 and vert 2 are vertex objects
-        gives both vertices a bidirectional edge
-        vert1 and vert2 has an `add_edge` method
+        add_edge accepts:
+        str1 (string)
+        str2 (string)
+        bidirectional (boolean) (default: True)
+        Creates an edge between two vertices. Bidirectional flag controls
+        if edges are undirected or directed. Will throw error if any of
+        the vertices do not exist.
         """
-        vert1.add_edge(vert2)
-        vert2.add_edge(vert1)
-        
+        print('self.vertices:', self.vertices)
+        if str1 not in self.vertices:
+            raise Exception(f"Vertex {str1} does not exist")
+        if str2 not in self.vertices:
+            raise Exception(f"Vertex {str2} does not exist")
+        self.vertices[str1].add_edge(self.vertices[str2])
+        if bidirectional:
+            self.vertices[str2].add_edge(self.vertices[str1])
+        # graph.add_vertex('a')
+        # {
+        #     'a': <Vertex Object at 0xFFFFF69696969>
+        #     # "a": "{'b', 'c'}"
+        # }
         
 # if key exsists then somehow change the values to reflect the connection between the two nodes. ^Add *add to both 
 # counter = -1
 
 class Vertex:
-    def __init__(self, name):
+    def __init__(self, name, x=None, y=None):
         self.name = str(name)    # 0
         self.edges = set()  # a set to all other vertices it's connected to
+        if x == None:
+            self.x = random.random() * 10 - 5
+        else:
+            self.x = x
+        if y == None:
+            self.y = random.random() * 10 - 5
+        else:
+            self.y = y
 
     """
     The below __eq__ method probably needs to be paired with __hash__ to work properly, but what all this stuff 

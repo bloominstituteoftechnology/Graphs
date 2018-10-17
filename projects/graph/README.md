@@ -60,7 +60,7 @@ examples.
 
 Helpful resources:
 - https://bokeh.pydata.org/en/latest/
-- https://bokeh.pydata.org/en/latest/docs/user_guide/graph.html
+- https://bokeh.pydata.or+g/en/latest/docs/user_guide/graph.html
 
 To test your implementation, try drawing your graph from part 1, and share your
 result with the class!
