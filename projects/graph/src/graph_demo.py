@@ -84,10 +84,14 @@ class BokehGraph:
 
         graph_renderer.node_renderer.data_source.add(vertex_indices, 'index')
         
+        x = []
+        y = []
+        valid_chars = '0123456789ABCDEF'
+        disconnected_color = f"#{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}"
+        connected_color = f"#{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}"
 
-        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color= self.color)
+        colors_layout = []
 
-        
         edge_start = []
         edge_end = [] 
         for vertex_id in vertex_indices:
@@ -95,19 +99,30 @@ class BokehGraph:
                     edge_start.append(vertex_id)
                     edge_end.append(v)
         
+        for vertex_id in vertex_indices:
+            vertex = self.graph.vertices[vertex_id]
+            x.append(vertex.x)
+            y.append(vertex.y)
+            if vertex_id in edge_start:
+                colors_layout.append(connected_color)
+            else:
+                colors_layout.append(disconnected_color)
+
+        # graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color= self.color)
+        graph_renderer.node_renderer.data_source.add(colors_layout, 'color')
+        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color= 'color')
+
+        
+        
         graph_renderer.edge_renderer.data_source.data = dict(
             start=edge_start,
             end=edge_end 
         )
         
-        
-        x = []
-        y = []
-        
-        for vertex_id in vertex_indices:
-            vertex = self.graph.vertices[vertex_id]
-            x.append(vertex.x)
-            y.append(vertex.y)
+        print(edge_start)
+        print(edge_end)
+        print('\n')
+        print(vertex_indices)
 
         graph_layout = dict(zip(vertex_indices, zip(x,y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
