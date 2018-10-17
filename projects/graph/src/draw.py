@@ -5,7 +5,7 @@ from bokeh.plotting import figure
 from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval, Circle
 from bokeh.palettes import Spectral8
 from graph import Graph
-
+import random
 
 
 
@@ -26,7 +26,7 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         # node_colors = ['red'] * N
         # graph.node_renderer.data_source.add(node_colors, 'color')
-        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color="yellow")
+        graph_renderer.node_renderer.glyph = Circle(radius=0.5, line_width=5, line_color="orange", fill_color="blue")
 
         edge_start = []
         edge_end = []
@@ -69,9 +69,9 @@ graph.add_vertex('4')
 graph.add_vertex('5')
 graph.add_edge('0', '1')
 graph.add_edge('0', '2')
-graph.add_edge('0', '3')
-graph.add_edge('0', '4')
-graph.add_edge('0', '5')
+graph.add_edge('1', '3')
+graph.add_edge('2', '4')
+graph.add_edge('3', '5')
 
 
 bg = BokehGraph(graph)
