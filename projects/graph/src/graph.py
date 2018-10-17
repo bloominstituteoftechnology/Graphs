@@ -3,7 +3,7 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 import random
-
+import queue as queue
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -13,35 +13,52 @@ class Graph:
     def add_vertex(self, vertex_id):
         if vertex_id in self.vertices:
             raise ValueError(f'Duplicate vertex {value} found')
-        self.vertices[vertex_id] = Vertex(vertex_id)
+        self.vertices[vertex_id] = set()
 
     def add_undirected_edge(self, start_edge, end_edge):
         if start_edge not in self.vertices:
             raise ValueError(f'Provided vertex {start_edge} does not exist')
         if end_edge not in self.vertices:
               raise ValueError(f'Provided vertex {end_edge} does not exist')
-        self.vertices[start_edge].edges.add(end_edge)
-        self.vertices[end_edge].edges.add(start_edge)
+        self.vertices[start_edge].add(end_edge)
+        self.vertices[end_edge].add(start_edge)
 
     def add_directed_edge(self, start_edge, end_edge):
         if start_edge not in self.vertices:
-            IndexError(f'Vertex {start_edge} does not exist!')
+            ValueError(f'Vertex {start_edge} does not exist!')
         if end_edge not in self.vertices:
-            IndexError(f'Vertex {end_edge} does not exist!')
-        self.vertices[start_edge].edges.add(end_edge)    
+            ValueError(f'Vertex {end_edge} does not exist!')
+        self.vertices[start_edge].add(end_edge)    
 
+    def breadth_first_search(self, start_node):
+        q = []
+        q.append(start_node)
+        visited = []
+        while len(q) > 0:
+            current = q.pop(0)
+            visited.append(current)
+            for edge in self.vertices[current]: 
+                if edge not in visited and edge not in q:
+                    q.append(edge)
+        print(visited)
+
+
+
+                
+        
+
+            
 
 
 class Vertex:
     def __init__ (self, vertex_id, x=None, y=None, value=None, color="white"):
         self.id = int(vertex_id)
-        self.edges = set()
         self.x = x
         self.y = y
-
-        if x is None:
+        self.edges = set()
+        if self.x is None:
             self.x = random.random() * 10 - 5
-        if y is None:
+        if self.y is None:
             self.y = random.random() * 10 - 5
 
 
