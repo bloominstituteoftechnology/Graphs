@@ -37,10 +37,10 @@ def main(num_vertices=None, num_edges=None):
     # Add some random edges
     for edge in edges:
         graph.add_edge(edge[0], edge[1])
-        
-    print(graph.dft())
-    #print(graph.vertices)
-    bg = BokehGraph(graph)
+  
+    connected_components = graph.dft()
+
+    bg = BokehGraph(graph, connected_components)
     bg.draw()
 
 
