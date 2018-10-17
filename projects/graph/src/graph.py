@@ -56,13 +56,13 @@ class Graph:
             print('Provide vertex')
 
     def randomize(self):
-        num = random.random() * 10
+        num = random.random() * 20
         for i in range(int(num)):
             self.add_vertex(i)
         for vert1 in self.vertices:
             for vert2 in self.vertices:
                 if vert1 is not vert2:
-                    if random.random() > 0.6:
+                    if random.random() > 0.7:
                         self.add_edge(vert1, vert2)
 
 
