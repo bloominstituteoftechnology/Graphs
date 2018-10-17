@@ -31,9 +31,9 @@ class Graph:
             raise Exception(f"Vertex {str1} does not exist")
         if str2 not in self.vertices:
             raise Exception(f"Vertex {str2} does not exist")
-        self.vertices[str1].add_edge(self.vertices[str2])
+        self.vertices[str1].add_edge(str2)
         if bidirectional:
-            self.vertices[str2].add_edge(self.vertices[str1])
+            self.vertices[str2].add_edge(str1)
         # graph.add_vertex('a')
         # {
         #     'a': <Vertex Object at 0xFFFFF69696969>
@@ -60,16 +60,19 @@ class Vertex:
     The below __eq__ method probably needs to be paired with __hash__ to work properly, but what all this stuff 
     even does is starting to go beyond my head. More research needed.
     """
+    # TODO: Implement equality and hash methods so python can evaluate equality between vertex objects 
     # def __eq__(self, other):
     #     return self.name == str(other) 
-
+    # def __hash__(self):
+    #     pass
     def add_edge(self, vertex):
         self.edges.add(vertex)
 
     def get_edges(self):
-        print(f"Edges for vertex {self.name}")
-        for edge in self.edges:
-            print(edge)
+        # print(f"Edges for vertex {self.name}")
+        # for edge in self.edges:
+        #     print(edge)
+        return self.edges
 
     def __repr__(self):
         return f"{self.name}"
@@ -133,11 +136,11 @@ if __name__ == '__main__':
 
     # print('vertex: 0', vertex_list[0])
     # print('vertex: 3', vertex_list[3])
-    vertex_list[0].get_edges()
-    vertex_list[1].get_edges()
-    vertex_list[2].get_edges()
-    vertex_list[3].get_edges()
-    vertex_list[5].get_edges() #there shouldn't be any errors here :thinkingface:
+    print(vertex_list[0].get_edges())
+    print(vertex_list[1].get_edges())
+    print(vertex_list[2].get_edges())
+    print(vertex_list[3].get_edges())
+    print(vertex_list[5].get_edges()) #there shouldn't be any errors here :thinkingface:
     # print(graph.vertices)
 
 

@@ -16,13 +16,14 @@ class BokehGraph:
         if not graph.vertices:
             raise Exception('Graph should contain vertices!')
         self.graph = graph
-
+        """go to sleep, duuuuuudddeeee"""
         self.width = width
         self.height = height
         self.pos = {}
         self.plot = figure(title=title, x_range=(0, width), y_range=(0, height))
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
+        self._setup_graph_renderer(circle_size)
 
     def _setup_graph_renderer(self, circle_size):
         graph_renderer = GraphRenderer()
@@ -36,7 +37,7 @@ class BokehGraph:
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()           
         self.randomize() 
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)  
-        self.plot.renderers                        
+        self.plot.renderers.append(graph_renderer)                        
 
     def _get_random_colors(self):
         colors = []
@@ -49,12 +50,17 @@ class BokehGraph:
         start_indices = []
         end_indices = []
         checked = set()
-        for vertex, edges in self.graph.vertices.items():
-            if vertex not in checked:
-                for destination in edges:
-                    start_indices.append(vertex)
+        # for key, value in dictionary.items():
+        # Double check this but, some_dictionary.items()
+        # will return a list of tuples. Each tuple will
+        # be a key, value pair e.g. ('0', {'1', '3'})
+        # in our implementation, it would be (string, vertex object)
+        for key, vertex in self.graph.vertices.items():
+            if key not in checked:
+                for destination in vertex.get_edges():
+                    start_indices.append(key)
                     end_indices.append(destination)
-                checked.add(vertex)
+                checked.add(key)
         return dict(start=start_indices, end=end_indices)
 
     def show(self, output_path='./graph.html'):
@@ -75,6 +81,7 @@ def main():
     graph.add_vertex('1')
     graph.add_vertex('2')
     graph.add_edge('0', '1')
+    graph.add_edge('2', '1')
     bg = BokehGraph(graph)
     dir(bg)
     bg.pos
