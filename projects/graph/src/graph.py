@@ -16,9 +16,10 @@ class Graph:
             if not v1 in self.vertices[v2].edges:
                 self.vertices[v1].edges.add(v2)
                 self.vertices[v2].edges.add(v1)
+            else:
+                raise IndexError("That edge already exists!")
         else:
             raise IndexError("That vertex does not exist!")
-
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):

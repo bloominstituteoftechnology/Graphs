@@ -16,20 +16,27 @@ def main(num_vertices=None, num_edges=None):
     if num_edges is None:
         num_edges = num_vertices
     elif int(num_edges) > num_vertices*(num_vertices-1)/2:
-        num_edges = num_vertices
+        num_edges = num_vertices*(num_vertices-1)//2
     else:
         num_edges = int(num_edges)
     
+    all_edges = []
+
+    for i in range(num_vertices):
+        for j in range(i + 1, num_vertices):
+            all_edges.append( (i,  j) )
+  
+    random.shuffle(all_edges)
+    edges = all_edges[:num_edges]
+ 
     # build graph
     graph = Graph()
     for num in range(num_vertices):
-        graph.add_vertex(str(num))
+        graph.add_vertex(num)
 
     # Add some random edges
-    from random import sample
-    for _ in range(num_edges):
-        vertices = sample(list(graph.vertices), 2)
-        graph.add_edge(vertices[0], vertices[1])
+    for edge in edges:
+        graph.add_edge(edge[0], edge[1])
 
     #print(graph.vertices)
     bg = BokehGraph(graph)
