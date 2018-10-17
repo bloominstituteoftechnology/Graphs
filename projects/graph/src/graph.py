@@ -68,6 +68,7 @@ class Graph:
     def dfs(self, value):
         index = 0
         s = Stack()
+        print(self.vertices.keys(), 'node?')
         print(self.vertices[index].edges)
         k = list(self.vertices.keys())
         print(k,'k')
@@ -86,16 +87,23 @@ class Graph:
             else: 
                 visited.append(node)
                 print(visited, 'visited')
-                # print(self.vertices[index].edges,index,'edges')
-                for each in self.vertices[index].edges:
-                    if each not in visited:
-                        print(each)
-                        s.push(each)
-                    else:
-                        print('nope')
-                index = index +1
+                print(self.vertices[node].edges,'edges')
+                if len(self.vertices[node].edges) > 0:
+                    for each in self.vertices[node].edges:
+                        if each not in visited:
+                            print(each)
+                            s.push(each)
+                        else:
+                            print('nope')
+                    index = index +1
+                else:
+                    print('no edges')
+                    
         print('False')
         return False
+
+
+
 
 class Vertex: 
     def __init__(self, vertex_id, x=None, y=None):

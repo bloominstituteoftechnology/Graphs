@@ -18,13 +18,17 @@ def main():
 
     graph = Graph()
     graph.add_vertex(0)
-    graph.add_vertex(1)
+    # graph.add_vertex(1)
     graph.add_vertex(2)
     graph.add_vertex(3)
-    print(graph.vertices)
-    graph.add_edge(0, 1)
-    graph.add_edge(0, 3)
-    print(graph.vertices)
+    graph.add_vertex(4)
+    graph.add_vertex(5)
+    print(graph.vertices,'graph vertecies')
+    graph.add_edge(5, 4)
+    graph.add_edge(0, 5)
+    graph.add_edge(4, 3)
+    graph.add_edge(3, 2)
+    print(graph.vertices,'graph vertecies')
     BokehGraph(graph).show()
 
     #random
@@ -43,8 +47,8 @@ def main():
                 rando_graph.add_edge(v, v2)  
 
     BokehGraph(rando_graph).show()
-    rando_graph.dfs(9)
-    # graph.dfs(9)
+    # rando_graph.dfs(9)
+    graph.dfs(9)
     
 
 if __name__ == '__main__':
