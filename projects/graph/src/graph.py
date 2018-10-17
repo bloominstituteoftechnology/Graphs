@@ -50,10 +50,10 @@ class Graph:
         visited = []
         
         while len(q) > 0:
-            nextQ = q.pop()
+            nextQ = q.pop(0)
             if nextQ not in visited:
                 visited.append(nextQ)
-            q.extend(list(self.vertices[nextQ].edges))
+                q.extend(list(self.vertices[nextQ].edges))
             print('q', q)
             print('visited', visited)
 

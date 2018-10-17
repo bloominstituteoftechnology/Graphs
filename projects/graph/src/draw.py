@@ -31,8 +31,6 @@ class BokehGraph:
             for v in graph.vertices[vertex].edges:
                 edge_start.append(vertex)
                 edge_end.append(v)
-        print('start', edge_start)
-        print('end', edge_end)
 
         graph_renderer.edge_renderer.data_source.data = dict(
             start=edge_start,
