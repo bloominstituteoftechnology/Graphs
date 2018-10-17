@@ -40,7 +40,7 @@ class BokehGraph:
         self.create_edge_lists()
         self.create_node_locations()
         v_len = len(self.graph_data)
-        plot = figure(title="Lil Sumpin", x_range=(-v_len-3, v_len+3), y_range=(-v_len-3, v_len+3), tools='', toolbar_location=None)
+        plot = figure(title="Lil Sumpin", x_range=(-v_len-5, v_len+5), y_range=(-v_len-5, v_len+5), tools='', toolbar_location=None)
 
         graphR = GraphRenderer()
         graphR.node_renderer.data_source.add(self.edge_x, 'index')
