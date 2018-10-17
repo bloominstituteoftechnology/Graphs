@@ -81,7 +81,8 @@ class Graph:
     def bft(self, starting_node):
         visited, queue = set(), collections.deque([starting_node])
         while queue:
-            # print(queue)
+            print("Queue:")
+            print(queue)
             vertex = queue.popleft()
             if vertex not in visited:
                 visited.add(vertex)
