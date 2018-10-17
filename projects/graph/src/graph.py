@@ -80,19 +80,15 @@ class Graph:
         self.graph = defaultdict(list)
         # mark all of the vertices as not visited
         visited = [False] * (len(self.graph))
-
         # create a queue for BFS
         queue = []
-
         # mark the source node as visited and enqueue
         queue.append(s)
         visited[s] = True
-
         while queue:
-
             # Dequeue a vertex from the queue and print it
             start = queue.pop(0)
-            print (s, end = " ")
+            print(s, end = " ")
 
             # Get all adjacent vertices of the dequeued vertex.  If adjacent has not been visited, then mark it visited and enqueue it
             for i in self.graph[s]:
@@ -113,6 +109,5 @@ graph.add_edge('1', '2')
 graph.add_edge('1', '4')
 print(graph.vertices)
 print(graph.vertices['0'])
-
 
 

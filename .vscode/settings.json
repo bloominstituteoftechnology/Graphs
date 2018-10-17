@@ -1,3 +1,4 @@
 {
-    "python.linting.pylintEnabled": false
+    "python.linting.pylintEnabled": false,
+    "python.pythonPath": "/Users/careybaldwin02/.local/share/virtualenvs/Graphs-VKh3Nz12/bin/python"
 }
