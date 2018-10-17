@@ -2,6 +2,8 @@
 General drawing methods for graphs using Bokeh.
 """
 
+# necessary imports
+
 from random import choice, random
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -22,12 +24,15 @@ class BokehGraph:
     def __init__(
         self,
         graph,
-        title="Graph",
-        width=10,
-        height=10,
-        show_axis=False,
+        title="Sample Graph for Lambda Project",
+        # axis width and height
+        width=20,
+        height=20,
+        # options to display axis and/or grid
+        show_axis=True,
         show_grid=False,
-        circle_size=35,
+        # vertex/node size
+        circle_size=25,
     ):
     # check if graph has vertices
         if not graph.vertices:
@@ -43,29 +48,40 @@ class BokehGraph:
             the figure() function creates Figure objects."""
         self.plot = figure(
             title=title,
-            # Ranges describe the data-space bounds of a plot.
+            # Ranges describe the data-space bounds of a plot, in this case, from 0 to the graphs width and height
             x_range=(0, width),
             y_range=(0, height))
+        # show axis and/or grid if specified
         self.plot.axis.visible = show_axis
         self.plot.grid.visible = show_grid
+        # call function that renders graph with passed in value for vertices size
         self._setup_graph_renderer(circle_size)
 
     def _setup_graph_renderer(self, circle_size):
+        # define function to render graph
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(
             list(self.graph.vertices.keys()), "index"
         )
+        # adds color randomizer
         graph_renderer.node_renderer.data_source.add(self._get_random_colors(), "color")
+        # gives each node the shape of a circle with it's specified size and random color
         graph_renderer.node_renderer.glyph = Circle(
             size=circle_size, fill_color="color"
         )
+        # adds function to get edge indexes
         graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
+        # randomize each new graph
         self.randomize()
+
         for i in range(len(graph_renderer.edge_renderer.data_source.data["start"])):
+            # add arrows from starting node to end node
             self.plot.add_layout(
                 Arrow(
+                    # Arrow head size and color
                     end=VeeHead(size=20, fill_color="black"),
+                    # arrow start at x, y pos of vertex
                     x_start=self.pos[
                         graph_renderer.edge_renderer.data_source.data["start"][i]
                     ][0],
@@ -86,13 +102,18 @@ class BokehGraph:
         self._get_labels()
 
     def _get_random_colors(self):
+        # function to randomize colors
         colors = []
+        # iterate through list of graph vertices
         for _ in range(len(self.graph.vertices)):
+            # find a random color value
             color = "#" + "".join([choice("0123456789ABCDEF") for j in range(6)])
+            # add to color list
             colors.append(color)
         return colors
 
     def _get_edge_indexes(self):
+        # function to add edge between indices
         start_indices = []
         end_indices = []
         checked = set()
@@ -100,10 +121,13 @@ class BokehGraph:
         for vertex, edges in self.graph.vertices.items():
             if vertex not in checked:
                 for destination in edges:
+                    # starting vertex
                     start_indices.append(vertex)
+                    # ending vertex
                     end_indices.append(destination)
+                # add starting vertexs to checked
                 checked.add(vertex)
-
+        # return dict of all checked edges and their indices
         return dict(start=start_indices, end=end_indices)
 
     # Ask Bokeh to show() or save() the results.
