@@ -17,7 +17,9 @@ def create_random_graph(num_nodes,num_edges):
             possible_edges.append((i,j))
     random.shuffle(possible_edges)
     edges=possible_edges[:num_edges]
-
+    if num_edges>len(possible_edges):
+        print("Way too many edges program got lazy and stopped execution.")
+        exit()
     for i in range(num_nodes):
         graph.add_vertex(i)
     for edge in edges:
