@@ -2,7 +2,8 @@ import math
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval, Circle
+from bokeh.models import GraphRenderer, StaticLayoutProvider,ColumnDataSource, Oval, Circle, Label, LabelSet
+
 from bokeh.palettes import Spectral8
 from graph import Graph
 import random
@@ -57,12 +58,12 @@ class BokehGraph:
 
         plot.renderers.append(graph_renderer)
 
-        # labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in graph.vertices]))
-        # labels = LabelSet(x='x', y='y', text='names', level='glyph',
-        #              text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in graph.vertices]))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                     text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
 
 
-        # plot.add_layout(labels)
+        plot.add_layout(labels)
 
         output_file('graph.html')
         show(plot)
