@@ -18,6 +18,11 @@ class Graph:
             self.vertices[num2].add(num1)
             return
         print("Invalid edges")
+    def add_oneway_edge(self, num1, num2):
+        if num1 in self.vertices and num2 in self.vertices:
+            self.vertices[num1].add(num2)
+            return
+        print("Invalid edges")
 
     def searchPath(self, sourceVextix, searchItem):
         # breadth first search

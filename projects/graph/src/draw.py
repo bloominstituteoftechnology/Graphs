@@ -2,6 +2,8 @@
 General drawing methods for graphs using Bokeh.
 """
 import math
+from random import uniform
+
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
@@ -15,8 +17,7 @@ class BokehGraph:
     def __init__(self, graphStorage):
         self.graphStorage = graphStorage
 
-    def show(self, graphstyle='square', graphcolor="connectedOnly"):
-
+    def show(self, graphstyle='random', graphcolor="connectedOnly"):
         node_indices = list(map(int,  self.graphStorage.keys()))
 
         plot = figure(title="Graph Layout Demonstration", x_range=(-1.1, 1.1),
@@ -51,6 +52,8 @@ class BokehGraph:
             ypos = [math.sin(i) for i in circ]
         elif graphstyle == "square":
             pointDistribation = 4/len(node_indices)
+            if(len(node_indices)< 4):
+                pointDistribation = 1
             totalTrack = 0
             counter = 0 
             xpos=[]
@@ -74,7 +77,10 @@ class BokehGraph:
                     ypos.append(-yPosition)    
                 totalTrack+=pointDistribation
                 counter +=1
-                               
+        elif graphstyle == "random":
+            xpos = [uniform(-1,1) for i in node_indices]
+            ypos = [uniform(-1,1)  for i in node_indices]
+                      
             
         graph_layout = dict(zip(node_indices, zip(xpos, ypos)))
         graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
