@@ -10,7 +10,7 @@ from graph import Graph
 from draw import BokehGraph
 
 
-def main(v=6, e=6):
+def main(v=7, e=7):
     graph = Graph()
     for i in range(v):
         graph.add_vertex(i)

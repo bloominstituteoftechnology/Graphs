@@ -28,6 +28,8 @@ class BokehGraph:
         node_colors = ['red'] * int(N / 2)
         another_color = ['blue'] * int(N/2)
         node_colors.extend(another_color)
+        if N % 2 != 0:
+            node_colors.extend(['green'])
         graph_render.node_renderer.data_source.add(node_colors, 'color')
         graph_render.node_renderer.glyph = Circle(radius=0.2, fill_color="color")
 
