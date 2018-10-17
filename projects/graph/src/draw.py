@@ -20,14 +20,16 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(vertex_indices, 'index')
         graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='red')
+        edge_start=[]
+        edge_end=[]
+        for vertex_id in vertex_indices:
+            for v in graph.vertices[vertex_id].edges:
+                edge_start.append(vertex_id)
+                edge_end.append(v)
         graph_renderer.edge_renderer.data_source.data = dict(
-            start=[0]*N,
-            end=vertex_indices)
-        d=dict(
-            start=[0]*N,
-            end=vertex_indices
-        )
-        print(d)
+            start=edge_start,
+            end=edge_end)
+        
         x=[]
         y=[]
         for vertex_id in vertex_indices:
