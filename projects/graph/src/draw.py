@@ -5,11 +5,11 @@ import math
 from graph import Graph
 from bokeh.io import show, output_file, show
 from bokeh.plotting import figure, output_file, show
-from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, Oval,
                           ColumnDataSource)
 from bokeh.palettes import Spectral8
 
-class BokehGraph(Graph):
+class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph):
         self.graph = graph
@@ -57,3 +57,16 @@ class BokehGraph(Graph):
         output_file("graph.html")
         show(plot)
 
+
+
+graph = Graph({'0': {'1', '3'},'1': {'0'},'2': set(),'3': {'0'}})  # Instantiate your graph
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+# print(graph.vertices)
+
+bg = BokehGraph(graph)
+bg.draw()
