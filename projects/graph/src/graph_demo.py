@@ -22,12 +22,12 @@ def createDefaultGraph():
     bg = BokehGraph(graph)
     bg.draw()
 
-def createRandomGraph(numVertices, numEdges):
+def createRandomGraph(numNodes, numEdges):
     graph = Graph()
 
     all_edges = []
     for i in range(numNodes):
-        for j in range(i - 1, numEdges):
+        for j in range(i + 1, numNodes):
             all_edges.append( (i, j) )
     
     random.shuffle(all_edges)
@@ -56,7 +56,7 @@ def main(style, numNodes, numEdges):
     if style == "default":
         createDefaultGraph()
     elif style == "random":
-        createRandomGraph()
+        createRandomGraph(numNodes, numEdges)
     else:
         createDefaultGraph()
 
