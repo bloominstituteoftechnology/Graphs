@@ -9,6 +9,7 @@ from graph import Graph
 
 
 
+
 class BokehGraph:
     def __init__(self, graph):
         self.graph = graph
