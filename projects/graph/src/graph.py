@@ -46,9 +46,10 @@ class Graph:
             visited = []
         visited.append(starting_node)
         # For each child, if that child hasn't been visited, call dft() on that node
-        for node in self.vertices[starting_node]:
+        for node in self.vertices[starting_node].edges:
             if node not in visited:
                 self.dfs(node, visited)
+
         return visited
         # for child in children:
         #    if child not in visited:
@@ -116,4 +117,4 @@ class Vertex:
 # graph.add_edge('1', '2')
 # graph.add_edge('3', '2')
 #
-# graph.dfs('0')
+# print(graph.dfs('0'))
