@@ -3,7 +3,6 @@ Simple graph implementation compatible with BokehGraph class.
 """
 import random
 
-
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -11,6 +10,7 @@ class Graph:
         Create an empty graph
         """
         self.vertices = {}
+        
     def add_vertex(self, vertex_id):
         """
         Add an vertex to the graph
@@ -25,6 +25,11 @@ class Graph:
             self.vertices[v2].edges.add(v1)
         else:
             raise IndexError("That vertex does not exist!")
+    #def random_edge(self):
+    #    for v in range(0, len(self.vertices)):
+    #        print(v)
+    #        for i in range(v+1, len( self.vertices)):
+    #            self.vertices[v].edges.add[i]
     def add_directed_edge(self, v1, v2):
         """
         Add a directed edge to the graph
@@ -53,10 +58,13 @@ class Graph:
         q.enqueue(starting_node)
         visited = []
         while q.size() > 0:
-            q.dequeue
-            if q.dequeue not in visited:
-                visited.append(q.dequeue)
-                bft(self, q.dequeue)
+            dequeued = q.dequeue()
+            print(dequeued)
+            if dequeued not in visited:
+                visited.append(dequeued)
+                print(visited)
+
+
 
             # Remove the first node from the queue...
             # If it has not been visited yet,...
@@ -64,7 +72,7 @@ class Graph:
             # Then put all it's children in the back of the queue
 
 
-class Queue(maxsize = 0):
+class Queue:
     def __init__(self):
         self.items = []
 
@@ -72,10 +80,10 @@ class Queue(maxsize = 0):
         return self.items == []
 
     def enqueue(self, item):
-        self.items.insert(0,item)
+        self.items.append(item)
 
     def dequeue(self):
-        return self.items.pop()
+        return self.items.pop(0)
 
     def size(self):
         return len(self.items)  
@@ -97,3 +105,5 @@ class Vertex:
             self.y = y
     def __repr__(self):
         return f"{self.edges}"
+
+

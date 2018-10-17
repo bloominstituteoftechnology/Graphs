@@ -9,7 +9,7 @@ from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval, Circle
 from bokeh.palettes import Spectral8
-from graph import Graph
+from graph import Graph, Vertex
 
 
 
@@ -23,14 +23,14 @@ class BokehGraph:
         N = len( graph.vertices )
         node_indices = list(graph.vertices.keys())
 
-        plot = figure(title="Graph Layout Demonstration", x_range=(-7,7), y_range=(-7,7),
+        plot = figure(title="Graph Layout Demonstration", x_range=(-10,10), y_range=(-10,10),
                       tools="", toolbar_location=None)
 
         graph_renderer = GraphRenderer()
 
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        # node_colors = ['red'] * N
-        # graph.node_renderer.data_source.add(node_colors, 'color')
+        #node_colors = ['red'] * N
+        #graph.node_renderer.data_source.add(node_colors, 'color')
         graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color="red")
 
         edge_start = []
@@ -73,9 +73,13 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-
-
+graph.add_edge('2', '3')
+graph.add_edge('3', '4')
+graph.add_edge('2', '5')
+graph.bft(graph.vertices[0].edges)
 bg = BokehGraph(graph)
 bg.draw()
