@@ -10,7 +10,7 @@ class Graph:
         self.vertices = {}
     def add_vertex(self, vertex_id):
         """
-        Add an vertex to the graph
+        Add a vertex to the graph
         """
         self.vertices[vertex_id] = Vertex(vertex_id)
     def add_edge(self, v1, v2):
