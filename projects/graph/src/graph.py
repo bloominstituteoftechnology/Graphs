@@ -5,10 +5,11 @@ import random
 from queue import PriorityQueue
 
 class Vertex:
-    def __init__(self, data, x=None, y=None):
+    def __init__(self, data, x=None, y=None, component=-1):
         self.id = data
         self.edges = set()
         self.color = 'white'
+        self.component = component
         if x is None:
             self.x = random.random() * 10 - 5
         else:
@@ -36,7 +37,7 @@ class Graph:
 
     def num_nodes(self):
         num_nodes = 0
-        for node in self.vertices:
+        for _ in self.vertices:
             num_nodes += 1
         return num_nodes
     
@@ -46,34 +47,52 @@ class Graph:
             node_list.append(node)
         return node_list
     
-    def BFS(self, graph, startVert):
+    def BFS(self, startVert):
         q = PriorityQueue()
-        for v in graph.vertices:
-            graph.vertices[v].color = 'white'
+        visited = set([startVert])
+        for v in self.vertices:
+            self.vertices[v].color = 'white'
         
-        graph.vertices[startVert].color = 'red'
+        # print('****', self.vertices[startVert].color)
+        self.vertices[startVert].color = 'red'
         q.put(startVert)
 
         while not q.empty():
             u = q.queue[0]
 
-            for v in graph.vertices[u].edges:
-                if graph.vertices[v].color == 'white':
-                    graph.vertices[v].color = 'red'
+            # print("edges", self.vertices[u].edges)
+            for v in self.vertices[u].edges:
+                if self.vertices[v].color == 'white':
+                    self.vertices[v].color = 'red'
                     q.put(v)
             q.get()
-            graph.vertices[u].color = 'blue'
-        
-        # connected_components = []
-        # for v in graph.vertices:
-        #     graph.vertices[v].color = 'white'
+            self.vertices[u].color = 'blue'
+            visited.add(self.vertices[u])
+            return visited
 
-        # for v in graph.vertices:
-        #     if graph.vertices[v].color == 'white':
-        #         component = self.BFS(graph, graph.vertices[v].id)
-        #         graph.vertices[v].color = 'green'
-        #         connected_components.append(component)
-        # return connected_components
+    def connected_components(self):
+        # connected_components = set()
+        # for v in self.vertices:
+        #     print(v)
+        #     self.vertices[v].color = 'white'
+        #     if self.vertices[v] not in connected_components:
+        #         connected_components.update(self.BFS(self.vertices[v].id))
+        #     if self.vertices[v].color == 'white':
+        #         self.vertices[v].color = 'green'
+        # print(connected_components)
+
+
+        # connected_components = set()
+        # current_component = 0
+
+        # for v in self.vertices:
+        #     if v not in connected_components:
+        #         reachable = self.BFS(self.vertices[v].id)
+        #         for other_v in reachable:
+        #             self.vertices[other_v].component = current_component
+        #         current_component += 1
+        #         connected_components.update(reachable)
+        # self.components = current_component
 
 if __name__ == "__main__":
     graph = Graph()

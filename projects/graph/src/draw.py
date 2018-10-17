@@ -20,7 +20,8 @@ class BokehGraph:
         graph = GraphRenderer()
 
         graph.node_renderer.data_source.add(node_indices, 'index')
-        myGraph.BFS(myGraph, node_indices[0])
+        myGraph.BFS(node_indices[0])
+        myGraph.connected_components()
         node_colors = []
         for v in myGraph.vertices:
             # print(myGraph.vertices[v].color)
