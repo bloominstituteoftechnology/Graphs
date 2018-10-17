@@ -72,6 +72,21 @@ class Graph:
             # Then put all it's children in the back of the queue
             queue.extend(self.vertices[new_node])
 
+    """
+    # Stack
+    def dft_s(self, starting_node):
+        # create an empty stack
+        s = Stack()
+        # Put starting vert in stack
+        s.push(starting_node)
+        visited = []
+        while s.size() > 0:
+            # Pop the first node off the Stack
+            # If it has not been visited yet
+            #Mark it as visited....
+            # Then put all it's children on top of the stack. 
+    """
+
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
