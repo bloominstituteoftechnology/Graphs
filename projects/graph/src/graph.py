@@ -13,6 +13,7 @@ class Vertex:
         """
         self.id = vertex_id
         self.edges = set()
+        # self.color = "white"
 
         if x is None:
             self.x = random.random() * 10 - 5
@@ -82,8 +83,12 @@ class Graph:
         while queue:
             # print(queue)
             vertex = queue.popleft()
-            visited.add(vertex)
+            if vertex not in visited:
+                visited.add(vertex)
+            print("Vertex:")
             print(vertex)
+            print("Visited:")
+            print(visited)
             for neighbor in self.vertices[vertex].edges:
                 if neighbor not in visited:
                     visited.add(neighbor)
