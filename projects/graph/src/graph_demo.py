@@ -3,7 +3,8 @@
 """
 Demonstration of Graph and BokehGraph functionality.
 """
-
+from graph import Graph
+from draw import BokehGraph
 from sys import argv
 
 
