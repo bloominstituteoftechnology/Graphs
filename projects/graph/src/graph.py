@@ -15,7 +15,15 @@ class Graph:
             self.vertices[v2].edges.add(v1)
         else:
             raise IndexError('That vertex does not exist.')
-        
+    def bfs(self,starting_node):
+        queue=[]
+        queue.append(starting_node)
+        visited=[]
+        while len(queue)>0:
+            current_item=queue.pop(0)
+            if current_item not in visited:
+                visited.append(current_item)
+                queue.extend(list(current_item.edges))
 
 class Vertex:
     def __init__(self,vertex_id,x=None,y=None):
