@@ -39,29 +39,18 @@ class BokehGraph:
     def draw(self):
         self.create_edge_lists()
         self.create_node_locations()
-
         v_len = len(self.graph_data)
         plot = figure(title="Lil Sumpin", x_range=(-v_len-3, v_len+3), y_range=(-v_len-3, v_len+3), tools='', toolbar_location=None)
 
         graphR = GraphRenderer()
-
-
         graphR.node_renderer.data_source.add(self.edge_x, 'index')
-
         graphR.node_renderer.glyph = Circle(radius=0.5, fill_color="red")
-
-        print(f"edge_x:::::::::{ self.edge_x }")
-        print(f"edge_y:::::::::{ self.edge_y }")
-
         graphR.edge_renderer.data_source.data = dict(
             start=self.edge_x,
             end=self.edge_y)
 
         graph_layout = dict(zip(self.edge_x, zip(self.node_x, self.node_y)))
-        print(f"graph layout:::::::::{graph_layout}")
-
         graphR.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
-
         plot.renderers.append(graphR)
 
         output_file('graph.html')
