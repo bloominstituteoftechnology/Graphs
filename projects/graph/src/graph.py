@@ -55,6 +55,15 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist!")    
 
+    def dft(self, starting_node, visited=None):
+        # depth first traversal using recursion
+
+
+
+
+
+
+
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
         self.id = vertex_id
