@@ -18,6 +18,14 @@ class WeightedGraph:
             self.vertices[v1].add((weight, v2))
 
     def dijkstra(self, start, finish):
+        """
+        :param start: str of vertex name
+        :param finish: str of vertex name
+        :return: tuple, (distance, [path])
+        This is an implementation of Dijkstra's algorithm by utilizing a priority queue. I used Python's built in
+        heapq library to implement a simple priority queue, and uses BFS to look for the shortest path from the
+        start vertex to the finish.
+        """
         q = [(0, start, [])]
         visited = set()
         min_dist = {start: 0}
@@ -25,16 +33,20 @@ class WeightedGraph:
             cost, vtx, path = heappop(q)
             if vtx not in visited:
                 visited.add(vtx)
+                # path is constructed from start to finish
                 path = path + [vtx]
                 if vtx == finish:
-                    return (cost, path)
+                    return cost, path
 
                 for curr_cost, vtx2 in self.vertices.get(vtx, ()):
+                    # looks through the connected vertices
                     if vtx2 in visited:
+                        # if vertex is visited, we don't need to do anything
                         continue
                     prev = min_dist.get(vtx2, None)
                     updated_cost = cost + curr_cost
                     if prev is None or updated_cost < prev:
+                        # only updates if the cost/distance is lower, otherwise doesn't add to our priority queue
                         min_dist[vtx2] = updated_cost
                         heappush(q, (updated_cost, vtx2, path))
         return None
@@ -49,7 +61,5 @@ graph.add_edge('0', '1', 3)
 graph.add_edge('0', '2', 5)
 graph.add_edge('1', '3', 7)
 graph.add_edge('2', '3', 1)
-
-print(graph.vertices)
 
 print(graph.dijkstra('0', '3'))
