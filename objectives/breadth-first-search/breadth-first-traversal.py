@@ -118,7 +118,8 @@ class Graph:
         """ This is a depth first traversal algorithm"""
         adj = self.vertices
         parent = {start: None}
-        def visited(adj, start): 
+        def visited(adj, start):
+            """ this is a function used inside of depth_first that is recursive""" 
             for v in adj[start].edges:
                 if v not in parent:
                     parent[v] = start

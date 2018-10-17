@@ -82,14 +82,19 @@ class BokehGraph:
 
         graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color= self.color)
 
+        
+        edge_start = []
+        edge_end = [] 
+        for vertex_id in vertex_indices:
+            for v in self.graph.vertices[vertex_id].edges:
+                    edge_start.append(vertex_id)
+                    edge_end.append(v)
+        
         graph_renderer.edge_renderer.data_source.data = dict(
-            start=[vertex_indices[0]] * N,
-            end= vertex_indices
+            start=edge_start,
+            end=edge_end 
         )
-        d = dict(
-            start=[vertex_indices[0]] * N,
-            end=vertex_indices
-        )
+        
         
         x = []
         y = []
@@ -128,6 +133,9 @@ def main():
             edges_count += 1
         previous_vertex = new_vertex
         vertices_count += 1
+    # while edges_count <= num_edges:
+    #     pass 
+
     bokeh_graph = BokehGraph(graph, random_color)
     bokeh_graph.show()
     
