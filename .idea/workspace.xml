@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="928f2cbe-94ec-45e2-88c2-fafd2957fa3a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/projects/graph/pull_request.txt" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/pull_request.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/graph/src/draw.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/src/draw.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/graph/src/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/src/graph.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +24,7 @@
         <counts>
           <entry key="Pipfile" value="1" />
           <entry key="html" value="2" />
-          <entry key="py" value="4" />
+          <entry key="py" value="6" />
           <entry key="txt" value="2" />
         </counts>
       </usages-collector>
@@ -34,13 +32,13 @@
         <counts>
           <entry key="HTML" value="2" />
           <entry key="PLAIN_TEXT" value="3" />
-          <entry key="Python" value="4" />
+          <entry key="Python" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="38" />
-          <entry key="py" value="1812" />
+          <entry key="py" value="2502" />
           <entry key="txt" value="50" />
         </counts>
       </usages-collector>
@@ -48,20 +46,20 @@
         <counts>
           <entry key="HTML" value="38" />
           <entry key="PLAIN_TEXT" value="50" />
-          <entry key="Python" value="1812" />
+          <entry key="Python" value="2502" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.46370682">
+    <splitter split-orientation="horizontal" split-proportion="0.4362227">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/projects/graph/src/graph.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="435">
-                  <caret line="29" selection-start-line="29" selection-end-line="29" />
+                <state relative-caret-position="195">
+                  <caret line="13" column="36" lean-forward="true" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
                   <folding>
                     <marker date="1539722024163" expanded="true" signature="217:223" ph="..." />
                     <marker date="1539722024163" expanded="true" signature="247:252" ph="..." />
@@ -71,11 +69,20 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/projects/graph/pull_request.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="75">
-                  <caret line="5" column="61" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
+                <state relative-caret-position="30">
+                  <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="47" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/projects/graph/src/graph_demo.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="45">
+                  <caret line="3" column="52" lean-forward="true" selection-start-line="3" selection-start-column="52" selection-end-line="3" selection-end-column="52" />
                 </state>
               </provider>
             </entry>
@@ -96,12 +103,13 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/projects/graph/src/draw.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="128">
-                  <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
+                <state relative-caret-position="129">
+                  <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="49" selection-end-column="62" />
                   <folding>
                     <element signature="e#57#95#0" expanded="true" />
-                    <marker date="1539727774671" expanded="true" signature="767:772" ph="..." />
-                    <marker date="1539727774671" expanded="true" signature="767:823" ph="..." />
+                    <marker date="1539784177779" expanded="true" signature="1091:1096" ph="..." />
+                    <marker date="1539784177779" expanded="true" signature="1111:1190" ph="..." />
+                    <marker date="1539784177779" expanded="true" signature="1386:1395" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -231,9 +239,9 @@
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.1663143" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.5792812" side_tool="true" visible="true" weight="0.20382166" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="0" sideWeight="0.5990134" side_tool="true" visible="true" weight="0.43821657" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="2" sideWeight="0.42071882" visible="true" weight="0.20382166" />
+      <window_info anchor="bottom" id="Python Console" order="2" sideWeight="0.4009866" visible="true" weight="0.43821657" />
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" weight="0.3299363" />
       <window_info anchor="bottom" id="Version Control" order="5" show_stripe_button="false" />
@@ -268,10 +276,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/projects/graph/pull_request.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/projects/graph/src/graph_demo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="52" lean-forward="true" selection-start-line="3" selection-start-column="52" selection-end-line="3" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/projects/graph/src/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        <state relative-caret-position="195">
+          <caret line="13" column="36" lean-forward="true" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
           <folding>
             <marker date="1539722024163" expanded="true" signature="217:223" ph="..." />
             <marker date="1539722024163" expanded="true" signature="247:252" ph="..." />
@@ -280,21 +302,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/projects/graph/pull_request.txt">
+    <entry file="file://$USER_HOME$/.virtualenvs/Graphs-n702l7by/lib/python3.7/site-packages/bokeh/models/markers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="61" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
+        <state relative-caret-position="1980">
+          <caret line="139" column="6" selection-start-line="139" selection-start-column="6" selection-end-line="139" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/projects/graph/src/draw.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
+        <state relative-caret-position="129">
+          <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="49" selection-end-column="62" />
           <folding>
             <element signature="e#57#95#0" expanded="true" />
-            <marker date="1539727774671" expanded="true" signature="767:772" ph="..." />
-            <marker date="1539727774671" expanded="true" signature="767:823" ph="..." />
+            <marker date="1539784177779" expanded="true" signature="1091:1096" ph="..." />
+            <marker date="1539784177779" expanded="true" signature="1111:1190" ph="..." />
+            <marker date="1539784177779" expanded="true" signature="1386:1395" ph="..." />
           </folding>
         </state>
       </provider>
