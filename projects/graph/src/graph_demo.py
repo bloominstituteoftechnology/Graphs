@@ -7,6 +7,7 @@ Demonstration of Graph and BokehGraph functionality.
 from sys import argv
 from graph import Graph
 from draw import BokehGraph
+import random
 
 def createDefaultGraph():
     graph = Graph()
@@ -14,26 +15,21 @@ def createDefaultGraph():
     graph.add_vertex('1')
     graph.add_vertex('2')
     graph.add_vertex('3')
-    graph.add_vertex('4')
-    graph.add_vertex('5')
     graph.add_edge('0', '1')
     graph.add_edge('0', '2')
     graph.add_edge('1', '3')
-    graph.add_edge('2', '4')
-    graph.add_edge('3', '5')
 
     bg = BokehGraph(graph)
     bg.draw()
 
 def createRandomGraph(numNodes, numEdges):
-    numNodes = 5
-    all_edges = []
-
     graph = Graph()
+    
+    all_edges = []
 
     for i in range(numNodes):
         for j in range(i + 1, numNodes):
-            edges.append((i, j))
+            all_edges.append((i, j))
     
     random.shuffle(all_edges)
 
@@ -51,6 +47,7 @@ def createRandomGraph(numNodes, numEdges):
     for edge in edges:
         graph.add_edge(edge[0], edge[1])
 
+    print(len(edges))
     bg = BokehGraph(graph)
     bg.draw()
 
@@ -79,3 +76,5 @@ if __name__ == '__main__':
                 numEdges = int(arg_split[1])
             else:
                 print("I dont understand that commmand")
+    
+    main(style, numNodes, numEdges)

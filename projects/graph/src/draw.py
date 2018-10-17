@@ -57,22 +57,29 @@ class BokehGraph:
 
         plot.renderers.append(graph_renderer)
 
+        # labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in graph.vertices]))
+        # labels = LabelSet(x='x', y='y', text='names', level='glyph',
+        #              text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+
+
+        # plot.add_layout(labels)
+
         output_file('graph.html')
         show(plot)
 
-graph = Graph()
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_vertex('4')
-graph.add_vertex('5')
-graph.add_edge('0', '1')
-graph.add_edge('0', '2')
-graph.add_edge('1', '3')
-graph.add_edge('2', '4')
-graph.add_edge('3', '5')
+# graph = Graph()
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_vertex('4')
+# graph.add_vertex('5')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '2')
+# graph.add_edge('1', '3')
+# graph.add_edge('2', '4')
+# graph.add_edge('3', '5')
 
 
-bg = BokehGraph(graph)
-bg.draw()
+# bg = BokehGraph(graph)
+# bg.draw()
