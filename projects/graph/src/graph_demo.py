@@ -31,7 +31,7 @@ def main(num_vertices=None, num_edges=None):
         vertices = sample(list(graph.vertices), 2)
         graph.add_edge(vertices[0], vertices[1])
 
-    print(graph.vertices)
+    #print(graph.vertices)
     bg = BokehGraph(graph)
     bg.draw()
 

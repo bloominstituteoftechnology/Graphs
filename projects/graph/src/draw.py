@@ -2,12 +2,12 @@
 General drawing methods for graphs using Bokeh.
 """
 import math
-
+from random import sample
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
-from graph import Graph
+from bokeh.palettes import Category20
 
 
 class BokehGraph:
@@ -17,15 +17,18 @@ class BokehGraph:
         graph = self.graph
 
         N = len( graph.vertices )
+        
         node_indices = list(graph.vertices.keys())
-
-        plot = figure(title="Graph Layout Demonstration", x_range=(-12,12), y_range=(-12,12),
+        
+        plot = figure(title="Bokeh Graph", x_range=(-12,12), y_range=(-12,12),
                       tools="", toolbar_location=None)
 
         graph_renderer = GraphRenderer()
-
+        
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color="red")
+        colors = sample(Category20[20], N)
+        graph_renderer.node_renderer.data_source.add(colors, 'color')
+        graph_renderer.node_renderer.glyph = Circle(radius=0.25, fill_color="color")
 
         edge_start = []
         edge_end = []
