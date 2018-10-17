@@ -30,27 +30,27 @@ class Graph:
             self.vertices[v1].edges.add(v2)
         else:
             raise IndexError("That vertex does not exist!")
-    def dft(self, starting_node=None, visited=None):
-        print('starting node', starting_node)
-        if visited is None:
-            visited = []
-        if starting_node is None: 
-            verticies = list(self.vertices.keys())
-            starting_node = verticies[0]
-            print('first starting node', starting_node)
-        visited.append(starting_node)
+    # def dft(self, starting_node=None, visited=None):
+    #     print('starting node', starting_node)
+    #     if visited is None:
+    #         visited = []
+    #     if starting_node is None: 
+    #         verticies = list(self.vertices.keys())
+    #         starting_node = verticies[0]
+    #         print('first starting node', starting_node)
+    #     visited.append(starting_node)
         
-        for child in self.vertices[starting_node].edges:
-            if child not in visited:
-                  self.dft(child, visited)
-    def bft(self):
+    #     for child in self.vertices[starting_node].edges:
+    #         if child not in visited:
+    #               self.dft(child, visited)
+    def dbft(self, popper=0):
         verticies = list(self.vertices.keys())
         q = [verticies[0]]
         print('first q', q)
         visited = []
         
         while len(q) > 0:
-            nextQ = q.pop(0)
+            nextQ = q.pop(popper)
             if nextQ not in visited:
                 visited.append(nextQ)
                 q.extend(list(self.vertices[nextQ].edges))
