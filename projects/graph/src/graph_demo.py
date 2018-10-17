@@ -18,16 +18,16 @@ def defaultGraph():
     graph.add_vertex('3')
     graph.add_vertex('4')
 
-    graph.add_edge('0', '1')
-    graph.add_edge('0', '4')
-    graph.add_edge('1', '3')
+    graph.add_edge('1', '2')
+    graph.add_edge('2', '3')
+    graph.add_edge('3', '4')
 
     bg = BokehGraph(graph)
     bg.draw()
 
 
 # Random graph that takes number of nodes and number of edges as args
-def randomGraph(nNodes, nEdges)
+def randomGraph(nNodes, nEdges):
     graph = Graph()
     all_the_edges = []
 
@@ -41,13 +41,11 @@ def randomGraph(nNodes, nEdges)
     edges = all_the_edges[:nEdges]
 
     #print the edges in all edges list
-    for edge in edges:
-        print(edge)
 
     for i in range(nNodes):
         graph.add_vertex(i)
 
-   for edge in edges:
+    for edge in edges:
        print(edge)
        graph.add_edge(edge[0], edge[1])
 
@@ -56,10 +54,10 @@ def randomGraph(nNodes, nEdges)
 
 def main(style, nNodes, nEdges):
     # if our style is default call defaultGraph 
-    if style = "default":
+    if style == "default":
         defaultGraph()
     #if style if random call randomGraph and pass in nNodes and nEdges args
-    elif style == "random"
+    elif style == "random":
         randomGraph(nNodes, nEdges)
     else:
         defaultGraph()
@@ -68,4 +66,20 @@ def main(style, nNodes, nEdges):
 
 if __name__ == '__main__':
     # TODO - parse argv
-    main()
+    style = "default"
+    nNodes = 4
+    nEdges = 4
+
+    for arg in argv[1:]:
+        arg_split = arg.split("=")
+        if len(arg_split) == 2:
+            if arg_split[0] == "style":
+                style = arg_split[1].lower()
+            elif arg_split[0] == "nodes":
+                nNodes = int(arg_split[1])
+            elif arg_split[0] == "edges":
+                nEdges = int(arg_split[1])
+            else:
+                print("Sorry, I don't understand that command.\n")
+
+    main(style, nNodes, nEdges)
