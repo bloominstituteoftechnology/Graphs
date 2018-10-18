@@ -1,7 +1,7 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-from random import choice, random 
+from random import choice, random, sample
 import math
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -10,22 +10,36 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
 from graph import Graph
 
 class BokehGraph:
-    def __init__(self, graph):
+    def __init__(self, graph, cc=None, connected=True):
         self.graph = graph
-        self.size = len(self.graph.vertices)
-
+        self.cc = graph.find_connected()
+        self.connected = connected
 
     def show(self):
-        # randomize colors
-        colors = []
-        for x in range(self.size):
-            color = '#'+''.join([choice('0123456789ABCDEF') for i in range(6)])
-            colors.append(color)
+        cc = self.cc
 
+        # instantiate graph
         graph = self.graph
         N = len(graph.vertices)
+        n = len(cc)
         node_indices = list(graph.vertices.keys())
         plot = figure(title='graph_demo', x_range = (-1, 10), y_range = (-1, 10), tools="", toolbar_location=None)
+
+        # randomize colors
+        print(N)
+        print(n)
+        if self.connected == True:
+            colors = []
+            for x in range(n):
+                color = '#'+''.join([choice('0123456789ABCDEF') for i in range(6)])
+                colors.append(color)
+        else:
+            colors = []
+            for x in range(N):
+                color = '#'+''.join([choice('0123456789ABCDEF') for i in range(6)])
+                colors.append(color)
+
+        print(colors)
 
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices,'index')
@@ -43,12 +57,6 @@ class BokehGraph:
             start=edge_start,
             end=edge_end)
 
-        # axis = {}
-        # for vertex in self.graph.vertices:
-        #    axis[vertex] = (random.random() * 10, random.random() * 10)
-        
-        # graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=axis)
-
         x = []
         y = []
         for vertex_id in node_indices:
@@ -61,6 +69,7 @@ class BokehGraph:
 
         plot.renderers.append(graph_renderer)
 
+        # add labels to each node/vertex
         labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in graph.vertices]))
         labels = LabelSet(x='x', y='y', text='names', level='glyph',
                      text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
@@ -68,15 +77,3 @@ class BokehGraph:
 
         output_file('graph.html')
         show(plot)
-
-# graph = Graph()
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_edge('0', '1')
-# graph.add_edge('2', '3')
-# graph.add_edge('0', '3')
-
-# bg = BokehGraph(graph)
-# bg.show()

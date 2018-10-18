@@ -20,6 +20,7 @@ class Queue:
 class Graph:
     def __init__(self):
         self.vertices = dict()
+        self.components = 0
 
     def add_vertex(self, vertex_id):
         self.vertices[vertex_id] = Vertex(vertex_id)
@@ -68,24 +69,29 @@ class Graph:
                     return connected
         print(connected)
 
-    def bft(self, current, visited=None):
+    def bft(self, current):
+        visited = []
         q = Queue()
-        if visited is None:
-            visited = []
-        q.enqueue(self.vertices[current])
-        while q.size() > 0:
-            node = q.dequeue()
-            if node not in visited:
-                visited.append(node)
-                edges = node.edges
-                for edge in edges:
-                    q.enqueue(self.vertices[edge])
+        q.enqueue(current)
+        while q.size() > 0:  
+            dequeued = q.dequeue()
+            visited.append(dequeued) 
+            for edge in self.vertices[dequeued].edges: 
+                if edge not in visited: 
+                    q.enqueue(edge)
         return visited
 
-    # def find_connected(self):
-    #     visited = set()
-    #     current = 0
-        
+    def find_connected(self):
+        visited = []
+        cc = []
+        for vertex in self.vertices:
+            if vertex not in visited:
+                connected = self.bft(vertex)
+                cc.append(connected)
+                visited.extend(connected)
+                print(visited)
+                print(cc)
+        return cc
         
     # def bfs(self, current, target, visited=None):
     #     q = Queue()

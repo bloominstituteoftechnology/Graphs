@@ -21,14 +21,13 @@ def createDefaultGraph():
     graph.add_vertex(3)
     graph.add_edge(5, 2)
     graph.add_edge(2, 1)
-    graph.add_edge(4, 3)
+    # graph.add_edge(4, 3)
     # graph.add_edge(5, 6)
     # graph.add_edge(2, 4)
     # graph.add_edge(6, 7)
-    print(graph.vertices)
-    bg = BokehGraph(graph)
+    cc = graph.find_connected()
+    bg = BokehGraph(graph, cc)
     bg.show()
-    print(graph.dfs(5, 1))
 
 def createRandomGraph(numNodes, numEdges):
     graph = Graph()  # Instantiate your graph
@@ -60,27 +59,6 @@ def createRandomGraph(numNodes, numEdges):
     bg = BokehGraph(graph)
     bg.draw()
 
-# def main(v, e):
-#     graph = Graph()
-#     for vertex in range(v):
-#         graph.add_vertex(vertex)
-#     edges = []
-#     for i in range(v):
-#         for j in range(v):
-#             if i < j:
-#                 edges.append((i,j))
-#     random.shuffle(edges)
-#     randomEdges = edges[:e]
-#     for edge in randomEdges:
-#         graph.add_edge(edge[0], edge[1])
-#     # graph.dfs(0, 3)
-#     bg = BokehGraph(graph)
-#     # bg.show()
-
-
-# if __name__ == '__main__':
-#     # TODO - parse argv
-#     main(6,3)
 
 def main(style, numNodes,  numEdges):
     if style  == "default":
@@ -109,3 +87,25 @@ if __name__ == '__main__':
                 print("I don't understand that command.\n")
 
     main(style, numNodes, numEdges)
+
+# def main(v, e):
+#     graph = Graph()
+#     for vertex in range(v):
+#         graph.add_vertex(vertex)
+#     edges = []
+#     for i in range(v):
+#         for j in range(v):
+#             if i < j:
+#                 edges.append((i,j))
+#     random.shuffle(edges)
+#     randomEdges = edges[:e]
+#     for edge in randomEdges:
+#         graph.add_edge(edge[0], edge[1])
+#     # graph.dfs(0, 3)
+#     bg = BokehGraph(graph)
+#     # bg.show()
+
+
+# if __name__ == '__main__':
+#     # TODO - parse argv
+#     main(6,3)
