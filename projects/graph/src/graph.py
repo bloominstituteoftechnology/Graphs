@@ -71,12 +71,15 @@ class Graph:
                 for edge in self.vertices[current].edges:
                     q.enqueue(edge)
 
+    
+
             
 
 class Vertex:
     def __init__(self, vert_id, x=None, y=None):
         self.id = vert_id
         self.edges = set()
+        self.color = 'grey'
         if x is None:
             self.x = random.random() * 10 - 5
         else:

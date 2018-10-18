@@ -24,11 +24,14 @@ class BokehGraph:
         graph_render = GraphRenderer()
 
         graph_render.node_renderer.data_source.add(node_indices, 'index')
-        node_colors = ['red'] * int(N / 2)
-        another_color = ['blue'] * int(N/2)
-        node_colors.extend(another_color)
-        if N % 2 != 0:
-            node_colors.extend(['green'])
+        node_colors = []
+        for vert in graph.vertices:
+            node_colors.append(graph.vertices[vert].color)
+        # node_colors = ['red'] * int(N / 2)
+        # another_color = ['blue'] * int(N/2)
+        # node_colors.extend(another_color)
+        # if N % 2 != 0:
+        #     node_colors.extend(['green'])
         graph_render.node_renderer.data_source.add(node_colors, 'color')
         graph_render.node_renderer.glyph = Circle(radius=0.25, fill_color="color")
 
