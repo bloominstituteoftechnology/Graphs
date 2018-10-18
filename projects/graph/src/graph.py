@@ -2,7 +2,6 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
-
 class Graph:
     def __init__(self):
         self.vertices = {}
@@ -20,13 +19,33 @@ class Graph:
     def depth_first(self, start, firstrun=True):
         if firstrun == True:
             self.answer = []
-        cb = lambda x: self.answer.append(x)
-        cb(start.name)
+        self.answer.append(start.name)
         if start.edges:
             for edge in start.edges:
                 if edge not in self.answer:
                     self.depth_first(self.vertices[edge], False)
             return self.answer
+
+    def breadth_first(self, start):
+        queue = []
+        def helper(start, firstrun=True):
+            if firstrun == True:
+                self.answer = []
+            if len(queue) > 0:
+                del queue[0]
+            self.answer.append(start.name)
+            if start.edges:
+                for edge in start.edges:
+                    print(edge)
+                    if edge not in self.answer:
+                        queue.append(edge)
+            if len(queue) > 0:
+                print(queue)
+                helper(self.vertices[queue[0]], False)
+        helper(start)
+        return self.answer
+
+
 
 class Vertex:
     def __init__(self, name, id):
@@ -48,10 +67,10 @@ boop.vertices[3].add_edge(3)
 boop.add_vertex(1)
 boop.vertices[1].add_edge(2)
 boop.add_vertex(2)
-boop.vertices[2].add_edge(3)
 boop.vertices[2].add_edge(0)
+boop.vertices[2].add_edge(3)
 boop.add_vertex(0)
 boop.vertices[0].add_edge(2)
 boop.vertices[0].add_edge(1)
 
-print(boop.depth_first(boop.vertices[2]))
+print(boop.breadth_first(boop.vertices[2]))
