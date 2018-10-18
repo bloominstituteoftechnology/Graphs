@@ -2,6 +2,7 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 import random
+import collections
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -37,17 +38,16 @@ class Graph:
                     stack.append(edge)
 
     def breadth_first_search(self, starting_node):
-        queue = [starting_node]
-        collected = []
-        if len(self.vertices) == 0:
-            visited == False
-        while queue:
-            current = queue.pop(0)
-            collected.append(current)
-            for child in self.vertices[current]:
-                if visited[child] == False:
-                    queue.append(child)
-                    visited[child] == True
+         visited, queue = set(), collections.deque([starting_node]) # Put starting vert in the queue
+         while queue:
+             vertex = queue.popleft() # Remove the first node from the queue...
+             if vertex not in visited: # If it has not been visited yet,...
+                 visited.add(vertex) # Mark it as visited....
+                 print(vertex)
+                 for neighbor in self.vertices[vertex].edges: # Then put all it's children in the back of the queue
+                     if neighbor not in visited:
+                         queue.append(neighbor)
+         return visited
 
 class Vertex:
     def __init__(self, vertex, x=None, y=None):

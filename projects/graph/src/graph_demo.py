@@ -51,6 +51,7 @@ def createRandomGraph(numNodes, numEdges):
 
     bg = BokehGraph(graph)
     bg.graph.depth_first_search(3)
+    bg.graph.breadth_first_search(3)
     bg.draw()
 
 def main(style, numNodes, numEdges):
