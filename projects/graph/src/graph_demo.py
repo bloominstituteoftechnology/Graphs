@@ -24,6 +24,7 @@ def create_random_graph(num_nodes,num_edges):
         graph.add_vertex(i)
     for edge in edges:
         graph.add_edge(edge[0],edge[1])
+    graph.connected()
     bg=BokehGraph(graph)
     bg.draw()
 

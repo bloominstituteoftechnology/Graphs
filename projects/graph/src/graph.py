@@ -19,16 +19,27 @@ class Graph:
         queue=[]
         queue.append(starting_node)
         visited=[]
+        rand_color = "#" + ''.join([random.choice('0123456789ABCDEF') for _ in range(6)])
+        self.vertices[starting_node].color = rand_color
         while len(queue)>0:
             current_item=queue.pop(0)
             if current_item not in visited:
+                self.vertices[current_item].color=rand_color
                 visited.append(current_item)
                 queue.extend(list(self.vertices[current_item].edges))
+        return visited
+    def connected(self):
+        connected_components=[]
+        for v in self.vertices.keys():
+            component=self.bfs(v)
+            connected_components.append(component)
+        return connected_components
 
 class Vertex:
     def __init__(self,vertex_id,x=None,y=None):
         self.id=vertex_id
         self.edges=set()
+        self.color='white'
         if x is None:
             self.x=random.random()*10-5
         else:

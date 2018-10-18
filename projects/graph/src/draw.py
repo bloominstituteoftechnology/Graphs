@@ -19,7 +19,12 @@ class BokehGraph:
         plot = figure(title='Graph Layout Demonstration', x_range=(-7,7), y_range=(-7,7),tools='', toolbar_location=None)
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(vertex_indices, 'index')
-        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='red')
+        graph_renderer.node_renderer.data_source.add(sorted(vertex_indices), 'index')
+        color = []
+        for vertex in self.graph.vertices:
+            color.append(self.graph.vertices[vertex].color)
+        graph_renderer.node_renderer.data_source.add(color, 'color')
+        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color='color')
         edge_start=[]
         edge_end=[]
         for vertex_id in vertex_indices:
