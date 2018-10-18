@@ -53,7 +53,8 @@ def createRandomGraph(num_nodes, num_edges):
     print(graph.vertices)
 
     bg = BokehGraph(graph)
-    bg.graph.dft_st(random.randint(0, num_nodes -1))
+    # bg.graph.dft_st(random.randint(0, num_nodes -1))
+    bg.graph.bft(random.randint(0, num_nodes -1))
     bg.draw()
 
 

@@ -56,15 +56,21 @@ class Graph:
             if current not in visited:
                 visited.append(current)
                 print(visited)
-                # print(self.vertices[current].edges)
                 for edge in self.vertices[current].edges:
-                    # print(edge)
                     s.push(edge)
-            # visited.append(current)
-            # print(self.vertices[current])
-            # print(visited)
-            # for edge in self.vertices[current]:
-            #     print(edge)
+
+    def bft(self, starting_node):
+        q = Queue()
+        q.enqueue(starting_node)
+        visited = []
+        while q.size() > 0:
+            current = q.dequeue()
+            if current not in visited:
+                visited.append(current)
+                print(visited)
+                for edge in self.vertices[current].edges:
+                    q.enqueue(edge)
+
             
 
 class Vertex:
