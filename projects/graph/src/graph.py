@@ -54,16 +54,19 @@ class Graph:
     #     return visited
 
     def dfs(self, current, target, visited=None):
+        connected = []
         if visited is None:
             visited = []
         visited.append(current)
+        if connected == []:
+            connected.append([current])
         if current == target:
             return visited
         for vertex in self.vertices[current].edges:
             if vertex not in visited:
                 if self.dfs(vertex, target, visited):
-                    return visited
-        return visited
+                    return connected
+        print(connected)
 
     def bft(self, current, visited=None):
         q = Queue()
@@ -78,6 +81,11 @@ class Graph:
                 for edge in edges:
                     q.enqueue(self.vertices[edge])
         return visited
+
+    # def find_connected(self):
+    #     visited = set()
+    #     current = 0
+        
         
     # def bfs(self, current, target, visited=None):
     #     q = Queue()

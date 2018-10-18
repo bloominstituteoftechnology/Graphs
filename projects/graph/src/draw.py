@@ -1,7 +1,7 @@
 """
 General drawing methods for graphs using Bokeh.
 """
-import random
+from random import choice, random 
 import math
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
@@ -12,8 +12,16 @@ from graph import Graph
 class BokehGraph:
     def __init__(self, graph):
         self.graph = graph
+        self.size = len(self.graph.vertices)
+
 
     def show(self):
+        # randomize colors
+        colors = []
+        for x in range(self.size):
+            color = '#'+''.join([choice('0123456789ABCDEF') for i in range(6)])
+            colors.append(color)
+
         graph = self.graph
         N = len(graph.vertices)
         node_indices = list(graph.vertices.keys())
@@ -21,7 +29,8 @@ class BokehGraph:
 
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices,'index')
-        graph_renderer.node_renderer.glyph = Circle(radius=0.25, fill_color='yellow')
+        graph_renderer.node_renderer.data_source.add(colors,'color')
+        graph_renderer.node_renderer.glyph = Circle(radius=0.25, fill_color='color')
 
         edge_start = []
         edge_end = []

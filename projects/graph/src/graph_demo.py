@@ -20,18 +20,18 @@ def createDefaultGraph():
     graph.add_vertex(7)
     graph.add_vertex(3)
     graph.add_edge(5, 2)
-    graph.add_edge(5, 6)
     graph.add_edge(2, 1)
+    graph.add_edge(4, 3)
+    # graph.add_edge(5, 6)
     # graph.add_edge(2, 4)
-    # graph.add_edge(4, 3)
     # graph.add_edge(6, 7)
+    print(graph.vertices)
     bg = BokehGraph(graph)
     bg.show()
     print(graph.dfs(5, 1))
 
 def createRandomGraph(numNodes, numEdges):
     graph = Graph()  # Instantiate your graph
-
     all_edges = []
 
     # O(n^2)
@@ -48,16 +48,11 @@ def createRandomGraph(numNodes, numEdges):
         print("Warning: Too many edges")
 
     # O(n)
-    for edge in edges:
-        print(edge)
-
-    # O(n)
     for i in range(numNodes):
         graph.add_vertex(i)
 
     # O(n)
     for edge in edges:
-        print(edge)
         graph.add_edge(edge[0], edge[1])
 
     print(len(edges))
