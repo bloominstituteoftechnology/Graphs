@@ -110,6 +110,15 @@ class Graph:
         visited(adj, start)
         print("\nParents dfs")
         print(parent)
+    def random_color(self):
+        """
+        This is a random_color generator that will return a #color. 
+        """
+        valid_chars = '0123456789ABCDEF'
+        new_color = '#'
+        while len(new_color) <= 6:
+            new_color += valid_chars[random.randint(0,15)]
+        return new_color
 
 
 class BokehGraph:
@@ -137,8 +146,8 @@ class BokehGraph:
         y = []
         valid_chars = '0123456789ABCDEF'
 
-        disconnected_color = f"#{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}"
-        connected_color = f"#{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}"
+        disconnected_color = self.graph.random_color()
+        connected_color = self.graph.random_color()
 
         colors_layout = []
 
