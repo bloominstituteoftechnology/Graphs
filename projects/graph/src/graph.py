@@ -56,7 +56,7 @@ class Graph:
         visited = []
         for node in self.vertices:
             if node not in visited:
-                cc = self.dft(node)
+                cc = self.bft(node)
                 cc_list.append(cc)
                 visited.extend(cc)
         return cc_list
@@ -81,8 +81,9 @@ class Graph:
             current = q.dequeue()
             if current not in visited:
                 visited.append(current)
-                for edge in current.edges:
-                    q.enqueue(self.vertices[edge])
+                for edge in self.vertices[current].edges:
+                    q.enqueue(edge)
+        return visited
 
 
 class Vertex:

@@ -8,7 +8,7 @@ from sys import argv
 from graph import Graph
 from draw import BokehGraph
 
-def main(num_vertices=None, num_edges=None):
+def main(num_vertices=None, num_edges=None, connected=None):
     if num_vertices is None:
         num_vertices = random.randint(1, 20)
     else:
@@ -19,6 +19,10 @@ def main(num_vertices=None, num_edges=None):
         num_edges = num_vertices*(num_vertices-1)//2
     else:
         num_edges = int(num_edges)
+    if connected == 'yes':
+        connected = True
+    else:
+        connected = False
     
     all_edges = []
 
@@ -29,25 +33,23 @@ def main(num_vertices=None, num_edges=None):
     random.shuffle(all_edges)
     edges = all_edges[:num_edges]
  
-    # build graph
     graph = Graph()
     for num in range(num_vertices):
         graph.add_vertex(num)
 
-    # Add some random edges
     for edge in edges:
         graph.add_edge(edge[0], edge[1])
   
-    connected_components = graph.dft()
+    connected_components = graph.connected_components()
 
-    bg = BokehGraph(graph, connected_components)
+    bg = BokehGraph(graph, connected_components, connected)
     bg.draw()
 
-
-if __name__ == '__main__':
-    if len(argv) == 3:
-        NUM_VERTICES = argv[1]
-        NUM_EDGES = argv[2]
-        main(NUM_VERTICES, NUM_EDGES)
-    else:
-        main()
+NUM_VERTICES = input("\nNumber of vertices (int)? ")
+NUM_EDGES = input("\nNumber of edges (int)? ")
+CONNECTED = input("\nColor connected components (yes/no)? ")
+if NUM_VERTICES == "":
+    NUM_VERTICES = None
+if NUM_EDGES == "":
+    NUM_EDGES = None
+main(NUM_VERTICES, NUM_EDGES, CONNECTED)

@@ -11,28 +11,32 @@ from bokeh.palettes import Category20
 
 
 class BokehGraph:
-    def __init__(self, graph, cc):
+    def __init__(self, graph, cc, connected):
         self.graph = graph
         self.cc = cc
+        self.connected = connected
 
     def draw(self):
         graph = self.graph
         cc = self.cc
-        print(cc)
 
         N = len( graph.vertices )
-        n = len(cc)
+        n = len( cc )
 
-        colors_dict = {}
-        colors = list(sample(Category20[20], n))
-        for arr in cc:
-            color = colors.pop()
-            for num in arr:
-                colors_dict[num] = color
-
-        colors_arr = []
-        for i in range(N):
-            colors_arr.append(colors_dict[i])
+        if self.connected == False:
+            graph_colors = sample(Category20[20], N)
+        else:
+            colors_dict = {}
+            colors = list(sample(Category20[20], n))
+            for arr in cc:
+                color = colors.pop()
+                for num in arr:
+                    colors_dict[num] = color
+            graph_colors = []
+            for i in range(N):
+                graph_colors.append(colors_dict[i])
+                
+            print(f"\nConnected Components: {cc}")
 
         node_indices = list(graph.vertices.keys())
 
@@ -42,8 +46,7 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
         
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        #colors = sample(Category20[20], N)
-        graph_renderer.node_renderer.data_source.add(colors_arr, 'color')
+        graph_renderer.node_renderer.data_source.add(graph_colors, 'color')
         graph_renderer.node_renderer.glyph = Circle(radius=0.4, fill_color="color")
 
         edge_start = []
