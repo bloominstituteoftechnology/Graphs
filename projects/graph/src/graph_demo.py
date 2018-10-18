@@ -8,7 +8,6 @@ from graph import Graph
 from draw import BokehGraph
 import random
 
-
 def createDefealtGraph():
     graph = Graph()  # Instantiate your graph
     graph.add_vertex('0')

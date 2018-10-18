@@ -28,8 +28,14 @@ Print All Edges: O(E), E is TOTAL number of edges
 
 
 
+Create an empty queue and put the starting vert in the queue.
+Then, while the queue is not empty, dequeue the first element, mark it as visited,
+then put each of its children in the back of the queue
 
-constraint in graphs can be variable equation.
+
+
+
+constraint in graphs can be variables and equations.
 weights in graphs particular 
 
 napsack problem could be used for a credit card payments problem 

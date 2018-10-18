@@ -4,7 +4,7 @@ Simple graph implementation compatible with BokehGraph class.
 import random
 
 
-class Queue:
+class Queue:  #FIFO
     def __init__(self):
         self.queue = []
     
@@ -19,7 +19,7 @@ class Queue:
         return len(self.queue)
 
 
-class Stack:
+class Stack:  #LIFO
     def __init__(self):
         self.stack = []
     def push(self, value):
@@ -57,8 +57,39 @@ class Graph:
 
     def dft(self, starting_node, visited=None):
         # depth first traversal using recursion
+        if visited is None:
+            visited = []
+        visited.append(starting_node)
+        for node in self.vertices[starting_node].edges:
+            if node not in visited:
+                self.dft(node, visited)
+        return visited
+    
 
+    def bft(self, starting_node):
+        visited = []
 
+        q = Queue()
+
+        q.enqueue()
+        while q.size() > 0:
+            dequeue = q.dequeue()
+            visited.append(dequeue)
+            print(dequeue)
+            for edge in self.vertices[dequeue].edges:
+                if edge note in visited:
+                    q.enqueue(edge)            
+
+    def dft_s(self, starting_node):
+        s = Stack()
+        s.push(starting_node)
+        visited = []
+        while s.size() > 0:
+            current = s.pop()
+            if current not in visited:
+                visited.append(current)
+                print(visited)
+                for edge
 
 
 
