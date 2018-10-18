@@ -29,13 +29,13 @@ class Vertex:
         self.edges = set()
 
         if x is None:
-            self.x = random.random() * 10 - 5
+            self.coordination_x = random.random() * 10 - 5
         else:
-            self.x = x
+            self.coordination_x = x
         if y is None:
-            self.y = random.random() * 10 - 5
+            self.coordination_y = random.random() * 10 - 5
         else:
-            self.y = y
+            self.coordination_y = y
 
     def add_edge(self, vertex):
         """ will add an edge to the set of the vertex"""
@@ -64,6 +64,11 @@ class Edge:
         """this will produce a string of the edge"""
         return f"Label: {self.label} Destinations: {self.destination} \
          Weight: {self.weight} Color: {self.color}"
+
+    def adjust_weight(self, new_weight):
+        """ this method will allow weights to be adjusted setting
+        the current weight to the new weight inserted in"""
+        self.weight = new_weight
 
 
 class Graph:
@@ -142,6 +147,11 @@ class BokehGraph:
     def __init__(self, graph):
         """ initialze the bokeh graph only requirement is a graph make use of the graph class"""
         self.graph = graph  # should be a object. instance of Graph
+        self.x_coordinates = []
+        self.y_coordinates = []
+        self.disconnected_color = random_color()
+        self.connected_color = random_color()
+        self.colors_layout = []
 
     def __repr__(self):
         """Will show what the graph looks like return self.graph"""
@@ -161,13 +171,13 @@ class BokehGraph:
 
         graph_renderer.node_renderer.data_source.add(vertex_indices, 'index')
 
-        x_coordinates = []
-        y_coordinates = []
+        # x_coordinates = []
+        # y_coordinates = []
 
-        disconnected_color = random_color()
-        connected_color = random_color()
+        # disconnected_color = random_color()
+        # connected_color = random_color()
 
-        colors_layout = []
+        # colors_layout = []
 
         edge_start = []
         edge_end = []
@@ -178,15 +188,15 @@ class BokehGraph:
 
         for vertex_id in vertex_indices:
             vertex = self.graph.vertices[vertex_id]
-            x_coordinates.append(vertex.x)
-            y_coordinates.append(vertex.y)
+            self.x_coordinates.append(vertex.coordination_x)
+            self.y_coordinates.append(vertex.coordination_y)
             if vertex_id in edge_start:
-                colors_layout.append(connected_color)
+                self.colors_layout.append(self.connected_color)
             else:
-                colors_layout.append(disconnected_color)
+                self.colors_layout.append(self.disconnected_color)
 
 
-        graph_renderer.node_renderer.data_source.add(colors_layout, 'color')
+        graph_renderer.node_renderer.data_source.add(self.colors_layout, 'color')
         graph_renderer.node_renderer.glyph = Circle(
             radius=0.5, fill_color='color')
 
@@ -196,14 +206,14 @@ class BokehGraph:
         )
 
         graph_layout = dict(
-            zip(vertex_indices, zip(x_coordinates, y_coordinates)))
+            zip(vertex_indices, zip(self.x_coordinates, self.y_coordinates)))
         graph_renderer.layout_provider = StaticLayoutProvider(
             graph_layout=graph_layout)
 
         plot.renderers.append(graph_renderer)
 
-        label_source = ColumnDataSource(data=dict(x=x_coordinates, y=y_coordinates, names=[
-            self.graph.vertices[vertex_id].value for vertex_id in self.graph.vertices]))
+        label_source = ColumnDataSource(data=dict(x=self.x_coordinates, y=self.y_coordinates,\
+        names=[self.graph.vertices[vertex_id].value for vertex_id in self.graph.vertices]))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', \
         text_align='center', text_baseline='middle', source=label_source, \
         render_mode='canvas', text_color='white')
