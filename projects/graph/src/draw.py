@@ -3,7 +3,7 @@ import math
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval
-from bokeh.palettes import Spectral4
+from bokeh.palettes import Spectral5
 from graph import Graph, Vertex
 
 class BokehGraph:
@@ -34,8 +34,8 @@ class BokehGraph:
         graph = GraphRenderer()
 
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.data_source.add(Spectral4, 'color')
-        graph.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color="color")
+        graph.node_renderer.data_source.add(Spectral5, 'color')
+        graph.node_renderer.glyph = Oval(height=0.5, width=0.5, fill_color="color")
 
         print(f"self.keys: {self.keys} self.values: {self.values}")
         graph.edge_renderer.data_source.data = dict(
@@ -74,7 +74,7 @@ class BokehGraph:
 
         plot.renderers.append(graph)
 
-        labelSource 
+        # labelSource 
         output_file("graph.html")
         show(plot)
 

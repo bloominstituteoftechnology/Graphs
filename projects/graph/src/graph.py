@@ -69,10 +69,8 @@ class Graph:
     # Traversal
     def bft(self, starting_node):
         visited = []
-
         q = Queue()
-
-        q.enqueue()
+        q.enqueue(starting_node)
         while q.size() > 0:
             dequeue = q.dequeue()
             visited.append(dequeue)
@@ -95,7 +93,7 @@ class Graph:
                 for edge in self.vertices[current].edges:
                     s.push(edge)
     
-     # Saerching if the node exists using BFS
+    # Saerching if the node exists using BFS
     def bfs(self, starting_node, target_node):
         visited = []
 
@@ -113,21 +111,40 @@ class Graph:
         return False
 
     # storing the nodes in an entire path
+    # def bfs_path(self, starting_node, target_value):
+    #     q = Queue()
+    #     q.enqueue([starting_node])
+    #     visited = []
+    #     while q.size() > 0:
+    #         path = q.dequeue()
+    #         v = path[-1]
+    #         if v not in visited:
+    #             if v == target_value:
+    #                 return path #hold on
+    #         visited.append(v)
+    #         for next_vert in self.vertices[v].edges:
+    #             new_path = list(path)
+    #             new_path = q.enqueue(next_vert)
+    #             q.enqueue(new_path)
+    #     return None
+
     def bfs_path(self, starting_node, target_value):
-        q = Queue()
-        q.enqueue([starting_node])
+        q = Queue()  # Create an empty Queue
+        q.enqueue([starting_node]) # Put the first node in the queue as a path
         visited = []
-        while q.size() > 0:
-            path = q.dequeue()
-            v = path[-1]
-            if v not in visited:
-                return path
-            visited.append(v)
-            for next_vert in self.vertices[v].edges:
-                new_path = list(path)
-                new_path = append(next_vert)
-                q.enqueue(new_path)
+        while q.size() > 0: # Then, while the queue is not empty
+            path = q.dequeue()  # Dequeue the first path in the queue
+            v = path[-1]  # Get the current vertex (the last element in the path)
+            if v not in visited:  # If that vertex has not been visited...
+                if v == target_value:  # Check if it's the target value
+                    return path
+                visited.append(v) # ...mark as visited...
+                for next_vert in self.vertices[v].edges:  # Then put all the children in the queue
+                    new_path = list(path)
+                    new_path.append(next_vert)  # ...as a path.
+                    q.enqueue(new_path)
         return None
+
 
     # D traversal
     def dfs(self, starting_node, target_node, visited=None):
@@ -144,7 +161,6 @@ class Graph:
                     return True
         return False
 
-
     # DFS Path
     def dfs_path(self, start_vert, target_value, visited=None, path=None):
         if visited is None:
@@ -155,7 +171,7 @@ class Graph:
         print(start_vert)
 
         extended_path = list(path)
-        estended_path.append(start_vert)
+        extended_path.append(start_vert)
 
         if start_vert == target_value:
             return extended_path
@@ -167,11 +183,6 @@ class Graph:
                     return new_path
 
         return None
-
-
-
-
-
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
@@ -194,14 +205,19 @@ class Vertex:
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
-    graph.add_vertex('0')
-    graph.add_vertex('1')
-    graph.add_vertex('2')
-    graph.add_vertex('3')
+    for i in range(6):
+        graph.add_vertex(str(i))
+
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
+    graph.add_edge('1', '2')
+    graph.add_edge('2', '4')
+    graph.add_edge('2', '5')
     # graph.add_edge('0', '4')
     # graph.add_edge('3', '0')
+    print('===graph.bfs_path:', graph.bfs_path('0', '4'))
+    print(graph.dft('0'))
+
     print(graph.vertices)
 
 
