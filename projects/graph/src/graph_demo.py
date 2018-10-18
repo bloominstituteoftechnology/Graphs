@@ -26,10 +26,13 @@ def main(num_vertices=8, num_edges=8):
             # if graph.vertices.values().get_edges() == vertices:
                 # graph.add_edge(vertices[0], vertices[1])
 
-        bg = BokehGraph(graph)
+
+# maybe line glyph
+
+    bg = BokehGraph(graph)
         # dir(bg)
         # bg.pos
-        bg.show()
+    bg.show()
 
 if __name__ == '__main__':
     if len(argv) == 3:
