@@ -25,3 +25,11 @@ Add node: O(1)
 Space complexity: O(N * e), where e is avg number of edges between nodes
 Is Connected?: O(e), e is avg edges
 Print All Edges: O(E), E is TOTAL number of edges
+
+
+
+
+constraint in graphs can be variable equation.
+weights in graphs particular 
+
+napsack problem could be used for a credit card payments problem 
