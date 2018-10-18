@@ -26,16 +26,16 @@ def main():
     graph.add_edge(3, 7)
     graph.add_edge(7, 10)
     graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
     graph.add_edge(2, 8)
-    graph.add_edge(8, 9)
+    graph.add_edge(2, 4)
     graph.add_edge(8, 11)
+    graph.add_edge(8, 9)
     graph.add_edge(9, 5)
     graph.add_edge(5, 12)
     print('graph vertecies ->', graph.vertices)
     
     # BokehGraph(graph).show()
-    
+
     # rando_graph = Graph()
     # verts = math.floor(random.random() * 15) + 2
     # for v1 in range(0, verts+1):
@@ -52,18 +52,16 @@ def main():
     # rando_graph.dfs_iteration(9)
 
     print("-------------------------")
-    print("bfs_iteration ->", graph.bfs_iteration(9))
+    print("bfs_iteration ->", graph.bfs_iteration(12))
     print("-------------------------")
-    print("dft_iteration ->", graph.dfs_iteration(9))
+    print("dft_iteration ->", graph.dfs_iteration(6))
     print("-------------------------")
     print("dfs_recursion ->", graph.dfs_recursion(10))
     print("-------------------------")
-    # print("bfs_recursion ->", graph.bfs_recursion(2))
-    # print("-------------------------")
-    # print("dfs_path ->", graph.dfs_path(2))
-    # print("-------------------------")
-    # print("bfs_path ->", graph.bfs_path(2))
-    # print("-------------------------")
+    print("dfs_path ->", graph.dfs_path(12))
+    print("-------------------------")
+    print("bfs_path ->", graph.bfs_path(10))
+    print("-------------------------")
     
 
 if __name__ == '__main__':

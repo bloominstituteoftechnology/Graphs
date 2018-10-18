@@ -61,7 +61,7 @@ class Graph:
         k = list(self.vertices.keys())[0]
         s.push(k)
         visited = []
-        while s.size():
+        while s.size() >0:
             node = s.pop()
             if node == value:
                 print('visited -> ', visited)
@@ -74,30 +74,59 @@ class Graph:
         print('visited -> ', visited)
         return False
     def dfs_recursion(self, target, value=0, visited=None):
-        print('start', target, value, visited)
         if visited is None: 
             visited = []
             value = list(self.vertices.keys())[0]
         visited.append(value)
         if value == target:
-            print('TRUEEEEEEE')
             print('visited ->', visited)
             return True
         elif len(self.vertices[value].edges) > 0:
             for vert in self.vertices[value].edges:
-                # print(target)
-                print(vert)
-                # print(visited)
                 return self.dfs_recursion(target, vert, visited)
         else:
             return False 
-    def bfs_recursion(self):
-        pass
-    def bfs_path(self):
-        pass
-    def dfs_path():
-        pass
-
+    def bfs_path(self, value):
+        q = Queue()
+        k = list(self.vertices.keys())[0]
+        q.enqueue([k])
+        visited = []
+        while q.size() > 0:
+            path = q.dequeue()
+            # print(path)
+            node = path[-1]
+            if node == value:
+                print('visited -> ', visited)
+                return path
+            else: 
+                visited.append(node)
+                for each in self.vertices[node].edges:
+                    if each not in visited:
+                        new_path = list(path)
+                        new_path.append(each)
+                        q.enqueue(new_path)
+        print('visited -> ', visited)
+        return False
+    def dfs_path(self, value):
+        s = Stack()
+        k = list(self.vertices.keys())[0]
+        s.push([k])
+        visited = []
+        while s.size() >0:
+            path = s.pop()
+            node = path[-1]
+            if node == value:
+                print('visited -> ', visited)
+                return path
+            else:
+                visited.append(node)
+                for each in self.vertices[node].edges:
+                    if each not in visited:
+                        new_path = list(path)
+                        new_path.append(each)
+                        s.push(new_path)
+        print('visited -> ', visited)
+        return False
 
 class Vertex: 
     def __init__(self, vertex_id, x=None, y=None):
