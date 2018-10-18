@@ -3,12 +3,12 @@ General drawing methods for graphs using Bokeh.
 """
 import math
 import random
-from graph import Graph
-
+from graph import Graph 
+from graph import Vertex
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval, Circle
-from bokeh.palettes import Spectral8
+from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval, Circle, Label, LabelSet, ColumnDataSource
+from bokeh.palettes import RdBu3
 
 
 class BokehGraph:
@@ -23,14 +23,16 @@ class BokehGraph:
         self.y_range = (0, height)
         # List of vertex labels
         # self.vertices = [int(x) for x in self.graph.vertices.keys()]
-
+    def draw(self):
+        graph = self.graph
         # self.bokeh_graph = GraphRenderer()
         # print(f'''VERTICES TREE {self.verticesSET}''')
 
         N = len( graph.vertices )
         node_indices = list(graph.vertices.keys())
 
-        print(node_indices)
+        # print(f'''NODES {node_indices}''')
+       
 
         plot = figure(title="Graph Layout Demonstration", x_range=(-7,7), y_range=(-7,7),
                       tools="", toolbar_location=None)
@@ -47,7 +49,9 @@ class BokehGraph:
 
         # O(E), where E is the total number of edges
         for vertex_id in node_indices:
+         
             for v in graph.vertices[vertex_id].edges:
+                # print(vertex_id)
                 edge_start.append(vertex_id)
                 edge_end.append(v)
 
@@ -79,22 +83,34 @@ class BokehGraph:
 
         plot.renderers.append(graph_renderer)
 
+        # def _setup_labels(self):
+        #    label_data = {'x': [], 'y': [], 'names': []}
+        #    for vertex_label, (x_pos, y_pos) in self.pos.items():
+        #       label_data['x'].append(x_pos)
+        #       label_data['y'].append(y_pos)
+        #       label_data['names'].append(vertex_label)
+
+           
+
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in graph.vertices]))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+        text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+        # self.plot.add_layout(labels)
+
         output_file('graph.html')
         show(plot)
 
-graph = Graph() # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_vertex('4')
-graph.add_vertex('5')
-graph.add_vertex('6')
-graph.add_vertex('7')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+# graph = Graph() # Instantiate your graph
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_vertex('4')
+# graph.add_vertex('5')
+# graph.add_vertex('6')
+# graph.add_vertex('7')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
 # print(graph.vertices)
 # bg = BokehGraph(graph)
-
-
-
+# bg.draw()
