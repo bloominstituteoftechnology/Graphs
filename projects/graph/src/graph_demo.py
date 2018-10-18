@@ -10,14 +10,14 @@ from graph import Graph
 from draw import BokehGraph
 
 
-def main(v=10, e=5):
+def main(v=10, e=5, connected=True):
     graph = Graph()
     for i in range(v):
         graph.add_vertex(i)
 
     all_edges = []
-    for i in range(e):
-        for j in range(i+1, e):
+    for i in range(v):
+        for j in range(i+1, v):
             all_edges.append((i, j))
 
     random.shuffle(all_edges)
@@ -26,9 +26,9 @@ def main(v=10, e=5):
     for edge in edges:
         graph.add_edge(edge[0], edge[1])
 
-    print(graph.connected())
+    graph.connected()
     bokeh_graph = BokehGraph(graph)
-    bokeh_graph.show(True)
+    bokeh_graph.show(connected)
 
 
 if __name__ == '__main__':

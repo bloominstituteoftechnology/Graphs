@@ -27,7 +27,7 @@ class BokehGraph:
 
         # Random color generator
         if connected:
-            graph.node_renderer.data_source.add(sorted(node_indices), 'index')
+            graph.node_renderer.data_source.add(node_indices, 'index')
             color = []
             for vertex in self.graph.vertices:
                 color.append(self.graph.vertices[vertex].color)
