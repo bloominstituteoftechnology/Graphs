@@ -3,6 +3,33 @@ Simple graph implementation compatible with BokehGraph class.
 """
 import random
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if (self.size()) > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -32,6 +59,15 @@ class Graph:
             self.vertices[v1].edges.add(v2)
         else:
             raise IndexError("That vertex does not exist!")
+    def dft(self, starting_node, visited=None):        
+        if visited is None:            
+            visited = []
+        visited.append(starting_node)  
+        print(starting_node)      
+        for node in self.vertices[starting_node].edges:
+            if node not in visited:
+                self.dft(node, visited)
+        return visited
 
 class Vertex:
     def __init__(self, vertex_id, x = None, y = None):
@@ -46,7 +82,7 @@ class Vertex:
         else:
             self.y = y
     def __repr__(self):
-        return f"{self.edges}git"
+        return f"{self.edges}"
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
