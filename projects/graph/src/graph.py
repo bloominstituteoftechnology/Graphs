@@ -16,6 +16,20 @@ class Stack:
     def size(self):
         return len(self.stack)
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -40,7 +54,7 @@ class Graph:
             raise IndexError("That vertex does not exist")
 
     
-    def dft_s(self, starting_node):
+    def dft_stack(self, starting_node):
          # create an empty stack
         s = Stack()
         # Put starting vert in the stack
