@@ -2,7 +2,7 @@ import math
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider,ColumnDataSource, Oval, Circle, Label, LabelSet
+from bokeh.models import GraphRenderer, StaticLayoutProvider,ColumnDataSource, Circle, Label, LabelSet, Arrow, NormalHead
 
 from bokeh.palettes import Spectral8
 from graph import Graph
@@ -27,8 +27,7 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         # node_colors = ['red'] * N
         # graph.node_renderer.data_source.add(node_colors, 'color')
-        graph_renderer.node_renderer.glyph = Circle(radius=0.5, line_width=5, line_color="orange", fill_color="blue")
-
+        graph_renderer.node_renderer.glyph = Circle(radius=0.5, line_width=5, line_color="yellow", fill_color="red")
         edge_start = []
         edge_end = []
 
@@ -60,27 +59,10 @@ class BokehGraph:
 
         labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in graph.vertices]))
         labels = LabelSet(x='x', y='y', text='names', level='glyph',
-                     text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+                     text_align='center', text_baseline='middle',text_color="white", source=labelSource, render_mode='canvas')
 
 
         plot.add_layout(labels)
 
         output_file('graph.html')
         show(plot)
-
-# graph = Graph()
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_vertex('4')
-# graph.add_vertex('5')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '2')
-# graph.add_edge('1', '3')
-# graph.add_edge('2', '4')
-# graph.add_edge('3', '5')
-
-
-# bg = BokehGraph(graph)
-# bg.draw()
