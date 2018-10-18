@@ -3,11 +3,6 @@
 """
 Demonstration of Graph and BokehGraph functionality.
 """
-#!/usr/bin/python
-
-"""
-Demonstration of Graph and BokehGraph functionality.
-"""
 
 from sys import argv
 from graph import Graph
@@ -17,15 +12,24 @@ import random
 
 def createDefaultGraph():
     graph = Graph()  # Instantiate your graph
-    graph.add_vertex("0")
-    graph.add_vertex("1")
-    graph.add_vertex("2")
-    graph.add_vertex("3")
-    graph.add_edge("0", "1")
-    graph.add_edge("0", "3")
+    graph.add_vertex(5)
+    graph.add_vertex(2)
+    graph.add_vertex(6)
+    graph.add_vertex(1)
+    graph.add_vertex(4)
+    graph.add_vertex(7)
+    graph.add_vertex(3)
+    graph.add_edge(5, 2)
+    graph.add_edge(5, 6)
+    graph.add_edge(2, 1)
+    graph.add_edge(2, 4)
+    graph.add_edge(4, 3)
+    graph.add_edge(6, 7)
 
-    bg = BokehGraph(graph)
-    bg.draw()
+    print(graph.dfs(5, 7))
+
+    # bg = BokehGraph(graph)
+    # bg.draw()
 
 
 # O(n^2)
@@ -37,7 +41,7 @@ def createRandomGraph(numNodes, numEdges):
     # O(n^2)
     for i in range(numNodes):
         for j in range(i + 1, numNodes):
-            all_edges.append((i, j))
+            all_edges.append( (i,  j) )
 
     # O(n)
     random.shuffle(all_edges)
@@ -66,16 +70,20 @@ def createRandomGraph(numNodes, numEdges):
     bg.draw()
 
 
-def main(style, numNodes, numEdges):
-    if style == "default":
+
+
+def main(style, numNodes,  numEdges):
+    if style  == "default":
         createDefaultGraph()
-    elif style == "random":
+    elif style  == "random":
         createRandomGraph(numNodes, numEdges)
     else:
         createDefaultGraph()
 
 
-if __name__ == "__main__":
+
+
+if __name__ == '__main__':
     style = "default"
     numNodes = 5
     numEdges = 5
