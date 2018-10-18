@@ -47,9 +47,9 @@ class Graph:
             node_list.append(node)
         return node_list
     
-    def BFS(self, startVert):
+    def BFT(self, startVert):
         q = PriorityQueue()
-        visited = set([startVert])
+        visited = []
         for v in self.vertices:
             self.vertices[v].color = 'white'
         
@@ -59,27 +59,28 @@ class Graph:
 
         while not q.empty():
             u = q.queue[0]
-
+            visited.append(self.vertices[u])
             # print("edges", self.vertices[u].edges)
             for v in self.vertices[u].edges:
                 if self.vertices[v].color == 'white':
                     self.vertices[v].color = 'red'
-                    q.put(v)
+                    if v not in visited:
+                        q.put(v)
             q.get()
             self.vertices[u].color = 'blue'
-            visited.add(self.vertices[u])
-            return visited
+        return visited
 
     def connected_components(self):
-        # connected_components = set()
-        # for v in self.vertices:
-        #     print(v)
-        #     self.vertices[v].color = 'white'
-        #     if self.vertices[v] not in connected_components:
-        #         connected_components.update(self.BFS(self.vertices[v].id))
-        #     if self.vertices[v].color == 'white':
-        #         self.vertices[v].color = 'green'
-        # print(connected_components)
+        pass
+        connected_components = set()
+        for v in self.vertices:
+            # print(v)
+            self.vertices[v].color = 'white'
+            if self.vertices[v] not in connected_components:
+                connected_components.update(self.BFT(self.vertices[v].id))
+            if self.vertices[v].color == 'white':
+                self.vertices[v].color = 'green'
+        print(connected_components)
 
 
         # connected_components = set()
@@ -89,7 +90,7 @@ class Graph:
         #     if v not in connected_components:
         #         reachable = self.BFS(self.vertices[v].id)
         #         for other_v in reachable:
-        #             self.vertices[other_v].component = current_component
+        #             other_v.component = current_component
         #         current_component += 1
         #         connected_components.update(reachable)
         # self.components = current_component
