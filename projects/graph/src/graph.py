@@ -68,7 +68,6 @@ class Vertex:
         return f"{self.edges}"
 
 
-
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -125,9 +124,24 @@ class Graph:
             print(removed)
             for i in self.vertices[removed].edges:
                 if i not in visited:
-                    queue.enqueue(edge)
+                    queue.enqueue(i)
         return visited
 
+    # depth first traversal
+    def dft(self, starting_node, visited = None): 
+        # create an empty list to track visited nodes
+        if visited is None:
+            visited = []
+        # place the starting node into the visited stack
+        visited.append(starting_node)
+        for i in self.vertices[starting_node].edges:
+            if i not in visited:
+                # do a recursive call of the dft functions on child nodes
+                self.dft(i, visited)
+                print(visited)
+        return visited
+
+    #Breadth first search 
 
     def bfs(self, start, target):
     # https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
@@ -164,6 +178,12 @@ graph.add_edge('1', '2')
 graph.add_edge('1', '4')
 print(graph.vertices)
 print(graph.vertices['0'])
-graph.bfs('0','2')
+print("----------try bft----------")
+graph.bft('0')
+print("----------try bfs----------")
+graph.bfs('0','1')
+print("----------try dft----------")
+graph.dft('0')
+
 
 
