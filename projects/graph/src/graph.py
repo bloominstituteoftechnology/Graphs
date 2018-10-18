@@ -164,6 +164,21 @@ class Graph:
                     queue.enqueue(i) # place the node in the back of the queue
         return False
 
+    # Breadth First Search
+
+    def dfs(self, start, target, visited = None):
+        if visited is None:
+            visited = []
+        visited.append(start)
+        print(start)
+        if start == target:
+            return True
+        # for each i child node that hasn't been visited, do a recursive call of dft()
+        for i in self.vertices[start].edges:
+            if i not in visited:
+                if self.dfs(i, target, visited):
+                    return True
+        return False
 
 # Tests for Graph Class
 graph = Graph()  # Instantiate your graph
@@ -184,6 +199,8 @@ print("----------try bfs----------")
 graph.bfs('0','1')
 print("----------try dft----------")
 graph.dft('0')
+print("----------try dfs----------")
+graph.dfs('0', '1')
 
 
 
