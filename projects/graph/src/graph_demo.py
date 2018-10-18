@@ -27,6 +27,8 @@ def create_default_graph():
     graph.add_edge('4', '3')
     graph.add_edge('6', '7')
 
+    graph.bft('5')
+
     bg = BokehGraph(graph)
     bg.draw()
 
@@ -37,10 +39,13 @@ def create_random_graph(num_nodes, num_edges):
 
     edges = []
 
+    # dont want i to point to ever itself, thus i + 1. Big O of n^2 aka (O(n*(n-1)
     for i in range(num_nodes):
         for j in range(i + 1, num_nodes):
             edges.append((i, j))
 
+
+    # O(n)
     random.shuffle(edges)
 
 

@@ -76,6 +76,12 @@ class BokehGraph:
 
         plot.renderers.append(graph_renderer)
 
+        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[vertex_id for vertex_id in graph.vertices]))
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                     text_align='center', text_baseline='middle', source=labelSource, render_mode='canvas')
+
+        plot.add_layout(labels)
+
         output_file('graph.html')
         show(plot)
 
