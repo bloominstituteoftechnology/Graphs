@@ -8,23 +8,28 @@ from sys import argv
 from graph import Graph
 from draw import BokehGraph
 import random
-
+#"""this is a the default graph that will be used if 
+# style='default' or nothing is put into the console 
+# after python3 graph_demo.py"""
 def createDefaultGraph():
     graph = Graph()
-    graph.add_vertex('0')
     graph.add_vertex('1')
     graph.add_vertex('2')
     graph.add_vertex('3')
-    graph.add_edge('0', '1')
-    graph.add_edge('0', '2')
+    graph.add_vertex('4')
+    graph.add_edge('1', '2')
     graph.add_edge('1', '3')
+    graph.add_edge('1', '4')
 
-    bg = BokehGraph(graph)
-    bg.draw()
-
+    print(graph.depth_first_search('1'))
+    print(graph.breadth_first_search('1'))
+    # bg = BokehGraph(graph)
+    # bg.draw()
+#""" Creating a random graph function where numNodes and numEdges
+# are used, the numNodes are the verticies and numEdges are the 
+# edges."""
 def createRandomGraph(numNodes, numEdges):
     graph = Graph()
-    
     all_edges = []
 
     for i in range(numNodes):

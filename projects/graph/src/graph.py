@@ -3,6 +3,33 @@ Simple graph implementation compatible with BokehGraph class.
 """
 import random
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if (self.size()) > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -26,30 +53,35 @@ class Graph:
             raise IndexError("That vertext does not exist")
 
     def depth_first_search(self, starting_node):
-        stack = [starting_node]
-        collected = []
-        if len(self.vertices) == 0:
-            visited == False
-        while stack:
-            current = stack.pop()
-            collected.append(current)
-            for child in self.vertices[current]:
-                if visited[child] == False:
-                    stack.append(child)
-                    visited[child] == True
+        visited = []
+        #create an empty stack
+        s = Stack()
+        #put starting vert in the stack
+        s.push(starting_node)
+        while s.size() > 0: #while stack is not empty
+            destacked = s.pop() # Destack the first element
+            visited.append(destacked) # Mark it as visited
+            print(destacked, "destacked")
+            for edge in self.vertices[destacked].edges: 
+                if edge not in visited: # If it hasn't been visited
+                    s.push(edge) # Add it to the back of the queue
+        return visited
 
     def breadth_first_search(self, starting_node):
-        stack = [starting_node]
-        collected = []
-        if len(self.vertices) == 0:
-            visited == False
-        while stack:
-            current = stack.pop(0)
-            collected.append(current)
-            for child in self.vertices[current]:
-                if visited[child] == False:
-                    stack.append(child)
-                    visited[child] == True
+        visited = []
+        #create and empty queue
+        q = Queue()
+        #put starting vert in the queue
+        q.enqueue(starting_node)
+        while q.size() > 0: # while queue is not empty
+            dequeued = q.dequeue() # Dequeue the first element
+            visited.append(dequeued) # Mark it as visited
+            print(dequeued, "dequeued")
+            for edge in self.vertices[dequeued].edges: #For each child
+                if edge not in visited: # If it hasn't been visited
+                    q.enqueue(edge) #Add it to the back of the queue
+        return visited
+
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
