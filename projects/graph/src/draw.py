@@ -8,19 +8,23 @@ from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval
 from bokeh.palettes import Spectral8
-from graph import Graph, Vertex
+from graph import Graph # no need to import Vertex
 
+
+#BokehGraph doesnt inherit from Graph, but takes it in the initializer as an argument
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
 
     def __init__(self, graph):
         self.graph=graph
 
+
+#draw function
     def draw(self):
         graph = self.graph
-        N = len(graph.vertices)
+        N = len(graph.vertices)   #note that colors have to be the same length as indices
         node_indices = list(graph.vertices.keys())
-
+        print(node_indices)
         plot = figure(title='Graph Layout Demonstration', x_range=(-7, 7), y_range=(-7, 7),
                     tools='', toolbar_location=None)
 
@@ -28,12 +32,12 @@ class BokehGraph:
 
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         # graph.node_renderer.data_source.add(Spectral8, 'color')
-        graph_renderer.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color='red')
+        graph_renderer.node_renderer.glyph = Oval(height=0.3, width=0.2, fill_color='red')
 
         edge_start = []
         edge_end =[]
 
-        #O(E), where E is total number of edges
+        #this is O(E), where E is average number of edges which is the total number of edges divided by nodes
         for vertex_id in node_indices:
             for v in graph.vertices[vertex_id].edges:
                 edge_start.append(vertex_id)

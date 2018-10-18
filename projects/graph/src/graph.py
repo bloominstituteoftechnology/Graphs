@@ -4,6 +4,33 @@ Simple graph implementation compatible with BokehGraph class.
 
 import random
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+
+class Stack:
+    def __init__(self):
+        self.stack =[]
+    def push(self, value):
+        self.queue.append(value)
+    def pop(self):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len
+
 """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
 class Graph:
@@ -18,7 +45,6 @@ class Graph:
     def add_edge(self, v1, v2):
         """add an undirected edge to the graph"""
         if v1 in self.vertices or v2 in self.vertices:
-            print(v1, v2)
             self.vertices[v1].edges.add(v2)
             self.vertices[v2].edges.add(v1)
         else:
@@ -34,12 +60,16 @@ class Graph:
     def dft(self, starting_node, visited=None):
         """Mark the node as visited"""
         if visited is None:
-            visited = []
+            visited = [] #cant just have visited = [] in def dft because of weird python thing
         visited.append(starting_node)
     """For each child, if that child hasnt been visited, call dft() on that node
         for child in children:
-        if child not in visited:
-        dft (child,visited)"""
+            if child not in visited:
+                dft (child,visited)"""
+
+
+#you can implement dfs using stack instead of recursion
+#and for bfs if you use queue instead of stack it changes dfs to bfs
 
     def bft(self, starting_node):
         """create an empty queue"""
@@ -52,6 +82,8 @@ class Graph:
             If it has not been visited yet...
             Mark it as visited...
             then put all its children in the back of the queue"""
+
+
 
 
 class Vertex:
