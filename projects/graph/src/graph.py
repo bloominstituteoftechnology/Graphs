@@ -55,6 +55,7 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist!")    
 
+    # Traversal
     def dft(self, starting_node, visited=None):
         # depth first traversal using recursion
         if visited is None:
@@ -65,7 +66,7 @@ class Graph:
                 self.dft(node, visited)
         return visited
     
-
+    # Traversal
     def bft(self, starting_node):
         visited = []
 
@@ -77,9 +78,11 @@ class Graph:
             visited.append(dequeue)
             print(dequeue)
             for edge in self.vertices[dequeue].edges:
-                if edge note in visited:
+                if edge not in visited:
                     q.enqueue(edge)            
 
+    
+    # sorting using DFS
     def dft_s(self, starting_node):
         s = Stack()
         s.push(starting_node)
@@ -89,7 +92,82 @@ class Graph:
             if current not in visited:
                 visited.append(current)
                 print(visited)
-                for edge
+                for edge in self.vertices[current].edges:
+                    s.push(edge)
+    
+     # Saerching if the node exists using BFS
+    def bfs(self, starting_node, target_node):
+        visited = []
+
+        q = Queue()
+        q.enqueue(starting_node)
+        while q.size() > 0:
+            dequeue = q.dequeue()
+            visited.append(dequeue)
+            print(dequeue)
+            if dequeue == target_node:
+                return True
+            for edge in self.vertices[dequeue].edges:
+                if edge not in visited:
+                    q.enqueue(edge)
+        return False
+
+    # storing the nodes in an entire path
+    def bfs_path(self, starting_node, target_value):
+        q = Queue()
+        q.enqueue([starting_node])
+        visited = []
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+            if v not in visited:
+                return path
+            visited.append(v)
+            for next_vert in self.vertices[v].edges:
+                new_path = list(path)
+                new_path = append(next_vert)
+                q.enqueue(new_path)
+        return None
+
+    # D traversal
+    def dfs(self, starting_node, target_node, visited=None):
+        if visited is None:
+            visited = []
+        visited.append(starting_node)
+        print(starting_node)
+        if starting_node == target_node:
+            return True
+        
+        for node in self.vertices[starting_node].edges:
+            if node not in visited:
+                if self.dfs(node,target_node, visited):
+                    return True
+        return False
+
+
+    # DFS Path
+    def dfs_path(self, start_vert, target_value, visited=None, path=None):
+        if visited is None:
+            visited = []
+        if path is None:
+            path = []
+        visited.append(start_vert)
+        print(start_vert)
+
+        extended_path = list(path)
+        estended_path.append(start_vert)
+
+        if start_vert == target_value:
+            return extended_path
+        
+        for child_vert in self.vertices[start_vert].edges:
+            if child_vert not in visited:
+                new_path = self.dfs_path(child_vert, target_value, visited, extended_path)
+                if new_path:
+                    return new_path
+
+        return None
+
 
 
 
