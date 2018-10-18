@@ -2,11 +2,10 @@
 Demonstration of Graph and BokehGraph functionality.
 """
 import random
-from sys import argv
-import math
+
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, Oval, LabelSet,
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from bokeh.palettes import Spectral8
 from graph import Graph
@@ -51,11 +50,13 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, value):
+        """This method adds a vertex to the self.vertices"""
         new_vertex = Vertex(value)
         self.vertices[value] = new_vertex
         return new_vertex
 
     def add_edge_one_way(self, from_vertex, to_vertex):
+        """ This is a one way edge it does accept and handle two way connections"""
 
         if from_vertex in self.vertices and to_vertex in self.vertices:
             self.vertices[from_vertex].add_edge(to_vertex)
@@ -129,9 +130,9 @@ class BokehGraph:
 
     def show(self):
 
-        N = len(self.graph.vertices)  # length of vertices
+        """ this method makes use of the bokeh package to produce a graph in html """
         vertex_indices = list(self.graph.vertices.keys())
-        print(vertex_indices[0], "starting point")
+        print(vertex_indices[0], "starting point for traversal")
         self.graph.depth_first(vertex_indices[0])
         self.graph.breadth_first(vertex_indices[0])
 
@@ -142,8 +143,8 @@ class BokehGraph:
 
         graph_renderer.node_renderer.data_source.add(vertex_indices, 'index')
 
-        x = []
-        y = []
+        x_coordinates = []
+        y_coordinates = []
         valid_chars = '0123456789ABCDEF'
 
         disconnected_color = self.graph.random_color()
@@ -160,8 +161,8 @@ class BokehGraph:
 
         for vertex_id in vertex_indices:
             vertex = self.graph.vertices[vertex_id]
-            x.append(vertex.x)
-            y.append(vertex.y)
+            x_coordinates.append(vertex.x)
+            y_coordinates.append(vertex.y)
             if vertex_id in edge_start:
                 colors_layout.append(connected_color)
             else:
@@ -177,16 +178,16 @@ class BokehGraph:
             end=edge_end
         )
 
-        graph_layout = dict(zip(vertex_indices, zip(x, y)))
+        graph_layout = dict(zip(vertex_indices, zip(x_coordinates, y_coordinates)))
         graph_renderer.layout_provider = StaticLayoutProvider(
             graph_layout=graph_layout)
 
         plot.renderers.append(graph_renderer)
 
-        labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[
+        labelSource = ColumnDataSource(data=dict(x=x_coordinates, y=y_coordinates, names=[
             self.graph.vertices[vertex_id].value for vertex_id in self.graph.vertices]))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center',
-                          text_baseline='middle', source=labelSource, render_mode='canvas')
+                          text_baseline='middle', source=labelSource, render_mode='canvas', text_color='white')
 
         plot.add_layout(labels)
 
@@ -248,6 +249,5 @@ def main():
 
 
 if __name__ == '__main__':
-    # TODO - parse argv
     # I chose not to go with arguments since I am making everything i can think of completely random.
     main()
