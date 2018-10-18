@@ -115,9 +115,8 @@ class Graph:
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
 
-    def __init__(self, graph, color="blue"):
+    def __init__(self, graph):
         self.graph = graph  # should be a object. instance of Graph
-        self.color = color
 
     def show(self):
 
@@ -176,7 +175,7 @@ class BokehGraph:
         plot.renderers.append(graph_renderer)
 
         labelSource = ColumnDataSource(data=dict(x=x, y=y, names=[
-                                       self.graph.vertices[vertex_id].value for vertex_id in self.graph.vertices]))
+            self.graph.vertices[vertex_id].value for vertex_id in self.graph.vertices]))
         labels = LabelSet(x='x', y='y', text='names', level='glyph', text_align='center',
                           text_baseline='middle', source=labelSource, render_mode='canvas')
 
@@ -234,9 +233,8 @@ def main():
         edges_count += 1
         vertices_index_track += 1
 
-    valid_chars = '0123456789ABCDEF'
-    random_color = f"#{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}{valid_chars[random.randint(0,15)]}"
-    bokeh_graph = BokehGraph(graph, random_color)
+    
+    bokeh_graph = BokehGraph(graph)
     bokeh_graph.show()
 
 
