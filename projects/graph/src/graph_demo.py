@@ -62,20 +62,20 @@ def main(style, numNodes, numEdges):
         createDefaultGraph()
 
 if __name__ == '__main__':
-    style = 'default'
-    numNodes = 5
+    style = 'random'
+    numNodes = 7
     numEdges = 5
 
-    for arg in argv[1:]:
-        arg_split = arg.split('=')
-        if len(arg_split) == 2:
-            if arg_split[0] == 'style':
-                style = arg_split[1].lower()
-            elif arg_split[0] =='nodes':
-                numNodes = int(arg_split[1])
-            elif arg_split[0] == 'edges':
-                numEdges = int(arg_split[1])
-            else:
-                print("Cannot do that")
+    # for arg in argv[1:]:
+    #     arg_split = arg.split('=')
+    #     if len(arg_split) == 2:
+    #         if arg_split[0] == 'style':
+    #             style = arg_split[1].lower()
+    #         elif arg_split[0] =='nodes':
+    #             numNodes = int(arg_split[1])
+    #         elif arg_split[0] == 'edges':
+    #             numEdges = int(arg_split[1])
+    #         else:
+    #             print("Cannot do that")
     
     main(style, numNodes, numEdges)

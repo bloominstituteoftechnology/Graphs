@@ -25,16 +25,16 @@ class Graph:
             raise IndexError("That vertex does not exist")
 
     def depth_first_search(self, starting_node):
-        stack = Stack()
-        stack.push(starting_node)
+        stack = []
+        stack.append(starting_node)
         visited = []
-        while stack.size() > 0:
+        while stack:
             current = stack.pop()
             if current not in visited:
                 visited.append(current)
                 print(visited)
                 for edge in self.vertices[current].edges:
-                    stack.push(edge)
+                    stack.append(edge)
 
     def breadth_first_search(self, starting_node):
         queue = [starting_node]
