@@ -171,13 +171,6 @@ class BokehGraph:
 
         graph_renderer.node_renderer.data_source.add(vertex_indices, 'index')
 
-        # x_coordinates = []
-        # y_coordinates = []
-
-        # disconnected_color = random_color()
-        # connected_color = random_color()
-
-        # colors_layout = []
 
         edge_start = []
         edge_end = []
