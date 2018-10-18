@@ -68,6 +68,7 @@ class Graph:
             if current not in visited:
                 visited.append(current)
                 print(visited)
+                self.vertices[current].color = 'yellow'
                 for edge in self.vertices[current].edges:
                     q.enqueue(edge)
 
