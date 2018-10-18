@@ -40,18 +40,27 @@ class Graph:
             raise IndexError("That vertex does not exist!")
     def dft(self, starting_node, visited=None):
         # Mark the node as visited
-        if visited is None:
-            visited = []
-        visited.append(starting_node)
-        for child in self.vertices[starting_node].edges:
-            if child not in visited:
-                self.dft(child, visited)
-        print(visited)
-        return visited
-        # For each child, if that child hasn't been visited, call dft() on that node
-        # for child in children:
+        #if visited is None:
+        #    visited = []
+        #visited.append(starting_node)
+        #for child in self.vertices[starting_node].edges:
         #    if child not in visited:
-                  # dft(child, visted)
+        #        self.dft(child, visited)
+        #print(visited)
+        #return visited
+        visited = []
+        # create an empty queue
+        s = Stack()
+        # Put starting vert in the queue
+        s.place(starting_node)
+        while s.size() > 0:
+            dequeued = s.unstack()
+            visited.append(dequeued)
+            for edge in self.vertices[dequeued].edges:
+                if edge not in visited:
+                    s.place(edge)
+        print(f'dft:{visited}')
+        return visited
     def bft(self, starting_node):
         visited = []
         # create an empty queue
@@ -64,7 +73,7 @@ class Graph:
             for edge in self.vertices[dequeued].edges:
                 if edge not in visited:
                     q.enqueue(edge)
-                print(visited)
+        print(f'bft:{visited}')
         return visited
 
 
@@ -97,7 +106,7 @@ class Stack:
     def isEmpty(self):
         return self.items == []
 
-    def place_stack(self, item):
+    def place(self, item):
         self.items.append(item)
 
     def unstack(self):
