@@ -1,30 +1,30 @@
 import random
 
-# class Queue:
-#     def __init__(self):
-#         self.queue = []
-#     def enqueue(self, value):
-#         self.queue.append(value)
-#     def dequeue(self, value):
-#         if (self.size()) > 0:
-#             return self.queue.pop(0)
-#         else:
-#             return None
-#     def size(self):
-#         return len(self.queue)
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self, value):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 
-# class Stack:
-#     def __init__(self):
-#         self.stack = []
-#     def push(self, value):
-#         self.stack.push(value)
-#     def pop(self):
-#         if (self.size()) > 0:
-#             return self.stack.pop()
-#         else:
-#             return None
-#     def size(self):
-#         return len(self.stack)
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.push(value)
+    def pop(self):
+        if (self.size()) > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
 
 class Graph:
     def __init__(self):
@@ -58,7 +58,7 @@ class Graph:
         else:
             raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
 
-    def bfs(self, starting_node):
+    def bfs(self, starting_node): # breadth first traversal
         queue = [starting_node]
         visited = [starting_node]
         while len(queue) > 0:
@@ -69,6 +69,20 @@ class Graph:
                     visited.append(edge)
                     queue.append(edge)
         print(visited)
+        return visited
+    
+    # def bft(self, starting_node): # breadth first traversal using Queue class on top
+
+    def dft(self, starting_node, visited=None):
+        # Mark the node as visited
+        if visited is None:
+            visited = []
+        visited.append(starting_node)
+        print(starting_node)
+        # For each child, if that child hasn't been visited, call dft() on that node
+        for edge in self.vertices[starting_node].edges:
+            if edge not in visited:
+                self.dft(edge, visited)
         return visited
 
 class Vertex:
