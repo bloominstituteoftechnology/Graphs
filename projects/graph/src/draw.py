@@ -24,7 +24,7 @@ class BokehGraph:
 
     def make_graph(self):
         self.renderer.node_renderer.data_source.add(self.node_indices, 'index')
-        self.renderer.node_renderer.glyph = Circle(size=30, fill_color='color')
+        self.renderer.node_renderer.glyph = Circle(size=25, fill_color='color')
         self.connect_nodes()
         self.renderer.edge_renderer.data_source.data = self.graph.get_edges()
         self.renderer.node_renderer.data_source.add(list(self.graph.get_colors()),
@@ -47,13 +47,19 @@ class BokehGraph:
         used_pos = set()
         for node in self.graph.vertices:
             while True:
-                width = randint(1, self.width - 1)
-                height = randint(1, self.height - 1)
+                width = randint(2, self.width - 5)
+                height = randint(2, self.height - 5)
                 p = (width, height)
                 if p not in used_pos:
                     data['x'].append(width)
                     data['y'].append(height)
-                    used_pos.add(p)
+                    # used_pos.add(p)
+                    padded_xs = (x for x in range(p[0] - 2, p[0] + 2))
+                    padded_ys = (y for y in range(p[1] - 2, p[1] + 2))
+                    # bad complexity, but trying things out
+                    for w in padded_xs:
+                        for h in padded_ys:
+                            used_pos.add((w, h))
                     data['names'].append(self.graph.vertices[node].label)
                     data['text_color'].append('#000')
                     break

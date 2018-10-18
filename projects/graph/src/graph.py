@@ -16,9 +16,9 @@ class Vertex:
         return f'Vertex {self.label}'
 
     def random_color(self):
-        return '#{:02x}{:02x}{:02x}'.format(randint(198, 255),
-                                            randint(198, 255),
-                                            randint(198, 255))
+        return '#{:02x}{:02x}{:02x}'.format(randint(190, 255),
+                                            randint(190, 255),
+                                            randint(190, 255))
 
 
 class Graph:
@@ -42,14 +42,6 @@ class Graph:
             raise Exception('One or both vertices are not in graph.')
         self.vertices[v1].edges.add(v2)
         self.vertices[v2].edges.add(v1)
-
-    def get_nodes(self):
-        x = []
-        y = []
-        for vertex in self.vertices:
-            x.append(self.vertices[vertex].x)
-            y.append(self.vertices[vertex].y)
-        return zip(x, y)
 
     def get_edges(self):
         s = []
