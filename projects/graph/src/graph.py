@@ -1,7 +1,7 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-from random import random, randint
+from random import randint
 
 
 class Vertex:
@@ -69,10 +69,9 @@ class Graph:
             colors.append(self.vertices[node].color)
         return colors
 
-    def search(self, node, base_x, base_y, type='bfs'):
+    def connect(self, node, type='bfs'):
         if node not in self.vertices:
-            raise Exception('Starting point does not exist')
-
+            raise Exception('Unknown starting point')
         if type != 'bfs' and type != 'dfs':
             raise Exception('Invalid search type')
         storage = []
@@ -80,20 +79,10 @@ class Graph:
         visited = set()
         remove_index = -1 if type == 'dfs' else 0
         base_color = self.vertices[node].random_color()
-        count = 1
-        x = base_x
-        y = base_y
         while storage:
             current = storage.pop(remove_index)
             if current not in visited:
                 visited.add(current)
                 storage.extend(list(self.vertices[current].edges))
                 self.vertices[current].color = base_color
-                self.vertices[current].x = x
-                self.vertices[current].y = y
-                print(x)
-                x += (x * -3) + (random() * count)
-                print(x)
-                y += (y * -3) + (random() * count)
-                count += 1
         return visited

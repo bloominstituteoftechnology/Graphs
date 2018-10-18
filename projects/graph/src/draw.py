@@ -2,6 +2,7 @@
 General drawing methods for graphs using Bokeh.
 """
 
+from random import randint
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle,
@@ -28,30 +29,50 @@ class BokehGraph:
         self.renderer.edge_renderer.data_source.data = self.graph.get_edges()
         self.renderer.node_renderer.data_source.add(list(self.graph.get_colors()),
                                                     'color')
-        graph_layout = dict(
-            zip(self.node_indices, list(self.graph.get_nodes())))
-        self.renderer.layout_provider = (
-            StaticLayoutProvider(graph_layout=graph_layout))
+        # took from here - POS
+        self.position_nodes()
         self.plot.renderers.append(self.renderer)
         output_file('graph.html')
         show(self.plot)
 
     def connect_nodes(self):
         connected = set()
-        base_x = self.width / 2
-        base_y = self.height / 2
-        mod_x = 1
-        mod_y = 1
-        count = 1
         for node in self.graph.vertices:
             if self.graph.vertices[node] not in connected:
-                connected_nodes = (
-                    self.graph.search(node,
-                                      base_x + mod_x,
-                                      base_y + mod_y))
+                connected_nodes = self.graph.connect(node)
                 connected |= connected_nodes
-                mod_x += (mod_x * -1) + (
-                    (self.width / len(self.graph.vertices))) * count
-                mod_y += (mod_y * -1) + (
-                    (self.height / len(self.graph.vertices))) * count
-                count += 1
+
+    def position_nodes(self):
+        data = {'x': [], 'y': [], 'names': [], 'text_color': []}
+        used_pos = set()
+        for node in self.graph.vertices:
+            while True:
+                width = randint(1, self.width - 1)
+                height = randint(1, self.height - 1)
+                p = (width, height)
+                if p not in used_pos:
+                    data['x'].append(width)
+                    data['y'].append(height)
+                    used_pos.add(p)
+                    data['names'].append(self.graph.vertices[node].label)
+                    data['text_color'].append('#000')
+                    break
+
+        layout = dict(
+            zip(self.node_indices, list(zip(data['x'], data['y']))))
+        self.renderer.layout_provider = (
+            StaticLayoutProvider(graph_layout=layout))
+
+        nodes = LabelSet(x='x',
+                         y='y',
+                         text='names',
+                         text_color='text_color',
+                         # x_offset=20,
+                         # y_offset=20,
+                         level='overlay',
+                         text_align='center',
+                         text_baseline='middle',
+                         source=ColumnDataSource(data),
+                         render_mode='canvas')
+
+        self.plot.add_layout(nodes)
