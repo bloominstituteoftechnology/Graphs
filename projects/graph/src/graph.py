@@ -38,6 +38,23 @@ class Graph:
             self.vertices[v1].edges.add(v2)
         else:
             raise IndexError("That vertex does not exist!")
+    def dfs(self, starting_node, target_node):
+        visited = []
+        # create an empty queue
+        s = Stack()
+        # Put starting vert in the queue
+        s.place(starting_node)
+        while s.size() > 0:
+            unstacked = s.unstack()
+            visited.append(unstacked)
+            if unstacked == target_node:
+                print(f'dfs:{visited}')
+                return True
+            for edge in self.vertices[unstacked].edges:
+                if edge not in visited:
+                    s.place(edge)
+        print(f'dfs:{visited}')
+        return False
     def dft(self, starting_node, visited=None):
         # Mark the node as visited
         #if visited is None:
@@ -61,6 +78,23 @@ class Graph:
                     s.place(edge)
         print(f'dft:{visited}')
         return visited
+    def bfs(self, starting_node, target_node):
+        visited = []
+        # create an empty queue
+        q = Queue()
+        # Put starting vert in the queue
+        q.enqueue(starting_node)
+        while q.size() > 0:
+            dequeued = q.dequeue()
+            visited.append(dequeued)
+            if dequeued == target_node:
+                print(f'bfs:{visited}')
+                return True
+            for edge in self.vertices[dequeued].edges:
+                if edge not in visited:
+                    q.enqueue(edge)
+        print(f'bfs:{visited}')
+        return False
     def bft(self, starting_node):
         visited = []
         # create an empty queue
