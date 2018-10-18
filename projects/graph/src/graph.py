@@ -51,23 +51,27 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist!")
 
-    def dft(self):
+    def connected_components(self):
         cc_list = []
         visited = []
         for node in self.vertices:
             if node not in visited:
-                connected_components = []
-                stack = Stack()
-                stack.push(node)
-                while stack.size() > 0:
-                    current = stack.pop()
-                    if current not in visited:
-                        visited.append(current)
-                        connected_components.append(current)
-                        for edge in self.vertices[current].edges:
-                            stack.push(edge)
-                cc_list.append(connected_components)
+                cc = self.dft(node)
+                cc_list.append(cc)
+                visited.extend(cc)
         return cc_list
+
+    def dft(self, starting_node):
+        stack = Stack()
+        stack.push(starting_node)
+        visited = []
+        while stack.size() > 0:
+            current = stack.pop()
+            if current not in visited:
+                visited.append(current)
+                for edge in self.vertices[current].edges:
+                    stack.push(edge)
+        return visited
 
     def bft(self, starting_node):
         visited = []
