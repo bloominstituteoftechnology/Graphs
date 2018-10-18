@@ -52,6 +52,20 @@ class Graph:
             self.vertices[v2].edges.add(v1)
         else: 
             raise IndexError("That vertex does not exist")
+            
+    
+    def bft_queue(self, starting_node):
+        q = Queue()
+        q.enqueue(starting_node)
+        visited = []
+        while q.size() > 0:
+            current = q.dequeue()
+            if current not in visited:
+                visited.append(current)
+                print(visited)
+                self.vertices[current].color = 'red'
+                for edge in self.vertices[current].edges:
+                    q.enqueue(edge)
 
     
     def dft_stack(self, starting_node):
