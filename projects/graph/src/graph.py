@@ -73,7 +73,14 @@ class Graph:
         # Put starting vert in the queue
         q.enqueue(starting_node)
         visited = []
-
+        while q.size() > 0:
+            dequeued = q.dequeue()
+            visited.append(dequeued)
+            print(dequeued)
+            for edge in self.vertices[dequeued].edges:
+                if edge not in visited:
+                    q.enqueue(edge)
+        return visited
             # Remove the first node from the queue...
             # If it has not been visited yet,...
             # Mark it as visited....
@@ -92,8 +99,20 @@ class Graph:
             # If it has not been visited yet,...
             # Mark it as visited....
             # Then put all it's children on top of the stack
-
-
+    def bfs(self, starting_node, target_node):
+        visited= []
+        q = Queue()
+        q.enqueue(starting_node)
+        while q.size() > 0:
+            dequeue = q.dequeue()
+            visited.append(dequeued)
+            print(dequeued)
+            if dequeued == target_node:
+                return True
+            for edge in self.vertices[dequeued].edges:
+                if edge not in visited:
+                    q.enqueue(edge)
+        return False
 
 
 class Vertex:
