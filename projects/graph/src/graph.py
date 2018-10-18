@@ -59,7 +59,7 @@ class Graph:
                 for edge in self.vertices[current].edges:
                     s.push(edge)
 
-    def bft(self, starting_node):
+    def bft(self, starting_node, passed_color):
         q = Queue()
         q.enqueue(starting_node)
         visited = []
@@ -68,9 +68,17 @@ class Graph:
             if current not in visited:
                 visited.append(current)
                 print(visited)
-                self.vertices[current].color = 'yellow'
+                self.vertices[current].color = passed_color
                 for edge in self.vertices[current].edges:
                     q.enqueue(edge)
+
+    def connected(self):
+        color_count = 0
+        colors = ['yellow', 'red', 'blue', 'orange', 'green', 'purple', 'lime', 'olive', 'gold']
+        for vert in self.vertices:
+            if not self.vertices[vert].color != 'grey':
+                self.bft(vert, colors[color_count])
+                color_count +=1
 
     
 
