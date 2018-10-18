@@ -13,7 +13,6 @@ from collections import defaultdict
 # the vertex class will create a single object with a key and an attached array of connections
     # vertex = {'A': ['B', 'C']}
 
-
 # the Graph Class should create an object with vertices, each of which has a corresponding collection of neighbors
     # graph = {'A': ['B', 'C'],
     #          'B': ['C', 'D'],
@@ -22,7 +21,7 @@ from collections import defaultdict
     #          'E': ['F'],
     #          'F': ['C']}
 
-class Queue:
+class Queue: #FIFO
     def __init__(self):
         self.queue = []
     def enqueue(self,value):
@@ -35,8 +34,7 @@ class Queue:
     def size(self):
         return len(self.queue)
 
-
-class Stack:
+class Stack: #LIFO
     def __init__(self):
         self.stack = []
     def push(self, value):
@@ -49,24 +47,27 @@ class Stack:
     def size(self):
         return len(self.stack)
 
-
 class Vertex:
-    def __init__(self, key):
+    def __init__(self, id, x = None, y = None):
         # storage space for neighboring nodes
         self.id = id
-        self.neighbors = []
+        self.edges = set()
+        # add a color property for the DFS 
 
+        if x is None:
+            self.x = random.random() * 10-5
+        else:
+            self.x = x
+
+        if y is None:
+            self.y = random.random() * 10-5
+        else:
+            self.y = y
     # method to retrieve the key associated with a vertex
     def __repr__(self):
-        return str(self.key)
+        return f"{self.edges}"
 
-    # method to access the key associated with the vertex
-    def __hash__(self):
-        return hash(str(self.key))
 
-    # method to check the key on a vertex, returns True if equal
-    def __equal__(self, input):
-        return self.key == str(input)
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -103,27 +104,45 @@ class Graph:
     def vertices(self):
         return self.vertices.keys()
 
+    # Breadth First Traversal
 
-    def BFS(self, s):
+    # def bft(self, starting_node):
+    #     q = Queue() # use the Queue class to build an empty queue
+
+    #     #initialize the queue with a starting node, using the enqueue method
+    #     q.enqueue(starting_node)
+
+    #     #set up an empty array to track visited vertices
+    #     visited = []
+
+    #     while q.size() > 0:
+    #         # remove the first node from the queue
+    #         # if it has not been visited, 
+    #         # mark it as visited
+    #         # but the child nodes in the back of the queue
+
+
+    def BFS(self, start, target):
     # https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
-        self.graph = defaultdict(list)
         # mark all of the vertices as not visited
-        visited = [False] * (len(self.graph))
+        visited = []
         # create a queue for BFS
-        queue = []
+        queue = Queue()
         # mark the source node as visited and enqueue
-        queue.append(s)
-        visited[s] = True
-        while queue:
+        queue.enqueue(start)
+        while queue.size() > 0: # when the queue is not empty
             # Dequeue a vertex from the queue and print it
-            start = queue.pop(0)
-            print(s, end = " ")
-
+            removed = queue.dequeue() # remove the first element from the queue
+            visited.append(removed) # mark the removed node as visited
+            print(removed)
+            if removed == target:
+                return True
             # Get all adjacent vertices of the dequeued vertex.  If adjacent has not been visited, then mark it visited and enqueue it
-            for i in self.graph[s]:
-                if visited[i] == False:
-                    queue.append(i)
-                    visited[i] = True
+            for i in self.vertices[removed].edges: # for each child node
+                if i not in visited: # if the node has not been visited
+                    queue.enqueue(i) # place the node in the back of the queue
+        return False
+
 
 # Tests for Graph Class
 graph = Graph()  # Instantiate your graph
@@ -138,5 +157,6 @@ graph.add_edge('1', '2')
 graph.add_edge('1', '4')
 print(graph.vertices)
 print(graph.vertices['0'])
+graph.BFS(0,2)
 
 

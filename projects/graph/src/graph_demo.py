@@ -78,10 +78,9 @@ def main(style, numVertices,  numEdges):
     else:
         createDefaultGraph()
 
-
 if __name__ == '__main__':
     # TODO - parse argv
-    style = "random"
+    style = "default"
     numVertices = 15
     numEdges = 15
 
@@ -90,13 +89,12 @@ if __name__ == '__main__':
         arg_split = arg.split("=") # separate at the "="" sign
         if len(arg_split) == 2:
             if arg_split[0] == "style":
-                style = arg.split[1].lower()
+                style = arg_split[1].lower()
             elif arg_split[0] == "nodes":
                 numVertices = int(arg_split[1])
             elif arg_split[0] == "edges":
                 numEdges = int(arg_split[1])
             else:
                 print("Invalid Command")
-
 
     main(style, numVertices, numEdges)
