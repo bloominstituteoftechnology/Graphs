@@ -82,4 +82,4 @@ BFS(graph, startVert):
 
 * Build a random graph and show a vertex visitation order for BFS.
 
-* One more for good measure.
+* One more for good measure
