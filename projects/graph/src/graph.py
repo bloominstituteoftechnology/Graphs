@@ -32,11 +32,13 @@ class Graph:
         Create an empty graph
         """
         self.vertices = {} # dictionary
+
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph
         """
         self.vertices[vertex_id] = Vertex(vertex_id)
+
     def add_edge(self, v1, v2):
         """
         Add an undirected edge to the graph
@@ -46,6 +48,7 @@ class Graph:
             self.vertices[v2].edges.add(v1)
         else:
             raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
+
     def add_directed_edge(self, v1, v2):
         """
         Add a directed edge to the graph
@@ -54,16 +57,18 @@ class Graph:
             self.vertices[v1].edges.add(v2)
         else:
             raise IndexError("That vertex does not exists!") # Stretch goal - ensures that edges to nonexistent vertices are rejected
-    
+
     def bfs(self, starting_node):
         queue = [starting_node]
         visited = [starting_node]
         while len(queue) > 0:
+            print(f"queue: { queue }")
             cur_node = queue.pop(0)
             for edge in self.vertices[cur_node].edges:
                 if edge not in visited:
                     visited.append(edge)
                     queue.append(edge)
+        print(visited)
         return visited
 
 class Vertex:
