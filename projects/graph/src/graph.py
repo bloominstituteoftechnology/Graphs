@@ -5,22 +5,19 @@ import random
 
 class Queue:
   def __init__(self):
-    self.size = 0
     self.storage = []
 
   def enqueue(self, item):
-    self.size = self.size + 1
     self.storage.append(item)
 
   def dequeue(self):
-    if self.size > 0:
-        self.size = self.size - 1
+    if len(self.storage) > 0:
         return self.storage.pop(0)
     else:
         return None
 
-  def len(self):
-    return self.size
+  def size(self):
+    return len(self.storage)
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -38,29 +35,30 @@ class Graph:
         q = Queue()
         visited = []
         q.enqueue(self.vertices[starting_v])
-        while len(q.storage) != 0:
-            edges = q[0].edges
-            for edge in edges:
-                q.enqueue(self.vertices[edge])
-            if q[0].id not in visited:
-                visited.append(q.dequeue())
-            else:
-                q.dequeue()
-        visited = [i.id for i in visited]
-        return visited
+        print("size={}".format(q.size()))
+        while q.size() > 0:
+            current = q.dequeue()
+            print("size={}".format(q.size()))
+
+            # print(current.id)
+            visited.append(current.id)
+            for edge in current.edges:
+                if edge not in visited:
+                    q.enqueue(self.vertices[edge])
+        print(visited)
 
     def dft(self, starting_v):
         stack = []
         visited = []
         stack.append(self.vertices[starting_v])
-        while len(stack) != 0:
-            edges = stack[0].edges
+        while len(stack) > 0:
             vstd_node = stack.pop()
-            if q[0] not in visited:
-                visited.append(vstd_node)
-            for edge in edges:
-                stack.append(self.vertices[edge])
-            
+            if vstd_node.id not in visited:
+                visited.append(vstd_node.id)
+                for edge in vstd_node.edges:
+                    stack.append(self.vertices[edge])
+        print(visited)
+
 
 
 
