@@ -27,7 +27,7 @@ class BokehGraph:
         edge_start = []
         edge_end = []
 
-        print(node_indices)
+        # print(node_indices)
 
         for vertex_id in node_indices:
             for v in graph.vertices[vertex_id].edges:
@@ -52,7 +52,7 @@ class BokehGraph:
                 colors.append(color1)
             else: 
                 colors.append(color2)
-                
+
             #CHECK FOR CONNECTION ON VERTEX_Id
             #IF IT ADD color1 to colors
             #IF NOT ADD color2 to colors 

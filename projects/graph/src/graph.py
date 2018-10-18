@@ -4,7 +4,6 @@ Simple graph implementation compatible with BokehGraph class.
 import random
 import math
 
-
 class Queue: 
     def __init__(self):
         self.queue = []
@@ -12,7 +11,7 @@ class Queue:
         self.queue.append(value)
     def dequeue(self):
         if(self.size())>0:
-            return self.queue.pop()
+            return self.queue.pop(0)
         else: 
             return None
     def size(self):
@@ -25,7 +24,7 @@ class Stack:
         self.stack.append(value)
     def pop(self):
         if(self.size()) > 0:
-            return self.stack.pop(0)
+            return self.stack.pop()
         else:
             return None
     def size(self):
@@ -35,97 +34,69 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
-    # def add_vertex(self, v):
-    #     self.vertices[v] = set()
     def add_vertex(self, v):
         self.vertices[v] = Vertex(v)
     def add_edge(self, v1, v2):
         self.vertices[v1].edges.add(v2)
-        self.vertices[v2].edges.add(v1)
-    def dfs_R(self, value, visited=None):
-        if visited is None: 
-            visited = []
-        print(visited)
-        visited.append(value)
-        for vert in self.vertices:
-            print(vert)
-            if value == vert:
-                print('true')
-                return True 
-            else:
-                print(self.vertices[vert].edges, '26')
-                for edge in self.vertices[vert].edges:
-                    print(edge)
-                    return self.dfs(edge, visited)
-                # verts = self.vertices[vert].edges
-                # print(verts, '28')
-        return False 
-    def bfs(self, value): 
-        index = 0
+        # self.vertices[v2].edges.add(v1)
+    def bfs_iteration(self, value): 
         q = Queue()
-        print(self.vertices.keys(), 'node?')
-        print(self.vertices[index].edges)
-        k = list(self.vertices.keys())
-        print(k,'k')
-        q.enqueue(k[0])
-        print(q.queue,'s1')
+        k = list(self.vertices.keys())[0]
+        q.enqueue(k)
         visited = []
-        print(visited, 'visited')
-        while  q.size() > 0:
-            print(index, 'index', 'iteration')
-            print(q.queue,'s2')
+        while  q.size():
             node = q.dequeue()
-            print(node,'node')
             if node == value:
-                print('True')
+                print('visited -> ', visited)
                 return True
             else: 
                 visited.append(node)
-                print(visited, 'visited')
-                print(self.vertices[node].edges,'edges')
-                if len(self.vertices[node].edges) > 0:
-                    for each in self.vertices[node].edges:
-                        if each not in visited:
-                            print(each)
-                            q.enqueue(each)
-                        else:
-                            print('nope')
-                    index = index +1
-                else:
-                    print('no edges')
-                    
-        print('False')
+                for each in self.vertices[node].edges:
+                    if each not in visited:
+                        q.enqueue(each)
+        print('visited -> ', visited)
         return False
-    def dfs(self, value):
-        # index = 0
+    def dfs_iteration(self, value):
         s = Stack()
-        k = list(self.vertices.keys())
-        s.push(k[0])
+        k = list(self.vertices.keys())[0]
+        s.push(k)
         visited = []
-        while  s.size() > 0:
+        while s.size():
             node = s.pop()
             if node == value:
+                print('visited -> ', visited)
                 return True
-            else: 
+            else:
                 visited.append(node)
-                if len(self.vertices[node].edges) > 0:
-                    for each in self.vertices[node].edges:
-                        if each not in visited:
-                            s.push(each)
-                        else:
-                            print('nope')
-                    # index = index +1
-                else:
-                    print('no edges')
-            # try: 
-            #     #an iff statement with no error 
-            #     #doesnt stop program
-            #     1+1 == 2
-            # except IndexError:
-            #     print('hello', index)
+                for each in self.vertices[node].edges:
+                    if each not in visited:
+                        s.push(each)
+        print('visited -> ', visited)
         return False
-
-
+    def dfs_recursion(self, target, value=0, visited=None):
+        print('start', target, value, visited)
+        if visited is None: 
+            visited = []
+            value = list(self.vertices.keys())[0]
+        visited.append(value)
+        if value == target:
+            print('TRUEEEEEEE')
+            print('visited ->', visited)
+            return True
+        elif len(self.vertices[value].edges) > 0:
+            for vert in self.vertices[value].edges:
+                # print(target)
+                print(vert)
+                # print(visited)
+                return self.dfs_recursion(target, vert, visited)
+        else:
+            return False 
+    def bfs_recursion(self):
+        pass
+    def bfs_path(self):
+        pass
+    def dfs_path():
+        pass
 
 
 class Vertex: 
