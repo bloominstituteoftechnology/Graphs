@@ -68,6 +68,19 @@ class Graph:
             if node not in visited:
                 self.dft(node, visited)
         return visited
+    def bft(self, starting_node):
+        visited = []
+        q = Queue()
+        q.enqueue(starting_node)
+        while q.size() > 0:  
+            dequeued = q.dequeue() 
+            visited.append(dequeued)  
+            print(dequeued)
+            for edge in self.vertices[dequeued].edges: 
+                if edge not in visited:  
+                    q.enqueue(edge) 
+        return visited
+
 
 class Vertex:
     def __init__(self, vertex_id, x = None, y = None):

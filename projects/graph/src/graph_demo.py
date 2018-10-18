@@ -25,7 +25,10 @@ def createDefaultGraph():
     graph.add_edge(4, 3)
     graph.add_edge(6, 7)  
 
-    graph.dft(5) 
+    print("DFT:")
+    graph.dft(5)
+    print("*********\nBFT:")
+    graph.bft(5)
 
     bg = BokehGraph(graph)
     bg.draw()
