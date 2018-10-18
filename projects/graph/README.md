@@ -4,7 +4,7 @@ This is a multi-stage project to draw a graph and show the connected
 components of that graph in different colors.
 
 
-## Part 1: Graph, Vertex, Edge Classes
+## Part 1:  , Vertex, Edge Classes
 
 In the file `graph.py`, implement a `Graph` class that supports the API expected
 by `draw.py`. In particular, this means there should be a field `vertices` that
@@ -13,9 +13,10 @@ contains a dictionary mapping vertex labels to edges. For example:
 ```python
 {
     '0': {'1', '3'},
-    '1': {'0'},
-    '2': set(),
+    '1': {'0'}, 
+    '2': set(), 
     '3': {'0'}
+
 }
 ```
 
@@ -81,8 +82,7 @@ reject input when the number of edges is too large.
 
 `graph_demo.py` is set to be executable from the command line, e.g.
 `python graph_demo.py`. You can use `argv` (already imported) to parse command
-line arguments, e.g. `python graph_demo.py arg1 arg2`, and pass them along to
-the graph and drawing functionality to further configure.
+line arguments, e.g. `python graph_demo.py arg1 arg2`, and pass them along to the graph and drawing functionality to further configure.
 
 Suggested functionality that could be set via arguments:
 - Directional edges: allow edges to not be bidirectional (this will change how
