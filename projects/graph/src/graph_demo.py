@@ -18,43 +18,41 @@ def createDefaultGraph():
     graph.add_vertex('4')    
     graph.add_vertex('5')
     graph.add_vertex('6')
-    
+
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
     graph.add_edge('1', '2')
     graph.add_edge('2', '4')
     graph.add_edge('4', '5')
-    graph.add_edge('5', '6')
-        
 
-    graph.dbft(-1)
+
+    graph.dbft()
     bg = BokehGraph(graph)
     bg.draw()
+
 
 def createRandomGraph(numNodes):
     graph = Graph()
 
     edges = []
-    
+
     for i in range(numNodes):
         for j in range(i + 1, numNodes):
             edges.append((i , j))
-    
+
     random.shuffle(edges)
     edges=[edge for index, edge in enumerate(edges) if 1 < index < random.randrange(2, len(edges))]
-    
 
-    
     for i in range(numNodes):
         graph.add_vertex(i)
-    
+
     for edge in edges:
         graph.add_edge(edge[0], edge[1])
 
-
     bg = BokehGraph(graph)
     bg.draw()
-    
+
+
 def main(style, numNodes, edges):
     if style == 'default':
         createDefaultGraph()

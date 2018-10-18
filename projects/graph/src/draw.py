@@ -3,7 +3,7 @@ from graph import Graph
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval, LabelSet, ColumnDataSource
+from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, LabelSet, ColumnDataSource, CategoricalColorMapper
 from bokeh.palettes import Spectral8
 
 
@@ -20,10 +20,6 @@ class BokehGraph:
 
         graph_renderer = GraphRenderer()
 
-        graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        # graph_renderer.node_renderer.data_source.add(Spectral8, 'color')
-        graph_renderer.node_renderer.glyph = Oval(height=1, width=1, fill_color='yellow')
-
         edge_start = []
         edge_end = []
 
@@ -32,11 +28,15 @@ class BokehGraph:
                 edge_start.append(vertex)
                 edge_end.append(edge)
 
+        print('edge start', edge_start)
+        print('edge end', edge_end)
+
         graph_renderer.edge_renderer.data_source.data = dict(
             start=edge_start,
             end=edge_end
             )
-        
+
+ 
         x = []
         y = []
         ### start of layout code
@@ -53,6 +53,25 @@ class BokehGraph:
             )
         )
 
+
+        color_mapper = [''] * len(node_indices)
+
+        for index, node in enumerate(node_indices):
+            print('color mapper', color_mapper)
+            for edge in edge_start:
+                if node == edge:
+                    print('equals')
+                    color_mapper[index] = 'red'
+
+        for index, color in enumerate(color_mapper):
+            if color == '':
+                color_mapper[index] = 'blue'
+
+
+        graph_renderer.node_renderer.data_source.add(node_indices, 'index')
+        graph_renderer.node_renderer.data_source.add(color_mapper, 'color')
+        graph_renderer.node_renderer.glyph = Circle(radius=.40, fill_color='color')
+        
         graph_renderer_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_renderer_layout)
 
