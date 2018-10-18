@@ -36,16 +36,12 @@ class Graph:
             self.answer.append(start.name)
             if start.edges:
                 for edge in start.edges:
-                    print(edge)
                     if edge not in self.answer:
                         queue.append(edge)
             if len(queue) > 0:
-                print(queue)
                 helper(self.vertices[queue[0]], False)
         helper(start)
         return self.answer
-
-
 
 class Vertex:
     def __init__(self, name, id):
@@ -61,16 +57,16 @@ class Vertex:
             print("that edge already exists")
 
 
-boop = Graph()
-boop.add_vertex(3)
-boop.vertices[3].add_edge(3)
-boop.add_vertex(1)
-boop.vertices[1].add_edge(2)
-boop.add_vertex(2)
-boop.vertices[2].add_edge(0)
-boop.vertices[2].add_edge(3)
-boop.add_vertex(0)
-boop.vertices[0].add_edge(2)
-boop.vertices[0].add_edge(1)
+# boop = Graph()
+# boop.add_vertex(3)
+# boop.vertices[3].add_edge(3)
+# boop.add_vertex(1)
+# boop.vertices[1].add_edge(2)
+# boop.add_vertex(2)
+# boop.vertices[2].add_edge(0)
+# boop.vertices[2].add_edge(3)
+# boop.add_vertex(0)
+# boop.vertices[0].add_edge(2)
+# boop.vertices[0].add_edge(1)
 
-print(boop.breadth_first(boop.vertices[2]))
+# print(boop.breadth_first(boop.vertices[2]))

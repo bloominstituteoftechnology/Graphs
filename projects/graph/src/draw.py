@@ -72,14 +72,17 @@ class BokehGraph:
         show(plot)
         output_file('graph.html')
 
-test = Graph()
-test.add_vertex(1)
-test.vertices[1].add_edge(2)
-test.vertices[1].add_edge(3)
-test.add_vertex(2)
-test.add_vertex(3)
-test.add_vertex(4)
+# test = Graph()
+# test.add_vertex(1)
+# test.vertices[1].add_edge(2)
+# test.vertices[1].add_edge(3)
+# test.add_vertex(2)
+# test.add_vertex(3)
+# test.add_vertex(4)
+# test.vertices[4].add_edge(3)
+# test.vertices[4].add_edge(2)
+# test.vertices[4].add_edge(1)
 
-draw = BokehGraph(test)
+# draw = BokehGraph(test)
 
     

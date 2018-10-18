@@ -15,10 +15,12 @@ def main():
         return random.randint(1,20)
     for i in range(rand()):
         randomgraph.add_vertex(rand())
-    def randedge():
-        return random.randint(1, len(randomgraph.vertices))
+    def randnode():
+        index = random.randint(0, len(randomgraph.vertices)-1)
+        nodes = list(randomgraph.vertices.keys())
+        return nodes[index]
     for i in randomgraph.vertices.keys():
-        randomgraph.vertices[i].add_edge(randomgraph.vertices.values()randedge())
+        randomgraph.vertices[i].add_edge(randnode())
     boke = BokehGraph(randomgraph)
 
 
