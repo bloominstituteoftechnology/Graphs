@@ -2,14 +2,14 @@ import math
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, ColumnDataSource, Label, LabelSet
+from bokeh.models import GraphRenderer, StaticLayoutProvider, Oval, ColumnDataSource, Label, LabelSet
 from bokeh.palettes import Spectral8
 from graph import Graph
 
 N = 8
 node_indices = list(range(N))
 
-plot = figure(title='Graph Layout Demonstration', x_range=(-1.1, 1.1), y_range=(-1.1, 1.1),
+plot = figure(title='Graph Layout Demo', x_range=(-1.1, 1.1), y_range=(-1.1, 1.1),
               tools='', toolbar_location=None)
 
 graph = GraphRenderer()

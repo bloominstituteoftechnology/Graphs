@@ -13,10 +13,18 @@ def randomGraph(vertices, edges):
     graph = Graph()
 
     for x in range(vertices):
-        random_pos = randint(1, 10)
+        if vertices <= 10:
+            random_pos = randint(1, 10)
+        else:
+            random_pos = randint(1, vertices)
+        # random_pos = randint(1, 10)
         print(graph.vertices.keys())
         while random_pos in graph.vertices.keys():
-            random_pos = randint(1,10)
+            if vertices <= 10:
+                random_pos = randint(1, 10)
+        else:
+                random_pos = randint(1, vertices)
+            # random_pos = randint(1,10)
         graph.add_vertex(random_pos)
 
     for y in range(edges):
