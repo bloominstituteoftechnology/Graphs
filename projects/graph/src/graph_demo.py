@@ -39,19 +39,21 @@ def createRandomGraph(num_nodes, num_edges):
     if num_edges > len(all_edges):
         print('Warning: max edges reached')
     
-    for edge in edges:
-        print(edge)
+    # for edge in edges:
+    #     print(edge)
 
     for i in range(num_nodes):
         graph.add_vertex(i)
 
     for edge in edges:
-        print(edge)
+        # print(edge)
         graph.add_edge(edge[0], edge[1])
 
-    print(len(edges))
+    # print(len(edges))
+    print(graph.vertices)
 
     bg = BokehGraph(graph)
+    bg.graph.dft_st(3)
     bg.draw()
 
 

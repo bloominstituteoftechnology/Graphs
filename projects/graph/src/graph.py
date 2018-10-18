@@ -47,6 +47,25 @@ class Graph:
             self.vertices[vert1].edges.add(vert2)
         else:
             raise IndexError('Vertex does not exist')
+    def dft_st(self, starting_node):
+        s = Stack()
+        s.push(starting_node)
+        visited = []
+        while s.size() > 0:
+            current = s.pop()
+            if current not in visited:
+                visited.append(current)
+                print(visited)
+                # print(self.vertices[current].edges)
+                for edge in self.vertices[current].edges:
+                    # print(edge)
+                    s.push(edge)
+            # visited.append(current)
+            # print(self.vertices[current])
+            # print(visited)
+            # for edge in self.vertices[current]:
+            #     print(edge)
+            
 
 class Vertex:
     def __init__(self, vert_id, x=None, y=None):
