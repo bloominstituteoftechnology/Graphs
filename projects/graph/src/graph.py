@@ -3,6 +3,20 @@ Simple graph implementation compatible with BokehGraph class.
 """
 import random
 
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if (self.size()) > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -24,6 +38,26 @@ class Graph:
             self.vertices[v2].edges.add(v1)
         else: 
             raise IndexError("That vertex does not exist")
+
+    
+    def dft_s(self, starting_node):
+         # create an empty stack
+        s = Stack()
+        # Put starting vert in the stack
+        s.push(starting_node)
+        visited = []
+        while s.size() > 0:
+             # Pop the first node off the stack...
+            # If it has not been visited yet,...
+            # Mark it as visited....
+            # Then put all it's children on top of the stack
+            current = s.pop()
+            if current not in visited:
+                visited.append(current)
+                print(visited)
+                for edge in self.vertices[current].edges:
+                    s.push(edge)
+
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
