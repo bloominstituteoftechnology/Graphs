@@ -8,6 +8,7 @@ from bokeh.palettes import Category20c
 from bokeh.models.graphs import NodesAndLinkedEdges
 from graph import Graph
 import math
+import random
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -23,10 +24,17 @@ class BokehGraph:
 
         g = GraphRenderer()
         
+
         g.node_renderer.glyph = Circle(radius = 0.1, fill_color = "fill_color")  
+        
+        colors=[]  #empty colors array 
+        for vertex in self.graph.vertices:
+            each_color=self.graph.vertices[vertex].color   #grab the color for each vertex from the Vertex class
+            colors.append(each_color)                      #add color for each vertex to the array
+
         g.node_renderer.data_source.data = dict(
             index = nodes,
-            fill_color = ['red']*N
+            fill_color =colors         #['red']*N     
             )
 
         # Create the edge renderer data
@@ -34,7 +42,7 @@ class BokehGraph:
         end_edge = []
 
         for vertex in self.graph.vertices:
-            for edge in self.graph.vertices[vertex]:
+            for edge in self.graph.vertices[vertex].edges:
                 start_edge.append(vertex)
                 end_edge.append(edge)
         
@@ -47,8 +55,8 @@ class BokehGraph:
 
         ##start of layout code
         circ = [i*2*math.pi/len(nodes) for i in range(len(nodes))]
-        x = [math.cos(i) for i in circ]
-        y = [math.sin(i) for i in circ]
+        x =  [math.cos(i) for i in circ]
+        y =[math.sin(i) for i in circ]
         
         
         graph_layout = dict(zip(nodes, zip(x, y)))
@@ -85,6 +93,8 @@ graph.add_vertex('3')
 graph.add_vertex('4')
 graph.add_vertex('5')
 graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_vertex('8')
 graph.add_undirected_edge('0', '1')
 graph.add_undirected_edge('0', '3')
 graph.add_directed_edge('1', '2')
