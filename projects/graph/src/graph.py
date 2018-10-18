@@ -5,9 +5,11 @@ import random
 from queue import PriorityQueue
 
 class Vertex:
-    def __init__(self, data, x=None, y=None):
+    def __init__(self, data, x=None, y=None, component=-1):
         self.id = data
         self.edges = set()
+        self.color = 'white'
+        self.component = component
         if x is None:
             self.x = random.random() * 10 - 5
         else:
@@ -44,25 +46,42 @@ class Graph:
         for node in self.vertices:
             node_list.append(node)
         return node_list
-
-    def BFS(self, graph, startVert):
+    
+    def BFT(self, startVert):
         q = PriorityQueue()
-        for v in graph.vertices:
-            graph.vertices[v].color = 'green'
-
-        graph.vertices[startVert].color = 'purple'
+        visited = []
+        for v in self.vertices:
+            self.vertices[v].color = 'white'
+        
+        # print('****', self.vertices[startVert].color)
+        self.vertices[startVert].color = 'pink'
         q.put(startVert)
 
         while not q.empty():
-            u = q.queue[0] # Peek at head of queue, but not dequeue!
-
-            for v in graph.vertices[u].edges:
-                if graph.vertices[v].color == 'green':
-                    graph.vertices[v].color = 'purple'
-                    q.put(v)
-
+            u = q.queue[0]
+            visited.append(self.vertices[u])
+            # print("edges", self.vertices[u].edges)
+            for v in self.vertices[u].edges:
+                if self.vertices[v].color == 'white':
+                    self.vertices[v].color = 'pink'
+                    if v not in visited:
+                        q.put(v)
             q.get()
-            graph.vertices[u].color = 'black'
+            self.vertices[u].color = 'purple'
+        return visited
+
+    def connected_components(self):
+        
+        connected_components = set()
+        for v in self.vertices:
+            print(v)
+            self.vertices[v].color = 'white'
+            if self.vertices[v] not in connected_components:
+                connected_components.update(self.BFT(self.vertices[v].id))
+            if self.vertices[v].color == 'white':
+                self.vertices[v].color = 'pink'
+        print(connected_components)
+
 
 if __name__ == "__main__":
     graph = Graph()
@@ -79,4 +98,13 @@ if __name__ == "__main__":
 
     for key in graph.vertices.keys():
         print(graph.vertices[key].edges)
+
+
+
+
+
+
+
+
+
 
