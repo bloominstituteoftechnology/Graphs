@@ -73,7 +73,7 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist!")
 
-    def dfs(self, starting_node, visited=None):
+    def dft(self, starting_node, visited=None):
         # Mark the node as visited
         if visited is None:
             # quese of visited nodes
@@ -82,31 +82,32 @@ class Graph:
         # For each child, if that child hasn't been visited, call dft() on that node
         for node in self.vertices[starting_node].edges:
             if node not in visited:
-                self.dfs(node, visited)
+                self.dft(node, visited)
 
         return visited
         # for child in children:
         #    if child not in visited:
         # dft(child, visted)
 
-    def bfs(self, starting_node):
+    def bft(self, starting_node):
         # create an empty queue
         q = Queue()
         # Put starting vert in the queue
         q.enqueue(starting_node)
-        visited = []
+        seen = []
         # while q.size() > 0:
         while q.size() > 0:
                     # Remove the first node from the queue...
             new_node = q.dequeue()
+            print(new_node)
             # If it has not been visited yet,...
-            if new_node not in visited:
+            if new_node not in seen:
                 # Mark it as visited....
-                visited += new_node
+                seen += new_node
+                print(new_node)
             # Then put all it's children in the back of the queue
             q.queue.extend(self.vertices[new_node].edges)
-
-        return visited
+        return seen
 
     """
     # Stack
@@ -122,6 +123,53 @@ class Graph:
             #Mark it as visited....
             # Then put all it's children on top of the stack.
     """
+
+    def bfs(self, starting_node, target_node):
+        # this is a search not a traversal, hence
+        # target node
+        visited = []
+        # create a queue:
+        q = Queue()
+        # put starting node into Queue
+        q.enqueue(starting_node)
+        while q.size() > 0:
+            # REMOVE first element from queue
+            dequeued = q.dequeue()
+            # mark as visited and put into visited list
+            visited.append(dequeued)
+            # keep track of what we find in our graph
+            print(dequeued)
+            # if we found the target node, here if we popped into Queue
+            if dequeued == target_node:
+                return True
+                # return True
+            '''
+            # else iterate through the connceted components
+            # sicne we need to look at what is connected by an edge
+            # otherwise we won't be properly traversing the graph, and would be
+            # looking simply at all the nodes
+            # remember so far we have only put the starting node into the queue
+            which is declared as a parameter in the function call
+            so this last part will run duinng the while look after the
+            if statement runs. the loop will run only once:
+                iff target_node == starting_node
+            '''
+            for edge in self.vertices[dequeued].edges:
+                # since I'm confused as to how the types don't match
+                # aren't edges tuples?
+                # while nodes are ints or sinlge bits of an array given that we
+                # are using append
+                print(' there are the edges', edge)
+                print(self.vertices)
+                print(self.vertices[dequeued].edges)
+                # so it must iterate through self.vertices.edges and get each
+                # vertex because self.vertices at [dequeue] is one ver
+                # if the child is not in visitied
+                if edge not in visited:
+                    # put it into the back of the queue so the while runs
+                    q.enqueue(edge)
+        # if the while fails obviously it's not here
+        return False
 
 
 class Vertex:
@@ -159,14 +207,21 @@ class Vertex:
 
 
 graph = Graph()
-graph.add_vertex('0')
+# graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('1', '2')
-graph.add_edge('3', '2')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_edge('5', '2')
+graph.add_edge('5', '6')
+graph.add_edge('2', '1')
+graph.add_edge('2', '4')
+graph.add_edge('4', '3')
+graph.add_edge('6', '7')
 #
-#print(graph.dfs('0'))
-print(graph.bfs('0'))
+# print(graph.dft('0'))
+# print(graph.bft('0'))
+print(graph.bfs('5', '3'))
