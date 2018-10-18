@@ -66,8 +66,8 @@ def main(style, numNodes, numEdges):
 
 if __name__ == '__main__':
     style = "default"
-    numNodes = 5
-    numEdges = 5
+    numNodes = random.randint(3,7)
+    numEdges = random.randint(3,10)
 
     for arg in argv[1:]:
         arg_split = arg.split("=")
