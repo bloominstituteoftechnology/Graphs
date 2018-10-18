@@ -14,13 +14,17 @@ def main(num_vertices=8, num_edges=8):
     for num in range(num_vertices):
         # print(graph.add_vertex(str(num)))
         graph.add_vertex(str(num))
-        print(graph.vertices)
-        for _ in range(num_edges):
-            print(graph.vertices)
-            vertices = sample(graph.vertices.keys(), 2)
+        # print(graph.vertices)
+        # for _ in range(num_edges):
+            # print(graph.vertices.keys())
+    # for num in range(num_vertices):
+    #     for _ in range(num_edges):
+    #         print(graph.vertices)
+            # vertices = sample(graph.vertices.keys(), 2)
+            # print(graph.vertices)
             # TODO check if edge already exsists
-            
-            graph.add_edge(vertices[0], vertices[1])
+            # if graph.vertices.values().get_edges() == vertices:
+                # graph.add_edge(vertices[0], vertices[1])
 
         bg = BokehGraph(graph)
         # dir(bg)
