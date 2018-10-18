@@ -18,6 +18,7 @@ class Graph:
             self.vertices[num2].add(num1)
             return
         print("Invalid edges")
+
     def add_oneway_edge(self, num1, num2):
         if num1 in self.vertices and num2 in self.vertices:
             self.vertices[num1].add(num2)
@@ -43,5 +44,23 @@ class Graph:
                 if childkey not in visited:
                     queue.append(childkey)
         return False
-    def DFS(self, sourceVextix):
-        
+
+    def returnAllPath(self, sourceVextix):
+        visited = []
+        queue = []
+
+        visited.append(sourceVextix)
+        if len(self.vertices[sourceVextix]) == 0:
+            return visited
+
+        for key in self.vertices[sourceVextix]:
+            queue.append(key)
+        while(len(queue) is not 0):
+            currentKey = queue.pop(0)
+            if currentKey not in visited:
+                visited.append(currentKey)
+
+            for childkey in self.vertices[currentKey]:
+                if childkey not in visited:
+                    queue.append(childkey)
+        return sorted(visited)
