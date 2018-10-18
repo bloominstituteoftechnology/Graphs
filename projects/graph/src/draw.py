@@ -44,9 +44,9 @@ class BokehGraph:
                 edge_start.append(vertex_id)
                 edge_end.append(v)
 
-        print("EDGES:")
-        print(edge_start)
-        print(edge_end)
+        # print("EDGES:")
+        # print(edge_start)
+        # print(edge_end)
 
         graph_renderer.edge_renderer.data_source.data = dict(
             start=edge_start,
@@ -96,6 +96,7 @@ class BokehGraph:
 # graph.add_edge('2', '4')
 # graph.add_edge('4', '3')
 # graph.add_edge('6', '7')
+
 
 # print(graph.vertices)
 

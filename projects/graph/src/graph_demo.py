@@ -3,7 +3,7 @@
 """
 Demonstration of Graph and BokehGraph functionality.
 """
-
+import random 
 from graph import Graph
 from draw import BokehGraph
 from sys import argv
@@ -31,21 +31,47 @@ def create_default_graph():
     bg.draw()
 
 
-def create_random_graph(num_nodes):
+def create_random_graph(num_nodes, num_edges):
 
     graph = Graph()
+
+    edges = []
+
+    for i in range(num_nodes):
+        for j in range(i + 1, num_nodes):
+            edges.append((i, j))
+
+    random.shuffle(edges)
+
+
+    if num_edges > len(edges):
+        print("WARNING: TOO MANY EDGES!")
+
+
+
+    edges = edges[:num_edges]
+
+
+
     for i in range(num_nodes):
         graph.add_vertex(i)
+
+    for edge in edges:
+        print("RANDOM GRAPH EDGES:")
+        print(edge)
+        graph.add_edge(edge[0], edge[1])
+
+    print(len(edges))
 
     bg = BokehGraph(graph)
     bg.draw()
 
 
-def main(style, num_nodes):
+def main(style, num_nodes, num_edges):
     if style == "default":
         create_default_graph()
     elif style == "random":
-        create_random_graph(num_nodes)
+        create_random_graph(num_nodes, num_edges)
     else:
         create_default_graph()
 
@@ -53,6 +79,7 @@ def main(style, num_nodes):
 if __name__ == '__main__':
     style = "default"
     num_nodes = 5
+    num_edges = 5
     for arg in argv[1:]:
         arg_split = arg.split("=")
         if len(arg_split) == 2:
@@ -60,7 +87,9 @@ if __name__ == '__main__':
                 style = arg_split[1].lower()
             elif arg_split[0] == "nodes":
                 num_nodes = int(arg_split[1])
+            elif arg_split[0] == "edges":
+                num_edges = int(arg_split[1])
             else:
                 print("I don't understand that command")
 
-    main(style, num_nodes)
+    main(style, num_nodes, num_edges)

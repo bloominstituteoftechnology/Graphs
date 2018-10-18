@@ -83,10 +83,11 @@ class Graph:
         while queue:
             print("Queue:")
             print(queue)
-            vertex = queue.popleft()
+            vertex = queue.popleft() 
             if vertex not in visited:
                 visited.add(vertex)
-                
+                # vertex.color = "pink"
+
                 for neighbor in self.vertices[vertex].edges:
                     if neighbor not in visited:
                         queue.append(neighbor)
