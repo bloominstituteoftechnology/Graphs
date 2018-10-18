@@ -108,23 +108,28 @@ class Graph:
 
     # Breadth First Traversal
 
-    # def bft(self, starting_node):
-    #     q = Queue() # use the Queue class to build an empty queue
+    def bft(self, starting_node):
+        queue = Queue() # use the Queue class to build an empty queue
 
-    #     #initialize the queue with a starting node, using the enqueue method
-    #     q.enqueue(starting_node)
+        #initialize the queue with a starting node, using the enqueue method
+        queue.enqueue(starting_node)
 
-    #     #set up an empty array to track visited vertices
-    #     visited = []
+        #set up an empty array to track visited vertices
+        visited = []
 
-    #     while q.size() > 0:
-    #         # remove the first node from the queue
-    #         # if it has not been visited, 
-    #         # mark it as visited
-    #         # but the child nodes in the back of the queue
+        while queue.size() > 0:
+            # remove the first node from the queue
+            removed = queue.dequeue()
+            # mark it as visited
+            visited.append(removed)
+            print(removed)
+            for i in self.vertices[removed].edges:
+                if i not in visited:
+                    queue.enqueue(edge)
+        return visited
 
 
-    def BFS(self, start, target):
+    def bfs(self, start, target):
     # https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
         # mark all of the vertices as not visited
         visited = []
@@ -159,6 +164,6 @@ graph.add_edge('1', '2')
 graph.add_edge('1', '4')
 print(graph.vertices)
 print(graph.vertices['0'])
-graph.BFS(0,2)
+graph.bfs('0','2')
 
 
