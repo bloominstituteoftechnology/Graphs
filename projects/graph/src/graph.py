@@ -10,6 +10,40 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if (self.size()) > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
+
+
 class Graph:
     # Represent a graph as a dictionary of vertices mapping labels to edges.
     def __init__(self):
@@ -60,7 +94,7 @@ class Graph:
         q = Queue()
         # Put starting vert in the queue
         q.enqueue(starting_node)
-        visited = []
+        visited = set()
         # while q.size() > 0:
         while len(q) > 0:
                     # Remove the first node from the queue...
@@ -71,6 +105,8 @@ class Graph:
                 visited += new_node
             # Then put all it's children in the back of the queue
             queue.extend(self.vertices[new_node])
+
+        return visited
 
     """
     # Stack
@@ -84,7 +120,7 @@ class Graph:
             # Pop the first node off the Stack
             # If it has not been visited yet
             #Mark it as visited....
-            # Then put all it's children on top of the stack. 
+            # Then put all it's children on top of the stack.
     """
 
 
