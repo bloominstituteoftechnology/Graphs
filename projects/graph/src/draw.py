@@ -9,7 +9,7 @@ from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 # from bokeh.palettes import Spectral8
 
-class BokehGraph:
+class BokehGraph():
     """Class that takes a graph and exposes drawing methods."""
     def __init__(self, graph):
         self.graph = graph
@@ -19,7 +19,7 @@ class BokehGraph:
         N = len(graph.vertices)
         node_indices = list(graph.vertices.keys())
 
-        print(node_indices)
+        print(f"node indices: {node_indices}")
 
         plot = figure(title='Graph Layout Demonstration', x_range=(-10,10), y_range=(-10,10),
                     tools='', toolbar_location=None)
@@ -28,7 +28,7 @@ class BokehGraph:
 
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         # graph.node_renderer.data_source.add(Spectral8, 'color')
-        graph_renderer.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color='red')
+        graph_renderer.node_renderer.glyph = Oval(height=0.6, width=0.5, fill_color='red')
 
         graph_renderer.edge_renderer.data_source.data = dict(
             start=[0]*N,
@@ -38,7 +38,7 @@ class BokehGraph:
             start=[0]*N,
             end=node_indices
         )
-        print(d)
+        print(f"dict: {d}")
 
         ### start of layout code
         # circ = [i*2*math.pi/8 for i in node_indices]
@@ -61,14 +61,14 @@ class BokehGraph:
 
 
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+# graph = Graph()  # Instantiate your graph
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
 # print(graph.vertices)
 
-bg = BokehGraph(graph)
-bg.draw()
+# bg = BokehGraph(graph)
+# bg.draw()

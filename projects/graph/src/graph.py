@@ -3,6 +3,33 @@ Simple graph implementation compatible with BokehGraph class.
 """
 import random
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if (self.size()) > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -23,16 +50,53 @@ class Graph:
     #     self.vertices.update({str(vertex): {str(node) for node in edge} })
     #     print(f"Third line -> {self.vertices}")
 
+
+    # def dft(self, starting_node, visited=None):
+    #     #  mark the node as visited
+    #     if visited == None:
+    #         visited = []
+    #     visited.append(starting_node)
+    #     # for each child, the child hasnt been visted it, call dft on that node
+    #     # for child in children:
+    #     #   if child not in visited:
+    #     #       dft(child, visted)
+
+
+    # def bft(self, starting_node):
+    #     # created empty queue
+    #     q = Queue()
+    #     # put starting vert in queue
+    #     q.enqueue(starting_node)
+    #     visited = []
+    #     while q.size > 0:
+    #         # remove the first node form the queue
+    #         # if it has not been visited yet
+    #         # mark it as visited
+    #         # then put all of it's children in the back of the queue
+            
+
+    # def dft_s(self, starting_node):
+    #     # created empty queue
+    #     s = Stack()
+    #     # put starting vert in queue
+    #     s.enqueue(starting_node)
+    #     visited = []
+    #     while s.size > 0:
+    #         # remove the first node form the queue
+    #         # if it has not been visited yet
+    #         # mark it as visited
+    #         # then put all of it's children in the back of the queue
+
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
         self.id = vertex_id
         self.edges = set()
         if x == None:
-            self.x = random.random() * 10-5
+            self.x = random.random() * 10-3
         else:
             self.x = x
         if y == None:
-            self.y= random.random() * 10-5
+            self.y= random.random() * 10-3
         else:
             self.y = y
     def __repr__(self):
