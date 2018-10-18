@@ -75,15 +75,9 @@ class Graph:
         self.vertices = {}
         self.vertCount = 0
 
-    def add_vertex(self, vertex, edges = ()):
-        if vertex in self.vertices:
-        #  https://realpython.com/python-exceptions/            
-            raise Exception('Error: that vertex already exists')
-            # https://www.programiz.com/python-programming/methods/set/issubset
-        if not set(edges).issubset(self.vertices):
-            raise Exception('Error: that vertex does not exist')
-            #https://docs.python.org/2/library/sets.html
-        self.vertices[vertex] = set(edges)
+    def add_vertex(self, id):
+        # Use the vertex class to add a vertex
+        self.vertices[id] = Vertex(id)
     
     def get_vertex(self,n):
         if n in self.vertices:
@@ -94,12 +88,20 @@ class Graph:
     def __contains__(self,n):
         return n in self.vertices
 
-    def add_edge(self, start, end, bothWays = True):
-        if start not in self.vertices or end not in self.vertices:
-            raise Exception('These vertices are not in the graph')
-        self.vertices[start].add(end)
-        if bothWays:
-            self.vertices[end].add(start)
+    def add_edge(self, v1, v2):
+        # method to add an edge without specified direction
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].edges.add(v2)  #can add because edges is a set()
+            self.vertices[v2].edges.add(v1)
+        else:
+            raise IndexError("That vertex does not exist")
+
+    def add_directed_edge(self,v1,v2):
+        # method to add an edge with a specified direction
+        if v1 in self.vertices:
+            self.vertices[v1].edges.add(v2)
+        else:
+            raise IndexError("That vertex does not exist")
 
     def vertices(self):
         return self.vertices.keys()
