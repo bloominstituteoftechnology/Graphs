@@ -25,29 +25,28 @@ class Graph:
             raise IndexError("That vertex does not exist")
 
     def depth_first_search(self, starting_node):
-        stack = [starting_node]
-        collected = []
-        if len(self.vertices) == 0:
-            visited == False
-        while stack:
+        stack = Stack()
+        stack.push(starting_node)
+        visited = []
+        while stack.size() > 0:
             current = stack.pop()
-            collected.append(current)
-            for child in self.vertices[current]:
-                if visited[child] == False:
-                    stack.append(child)
-                    visited[child] == True
+            if current not in visited:
+                visited.append(current)
+                print(visited)
+                for edge in self.vertices[current].edges:
+                    stack.push(edge)
 
     def breadth_first_search(self, starting_node):
-        stack = [starting_node]
+        queue = [starting_node]
         collected = []
         if len(self.vertices) == 0:
             visited == False
-        while stack:
-            current = stack.pop(0)
+        while queue:
+            current = queue.pop(0)
             collected.append(current)
             for child in self.vertices[current]:
                 if visited[child] == False:
-                    stack.append(child)
+                    queue.append(child)
                     visited[child] == True
 
 class Vertex:
@@ -66,11 +65,11 @@ class Vertex:
         return f"{self.edges}"
 
         
-thegraph = Graph()
-thegraph.add_vertex('0')
-thegraph.add_vertex('1')
-thegraph.add_vertex('2')
-thegraph.add_vertex('3')
-thegraph.add_edge('0', '1')
-thegraph.add_edge('0', '3')
-print(thegraph.vertices)
+#thegraph = Graph()
+#thegraph.add_vertex('0')
+#thegraph.add_vertex('1')
+#thegraph.add_vertex('2')
+#thegraph.add_vertex('3')
+#thegraph.add_edge('0', '1')
+#thegraph.add_edge('0', '3')
+#print(thegraph.vertices)

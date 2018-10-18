@@ -47,7 +47,10 @@ def createRandomGraph(numNodes, numEdges):
         graph.add_edge(edge[0], edge[1])
 
     print(len(edges))
+    print(graph.vertices)
+
     bg = BokehGraph(graph)
+    bg.graph.depth_first_search(3)
     bg.draw()
 
 def main(style, numNodes, numEdges):
@@ -57,15 +60,6 @@ def main(style, numNodes, numEdges):
         createRandomGraph(numNodes, numEdges)
     else:
         createDefaultGraph()
-
-def main():
-    if style == 'default':
-        createDefaultGraph()
-    elif style == 'random':
-        createRandomGraph(numNodes, numEdges)
-    else:
-        createDefaultGraph()
-
 
 if __name__ == '__main__':
     style = 'default'

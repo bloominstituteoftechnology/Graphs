@@ -27,7 +27,7 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         # node_colors = ['red'] * N
         # graph.node_renderer.data_source.add(node_colors, 'color')
-        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color="red")
+        graph_renderer.node_renderer.glyph = Circle(radius=0.5, fill_color="blue")
 
         edge_start = []
         edge_end = []
@@ -64,14 +64,14 @@ class BokehGraph:
 
 
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+#graph = Graph()  # Instantiate your graph
+#graph.add_vertex('0')
+#graph.add_vertex('1')
+#graph.add_vertex('2')
+#graph.add_vertex('3')
+#graph.add_edge('0', '1')
+#graph.add_edge('0', '3')
 
 
-bg = BokehGraph(graph)
-bg.draw()
+#bg = BokehGraph(graph)
+#bg.draw()
