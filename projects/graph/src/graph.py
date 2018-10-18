@@ -95,7 +95,7 @@ class Graph:
                     other_v.component = current_component
                 current_component += 1
                 connected_components.update(reachable)
-                self.components = current_component
+        self.components = current_component
         return connected_components
 
 if __name__ == "__main__":
