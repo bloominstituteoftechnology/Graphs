@@ -43,27 +43,29 @@ class Graph:
         if visited is None:
             visited = []
         visited.append(starting_node)
-        children = self.vertices[starting_node].edges
-        for child in children:
+        for child in self.vertices[starting_node].edges:
             if child not in visited:
-                child.dft(visited)
+                self.dft(child, visited)
+        print(visited)
+        return visited
         # For each child, if that child hasn't been visited, call dft() on that node
         # for child in children:
         #    if child not in visited:
                   # dft(child, visted)
     def bft(self, starting_node):
+        visited = []
         # create an empty queue
         q = Queue()
         # Put starting vert in the queue
         q.enqueue(starting_node)
-        visited = []
         while q.size() > 0:
             dequeued = q.dequeue()
-            print(dequeued)
-            if dequeued not in visited:
-                visited.append(dequeued)
+            visited.append(dequeued)
+            for edge in self.vertices[dequeued].edges:
+                if edge not in visited:
+                    q.enqueue(edge)
                 print(visited)
-
+        return visited
 
 
             # Remove the first node from the queue...
@@ -87,6 +89,22 @@ class Queue:
 
     def size(self):
         return len(self.items)  
+
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def place_stack(self, item):
+        self.items.append(item)
+
+    def unstack(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items) 
 
 class Vertex:
     def __init__(self, vertex_id, x=None, y=None):
