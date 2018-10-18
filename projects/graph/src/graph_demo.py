@@ -34,8 +34,8 @@ def main():
     #random
     rando_graph = Graph()
     verts = math.floor(random.random() * 10) + 2
-    # print(verts, 'verts')
-    for v1 in range(0, verts):
+    print(verts, 'verts--------------------')
+    for v1 in range(0, verts+1):
         rando_graph.add_vertex(v1)
         # print(v2s, 'v2s')
     keys = list(rando_graph.vertices.keys())
@@ -48,7 +48,9 @@ def main():
 
     BokehGraph(rando_graph).show()
     # rando_graph.dfs(9)
-    graph.dfs(9)
+    print(graph.dfs(2))
+    print("-------------------------")
+    print(graph.bfs(2))
     
 
 if __name__ == '__main__':

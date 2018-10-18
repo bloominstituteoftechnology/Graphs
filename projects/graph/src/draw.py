@@ -22,10 +22,7 @@ class BokehGraph:
               tools="", toolbar_location=None)
 
         graph_renderer = GraphRenderer()
-
-        graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        # graph.node_renderer.data_source.add(Spectral8, 'color')
-        graph_renderer.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color="red")
+        
 
         edge_start = []
         edge_end = []
@@ -41,14 +38,35 @@ class BokehGraph:
             start=edge_start, 
             end=edge_end
         )
+
         x = []
         y = []
 
+        colors = []
+        color1 = "red"
+        color2 = "blue"
+
+
         for vertex_id in node_indices:
+            if vertex_id in edge_start:
+                colors.append(color1)
+            else: 
+                colors.append(color2)
+                
+            #CHECK FOR CONNECTION ON VERTEX_Id
+            #IF IT ADD color1 to colors
+            #IF NOT ADD color2 to colors 
+            #that gives the right amount of colors
+
             vertex = graph.vertices[vertex_id]
             x.append(vertex.x)
             y.append(vertex.y)
             
+
+        graph_renderer.node_renderer.data_source.add(node_indices, 'index')
+        graph_renderer.node_renderer.data_source.add(colors, 'color')
+        graph_renderer.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color="color")
+
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 

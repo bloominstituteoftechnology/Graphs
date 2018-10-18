@@ -61,25 +61,20 @@ class Graph:
                 # print(verts, '28')
         return False 
     def bfs(self, value): 
-        # do BfS 
-        searched = []
-        queue = [self.vertices[0]]
-        return False
-    def dfs(self, value):
         index = 0
-        s = Stack()
+        q = Queue()
         print(self.vertices.keys(), 'node?')
         print(self.vertices[index].edges)
         k = list(self.vertices.keys())
         print(k,'k')
-        s.push(k[0])
-        print(s.stack,'s1')
+        q.enqueue(k[0])
+        print(q.queue,'s1')
         visited = []
         print(visited, 'visited')
-        while  s.size() > 0:
+        while  q.size() > 0:
             print(index, 'index', 'iteration')
-            print(s.stack,'s2')
-            node = s.pop()
+            print(q.queue,'s2')
+            node = q.dequeue()
             print(node,'node')
             if node == value:
                 print('True')
@@ -92,7 +87,7 @@ class Graph:
                     for each in self.vertices[node].edges:
                         if each not in visited:
                             print(each)
-                            s.push(each)
+                            q.enqueue(each)
                         else:
                             print('nope')
                     index = index +1
@@ -100,6 +95,34 @@ class Graph:
                     print('no edges')
                     
         print('False')
+        return False
+    def dfs(self, value):
+        # index = 0
+        s = Stack()
+        k = list(self.vertices.keys())
+        s.push(k[0])
+        visited = []
+        while  s.size() > 0:
+            node = s.pop()
+            if node == value:
+                return True
+            else: 
+                visited.append(node)
+                if len(self.vertices[node].edges) > 0:
+                    for each in self.vertices[node].edges:
+                        if each not in visited:
+                            s.push(each)
+                        else:
+                            print('nope')
+                    # index = index +1
+                else:
+                    print('no edges')
+            # try: 
+            #     #an iff statement with no error 
+            #     #doesnt stop program
+            #     1+1 == 2
+            # except IndexError:
+            #     print('hello', index)
         return False
 
 
@@ -119,4 +142,79 @@ class Vertex:
             self.y = y
     def __repr__(self):
         return f"{self.edges}"
+
+
+# def 
+#   bfs(self, value): 
+    #     index = 0
+    #     q = Queue()
+    #     print(self.vertices.keys(), 'node?')
+    #     print(self.vertices[index].edges)
+    #     k = list(self.vertices.keys())
+    #     print(k,'k')
+    #     q.enqueue(k[0])
+    #     print(q.queue,'s1')
+    #     visited = []
+    #     print(visited, 'visited')
+    #     while  q.size() > 0:
+    #         print(index, 'index', 'iteration')
+    #         print(q.queue,'s2')
+    #         node = q.dequeue()
+    #         print(node,'node')
+    #         if node == value:
+    #             print('True')
+    #             return True
+    #         else: 
+    #             visited.append(node)
+    #             print(visited, 'visited')
+    #             print(self.vertices[node].edges,'edges')
+    #             if len(self.vertices[node].edges) > 0:
+    #                 for each in self.vertices[node].edges:
+    #                     if each not in visited:
+    #                         print(each)
+    #                         q.enqueue(each)
+    #                     else:
+    #                         print('nope')
+    #                 index = index +1
+    #             else:
+    #                 print('no edges')
+                    
+    #     print('False')
+    #     return False
+    # def dfs(self, value):
+    #     index = 0
+    #     s = Stack()
+    #     print(self.vertices.keys(), 'node?')
+    #     print(self.vertices[index].edges)
+    #     k = list(self.vertices.keys())
+    #     print(k,'k')
+    #     s.push(k[0])
+    #     print(s.stack,'s1')
+    #     visited = []
+    #     print(visited, 'visited')
+    #     while  s.size() > 0:
+    #         print(index, 'index', 'iteration')
+    #         print(s.stack,'s2')
+    #         node = s.pop()
+    #         print(node,'node')
+    #         if node == value:
+    #             print('True')
+    #             return True
+    #         else: 
+    #             visited.append(node)
+    #             print(visited, 'visited')
+    #             print(self.vertices[node].edges,'edges')
+    #             if len(self.vertices[node].edges) > 0:
+    #                 for each in self.vertices[node].edges:
+    #                     if each not in visited:
+    #                         print(each)
+    #                         s.push(each)
+    #                     else:
+    #                         print('nope')
+    #                 index = index +1
+    #             else:
+    #                 print('no edges')
+                    
+    #     print('False')
+    #     return False
 
