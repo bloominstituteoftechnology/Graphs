@@ -30,7 +30,9 @@ class BokehGraph:
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         # changes color of nodes
         node_colors = ['red'] * N
-        graph_renderer.node_renderer.data_source.add(node_colors, 'color')
+        # graph_renderer.node_renderer.data_source.add(node_colors, 'color')
+        graph_renderer.node_renderer.data_source.add(Spectral8, 'color')
+
         graph_renderer.node_renderer.glyph = Circle(
             radius=0.5, fill_color="color")
 
