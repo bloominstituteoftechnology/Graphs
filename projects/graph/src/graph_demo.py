@@ -66,6 +66,43 @@ class Graph:
        
         self.add_edge_one_way(vertex1, vertex2)
         self.add_edge_one_way(vertex2, vertex1)
+    #
+    def breadth_first(self, start):
+        """This is a breadth first traversal algorithm"""
+        adj = self.vertices
+        level = {start: 0}
+        parent = {start : None}
+        i = 1 
+        frontier = [start]
+        while frontier:
+            next = []
+            for u in frontier:
+                for v in adj[u].edges:
+                    if v not in level:
+                        level[v] = i
+                        parent[v] = u
+                        next.append(v)
+
+            frontier = next 
+            i += 1
+        print("bfs levels")
+        print(level)
+    #
+    def depth_first(self, start):
+        """ This is a depth first traversal algorithm"""
+        adj = self.vertices
+        parent = {start: None}
+        def visited(adj, start):
+            """ this is a function used inside of depth_first that is recursive""" 
+            for v in adj[start].edges:
+                if v not in parent:
+                    parent[v] = start
+                    visited(adj, v)
+        #end of for loop
+        visited(adj, start)
+        print("\nParents dfs")
+        print(parent)
+
 
 class BokehGraph:
     """Class that takes a graph and exposes drawing methods."""
@@ -74,8 +111,12 @@ class BokehGraph:
         self.color = color
 
     def show(self):
+        
         N = len(self.graph.vertices) #length of vertices
         vertex_indices = list(self.graph.vertices.keys())
+        print(vertex_indices[0], "starting point")
+        self.graph.depth_first(vertex_indices[0])
+        self.graph.breadth_first(vertex_indices[0])
 
         plot = figure(title="Random Generated Graph", x_range=(-7,7), y_range=(-7,7),
         tools='', toolbar_location=None)
@@ -119,10 +160,7 @@ class BokehGraph:
             end=edge_end 
         )
         
-        print(edge_start)
-        print(edge_end)
-        print('\n')
-        print(vertex_indices)
+        
 
         graph_layout = dict(zip(vertex_indices, zip(x,y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
