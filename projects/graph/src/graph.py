@@ -3,6 +3,7 @@ Simple graph implementation compatible with BokehGraph class.
 """
 import random
 from queue import PriorityQueue
+from random import sample
 
 class Vertex:
     def __init__(self, data, x=None, y=None, component=-1):
@@ -71,29 +72,31 @@ class Graph:
         return visited
 
     def connected_components(self):
-        pass
-        connected_components = set()
-        for v in self.vertices:
-            # print(v)
-            self.vertices[v].color = 'white'
-            if self.vertices[v] not in connected_components:
-                connected_components.update(self.BFT(self.vertices[v].id))
-            if self.vertices[v].color == 'white':
-                self.vertices[v].color = 'green'
-        print(connected_components)
-
-
-        # connected_components = set()
-        # current_component = 0
-
+        # connected_components = dict()
         # for v in self.vertices:
-        #     if v not in connected_components:
-        #         reachable = self.BFS(self.vertices[v].id)
-        #         for other_v in reachable:
-        #             other_v.component = current_component
-        #         current_component += 1
-        #         connected_components.update(reachable)
-        # self.components = current_component
+        #     # print(v)
+        #     self.vertices[v].color = 'white'
+        #     if self.vertices[v] not in connected_components:
+        #         connected_components.update({f"{self.vertices[v].id}": self.BFT(self.vertices[v].id)})
+        #     if self.vertices[v].color == 'white':
+        #         self.vertices[v].color = 'green'
+        # print("CC", connected_components)
+        # return connected_components
+
+        connected_components = set()
+        current_component = 0
+
+        for v in self.vertices:
+            if self.vertices[v] not in connected_components:
+                reachable = self.BFT(self.vertices[v].id)
+                print('reachable', reachable)
+                for other_v in reachable:
+                    # print(other_v.color)
+                    other_v.component = current_component
+                current_component += 1
+                connected_components.update(reachable)
+                self.components = current_component
+        return connected_components
 
 if __name__ == "__main__":
     graph = Graph()
