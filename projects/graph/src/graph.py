@@ -94,17 +94,17 @@ class Graph:
         q = Queue()
         # Put starting vert in the queue
         q.enqueue(starting_node)
-        visited = set()
+        visited = []
         # while q.size() > 0:
-        while len(q) > 0:
+        while q.size() > 0:
                     # Remove the first node from the queue...
-            new_node = queue.pop()
+            new_node = q.dequeue()
             # If it has not been visited yet,...
             if new_node not in visited:
                 # Mark it as visited....
                 visited += new_node
             # Then put all it's children in the back of the queue
-            queue.extend(self.vertices[new_node])
+            q.queue.extend(self.vertices[new_node].edges)
 
         return visited
 
@@ -158,14 +158,15 @@ class Vertex:
 #         self.vertices[v1].add(v2)
 
 
-# graph = Graph()
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '3')
-# graph.add_edge('1', '2')
-# graph.add_edge('3', '2')
+graph = Graph()
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+graph.add_edge('1', '2')
+graph.add_edge('3', '2')
 #
-# print(graph.dfs('0'))
+#print(graph.dfs('0'))
+print(graph.bfs('0'))
