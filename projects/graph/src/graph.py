@@ -17,11 +17,9 @@ class Graph:
 
     def add_edge(self, from_vertex, to_vertex):
         if from_vertex not in self.vertices_list:
-            print(f"⚠️ Vertice {from_vertex} is not in the graph")
-            return False
+            raise Exception(f"⚠️ Vertice {from_vertex} is not in the graph")
         if to_vertex not in self.vertices_list:
-            print(f"⚠️ Vertice {to_vertex} is not in the graph")
-            return False
+            raise Exception(f"⚠️ Vertice {to_vertex} is not in the graph")
         # if edge already in set
         if to_vertex in self.vertices_list[from_vertex]:
             return False
@@ -45,32 +43,65 @@ class Graph:
             from_vertex = str(randint(0, num_vertices - 1))
             to_vertex = str(randint(0, num_vertices - 1))
             if self.add_edge(from_vertex, to_vertex):
-                edge += 1 
+                edge += 1
 
-    def breadth_first_search(self, target):
+        print(self.vertices_list) 
+
+    def breadth_first_search(self, start, target):
         """
-        Search each vertex in vertices_list in order (FIFO)
+        Search each vertex in vertices_list in FIFO
         to check whether target is connected within graph
         """
-        for from_vertex in self.vertices_list:
-            to_vertices = self.vertices_list[from_vertex]
-            for to_vertex in to_vertices:
-                if to_vertex == str(target):
-                    print(f"{target} is connected by {from_vertex}")
-                    return 
-            
-        print(f"{target} is not connected in the graph")
-    
-    def depth_first_search(self, target):
-        pass 
+        queue = [start]
+        visited = set([start])
+        # print(self.vertices_list)
 
-graph = Graph()  # Instantiate your graph
+        while len(queue) > 0:
+            removed_vertex = queue.pop(0)
+            visited.add(removed_vertex)  
+            # print(queue)      
+
+            if removed_vertex == target:
+                print(f"{target} is found")
+                return target
+            else:
+                for connected_vertex in self.vertices_list[removed_vertex]:
+                    if connected_vertex not in visited:
+                        queue.append(connected_vertex)
+
+        print(f"{target} is not in the graph or not connected by {start}")
+        return False
+    
+    def depth_first_search(self, start, target, visited = set()):
+        """
+        Search each vertex in vertices_list in LIFO
+        to check whether target is connected within graph
+        """
+        if len(visited) == 0:
+            visited = set([start])
+
+        for connected_vertex in self.vertices_list[start]:
+            # if visited
+            if connected_vertex in visited:
+                return
+            # if a match
+            if connected_vertex == target:
+                print(f"{target} is found")
+                return target
+            else:
+                visited.add(connected_vertex)
+                self.depth_first_search(connected_vertex, target, visited)
+         
+graph = Graph()  # Instantiate graph
 # graph.add_vertex('0')
 # graph.add_vertex('1')
 # graph.add_vertex('2')
 # graph.add_vertex('3')
+# graph.add_vertex('4')
 # graph.add_edge('0', '1')
 # graph.add_edge('0', '2')
 # graph.add_edge('2', '3')
-graph.randomise_graph(5, 6)
-graph.breadth_first_search(1)
+# graph.add_edge('3', '4')
+# graph.randomise_graph(10, 100)
+# graph.breadth_first_search('0', '2')
+# graph.depth_first_search('0', '4')

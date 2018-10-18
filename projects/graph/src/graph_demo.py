@@ -10,6 +10,7 @@ from draw import BokehGraph
 def main(num_vertices, num_edges):
     graph = BokehGraph(int(num_vertices), int(num_edges)) 
     graph.show()
+    graph.graph.depth_first_search('1', '2')
 
 if __name__ == '__main__':
     # print(argv, argv[1], argv[2])

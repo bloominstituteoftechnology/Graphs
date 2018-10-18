@@ -26,7 +26,6 @@ class BokehGraph:
 
     def show(self):
         self.initialise_graph()
-
         vertices_list = self.graph.vertices_list
         N = len(vertices_list)
         node_indices = list(range(N))
@@ -40,7 +39,7 @@ class BokehGraph:
         graph = GraphRenderer()
 
         graph.node_renderer.data_source.add(node_indices, 'index')
-        graph.node_renderer.glyph = Circle(size = 8, fill_color = "grey")
+        graph.node_renderer.glyph = Circle(size = 12, fill_color = "firebrick")
 
         # initiate edges
         from_edges = []
@@ -57,15 +56,21 @@ class BokehGraph:
         graph.edge_renderer.data_source.data = dict(start = from_edges, end = to_edges)
 
         ### start of layout code
-        circ = [ i*2*math.pi/8 for i in node_indices ]
+        circ = [ i*2*math.pi/N for i in node_indices ]
         x = [ math.cos(i) for i in circ ]
         y = [ math.sin(i) for i in circ ]
 
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph.layout_provider = StaticLayoutProvider(graph_layout = graph_layout)
 
-        plot.renderers.append(graph)
 
+        source = ColumnDataSource(data = dict(x=x, y=y, names=node_indices))
+
+        labels = LabelSet(x='x', y='y', text='names', level='glyph',
+                            x_offset=5, y_offset=5, source=source, render_mode='canvas')
+
+        plot.renderers.append(graph)
+        plot.add_layout(labels)
         output_file('graph.html')
         show(plot)
 
