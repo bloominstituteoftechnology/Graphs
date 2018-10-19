@@ -34,7 +34,7 @@ class BokehGraph:
             self._get_random_colors(), 'color')
         graph_renderer.node_renderer.glyph = Circle(size=circle_size,
                                                     fill_color='color')
-        graph_render.edge_end.data_source.data = self._get_edge_indexes()
+        graph_renderer.edge_renderer.data_source.data = self._get_edge_indexes()
         self.randomize()
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
