@@ -21,7 +21,7 @@ def createDefaultGraph():
     graph.add_vertex(3)
     graph.add_edge(5, 2)
     graph.add_edge(2, 1)
-    # graph.add_edge(4, 3)
+    graph.add_edge(4, 3)
     # graph.add_edge(5, 6)
     # graph.add_edge(2, 4)
     # graph.add_edge(6, 7)
@@ -54,7 +54,6 @@ def createRandomGraph(numNodes, numEdges):
     for edge in edges:
         graph.add_edge(edge[0], edge[1])
 
-    print(len(edges))
 
     bg = BokehGraph(graph)
     bg.draw()

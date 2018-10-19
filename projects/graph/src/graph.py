@@ -32,27 +32,28 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist")
 
-    def dft(self, current, visited=None):
-        if visited is None:
-            visited = []
-        stack = [current]
-        while stack:
-            current_node = stack.pop()
-            visited.append(current_node)
-            for next_node in self.vertices[current_node].edges:
-                if next_node not in visited:
-                    stack.append(next_node)
-        return visited
-
-    # recursion
     # def dft(self, current, visited=None):
     #     if visited is None:
     #         visited = []
-    #     visited.append(current)
-    #     for vertex in self.vertices[current].edges:
-    #         if vertex not in visited:
-    #             self.dft(vertex, visited)
+    #     stack = [current]
+    #     while stack:
+    #         current_node = stack.pop()
+    #         visited.append(current_node)
+    #         print(visited)
+    #         for next_node in self.vertices[current_node].edges:
+    #             if next_node not in visited:
+    #                 stack.append(next_node)
     #     return visited
+
+    # recursion
+    def dft(self, current, visited=None):
+        if visited is None:
+            visited = []
+        visited.append(current)
+        for vertex in self.vertices[current].edges:
+            if vertex not in visited:
+                self.dft(vertex, visited)
+        return visited
 
     def dfs(self, current, target, visited=None):
         connected = []
@@ -71,13 +72,18 @@ class Graph:
 
     def bft(self, current):
         visited = []
+        random_color = '#'+''.join([random.choice('0123456789ABCDEF') for i in range(6)])
         q = Queue()
+        self.vertices[current].color = random_color
         q.enqueue(current)
         while q.size() > 0:  
             dequeued = q.dequeue()
-            visited.append(dequeued) 
+            visited.append(dequeued)
             for edge in self.vertices[dequeued].edges: 
+                if edge in visited:
+                    self.vertices[dequeued].color = self.vertices[current].color
                 if edge not in visited: 
+                    self.vertices[dequeued].color = random_color
                     q.enqueue(edge)
         return visited
 
@@ -89,8 +95,6 @@ class Graph:
                 connected = self.bft(vertex)
                 cc.append(connected)
                 visited.extend(connected)
-                print(visited)
-                print(cc)
         return cc
         
     # def bfs(self, current, target, visited=None):
@@ -120,6 +124,7 @@ class Vertex:
     def __init__(self, vertex_id, x = None, y = None):
         self.id = vertex_id
         self.edges = set()
+        self.color = None
         if x == None:
             self.x = random.random() * 10
         else:
