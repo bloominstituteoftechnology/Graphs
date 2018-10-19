@@ -22,7 +22,7 @@ class Graph:
         if end_edge not in self.vertices:
               raise ValueError(f'Provided vertex {end_edge} does not exist')
         self.vertices[start_edge].edges.add(end_edge)
-        self.vertices[start_edge].add_color()       ##adding color to connected nodes
+        self.vertices[start_edge].add_color()       #adding color to connected nodes
         self.vertices[end_edge].edges.add(start_edge)
         self.vertices[end_edge].add_color()         #adding color to connected nodes
         
@@ -38,8 +38,8 @@ class Graph:
 
 
     def breadth_first_search(self, start_node):
-         q = []
-         q.append(start_node)
+         q = []   #empty queue
+         q.append(start_node)  #add strt_node to the queue
          visited = []
          while len(q) > 0:
              current = q.pop(0)
@@ -62,8 +62,43 @@ class Graph:
 
         print(f'depth first search{visited}')                
         
+    def dfs_search_value(self, start_node, target_node, visited=[]):
+        
+        if visited is None:
+            visited=[]
 
-            
+        visited.append(start_node)
+        if start_node==target_node:
+            print('True')
+            return True
+
+        for edge in self.vertices[start_node].edges:
+            if edge not in visited: 
+                if self.dfs_search_value(edge, target_node, visited):        #using recurssion
+                    print('True')  
+                    return True 
+        print('False')
+
+
+        #Alternate soultion for dfs search to find if the target_node is present in the connected tree
+        '''if start_node==target_node:
+            print('True')
+            return True
+
+        visited=visited
+
+        if self.vertices[start_node]!=None:
+            if start_node not in visited:
+                visited.append(start_node)
+                for edge in self.vertices[start_node].edges:
+                    if edge==target_node:
+                        print('True')
+                        return True
+                    else:
+                        self.dfs_search_value(edge, target_node, visited) #using recurssion
+                        #print('True')
+                        #return True
+        print('False')'''
 
 class Vertex:
     def __init__ (self, vertex_id, x=None, y=None, value=None):
