@@ -5,7 +5,7 @@ import math
 
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
-from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, ColumnDataSource, Oval)
+from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet, ColumnDataSource, Oval, Text)
 from bokeh.palettes import Spectral8
 
 class BokehGraph:
@@ -43,32 +43,32 @@ class BokehGraph:
         y = []
 
         colors = []
+        labels = []
         color1 = "red"
         color2 = "blue"
 
 
         for vertex_id in node_indices:
+            labels.append('hello')
             if vertex_id in edge_start:
                 colors.append(color1)
             else: 
                 colors.append(color2)
 
-            #CHECK FOR CONNECTION ON VERTEX_Id
-            #IF IT ADD color1 to colors
-            #IF NOT ADD color2 to colors 
-            #that gives the right amount of colors
-
             vertex = graph.vertices[vertex_id]
             x.append(vertex.x)
             y.append(vertex.y)
-            
+        
+        
 
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
         graph_renderer.node_renderer.data_source.add(colors, 'color')
         graph_renderer.node_renderer.glyph = Oval(height=0.1, width=0.2, fill_color="color")
 
+
         graph_layout = dict(zip(node_indices, zip(x, y)))
         graph_renderer.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+
 
         ### Draw quadratic bezier paths
         def bezier(start, end, control, steps):

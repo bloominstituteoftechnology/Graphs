@@ -34,7 +34,7 @@ def main():
     graph.add_edge(5, 12)
     print('graph vertecies ->', graph.vertices)
     
-    # BokehGraph(graph).show()
+    BokehGraph(graph).show()
 
     # rando_graph = Graph()
     # verts = math.floor(random.random() * 15) + 2
@@ -62,7 +62,6 @@ def main():
     print("-------------------------")
     print("bfs_path ->", graph.bfs_path(10))
     print("-------------------------")
-    
 
 if __name__ == '__main__':
     # TODO - parse argv
