@@ -96,6 +96,7 @@ class Graph:
 class Vertex:
     def __init__(self, key, x=None, y=None):
         self.key = key
+        self.label = str(key)
         self.edges = set()
         self.points_to = {}
         if x is None:
@@ -120,7 +121,7 @@ class Vertex:
 
 
     def __repr__(self):
-        return f"{self.edges}"
+        return f"{self.edges}" + self.label
 
 # graph = Graph() # Instantiate your graph
 # graph.add_vertex('0')

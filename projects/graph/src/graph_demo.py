@@ -7,7 +7,7 @@ Demonstration of Graph and BokehGraph functionality.
 import random
 from sys import argv
 from draw import BokehGraph
-from graph import Graph
+from graph import Graph, Vertex
 
 def createDefaultGraph():
     graph = Graph()  # Instantiate your graph
