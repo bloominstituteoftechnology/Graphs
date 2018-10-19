@@ -4,13 +4,14 @@ from bokeh.plotting import figure
 from bokeh.models import (GraphRenderer, StaticLayoutProvider, Circle, LabelSet,
                           ColumnDataSource)
 from graph import Graph, Vertex, Edge
+import random
 
 
 class BokehGraph:
     def __init__(self, graph):
         self.graph = graph
 
-    def draw(self):
+    def draw(self, colorize=False):
         graph = self.graph
         N = len(graph.vertices)
         node_indices = list(graph.vertices.keys())
@@ -19,8 +20,38 @@ class BokehGraph:
                       tools='', toolbar_location=None)
 
         graph_renderer = GraphRenderer()
-        graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        graph_renderer.node_renderer.data_source.add(['red'] * N, 'color')
+
+        print('node_indices', node_indices)
+        if colorize:
+            colors = []
+            result = []
+            for i in node_indices:
+                app = True
+                for group in result:
+                    if i in group:
+                        app = False
+                if app:
+                    result.append(graph.bft(graph.vertices[i]))
+
+            indices = []
+            print('result', result)
+            for batch in result:
+                r = random.randint(0,255)
+                g = random.randint(0,255)
+                b = random.randint(0,255)
+                color = (r,g,b)
+                for node in batch:
+                    colors.append("rgb"+str(color))
+                    indices.append(node)
+            print('colors', colors)
+            print('indices', indices)
+            print(len(colors) == len(indices))
+            graph_renderer.node_renderer.data_source.add(colors, 'color')
+            graph_renderer.node_renderer.data_source.add(indices, 'index')
+        else:
+            graph_renderer.node_renderer.data_source.add(['red'] * N, 'color')
+            graph_renderer.node_renderer.data_source.add(node_indices, 'index')
+
         graph_renderer.node_renderer.glyph = Circle(radius=0.3, fill_color='color')
 
         edge_start = []

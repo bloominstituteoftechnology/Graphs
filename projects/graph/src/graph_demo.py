@@ -14,7 +14,9 @@ def main(argv):
         num_edges = int(argv[1])
     else:
         num_edges = math.floor(random.random() * (num_vert*(num_vert-1)))
+
     graph = Graph()
+
     id = 0
     while len(graph.vertices) < num_vert:
         graph.add_vertex(id)
@@ -27,10 +29,8 @@ def main(argv):
             graph.add_edge(v1,v2)
             cnt += 1
 
-    print(graph.dfs(graph.vertices[0],4))
-
     bg = BokehGraph(graph)
-    bg.draw()
+    bg.draw(True)
 
 if __name__ == '__main__':
     if len(argv) > 1:
