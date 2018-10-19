@@ -49,5 +49,10 @@ class BokehGraph:
 
         plot.renderers.append(graph_renderer)
 
+        source = ColumnDataSource(data=dict(labels = node_indices,x=x, y=y))
+
+        labels = LabelSet(x='x', y='y', text='labels', level='glyph', x_offset=5, y_offset=5, source=source, render_mode='css')
+        plot.add_layout(labels)
+
         output_file('graph.html')
         show(plot)
