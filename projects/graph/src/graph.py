@@ -1,7 +1,31 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if (self.size()) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if (self.size()) > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -15,15 +39,17 @@ class Graph:
             self.vertices[end].add(start)
         else:
             raise IndexError("That vertex does not exist!")
-  #  def dft(self, starting_node, visited = None):
-   #     if visited is None:
-    #        visited = []
-     #       visited.append(starting_node)
-   # def bft(self, starting_node):
-    #    q = Queue()
-     #   q.enqueue(starting_node)
-      #  visited = []
-       # while q.size() > 0:
+    def dft(self, starting_node):
+        s = Stack()
+        s.push(starting_node)
+        visited = []
+        while s.size() > 0:
+
+    def bft(self, starting_node):
+        q = Queue()
+        q.enqueue(starting_node)
+        visited = []
+        while q.size() > 0:
             
 
 graph = Graph()  # Instantiate your graph
