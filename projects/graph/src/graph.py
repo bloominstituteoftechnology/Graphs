@@ -44,12 +44,19 @@ class Graph:
         s.push(starting_node)
         visited = []
         while s.size() > 0:
-
+            visited_node = s.pop()
+            if visited_node.id not in visited:
+                visited.append(visited_node.id)
+                s.extend(list(visited_node.id.add_edge))
     def bft(self, starting_node):
         q = Queue()
         q.enqueue(starting_node)
         visited = []
         while q.size() > 0:
+            visited_item = q.pop(0)
+            if visited_item not in visited:
+                visited.append(visited_item)
+                q.extend(list(visited_item.add_edge))
             
 
 graph = Graph()  # Instantiate your graph
