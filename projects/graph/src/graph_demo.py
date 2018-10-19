@@ -19,6 +19,8 @@ def createDefaultGraph():
     graph.add_vertex(4)
     graph.add_vertex(7) 
     graph.add_vertex(3)
+    graph.add_vertex(10)
+    graph.add_vertex(11)
     graph.add_edge(5, 2)
     graph.add_edge(5, 6)
     graph.add_edge(2, 1)
@@ -26,7 +28,11 @@ def createDefaultGraph():
     graph.add_edge(4, 3)
     graph.add_edge(6, 7)
 
-    graph.dft(6)
+    # print(f"This is DFT:\n{graph.dft(5)}")
+    print(f"This is BFS:\n{graph.bfs(5, 3)}")
+    print(f"This is DFS-Recursive:\n{graph.dfs(5, 6)}")
+    print(f"This is BFS-Path:\n{graph.bfs_path(10, 3)}")
+    print(f"This is DFS-Path:\n{graph.dfs_path(5, 3)}")
     # bg = BokehGraph(graph)
     # bg.draw()
 
