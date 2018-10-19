@@ -1,7 +1,9 @@
 import random
 
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = dict()
 
@@ -71,6 +73,7 @@ class Graph:
 
         return False
 
+
 class Vertex:
     def __init__(self, label, x=None, y=None):
         self.label = label
@@ -83,6 +86,7 @@ class Vertex:
             self.y = random.random() * 10 - 5
         else:
             self.y = y
+
 
 class Edge:
     def __init__(self, destination):

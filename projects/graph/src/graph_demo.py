@@ -2,7 +2,8 @@
 from draw import BokehGraph
 from graph import Graph
 from sys import argv
-import math, random
+import math
+import random
 
 
 def main(argv):
@@ -26,11 +27,12 @@ def main(argv):
         v1 = math.floor(random.random()*num_vert)
         v2 = math.floor(random.random()*num_vert)
         if v1 is not v2:
-            graph.add_edge(v1,v2)
+            graph.add_edge(v1, v2)
             cnt += 1
 
     bg = BokehGraph(graph)
     bg.draw(True)
+
 
 if __name__ == '__main__':
     if len(argv) > 1:
