@@ -74,16 +74,16 @@ class Graph:
         visited = []
         random_color = '#'+''.join([random.choice('0123456789ABCDEF') for i in range(6)])
         q = Queue()
-        self.vertices[current].color = random_color
+        self.vertices[current].color = random_color # randomize a color for start
         q.enqueue(current)
         while q.size() > 0:  
             dequeued = q.dequeue()
             visited.append(dequeued)
             for edge in self.vertices[dequeued].edges: 
                 if edge in visited:
+                    # if the vertex's edge is in visited, set the vertex's color = edge's color
                     self.vertices[dequeued].color = self.vertices[current].color
                 if edge not in visited: 
-                    self.vertices[dequeued].color = random_color
                     q.enqueue(edge)
         return visited
 

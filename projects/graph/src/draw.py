@@ -29,25 +29,9 @@ class BokehGraph:
         graph_renderer = GraphRenderer()
         graph_renderer.node_renderer.data_source.add(node_indices, 'index')
 
-        # randomize colors
-        # if self.connected == True:
-        #     colors = []
-        #     graph_renderer.node_renderer.data_source.add(sorted(node_indices), 'index')
-        #     for x in range(n):
-        #         color = '#'+''.join([choice('0123456789ABCDEF') for i in range(6)])
-        #         colors.append(color)
-        # else:
-        #     colors = []
-        #     graph_renderer.node_renderer.data_source.add(node_indices, 'index')
-        #     for x in range(N):
-        #         color = '#'+''.join([choice('0123456789ABCDEF') for i in range(6)])
-        #         colors.append(color)
-
         colors = []
         for vertex in graph.vertices:
             colors.append(graph.vertices[vertex].color)
-
-        print(colors)
 
         graph_renderer.node_renderer.data_source.add(colors,'colors')
         mapper = LinearColorMapper(palette=Spectral6, low=0, high=10)
