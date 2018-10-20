@@ -114,14 +114,37 @@ class Graph:
         visited = []
         # create an empty queue
         q = Queue()
+        # put starting vert in the queue
         q.enqueue(starting_node)
-        while q.size() > 0:
-            dequeued = q.dequeue()
-            visited.append(dequeued)
-            for edge in self.vertices[dequeued].edges:
-                if edge not in visited:
-                    q.enqueue(edge)
+        while q.size() > 0:#while queue is not empty
+            dequeued = q.dequeue()#dequeue the first element
+            visited.append(dequeued)#mark it as visited
+            print(dequeued)
+            if dequeued ==target_node:
+                return True
+            for edge in self.vertices[dequeued].edges:#for each child
+                if edge not in visited:#if it hasnt been visited
+                    q.enqueue(edge)#add it to the back of the queue
         return False
+
+#instead of storing just nodes in our queue, we store an entire path
+    def bfs_path(self, starting_node, target_value):
+        q= Queue() #create an empty queue
+        q.enqueue([starting_vertex_id]) #put the first node in the queue as a path
+        visited=[]
+        while q.size() > 0: #then, while the queue is not empty
+            path=q.dequeue() #Dequeue the first path in the queue
+            v=path[-1] #Get the current vertex (the last element in the path)
+            if v not in visited: #If that vertex has not been visited...
+                print(path)
+                if v ==target_value: #Check if its the target value
+                    return path
+                visited.append(v) #mark as visited
+                for next_vert in self.vertices[v].edges: #then, put all the children in the queue
+                    new_path = list(path)
+                    new_path.append(next_vert) #...as a path
+                    q.enqueue(new_path)
+        return None
 
     def dfs(self, starting_node, target_node, visited=None):
         #Mark the node as visited
@@ -137,6 +160,10 @@ class Graph:
                 if self.dfs(node,target_node,visited):
                     return True
         return False
+
+
+    def dfs_path(self, start_vert, target_value, visited=None, path=None):
+        if visited is None:
 
 
 
