@@ -18,34 +18,20 @@ class Graph:
     def __init__(self, vertices = dict()):
         self.vertices = vertices
 
-    def add_vertex(self, vertex):
+    def add_vertex(self, vertexValue):
+        vertex = Vertex(vertexValue)
         self.vertices[vertex] = vertex
     
-    def add_edge(self, originVertex, destinationVertex):
+    def add_edge(self, originVertexValue, destinationVertexValue):
+        originVertex = Vertex(originVertexValue)
+        destinationVertex = Vertex(destinationVertexValue)
+
         originVertex.adjVertices.add(destinationVertex)
         destinationVertex.adjVertices.add(originVertex)
 
-# To add an edge, the add_edge method should receive an origin Vertex and a destination Vertex.
-# This method should add a vertex to the adjVertices of the origin and destination vertices
 
-
-# In the file graph.py, implement a Graph class that supports the API expected by draw.py. 
-# In particular, this means there should be a field vertices that contains a dictionary 
-# mapping vertex labels to edges. For example:
-
-# {
-#     '0': {'1', '3'},
-#     '1': {'0'},
-#     '2': set(),
-#     '3': {'0'}
-# }
-
-# The vertex '2' has no edges, while '0' is connected to both '1' and '3'.
-
-# You should also create add_vertex and add_edge methods that add the specified entities 
-# to the graph. To test your implementation, instantiate an empty graph and then try to 
-# run the following:
-
+### Test ###
+# To test, instantiate empty graph and run the following:
 graph = Graph()  # Instantiate your graph
 graph.add_vertex(0)
 graph.add_vertex(1)
@@ -54,6 +40,9 @@ graph.add_vertex(3)
 graph.add_edge(0, 1)
 graph.add_edge(0, 3)
 print(graph.vertices)
+
+for i in graph.vertices:
+    print(i.value)
 
 
 
