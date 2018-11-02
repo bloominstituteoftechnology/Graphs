@@ -53,14 +53,21 @@ class BokehGraph:
 
         # The ColumnDataSource associated with the edge sub-renderer has two required columns: "start" and "end". These columns contain the node indices of for the start and end of the edges.
         # data attribute of ColumnDataSource class : Mapping of column names to sequences of data. The data can be, e.g, Python lists or tuples, NumPy arrays, etc.
-        graphRenderer.edge_renderer.data_source.data = dict(
-            start=[0]*N,
-            end=node_indices)
-
         start_indices = []
         end_indices = []
 
         for vertex in graph.vertices:
+            for edge_end in graph.vertices[vertex].adjVertices:
+                start_indices.append(vertex)
+                end_indices.append(edge_end)
+            print(start_indices)
+            print(end_indices)
+        
+        graphRenderer.edge_renderer.data_source.data = dict(
+            start=start_indices,
+            end=end_indices)
+
+
 
 ### start of layout code
 # circ here is a list populated with the different angles of a circle (i.e. 0 to 2*pi)

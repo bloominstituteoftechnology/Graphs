@@ -3,8 +3,10 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 class Vertex:
-    def __init__(self, value):
+    def __init__(self, value, x = None, y = None):
         self.value = value
+        self.x = x
+        self.y = y
         self.adjVertices = set()
 
     def getAdjVertices(self):
