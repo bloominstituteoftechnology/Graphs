@@ -26,8 +26,11 @@ class Graph:
         originVertex = Vertex(originVertexValue)
         destinationVertex = Vertex(destinationVertexValue)
 
-        originVertex.adjVertices.add(destinationVertex)
-        destinationVertex.adjVertices.add(originVertex)
+        if originVertex in self.vertices and destinationVertex in self.vertices:
+            self.vertices[originVertex].adjVertices.add(destinationVertex)
+            self.vertices[destinationVertex].adjVertices.add(originVertex)
+        else:
+            raise IndexError("That vertex does not exist!")
 
 
 ### Test ###
