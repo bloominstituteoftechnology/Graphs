@@ -48,19 +48,19 @@ class Graph:
             raise IndexError("That vertex does not exist!")
 
 
-### Test ###
-# To test, instantiate empty graph and run the following:
-graph = Graph()  # Instantiate your graph
-graph.add_vertex(0)
-graph.add_vertex(1)
-graph.add_vertex(2)
-graph.add_vertex(3)
-graph.add_edge(0, 1)
-graph.add_edge(0, 3)
-print(graph.vertices)
+# ### Test ###
+# # To test, instantiate empty graph and run the following:
+# graph = Graph()  # Instantiate your graph
+# graph.add_vertex(0)
+# graph.add_vertex(1)
+# graph.add_vertex(2)
+# graph.add_vertex(3)
+# graph.add_edge(0, 1)
+# graph.add_edge(0, 3)
+# # print(graph.vertices)
 
-for i in graph.vertices:
-    print("Value: ", i.value, " ; AdjVertices: ", i.adjVertices)
+# for i in graph.vertices:
+#     print("Value: ", i.value, " ; AdjVertices: ", i.getAdjVertices())
 
 
 
