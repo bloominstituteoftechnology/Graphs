@@ -3,11 +3,16 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 class Vertex:
-    def __init__(self, value, x = None, y = None):
+    def __init__(self, value = None, x = None, y = None):
         self.value = value
         self.x = x
         self.y = y
         self.adjVertices = set()
+
+        if self.x is None:
+            self.x = self.value
+        if self.y is None:
+            self.y = self.value
 
     def getAdjVertices(self):
         adjVerticesValues = set()
@@ -25,12 +30,20 @@ class Graph:
         self.vertices[vertex] = vertex
     
     def add_edge(self, originVertexValue, destinationVertexValue):
-        originVertex = Vertex(originVertexValue)
-        destinationVertex = Vertex(destinationVertexValue)
+        inVertices1 = False
+        inVertices2 = False
 
-        if originVertex in self.vertices and destinationVertex in self.vertices:
-            self.vertices[originVertex].adjVertices.add(destinationVertex)
-            self.vertices[destinationVertex].adjVertices.add(originVertex)
+        for vertex in self.vertices:
+            if originVertexValue == vertex.value:
+                inVertices1 = True
+                originVertex = vertex
+            if destinationVertexValue == vertex.value:
+                inVertices2 = True
+                destinationVertex = vertex
+        
+        if inVertices1 == True and inVertices2 == True:
+            originVertex.adjVertices.add(destinationVertex)
+            destinationVertex.adjVertices.add(originVertex)
         else:
             raise IndexError("That vertex does not exist!")
 
@@ -47,7 +60,7 @@ graph.add_edge(0, 3)
 print(graph.vertices)
 
 for i in graph.vertices:
-    print(i.value)
+    print("Value: ", i.value, " ; AdjVertices: ", i.adjVertices)
 
 
 

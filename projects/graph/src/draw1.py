@@ -67,30 +67,22 @@ class BokehGraph:
             start=start_indices,
             end=end_indices)
 
+        ### start of layout code
+        x = [graph.vertices[vertex].x for vertex in graph.vertices]
+        y = [graph.vertices[vertex].y for vertex in graph.vertices]
+
+        # the zip() method: The purpose of zip() is to map the similar index of multiple containers so that they can be used just using as single entity.
+        graph_layout = dict(zip(node_indices, zip(x, y)))   
+
+        # StaticLayoutProvider base class: bokeh.models.graphs.LayoutProvider (abstract data type. not useful on its own.)
+        # graph_layout attribute of StaticLayoutProvider: The coordinates of the graph nodes in cartesian space. The dictionary keys correspond to a node index and the values are a two element sequence containing the x and y coordinates of the node. (property type: Dict ( Either ( String , Int ), Seq ( Any ) ))
+        # By default the StaticLayoutProvider will draw straight-line paths between the supplied node positions. In order to supply explicit edge paths you may also supply lists of paths to the edge_renderer bokeh.models.sources.ColumnDataSource. The StaticLayoutProvider will look for these paths on the "xs" and "ys" columns of the data source. Note that these paths should be in the same order as the "start" and "end" points.
+        graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
 
-### start of layout code
-# circ here is a list populated with the different angles of a circle (i.e. 0 to 2*pi)
-circ = [i*2*math.pi/8 for i in node_indices]
-x = [math.cos(i) for i in circ]
-y = [math.sin(i) for i in circ]
-
-# the zip() method: The purpose of zip() is to map the similar index of multiple containers so that they can be used just using as single entity.
-graph_layout = dict(zip(node_indices, zip(x, y)))
-
-# StaticLayoutProvider base class: bokeh.models.graphs.LayoutProvider (abstract data type. not useful on its own.)
-# graph_layout attribute of StaticLayoutProvider: The coordinates of the graph nodes in cartesian space. The dictionary keys correspond to a node index and the values are a two element sequence containing the x and y coordinates of the node. (property type: Dict ( Either ( String , Int ), Seq ( Any ) ))
-# By default the StaticLayoutProvider will draw straight-line paths between the supplied node positions. In order to supply explicit edge paths you may also supply lists of paths to the edge_renderer bokeh.models.sources.ColumnDataSource. The StaticLayoutProvider will look for these paths on the "xs" and "ys" columns of the data source. Note that these paths should be in the same order as the "start" and "end" points.
-graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
-
-# plot here is an instantiation of the Figure class (A subclass of Plot that simplifies plot creation with default axes, grids, tools, etc.)
-# renderers is an attribute of Plot. Description:A list of all renderers for this plot, including guides and annotations in addition to glyphs and markers. property type: List ( Instance ( Renderer ) ). Recall that Renderer is an abstract base class used to help organize the hierarchy of Bokeh model types. It is not useful to instantiate on its own.
-plot.renderers.append(graph)
-
-# output_file(): Configures the default output state to generate output saved to a file when show() is called. (https://bokeh.pydata.org/en/latest/docs/reference/io.html#bokeh.io.output_file)
-output_file('graphEx1.html')
-# show(): Immediately displays a Bokeh object or application. (https://bokeh.pydata.org/en/latest/docs/reference/io.html#bokeh.io.show)
-show(plot)
+        plot.renders.append(graphRenderer)
+        output_file('graphEx1.html')
+        show(plot)
 
 
 
