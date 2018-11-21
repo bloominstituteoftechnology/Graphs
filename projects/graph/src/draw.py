@@ -49,13 +49,13 @@ class BokehGraph:
 			end=end,
 		)
 
-		plot = figure(title='Binary Tree', x_range=(-200,200), y_range=(0,55), tools='', toolbar_location=None)
+		plot = figure(title='Binary Tree', x_range=(-200,200), y_range=(0,20), tools='', toolbar_location=None)
 
 		graph.node_renderer.data_source.add(keys, 'index')
 		graph.node_renderer.data_source.add(Set3[7], 'color')
 		graph.node_renderer.glyph = Circle(radius=15, fill_color='color')
 
-		y = [50, 40, 40, 30, 30, 30, 30]
+		y = [15, 10, 10, 5, 5, 5, 5 ]
 		x = [0, -100, 100, -150, -50, 50, 150]
 
 		source = ColumnDataSource(data=dict(
