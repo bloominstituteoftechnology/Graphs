@@ -13,12 +13,12 @@ class Graph:
 	def add_vertex(self, location):
 		self.vertices[location] = set()
 
-	#checks if they key is in the object
+	#checks if they keys are in the object
 	#if it is it will add the value destination to its set list
 	#sets are good because they will ever add the same item twice
 
 	def add_edge(self, location, destination):
-		if location in self.vertices:
+		if location and destination in self.vertices:
 			self.vertices[location].add(destination)
 		else:
 			print(f'no vertex at location {location}')
