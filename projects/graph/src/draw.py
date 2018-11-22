@@ -4,6 +4,7 @@ from graph import binary_tree
 from bokeh.plotting import figure, show, output_file
 from bokeh.models import GraphRenderer, StaticLayoutProvider, Circle, ColumnDataSource, Range1d, LabelSet, Label
 from bokeh.palettes import Set3
+from bokeh.transform import jitter
 
 
 class BokehGraph:
@@ -50,7 +51,7 @@ class BokehGraph:
 			end=end,
 		)
 
-		plot = figure(title='Binary Tree', x_range=(-1.1,1.1), y_range=(-1.1,1.1), tools='', toolbar_location=None)
+		plot = figure(title='graph', x_range=(-1.1,1.1), y_range=(-1.1,1.1), tools='', toolbar_location=None)
 
 		graph.node_renderer.data_source.add(keys, 'index')
 		graph.node_renderer.data_source.add(Set3[7], 'color')
@@ -59,7 +60,7 @@ class BokehGraph:
 		# y = [15, 10, 10, 5, 5, 5, 5]
 		# x = [0, -100, 100, -150, -50, 50, 150]
 
-		circ = [int(i)*2*math.pi/8 for i in binary_tree.vertices]
+		circ = [int(i)*2*math.pi/8 for i in self.graph.vertices]
 		x = [math.cos(i) for i in circ]
 		y = [math.sin(i) for i in circ]
 
@@ -71,8 +72,11 @@ class BokehGraph:
 		labels = LabelSet(x='x', y='y', text='names', level='glyph', x_offset=-5, y_offset=-10, source=source, render_mode='canvas')
 
 
+
 		graph_layout = dict(zip(keys, zip(x, y)))
 		graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
+
+
 
 		plot.renderers.append(graph)
 		plot.add_layout(labels)
@@ -80,6 +84,6 @@ class BokehGraph:
 		output_file('graph.html')
 		show(plot)
 
-drawn_tree = BokehGraph(binary_tree)
+# drawn_tree = BokehGraph(binary_tree)
 
-drawn_tree.draw_graph()
+# drawn_tree.draw_graph()

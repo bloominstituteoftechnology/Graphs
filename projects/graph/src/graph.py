@@ -17,9 +17,12 @@ class Graph:
 	#if it is it will add the value destination to its set list
 	#sets are good because they will ever add the same item twice
 
-	def add_edge(self, location, destination):
-		if location and destination in self.vertices:
-			self.vertices[location].add(destination)
+	def add_edge(self, v1, v2, bi):
+		if v1 and v2 in self.vertices and bi == True:
+			self.vertices[v1].add(v2)
+			self.vertices[v2].add(v1)
+		elif v1 and v2 in self.vertices and bi == False:
+			self.vertices[v1].add(v2)
 		else:
 			print(f'no vertex at location {location}')
 
@@ -37,11 +40,11 @@ binary_tree.add_vertex('4')
 binary_tree.add_vertex('5')
 binary_tree.add_vertex('6')
 
-binary_tree.add_edge('0', '1')
-binary_tree.add_edge('0', '2')
+binary_tree.add_edge('0', '1', True)
+binary_tree.add_edge('0', '2', True)
 
-binary_tree.add_edge('1', '3')
-binary_tree.add_edge('1', '4')
+binary_tree.add_edge('1', '3', True)
+binary_tree.add_edge('1', '4', True)
 
-binary_tree.add_edge('2', '5')
-binary_tree.add_edge('2', '6')
+binary_tree.add_edge('2', '5', True)
+binary_tree.add_edge('2', '6', True)
