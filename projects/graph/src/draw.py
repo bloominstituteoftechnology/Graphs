@@ -1,3 +1,4 @@
+import math
 from graph import binary_tree
 
 from bokeh.plotting import figure, show, output_file
@@ -49,14 +50,18 @@ class BokehGraph:
 			end=end,
 		)
 
-		plot = figure(title='Binary Tree', x_range=(-200,200), y_range=(0,20), tools='', toolbar_location=None)
+		plot = figure(title='Binary Tree', x_range=(-1.1,1.1), y_range=(-1.1,1.1), tools='', toolbar_location=None)
 
 		graph.node_renderer.data_source.add(keys, 'index')
 		graph.node_renderer.data_source.add(Set3[7], 'color')
-		graph.node_renderer.glyph = Circle(radius=15, fill_color='color')
+		graph.node_renderer.glyph = Circle(radius=.06, fill_color='color')
 
-		y = [15, 10, 10, 5, 5, 5, 5 ]
-		x = [0, -100, 100, -150, -50, 50, 150]
+		# y = [15, 10, 10, 5, 5, 5, 5]
+		# x = [0, -100, 100, -150, -50, 50, 150]
+
+		circ = [int(i)*2*math.pi/8 for i in binary_tree.vertices]
+		x = [math.cos(i) for i in circ]
+		y = [math.sin(i) for i in circ]
 
 		source = ColumnDataSource(data=dict(
 			y = y,
