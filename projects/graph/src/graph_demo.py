@@ -11,7 +11,7 @@ from random import randrange
 
 def main():
 
-	#I make myself a random number of vertices
+	#get input for my number of vertices
 	irand = int(input('how man nodes would you like?'))
 
 	while irand > 7:
@@ -21,11 +21,11 @@ def main():
 	# irand = randrange(6, 10)
 	random_graph = Graph()
 
-	#generate a random number of vertices
+	#user input to generate my vertices
 	for i in range(0, irand):
 	  random_graph.add_vertex(str(i))
 
-	#now that I have my random number of nodes I give each node a random number of edges
+	#now that I have my number of nodes I give each node a random number of edges
 
 	#I will represent the random number of edges to add per node as a set of randomly generated numbers in a list
 
