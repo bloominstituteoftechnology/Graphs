@@ -24,7 +24,7 @@ class Graph:
 		elif v1 and v2 in self.vertices and bi == False:
 			self.vertices[v1].add(v2)
 		else:
-			print(f'no vertex at location {location}')
+			print(f'no vertex at location')
 
 	def __str__(self):
 		return f'graph, vertices: {self.vertices}'
@@ -39,12 +39,16 @@ binary_tree.add_vertex('3')
 binary_tree.add_vertex('4')
 binary_tree.add_vertex('5')
 binary_tree.add_vertex('6')
+binary_tree.add_vertex('7')
+binary_tree.add_vertex('8')
+binary_tree.add_vertex('9')
 
-binary_tree.add_edge('0', '1', True)
-binary_tree.add_edge('0', '2', True)
-
-binary_tree.add_edge('1', '3', True)
-binary_tree.add_edge('1', '4', True)
-
-binary_tree.add_edge('2', '5', True)
-binary_tree.add_edge('2', '6', True)
+binary_tree.add_edge('0', '1', False)
+binary_tree.add_edge('0', '3', False)
+binary_tree.add_edge('1', '2', False)
+binary_tree.add_edge('2', '4', False)
+binary_tree.add_edge('4', '9', False)
+binary_tree.add_edge('2', '5', False)
+binary_tree.add_edge('2', '4', False)
+binary_tree.add_edge('3', '7', False)
+binary_tree.add_edge('3', '6', False)
