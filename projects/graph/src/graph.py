@@ -35,6 +35,24 @@ class Graph:
 			if child_node not in node_list:
 				self.depth_first(child_node, node_list, target)
 
+	def breath_first(self, node, target):
+
+		list_n = []
+		list_n.append(node)
+		checked = []
+		while len(list_n) > 0:
+			n = list_n.pop(0)
+			if n not in checked:
+				print(n)
+				if n == target:
+					print(f'node: {target} was found in tree')
+					return
+				checked.append(n)
+				for next_node in self.vertices[n]:
+					list_n.append(next_node)
+
+
+
 	def __str__(self):
 		return f'graph, vertices: {self.vertices}'
 
@@ -66,5 +84,6 @@ binary_tree.add_edge('3', '6', False)
 
 #example dept
 binary_tree.depth_first('0', [], '9')
+binary_tree.breath_first('0', '7')
 
 
