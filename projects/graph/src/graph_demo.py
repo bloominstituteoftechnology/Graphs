@@ -16,7 +16,7 @@ def main():
 
 	while irand > 7:
 		print('max number of vertices is 7')
-		irand = int(input('how man nodes would you like?'))#input('\n').split(" ")
+		irand = int(input('how man nodes would you like?'))
 
 	# irand = randrange(6, 10)
 	random_graph = Graph()

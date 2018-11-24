@@ -26,6 +26,15 @@ class Graph:
 		else:
 			print(f'no vertex at location')
 
+	def depth_first(self, node, node_list, target):
+		node_list.append(node)
+		if node == target:
+			return print(f'node: {node} was found in tree')
+
+		for child_node in self.vertices[node]:
+			if child_node not in node_list:
+				self.depth_first(child_node, node_list, target)
+
 	def __str__(self):
 		return f'graph, vertices: {self.vertices}'
 
@@ -52,3 +61,10 @@ binary_tree.add_edge('2', '5', False)
 binary_tree.add_edge('2', '4', False)
 binary_tree.add_edge('3', '7', False)
 binary_tree.add_edge('3', '6', False)
+
+# print(binary_tree)
+
+#example dept
+binary_tree.depth_first('0', [], '9')
+
+

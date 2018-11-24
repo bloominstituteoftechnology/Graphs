@@ -57,13 +57,6 @@ class BokehGraph:
 		graph.node_renderer.data_source.add(Set3[7], 'color')
 		graph.node_renderer.glyph = Circle(radius=.5, fill_color='color')
 
-		# y = [15, 10, 10, 5, 5, 5, 5]
-		# x = [0, -100, 100, -150, -50, 50, 150]
-
-		# circ = [int(i)*2*math.pi/8 for i in self.graph.vertices]
-		# x = [math.cos(i) for i in circ]
-		# y = [math.sin(i) for i in circ]
-
 		grid = [int(i) for i in self.graph.vertices]
 		x = [2 * (i // 3) for i in grid]
 		y = [2 * (i % 3) for i in grid]
