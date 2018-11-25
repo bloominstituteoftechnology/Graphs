@@ -18,7 +18,6 @@ def main():
 		print('max number of vertices is 7')
 		irand = int(input('how man nodes would you like?'))
 
-	# irand = randrange(6, 10)
 	random_graph = Graph()
 
 	#user input to generate my vertices

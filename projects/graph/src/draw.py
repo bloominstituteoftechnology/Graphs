@@ -16,61 +16,46 @@ class BokehGraph:
 
 	def draw_graph(self):
 
-		# I first get the keys and values of my vertices as two separate arrays
+		node_indices = list(self.graph.vertices)
 
-		keys = [i for i in self.graph.vertices.keys()]
-		values = [i for i in self.graph.vertices.values()]
-
-		#I start up two emtpy arrays that will store the starting and ending points
-		#that I will use in the graph
-
-		start = []
-		end = []
-
-		#I then loop through the array of values, each being its own python set
-
-		for i, j in enumerate(values):
-
-			#if I come across a set bigger than 0 it has an edge 
-			#thus connecting to something
-
-			if len(j) > 0:
-				for q in range (0, len(j)):
-
-					#I add the current index for spot in the set
-					start.append(i)
-
-					#I also add the current set value
-					end += list(j)[q]
+		start_indices = []
+		end_indices = []
 
 		graph = GraphRenderer()
 
+		for vertex_id in self.graph.vertices:
+			for edge_end in self.graph.vertices[vertex_id].edges:
+				start_indices.append(vertex_id)
+				end_indices.append(edge_end)
+
 		#I use my ordered values to form the connected lines in my graphs
 		graph.edge_renderer.data_source.data = dict(
-			start=start,
-			end=end,
+			start=start_indices,
+			end=end_indices,
 		)
 
 		plot = figure(title='graph', x_range=(-1.1,11.1), y_range=(-1.1,11.1), tools='', toolbar_location=None)
 
-		graph.node_renderer.data_source.add(keys, 'index')
-		graph.node_renderer.data_source.add(Set3[7], 'color')
+		graph.node_renderer.data_source.add(node_indices, 'index')
+		graph.node_renderer.data_source.add([self.graph.vertices[vertex_id].color for vertex_id in self.graph.vertices], 'color')
 		graph.node_renderer.glyph = Circle(radius=.5, fill_color='color')
 
-		grid = [int(i) for i in self.graph.vertices]
-		x = [2 * (i // 3) for i in grid]
-		y = [2 * (i % 3) for i in grid]
+		# grid = [int(i) for i in self.graph.vertices]
+		# x = [2 * (i // 3) for i in grid]
+		# y = [2 * (i % 3) for i in grid]
+
+		x = [self.graph.vertices[vertex_id].x for vertex_id in self.graph.vertices]
+		y = [self.graph.vertices[vertex_id].y for vertex_id in self.graph.vertices]
 
 		source = ColumnDataSource(data=dict(
 			y = y,
 			x = x,
-			names = keys
+			names = [self.graph.vertices[vertex_id].value for vertex_id in self.graph.vertices]
 		))
+
 		labels = LabelSet(x='x', y='y', text='names', level='glyph', x_offset=-5, y_offset=-10, source=source, render_mode='canvas')
 
-
-
-		graph_layout = dict(zip(keys, zip(x, y)))
+		graph_layout = dict(zip(node_indices, zip(x, y)))
 		graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
 
@@ -81,6 +66,6 @@ class BokehGraph:
 		output_file('graph.html')
 		show(plot)
 
-drawn_tree = BokehGraph(binary_tree)
+# drawn_tree = BokehGraph(binary_tree)
 
-drawn_tree.draw_graph()
+# drawn_tree.draw_graph()
