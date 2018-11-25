@@ -66,6 +66,6 @@ class BokehGraph:
 		output_file('graph.html')
 		show(plot)
 
-# drawn_tree = BokehGraph(binary_tree)
+drawn_tree = BokehGraph(binary_tree)
 
-# drawn_tree.draw_graph()
+drawn_tree.draw_graph()
