@@ -5,67 +5,79 @@ Demonstration of Graph and BokehGraph functionality.
 """
 
 from sys import argv
-# from graph import Graph
-# from draw import BokehGraph
-from random import randrange
+from graph import Graph
+from draw import BokehGraph
+# from random import randrange
+import random
 
+def get_default_graph():
+	default_graph = Graph()
+
+	default_graph.add_vertex(0)
+	default_graph.add_vertex(1)
+	default_graph.add_vertex(2)
+	default_graph.add_vertex(3)
+	default_graph.add_vertex(4)
+	default_graph.add_vertex(5)
+	default_graph.add_vertex(6)
+	default_graph.add_vertex(7)
+	default_graph.add_vertex(8)
+	default_graph.add_vertex(9)
+
+	default_graph.add_edge(0, 1, False)
+	default_graph.add_edge(0, 3, False)
+	default_graph.add_edge(1, 2, False)
+	default_graph.add_edge(2, 4, False)
+	default_graph.add_edge(4, 9, False)
+	default_graph.add_edge(2, 5, False)
+	default_graph.add_edge(2, 4, False)
+	default_graph.add_edge(3, 7, False)
+	default_graph.add_edge(3, 6, False)
+
+	drawn_tree = BokehGraph(default_graph)
+
+	drawn_tree.draw_graph()
+
+def get_random_graph(num_verts, num_edges):
+	graph = Graph()
+
+	for vert_id in range(0, num_verts):
+		graph.add_vertex(vert_id)
+
+	all_edges = []
+	for i in range(0, num_verts):
+		for j in range(0, num_verts):
+			if i < j:
+				all_edges.append((i, j))
+
+	random.shuffle(all_edges)
+	random_edges = all_edges[:num_edges]
+
+	for edge in random_edges:
+		graph.add_edge(edge[0], edge[1], False)
+
+	drawn_tree = BokehGraph(graph)
+
+	drawn_tree.draw_graph()
 
 
 def main(**kwargs):
 	print(kwargs)
 
-# 	#get input for my number of vertices
-# 	irand = int(input('how man nodes would you like?'))
+	style = kwargs['style']
+	num_verts = kwargs['num_verts']
+	num_edges = kwargs['num_edges']
 
-# 	while irand > 7:
-# 		print('max number of vertices is 7')
-# 		irand = int(input('how man nodes would you like?'))
-
-# 	random_graph = Graph()
-
-# 	#user input to generate my vertices
-# 	for i in range(0, irand):
-# 	  random_graph.add_vertex(str(i))
-
-# 	#now that I have my number of nodes I give each node a random number of edges
-
-# 	#I will represent the random number of edges to add per node as a set of randomly generated numbers in a list
-
-# 	#I picked random number between 0-4 to keep things simple
-# 	edges_to_add_per_node = []
-# 	for i in range(0, irand):
-# 	  edges_to_add_per_node.append(randrange(0, 4))
-
-# 	# print(edges_to_add_per_node)
-
-# 	#I will loop through the edges_to_add_per_node list. I will take each number at its said idx as the ending point of another loop that will add the number of edges added to that particular node.
-
-# 	#also the added edge will be random as well
-# 	for idx, val in enumerate(edges_to_add_per_node):
-# 	  for i in range(0, val):
-
-# 	    #here I randomly assign weither or not the node is edge going to be added as bi_directional or not
-# 	    is_bi = randrange(0,2)
-
-# 	    if is_bi == 0:
-# 	      is_bi = False
-	    
-# 	    if is_bi == 1:
-# 	      is_bi = True
-	    
-# 	    random = randrange(0, irand)
-# 	    random_graph.add_edge(str(idx), str(random), is_bi)
-
-# 	drawn_tree = BokehGraph(random_graph)
-# 	drawn_tree.draw_graph()
+	if style == "default":
+		graph = get_default_graph()
+	elif style == "random":
+		graph = get_random_graph(num_verts, num_edges)
+	else:
+		graph = get_default_graph()
 
 
 
 if __name__ == '__main__':
-    # TODO - parse argv
-    # print(argv)
-    # main()
-
     style="default"
     num_verts = 5
     num_edges = 6

@@ -28,7 +28,6 @@ class BokehGraph:
 				start_indices.append(vertex_id)
 				end_indices.append(edge_end)
 
-		#I use my ordered values to form the connected lines in my graphs
 		graph.edge_renderer.data_source.data = dict(
 			start=start_indices,
 			end=end_indices,
@@ -39,10 +38,6 @@ class BokehGraph:
 		graph.node_renderer.data_source.add(node_indices, 'index')
 		graph.node_renderer.data_source.add([self.graph.vertices[vertex_id].color for vertex_id in self.graph.vertices], 'color')
 		graph.node_renderer.glyph = Circle(radius=.5, fill_color='color')
-
-		# grid = [int(i) for i in self.graph.vertices]
-		# x = [2 * (i // 3) for i in grid]
-		# y = [2 * (i % 3) for i in grid]
 
 		x = [self.graph.vertices[vertex_id].x for vertex_id in self.graph.vertices]
 		y = [self.graph.vertices[vertex_id].y for vertex_id in self.graph.vertices]
@@ -58,14 +53,8 @@ class BokehGraph:
 		graph_layout = dict(zip(node_indices, zip(x, y)))
 		graph.layout_provider = StaticLayoutProvider(graph_layout=graph_layout)
 
-
-
 		plot.renderers.append(graph)
 		plot.add_layout(labels)
 
 		output_file('graph.html')
 		show(plot)
-
-drawn_tree = BokehGraph(binary_tree)
-
-drawn_tree.draw_graph()
