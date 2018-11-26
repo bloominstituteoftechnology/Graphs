@@ -34,13 +34,16 @@ class Queue:
     def __init__(self):
         self.storage = []
     
-    # TODO: enqueue method
+    # enqueue method
     def enqueue(self, value):
         self.storage.append(value)
 
     # TODO: dequeue method
 
-    # TODO: size method
+
+    # size method
+    def size(self):
+        return len(self.storage)
 
 
 # TODO: Stack for DFS
