@@ -32,7 +32,7 @@ class Stack():
 
 
 class Vertex:
-	def __init__(self, vertex_id, x=None, y=None, value=None, color=None):
+	def __init__(self, vertex_id, x=None, y=None, value=None, color="white"):
 		self.id = int(vertex_id)
 		self.x = x
 		self.y = y
@@ -45,12 +45,6 @@ class Vertex:
 			self.y = 2 * (self.id % 3) + self.id / 10 * (self.id // 3)
 		if self.value is None:
 			self.value = self.id
-		if self.color is None:
-			hexValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
-			color_string = '#'
-			for i in range(0, 3):
-				color_string += hexValues[random.randint(0, len(hexValues) - 1)]
-			self.color = color_string
 
 	def __str__(self):
 		return f'edges: {self.edges}'
@@ -94,6 +88,54 @@ class Graph:
 				if new_path:
 					return new_path
 		return None
+
+	def get_connected(self, node, node_list):
+		node_list.append(node)
+		for child_node in self.vertices[node].edges:
+			if child_node not in node_list:
+				self.get_connected(child_node, node_list)
+		return node_list
+
+	def get_all_connected(self):
+		values = []
+		connected_components = []
+		colors = []
+
+		for i in self.vertices:
+
+			#will give me all the children
+
+			component = self.get_connected(i, [])
+
+			for i in component:
+				if i not in values and len(component) > 1:
+					values.append(i)
+					if component not in connected_components:
+						connected_components.append(component)
+
+			if len(component) == 1:
+				self.vertices[component[0]].color = self.get_random_color()
+
+		for i in connected_components:
+			colors.append(self.get_random_color())
+
+		#I need to loop through the connected components list
+
+		#I then need to loop through each node in the list and change its color of the index
+		#value of the color list
+
+		for indx, val in enumerate(connected_components):
+			for j in val:
+				self.vertices[j].color = colors[indx]
+
+	def get_random_color(self):
+		hexValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+		color_string = '#'
+		for i in range(0, 3):
+			color_string += hexValues[random.randint(0, len(hexValues) - 1)]
+		return color_string
+
+
 
 	def breath_first(self, node, target):
 

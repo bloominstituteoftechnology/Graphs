@@ -23,17 +23,19 @@ def get_default_graph():
 	default_graph.add_vertex(7)
 	default_graph.add_vertex(8)
 	default_graph.add_vertex(9)
+	default_graph.add_vertex(10)
+	default_graph.add_vertex(11)
 
 	default_graph.add_edge(0, 1, False)
 	default_graph.add_edge(0, 3, False)
 	default_graph.add_edge(1, 2, False)
 	default_graph.add_edge(2, 4, False)
 	default_graph.add_edge(4, 9, False)
-	default_graph.add_edge(2, 5, False)
 	default_graph.add_edge(2, 4, False)
 	default_graph.add_edge(3, 6, False)
+	default_graph.add_edge(7, 8, False)
 
-	# print(default_graph.depth_first(0, 3))
+	default_graph.get_all_connected()
 	#print(default_graph.breath_first(0, 7))
 	# default_graph.breath_first(0, 9)
 
@@ -58,6 +60,8 @@ def get_random_graph(num_verts, num_edges):
 
 	for edge in random_edges:
 		graph.add_edge(edge[0], edge[1], False)
+
+	graph.get_all_connected()
 
 	drawn_tree = BokehGraph(graph)
 
