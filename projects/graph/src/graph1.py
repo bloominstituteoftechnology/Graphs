@@ -31,7 +31,6 @@ class Stack():
     def size(self):
         return len(self.stack)
 
-
 class Vertex: 
     def __init__(self,vertex_id, x = None, y = None, value= None, color = None): #you use vertex_id to uniquely identify the vertex. In value, you can have a number, a name, a location, etc 
         self.id = int(vertex_id)
@@ -53,17 +52,13 @@ class Vertex:
             for i in range(0, 3):
                 colorString += hexValues[random.randint(0,len(hexValues)-1)]
             self.color = colorString
-                
-
-
 
 class Graph: 
-    """Represent a graph as a dictionary of vertices mapping lables to edges."""
+    """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}  #dictionary 
     def add_vertex(self, vertex_id):
         self.vertices[vertex_id] = Vertex(vertex_id) #we're indexing the vertex in the dictionary by id, and we're setting the value to a vertex object. 
-
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].edges.add(v2)
@@ -76,48 +71,46 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist!")
     
-
-
     #Recursion method
-    def dft(self, start_vert, visited = []):
-        # Visited checks if we've visited the node before
-        visited.append(start_vert)
-        # Touch visited node (you can change color here)
-        print(self.vertices[start_vert].value)
+    def dft(self, start_vert_id, visited = []):
+        # Visited checks if we've visited the vertex before
+        visited.append(start_vert_id)
+        # Touch visited vertex (you can change color here)
+        print(self.vertices[start_vert_id].value)
         #call DFS on each child (that hasn't been visited)
-        for child_vert in self.vertices[start_vert].edges:
+        for child_vert in self.vertices[start_vert_id].edges:
             #check if child has been visited
             if child_vert not in visited:
                 #If not, call dfs
                 self.dft(child_vert)
     
-    # stack method
-    def dft_stack(self, starting_vertex_id):
-        # Create empty queue
+    # Stack method
+    def dft_stack(self, start_vert_id):
+        # Create empty stack
         stack = Stack()
-        # Put starting vert in the queue
-        stack.push(starting_vertex_id)
+        # Put starting vert in the stack
+        stack.push(start_vert_id)
         # Declare visited list
         visited = []
-        # While the queue is not empty..
+        # While the stack is not empty..
         while stack.size() > 0:
             while stack.size()>0:
-                # remove the first item from the queue...
+                # remove the first item from the stack...
                 v = stack.pop()
                 # ... then  if it has not been visited
                 if v not in visited:
                     # ... print its value...
                     print(self.vertices[v].value)
                     visited.append(v) # ... mark as visited
-                    # ... then put its children into the queue
+                    # ... then put its children into the stack
                     for next_vert in self.vertices[v].edges:
                         stack.push(next_vert)
     
-    def bft(self, starting_vertex_id):
+    def bft(self, start_vert_id):
         # create empty queue
         q = Queue()
         # put starting vert in the queue
-        q.enqueue(starting_vertex_id)
+        q.enqueue(start_vert_id)
         # declare visited list
         visited = []
         # While the queue is not empty...
@@ -133,20 +126,20 @@ class Graph:
                 for next_vert in self.vertices[v].edges:
                     q.enqueue(next_vert)
 
-    def dfs(self,start_vert, target_value, visited=[]):
-        visited.append(start_vert)
+    def dfs(self,start_vert_id, target_value, visited=[]):
+        visited.append(start_vert_id)
         # print(self.vertices[start_vert].value)
-        if self.vertices[start_vert].value == target_value:
+        if self.vertices[start_vert_id].value == target_value:
             return True
-        for child_vert in self.vertices[start_vert].edges:
+        for child_vert in self.vertices[start_vert_id].edges:
             if child_vert not in visited:
                 if self.dfs(child_vert, target_value, visited):
                     return True
         return False
     
-    def bfs(self, starting_vertex_id, target_value):
+    def bfs(self, start_vert_id, target_value):
         q = Queue()
-        q.enqueue(starting_vertex_id)
+        q.enqueue(start_vert_id)
         visited = []
         while q.size() > 0:
             v = q.dequeue()
@@ -158,14 +151,13 @@ class Graph:
                 for next_vert in self.vertices[v].edges:
                     q.enqueue(next_vert)
         return False
-
     
-    def dfs_path(self,start_vert, target_value, visited=[], path=[]):
-        visited.append(start_vert)
-        path=path+[start_vert]
-        if self.vertices[start_vert].value == target_value:
+    def dfs_path(self,start_vert_id, target_value, visited=[], path=[]):
+        visited.append(start_vert_id)
+        path=path+[start_vert_id]
+        if self.vertices[start_vert_id].value == target_value:
             return path
-        for child_vert in self.vertices[start_vert].edges:
+        for child_vert in self.vertices[start_vert_id].edges:
             print(path)
             if child_vert not in visited:
                 new_path = self.dfs_path(child_vert, target_value, visited, path)
@@ -173,9 +165,9 @@ class Graph:
                     return new_path
         return None
     
-    def bfs_path(self, starting_vertex_id, target_value):
+    def bfs_path(self, start_vert_id, target_value):
         q = Queue()
-        q.enqueue([starting_vertex_id])
+        q.enqueue([start_vert_id])
         visited = []
         while q.size() > 0:
             print(q.queue) #prints every path checked before shortest path is found
