@@ -19,16 +19,22 @@ class Graph:
         else:
             print ("Can't find all vertices")
 
+    def bfs(self, element):
+        start_v = list(self.vertices.keys())[0]
+        queue = [start_v]
+        visited = []
+
+        while queue:
+            current = queue[0]
+            if current == element:
+                return True
+            for v in self.vertices[current]:
+                if v not in visited:
+                    queue.append(v)
+            visited.append(queue.pop(0))
+        return False
+
+            
 
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('4', '3')
-
-print(graph.vertices)
 
