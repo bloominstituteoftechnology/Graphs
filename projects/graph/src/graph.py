@@ -23,6 +23,27 @@ class Graph:
         else:
             print('No vertex')
 
+    def bfs(self, start_node):
+        # create a queue
+        queue = []
+        # create a visited list
+        visited = []
+        # put the start node in the queue
+        queue.append(start_node)
+        # while queue is not empty...
+        while len(queue) > 0:
+            # remove node from queue
+            current = queue.pop(0)
+            # check if it's visited
+            if current not in visited:
+                # if not, mark node as visited
+                visited.append(current)
+            # then put all children in queue
+            for i in self.vertices[current].edges:
+                if i not in visted and i not in queue:
+                    queue.append(i)
+        return visited
+
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
 graph.add_vertex('1')
