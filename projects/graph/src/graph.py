@@ -20,6 +20,19 @@ class Graph:
         val2.add(value1)
         self.verticies[value2] = val2
 
+    def dfs(self, start):
+        # Keep track of all the visited nodes and setup a stack
+        visited, stack = set(), [start]
+
+        # Keep looping until there are nodes still to be checked
+        while stack:
+            vertex = stack.pop()
+            # Add the node if it is not in visited
+            if vertex not in visited:
+                visited.add(vertex)
+                stack.extend(self.verticies[vertex] - visited)
+        return visited
+
     def bfs(self, start):
         # Keep track of all visited nodes
         explored = []
@@ -51,3 +64,4 @@ graph.add_edge('0', '3')
 print(graph.verticies)
 
 print(graph.bfs('1'))
+print(graph.dfs('1'))
