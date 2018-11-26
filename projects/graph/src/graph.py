@@ -33,6 +33,20 @@ class Graph:
                 stack.extend(self.verticies[vertex] - visited)
         return visited
 
+    # Recursive solution
+    def dfs_recursive(self, start, visited=None):
+        # Set visited as a new set if not already
+        if visited is None:
+            visited = set()
+
+        # Add the node
+        visited.add(start)
+
+        # Repeat until no more nodes left
+        for next in self.verticies[start] - visited:
+            self.dfs_recursive(next, visited)
+        return visited
+
     def bfs(self, start):
         # Keep track of all visited nodes
         explored = []
@@ -65,3 +79,4 @@ print(graph.verticies)
 
 print(graph.bfs('1'))
 print(graph.dfs('1'))
+print(graph.dfs_recursive('1'))
