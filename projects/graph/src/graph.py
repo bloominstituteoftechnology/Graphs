@@ -29,12 +29,29 @@ class Graph:
             if current == element:
                 return True
             for v in self.vertices[current]:
-                if v not in visited:
+                if v not in visited and v not in queue:
                     queue.append(v)
             visited.append(queue.pop(0))
+            print ('queue:', queue)
+            print ('visited:', visited)
         return False
 
-            
-
-
+    def dfs(self, element):
+        start_v = list(self.vertices.keys())[0]
+        stack = [start_v]
+        visited = []
+        count = 3
+        while stack:
+            current = stack[0]
+            if current == element:
+                return True
+            for v in self.vertices[current]:
+                if v not in visited and v not in stack:
+                    stack.insert(0, v)
+            visited.append(current)
+            stack.remove(current)
+            print ('stack:', stack)
+            print ('visited:', visited)
+            count += 1
+        return False
 
