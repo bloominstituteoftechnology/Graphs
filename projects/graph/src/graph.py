@@ -3,7 +3,36 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 
+class Node:
+    def __init__(self, vertex):
+        self.vertex = vertex
+        self.edges = []
+
+    def __repr__(self):
+        return f"Edges: {self.edges}"
+
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        pass  # TODO
+        self.vertices = {}
+
+    def __repr__(self):
+        return f"{self.vertices}"
+
+    def add_vertex(self, name, value):
+        node = Node(value)
+        self.vertices[name] = node
+
+    def add_edge(self, vertex_name, edge):
+        self.vertices[vertex_name].edges.append(edge)
+
+
+g = Graph()
+g.add_vertex("Cramerton", [])
+g.add_vertex("McAdenville", [])
+g.add_edge("Cramerton", "McAdenville")
+g.add_edge("McAdenville", "Cramerton")
+g.add_edge("McAdenville", "Lowell")
+print(g)
+
