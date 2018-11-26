@@ -13,9 +13,14 @@ class Graph:
         self.verticies[value] = set()
 
     def add_edge(self, value1, value2):
+        # Check's if the node exists, if not, return
+        if value2 not in self.verticies:
+            return
+
         val = self.verticies[value1]
         val.add(value2)
         self.verticies[value1] = val
+
         val2 = self.verticies[value2]
         val2.add(value1)
         self.verticies[value2] = val2
@@ -75,6 +80,7 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+graph.add_edge('0', '5')
 print(graph.verticies)
 
 print(graph.bfs('1'))
