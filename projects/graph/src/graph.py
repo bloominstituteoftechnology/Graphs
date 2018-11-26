@@ -35,6 +35,8 @@ class Queue:
         self.storage = []
     
     # TODO: enqueue method
+    def enqueue(self, value):
+        self.storage.append(value)
 
     # TODO: dequeue method
 
