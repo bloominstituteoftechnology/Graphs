@@ -27,9 +27,8 @@ class Vec2:
         self.x //= other.x
         self.y //= other.y
 
-# TODO: add some data structures for searching method
 
-# TODO: Queue for BFS
+# Queue for BFS
 class Queue:
     def __init__(self):
         self.storage = []
@@ -76,6 +75,7 @@ class Vertex:
         self.pos = Vec2(0, 0) if pos is None else pos
         self.colour = "white" if colour is None else colour
         self.data = F"v{self.id}" if data is None else data
+        self.edge = set() # refactored vertex to hold its connecting edges
 
     def __str__(self):
         return F"Vertex( id: {self.id}, x: {self.pos.x}, y: {self.pos.y}, data: {self.data})"
@@ -92,7 +92,9 @@ class Graph:
     def add_vertex(self, id, pos, data):
         self.vertices[id] = Vertex(id, pos, data = data)
 
-        # TODO: serch method
+    # TODO: serch method
+
+    # TODO: add edge
 
 # some basic tests for the vertex class
 
