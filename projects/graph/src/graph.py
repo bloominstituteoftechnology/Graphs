@@ -29,8 +29,8 @@ class Graph:
 
 
 g = Graph()
-g.add_vertex("Cramerton", [])
-g.add_vertex("McAdenville", [])
+g.add_vertex("Cramerton", set)
+g.add_vertex("McAdenville", set)
 g.add_edge("Cramerton", "McAdenville")
 g.add_edge("McAdenville", "Cramerton")
 g.add_edge("McAdenville", "Lowell")
