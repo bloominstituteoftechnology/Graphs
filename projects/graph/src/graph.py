@@ -10,11 +10,31 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, value):
-        self.vertices[value] = set()
+        if value in self.vertices:
+            raise Exception('Vertex already exists!')
+        else:
+            self.vertices[value] = set()
 
-    def add_edge(self, vertex_1, vertex_2):
-        self.vertices[vertex_1].add(vertex_2)
-        self.vertices[vertex_2].add(vertex_1)
+    def add_edge(self, v1, v2):
+        if v1 not in self.vertices or v2 not in self.vertices:
+            raise Exception('Invalid input: vertices not in graph')
+        else:
+            self.vertices[v1].add(v2)
+            self.vertices[v2].add(v1)
+
+    def dfs(self, start):
+        stack = [start]
+        res = []
+        visited = [False] * len(self.vertices)
+        visited[start] = True
+        while stack:
+            current = stack.pop()
+            res.append(current)
+            for next_node in self.vertices[current]:
+                if visited[next_node] is False:
+                    stack.append(next_node)
+                    visited[next_node] = True
+        return res
 
 
 graph = Graph()  # Instantiate your graph
