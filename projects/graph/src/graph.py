@@ -42,6 +42,26 @@ class Graph:
                     queue.enqueue(child)
         return visited
 
+    def dfs(self, start_vertex):
+        # create a stack (as a list)
+        stack = []
+        # create a visited list
+        visited = []
+        # put the start vertex in the stack
+        stack.append(start_vertex)
+        # while stack is not empty...
+        while len(stack) > 0:
+            # remove vertex from stack
+            vertex = stack.pop()
+            # check if it's visited
+            if vertex not in visited:
+                # if not, mark vertex as visited
+                visited.append(vertex)
+                # then put all children in stack
+                for child in self.vertices.get(vertex):
+                    stack.append(child)
+        return visited
+
 
 # # Testing implementation
 # graph = Graph() # Instantiate your graph
@@ -53,3 +73,4 @@ class Graph:
 # graph.add_edge('0', '3')
 # print('Graph:', graph.vertices)
 # print('BFS:', graph.bfs('0'))
+# print('DFS:', graph.dfs('0'))
