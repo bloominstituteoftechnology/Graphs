@@ -40,7 +40,7 @@ class Queue:
 
     # dequeue method
     def dequeue(self):
-        return self.storage.pop(0) if self.size() > 0 else return None
+        return self.storage.pop(0) if self.size() > 0 else None
 
 
     # size method
@@ -48,7 +48,25 @@ class Queue:
         return len(self.storage)
 
 
-# TODO: Stack for DFS
+# Stack for DFS (copied my queue class and removed the argument from pop)
+class Stack:
+    def __init__(self):
+        self.storage = []
+    
+    # enqueue method
+    def enqueue(self, value):
+        self.storage.append(value)
+
+    # dequeue method
+    def dequeue(self):
+        return self.storage.pop() if self.size() > 0 else None
+
+
+    # size method
+    def size(self):
+        return len(self.storage)
+
+
 
 
 # implement the basics of a vertex class
