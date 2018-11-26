@@ -88,13 +88,19 @@ class Graph:
     def __init__(self, vertices = None):
         self.vertices = {} if vertices is None else vertices
 
-    # TODO: add_vertex method
+    # add_vertex method
     def add_vertex(self, id, pos, data):
         self.vertices[id] = Vertex(id, pos, data = data)
 
     # TODO: serch method
 
-    # TODO: add edge
+    # add_edge method (bi directional as default to start with)
+    def add_edge(self, vertex_a, vertex_b, bidir=True):
+        if vertex_a not in self.vertices or vertex_b not in self.vertices:
+            return "ERROR!!!! : out of index" # TODO: change this to an exception later
+        self.vertices[vertex_a].edges.add(vertex_b)
+        if bidir:
+            self.vertices[vertex_b].edges.add(vertex_a)
 
 # some basic tests for the vertex class
 
