@@ -38,7 +38,9 @@ class Queue:
     def enqueue(self, value):
         self.storage.append(value)
 
-    # TODO: dequeue method
+    # dequeue method
+    def dequeue(self):
+        return self.storage.pop(0) if self.size() > 0 else return None
 
 
     # size method
