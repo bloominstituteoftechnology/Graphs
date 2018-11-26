@@ -75,10 +75,10 @@ class Vertex:
         self.pos = Vec2(0, 0) if pos is None else pos
         self.colour = "white" if colour is None else colour
         self.data = F"v{self.id}" if data is None else data
-        self.edge = set() # refactored vertex to hold its connecting edges
+        self.edges = set() # refactored vertex to hold its connecting edges
 
     def __str__(self):
-        return F"Vertex( id: {self.id}, x: {self.pos.x}, y: {self.pos.y}, data: {self.data})"
+        return F"Vertex( id: {self.id}, x: {self.pos.x}, y: {self.pos.y}, edge_connections: {self.edges}, data: {self.data})"
 
 
 
@@ -96,8 +96,6 @@ class Graph:
 
     # add_edge method (bi directional as default to start with)
     def add_edge(self, vertex_a, vertex_b, bidir=True):
-        if vertex_a not in self.vertices or vertex_b not in self.vertices:
-            return "ERROR!!!! : out of index" # TODO: change this to an exception later
         self.vertices[vertex_a].edges.add(vertex_b)
         if bidir:
             self.vertices[vertex_b].edges.add(vertex_a)
@@ -105,8 +103,8 @@ class Graph:
 # some basic tests for the vertex class
 
 #constructor test
-v0 = Vertex('0', Vec2(3, 4))
-
+v0 = Vertex(0, Vec2(3, 4))
+v1 = Vertex(1, Vec2(1, 3), colour = "orange")
 # raw positional data manipulation test
 v0.pos.x = 23
 
@@ -115,8 +113,12 @@ v0.pos.add(Vec2(10, 10))
 
 # vertex print test
 print(v0)
-
+print(v1)
 g0 = Graph()
 g0.add_vertex(v0.id, v0.pos, "Node0")
-
-print(g0)
+g0.add_vertex(v1.id, v1.pos, "Node1")
+g0.add_vertex(2, v1.pos, "Node1")
+g0.add_edge(0, 1)
+g0.add_edge(0, 2)
+print(g0.vertices[0])
+print(g0.vertices[1])
