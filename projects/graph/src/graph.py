@@ -29,8 +29,6 @@ class Stack():
 	def size(self):
 		return len(self.stack)
 
-
-
 class Vertex:
 	def __init__(self, vertex_id, x=None, y=None, value=None, color="white"):
 		self.id = int(vertex_id)
