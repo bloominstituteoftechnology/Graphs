@@ -63,12 +63,11 @@ class Graph:
     def __init__(self, vertices = None):
         self.vertices = {} if vertices is None else vertices
 
-        # TODO: add_vertex method
-        def add_vertex(self, id, data):
-            self.vertices[id] = Vertex(id, data = data)
+    # TODO: add_vertex method
+    def add_vertex(self, id, pos, data):
+        self.vertices[id] = Vertex(id, pos, data = data)
 
         # TODO: serch method
-        pass  # TODO
 
 # some basic tests for the vertex class
 
@@ -83,3 +82,8 @@ v0.pos.add(Vec2(10, 10))
 
 # vertex print test
 print(v0)
+
+g0 = Graph()
+g0.add_vertex(v0.id, v0.pos, "Node0")
+
+print(g0)
