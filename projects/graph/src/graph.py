@@ -22,7 +22,10 @@ class Graph:
             self.vertices[v2].add(v1)
             return True
         else:
-            return False
+            if v1 not in self.vertices:
+                raise Exception(f"Vertex {v1} is nonexistant!")
+            elif v2 not in self.vertices:
+                raise Exception(f"Vertex {v2} is nonexistant!")
 
 
 graph = Graph()
@@ -32,4 +35,5 @@ graph.add_vertex("2")
 graph.add_vertex("3")
 graph.add_edge("0", "1")
 graph.add_edge("0", "3")
+# graph.add_edge("0", "4")
 print(graph.vertices)
