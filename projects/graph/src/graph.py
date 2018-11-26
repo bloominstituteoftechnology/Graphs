@@ -30,9 +30,11 @@ class Graph:
             return True
         else:
             if v1 not in self.vertices:
-                raise Exception(f"Vertex {v1} is nonexistent!")
+                raise IndexError(
+                    f"Vertex {v1} is nonexistent!"
+                )  # IndexError more specific than Exception
             elif v2 not in self.vertices:
-                raise Exception(f"Vertex {v2} is nonexistent!")
+                raise IndexError(f"Vertex {v2} is nonexistent!")
 
 
 graph = Graph()
@@ -42,5 +44,5 @@ graph.add_vertex("2")
 graph.add_vertex("3")
 graph.add_edge("0", "1")
 graph.add_edge("0", "3")
-# graph.add_edge("0", "4")
+graph.add_edge("0", "4")
 print(graph.vertices)
