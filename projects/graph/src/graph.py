@@ -6,7 +6,7 @@ Simple graph implementation compatible with BokehGraph class.
 class Vertex:
     def __init__(self, vertex):
         self.vertex = vertex
-        self.edges = []
+        self.edges = set()
 
     def __repr__(self):
         return f"Edges: {self.edges}"
@@ -25,7 +25,7 @@ class Graph:
         self.vertices[name] = node
 
     def add_edge(self, vertex_name, edge):
-        self.vertices[vertex_name].edges.append(edge)
+        self.vertices[vertex_name].edges.add(edge)
 
 
 g = Graph()
