@@ -8,6 +8,6 @@
 * [Depth First Search](objectives/depth-first-search)
 * [Connected Components](objectives/connected-components)
 
-## Projects
+## Projects.
 
 * [Drawing Connected Components](projects/graph)
