@@ -14,9 +14,16 @@ class Graph:
     	else:
     		self.vertices[vertex] = set()
 
-    def add_edge(self, vertex, edge):
-    	if vertex in self.vertices:
-    		self.vertices[vertex].add(edge)
+    def add_edge(self, vertex1, vertex2):
+    	if vertex1 not in self.vertices:
+    		raise Exception(f'Vertex {vertex1} does not exist')
+    	elif vertex2 not in self.vertices:
+    		raise Exception(f'Vertex {vertex2} does not exist')
+    	
+    	self.vertices[vertex1].add(vertex2)
+    	self.vertices[vertex2].add(vertex1)
+    	
+    	
 
 
 
