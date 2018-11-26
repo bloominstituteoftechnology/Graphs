@@ -30,6 +30,16 @@ class Vec2:
 # TODO: add some data structures for searching method
 
 # TODO: Queue for BFS
+class Queue:
+    def __init__(self):
+        self.storage = []
+    
+    # TODO: enqueue method
+
+    # TODO: dequeue method
+
+    # TODO: size method
+
 
 # TODO: Stack for DFS
 
@@ -54,6 +64,8 @@ class Graph:
         self.vertices = {} if vertices is None else vertices
 
         # TODO: add_vertex method
+        def add_vertex(self, id, data):
+            self.vertices[id] = Vertex(id, data = data)
 
         # TODO: serch method
         pass  # TODO
