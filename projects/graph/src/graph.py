@@ -82,31 +82,41 @@ class Graph:
 		else:
 			print(f'no vertex at location v1:, {v1}, v2: {v2}')
 
-	def depth_first(self, node, node_list, target):
-		print(self.vertices[node].value)
-		node_list.append(node)
-		if node == target:
-			return print(f'node: {node} was found in tree')
-
-		for child_node in self.vertices[node].edges:
-			if child_node not in node_list:
-				self.depth_first(child_node, node_list, target)
+	def depth_first(self, start_vert, target_value, visited=[], path=[]):
+		visited.append(start_vert)
+		print(start_vert)
+		path = path + [start_vert]
+		if self.vertices[start_vert].value == target_value:
+			return path
+		for child_vert in self.vertices[start_vert].edges:
+			if child_vert not in visited:
+				new_path = self.depth_first(child_vert, target_value, visited, path)
+				if new_path:
+					return new_path
+		return None
 
 	def breath_first(self, node, target):
 
 		q = Queue()
-		q.enqueue(node)
+		q.enqueue([node])
 		checked = []
 		while q.size() > 0:
-			n = q.dequeue()
+			print(q.queue)
+			path = q.dequeue()
+			n = path[-1]
+
 			if n not in checked:
 				print(n)
-				if n == target:
-					print(f'node: {target} was found in tree')
-					return
+				if self.vertices[n].value == target:
+					return path
 				checked.append(n)
 				for next_node in self.vertices[n].edges:
-					q.enqueue(next_node)
+					# q.enqueue(next_node)
+					new_path = list(path)
+					new_path.append(next_node)
+					q.enqueue(new_path)
+
+		return None
 
 	def __str__(self):
 		return f'graph, vertices: {self.vertices}'

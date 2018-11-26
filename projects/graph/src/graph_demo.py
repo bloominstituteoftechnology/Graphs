@@ -31,10 +31,10 @@ def get_default_graph():
 	default_graph.add_edge(4, 9, False)
 	default_graph.add_edge(2, 5, False)
 	default_graph.add_edge(2, 4, False)
-	default_graph.add_edge(3, 7, False)
 	default_graph.add_edge(3, 6, False)
 
-	# default_graph.depth_first(0, [], 9)
+	# print(default_graph.depth_first(0, 3))
+	#print(default_graph.breath_first(0, 7))
 	# default_graph.breath_first(0, 9)
 
 	drawn_tree = BokehGraph(default_graph)
