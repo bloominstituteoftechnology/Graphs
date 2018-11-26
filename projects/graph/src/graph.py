@@ -3,15 +3,22 @@ Simple graph implementation compatible with BokehGraph class.
 """
 
 
+class Vertex:
+    def __init__(self, value):
+        self.node = value
+        self.edges = set()
+
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
     def __init__(self):
         self.vertices = {}
 
-    def add_vertex(self, vertex):
-        if vertex not in self.vertices:
-            self.vertices[vertex] = set()
+    def add_vertex(self, value):
+        if value not in self.vertices:
+            vertex = Vertex(value)
+            self.vertices[vertex.node] = vertex.edges
             return True
         else:
             return False
@@ -23,9 +30,9 @@ class Graph:
             return True
         else:
             if v1 not in self.vertices:
-                raise Exception(f"Vertex {v1} is nonexistant!")
+                raise Exception(f"Vertex {v1} is nonexistent!")
             elif v2 not in self.vertices:
-                raise Exception(f"Vertex {v2} is nonexistant!")
+                raise Exception(f"Vertex {v2} is nonexistent!")
 
 
 graph = Graph()
