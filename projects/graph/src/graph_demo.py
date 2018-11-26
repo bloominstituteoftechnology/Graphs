@@ -34,6 +34,9 @@ def get_default_graph():
 	default_graph.add_edge(3, 7, False)
 	default_graph.add_edge(3, 6, False)
 
+	# default_graph.depth_first(0, [], 9)
+	# default_graph.breath_first(0, 9)
+
 	drawn_tree = BokehGraph(default_graph)
 
 	drawn_tree.draw_graph()
@@ -74,8 +77,6 @@ def main(**kwargs):
 		graph = get_random_graph(num_verts, num_edges)
 	else:
 		graph = get_default_graph()
-
-
 
 if __name__ == '__main__':
     style="default"

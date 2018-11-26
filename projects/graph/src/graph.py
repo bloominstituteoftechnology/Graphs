@@ -3,6 +3,34 @@ import random
 Simple graph implementation compatible with BokehGraph class.
 """
 
+class Queue():
+	def __init__(self):
+		self.queue = []
+	def enqueue(self, value):
+		self.queue.append(value)
+	def dequeue(self):
+		if self.size() > 0:
+			return self.queue.pop(0)
+		else:
+			return None
+	def size(self):
+		return len(self.queue)
+
+class Stack():
+	def __init__(self):
+		self.stack = []
+	def push(self, value):
+		self.stack.append(value)
+	def pop(self):
+		if self.size() > 0:
+			return self.stack.pop()
+		else:
+			return None
+	def size(self):
+		return len(self.stack)
+
+
+
 class Vertex:
 	def __init__(self, vertex_id, x=None, y=None, value=None, color=None):
 		self.id = int(vertex_id)
@@ -55,29 +83,30 @@ class Graph:
 			print(f'no vertex at location v1:, {v1}, v2: {v2}')
 
 	def depth_first(self, node, node_list, target):
+		print(self.vertices[node].value)
 		node_list.append(node)
 		if node == target:
 			return print(f'node: {node} was found in tree')
 
-		for child_node in self.vertices[node]:
+		for child_node in self.vertices[node].edges:
 			if child_node not in node_list:
 				self.depth_first(child_node, node_list, target)
 
 	def breath_first(self, node, target):
 
-		list_n = []
-		list_n.append(node)
+		q = Queue()
+		q.enqueue(node)
 		checked = []
-		while len(list_n) > 0:
-			n = list_n.pop(0)
+		while q.size() > 0:
+			n = q.dequeue()
 			if n not in checked:
 				print(n)
 				if n == target:
 					print(f'node: {target} was found in tree')
 					return
 				checked.append(n)
-				for next_node in self.vertices[n]:
-					list_n.append(next_node)
+				for next_node in self.vertices[n].edges:
+					q.enqueue(next_node)
 
 	def __str__(self):
 		return f'graph, vertices: {self.vertices}'
