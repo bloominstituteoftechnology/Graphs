@@ -43,7 +43,7 @@ class Graph:
         self.vertices[vertex_id] = Vertex(vertex_id)
 
     def add_edge(self,vertex1,vertex2):
-        if vertex1 in self.vertices and vertex2 in self.vertices
+        if vertex1 in self.vertices and vertex2 in self.vertices:
                 self.vertices[vertex1].edges.add(vertex2)
                 self.vertices[vertex2].edges.add(vertex1)
 
@@ -71,7 +71,7 @@ class Graph:
                 for child in self.vertices[node].edges:
                     queue.enqueue(child)
         
-     def dft(self, starting_node):
+    def dft(self, starting_node):
         # Create an empty Stack
         stack = Stack()
         # Create an empty visited list
@@ -154,5 +154,5 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-graph.bft(1)
+graph.bfs("1","3")
 print(graph.vertices)
