@@ -115,10 +115,34 @@ class Graph:
             # If it hasnt been visited
             if node not in visited_list:
                 # Mark it as visited
+                if destination_node == node:
+                    return True
                 visited_list.add(node)
                 # then put all its children in the queue
                 for child in self.vertices[node].edges:
                     queue.enqueue(child)
+
+    def dfs(self, starting_node, destination_node):
+        # Create an empty Stack
+        stack = Stack()
+        # Create an empty visited list
+        visited_list = set()
+        # Add the start node to the Stack
+        stack.push(starting_node)
+        # While the Stack is not empty...
+        while stack.size() > 0:
+            # remove the first node from the Stack
+            node = stack.dequeue()
+            # If it hasnt been visited
+            if node not in visited_list:
+                # Mark it as visited
+                if destination_node == node:
+                    return True
+                visited_list.add(node)
+                # then put all its children in the tack
+                for child in self.vertices[node].edges:
+                    stack.push(child)
+        return False
 
 
 
