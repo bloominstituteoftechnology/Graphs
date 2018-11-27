@@ -134,6 +134,21 @@ class Graph:
 
         return False
 
+    # Breadth first search 
+    def bfs(self, start_vert_id, target_data):
+        queue = Queue()
+        queue.enqueue(start_vert_id)
+        visited = []
+        while queue.size() > 0:
+            vert = queue.dequeue()
+            if vert not in visited:
+                if self.vertices[vert].data == target_data:
+                    return True
+                visited.append(vert)
+                for next_vert in self.vertices[vert].edges:
+                    queue.enqueue(next_vert)
+        return False
+
     # add_edge method (bi directional as default to start with)
     def add_edge(self, vertex_a, vertex_b, bidir=True):
         self.vertices[vertex_a].edges.add(vertex_b)
