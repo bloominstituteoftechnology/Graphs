@@ -7,10 +7,13 @@ class Queue:
         self.queue = []
 
     def enqueue(self, value):
-        pass
+        self.queue.append(value) # --> Add value to the queue
     
     def dequeue(self):
-        pass            
+        if len(self.queue) > 0:
+            return self.queue.pop(0)
+        else:
+            return None
 
 
 class Graph:
