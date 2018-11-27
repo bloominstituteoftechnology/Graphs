@@ -24,21 +24,36 @@ class Graph:
         else:
             raise 'Vertex does not exist.', label
     
-    def breadth_first_search(self, start_vertex):
+    def breadth_first_traversal(self, start_vertex):
+        print('breadth first traversal')
         for vertex in self.vertices:
             self.vertices[vertex]['color'] = 'white'
         self.vertices[start_vertex]['color'] = 'grey'
-        print(self.vertices)
         queue = [start_vertex]
         while len(queue)>0:
             first = queue[0]
+            print(first)
             for vertex in self.vertices[first]['edges']:
                 if self.vertices[vertex]['color'] == 'white':
                     self.vertices[vertex]['color'] = 'grey'
                     queue.append(vertex)
-            print(queue.pop(0))
+            queue.pop(0)
             self.vertices[first]['color'] = 'black'
-
+    
+    def depth_first_traversal(self, start_vertex):
+        print('depth first traversal')
+        for vertex in self.vertices:
+            self.vertices[vertex]['color'] = 'white'
+        self.vertices[start_vertex]['color'] = 'grey'
+        stack = [start_vertex]
+        while len(stack)>0:
+            first = stack.pop()
+            print(first)
+            for vertex in self.vertices[first]['edges']:
+                if self.vertices[vertex]['color'] == 'white':
+                    self.vertices[vertex]['color'] = 'grey'
+                    stack.append(vertex)
+            self.vertices[first]['color'] = 'black'
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -49,4 +64,5 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.add_edge('1','2')
 print(graph.vertices)
-graph.breadth_first_search('0')
+graph.breadth_first_traversal('0')
+graph.depth_first_traversal('0')
