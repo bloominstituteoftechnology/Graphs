@@ -21,11 +21,14 @@ class Graph:
         return f"{self.vertices}"
 
     def add_vertex(self, name, value):
-        node = Vertex(value)
-        self.vertices[name] = node
+        vertex = Vertex(value)
+        self.vertices[name] = vertex
 
     def add_edge(self, vertex_name, edge):
         self.vertices[vertex_name].edges.add(edge)
+
+    def get_vert(self, name):
+        return {name: self.vertices.get(name)}
 
 
 g = Graph()
@@ -35,4 +38,5 @@ g.add_edge("Cramerton", "McAdenville")
 g.add_edge("McAdenville", "Cramerton")
 g.add_edge("McAdenville", "Lowell")
 print(g)
+print(g.get_vert("McAdenville"))
 
