@@ -70,7 +70,7 @@ class Stack:
 
 # implement the basics of a vertex class
 class Vertex:
-    def __init__(self, id, pos, colour = None, data = None):
+    def __init__(self, id, pos = None, colour = None, data = None):
         self.id = int(id)
         self.pos = Vec2(0, 0) if pos is None else pos
         self.colour = "white" if colour is None else colour
@@ -93,6 +93,15 @@ class Graph:
         self.vertices[id] = Vertex(id, pos, data = data)
 
     # TODO: serch method
+
+    # Depth first Traversal
+    def dft(self, start_vert, visited=[]):
+        visited.append(start_vert)
+        print(self.vertices[start_vert].id, ': ', self.vertices[start_vert].data)
+
+        for child_vert in self.vertices[start_vert].edges:
+            if child_vert not in visited:
+                self.dft(child_vert, visited)
 
     # add_edge method (bi directional as default to start with)
     def add_edge(self, vertex_a, vertex_b, bidir=True):
@@ -122,3 +131,4 @@ g0.add_edge(0, 1)
 g0.add_edge(0, 2)
 print(g0.vertices[0])
 print(g0.vertices[1])
+g0.dft(0)
