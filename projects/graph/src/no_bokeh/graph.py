@@ -77,6 +77,17 @@ class Graph:
 
 		return dft_list
 
+	def dfr(self, node, visited=[]):
+
+		if node == None:
+			return
+
+		if node not in visited:
+			visited.append(node)
+			print(node)
+			for i in self.vertices[node].edges:
+				self.dfr(i)
+
 	def __str__(self):
 		return f'graph, vertices: {self.vertices}'
 
@@ -102,3 +113,4 @@ binary_tree.add_edge(4, 8, False)
 
 print(binary_tree.bft(0))
 print(binary_tree.dft(0))
+print(binary_tree.dfr(0))
