@@ -91,6 +91,20 @@ class Graph:
 
         return visited
 
+    def dfsearch(self, root, target, visited=[]):
+        visited.append(root)
+
+        for edge in self.vertices[root].edges:
+            if edge == target:
+                visited.append(edge)
+                print('dfsearch path: ', visited)
+                return visited
+
+            if edge not in visited:
+                self.dfsearch(edge, target, visited)
+
+
+
 
         # put the start node in the queue
         # while queue is not empty...
@@ -120,3 +134,5 @@ graph.add_edge('0', '3')
 graph.bft('0')
 graph.dft('0')
 print('dfrecursion: ', graph.dftr('1'))
+
+graph.dfsearch('0', '5')
