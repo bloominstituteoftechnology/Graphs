@@ -55,8 +55,6 @@ class Graph:
     	elif algorithm_type.name == "DEPTH":
     		print("Depth First Traversal:")
     		storage = []
-    	else:
-    		raise Exception(f'algorithm_type is not a valid algorithm type. Check Algorithm enum for valid options.')
 
     	storage.append(starting_vertex)
     	visited = set()
@@ -93,10 +91,42 @@ class Graph:
     	return " ,".join(result)
 
 
+    # PART 4 and 5
+    def search(self, starting_vertex, vertex, algorithm_type):
+    	if starting_vertex not in self.vertices:
+    		raise Exception(f'Starting vertex {starting_vertex} does not exist')
+    	if vertex not in self.vertices:
+    		raise Exception(f'Vertex {vertex} does not exist')	
+
+    	# Uses either a queue or stack for BFT or DFT respectively
+    	if algorithm_type.name == "BREADTH":
+    		print("Breadth First Search:")
+    		storage = Queue()
+    	elif algorithm_type.name == "DEPTH":
+    		print("Depth First Search:")
+    		storage = []
+
+    	storage.append(starting_vertex)
+    	record = {starting_vertex: None}
+    	
+    	result = []
+    	while storage:
+    		current_vertex = storage.pop()
+    		if current_vertex == vertex:
+    			break
+
+    		neighbors = self.vertices[current_vertex]
+
+    		for neighbor in neighbors:
+    			if neighbor not in record and neighbor not in storage:
+    				storage.append(neighbor)
+    				record[neighbor] = current_vertex
+
+    	return self._get_path(record, vertex)
 
 
 
-    def search(self,starting_vertex, vertex, option = 0):
+    def search_old(self,starting_vertex, vertex, option = 0):
     	if starting_vertex not in self.vertices:
     		raise Exception(f'Starting vertex {starting_vertex} does not exist')
     	if vertex not in self.vertices:
@@ -112,6 +142,7 @@ class Graph:
     		self.dfs_search(starting_vertex, vertex, tally)
 
     	return self._get_path(tally, vertex)
+
 
     def bfs_search(self,starting_vertex, vertex, tally):
     	
@@ -160,25 +191,22 @@ class Graph:
 
     def _get_path(self,tally, vertex):
     	reverse_path = [vertex]
-    	previous = tally[vertex][1]
+    	previous = tally[vertex]
     	while previous:
     		reverse_path.append(previous)
-    		previous = tally[previous][1]
+    		previous = tally[previous]
     	reverse_path.reverse()
     	return reverse_path
 
 
-
-
-
-
-
-
-
-
-
-
-
+    # def _get_path(self,tally, vertex):
+    # 	reverse_path = [vertex]
+    # 	previous = tally[vertex][1]
+    # 	while previous:
+    # 		reverse_path.append(previous)
+    # 		previous = tally[previous][1]
+    # 	reverse_path.reverse()
+    # 	return reverse_path
 
 
 graph = Graph()  # Instantiate your graph
@@ -196,7 +224,8 @@ graph.add_edge('B', 'F')
 graph.add_edge('C', 'E')
 graph.add_edge('A', 'C')
 
-# print(graph.traversal("F",Algorithm.BREADTH))
 print(graph.traversal("F",Algorithm.BREADTH))
 print(graph.traversal("F",Algorithm.DEPTH))
 print(graph.dft_recursive('F'))
+print(graph.search("F", "C",Algorithm.BREADTH))
+print(graph.search("F", "C",Algorithm.DEPTH))
