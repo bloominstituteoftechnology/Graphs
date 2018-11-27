@@ -58,7 +58,7 @@ class Graph:
 
     	storage.append(starting_vertex)
     	visited = set()
-
+    	result = []
     	while storage:
     		current_vertex = storage.pop()
     		neighbors = self.vertices[current_vertex]
@@ -68,7 +68,18 @@ class Graph:
     				storage.append(neighbor)
 
     		visited.add(current_vertex)
-    		print(current_vertex)
+    		result.append(current_vertex)
+
+    	return ', '.join(result)
+
+    def dft_recursive(self, vertex, visited = set()):
+
+    	visited.add(vertex)
+    	print(vertex)
+    	neighbors = self.vertices[vertex]
+    	for neighbor in neighbors:
+    		if neighbor not in visited:
+    			self.dft_recursive(neighbor,visited)
 
 
 
@@ -173,5 +184,6 @@ graph.add_edge('B', 'F')
 graph.add_edge('C', 'E')
 graph.add_edge('A', 'C')
 
-graph.traversal("F",Algorithm.BREADTH)
-graph.traversal("F",Algorithm.DEPTH)
+# print(graph.traversal("F",Algorithm.BREADTH))
+print(graph.traversal("F",Algorithm.DEPTH))
+graph.dft_recursive('F')
