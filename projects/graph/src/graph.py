@@ -12,7 +12,7 @@ class Vertex:
     
     def __repr__(self):
         return f'{self.label}'
-
+# Queue class for BFS
 class Queue:
   def __init__(self):
     self.size = 0
