@@ -4,6 +4,16 @@ Simple graph implementation compatible with BokehGraph class.
 # let's use python's built in queue library
 import queue as queue
 
+class Vertex:
+    def __init__(self, vertex_value):
+        self.value = vertex_value
+        self.edges = set()
+
+    # define the printable representation of the Vertex's edges object to be human-readable in the console
+    # this prevents the '__main__.Object at 0x1234f' gobbledygook from logging in the console
+    def __repr__(self):
+        return f'{self.value}: {self.edges}'
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -54,6 +64,23 @@ class Graph:
         print(f'visited: {visited}')
         return visited
 
+    def dfsearch(self, root):
+
+        # STACK SOLUTION
+        stack = [self.vertices[root]]
+        visited = []
+
+        while len(stack) > 0:
+            current = stack.pop()
+            visited.append(current)
+
+            for edge in current.edges:
+                if self.vertices[edge] not in visited:
+                    stack.append(self.vertices[edge])
+
+        print(visited)
+        return visited
+
         # put the start node in the queue
         # while queue is not empty...
         # remove node from queue
@@ -61,15 +88,6 @@ class Graph:
             # if not, mark node as visited
             # then put all children in queue
 
-class Vertex:
-    def __init__(self, vertex_value):
-        self.value = vertex_value
-        self.edges = set()
-
-    # define the printable representation of the Vertex's edges object to be human-readable in the console
-    # this prevents the '__main__.Object at 0x1234f' gobbledygook from logging in the console
-    def __repr__(self):
-        return f'{self.edges}'
 
 
 
@@ -79,7 +97,14 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('5')
+graph.add_vertex('4')
+graph.add_edge('5', '4')
+graph.add_edge('4', '2')
+graph.add_edge('2', '4')
+graph.add_edge('5', '3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-print(graph.vertices)
+# print(graph.vertices)
 graph.bfsearch('0')
+graph.dfsearch('0')
