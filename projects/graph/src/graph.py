@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+"""
+Simple graph implementation
+"""
+
+
+>>>>>>> upstream/master
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
