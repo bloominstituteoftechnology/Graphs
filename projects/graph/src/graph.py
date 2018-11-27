@@ -12,10 +12,11 @@ class Vertex:
     
     def __repr__(self):
         return f'{self.label}'
-# Queue class for BFS
+
+# Queue class for BFT
 class Queue:
   def __init__(self):
-    self.size = 0
+    self.size = 0      # not sure if I need this
     self.storage = []
 
   def enqueue(self, item):
@@ -34,10 +35,32 @@ class Queue:
     else:
       return len(self.storage)
 
+# Stack class for DFT
+class Stack:
+    def __init__(self):
+        self.size = 0      # not sure if I need this
+        self.storage = []
+
+    def push(self, item):
+        self.storage.append(item)
+        print(f'{item} added to s')
+
+    def pop(self):
+        if len(self.storage) == 0:
+            return None
+        else:
+            return self.storage.pop(-1)
+
+    def len(self):
+        if len(self.storage) == 0:
+            return 0
+        else:
+            return len(self.storage)
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        # Start here:
+        # Create empty dict of vertices
         self.vertices = {}
     
     def add_vertex(self, vertex_id):
@@ -48,8 +71,8 @@ class Graph:
             self.vertices[v1].edges.add(v2)
             self.vertices[v2].edges.add(v1)
     
-    def bfs(self, start_node):
-        print('\n--- NEW BFS ---')
+    def bft(self, start_node):
+        print('\n--- NEW BFT ---')
 
         # create a queue:
         q = Queue()
@@ -77,15 +100,34 @@ class Graph:
                 # print('Visited list with new node: ', visited)
                 # put all children of node in queue:
                 for child in self.vertices[node].edges:
-                    q.enqueue(child)
-                    
-                    
+                    q.enqueue(child)  
+
+        print('Final visited list: ', visited)
+
+    def dft(self, start_node):
+        print('\n--- NEW DFT ---')
+        # create empty stack
+        s = Stack()
+        # create empty visited list
+        visited = set()
+        # add start node to the stack
+        s.push(start_node)
+        # while stack is not empty:
+        while s.len() > 0:
+            # remove first node from stack and return removed node
+            node = s.pop()
+            # if node has not been visited:
+            if node not in visited:
+                print(f'node {node} not visited')
+                visited.add(node)
+                for child in self.vertices[node].edges:
+                    s.push(child)
 
         print('Final visited list: ', visited)
 
 
 
-graph = Graph()  # Instantiate your graph
+graph = Graph()     # Instantiate your graph
 # graph.add_vertex('0')
 # graph.add_vertex('1')
 # graph.add_vertex('1')
@@ -106,4 +148,5 @@ graph.add_edge(1, 2)
 graph.add_edge(0, 4)
 print('Number of vertices in graph: ', len(graph.vertices))
 print('Vertices: ', graph.vertices)
-graph.bfs(3)
+# graph.bft(3)
+graph.dft(1)
