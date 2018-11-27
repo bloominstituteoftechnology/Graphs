@@ -68,20 +68,18 @@ class Graph:
             node = q.dequeue()
             print('Current node: ', node)
 
-            if node == 0:
-                pass
+            
             # check if node has been visited:
-            if node not in visited:
-                print('node not in visited')
+            if visited[node] is False:
+                print('node not visited')
                 # mark node as visited:
                 visited[node] = True
                 # print('Visited list with new node: ', visited)
                 # put all children of node in queue:
                 for child in self.vertices[node].edges:
                     q.enqueue(child)
-                    # mark node as visited:
-                    visited[child] = True
-                    return self.bfs(child)
+                    
+                    
 
         print('Final visited list: ', visited)
 
@@ -108,4 +106,4 @@ graph.add_edge(1, 2)
 graph.add_edge(0, 4)
 print('Number of vertices in graph: ', len(graph.vertices))
 print('Vertices: ', graph.vertices)
-graph.bfs(1)
+graph.bfs(3)
