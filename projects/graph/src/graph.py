@@ -7,7 +7,7 @@ class Vertex:
     """Vertices have a label and a set of edges."""
     # pylint: disable=too-few-public-methods
     def __init__(self, label):
-        self.label = int(label)  # each vertex has a label
+        self.label = label  # each vertex has a label
         self.edges = set()       # each vertex has a set (unordered dictionary) of edges
     
     def __repr__(self):
@@ -55,9 +55,10 @@ class Graph:
         q = Queue()
 
         # create visited list, False at each index, number of indices = (number of vertices in graph):
-        # visited = [False] * (len(self.vertices))
-        visited = []
-        print('Initial visited list: ', visited)
+        visited = [False] * (len(self.vertices))
+        # visited = []
+        # print('Initial visited list: ', visited)
+
         # put the start node in the queue:
         q.enqueue(start_node)
 
@@ -67,30 +68,44 @@ class Graph:
             node = q.dequeue()
             print('Current node: ', node)
 
+            if node == 0:
+                pass
             # check if node has been visited:
             if node not in visited:
                 print('node not in visited')
                 # mark node as visited:
                 visited[node] = True
-                print('Visited list with new node: ', visited)
+                # print('Visited list with new node: ', visited)
                 # put all children of node in queue:
-                for child in self.vertices[str(node)].edges:
+                for child in self.vertices[node].edges:
                     q.enqueue(child)
                     # mark node as visited:
-                    visited[int(child)] = True
+                    visited[child] = True
+                    return self.bfs(child)
+
+        print('Final visited list: ', visited)
 
 
 
 graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('1', '2')
-graph.add_edge('0', '4')
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
+# graph.add_edge('1', '2')
+# graph.add_edge('0', '4')
+graph.add_vertex(0)
+graph.add_vertex(1)
+graph.add_vertex(1)
+graph.add_vertex(2)
+graph.add_vertex(3)
+graph.add_edge(0, 1)
+graph.add_edge(0, 3)
+graph.add_edge(1, 2)
+graph.add_edge(0, 4)
 print('Number of vertices in graph: ', len(graph.vertices))
 print('Vertices: ', graph.vertices)
-graph.bfs('1')
+graph.bfs(1)
