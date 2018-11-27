@@ -2,6 +2,31 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
 
 class Vertex:
     def __init__(self, value):
@@ -34,6 +59,47 @@ class Graph:
                 )  # IndexError more specific than Exception
             elif v2 not in self.vertices:
                 raise IndexError(f"Vertex {v2} is nonexistent!")
+    
+    def bft(self, starting_node):
+        # Create an empty Queue
+        q = Queue()
+        # Create an empty visited list
+        visited = set()
+        # Add the start node to the queue
+        q.enqueue(starting_node)
+        # While the Queue is not empty...
+        while q.size() > 0:
+            # Remove the first node from the Queue
+            node = q.dequeue()
+            # If it hasn't been visited
+            if node not in visited:
+                # Mark it as visited
+                print(node)
+                visited.add(node)
+                # Then put all its children in the queue
+                for child in self.vertices[node].edges:
+                    q.enqueue(child)
+
+    def dft(self, starting_node):
+        # Create an empty Stack
+        s = Stack()
+        # Create an empty visited list
+        visited = set()
+        # Add the start node to the stack
+        s.push(starting_node)
+        # While the Stack is not empty...
+        while s.size() > 0:
+            # Remove the first node from the Stack
+            node = s.pop()
+            # If it hasn't been visited
+            if node not in visited:
+                # Mark it as visited
+                print(node)
+                visited.add(node)
+                # Then put all its children in the queue
+                for child in self.vertices[node].edges:
+                    s.push(child)
+
 
 
 graph = Graph()
