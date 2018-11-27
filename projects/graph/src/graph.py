@@ -1,4 +1,5 @@
 from queue import Queue
+from vertex import Vertex
 
 """
 Simple graph implementation compatible with BokehGraph class.
@@ -10,7 +11,8 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, value):
-        self.vertices.update({value: set()})
+        new_vertex = Vertex(value)
+        self.vertices.update(new_vertex.value)
 
     def add_edge(self, vertex1, vertex2):
         # if both vertices exist
