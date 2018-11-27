@@ -8,7 +8,7 @@ class Vertex:
     # pylint: disable=too-few-public-methods
     def __init__(self, label):
         self.label = int(label)  # each vertex has a label
-        self.edges = set()       # each vertex has a set of multiple edges
+        self.edges = set()       # each vertex has a set (unordered dictionary) of edges
     
     def __repr__(self):
         return f'{self.label}'
@@ -27,6 +27,34 @@ class Graph:
             self.vertices[v1].edges.add(v2)
             self.vertices[v2].edges.add(v1)
     
+    def bfs(start_node):
+        # create a queue:
+        q = Queue()
+        # create a visited list:
+        visited = []
+        # put the start node in the queue:
+        q.enqueue(start_node)
+        # while queue is not empty:
+        while q.size() > 0:
+            # remove node from queue:
+            node = q.dequeue()
+            # check if it has been visited:
+            if node not in visited:
+                # mark node as visited:
+                visited.append(node)
+                # put all children in queue:
+                for child in node.children:
+                    q.enqueue(child)
+
+class Queue:
+    def enqueue(self, node):
+        pass
+    def dequeue(self, node_id):
+        pass
+
+
+
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
