@@ -16,14 +16,41 @@ class Graph:
     	else:
     		self.vertices[vertex] = set()
 
-    def add_edge(self, vertex1, vertex2):
+    #takes an optional bool argument for bidirectional
+    def add_edge(self, vertex1, vertex2, bidirectional = True):
     	if vertex1 not in self.vertices:
     		raise Exception(f'Vertex {vertex1} does not exist')
     	elif vertex2 not in self.vertices:
     		raise Exception(f'Vertex {vertex2} does not exist')
     	
-    	self.vertices[vertex1].add(vertex2)
-    	self.vertices[vertex2].add(vertex1)
+    	if bidirectional:
+    		self.vertices[vertex1].add(vertex2)
+    		self.vertices[vertex2].add(vertex1)
+    	else:
+    		self.vertices[vertex1].add(vertex2)
+
+    #PART 2 - BFT
+    def bft(self, starting_vertex):
+    	if starting_vertex not in self.vertices:
+    		raise Exception(f'Starting vertex {starting_vertex} does not exist')
+
+    	queue = deque()
+    	queue.append(starting_vertex)
+
+    	visited = set()
+
+    	while queue:
+    		current_vertex = queue.popleft()
+    		neighbors = self.vertices[current_vertex]
+
+    		for neighbor in neighbors:
+    			if neighbor not in visited and neighbor not in queue:
+    				queue.append(neighbor)
+
+    		visited.add(current_vertex)
+    		print(current_vertex)
+
+
 
 
     def search(self,starting_vertex, vertex, option = 0):
@@ -61,7 +88,7 @@ class Graph:
     		#update tally to include neighbors keeping track of prev node
     		for neighbor in neighbors:
     			if neighbor not in tally:
-    				tally[neighbor] = [True, current_vertex]
+    				tally[neighbor] = [False, current_vertex]
     				queue.append(neighbor)
     		#mark vertex as visited
     		tally[current_vertex][0] = True
@@ -125,7 +152,5 @@ graph.add_edge('B', 'E')
 graph.add_edge('B', 'F')
 graph.add_edge('C', 'E')
 
-print(graph.vertices)
-print(graph.search('F', 'C'))
-print(graph.search('F', 'C', 1))
+print(graph.bft("F"))
 
