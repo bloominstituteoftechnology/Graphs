@@ -80,12 +80,12 @@ Part 1 may have felt familiar as you were filling out your graph class. Creating
 Write an algorithm, `createRandomRooms` that takes in a number and generates that number of rooms. Each room should be connected and reachable from the player's starting room.
 
 * It may help to assign a unique room_id to each room.
+* None of the rooms should overlap and they should all exist on a valid grid. For example, starting in the lower left and traveling E,W,N,S or N,E,S,W should always return you to the original room.
 ```
 [_]-[_]
  |   |
 [_]-[_]
 ```
-* None of the rooms should overlap and they should all exist on a valid grid. For example, starting in the lower left and traveling E,W,N,S or N,E,S,W should always return you to the original room.
 * How can you verify that all of the rooms are connected? (Hint: use a traversal)
 * Some information about the room, like possible exits, should be present in the room description.
 * Try to keep your runtime complexity to O(n).
