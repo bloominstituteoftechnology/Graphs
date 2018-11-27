@@ -32,3 +32,10 @@ class Graph:
 
     def dfs(self, start):
         
+
+    def connected(self):
+        visited = []
+        for _, vertex in self.vertices.items():
+            if vertex not in visited:
+            visited.extend(self.dfs(vertex))
+        return visited
