@@ -61,7 +61,7 @@ class Graph:
                 if self.vertices[edge] not in visited:
                     storage.put(self.vertices[edge])
 
-        print(f'visited: {visited}')
+        print(f'visited bft: {visited}')
         return visited
 
     def dfsearch(self, root):
@@ -78,8 +78,18 @@ class Graph:
                 if self.vertices[edge] not in visited:
                     stack.append(self.vertices[edge])
 
-        print(visited)
+        print(f'visited dft:{visited}')
         return visited
+
+    def dfrecursion(self, root, visited=[]):
+        
+        visited.append(root)
+        
+        for edge in self.vertices[root].edges:
+            if edge not in visited:
+                self.dfrecursion(edge, visited)
+
+
 
         # put the start node in the queue
         # while queue is not empty...
@@ -108,3 +118,4 @@ graph.add_edge('0', '3')
 # print(graph.vertices)
 graph.bfsearch('0')
 graph.dfsearch('0')
+graph.dfrecursion('0')
