@@ -63,6 +63,21 @@ class Graph:
                     stack.append(child)
         return visited
 
+    def dft_r(self, start_vertex, visited = []):
+        # Mark start_vertex as visited
+        visited.append(start_vertex)
+        # Then call dft_r on each child
+        for child in self.vertices[start_vertex].edges:
+            # If the child has not been visited...
+            if child not in visited:
+                # Recursively visit that child
+                self.dft_r(child, visited)
+            if start_vertex is visited[0]:
+                # Once the initial start_vertex's recursion has finished,
+                # the entire graph will have been traversed
+                # so return visited to get the entire traversal
+                return visited
+
     # def bft(self, start_vertex, search_vertex):
     #     # create a queue
     #     queue = Queue()
@@ -114,8 +129,14 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+graph.add_edge('0', '2')
+graph.add_edge('1', '4')
+graph.add_edge('2', '4')
+graph.add_edge('3', '4')
 print('Graph:', graph.vertices)
 print('BFT:', graph.bft('0'))
 print('DFT:', graph.dft('0'))
+print('DFT_R:', graph.dft_r('0'))
