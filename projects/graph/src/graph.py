@@ -95,7 +95,27 @@ class Graph:
         return 'Did not find %s.' %destination
 
     def depth_first_search(self, start_vertex, destination):
-        pass
+        print('depth first search')
+        self.color_vertices()
+        self.vertices[start_vertex]['color'] = 'grey'
+        stack = [start_vertex]
+        path = []
+        while len(stack)>0:
+            first = stack.pop()
+            print(first)
+            path.append(first)
+            if first == destination:
+                return path
+            at_end = True
+            for vertex in self.vertices[first]['edges']:
+                if self.vertices[vertex]['color'] == 'white':
+                    self.vertices[vertex]['color'] = 'grey'
+                    stack.append(vertex)
+                    at_end = False
+            if at_end:
+                path.pop()
+            self.vertices[first]['color'] = 'black'
+        return 'Did not find %s.' %destination
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -106,7 +126,8 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.add_edge('1','2')
 print(graph.vertices)
-# graph.breadth_first_traversal('0')
-# graph.depth_first_traversal('0')
-# graph.depth_first_traversal_recursive('0')
+graph.breadth_first_traversal('0')
+graph.depth_first_traversal('0')
+graph.depth_first_traversal_recursive('0')
 print(graph.breadth_first_search('0','2'))
+print(graph.depth_first_search('0','2'))
