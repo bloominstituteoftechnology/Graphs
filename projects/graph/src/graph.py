@@ -128,8 +128,25 @@ class Graph:
                     s.push(child)
 
         print('Final visited list: ', visited_list)
+    
+    def dft_r(self, start_node, visited = set(), visited_list = []):
+        print('\n--- NEW DFT Recursive ---')
 
+        if start_node not in visited:
+            visited.add(start_node)
+            visited_list.append(start_node)
 
+        # if start_node not in visited:
+        #     print(f'node {start_node} not visited')
+        #     visited.add(start_node)
+
+        for child in self.vertices[start_node].edges:
+            if child not in visited:
+                self.dft_r(child, visited, visited_list)
+    
+        print('visited set: ', visited)
+        print('visited list: ', visited_list)
+        
 
 graph = Graph()     # Instantiate your graph
 # graph.add_vertex('0')
@@ -154,3 +171,4 @@ print('Number of vertices in graph: ', len(graph.vertices))
 print('Vertices: ', graph.vertices)
 graph.bft(1)
 graph.dft(1)
+graph.dft_r(1)
