@@ -1,1 +1,4 @@
 GRAPH NOTES
+
+See Blue note book for notes
+Study Big-O cheatsheet for additional information 
