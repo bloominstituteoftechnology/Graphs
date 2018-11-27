@@ -27,6 +27,35 @@ class Vec2:
         self.x //= other.x
         self.y //= other.y
 
+## decided to add a 3d vector class too you never know when things might get crazy :)
+class Vec3:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+    # add
+    def add(self, other):
+        self.x += other.x
+        self.y += other.y
+        self.z += other.z
+
+    # subtract
+    def subtract(self, other):
+        self.x -= other.x
+        self.y -= other.y
+        self.z -= other.z
+
+    # multiply
+    def multiply(self, other):
+        self.x *= other.x
+        self.y *= other.y
+        self.z *= other.z
+
+    # divide (integer)
+    def divide(self, other):
+        self.x //= other.x
+        self.y //= other.y
+        self.z //= other.z
 
 # Queue for BFS
 class Queue:
@@ -92,7 +121,11 @@ class Graph:
     def add_vertex(self, id, pos, data):
         self.vertices[id] = Vertex(id, pos, data = data)
 
-    # TODO: serch methods
+    # add_edge method (bi directional as default to start with)
+    def add_edge(self, vertex_a, vertex_b, bidir = True):
+        self.vertices[vertex_a].edges.add(vertex_b)
+        if bidir:
+            self.vertices[vertex_b].edges.add(vertex_a)
 
     # Traversals
 
@@ -119,6 +152,7 @@ class Graph:
                 visited.append(vert)
                 for next_vert in self.vertices[vert].edges:
                     queue.enqueue(next_vert)
+
     # Searches
 
     # Depth first search (leveraging off the DFT method)
@@ -149,12 +183,6 @@ class Graph:
                     queue.enqueue(next_vert)
         return False
 
-    # add_edge method (bi directional as default to start with)
-    def add_edge(self, vertex_a, vertex_b, bidir = True):
-        self.vertices[vertex_a].edges.add(vertex_b)
-        if bidir:
-            self.vertices[vertex_b].edges.add(vertex_a)
-
     # paths
 
     # Path for DFS (Recursive Search)
@@ -171,12 +199,33 @@ class Graph:
 
         return None
 
+    # Path for BFS (Recursive Search)
+    def path_b(self, start_vert_id, target_data):
+        queue = Queue()
+        queue.enqueue([start_vert_id])
+        visited = []
+        while queue.size() > 0:
+            path = queue.dequeue()
+            vert = path[-1]
+            if vert not in visited:
+                if self.vertices[vert].data == target_data:
+                    return path
+                visited.append(vert)
+                for next_vert in self.vertices[vert].edges:
+                    # q.enqueue(next_vert) is no more
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    queue.enqueue(new_path)
+        return None
+
+
 # some basic tests for the vertex class
 
 #constructor test
 v0 = Vertex(0, Vec2(3, 4))
 v1 = Vertex(1, Vec2(1, 3), colour = "orange")
 v2 = Vertex(2, Vec2(3, 5))
+
 # raw positional data manipulation test
 v0.pos.x = 23
 
@@ -222,5 +271,8 @@ print(g0.dfs(2, 4))
 for vertex, vert in g0.vertices.items():
     print(vertex, ": ", vert.data, ", connections ", vert.edges)
 
-print("\nRecursive DFS with path to destination mapping")
+print("\nRecursive DFS with path to destination mapping \n[0 to Node9]")
 print(g0.path_d(0, "Node9"))
+
+print("\nRecursive BFS with path to destination mapping \n[7 to Node1]")
+print(g0.path_b(7, "Node1"))
