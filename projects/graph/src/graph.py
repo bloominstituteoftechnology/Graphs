@@ -13,6 +13,26 @@ class Vertex:
     def __repr__(self):
         return f'{self.label}'
 
+class Queue:
+  def __init__(self):
+    self.size = 0
+    self.storage = []
+
+  def enqueue(self, item):
+    self.storage.append(item)
+  
+  def dequeue(self):
+    if len(self.storage) == 0:
+      return None
+    else:
+      return self.storage.pop(0)
+
+  def len(self):
+    if len(self.storage) == 0:
+      return 0
+    else:
+      return len(self.storage)
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -27,15 +47,15 @@ class Graph:
             self.vertices[v1].edges.add(v2)
             self.vertices[v2].edges.add(v1)
     
-    def bfs(start_node):
+    def bfs(self, start_node):
         # create a queue:
         q = Queue()
-        # create a visited list:
-        visited = []
+        # create visited list, False at each index, number of indices = (number of vertices in graph):
+        visited = [False] * (len(self.vertices))
         # put the start node in the queue:
         q.enqueue(start_node)
         # while queue is not empty:
-        while q.size() > 0:
+        while q.len() > 0:
             # remove node from queue:
             node = q.dequeue()
             # check if it has been visited:
@@ -45,14 +65,6 @@ class Graph:
                 # put all children in queue:
                 for child in node.children:
                     q.enqueue(child)
-
-class Queue:
-    def enqueue(self, node):
-        pass
-    def dequeue(self, node_id):
-        pass
-
-
 
 
 
