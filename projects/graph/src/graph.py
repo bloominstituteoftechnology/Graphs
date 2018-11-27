@@ -36,15 +36,16 @@ class Graph:
         queue = [starting_vert]
         while len(queue) > 0:
             current_vert = queue.pop(0)
-            print(current_vert)
+            # print(current_vert)
             if current_vert == target_vert:
-                return True
+                visited.append(current_vert)
+                return visited
             else:
                 if not current_vert in visited:
                     visited.append(current_vert)
                     for vert in self.vertices[current_vert]:
                         queue.append(vert)
-        return False
+        return 'No path found that linked vertex ' + starting_vert + ' to vertex ' + target_vert
     
     def dfs(self, starting_vert, target_vert):
         visited = []
@@ -53,13 +54,14 @@ class Graph:
             current_vert = stack.pop(len(stack)-1)
             # print(current_vert)
             if current_vert == target_vert:
-                return True
+                visited.append(current_vert)
+                return visited
             else:
                 if not current_vert in visited:
                     visited.append(current_vert)
                     for vert in self.vertices[current_vert]:
                         stack.append(vert)
-        return False
+        return 'No path found that linked ' + starting_vert + ' to ' + target_vert
 # test
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -72,4 +74,4 @@ graph.add_edge('0', '4')
 graph.add_edge('3','0')
 print(graph.vertices)
 print(graph.bfs('3', '1'))
-print(graph.dfs('0','2'))
+print(graph.dfs('0', '3'))
