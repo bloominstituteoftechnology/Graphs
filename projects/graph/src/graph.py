@@ -40,9 +40,23 @@ class Graph:
                 visited.append(current)
             # then put all children in queue
             for i in self.vertices[current].edges:
-                if i not in visted and i not in queue:
+                if i not in visited and i not in queue:
                     queue.append(i)
         return visited
+    
+    def dfs(self, start_node):
+        stack = []
+        visited = []
+        queue.append(start_node)
+        while len(queue) > 0:
+            current = queue.pop()
+            if current not in visited:
+                visited.append(current)
+            for i in self.vertices[current].edges:
+                if i not in visited and i not in queue:
+                    queue.append(i)
+        return visited
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
