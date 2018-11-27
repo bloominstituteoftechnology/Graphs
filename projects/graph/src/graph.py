@@ -65,6 +65,26 @@ class Graph:
         return visited
 
     # depth first traversal
+    def dft(self, start_vertex):
+        # create a stack
+        stack = []
+        # create a visited list
+        visited = []
+        # put start vertex in the stack
+        stack.append(start_vertex)
+        # while queue is not empty
+        while len(stack) > 0:
+            # remove vertex from stack
+            vertex = stack.pop()
+            # check if it has been visited
+            if vertex not in visited:
+                # if not, mark as visited
+                visited.append(vertex)
+                # then put all children in queue
+                for child in self.vertices[vertex].edges:
+                    stack.append(child)           
+        return visited
+
 
 class Vertex:
     def __init__(self, vertex_id):
