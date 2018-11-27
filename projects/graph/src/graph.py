@@ -78,8 +78,9 @@ class Graph:
         q = Queue()
 
         # create visited list, False at each index, number of indices = (number of vertices in graph):
-        visited = [False] * (len(self.vertices))
-        # visited = []
+        # visited = [False] * (len(self.vertices))
+        # Or make visited a set
+        visited = set()
         # print('Initial visited list: ', visited)
 
         # put the start node in the queue:
@@ -93,10 +94,10 @@ class Graph:
 
             
             # check if node has been visited:
-            if visited[node] is False:
+            if node not in visited:
                 print('node not visited')
                 # mark node as visited:
-                visited[node] = True
+                visited.add(node)
                 # print('Visited list with new node: ', visited)
                 # put all children of node in queue:
                 for child in self.vertices[node].edges:
@@ -148,5 +149,5 @@ graph.add_edge(1, 2)
 graph.add_edge(0, 4)
 print('Number of vertices in graph: ', len(graph.vertices))
 print('Vertices: ', graph.vertices)
-# graph.bft(3)
+graph.bft(3)
 graph.dft(1)
