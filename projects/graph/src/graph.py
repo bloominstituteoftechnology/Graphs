@@ -36,7 +36,7 @@ class Graph:
             raise IndexError('Vertex not found.')
             # return an error if either vertex does not exist
 
-    def bfsearch(self, root):
+    def bft(self, root):
         if self.vertices == None:
             return
 
@@ -64,7 +64,7 @@ class Graph:
         print(f'visited bft: {visited}')
         return visited
 
-    def dfsearch(self, root):
+    def dft(self, root):
 
         # STACK SOLUTION
         stack = [self.vertices[root]]
@@ -81,13 +81,13 @@ class Graph:
         print(f'visited dft: {visited}')
         return visited
 
-    def dfrecursion(self, root, visited=[]):
+    def dftr(self, root, visited=[]):
         
         visited.append(root)
         
         for edge in self.vertices[root].edges:
             if edge not in visited:
-                self.dfrecursion(edge, visited)
+                self.dftr(edge, visited)
 
         return visited
 
@@ -117,6 +117,6 @@ graph.add_edge('5', '3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 # print(graph.vertices)
-graph.bfsearch('0')
-graph.dfsearch('0')
-print('dfrecursion: ', graph.dfrecursion('1'))
+graph.bft('0')
+graph.dft('0')
+print('dfrecursion: ', graph.dftr('1'))
