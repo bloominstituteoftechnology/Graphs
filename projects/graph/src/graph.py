@@ -2,7 +2,7 @@ from queue import Queue
 from vertex import Vertex
 
 """
-Simple graph implementation compatible with BokehGraph class.
+Simple graph implementation
 """
 
 class Graph:
