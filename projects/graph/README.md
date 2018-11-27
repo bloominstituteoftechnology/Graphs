@@ -19,7 +19,7 @@ contains a dictionary mapping vertex labels to edges. For example:
 }
 ```
 
-This represents a graph with three vertices and two total (bidirectional) edges.
+This represents a graph with four vertices and two total (bidirectional) edges.
 The vertex `'2'` has no edges, while `'0'` is connected to both `'1'` and `'3'`.
 
 You should also create `add_vertex` and `add_edge` methods that add the
