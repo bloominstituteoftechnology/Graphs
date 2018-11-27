@@ -23,7 +23,7 @@ class Graph:
             # if both vertices do not exist, raise an IndexError
             raise IndexError('Nonexistent vertex.')
 
-    def bfs(self, start_vertex, search_vertex):
+    def bft(self, start_vertex):
         # create a queue
         queue = Queue()
         # create a visited list
@@ -38,12 +38,32 @@ class Graph:
             if vertex not in visited:
                 # if not, mark vertex as visited
                 visited.append(vertex)
-                if vertex is search_vertex:
-                    return visited
                 # then put all children in queue
-                for child in self.vertices.get(vertex):
+                for child in self.vertices[vertex].edges:
                     queue.enqueue(child)
-        return None
+        return visited
+
+    # def bft(self, start_vertex, search_vertex):
+    #     # create a queue
+    #     queue = Queue()
+    #     # create a visited list
+    #     visited = []
+    #     # put the start vertex in the queue
+    #     queue.enqueue(start_vertex)
+    #     # while queue is not empty...
+    #     while queue.len() > 0:
+    #         # remove vertex from queue
+    #         vertex = queue.dequeue()
+    #         # check if it's visited
+    #         if vertex not in visited:
+    #             # if not, mark vertex as visited
+    #             visited.append(vertex)
+    #             if vertex is search_vertex:
+    #                 return visited
+    #             # then put all children in queue
+    #             for child in self.vertices.get(vertex):
+    #                 queue.enqueue(child)
+    #     return None
 
     def dfs(self, start_vertex, search_vertex):
         # create a stack (as a list)
@@ -77,5 +97,5 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print('Graph:', graph.vertices)
-# print('BFS:', graph.bfs('0', '3'))
+print('BFT:', graph.bft('0'))
 # print('DFS:', graph.dfs('0', '3'))
