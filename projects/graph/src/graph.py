@@ -20,7 +20,7 @@ class Graph:
             self.vertices[vertex_id1].edges.add(vertex_id2)
             self.vertices[vertex_id2].edges.add(vertex_id1)
         else:
-            # if both vertices do not exist, raise an IndexError
+            # if either vertex does not exist, raise an IndexError
             raise IndexError('Nonexistent vertex.')
 
     def bft(self, start_vertex):
