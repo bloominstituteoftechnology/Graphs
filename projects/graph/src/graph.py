@@ -43,6 +43,26 @@ class Graph:
                     queue.enqueue(child)
         return visited
 
+    def dft(self, start_vertex):
+        # create a stack (as a list)
+        stack = []
+        # create a visited list
+        visited = []
+        # put the start vertex in the stack
+        stack.append(start_vertex)
+        # while stack is not empty...
+        while len(stack) > 0:
+            # remove vertex from stack
+            vertex = stack.pop()
+            # check if it's visited
+            if vertex not in visited:
+                # if not, mark vertex as visited
+                visited.append(vertex)
+                # then put all children in stack
+                for child in self.vertices[vertex].edges:
+                    stack.append(child)
+        return visited
+
     # def bft(self, start_vertex, search_vertex):
     #     # create a queue
     #     queue = Queue()
@@ -65,27 +85,27 @@ class Graph:
     #                 queue.enqueue(child)
     #     return None
 
-    def dfs(self, start_vertex, search_vertex):
-        # create a stack (as a list)
-        stack = []
-        # create a visited list
-        visited = []
-        # put the start vertex in the stack
-        stack.append(start_vertex)
-        # while stack is not empty...
-        while len(stack) > 0:
-            # remove vertex from stack
-            vertex = stack.pop()
-            # check if it's visited
-            if vertex not in visited:
-                # if not, mark vertex as visited
-                visited.append(vertex)
-                if vertex is search_vertex:
-                    return visited
-                # then put all children in stack
-                for child in self.vertices.get(vertex):
-                    stack.append(child)
-        return None
+    # def dfs(self, start_vertex, search_vertex):
+    #     # create a stack (as a list)
+    #     stack = []
+    #     # create a visited list
+    #     visited = []
+    #     # put the start vertex in the stack
+    #     stack.append(start_vertex)
+    #     # while stack is not empty...
+    #     while len(stack) > 0:
+    #         # remove vertex from stack
+    #         vertex = stack.pop()
+    #         # check if it's visited
+    #         if vertex not in visited:
+    #             # if not, mark vertex as visited
+    #             visited.append(vertex)
+    #             if vertex is search_vertex:
+    #                 return visited
+    #             # then put all children in stack
+    #             for child in self.vertices.get(vertex):
+    #                 stack.append(child)
+    #     return None
 
 
 # Testing implementation
@@ -98,4 +118,4 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print('Graph:', graph.vertices)
 print('BFT:', graph.bft('0'))
-# print('DFS:', graph.dfs('0', '3'))
+print('DFT:', graph.dft('0'))
