@@ -40,13 +40,15 @@ class Graph:
     	else:
     		self.vertices[vertex1].add(vertex2)
 
-    #PART 2 - BFT
+    #PART 2 and 3 - BFT and DFT
     #Takes starting_vertex and algorithm_type as arguments.
     #Algorithm_type expects an Algorithm ENUM to be used.
     def traversal(self, starting_vertex, algorithm_type):
+    	# checks to make sure starting vertex is valid
     	if starting_vertex not in self.vertices:
     		raise Exception(f'Starting vertex {starting_vertex} does not exist')
 
+    	# Uses either a queue or stack for BFT or DFT respectively
     	if algorithm_type.name == "BREADTH":
     		print("Breadth First Traversal:")
     		storage = Queue()
@@ -58,6 +60,7 @@ class Graph:
 
     	storage.append(starting_vertex)
     	visited = set()
+    	
     	result = []
     	while storage:
     		current_vertex = storage.pop()
@@ -72,14 +75,23 @@ class Graph:
 
     	return ', '.join(result)
 
-    def dft_recursive(self, vertex, visited = set()):
+
+    # PART 3.5: Recursive implementation
+    def dft_recursive_helper(self, vertex, result, visited = set()):
 
     	visited.add(vertex)
-    	print(vertex)
+    	result.append(vertex)
     	neighbors = self.vertices[vertex]
     	for neighbor in neighbors:
     		if neighbor not in visited:
-    			self.dft_recursive(neighbor,visited)
+    			self.dft_recursive_helper(neighbor, result, visited)
+
+    def dft_recursive(self, vertex):
+    	result = []
+    	print("Recursive Depth First Traversal:")
+    	self.dft_recursive_helper(vertex, result)
+    	return " ,".join(result)
+
 
 
 
@@ -185,5 +197,6 @@ graph.add_edge('C', 'E')
 graph.add_edge('A', 'C')
 
 # print(graph.traversal("F",Algorithm.BREADTH))
+print(graph.traversal("F",Algorithm.BREADTH))
 print(graph.traversal("F",Algorithm.DEPTH))
-graph.dft_recursive('F')
+print(graph.dft_recursive('F'))
