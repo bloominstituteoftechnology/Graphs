@@ -2,6 +2,10 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
+class Vertex:
+    def __init__(self, value):
+        self.node = value
+        self.edges = set() 
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -15,3 +19,5 @@ class Graph:
             self.verticies[v2].add(v1)
         else:
             raise IndexError("No vertex!")
+
+
