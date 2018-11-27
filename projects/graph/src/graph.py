@@ -2,6 +2,16 @@
 Simple graph implementation
 """
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        pass
+    
+    def dequeue(self):
+        pass            
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -22,6 +32,9 @@ class Graph:
             # --> Connect edges! (The arrows between the circles)
             self.vertices[vertex_one].add(vertex_two)
             self.vertices[vertex_two].add(vertex_one)
+    
+    def bft(self, starting_node):
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
