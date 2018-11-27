@@ -220,9 +220,13 @@ class Graph:
 
 # Hashing out some graph to grid ideas
 
+
 ## helper function for the grid maze (calculation of width bias to make square)
 def width_bias(id, width):
     return (id % width, id // width)
+# data
+WALLS = [width_bias(id, width=30) for id in [21,22,51,52,81,82,93,94,111,112,123,124,133,134,141,142,153,154,163,164,171,172,173,174,175,183,184,193,194,201,202,203,204,205,213,214,223,224,243,244,253,254,273,274,283,284,303,304,313,314,333,334,343,344,373,374,403,404,433,434]]
+
 
 ## Grid Maze Generator
 class GridMaze:
@@ -305,3 +309,7 @@ print("\nRecursive BFS with path to destination mapping \n[7 to Node1]")
 print(g0.path_b(7, "Node1"))
 
 ## lTODO: lets draw a maze
+maze = GridMaze(30, 15)
+maze.walls = WALLS
+## print the maze object
+print(maze.walls)
