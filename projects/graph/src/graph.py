@@ -1,9 +1,20 @@
 from collections import deque
+from enum import Enum
 
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+class Algorithm(Enum):
+	BREADTH = 0
+	DEPTH = 1
 
+#Implement queue class using deque class
+class Queue(deque):
+	def __init__(self):
+		super().__init__()
+
+	def pop(self):
+		return super().popleft()
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -30,22 +41,31 @@ class Graph:
     		self.vertices[vertex1].add(vertex2)
 
     #PART 2 - BFT
-    def bft(self, starting_vertex):
+    #Takes starting_vertex and algorithm_type as arguments.
+    #Algorithm_type expects an Algorithm ENUM to be used.
+    def traversal(self, starting_vertex, algorithm_type):
     	if starting_vertex not in self.vertices:
     		raise Exception(f'Starting vertex {starting_vertex} does not exist')
 
-    	queue = deque()
-    	queue.append(starting_vertex)
+    	if algorithm_type.name == "BREADTH":
+    		print("Breadth First Traversal:")
+    		storage = Queue()
+    	elif algorithm_type.name == "DEPTH":
+    		print("Depth First Traversal:")
+    		storage = []
+    	else:
+    		raise Exception(f'algorithm_type is not a valid algorithm type. Check Algorithm enum for valid options.')
 
+    	storage.append(starting_vertex)
     	visited = set()
 
-    	while queue:
-    		current_vertex = queue.popleft()
+    	while storage:
+    		current_vertex = storage.pop()
     		neighbors = self.vertices[current_vertex]
 
     		for neighbor in neighbors:
-    			if neighbor not in visited and neighbor not in queue:
-    				queue.append(neighbor)
+    			if neighbor not in visited and neighbor not in storage:
+    				storage.append(neighbor)
 
     		visited.add(current_vertex)
     		print(current_vertex)
@@ -151,6 +171,7 @@ graph.add_edge('B', 'D')
 graph.add_edge('B', 'E')
 graph.add_edge('B', 'F')
 graph.add_edge('C', 'E')
+graph.add_edge('A', 'C')
 
-print(graph.bft("F"))
-
+graph.traversal("F",Algorithm.BREADTH)
+graph.traversal("F",Algorithm.DEPTH)
