@@ -1,6 +1,7 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
+import Queue
 
 
 class Vertex:
@@ -57,3 +58,18 @@ for edge in edges:
     g.add_edge(edge[:1], edge[1:])
 
 g.print_graph()
+
+seen = []
+queue = []
+
+
+def bfs(start_vertex):
+    q = queue.Queue()
+    visited = []
+    q.enqueue(start_vertex)
+    while q.size > 0:
+        vertex = q.dequeue()
+        if vertex not in visited:
+            visited.append(vertex)
+            for child in vertex.children:
+                q.enqueue(child)
