@@ -27,4 +27,8 @@ class Graph:
         else:
             self.vertices[v1].edges.add(self.vertices[v2])
             if bidirectional:
-                self.vertices[v2].edges.add(self.vertices[1])
+                self.vertices[v2].edges.add(self.vertices[v1])
+
+
+    def dfs(self, start):
+        
