@@ -24,10 +24,13 @@ class Graph:
         else:
             raise 'Vertex does not exist.', label
     
-    def breadth_first_traversal(self, start_vertex):
-        print('breadth first traversal')
+    def color_vertices(self):
         for vertex in self.vertices:
             self.vertices[vertex]['color'] = 'white'
+
+    def breadth_first_traversal(self, start_vertex):
+        print('breadth first traversal')
+        self.color_vertices()
         self.vertices[start_vertex]['color'] = 'grey'
         queue = [start_vertex]
         while len(queue)>0:
@@ -41,9 +44,8 @@ class Graph:
             self.vertices[first]['color'] = 'black'
     
     def depth_first_traversal(self, start_vertex):
-        print('depth first traversal')
-        for vertex in self.vertices:
-            self.vertices[vertex]['color'] = 'white'
+        print('depth first traversal with a stack')
+        self.color_vertices()
         self.vertices[start_vertex]['color'] = 'grey'
         stack = [start_vertex]
         while len(stack)>0:
@@ -54,6 +56,19 @@ class Graph:
                     self.vertices[vertex]['color'] = 'grey'
                     stack.append(vertex)
             self.vertices[first]['color'] = 'black'
+
+    def depth_first_traversal_recursive(self, start_vertex):
+        print('depth first traversal with recursion')
+        self.color_vertices()
+        self.recursive_traversal(start_vertex)
+
+    def recursive_traversal(self, start_vertex):
+        print(start_vertex)
+        self.vertices[start_vertex]['color'] = 'grey'
+        for vertex in self.vertices[start_vertex]['edges']:
+            if self.vertices[vertex]['color'] == 'white':
+                self.recursive_traversal(vertex)
+        self.vertices[start_vertex]['color'] = 'black'
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -66,3 +81,4 @@ graph.add_edge('1','2')
 print(graph.vertices)
 graph.breadth_first_traversal('0')
 graph.depth_first_traversal('0')
+graph.depth_first_traversal_recursive('0')
