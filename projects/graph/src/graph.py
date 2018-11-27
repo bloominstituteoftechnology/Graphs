@@ -78,27 +78,32 @@ class Graph:
                 # so return visited to get the entire traversal
                 return visited
 
-    # def bft(self, start_vertex, search_vertex):
-    #     # create a queue
-    #     queue = Queue()
-    #     # create a visited list
-    #     visited = []
-    #     # put the start vertex in the queue
-    #     queue.enqueue(start_vertex)
-    #     # while queue is not empty...
-    #     while queue.len() > 0:
-    #         # remove vertex from queue
-    #         vertex = queue.dequeue()
-    #         # check if it's visited
-    #         if vertex not in visited:
-    #             # if not, mark vertex as visited
-    #             visited.append(vertex)
-    #             if vertex is search_vertex:
-    #                 return visited
-    #             # then put all children in queue
-    #             for child in self.vertices.get(vertex):
-    #                 queue.enqueue(child)
-    #     return None
+    def bfs(self, start_vertex, search_vertex):
+        # create a queue
+        queue = Queue()
+        # create a visited list
+        visited = []
+        # put the start vertex in the queue
+        queue.enqueue([start_vertex])
+        # while queue is not empty...
+        while queue.len() > 0:
+            # remove vertex from queue
+            vertex_path = queue.dequeue()
+            vertex = vertex_path[-1]
+            # check if it's visited
+            if vertex not in visited:
+                # if not, mark vertex as visited
+                visited.append(vertex)
+                # check if its the vertex you are searching for
+                if vertex is search_vertex:
+                    # if it is, return the path taken
+                    return vertex_path
+                # then put all children in queue
+                for child in self.vertices[vertex].edges:
+                    new_vertex_path = list(vertex_path)
+                    new_vertex_path.append(child)
+                    queue.enqueue(new_vertex_path)
+        return None
 
     # def dfs(self, start_vertex, search_vertex):
     #     # create a stack (as a list)
@@ -140,3 +145,4 @@ print('Graph:', graph.vertices)
 print('BFT:', graph.bft('0'))
 print('DFT:', graph.dft('0'))
 print('DFT_R:', graph.dft_r('0'))
+print('BFS:', graph.bfs('0', '4'))
