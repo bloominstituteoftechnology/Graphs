@@ -103,7 +103,29 @@ class Graph:
             if edge not in visited:
                 self.dfsearch(edge, target, visited)
 
+    def bfsearch(self, root, target):
+        if target not in self.vertices:
+            raise IndexError('Target vertex does not exist.')
 
+        visited = []
+        storage = queue.Queue()
+        storage.put(self.vertices[root])
+
+        while not storage.empty():
+            current = storage.get()
+
+            if current not in visited:
+                visited.append(current)
+
+            if current == self.vertices[target]:
+                break
+            else:
+                for edge in current.edges:
+                    if self.vertices[edge] not in visited:
+                        storage.put(self.vertices[edge])
+
+        print('bfsearch path: ', visited)
+        return visited
 
 
         # put the start node in the queue
@@ -136,3 +158,4 @@ graph.dft('0')
 print('dfrecursion: ', graph.dftr('1'))
 
 graph.dfsearch('0', '5')
+graph.bfsearch('0', '5')
