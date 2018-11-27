@@ -121,6 +121,7 @@ class Graph:
                 # then put all its children in the queue
                 for child in self.vertices[node].edges:
                     queue.enqueue(child)
+        return False
 
     def dfs(self, starting_node, destination_node):
         # Create an empty Stack
@@ -132,7 +133,7 @@ class Graph:
         # While the Stack is not empty...
         while stack.size() > 0:
             # remove the first node from the Stack
-            node = stack.dequeue()
+            node = stack.pop()
             # If it hasnt been visited
             if node not in visited_list:
                 # Mark it as visited
@@ -154,5 +155,4 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-graph.bfs("1","3")
-print(graph.vertices)
+graph.dfs("1","3")
