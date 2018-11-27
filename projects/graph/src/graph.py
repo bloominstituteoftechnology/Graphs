@@ -43,16 +43,15 @@ class Graph:
     		current_vertex = queue.popleft()
     		#stops while loop if vertex has been found
     		if current_vertex == vertex:
-    			print(True)
     			break
     		#gets neighbors of vertex and adds it to queue
     		neighbors = self.vertices[current_vertex]
 
-    		queue.extend(neighbors)
     		#update tally to include neighbors keeping track of prev node
     		for neighbor in neighbors:
     			if neighbor not in tally:
     				tally[neighbor] = [False, current_vertex]
+    				queue.append(neighbor)
     		#mark vertex as visited
     		tally[current_vertex][0] = True
 
@@ -63,6 +62,46 @@ class Graph:
     		previous = tally[previous][1]
     	reverse_path.reverse()
     	return reverse_path
+
+    def dfs_search(self,starting_vertex, vertex):
+    	if starting_vertex not in self.vertices:
+    		raise Exception(f'Starting vertex {starting_vertex} does not exist')
+    	if vertex not in self.vertices:
+    		raise Exception(f'Vertex {vertex} does not exist')
+    	
+    	stack = []
+    	stack.append(starting_vertex)
+
+    	#keeps track if vertex is visited and its previous node
+    	tally = {starting_vertex:[False,None]}
+
+
+    	while stack:
+    		#dequeue vertex
+    		current_vertex = stack.pop()
+    		#stops while loop if vertex has been found
+    		if current_vertex == vertex:
+    			break
+    		#gets neighbors of vertex and adds it to queue
+    		neighbors = self.vertices[current_vertex]
+
+    		#update tally to include neighbors keeping track of prev node
+    		for neighbor in neighbors:
+    			if neighbor not in tally:
+    				tally[neighbor] = [False, current_vertex]
+    				stack.append(neighbor)
+    		#mark vertex as visited
+    		tally[current_vertex][0] = True
+
+    	reverse_path = [vertex]
+    	previous = tally[vertex][1]
+    	while previous:
+    		reverse_path.append(previous)
+    		previous = tally[previous][1]
+    	reverse_path.reverse()
+
+    	return reverse_path
+
 
 
 
@@ -91,5 +130,5 @@ graph.add_edge('B', 'F')
 graph.add_edge('C', 'E')
 
 print(graph.vertices)
-print(graph.search('F', 'C'))
+print(graph.dfs_search('F', 'C'))
 
