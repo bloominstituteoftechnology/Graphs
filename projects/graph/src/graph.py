@@ -24,20 +24,31 @@ class Graph:
     	
     	self.vertices[vertex1].add(vertex2)
     	self.vertices[vertex2].add(vertex1)
-    	
-    def search(self,starting_vertex, vertex):
+
+
+    def search(self,starting_vertex, vertex, option = 0):
     	if starting_vertex not in self.vertices:
     		raise Exception(f'Starting vertex {starting_vertex} does not exist')
     	if vertex not in self.vertices:
     		raise Exception(f'Vertex {vertex} does not exist')
     	
+    	tally = {starting_vertex:[False,None]}
+
+    	if option == 0:
+    		print("BFS chosen")
+    		self.bfs_search(starting_vertex, vertex, tally)
+    	else:
+    		print("DFS chosen")
+    		self.dfs_search(starting_vertex, vertex, tally)
+
+    	return self._get_path(tally, vertex)
+
+    def bfs_search(self,starting_vertex, vertex, tally):
+    	
     	queue = deque()
     	queue.append(starting_vertex)
 
     	#keeps track if vertex is visited and its previous node
-    	tally = {starting_vertex:[False,None]}
-
-
     	while queue:
     		#dequeue vertex
     		current_vertex = queue.popleft()
@@ -55,27 +66,11 @@ class Graph:
     		#mark vertex as visited
     		tally[current_vertex][0] = True
 
-    	reverse_path = [vertex]
-    	previous = tally[vertex][1]
-    	while previous:
-    		reverse_path.append(previous)
-    		previous = tally[previous][1]
-    	reverse_path.reverse()
-    	return reverse_path
-
-    def dfs_search(self,starting_vertex, vertex):
-    	if starting_vertex not in self.vertices:
-    		raise Exception(f'Starting vertex {starting_vertex} does not exist')
-    	if vertex not in self.vertices:
-    		raise Exception(f'Vertex {vertex} does not exist')
-    	
+    def dfs_search(self,starting_vertex, vertex, tally):
     	stack = []
     	stack.append(starting_vertex)
 
     	#keeps track if vertex is visited and its previous node
-    	tally = {starting_vertex:[False,None]}
-
-
     	while stack:
     		#dequeue vertex
     		current_vertex = stack.pop()
@@ -93,14 +88,15 @@ class Graph:
     		#mark vertex as visited
     		tally[current_vertex][0] = True
 
+    def _get_path(self,tally, vertex):
     	reverse_path = [vertex]
     	previous = tally[vertex][1]
     	while previous:
     		reverse_path.append(previous)
     		previous = tally[previous][1]
     	reverse_path.reverse()
-
     	return reverse_path
+
 
 
 
@@ -130,5 +126,6 @@ graph.add_edge('B', 'F')
 graph.add_edge('C', 'E')
 
 print(graph.vertices)
-print(graph.dfs_search('F', 'C'))
+print(graph.search('F', 'C'))
+print(graph.search('F', 'C', 1))
 
