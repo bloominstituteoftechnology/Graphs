@@ -61,7 +61,7 @@ class Graph:
     		#update tally to include neighbors keeping track of prev node
     		for neighbor in neighbors:
     			if neighbor not in tally:
-    				tally[neighbor] = [False, current_vertex]
+    				tally[neighbor] = [True, current_vertex]
     				queue.append(neighbor)
     		#mark vertex as visited
     		tally[current_vertex][0] = True
