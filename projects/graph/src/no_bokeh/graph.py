@@ -5,6 +5,20 @@ class Vertex:
 	def __str__(self):
 		return f'edges: {self.edges}'
 
+
+class Stack:
+  def __init__(self):
+      self.stack = []
+  def push(self, value):
+      self.stack.append(value)
+  def pop(self):
+      if self.size() > 0:
+          return self.stack.pop()
+      else:
+          return None
+  def size(self):
+      return len(self.stack)
+
 class Graph:
 	def __init__(self):
 		self.vertices = {}
@@ -31,28 +45,10 @@ class Graph:
 		else:
 			print(f'no vertex at location v1:, {v1}, v2: {v2}')
 
-	def bft(self, node):
-
-		q = []
-		q.append([node])
-		bft_list = []
-		checked = []
-
-		while len(q) > 0:
-
-			if len(q) > 0:
-				next_in_line = q.pop(0)
-
-			n = next_in_line[0]
-
-			if n not in checked:
-
-				bft_list.append(n)
-				checked.append(n)
-				for i in self.vertices[n].edges:
-					q.append([i])
-
-		return bft_list
+	def dfr(self, node):
+		print(node)
+		for i in self.vertices[node].edges:
+			self.dfr(i)
 
 	def dft(self, node):
 
@@ -77,16 +73,81 @@ class Graph:
 
 		return dft_list
 
-	def dfr(self, node, visited=[]):
+	def bft(self, node):
 
-		if node == None:
-			return
+		q = []
+		q.append([node])
+		bft_list = []
+		checked = []
 
-		if node not in visited:
-			visited.append(node)
-			print(node)
-			for i in self.vertices[node].edges:
-				self.dfr(i)
+		while len(q) > 0:
+
+			if len(q) > 0:
+				next_in_line = q.pop(0)
+
+			n = next_in_line[0]
+
+			if n not in checked:
+
+				bft_list.append(n)
+				checked.append(n)
+				for i in self.vertices[n].edges:
+					q.append([i])
+
+
+		return bft_list
+
+	def bfs(self, node, target):
+
+		q = []
+		q.append([node])
+		checked = []
+
+		while len(q) > 0:
+
+			if len(q) > 0:
+				path = q.pop(0)
+
+			n = path[-1]
+
+			if n not in checked:
+
+				if n == target:
+					return path
+
+				checked.append(n)
+				for i in self.vertices[n].edges:
+					next_path = list(path)
+					next_path.append(i)
+					q.append(next_path)
+
+		return False
+
+	def dfs(self, node, target):
+
+		s = []
+		s.append([node])
+		checked = []
+
+		while len(s) > 0:
+
+			if len(s) > 0:
+				path = s.pop()
+
+			n = path[-1]
+
+			if n not in checked:
+
+				if n == target:
+					return path
+
+				checked.append(n)
+				for i in self.vertices[n].edges:
+					next_path = list(path)
+					next_path.append(i)
+					s.append(next_path)
+
+		return False
 
 	def __str__(self):
 		return f'graph, vertices: {self.vertices}'
@@ -114,3 +175,5 @@ binary_tree.add_edge(4, 8, False)
 print(binary_tree.bft(0))
 print(binary_tree.dft(0))
 print(binary_tree.dfr(0))
+print(binary_tree.bfs(0, 8))
+print(binary_tree.dfs(0, 5))
