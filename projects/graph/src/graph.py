@@ -77,10 +77,10 @@ class Graph:
         # create a queue:
         q = Queue()
 
-        # create visited list, False at each index, number of indices = (number of vertices in graph):
-        # visited = [False] * (len(self.vertices))
-        # Or make visited a set
+        # make visited a set
         visited = set()
+        # make a visited list for printing in order of visitation
+        visited_list = []
         # print('Initial visited list: ', visited)
 
         # put the start node in the queue:
@@ -91,19 +91,19 @@ class Graph:
             # remove node from queue and return removed node:
             node = q.dequeue()
             print('Current node: ', node)
-
             
             # check if node has been visited:
             if node not in visited:
                 print('node not visited')
                 # mark node as visited:
                 visited.add(node)
+                visited_list.append(node)
                 # print('Visited list with new node: ', visited)
                 # put all children of node in queue:
                 for child in self.vertices[node].edges:
                     q.enqueue(child)  
 
-        print('Final visited list: ', visited)
+        print('Final visited list: ', visited_list)
 
     def dft(self, start_node):
         print('\n--- NEW DFT ---')
@@ -111,6 +111,8 @@ class Graph:
         s = Stack()
         # create empty visited list
         visited = set()
+        # make a visited list for printing in order of visitation
+        visited_list = []
         # add start node to the stack
         s.push(start_node)
         # while stack is not empty:
@@ -121,10 +123,11 @@ class Graph:
             if node not in visited:
                 print(f'node {node} not visited')
                 visited.add(node)
+                visited_list.append(node)
                 for child in self.vertices[node].edges:
                     s.push(child)
 
-        print('Final visited list: ', visited)
+        print('Final visited list: ', visited_list)
 
 
 
@@ -149,5 +152,5 @@ graph.add_edge(1, 2)
 graph.add_edge(0, 4)
 print('Number of vertices in graph: ', len(graph.vertices))
 print('Vertices: ', graph.vertices)
-graph.bft(3)
+graph.bft(1)
 graph.dft(1)
