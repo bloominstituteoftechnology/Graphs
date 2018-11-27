@@ -12,7 +12,7 @@ class Vertex:
     # define the printable representation of the Vertex's edges object to be human-readable in the console
     # this prevents the '__main__.Object at 0x1234f' gobbledygook from logging in the console
     def __repr__(self):
-        return f'{self.value}: {self.edges}'
+        return f'{self.value}'
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -78,7 +78,7 @@ class Graph:
                 if self.vertices[edge] not in visited:
                     stack.append(self.vertices[edge])
 
-        print(f'visited dft:{visited}')
+        print(f'visited dft: {visited}')
         return visited
 
     def dfrecursion(self, root, visited=[]):
@@ -89,6 +89,7 @@ class Graph:
             if edge not in visited:
                 self.dfrecursion(edge, visited)
 
+        return visited
 
 
         # put the start node in the queue
@@ -118,4 +119,4 @@ graph.add_edge('0', '3')
 # print(graph.vertices)
 graph.bfsearch('0')
 graph.dfsearch('0')
-graph.dfrecursion('0')
+print('dfrecursion: ', graph.dfrecursion('1'))
