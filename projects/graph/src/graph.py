@@ -119,7 +119,20 @@ class Graph:
                 visited.append(vert)
                 for next_vert in self.vertices[vert].edges:
                     queue.enqueue(next_vert)
+    # Searches
 
+    # Depth first search (leveraging off the DFT method)
+    def dfs(self, start_vert_id, target_data, visited=[]):
+        visited.append(start_vert_id)
+        if start_vert_id == target_data:
+            return True
+
+        for child_vert in self.vertices[start_vert_id].edges:
+            if child_vert not in visited:
+                if self.dfs(child_vert, target_data, visited):
+                    return True
+
+        return False
 
     # add_edge method (bi directional as default to start with)
     def add_edge(self, vertex_a, vertex_b, bidir=True):
@@ -159,6 +172,8 @@ g0.add_edge(2, 1)
 
 print(g0.vertices[0])
 print(g0.vertices[1])
-g0.dft(0)
+g0.dft(1)
 print("DFT")
-g0.bft(0)
+g0.bft(1)
+
+print(g0.dfs(2, 4))
