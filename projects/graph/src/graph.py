@@ -8,8 +8,8 @@ class Graph:
         pass  # TODO
         self.vertices = {}
     
-    def add_vertex(self, vertex_id):
-        self.vertices[vertex_id] = Vertex(vertex_id)
+    def add_vertex(self, vertex_id, vertices):
+        self.vertices[vertex_id] = vertices(vertex_id)
 
     def add_edge(self, vert1, vert2):
         if vert1 in self.vertices and vert2 in self.vertices:
@@ -19,7 +19,7 @@ class Graph:
             raise IndexError("That vertex does not exist!")
 
     def add_directed_edge(self, vert1, vert2):
-        if vert1 in self.verticles:
+        if vert1 in self.vertices:
             self.vertices[vert1].edges.add(vert2)
         else:
             raise IndexError("That vertex does not exist!")
