@@ -218,6 +218,33 @@ class Graph:
                     queue.enqueue(new_path)
         return None
 
+# Hashing out some graph to grid ideas
+
+## helper function for the grid maze (calculation of width bias to make square)
+def width_bias(id, width):
+    return (id % width, id // width)
+
+## Grid Maze Generator
+class GridMaze:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.walls = []
+    
+    def in_bounds(self, id):
+        (x, y) = id
+        return 0 <= x < self.width and 0 <= y < self.height
+    
+    def solid(self, id):
+        return id in self.walls
+    
+    def neighbors(self, id):
+        (x, y) = id
+        results = [(x + 1, y), (x, y - 1), (x - 1, y), (x, y + 1)]
+        if (x + y) % 2 == 0: results.reverse() # aesthetics
+        results = filter(self.in_bounds, results)
+        results = filter( not self.solid, results)
+        return results
 
 # some basic tests for the vertex class
 
@@ -276,3 +303,5 @@ print(g0.path_d(0, "Node9"))
 
 print("\nRecursive BFS with path to destination mapping \n[7 to Node1]")
 print(g0.path_b(7, "Node1"))
+
+## lTODO: lets draw a maze
