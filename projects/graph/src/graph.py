@@ -20,6 +20,7 @@ class Queue:
 
   def enqueue(self, item):
     self.storage.append(item)
+    print(f'{item} added to q')
   
   def dequeue(self):
     if len(self.storage) == 0:
@@ -48,23 +49,35 @@ class Graph:
             self.vertices[v2].edges.add(v1)
     
     def bfs(self, start_node):
+        print('\n--- NEW BFS ---')
+
         # create a queue:
         q = Queue()
+
         # create visited list, False at each index, number of indices = (number of vertices in graph):
-        visited = [False] * (len(self.vertices))
+        # visited = [False] * (len(self.vertices))
+        visited = []
+        print('Initial visited list: ', visited)
         # put the start node in the queue:
         q.enqueue(start_node)
+
         # while queue is not empty:
         while q.len() > 0:
-            # remove node from queue:
+            # remove node from queue and return removed node:
             node = q.dequeue()
-            # check if it has been visited:
+            print('Current node: ', node)
+
+            # check if node has been visited:
             if node not in visited:
+                print('node not in visited')
                 # mark node as visited:
-                visited.append(node)
-                # put all children in queue:
-                for child in node.children:
+                visited[node] = True
+                print('Visited list with new node: ', visited)
+                # put all children of node in queue:
+                for child in self.vertices[str(node)].edges:
                     q.enqueue(child)
+                    # mark node as visited:
+                    visited[int(child)] = True
 
 
 
@@ -78,5 +91,6 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.add_edge('1', '2')
 graph.add_edge('0', '4')
-print(len(graph.vertices))
-print(graph.vertices)
+print('Number of vertices in graph: ', len(graph.vertices))
+print('Vertices: ', graph.vertices)
+graph.bfs('1')
