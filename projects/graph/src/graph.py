@@ -10,19 +10,18 @@ class Graph:
     def __init__(self):
         self.vertices = {}
 
-    def add_vertex(self, value):
-        new_vertex = Vertex(value)
-        self.vertices.update(new_vertex.value)
+    def add_vertex(self, vertex_id):
+        self.vertices[vertex_id] = Vertex(vertex_id)
 
-    def add_edge(self, vertex1, vertex2):
+    def add_edge(self, vertex_id1, vertex_id2):
         # if both vertices exist
-        if self.vertices.get(vertex1) != None and self.vertices.get(vertex2) != None:
+        if vertex_id1 in self.vertices and vertex_id2 in self.vertices:
             # connect each to the other
-            self.vertices.get(vertex1).add(vertex2)
-            self.vertices.get(vertex2).add(vertex1)
+            self.vertices[vertex_id1].edges.add(vertex_id2)
+            self.vertices[vertex_id2].edges.add(vertex_id1)
         else:
-            # if both vertices do not exist, raise an Exception
-            raise Exception('Nonexistent vertex.')
+            # if both vertices do not exist, raise an IndexError
+            raise IndexError('Nonexistent vertex.')
 
     def bfs(self, start_vertex, search_vertex):
         # create a queue
@@ -69,14 +68,14 @@ class Graph:
         return None
 
 
-# # Testing implementation
-# graph = Graph() # Instantiate your graph
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '3')
-# print('Graph:', graph.vertices)
+# Testing implementation
+graph = Graph() # Instantiate your graph
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+print('Graph:', graph.vertices)
 # print('BFS:', graph.bfs('0', '3'))
 # print('DFS:', graph.dfs('0', '3'))
