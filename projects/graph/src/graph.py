@@ -150,10 +150,26 @@ class Graph:
         return False
 
     # add_edge method (bi directional as default to start with)
-    def add_edge(self, vertex_a, vertex_b, bidir=True):
+    def add_edge(self, vertex_a, vertex_b, bidir = True):
         self.vertices[vertex_a].edges.add(vertex_b)
         if bidir:
             self.vertices[vertex_b].edges.add(vertex_a)
+
+    # paths
+
+    # Path for DFS (Recursive Search)
+    def path_d(self, start_vert_id, target_data, visited=[], path=[]):
+        visited.append(start_vert_id)
+        path = path + [start_vert_id]
+        if self.vertices[start_vert_id].data == target_data:
+            return path
+        for child_vert in self.vertices[start_vert_id].edges:
+            if child_vert not in visited:
+                new_path = self.path_d(child_vert, target_data, visited, path)
+                if new_path:
+                    return new_path
+
+        return None
 
 # some basic tests for the vertex class
 
@@ -176,19 +192,35 @@ g0.add_vertex(v1.id, v1.pos, "Node1")
 g0.add_vertex(v2.id, v2.pos, "Node2")
 g0.add_vertex(3, v2.pos, "Node3")
 g0.add_vertex(4, v2.pos, "Node4")
+g0.add_vertex(5, v2.pos, "Node5")
+g0.add_vertex(6, v2.pos, "Node6")
+g0.add_vertex(7, v2.pos, "Node7")
+g0.add_vertex(8, v2.pos, "Node8")
+g0.add_vertex(9, v2.pos, "Node9")
+g0.add_vertex(10, v2.pos, "Node10")
+g0.add_vertex(11, v2.pos, "Node11")
 g0.add_edge(0, 1)
-g0.add_edge(1, 2)
-g0.add_edge(1, 4)
+g0.add_edge(0, 2)
 g0.add_edge(1, 3)
-g0.add_edge(2, 3)
-g0.add_edge(2, 4)
-g0.add_edge(2, 1)
-
+g0.add_edge(2, 7)
+g0.add_edge(3, 6)
+g0.add_edge(1, 4)
+g0.add_edge(1, 5)
+g0.add_edge(4, 9)
+g0.add_edge(4, 8)
 
 print(g0.vertices[0])
 print(g0.vertices[1])
+print("BFT")
 g0.dft(1)
 print("DFT")
 g0.bft(1)
 
 print(g0.dfs(2, 4))
+
+# loop over the vertices
+for vertex, vert in g0.vertices.items():
+    print(vertex, ": ", vert.data, ", connections ", vert.edges)
+
+print("\nRecursive DFS with path to destination mapping")
+print(g0.path_d(0, "Node9"))
