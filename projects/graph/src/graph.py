@@ -15,6 +15,11 @@ class Queue:
     def size(self):
         return len(self.queue)
 
+class Vertex:
+    def __init__(self, vert_id):        
+        self.id = vert_id    
+        self.edges = set()
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -26,34 +31,37 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, value): # --> Takes in a value
-        self.vertices[value] = set() # --> Creates a set with given value
+        self.vertices[value] = Vertex(value) # --> Creates a set with given value
 
     def add_edge(self, vertex_one, vertex_two): # --> vertex_one and vertex_two 
         # --> Need to check first if the vertex exists (If the circles are present)
         # --> To do this, we can use set-methods: get() to check if it is self.vertices
-        if self.vertices.get(vertex_one) is not None and self.vertices.get(vertex_two) is not None:
+        if vertex_one in self.vertices and vertex_two in self.vertices:
             # --> Connect edges! (The arrows between the circles)
-            self.vertices[vertex_one].add(vertex_two)
-            self.vertices[vertex_two].add(vertex_one)
+            self.vertices[vertex_one].edges.add(vertex_two)
+            self.vertices[vertex_two].edges.add(vertex_one)
+        else:
+            raise IndexError("That vertex does not exist")  
+
+    def add_directed_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].esges.add(v2)
+        else:
+            raise IndexError("That vertex does not exist")
     
     def bft(self, starting_node):
         new_q = Queue() # --> Instantiate empty queue
-        visited = [] # --> Create empty visited list
+        visited = set() # --> Create empty visited list
         new_q.enqueue(starting_node) # --> Add start_node to queue
 
         while new_q.size() > 0:
             node = new_q.dequeue() # --> Remove first node from Queue
-            if node not in visited:
-                visited.append(node) # --> Mark it as visited
-                print(self.vertices)
+            if node not in visited:                
+                visited.add(node) # --> Mark it as visited
+                print(self.vertices[node].edges)
+                for child in self.vertices[node].edges:
+                    new_q.enqueue(child)
+                
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
-print("===============================")
-graph.bft(1)
+
+
