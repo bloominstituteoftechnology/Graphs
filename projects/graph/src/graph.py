@@ -24,7 +24,7 @@ class Graph:
             # if both vertices do not exist, raise an Exception
             raise Exception('Nonexistent vertex.')
 
-    def bfs(self, start_vertex):
+    def bfs(self, start_vertex, search_vertex):
         # create a queue
         queue = Queue()
         # create a visited list
@@ -39,12 +39,14 @@ class Graph:
             if vertex not in visited:
                 # if not, mark vertex as visited
                 visited.append(vertex)
+                if vertex is search_vertex:
+                    return visited
                 # then put all children in queue
                 for child in self.vertices.get(vertex):
                     queue.enqueue(child)
-        return visited
+        return None
 
-    def dfs(self, start_vertex):
+    def dfs(self, start_vertex, search_vertex):
         # create a stack (as a list)
         stack = []
         # create a visited list
@@ -59,10 +61,12 @@ class Graph:
             if vertex not in visited:
                 # if not, mark vertex as visited
                 visited.append(vertex)
+                if vertex is search_vertex:
+                    return visited
                 # then put all children in stack
                 for child in self.vertices.get(vertex):
                     stack.append(child)
-        return visited
+        return None
 
 
 # # Testing implementation
@@ -74,5 +78,5 @@ class Graph:
 # graph.add_edge('0', '1')
 # graph.add_edge('0', '3')
 # print('Graph:', graph.vertices)
-# print('BFS:', graph.bfs('0'))
-# print('DFS:', graph.dfs('0'))
+# print('BFS:', graph.bfs('0', '3'))
+# print('DFS:', graph.dfs('0', '3'))
