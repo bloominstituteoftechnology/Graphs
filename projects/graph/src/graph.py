@@ -1,8 +1,8 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-from collections import deque
 import random
+from collections import deque
 
 
 class Vertex:
@@ -62,10 +62,3 @@ class Graph:
                     queue.append(next_node)
                     visited[next_node] = True
         return result
-
-    def connected(self):
-            visited = []
-            for _, vertex in self.vertices.items():
-                if vertex not in visited:
-                visited.extend(self.dfs(vertex))
-        return visited
