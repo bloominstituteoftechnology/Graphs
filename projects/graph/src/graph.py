@@ -64,7 +64,7 @@ class Graph:
                     q.append(int(c))
 
         print(f"vertices: {self.vertices}")
-        return f"visited: {visited}"
+        return f"bft: {visited}"
 
     def dft(self, target):
         s = []
@@ -82,7 +82,14 @@ class Graph:
                     s.append(int(c))
 
         print(f"vertices: {self.vertices}")
-        return f"visited: {visited}"
+        return f"dft: {visited}"
+
+    def dftr(self, target, visited=[]):
+        while target not in visited:
+            visited.append(target)
+            for c in self.vertices[str(target)]:
+                self.dftr(int(c), visited)
+        return f"dftr: {visited}"
 
 
 graph1 = Graph()
@@ -124,3 +131,5 @@ graph2.add_directed_edge("7", "6")
 # print(graph2.bft(7))  # returns [7, 1, 6, 4, 2, 3, 5]
 # print(graph2.dft(1))  # returns [1, 2, 3, 5, 4, 6, 7]
 # print(graph2.dft(7))  # returns [7, 6, 3, 5, 1, 2, 4]
+# print(graph2.dftr(1))  # returns [1, 2, 4, 6, 3, 5, 7]
+print(graph2.dftr(7))  # returns [7, 6, 3, 5, 1, 2, 4]
