@@ -10,10 +10,10 @@ class Queue:
         self.queue.append(value) # --> Add value to the queue
     
     def dequeue(self):
-        if len(self.queue) > 0:
-            return self.queue.pop(0)
-        else:
-            return None
+        return self.queue.pop() if self.size() > 0 else None # --> Ternary !
+    
+    def size(self):
+        return len(self.queue)
 
 
 class Graph:
@@ -37,6 +37,9 @@ class Graph:
             self.vertices[vertex_two].add(vertex_one)
     
     def bft(self, starting_node):
+        new_q = Queue() # --> Instantiate empty queue
+        visited = [] # --> Create empty visited list
+            
 
 
 graph = Graph()  # Instantiate your graph
