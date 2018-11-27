@@ -75,7 +75,7 @@ Write a function within your Graph class that takes takes a starting node and a 
 
 ## Part 6: Write an algorithm that will let you create any number of random adventure rooms
 
-Part 1 may have felt familiar as you were filling out your graph class. Creating vertices and adding edges is very similar to creating Rooms and adding connections to your adventure game. Your adventure room map can be thought of as a graph where each node has four possible edges: n_to, s_to, e_to and w_to.
+Part 1 may have felt familiar as you were filling out your graph class. Creating vertices and adding edges is very similar to creating Rooms and adding connections to your adventure game from [Week 1](https://github.com/LambdaSchool/Intro-Python). Your adventure room map can be thought of as a graph where each node has four possible edges: n_to, s_to, e_to and w_to.
 
 Write an algorithm, `createRandomRooms` that takes in a number and generates that number of rooms. Each room should be connected and reachable from the player's starting room.
 
