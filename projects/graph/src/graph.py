@@ -24,6 +24,15 @@ class Graph:
         else:
             raise IndexError('Vertex not found')
 
+    def bft(self, starting_node):
+        # create an empty Queue
+        # create an empty visited list
+        # add the start node to the queue
+        # while the Queue is not empty
+            # remove the first node from the Queue
+            # if it has not been visited
+            # mark it as visited, then put all its children in the queue
+
 
 class Vertex:
     def __init__(self, vertex_id):
