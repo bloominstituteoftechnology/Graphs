@@ -1,5 +1,5 @@
 """
-Simple graph implementation compatible with BokehGraph class.
+Simple graph implementation
 """
 
 
