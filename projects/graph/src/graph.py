@@ -124,71 +124,6 @@ class Graph:
 
     	return self._get_path(record, vertex)
 
-
-
-    def search_old(self,starting_vertex, vertex, option = 0):
-    	if starting_vertex not in self.vertices:
-    		raise Exception(f'Starting vertex {starting_vertex} does not exist')
-    	if vertex not in self.vertices:
-    		raise Exception(f'Vertex {vertex} does not exist')
-    	
-    	tally = {starting_vertex:[False,None]}
-
-    	if option == 0:
-    		print("BFS chosen")
-    		self.bfs_search(starting_vertex, vertex, tally)
-    	else:
-    		print("DFS chosen")
-    		self.dfs_search(starting_vertex, vertex, tally)
-
-    	return self._get_path(tally, vertex)
-
-
-    def bfs_search(self,starting_vertex, vertex, tally):
-    	
-    	queue = deque()
-    	queue.append(starting_vertex)
-
-    	#keeps track if vertex is visited and its previous node
-    	while queue:
-    		#dequeue vertex
-    		current_vertex = queue.popleft()
-    		#stops while loop if vertex has been found
-    		if current_vertex == vertex:
-    			break
-    		#gets neighbors of vertex and adds it to queue
-    		neighbors = self.vertices[current_vertex]
-
-    		#update tally to include neighbors keeping track of prev node
-    		for neighbor in neighbors:
-    			if neighbor not in tally:
-    				tally[neighbor] = [False, current_vertex]
-    				queue.append(neighbor)
-    		#mark vertex as visited
-    		tally[current_vertex][0] = True
-
-    def dfs_search(self,starting_vertex, vertex, tally):
-    	stack = []
-    	stack.append(starting_vertex)
-
-    	#keeps track if vertex is visited and its previous node
-    	while stack:
-    		#dequeue vertex
-    		current_vertex = stack.pop()
-    		#stops while loop if vertex has been found
-    		if current_vertex == vertex:
-    			break
-    		#gets neighbors of vertex and adds it to queue
-    		neighbors = self.vertices[current_vertex]
-
-    		#update tally to include neighbors keeping track of prev node
-    		for neighbor in neighbors:
-    			if neighbor not in tally:
-    				tally[neighbor] = [False, current_vertex]
-    				stack.append(neighbor)
-    		#mark vertex as visited
-    		tally[current_vertex][0] = True
-
     def _get_path(self,tally, vertex):
     	reverse_path = [vertex]
     	previous = tally[vertex]
@@ -196,17 +131,8 @@ class Graph:
     		reverse_path.append(previous)
     		previous = tally[previous]
     	reverse_path.reverse()
-    	return reverse_path
-
-
-    # def _get_path(self,tally, vertex):
-    # 	reverse_path = [vertex]
-    # 	previous = tally[vertex][1]
-    # 	while previous:
-    # 		reverse_path.append(previous)
-    # 		previous = tally[previous][1]
-    # 	reverse_path.reverse()
-    # 	return reverse_path
+    	return ", ".join(reverse_path)
+ 
 
 
 graph = Graph()  # Instantiate your graph
@@ -226,6 +152,6 @@ graph.add_edge('A', 'C')
 
 print(graph.traversal("F",Algorithm.BREADTH))
 print(graph.traversal("F",Algorithm.DEPTH))
-print(graph.dft_recursive('F'))
+print(graph.dft_recursive('F') + "\n")
 print(graph.search("F", "C",Algorithm.BREADTH))
 print(graph.search("F", "C",Algorithm.DEPTH))
