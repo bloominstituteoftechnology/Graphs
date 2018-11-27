@@ -92,7 +92,9 @@ class Graph:
     def add_vertex(self, id, pos, data):
         self.vertices[id] = Vertex(id, pos, data = data)
 
-    # TODO: serch method
+    # TODO: serch methods
+
+    # Traversals
 
     # Depth first Traversal
     def dft(self, start_vert, visited=[]):
@@ -102,6 +104,22 @@ class Graph:
         for child_vert in self.vertices[start_vert].edges:
             if child_vert not in visited:
                 self.dft(child_vert, visited)
+
+    # Breadth first Traversal
+    def bft(self, start_vert_id):
+        queue = Queue()
+        queue.enqueue(start_vert_id)
+        visited = []
+
+        while queue.size() > 0:
+            vert = queue.dequeue()
+            
+            if vert not in visited:
+                print(self.vertices[vert].id, ": ", self.vertices[vert].data)
+                visited.append(vert)
+                for next_vert in self.vertices[vert].edges:
+                    queue.enqueue(next_vert)
+
 
     # add_edge method (bi directional as default to start with)
     def add_edge(self, vertex_a, vertex_b, bidir=True):
@@ -114,6 +132,7 @@ class Graph:
 #constructor test
 v0 = Vertex(0, Vec2(3, 4))
 v1 = Vertex(1, Vec2(1, 3), colour = "orange")
+v2 = Vertex(2, Vec2(3, 5))
 # raw positional data manipulation test
 v0.pos.x = 23
 
@@ -126,9 +145,20 @@ print(v1)
 g0 = Graph()
 g0.add_vertex(v0.id, v0.pos, "Node0")
 g0.add_vertex(v1.id, v1.pos, "Node1")
-g0.add_vertex(2, v1.pos, "Node1")
+g0.add_vertex(v2.id, v2.pos, "Node2")
+g0.add_vertex(3, v2.pos, "Node3")
+g0.add_vertex(4, v2.pos, "Node4")
 g0.add_edge(0, 1)
-g0.add_edge(0, 2)
+g0.add_edge(1, 2)
+g0.add_edge(1, 4)
+g0.add_edge(1, 3)
+g0.add_edge(2, 3)
+g0.add_edge(2, 4)
+g0.add_edge(2, 1)
+
+
 print(g0.vertices[0])
 print(g0.vertices[1])
 g0.dft(0)
+print("DFT")
+g0.bft(0)
