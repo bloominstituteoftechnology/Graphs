@@ -39,8 +39,13 @@ class Graph:
     def bft(self, starting_node):
         new_q = Queue() # --> Instantiate empty queue
         visited = [] # --> Create empty visited list
-            
+        new_q.enqueue(starting_node) # --> Add start_node to queue
 
+        while new_q.size() > 0:
+            node = new_q.dequeue() # --> Remove first node from Queue
+            if node not in visited:
+                visited.append(node) # --> Mark it as visited
+                print(self.vertices)
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -50,3 +55,5 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
+print("===============================")
+graph.bft(1)
