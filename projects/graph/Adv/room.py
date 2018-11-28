@@ -54,3 +54,16 @@ class Room:
             if item.name.lower() == name.lower():
                 return item
         return None 
+
+    # get the current connected room in a certain direction
+    def getRoomInDirection(self, direction):
+        if direction == "n":
+            return self.north_to
+        elif direction == "s":
+            return self.south_to
+        elif direction == "e":
+            return self.east_to
+        elif direction == "w":
+            return self.west_to
+        else:
+            return None
