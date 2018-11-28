@@ -27,7 +27,10 @@ def main():
     graph.add_directed_edge(6, 3)
     graph.add_directed_edge(7, 6)
     graph.add_directed_edge(7, 1)
-    print(graph.vertices)
+    # print(graph.vertices)
+
+    # graph.bft(1)
+    graph.bft(4)
 
 
 if __name__ == '__main__':
