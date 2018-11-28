@@ -1,5 +1,5 @@
 """
-Simple graph implementation compatible with BokehGraph class.
+Simple graph implementation
 """
 # let's use python's built in queue library
 import queue as queue
