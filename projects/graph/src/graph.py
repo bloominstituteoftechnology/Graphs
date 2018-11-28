@@ -43,12 +43,26 @@ class Graph:
 
     def bft(self, starting_node):
         # create an empty Queue
+        q = Queue()
         # create an empty visited list
+        visited = set()
         # add the start node to the queue
-        # while the Queue is not empty
+        q.enqueue(starting_node)
+        # while the Queue is not empty...
+        while q.size() > 0:
             # remove the first node from the Queue
+            node = q.dequeue()
             # if it has not been visited
-            # mark it as visited, then put all its children in the queue
+            if node not in visited:
+                # mark it as visited
+                print(node)
+                visited.add(node)
+                # print(self.vertices[node].edges)
+                # then put all its children in the queue
+                for child in self.vertices[node].edges:
+                    # print(f'add child: {child}')
+                    # if child not in visited:
+                        q.enqueue(child)
 
 
 class Vertex:
