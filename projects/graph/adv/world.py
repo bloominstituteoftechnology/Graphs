@@ -1,5 +1,8 @@
 from room import Room
 
+import sys
+sys.path.insert(0, '../src')
+from graph import Graph
 
 class World:
     def __init__(self):
@@ -36,26 +39,42 @@ class World:
     ####
     def generateRooms(self, numRooms):
         self.rooms = {}
+        graph = Graph()
 
         if numRooms < 1:
             print("Must create at least 1 room")
             return None
 
-        # Create n rooms
-        for i in range(0, numRooms):
-            # Create n rooms.
-            self.rooms[i] = Room(f"Room {i}", "You are standing in an empty room.")
+        self.rooms[0] = Room(f"Room 0", "You are standing in an empty room.")
+        graph.add_vertex(0)
 
-        # Hard-code a single room connection.
-        # You should replace this with procedural connection code.
-        if numRooms > 1:
-            self.rooms[0].connectRooms("n", self.rooms[1])
+        # Create n rooms
+        for i in range(1, numRooms):
+            new_room = Room(f"Room {i}", "You are standing in an empty room.")
+            graph.add_vertex(i)
+            self.rooms[i] = new_room
+            dir = self.rooms[i - 1].get_valid_random_dir()
+            if dir is None:
+                print('dir was none')
+            self.rooms[i - 1].connectRooms(dir, self.rooms[i])
+            graph.add_edge(i - 1, i)
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
-        return self.rooms
+        all_nodes_connected = self.check_bft(graph, numRooms)
 
+        if all_nodes_connected is True:
+            return self.rooms
+        else:
+            print('Not all nodes connected')
+
+    def check_bft(self, graph, numRooms):
+        traversal_list = graph.bft(0)
+        if len(traversal_list) is numRooms:
+            return True
+        else:
+            return False
 
 
 
