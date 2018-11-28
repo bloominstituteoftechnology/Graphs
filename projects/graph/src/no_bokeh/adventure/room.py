@@ -7,6 +7,7 @@ class Room:
 		self.s_to = None
 		self.e_to = None
 		self.w_to = None
+		self.cordinates = None
 
 	def room_direction(self, direction):
 		if direction == 'n':
@@ -23,18 +24,19 @@ class Room:
 	def getExits(self):
 		exits = []
 		if self.n_to is not None:
-			exits.append("north")
+			exits.append("n")
 		if self.s_to is not None:
-			exits.append("south")
+			exits.append("s")
 		if self.w_to is not None:
-			exits.append("west")
+			exits.append("w")
 		if self.e_to is not None:
-			exits.append("east")
+			exits.append("e")
 
 		if len(exits) == 1:
-			print(exits[0])
+			print(f'exit: {exits[0]}')
 		else:
-			print(",".join(exits))
+			print(f'exits: {",".join(exits)}')
+		return exits
 
 	def __str__(self):
 		return str(f"\n{self.name}, {self.desciption}")
