@@ -38,4 +38,7 @@ class Room:
         else:
             print("INVALID ROOM CONNECTION")
             return None
-   
+
+    def addItem(self, item):
+        self.items.append(item)
+ 
