@@ -81,9 +81,11 @@ Write an algorithm, createRandomRooms that takes in a number and generates that 
     • It may help to assign a unique room_id to each room.
     • None of the rooms should overlap and they should all exist on a valid grid. For example,     starting in the lower left and traveling E,W,N,S or N,E,S,W should always return you to the    original room.
 
-[ _ ]-[ _ ]
-  |     |
-[ _ ]-[ _ ]
+```python
+[_]-[_]
+ |   |
+[_]-[_]
+```
 
     
     • How can you verify that all of the rooms are connected? (Hint: use a traversal)
