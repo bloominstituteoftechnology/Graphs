@@ -64,16 +64,15 @@ class Graph:
         visited = set()
         # Add the start node to the queue
         q.enqueue(starting_node)
+        print(starting_node)
         # While the Queue is not empty
         while q.size() > 0:
             # Remove the first node from the queue
             node = q.dequeue()
-            # if it has been visited
-            if node not in visited:
-                # Mark it as visited
-                visited.add(node)
-                # Then put its children in the Queue
-                for child in self.vertices[node].edges:
+            for child in self.vertices[node].edges:
+                if child not in visited:
+                    visited.add(child)
+                    print(child)
                     q.enqueue(child)
 
     def dft(self, starting_node):
@@ -83,17 +82,31 @@ class Graph:
         visited = set()
         # Add the start node to the Stack
         s.push(starting_node)
+        print(starting_node)
+        visited.add(starting_node)
         # While the Stack is not empty
         while s.size() > 0:
             # Remove the first node from the Stack
             node = s.pop()
-            # if it has been visited
-            if node not in visited:
-                # Mark it as visited
-                visited.add(node)
-                # Then put its children in the Stack
-                for child in self.vertices[node].edges:
+            for child in self.vertices[node].edges:
+                if child not in visited:
+                    visited.add(child)
+                    print(child)
                     s.push(child)
+
+    def bfs(self, starting_node, target_node):
+        # Create an array to hold visited nodes
+        visited = []
+        # Create an empty Queue
+        q = Queue()
+        q.enqueue(starting_node)
+        while q.size() > 0:
+            node = q.dequeue()
+            visited.append(node)
+            for edge in self.vertices[node].edges:
+                if edge not in visited:
+                    q.enqueue(edge)
+        return False
 
 
 class Vertex:
@@ -118,4 +131,6 @@ graph.add_edge('1', '2')
 graph.add_edge('3', '6')
 graph.add_edge('6', '7')
 graph.add_edge('4', '5')
-print(graph.vertices)
+graph.dft('0')
+graph.bft('0')
+graph.bfs('0', '5')
