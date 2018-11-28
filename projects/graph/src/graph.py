@@ -99,7 +99,7 @@ class Graph:
         if str(target) not in self.vertices:
             raise IndexError(f"Vertex {target} is nonexistent!")
         elif str(starting_node) not in self.vertices:
-            raise IndexError(f"Vertex {starting_node} is nonexistnet")
+            raise IndexError(f"Vertex {starting_node} is nonexistent")
 
         while len(queue) > 0:
             discovered = queue.pop(0)
@@ -112,6 +112,28 @@ class Graph:
 
         print(f"vertices: {self.vertices}")
         return f"bfs: {visited}"
+
+    def dfs(self, starting_node, target):
+        stack = []
+        visited = []
+        stack.append(int(starting_node))
+
+        if str(target) not in self.vertices:
+            raise IndexError(f"Vertex {target} is nonexistent!")
+        elif str(starting_node) not in self.vertices:
+            raise IndexError(f"Vertex {starting_node} is nonexistent")
+
+        while len(stack) > 0:
+            discovered = stack.pop()
+            if discovered not in visited:
+                visited.append(discovered)
+                if discovered == target:
+                    break
+                for child in self.vertices[str(discovered)]:
+                    stack.append(int(child))
+
+        print(f"vertices: {self.vertices}")
+        return f"dfs: {visited}"
 
 
 graph1 = Graph()
@@ -156,4 +178,6 @@ graph2.add_directed_edge("7", "6")
 # print(graph2.dftr(1))  # returns [1, 2, 4, 6, 3, 5, 7]
 # print(graph2.dftr(7))  # returns [7, 6, 3, 5, 1, 2, 4]
 # print(graph2.bfs(1, 7))  # returns [1, 2, 4, 3, 6, 7]
-print(graph2.bfs(7, 1))  # returns [7, 6, 1]
+# print(graph2.bfs(7, 1))  # returns [7, 6, 1]
+# print(graph2.dfs(1, 7))  # returns [1, 2, 3, 5, 4, 7]
+print(graph2.dfs(7, 1))  # returns [7, 1]
