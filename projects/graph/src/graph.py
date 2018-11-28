@@ -100,24 +100,22 @@ class Graph:
                 for child in self.vertices[node].edges:
                     s.append(child)
 
-    def dftr(self, starting_node, visited=[]):
-        while starting_node not in visited:
-            visited.append(starting_node)
-            for child in self.vertices[str(starting_node)]:
-                self.dftr(int(child), visited)
-        return f"dftr: {visited}"
+    def dft_r(self, starting_node, visited=None):
+        if visited is None:
+            visited = []
+        visited.append(starting_node)
+        for child in self.vertices[starting_node].edges:
+            if child not in visited:
+                self.dft_r(child, visited)
 
 
-
-
-graph1 = Graph()
-graph1.add_vertex("0")
-graph1.add_vertex("1")
-graph1.add_vertex("2")
-graph1.add_vertex("3")
-graph1.add_edge("0", "1")
-graph1.add_edge("0", "3")
-graph1.add_edge("0", "4")
+graph = Graph()
+graph.add_vertex("0")
+graph.add_vertex("1")
+graph.add_vertex("2")
+graph.add_vertex("3")
+graph.add_edge("0", "1")
+graph.add_edge("0", "3")
 print(graph.vertices)
 
 graph2 = Graph()
@@ -128,4 +126,4 @@ graph2.add_vertex("4")
 graph2.add_vertex("5")
 graph2.add_vertex("6")
 graph2.add_vertex("7")
-print(graph2.dftr(7))
+print(graph2.dft_r(7))
