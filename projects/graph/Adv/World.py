@@ -25,11 +25,11 @@ class World:
         chamber! Sadly, it has already been completely emptied by
         earlier adventurers. The only exit is to the south."""),
         }
-        self.rooms['outside'].connectRooms("n", self.rooms['foyer'])
-        self.rooms['foyer'].connectRooms("n", self.rooms['overlook'])
-        self.rooms['foyer'].connectRooms("e", self.rooms['narrow'])
+        self.rooms['outside'].connectRooms("north", self.rooms['foyer'])
+        self.rooms['foyer'].connectRooms("north", self.rooms['overlook'])
+        self.rooms['foyer'].connectRooms("east", self.rooms['narrow'])
         self.rooms['narrow'].connectRooms("n", self.rooms['treasure'])
-        self.startingRoom = self.rooms['outside']
+        self.initialRoom = self.rooms['outside']
 
     ####
     # MODIFY THIS CODE
@@ -49,9 +49,9 @@ class World:
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
         if numRooms > 1:
-            self.rooms[0].connectRooms("n", self.rooms[1])
+            self.rooms[0].connectRooms("north", self.rooms[1])
 
-        # Set the starting room to the first room. Change this if you want a new starting room.
+        # set initial room
         self.startingRoom = self.rooms[0]
 
         return self.rooms

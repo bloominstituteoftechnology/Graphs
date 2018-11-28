@@ -24,16 +24,16 @@ class Room:
    
     # connect room method
     def connectRooms(self, direction, connectingRoom):
-        if direction == "n":
+        if direction == "north":
             self.north_to = connectingRoom
             connectingRoom.south_to = self
-        elif direction == "s":
+        elif direction == "south":
             self.south_to = connectingRoom
             connectingRoom.north_to = self
-        elif direction == "e":
+        elif direction == "east":
             self.east_to = connectingRoom
             connectingRoom.west_to = self
-        elif direction == "w":
+        elif direction == "west":
             self.west_to = connectingRoom
             connectingRoom.east_to = self
         else:
