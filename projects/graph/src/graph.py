@@ -82,13 +82,16 @@ class Graph:
                 for child in self.vertices[node].edges:
                     s.push(child)
 
-    def dft_r(self, starting_node):
+    def dft_r(self, starting_node, visited = None):
         # Mark starting_node as visited
-        visited = set()
-        visited.push(starting_node)
+        if visited is None:
+            visited = []
+        visited.add(starting_node)
+        print(starting_node)
         # Then call dft_r on each child
-        
-
+        for child in self.vertices[starting_node].edges:
+            if child not in visited:
+                self.dft_r(child, visited)
 
     visited = [1, 2, 3, 4]
     queue = [[1, 2, 3, 5], [1, 2, 4, 6], [1, 2, 4, 7]]
@@ -99,23 +102,47 @@ class Graph:
         q = Queue()
         # Create an empty visited list
         visited = set()
-        # Add the start node to the queue
+        # Add the initial path to the queue
         q.enqueue(starting_node)
         # While the Queue is not empty...
         while q.size() > 0:
-            # remove the first node from the Queue
-            node = q.dequeue()
-            print(node, end = ' ')
-            # If it hasnt been visited
-            if node not in visited:
+            # remove the first path from the Queue
+            path = q.dequeue()
+            # If the last node in the path hasnt been visited
+            if path[-1] not in visited:
                 # Mark it as visited
-                if destination_node == node:
+                if destination_node == path[-1]:
                     return True
-                visited.add(node)
-                # then put all its children in the queue
-                for child in self.vertices[node].edges:
-                    q.enqueue(child)
-                    visited[child] = True
+                visited.add(path[-1])
+                # then put the path to all its children in the queue
+                for child in self.vertices[path[-1]].edges:
+                    new_path = list(path)
+                    new_path.append(child)
+                    q.enqueue(new_path)
+        return False
+
+    def dfs(self, starting_node, destination_node):
+        # Create an empty Queue
+        s = Stack()
+        # Create an empty visited list
+        visited = set()
+        # Add the initial path to the queue
+        s.push([starting_node])
+        # While the Queue is not empty...
+        while q.size() > 0:
+            # remove the first path from the Queue
+            path = s.pop()
+            # If the last node in the path hasnt been visited
+            if path[-1] not in visited:
+                # Mark it as visited
+                if destination_node == path[-1]:
+                    return True
+                visited.add(path[-1])
+                # then put the path to all its children in the queue
+                for child in self.vertices[path[-1]].edges:
+                    new_path = list(path)
+                    new_path.append(child)
+                    s.enqueue(new_path)
         return False
 
 class Vertex:
