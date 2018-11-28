@@ -83,6 +83,11 @@ class World:
 
         return self.rooms
 
+    def traverseRooms(self, visited=None):
+        if visited is None:
+            visited = []
+
+
 # TODO
 # ENSURE ROOMS ARE CONNECTED
 # PROVIDE ROOM EXITS IN DESCRIPTION

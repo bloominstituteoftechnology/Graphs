@@ -15,6 +15,8 @@ world = World()
 # room generation.
 world.generateRooms(10)
 
+# using 10 rooms to simplify some things
+
 
 
 # Add some items
