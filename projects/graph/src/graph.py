@@ -32,6 +32,25 @@ class Graph:
             return True
         else:
             return False
+    
+    
+    def dft(self, target):
+        s = []
+        visited = []
+        s.append(int(target))
+
+        if str(target) not in self.vertices:
+            raise IndexError(f"Vertex {target} is nonexistent!")
+
+        while len(s) > 0:
+            discovered = s.pop()
+            if discovered not in visited:
+                visited.append(discovered)
+                for c in self.vertices[str(discovered)]:
+                    s.append(int(c))
+
+        print(f"vertices: {self.vertices}")
+        return f"visited: {visited}"
 
 
 
@@ -45,3 +64,6 @@ graph.add_edge("0", "3")
 # graph.add_edge("0", "4")
 # print(graph.vertices)
 print(graph.bfs(2))
+
+print(queue)
+if target in queue
