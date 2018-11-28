@@ -1,4 +1,5 @@
 from room import Room
+import random
 
 
 class World:
@@ -8,32 +9,54 @@ class World:
 
     def generateDefaultRooms(self):
         self.rooms = {
-            'outside':  Room("Outside Cave Entrance",
-                             "North of you, the cave mount beckons"),
-
-            'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-        passages run north and east."""),
-
-            'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
+            "outside": Room(
+                "Outside Cave Entrance", "North of you, the cave mount beckons"
+            ),
+            "foyer": Room(
+                "Foyer",
+                """Dim light filters in from the south. Dusty
+        passages run north and east.""",
+            ),
+            "overlook": Room(
+                "Grand Overlook",
+                """A steep cliff appears before you, falling
         into the darkness. Ahead to the north, a light flickers in
-        the distance, but there is no way across the chasm."""),
-
-            'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-        to north. The smell of gold permeates the air."""),
-
-            'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
+        the distance, but there is no way across the chasm.""",
+            ),
+            "narrow": Room(
+                "Narrow Passage",
+                """The narrow passage bends here from west
+        to north. The smell of gold permeates the air.""",
+            ),
+            "treasure": Room(
+                "Treasure Chamber",
+                """You've found the long-lost treasure
         chamber! Sadly, it has already been completely emptied by
-        earlier adventurers. The only exit is to the south."""),
+        earlier adventurers. The only exit is to the south.""",
+            ),
         }
-        self.rooms['outside'].connectRooms("n", self.rooms['foyer'])
-        self.rooms['foyer'].connectRooms("n", self.rooms['overlook'])
-        self.rooms['foyer'].connectRooms("e", self.rooms['narrow'])
-        self.rooms['narrow'].connectRooms("n", self.rooms['treasure'])
-        self.startingRoom = self.rooms['outside']
+        self.rooms["outside"].connectRooms("n", self.rooms["foyer"])
+        self.rooms["foyer"].connectRooms("n", self.rooms["overlook"])
+        self.rooms["foyer"].connectRooms("e", self.rooms["narrow"])
+        self.rooms["narrow"].connectRooms("n", self.rooms["treasure"])
+        self.startingRoom = self.rooms["outside"]
 
     ####
     # MODIFY THIS CODE
     ####
+    def get_random_direction(self, room):
+        paths = []
+        if room.n_to is None:
+            paths.append("n")
+        if room.e_to is None:
+            paths.append("e")
+        if room.s_to is None:
+            paths.append("s")
+        if room.w_to is None:
+            paths.append("w")
+        random.shuffle(paths)
+        return paths[0]
+
     def generateRooms(self, numRooms):
         self.rooms = {}
 
@@ -45,6 +68,9 @@ class World:
         for i in range(0, numRooms):
             # Create n rooms.
             self.rooms[i] = Room(f"Room {i}", "You are standing in an empty room.")
+            if i > 0:
+                path = self.get_random_direction(self.rooms[i])
+                print(path)
 
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
@@ -55,8 +81,4 @@ class World:
         self.startingRoom = self.rooms[0]
 
         return self.rooms
-
-
-
-
 
