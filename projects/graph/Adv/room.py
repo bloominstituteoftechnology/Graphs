@@ -47,3 +47,10 @@ class Room:
     # remove item
     def removeItem(self, item):
         self.items.remove(item)
+
+    # find an item by name method
+    def findItemByName(self, name):
+        for item in self.items:
+            if item.name.lower() == name.lower():
+                return item
+        return None 
