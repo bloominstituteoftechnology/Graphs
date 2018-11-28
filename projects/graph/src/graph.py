@@ -71,7 +71,6 @@ class Graph:
                     queue.enqueue(new_vertex_path)
         return None
 
-
     def dft(self, start_vertex):
         stack = []
         visited = []
