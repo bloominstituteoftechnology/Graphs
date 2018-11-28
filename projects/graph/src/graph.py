@@ -73,32 +73,26 @@ class Graph:
     
     def bft(self, start_node):
         print('\n--- NEW BFT ---')
-
         # create a queue:
         q = Queue()
-
         # make visited a set
         visited = set()
         # make a visited list for printing in order of visitation
         visited_list = []
         # print('Initial visited list: ', visited)
-
         # put the start node in the queue:
         q.enqueue(start_node)
-
         # while queue is not empty:
         while q.len() > 0:
             # remove node from queue and return removed node:
             node = q.dequeue()
             print('Current node: ', node)
-            
             # check if node has been visited:
             if node not in visited:
                 print('node not visited')
                 # mark node as visited:
                 visited.add(node)
                 visited_list.append(node)
-                # print('Visited list with new node: ', visited)
                 # put all children of node in queue:
                 for child in self.vertices[node].edges:
                     q.enqueue(child)  
@@ -131,21 +125,35 @@ class Graph:
     
     def dft_r(self, start_node, visited = set(), visited_list = []):
         print('\n--- NEW DFT Recursive ---')
-
         if start_node not in visited:
             visited.add(start_node)
             visited_list.append(start_node)
-
-        # if start_node not in visited:
-        #     print(f'node {start_node} not visited')
-        #     visited.add(start_node)
-
         for child in self.vertices[start_node].edges:
             if child not in visited:
                 self.dft_r(child, visited, visited_list)
-    
         print('visited set: ', visited)
         print('visited list: ', visited_list)
+    
+    def bfs(self, start_node, end_node):
+        print('\n--- NEW BFS ---')
+        q = Queue()
+        visited = set()
+        visited_list = []
+        q.enqueue(start_node)
+
+        while q.len() > 0:
+            node = q.dequeue()
+            if node not in visited:
+                visited.add(node)
+                visited_list.append(node)
+                if end_node == node:
+                    print(f'node {end_node} reached')
+                    print(f'path: ', visited_list)
+                    return True
+                
+                for child in self.vertices[node].edges:
+                    q.enqueue(child)
+        return False
         
 
 graph = Graph()     # Instantiate your graph
@@ -172,3 +180,4 @@ print('Vertices: ', graph.vertices)
 graph.bft(1)
 graph.dft(1)
 graph.dft_r(1)
+graph.bfs(0, 3)
