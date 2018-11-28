@@ -104,6 +104,7 @@ class Graph:
                 self.dft_recursive(child, visited_list)
 
     def bfs(self, starting_node, destination_node):
+        # we want last element in q
         # Create an empty Queue
         queue = Queue()
         # Create an empty visited list
@@ -113,21 +114,24 @@ class Graph:
         # While the Queue is not empty...
         while queue.size() > 0:
             # remove the first node from the Queue
-            node = queue.dequeue()
+            path = queue.dequeue()
             # If it hasnt been visited
-            if node not in visited_list:
+            if path[-1] not in visited_list:
                 # Mark it as visited
-                if destination_node == node:
+                if destination_node == path[-1]:
                     return True
-                visited_list.add(node)
+                visited_list.add(path[-1])
                 # then put all its children in the queue
-                for child in self.vertices[node].edges:
+                for child in self.vertices[path[-1]].edges:
+                    new_path = list(path)
+                    new_path.append(child)
                     queue.enqueue(child)
         return False
 
     def dfs(self, starting_node, destination_node):
+        # we want last element in Stack
         # Create an empty Stack
-        stack = Stack()
+        stack = stack()
         # Create an empty visited list
         visited_list = set()
         # Add the start node to the Stack
@@ -135,17 +139,40 @@ class Graph:
         # While the Stack is not empty...
         while stack.size() > 0:
             # remove the first node from the Stack
-            node = stack.pop()
+            path = stack.pop()
             # If it hasnt been visited
-            if node not in visited_list:
+            if path[-1] not in visited_list:
                 # Mark it as visited
-                if destination_node == node:
-                    return True
-                visited_list.add(node)
-                # then put all its children in the tack
-                for child in self.vertices[node].edges:
+                if destination_node == path[-1]:
+                    return path
+                visited_list.add(path[-1])
+                # then put all its children in the Stack
+                for child in self.vertices[path[-1]].edges:
+                    new_path = list(path)
+                    new_path.append(child)
                     stack.push(child)
         return False
+
+    #dfs_recursive
+    def dfs_recursive(self, starting_node,visited=None, path=None):
+        if visited is None:
+            visited = set()
+        if path is None:
+            path = []
+        print(starting_node)
+        visited.add(starting_node)
+        extended_path = list(path)
+        extended_path.append(starting_node)
+        if starting_node == destination_node:
+            return extended_path
+        for child in self.vertices[starting_node].edges:
+            # for each unvisited child
+            if child not in visited:
+                # call dfs_recursive on that child
+                new_path = self.dfs_recursive(child,destination_node,visited, extended_path)
+                if new_path:
+                    return new_path
+        return None
 
 
 
