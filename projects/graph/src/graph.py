@@ -92,14 +92,16 @@ class Graph:
                     stack.push(child)
         
     # recursive dft
-    def dft_recursive(self,node):
-        stack = Stack()
-        visited_list = set()
+    def dft_recursive(self,node, visited_list = None):
+        if visited_list is None:
+            visited_list = set()
         # Mark starting_node as visited
+        print(node)
         visited_list.add(node)
         # Then call dft_recursive on each child
         for child in self.vertices[node].edges:
-            dft_recursive(child)
+            if child not in visited_list:
+                self.dft_recursive(child, visited_list)
 
     def bfs(self, starting_node, destination_node):
         # Create an empty Queue
@@ -156,3 +158,4 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.dfs("1","3")
+graph.dft_recursive("1")
