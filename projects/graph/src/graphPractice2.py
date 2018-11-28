@@ -99,10 +99,26 @@ class Graph:
                 for child in self.vertices[node].edges:
                     s.push(child)
 
-    def dft_r(self, starting_node):
+    def dft_r(self, starting_node, destination_node, visited=None, path=None):
         # Mark starting_node as visited
         # Then call dft_r on each child
-        pass
+        if visited is None:
+            visited = set()
+        if path is None:
+            path = []
+        visited.add(starting_node)
+        extended_path = list(path)
+        extended_path.append(starting_node)
+        print(f"{starting_node}-{extended_path}")
+        if starting_node == destination_node:
+            return extended_path
+        for child in self.vertices[starting_node].edges:
+            if child not in visited:
+                new_path= self.dft_r(child, destination_node, visited, extended_path)
+                if new_path:
+                    return new_path
+
+           
 
     visited = [1, 2, 3, 4]
     queue = [[1, 2, 3, 5], [1, 2, 4, 6], [1, 2, 4, 7]]
@@ -113,21 +129,23 @@ class Graph:
         # Create an empty visited list
         visited = set()
         # Add the start node to the queue
-        q.enqueue(starting_node)
+        q.enqueue([starting_node])
         # While the Queue is not empty...
         while q.size() > 0:
             # remove the first node from the Queue
             node = q.dequeue()
             # If it hasnt been visited
-            if node not in visited:
+            if node[-1] not in visited:
                 # Mark it as visited
-                if destination_node == node:
+                if destination_node == node[-1]:
                     return True
-                visited.add(node)
+                visited.add(node[-1])
                 # then put all its children in the queue
-                for child in self.vertices[node].edges:
-                    q.enqueue(child)
-        return False
+                for child in self.vertices[node[-1]].edges:
+                    new_path = list(node)
+                    new_path.append(child)
+                    q.enqueue(new_path)
+        return None
 
 
 class Vertex:
