@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-Demonstration of Graph functionality.
+Demonstration of Graph and BokehGraph functionality.
 """
 
 from sys import argv
