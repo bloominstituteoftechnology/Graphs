@@ -88,11 +88,13 @@ class Graph:
         visited = set()
         q.enqueue(start)
         while q.size() > 0:
-            vertex = q.dequeue()
-            if vertex not in visited:
-                visited.add(vertex)
-                for child in vertex.children:
-                    q.enqueue(child)
+            node = q.dequeue()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for child in self.vertices[node].edges:
+                    if child not in visited:
+                        q.enqueue(child)
 
 
 class Vertex:
