@@ -1,10 +1,39 @@
 from room import Room
-
+import random
 
 class World:
     def __init__(self):
         self.startingRoom = None
         self.rooms = {}
+    # checks if room is empty
+    def getRandomDirection(self, room):
+        dirs = []
+        # if there is no room to the north
+        # then adding a room to the north is an option
+        if room.n_to is None:
+            dirs.append("n")
+        # if there is no room to the south
+        # then adding a room to the south is an option
+        if room.s_to is None:
+            dirs.append("s")
+        # if there is no room to the west
+        # then adding a room to the west is an option    
+        if room.w_to is None:
+            dirs.append("w")
+        # if there is no room to the east
+        # then adding a room to the east is an option
+        if room.e_to is None:
+            dirs.append("e")
+        # changes/shuffles the order of the dirs array
+        # that has the possible directions you can connect to
+        random.shuffle(dirs)
+        # if you have options to chose from in the dirs array
+        if len(dirs) > 0:
+            # return the first option in the array
+            return dirs[0]
+        else:
+            # else return that you have no options
+            return None
 
     def generateDefaultRooms(self):
         self.rooms = {
