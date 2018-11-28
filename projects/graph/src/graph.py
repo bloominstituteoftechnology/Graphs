@@ -86,10 +86,10 @@ class Graph:
         while q.len() > 0:
             # remove node from queue and return removed node:
             node = q.dequeue()
-            print('Current node: ', node)
+            # print('Current node: ', node)
             # check if node has been visited:
             if node not in visited:
-                print('node not visited')
+                # print('node not visited')
                 # mark node as visited:
                 visited.add(node)
                 visited_list.append(node)
@@ -115,7 +115,7 @@ class Graph:
             node = s.pop()
             # if node has not been visited:
             if node not in visited:
-                print(f'node {node} not visited')
+                # print(f'node {node} not visited')
                 visited.add(node)
                 visited_list.append(node)
                 for child in self.vertices[node].edges:
@@ -131,8 +131,8 @@ class Graph:
         for child in self.vertices[start_node].edges:
             if child not in visited:
                 self.dft_r(child, visited, visited_list)
-        print('visited set: ', visited)
-        print('visited list: ', visited_list)
+        print('final visited set: ', visited)
+        print('final visited list: ', visited_list)
     
     def bfs(self, start_node, end_node):
         print('\n--- NEW BFS ---')
@@ -155,6 +155,25 @@ class Graph:
                     q.enqueue(child)
         return False
         
+    def dfs(self, start_node, end_node):
+        print('\n--- NEW DFS ---')
+        s = Stack()
+        visited = set()
+        visited_list = []
+        s.push(start_node)
+
+        while s.len() > 0:
+            node = s.pop()
+            if node not in visited:
+                visited.add(node)
+                visited_list.append(node)
+                if end_node == node:
+                    print(f'node {end_node} reached')
+                    print(f'path: ', visited_list)
+                    return True
+                for child in self.vertices[node].edges:
+                    s.push(child)
+
 
 graph = Graph()     # Instantiate your graph
 # graph.add_vertex('0')
@@ -181,3 +200,4 @@ graph.bft(1)
 graph.dft(1)
 graph.dft_r(1)
 graph.bfs(0, 3)
+graph.dfs(0, 3)
