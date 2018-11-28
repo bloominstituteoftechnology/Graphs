@@ -94,20 +94,39 @@ class Graph:
         visited = []
         queue = [[starting_vert]]
         while len(queue) > 0:
+            print(queue)
             current_path = queue.pop(0)
             current_vert = current_path[-1]
-            # print(current_vert)
+            # print(current_path)
             if current_vert == target_vert:
                 return current_path
             if current_vert not in visited:
                 visited.append(current_vert)
-                queue = []
                 for child_vert in self.vertices[current_vert]:
                     # print(current_path, child_vert)
                     new_path = list(current_path)
                     new_path.append(child_vert)
                     # print(temp_var)
                     queue.append(new_path)
+    
+    def dfs(self, starting_vert, target_vert):
+        visited = []
+        stack = [[starting_vert]]
+        while len(stack) > 0:
+            print(stack)
+            current_path = stack.pop(-1)
+            current_vert = current_path[-1]
+            # print(current_path)
+            if current_vert == target_vert:
+                return current_path
+            if current_vert not in visited:
+                visited.append(current_vert)
+                for child_vert in self.vertices[current_vert]:
+                    # print(current_path, child_vert)
+                    new_path = list(current_path)
+                    new_path.append(child_vert)
+                    # print(temp_var)
+                    stack.append(new_path)
    
 
 # test
@@ -132,4 +151,4 @@ graph.add_edge('3', '5')
 # print(graph.vertices)
 # print(graph.bft('1'))
 # print(graph.dft('1'))
-print(graph.bfs('1','3'))
+print(graph.dfs('1','5'))
