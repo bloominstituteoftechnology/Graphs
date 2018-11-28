@@ -1,3 +1,4 @@
+from random import shuffle
 # Implement a class to hold room information. This should have name and
 # description attributes.
 class Room:
@@ -10,9 +11,35 @@ class Room:
         self.w_to = None
         self.items = []
     def __str__(self):
-        return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n"
+        return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n{self.get_exits()}\n"
     def printRoomDescription(self, player):
         print(str(self))
+    def get_exits(self):
+        exits = list()
+        if self.n_to is not None:
+            exits.append("n")
+        if self.s_to is not None:
+            exits.append("s")
+        if self.w_to is not None:
+            exits.append("w")
+        if self.e_to is not None:
+            exits.append("e")
+        return f"Exits: [{', '.join(exits)}]"
+    def get_valid_random_dir(self):
+        dirs = list()
+        if self.n_to is None:
+            dirs.append("n")
+        if self.s_to is None:
+            dirs.append("s")
+        if self.w_to is None:
+            dirs.append("w")
+        if self.e_to is None:
+            dirs.append("e")
+        shuffle(dirs)
+        if len(dirs) > 0:
+            return dirs[0]
+        else:
+            return None
     def getItemsString(self):
         if len(self.items) > 0:
             return f"The room contains: {', '.join([item.name for item in self.items])}"
