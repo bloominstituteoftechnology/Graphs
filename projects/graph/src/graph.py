@@ -10,7 +10,7 @@ class Graph:
 
     def add_vertex(self, label):
         if label in self.vertices:
-            raise "Vertex already exists.", label
+            return -1
         else:
             self.vertices[label] = {'edges':set()}
     
@@ -117,17 +117,18 @@ class Graph:
             self.vertices[first]['color'] = 'black'
         return 'Did not find %s.' %destination
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('1','2')
-print(graph.vertices)
-graph.breadth_first_traversal('0')
-graph.depth_first_traversal('0')
-graph.depth_first_traversal_recursive('0')
-print(graph.breadth_first_search('0','2'))
-print(graph.depth_first_search('0','2'))
+# Tests
+    # graph = Graph()  # Instantiate your graph
+    # graph.add_vertex('0')
+    # graph.add_vertex('1')
+    # graph.add_vertex('2')
+    # graph.add_vertex('3')
+    # graph.add_edge('0', '1')
+    # graph.add_edge('0', '3')
+    # graph.add_edge('1','2')
+    # print(graph.vertices)
+    # graph.breadth_first_traversal('0')
+    # graph.depth_first_traversal('0')
+    # graph.depth_first_traversal_recursive('0')
+    # print(graph.breadth_first_search('0','2'))
+    # print(graph.depth_first_search('0','2'))
