@@ -72,7 +72,7 @@ class Graph:
         visited = []
         # put start vertex in the stack
         stack.append(start_vertex)
-        # while queue is not empty
+        # while stack is not empty
         while len(stack) > 0:
             # remove vertex from stack
             vertex = stack.pop()
@@ -80,11 +80,28 @@ class Graph:
             if vertex not in visited:
                 # if not, mark as visited
                 visited.append(vertex)
-                # then put all children in queue
+                # then put all children in stack
                 for child in self.vertices[vertex].edges:
                     stack.append(child)           
         return visited
 
+    def bfs(self, starting_node, destination_node):
+        # maintain a queue of paths
+        queue = []
+        # create visited list
+        visited = []
+        # push the first path into the queue
+        queue.append([starting_node])
+        while len(queue) > 0:
+            # get the first path from the queue
+            path = queue.pop(0)
+            # get the last node from the path
+            node = path[-1]
+            # path found
+            if node == destination_node:
+                return path
+            # enumerate all adjacent nodes, construct a new path and push it into the queue
+            
 
 class Vertex:
     def __init__(self, vertex_id):

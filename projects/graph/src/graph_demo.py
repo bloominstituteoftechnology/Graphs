@@ -37,8 +37,8 @@ def main():
     graph.add_directed_edge(7, 1)
     
     # print(graph.bft(1))
-    print(graph.dft(1))
-
+    # print(graph.dft(1))
+    print(graph.bfs(1, 5))
 if __name__ == '__main__':
     # TODO - parse argv
     main()
