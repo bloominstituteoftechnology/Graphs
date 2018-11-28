@@ -83,6 +83,20 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist")
 
+    def bfs(self, start, end):
+        q = Queue()
+        visited = set()
+        q.enqueue([start])
+        while q.size() > 0:
+            node = q.dequeue()
+            if node[-1] not in visited:
+                return node
+            visited.add(node[-1])
+            for child in self.vertices[node[-1]].edges:
+                new_path = list(node)
+                new_path.append(child)
+                q.enqueue(new_path)
+
     def bft(self, start):
         q = Queue()
         visited = set()
