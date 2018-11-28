@@ -22,6 +22,7 @@ class Room:
         else:
             return "The room is empty"
    
+    # connect room method
     def connectRooms(self, direction, connectingRoom):
         if direction == "n":
             self.north_to = connectingRoom
@@ -39,8 +40,10 @@ class Room:
             print("INVALID ROOM CONNECTION")
             return None
 
+    # Add item
     def addItem(self, item):
         self.items.append(item)
- 
+   
+    # remove item
     def removeItem(self, item):
         self.items.remove(item)
