@@ -1,12 +1,24 @@
 from room import Room
 from player import Player
 from item import Item
-
+import random
 from world import World
 
 
-world = World()
-
+class World:
+    def __init__(self):
+        self.startingRoom = None
+        self.rooms = {}
+    def generateDefaultRooms(self):
+        self.rooms = {
+            "outside": Room(
+                "Outside Cave Entrance", "North of you, the cave mount beckons"
+            ),
+            "foyer": Room(
+                "Foyer",
+                """Dim light filters in from the south. Dusty
+        passages run north and east.""",
+            ),
 # Uncomment this to generate the default rooms from Week 1
 # world.generateDefaultRooms()
 
