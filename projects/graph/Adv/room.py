@@ -10,4 +10,10 @@ class Room:
         self.west_to = None
         self.items = []
 
+   def __str__(self):
+        return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n"
    
+    def printRoomDescription(self, player):
+        print(str(self))
+
+  
