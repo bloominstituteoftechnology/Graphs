@@ -91,7 +91,9 @@ class Graph:
 
         return visited
 
-    def dfsearch(self, root, target, visited=[]):
+    def dfsearch(self, root, target, visited=None):
+        if visited is None:
+            visited = []
         visited.append(root)
 
         for edge in self.vertices[root].edges:
