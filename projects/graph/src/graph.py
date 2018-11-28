@@ -30,9 +30,7 @@ class Graph:
             return True
         else:
             if vertex1 not in self.vertices:
-                raise IndexError(
-                    f"Vertex {vertex1} is nonexistent!"
-                )  # IndexError more specific than Exception
+                raise IndexError(f"Vertex {vertex1} is nonexistent!")
             elif vertex2 not in self.vertices:
                 raise IndexError(f"Vertex {vertex2} is nonexistent!")
 
@@ -42,9 +40,7 @@ class Graph:
             return True
         else:
             if vertex1 not in self.vertices:
-                raise IndexError(
-                    f"Vertex {vertex1} is nonexistent!"
-                )  # IndexError more specific than Exception
+                raise IndexError(f"Vertex {vertex1} is nonexistent!")
             elif vertex2 not in self.vertices:
                 raise IndexError(f"Vertex {vertex2} is nonexistent!")
 
@@ -91,15 +87,15 @@ class Graph:
                 self.dftr(int(child), visited)
         return f"dftr: {visited}"
 
-    def bfs(self, starting_node, target):
+    def bfs(self, start_node, target):
         queue = []
         visited = []
-        queue.append(int(starting_node))
+        queue.append(int(start_node))
 
         if str(target) not in self.vertices:
             raise IndexError(f"Vertex {target} is nonexistent!")
-        elif str(starting_node) not in self.vertices:
-            raise IndexError(f"Vertex {starting_node} is nonexistent")
+        elif str(start_node) not in self.vertices:
+            raise IndexError(f"Vertex {start_node} is nonexistent")
 
         while len(queue) > 0:
             discovered = queue.pop(0)
@@ -113,15 +109,15 @@ class Graph:
         print(f"vertices: {self.vertices}")
         return f"bfs: {visited}"
 
-    def dfs(self, starting_node, target):
+    def dfs(self, start_node, target):
         stack = []
         visited = []
-        stack.append(int(starting_node))
+        stack.append(int(start_node))
 
         if str(target) not in self.vertices:
             raise IndexError(f"Vertex {target} is nonexistent!")
-        elif str(starting_node) not in self.vertices:
-            raise IndexError(f"Vertex {starting_node} is nonexistent")
+        elif str(start_node) not in self.vertices:
+            raise IndexError(f"Vertex {start_node} is nonexistent")
 
         while len(stack) > 0:
             discovered = stack.pop()
@@ -179,5 +175,5 @@ graph2.add_directed_edge("7", "6")
 # print(graph2.dftr(7))  # returns [7, 6, 3, 5, 1, 2, 4]
 # print(graph2.bfs(1, 7))  # returns [1, 2, 4, 3, 6, 7]
 # print(graph2.bfs(7, 1))  # returns [7, 6, 1]
-# print(graph2.dfs(1, 7))  # returns [1, 2, 3, 5, 4, 7]
+# print(graph2.dfs(1, 7))  # returns [[1, 2, 4, 7]
 print(graph2.dfs(7, 1))  # returns [7, 1]
