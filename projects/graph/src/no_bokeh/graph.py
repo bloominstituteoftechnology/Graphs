@@ -31,10 +31,17 @@ class Graph:
 		else:
 			print(f'no vertex at location v1:, {v1}, v2: {v2}')
 
-	def dfr(self, node):
+	def dfr(self, node, visited=None):
 		print(node)
+
+		if visited is None:
+			visited = set()
+
+		visited.add(node)
+
 		for i in self.vertices[node].edges:
-			self.dfr(i)
+			if i not in visited:
+				self.dfr(i)
 
 	def dft(self, node):
 
@@ -134,6 +141,20 @@ class Graph:
 					s.append(next_path)
 
 		return False
+
+	def dfs_r(self, starting_node, destination_node, visited=None, path=None):
+		if visited is None:
+			visited = set()
+		if path is None:
+			path = []
+
+		print(starting_node)
+		visited.add(starting_node)
+		extended_path = list(path)
+		path.append(starting_node)
+		if starting_node == destination_node:
+			return extended_path
+		for 
 
 	def __str__(self):
 		return f'graph, vertices: {self.vertices}'
