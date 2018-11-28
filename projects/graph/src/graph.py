@@ -87,6 +87,8 @@ class Graph:
                 print(self.vertices[node].edges)
                 for child in self.vertices[node].edges:
                     new_stack.push(child)
+        
+            
                 
 
 
