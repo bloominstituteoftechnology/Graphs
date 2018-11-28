@@ -85,6 +85,7 @@ Write an algorithm, createRandomRooms that takes in a number and generates that 
  |   |
 [_]-[_]
 
+    
     • How can you verify that all of the rooms are connected? (Hint: use a traversal)
     • Some information about the room, like possible exits, should be present in the room description.
     • Try to keep your runtime complexity to O(n).
