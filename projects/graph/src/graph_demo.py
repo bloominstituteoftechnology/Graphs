@@ -28,7 +28,7 @@ def main():
     graph.add_directed_edge(7,6)
     graph.add_directed_edge(7,1) 
 
-    graph.dfs(1,6)
+    print(graph.bfs(1,7))
 
 if __name__ == '__main__':
     # TODO - parse argv

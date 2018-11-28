@@ -97,18 +97,21 @@ class Graph:
         print(visited)
         return visited
         
-    def bfs(self, starting_node, target=None):
-        visited = []
+    def bfs(self, starting_node, target):
+        visited = set()
         q = Queue()
-        q.enqueue(starting_node)
+        q.enqueue([starting_node])
         while q.size() > 0:  
-            dequeued = q.dequeue() 
-            visited.append(dequeued)  
-            print(dequeued)
-            for edge in self.vertices[dequeued].edges: 
-                if edge not in visited:  
-                    q.enqueue(edge) 
-        return visited
+            node = q.dequeue()
+            if node[-1] not in visited: 
+                if target == node[-1]:
+                    return node
+                visited.add(node[-1])            
+                for child in self.vertices[node[-1]].edges: 
+                    new_path = list(node)
+                    new_path.append(child)
+                    q.enqueue(new_path)
+        return None
 
 
 class Vertex:
