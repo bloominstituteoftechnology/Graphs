@@ -224,7 +224,7 @@ class Graph:
 def width_bias(id, width):
     return (id % width, id // width)
 
-
+# draw a block to the console in ascii with a specific style dependant on grid data
 def draw_block(graph, id, style, width):
     block = "."
     if 'number' in style and id in style['number']: block = "%d" % style['number'][id]
@@ -240,7 +240,14 @@ def draw_block(graph, id, style, width):
     if 'path' in style and id in style['path']: block = "@"
     if id in graph.walls: block = "#" * width
     return block
-    
+
+# draw a maze to the console utilizing the draw block helper function
+def draw_maze(maze, width=2, **style):
+    for y in range(maze.height):
+        for x in range(maze.width):
+            print("%%-%ds" % width % draw_maze(maze, (x, y), style, width), end="")
+        print()
+
 # data
 WALLS = [width_bias(id, width=30) for id in [21,22,51,52,81,82,93,94,111,112,123,124,133,134,141,142,153,154,163,164,171,172,173,174,175,183,184,193,194,201,202,203,204,205,213,214,223,224,243,244,253,254,273,274,283,284,303,304,313,314,333,334,343,344,373,374,403,404,433,434]]
 
