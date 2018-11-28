@@ -58,6 +58,7 @@ class World:
             new_coords[0] += 1
         if dir == "w":
             new_coords[0] -= 1
+        return new_coords
 
     ####
     # MODIFY THIS CODE
@@ -69,6 +70,9 @@ class World:
             print("Must create at least 1 room")
             return None
 
+        occupied = set()
+        xy = [0, 0]
+
         # Create n rooms
         for i in range(0, numRooms):
             # Create n rooms.
@@ -78,11 +82,21 @@ class World:
             if i > 0:
                 # ...connect to the previous room in a random direction
                 random_dir = self.getRandomDirection(self.rooms[i - 1])
-                if random_dir is not None:
+                xy_copy = self._updateCoordinates(xy, random_dir)
+
+                if random_dir is not None and str(xy_copy) not in occupied:
                     self.rooms[i - 1].connectRooms(random_dir, new_room)
+                    self.rooms[i - 1].coords = str(xy_copy)
+                    occupied.add(str(xy_copy))
+                    xy = xy_copy
+
+        for i in range(0, len(self.rooms)):
+            if i > 0:
+                random_dir = self.getRandomDirection(self.rooms[i - 1])
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
+        print(occupied)
 
         return self.rooms
 

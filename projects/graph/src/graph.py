@@ -119,29 +119,24 @@ class Graph:
         # Create an empty visited list
         visited = set()
         # Add the start node to the queue
-        q.enqueue(start)
-        path = []
+        q.enqueue([start])
 
-        if start == destination:
-            return "Start = Destination!"
         # While the Queue is not empty...
         while q.size() > 0:
             # Remove the first node from the Queue
             node = q.dequeue()
-            path.append(node)
             # If it hasn't been visited
-            if node not in visited:
+            if node[-1] not in visited:
                 # Mark it as visited
-
+                if destination == node[-1]:
+                    return node
                 visited.add(node)
                 # then put all it's children in the queue
-                for child in self.vertices[node].edges:
-                    new_path = list(path)
+                for child in self.vertices[node[-1]].edges:
+                    new_path = list(node)
                     new_path.append(child)
                     q.enqueue(child)
-                    if child == destination:
-                        return new_path
-        return False
+        return None
 
     def dfs(self, start, destination):
         # Create empty Stack
