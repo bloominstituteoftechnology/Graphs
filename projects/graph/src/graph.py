@@ -104,21 +104,14 @@ class Graph:
                     s.push(child)
 
     # I could probably simplify this more
-    def dft_r(self, node, visited=None, s=None):
+    def dft_r(self, start, visited=None):
         if visited is None:
             visited = set()
-        if s is None:
-            s = Stack()
-        s.push(node)
 
-        node = s.pop()
-        if node not in visited:
-            print(node)
-            visited.add(node)
-            for child in self.vertices[node].edges:
-                s.push(child)
-                self.dft_r(child, visited, s)
-        return visited
+        visited.add(start)
+        for child in self.vertices[start].edges:
+            if child not in visited:
+                self.dft_r(child, visited)
 
     def bfs(self, start, destination):
         # Create empty Queue
@@ -156,24 +149,40 @@ class Graph:
         # Create an empty visited list
         visited = set()
         # Add the start node to the stack
-        s.push(start)
-        path = []
+        s.push([start])
         # While the Stack is not empty...
         while s.size() > 0:
             # Remove the first node from the Queue
-            node = s.pop()
-            path.append(node)
+            path = s.pop()
             # If it hasn't been visited
-            if node not in visited:
-                # Mark it as visited
-                visited.add(node)
-                # then put all it's children in the stack
-                for child in self.vertices[node].edges:
+            if path[-1] not in visited:
+                if destination == path[-1]:
+                    return path
+                visited.add(path[-1])
+                for child in self.vertices[path[-1]].edges:
                     new_path = list(path)
                     new_path.append(child)
-                    s.push(child)
-                    if child == destination:
-                        return new_path
+                    s.push(new_path)
+        return None
+
+    def dfs_r(self, start, visited=None, destination=None, path=None):
+        if visited is None:
+            visited = set()
+
+        if path is None:
+            path = []
+        visited.add(start)
+        extended_path = list(path)
+        extended_path.append(start)
+        if start == destination:
+            return extended_path
+        for child in self.vertices[start].edges:
+            if child not in visited:
+                new_path = self.dfs_r(child, destination, visited, extended_path)
+                if new_path:
+                    return new_path
+
+        return None
 
 
 """
