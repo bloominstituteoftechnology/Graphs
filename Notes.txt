@@ -2,3 +2,38 @@ GRAPH NOTES
 
 See Blue note book for notes
 Study Big-O cheatsheet for additional information 
+
+
+Recursion Review used in DFT
+    a function that calls on itself
+    so simple it's complicated lol
+
+# normal function example......
+def factorial(n):
+    f = 1
+    for i in range(1, n + 1):
+        f *= i
+    return f 
+
+# recursion example
+def factorial(n):
+    if n > 0:
+        return n * factorial(n - 1)
+    else:
+        return 1
+
+# OR
+# recursion example single line
+def factorial(n):
+    return n * factorial(n - 1) if n > 0 else 1
+
+
+# how does this relate?
+# DFT Recursion
+
+def dft_r(self, starting_node):
+    # Mark starting_node as visited
+    # Then call dft_r on each child
+
+    # That's it, just these two lines and we can traverse the biggest of graphs!
+
