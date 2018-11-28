@@ -19,6 +19,8 @@ def main():
     print(graph.vertices)
     print("================")
     graph.bft('1')
+    print("================")
+    graph.dft('0')
 
 
 if __name__ == '__main__':
