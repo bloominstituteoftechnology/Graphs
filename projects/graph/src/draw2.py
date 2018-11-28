@@ -59,3 +59,16 @@ class BokehGraph:
 
         output_file('graph.html')
         show(plot)
+
+
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+graph.add_edge('1', '2')
+
+smth = BokehGraph(graph)
+smth.draw()
