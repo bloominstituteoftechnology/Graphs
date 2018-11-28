@@ -16,7 +16,7 @@ class Vertex:
 # Queue class for BFT
 class Queue:
   def __init__(self):
-    self.size = 0      # not sure if I need this
+    self.size = 0         # not sure if I need this
     self.storage = []
 
   def enqueue(self, item):
