@@ -109,6 +109,15 @@ class Graph:
                     if child not in visited:
                         s.push(child)
 
+    def dft_r(self, start, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(start)
+        print(start)
+        for child in self.vertices[start].edges:
+            if child not in visited:
+                self.dft_r(child, visited)
+
 
 class Vertex:
     def __init__(self, vertex_id):
