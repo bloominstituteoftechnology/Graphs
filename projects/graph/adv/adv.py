@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from item import Item
+import random
 
 from world import World
 
@@ -8,12 +9,13 @@ from world import World
 world = World()
 
 # Uncomment this to generate the default rooms from Week 1
-# world.generateDefaultRooms()
+world.generateDefaultRooms()
 
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
 world.generateRooms(100)
+world.createRandomRooms(random.randint(1, 101))
 
 
 # Add some items

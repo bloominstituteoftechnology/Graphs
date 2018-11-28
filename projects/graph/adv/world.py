@@ -59,6 +59,30 @@ class World:
         if dir == "w":
             new_coords[0] -= 1
 
+    def createRandomRooms(self, numRooms):
+        self.rooms = {}
+
+        if numRooms < 1:
+            print("Must create at least 1 room")
+            return None
+
+        # Create n rooms
+        for i in range(0, numRooms):
+            # Create n rooms.
+            new_room = Room(f"Room {i}", "You are standing in an empty room.")
+            self.rooms[i] = new_room
+            # If it's not the first room....
+            if i > 0:
+                # ...connect to the previous room in a random direction
+                random_dir = self.getRandomDirection(self.rooms[i-1])
+                if random_dir is not None:
+                    self.rooms[i-1].connectRooms(random_dir, new_room)
+
+        # Set the starting room to the first room. Change this if you want a new starting room.
+        self.startingRoom = self.rooms[0]
+
+        return self.rooms
+
     ####
     # MODIFY THIS CODE
     ####
