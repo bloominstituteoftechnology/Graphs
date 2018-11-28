@@ -95,11 +95,10 @@ class World:
                 # ...connect to the previous room in a random direction
                 random_rm_tuple = self.getRandomDirection()
                 if random_rm_tuple is not None:
-                    room_id = random_rm_tuple[0].id
-                    room_dir = random_rm_tuple[1]
-                    self.rooms[room_id].connectRooms(room_dir, new_room)
-                    if room_dir = 
-                    new_room.coordinates = ()
+                    random_rm = random_rm_tuple[0]
+                    random_rm_dir = random_rm_tuple[1]
+                    self.rooms[random_rm.id].connectRooms(random_rm_dir, new_room)
+                    
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]

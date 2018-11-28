@@ -37,21 +37,27 @@ class Room:
        else:
            return "The room is empty"
    def connectRooms(self, direction, connectingRoom):
+       con_rm_x_coord = connectingRoom.coordinates[0]
+       con_rm_y_coord = connectingRoom.coordinates[1]
        if direction == "n":
            self.n_to = connectingRoom
            connectingRoom.s_to = self
+           self.coordinates = (con_rm_x_coord, con_rm_y_coord - 1)
        elif direction == "s":
            self.s_to = connectingRoom
            connectingRoom.n_to = self
+           self.coordinates = (con_rm_x_coord, con_rm_y_coord + 1)
        elif direction == "e":
            self.e_to = connectingRoom
-           connectingRoom.w_to = self
+           connectingRoom.w_to = selfself.coordinates = (con_rm_x_coord - 1, con_rm_y_coord)
        elif direction == "w":
            self.w_to = connectingRoom
            connectingRoom.e_to = self
+           (con_rm_x_coord + 1, con_rm_y_coord)
        else:
            print("INVALID ROOM CONNECTION")
            return None
+
    def getRoomInDirection(self, direction):
        if direction == "n":
            return self.n_to
