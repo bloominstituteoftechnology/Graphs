@@ -20,7 +20,7 @@ def main():
     print("================")
     graph.bft('1')
     print("================")
-    graph.dft('0')
+    graph.dft_r('3')
 
 
 if __name__ == '__main__':

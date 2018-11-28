@@ -87,7 +87,16 @@ class Graph:
                 print(self.vertices[node].edges)
                 for child in self.vertices[node].edges:
                     new_stack.push(child)
-        
+
+    def dft_r(self, starting_node, visited=None): # --> visited = None b/c
+        # Mark starting node as visited
+        if visited is None:
+            visited = set()
+        visited.add(starting_node) # --> step 1
+        print(starting_node)
+        for child in self.vertices[starting_node].edges:
+            if child not in visited:
+                self.dft_r(child, visited)
             
                 
 
