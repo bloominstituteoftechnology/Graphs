@@ -139,7 +139,6 @@ class Graph:
                 if self.dfs(child_vert, target_value, visited):
                     return True
         return False
-
     def bfs(self, starting_vertex_id, target_value):
         q = Queue()
         q.enqueue(starting_vertex_id)
@@ -165,7 +164,6 @@ class Graph:
                 if new_path:
                     return new_path
         return None
-        
     def bfs_path(self, starting_vertex_id, target_value):
         q = Queue()
         q.enqueue([starting_vertex_id])

@@ -59,3 +59,6 @@ class BokehGraph:
 
         output_file('graph.html')
         show(plot)
+
+smth = BokehGraph()
+smth.draw()
