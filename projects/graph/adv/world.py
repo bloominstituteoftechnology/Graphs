@@ -1,10 +1,27 @@
 from room import Room
-
+import random
 
 class World:
     def __init__(self):
         self.startingRoom = None
         self.rooms = {}
+
+    def getRandomDirection(self, room):
+        dirs = []
+        if room.n_to is None:
+            dirs.append('n')
+        if room.s_to is None:
+            dirs.append('s')
+        if room.e_to is None:
+            dirs.append('e')
+        if room.w_to is None:
+            dirs.append('w')
+        # ...
+        random.shuffle(dirs)
+        if len(dirs) > 0:
+            return dirs[0]
+        else:
+            return None
 
     def generateDefaultRooms(self):
         self.rooms = {
@@ -44,19 +61,30 @@ class World:
         # Create n rooms
         for i in range(0, numRooms):
             # Create n rooms.
-            self.rooms[i] = Room(f"Room {i}", "You are standing in an empty room.")
+            # create a new room
+            new_room = Room(f"Room {i}", "You are standing in an empty room.")
+            # index the new room in our rooms list
+            self.rooms[i] = new_room
+            # if not starting room
+            if i > 0:
+                # get random direction
+                random_dir = self.getRandomDirection(self.rooms[i-1])
+                # if we get a direction, connect it to the previous room
+                if random_dir is not None:
+                    self.rooms[i-1].connectRooms(random_dir, new_room)
 
-        # Hard-code a single room connection.
-        # You should replace this with procedural connection code.
-        if numRooms > 1:
-            self.rooms[0].connectRooms("n", self.rooms[1])
+        # # Hard-code a single room connection.
+        # # You should replace this with procedural connection code.
+        # if numRooms > 1:
+        #     self.rooms[0].connectRooms("n", self.rooms[1])
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
         return self.rooms
 
-
-
+# TODO
+# ENSURE ROOMS ARE CONNECTED
+# PROVIDE ROOM EXITS IN DESCRIPTION
 
 
