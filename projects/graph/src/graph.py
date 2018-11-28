@@ -96,6 +96,19 @@ class Graph:
                     if child not in visited:
                         q.enqueue(child)
 
+    def dft(self, start):
+        s = Stack()
+        visited = set()
+        s.push(start)
+        while s.size() > 0:
+            node = s.pop()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for child in self.vertices[node].edges:
+                    if child not in visited:
+                        s.push(child)
+
 
 class Vertex:
     def __init__(self, vertex_id):
@@ -118,3 +131,20 @@ class Queue:
 
     def size(self):
         return len(self.queue)
+
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if(self.size()) > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
