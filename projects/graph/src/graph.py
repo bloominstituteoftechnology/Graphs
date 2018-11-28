@@ -39,6 +39,7 @@ class Graph:
     def __init__(self):
         self.vertices = {}
 
+
     def add_vertex(self, value):
         if value not in self.vertices:
             vertex = Vertex(value)
@@ -46,6 +47,7 @@ class Graph:
             return True
         else:
             return False
+
 
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
@@ -60,10 +62,9 @@ class Graph:
             elif v2 not in self.vertices:
                 raise IndexError(f"Vertex {v2} is nonexistent!")
     
+
     def bft(self, starting_node):
-        # Create an empty Queue
         q = Queue()
-        # Create an empty visited list
         visited = set()
         # Add the start node to the queue
         q.enqueue(starting_node)
@@ -80,10 +81,9 @@ class Graph:
                 for child in self.vertices[node].edges:
                     q.enqueue(child)
 
+
     def dft(self, starting_node):
-        # Create an empty Stack
         s = Stack()
-        # Create an empty visited list
         visited = set()
         # Add the start node to the stack
         s.push(starting_node)
@@ -99,6 +99,14 @@ class Graph:
                 # Then put all its children in the queue
                 for child in self.vertices[node].edges:
                     s.push(child)
+
+    def dftr(self, target, visited=[]):
+        while target not in visited:
+            visited.append(target)
+            for c in self.vertices[str(target)]:
+                self.dftr(int(c), visited)
+        return f"dftr: {visited}"
+
 
 
 
