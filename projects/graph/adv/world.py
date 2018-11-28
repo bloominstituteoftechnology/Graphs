@@ -55,7 +55,10 @@ class World:
         if room.w_to is None:
             paths.append("w")
         random.shuffle(paths)
-        return paths[0]
+        if len(paths) > 0:
+            return paths[0]
+        else:
+            return None
 
     def generateRooms(self, numRooms):
         self.rooms = {}
@@ -67,10 +70,11 @@ class World:
         # Create n rooms
         for i in range(0, numRooms):
             # Create n rooms.
-            self.rooms[i] = Room(f"Room {i}", "You are standing in an empty room.")
+            self.rooms[i] = Room(f"Room {i}", f"You are standing in an empty room {i}.")
             if i > 0:
-                path = self.get_random_direction(self.rooms[i])
-                print(path)
+                path = self.get_random_direction(self.rooms[i - 1])
+                if path is not None:
+                    self.rooms[i - 1].connectRooms(path, self.rooms[i])
 
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
