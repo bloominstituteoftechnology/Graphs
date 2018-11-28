@@ -23,63 +23,63 @@ class Graph:
         else:
             return False
 
-    def add_edge(self, v1, v2):
-        if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
-            self.vertices[v2].add(v1)
+    def add_edge(self, vertex1, vertex2):
+        if vertex1 in self.vertices and vertex2 in self.vertices:
+            self.vertices[vertex1].add(vertex2)
+            self.vertices[vertex2].add(vertex1)
             return True
         else:
-            if v1 not in self.vertices:
+            if vertex1 not in self.vertices:
                 raise IndexError(
-                    f"Vertex {v1} is nonexistent!"
+                    f"Vertex {vertex1} is nonexistent!"
                 )  # IndexError more specific than Exception
-            elif v2 not in self.vertices:
-                raise IndexError(f"Vertex {v2} is nonexistent!")
+            elif vertex2 not in self.vertices:
+                raise IndexError(f"Vertex {vertex2} is nonexistent!")
 
-    def add_directed_edge(self, v1, v2):
-        if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
+    def add_directed_edge(self, vertex1, vertex2):
+        if vertex1 in self.vertices and vertex2 in self.vertices:
+            self.vertices[vertex1].add(vertex2)
             return True
         else:
-            if v1 not in self.vertices:
+            if vertex1 not in self.vertices:
                 raise IndexError(
-                    f"Vertex {v1} is nonexistent!"
+                    f"Vertex {vertex1} is nonexistent!"
                 )  # IndexError more specific than Exception
-            elif v2 not in self.vertices:
-                raise IndexError(f"Vertex {v2} is nonexistent!")
+            elif vertex2 not in self.vertices:
+                raise IndexError(f"Vertex {vertex2} is nonexistent!")
 
     def bft(self, target):
-        q = []
+        queue = []
         visited = []
-        q.append(int(target))
+        queue.append(int(target))
 
         if str(target) not in self.vertices:
             raise IndexError(f"Vertex {target} is nonexistent!")
 
-        while len(q) > 0:
-            discovered = q.pop(0)
+        while len(queue) > 0:
+            discovered = queue.pop(0)
             if discovered not in visited:
                 visited.append(discovered)
-                for c in self.vertices[str(discovered)]:
-                    q.append(int(c))
+                for child in self.vertices[str(discovered)]:
+                    queue.append(int(child))
 
         print(f"vertices: {self.vertices}")
         return f"bft: {visited}"
 
     def dft(self, target):
-        s = []
+        stack = []
         visited = []
-        s.append(int(target))
+        stack.append(int(target))
 
         if str(target) not in self.vertices:
             raise IndexError(f"Vertex {target} is nonexistent!")
 
-        while len(s) > 0:
-            discovered = s.pop()
+        while len(stack) > 0:
+            discovered = stack.pop()
             if discovered not in visited:
                 visited.append(discovered)
-                for c in self.vertices[str(discovered)]:
-                    s.append(int(c))
+                for child in self.vertices[str(discovered)]:
+                    stack.append(int(child))
 
         print(f"vertices: {self.vertices}")
         return f"dft: {visited}"
@@ -87,9 +87,31 @@ class Graph:
     def dftr(self, target, visited=[]):
         while target not in visited:
             visited.append(target)
-            for c in self.vertices[str(target)]:
-                self.dftr(int(c), visited)
+            for child in self.vertices[str(target)]:
+                self.dftr(int(child), visited)
         return f"dftr: {visited}"
+
+    def bfs(self, starting_node, target):
+        queue = []
+        visited = []
+        queue.append(int(starting_node))
+
+        if str(target) not in self.vertices:
+            raise IndexError(f"Vertex {target} is nonexistent!")
+        elif str(starting_node) not in self.vertices:
+            raise IndexError(f"Vertex {starting_node} is nonexistnet")
+
+        while len(queue) > 0:
+            discovered = queue.pop(0)
+            if discovered not in visited:
+                visited.append(discovered)
+                if discovered == target:
+                    break
+                for child in self.vertices[str(discovered)]:
+                    queue.append(int(child))
+
+        print(f"vertices: {self.vertices}")
+        return f"bfs: {visited}"
 
 
 graph1 = Graph()
@@ -127,9 +149,11 @@ graph2.add_directed_edge("5", "3")
 graph2.add_directed_edge("6", "3")
 graph2.add_directed_edge("7", "1")
 graph2.add_directed_edge("7", "6")
-# print(graph2.bft(1))  # returns [1, 2, 4, 3, 7, 6, 5]
-# print(graph2.bft(7))  # returns [7, 1, 6, 4, 2, 3, 5]
+# print(graph2.bft(1))  # returns [1, 2, 4, 3, 6, 7, 5]
+# print(graph2.bft(7))  # returns [7, 6, 1, 3, 2, 5, 4]
 # print(graph2.dft(1))  # returns [1, 2, 3, 5, 4, 6, 7]
-# print(graph2.dft(7))  # returns [7, 6, 3, 5, 1, 2, 4]
+# print(graph2.dft(7))  # returns [7, 1, 2, 3, 5, 4, 6]
 # print(graph2.dftr(1))  # returns [1, 2, 4, 6, 3, 5, 7]
-print(graph2.dftr(7))  # returns [7, 6, 3, 5, 1, 2, 4]
+# print(graph2.dftr(7))  # returns [7, 6, 3, 5, 1, 2, 4]
+# print(graph2.bfs(1, 7))  # returns [1, 2, 4, 3, 6, 7]
+print(graph2.bfs(7, 1))  # returns [7, 6, 1]
