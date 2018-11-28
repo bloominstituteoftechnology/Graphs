@@ -1,0 +1,65 @@
+GRAPH NOTES
+
+See Blue note book for notes
+Study Big-O cheatsheet for additional information 
+
+GRAPHS
+points are nodes/vertex/vertices/verts
+lines between nodes are edges
+collection of related data, like trees
+
+Types of graphs
+    Directed/Undrirected Graphs----
+        If there are arrows directing flow between nodes then it is a Directed Graph, could be one ways or two ways, doen't matter.
+        If there are NO arrows then it is an Undirected Graph
+
+    Cyclic/Acyclic Graph-----
+        If the flow between nodes closes, makes a circle than it is a Cyclic Graph
+        If there are no closed circuits then it is Acyclic
+
+    Weighted Graphs----
+        graphs with Vlaues/Weights assigned to edges, connecting paths between nodes, is a Weighted Graph
+        Why? having differing weights between nodes can help with choosing paths later
+        Khan acadmey had a good example with the pac man maze, the weights were how many steps away from Pac man the ghost is is its weight
+        the less steps were the better path
+
+Why are graphs important?
+    think of each train station stop as a Node and the rails between as Edges
+
+Uses of BFS----
+    -Path Finding
+    -Finding neighboring nodes on a graphs
+
+
+Recursion Review used in DFT
+    a function that calls on itself
+    so simple it's complicated lol
+
+# normal function example......
+def factorial(n):
+    f = 1
+    for i in range(1, n + 1):
+        f *= i
+    return f 
+
+# recursion example
+def factorial(n):
+    if n > 0:
+        return n * factorial(n - 1)
+    else:
+        return 1
+
+# OR
+# recursion example single line
+def factorial(n):
+    return n * factorial(n - 1) if n > 0 else 1
+
+
+# how does this relate?
+# DFT Recursion
+
+def dft_r(self, starting_node):
+    # Mark starting_node as visited
+    # Then call dft_r on each child
+
+    # That's it, just these two lines and we can traverse the biggest of graphs!
