@@ -11,6 +11,7 @@ class Room:
         self.items = []
         self.light = True
         self.monsters = []
+        self.xy = [0,0]
     def __str__(self):
         monsters_alive = [monster for monster in self.monsters if not monster.killed]
         if len(monsters_alive) > 0:

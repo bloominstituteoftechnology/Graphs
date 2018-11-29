@@ -117,6 +117,8 @@ while True:
             break
         elif cmds[0] == "h" or cmds[0] == "help":
             print("Hint: Find a weapon to slay the monster.\nCommands: \nq - Quit\n\nPlayer commands:\nn or north, etc. - travels that direction\ni or inventory - checks inventory\nlook - looks in current room\nlook + direction - looks in the room in that direction\np or score - checks your score\ntake/drop [item name] - takes or removes items in inventory\nequip/unequip [item name] - equips/unequips item from your inventory.\nfight [monster name] - starts combat with named target.")
+        elif cmds[0] == "m":
+            world.printMap()
         elif player.killed:
             print("You are dead.")
         else:
