@@ -1,4 +1,5 @@
 from room import Room
+from item import Item
 import random
 
 
@@ -7,7 +8,7 @@ class World:
     self.startingRoom = None
     self.rooms = {}
   
-  def getRandomDirection(self,room):
+  def _getRandomDirection(self,room):
     dirs = []
     if room.n_to == None:
         dirs.append("n")
@@ -49,9 +50,18 @@ class World:
     self.rooms['narrow'].connectRooms("n", self.rooms['treasure'])
     self.startingRoom = self.rooms['outside']
 
-  ####
-  # MODIFY THIS CODE
-  ####
+  # Drops treasure in a random room
+  def dropTreasure(self):
+    # create item
+    treasure = Item("Treasure", "Cobbler's Boot: The legendary boot that the town Cobbler used to single handedly drive away the Roman legion.")
+    # creates list of all keys to rooms, shuffle and select random room to put boot.
+    keys = list(self.rooms.keys())
+    random.shuffle(keys)
+    room = self.rooms[keys.pop()]
+
+    room.addItem(treasure)
+    print(room.name, room.getItemsString())
+
   def generateRooms(self, numRooms):
     self.rooms = {}
 
@@ -75,9 +85,9 @@ class World:
         # gets random direction from previous room and sets coordinate of new room accordingly
         isCoordinateAvailable = False
         while(not isCoordinateAvailable):
-          directions = self.getRandomDirection(previous)
+          directions = self._getRandomDirection(previous)
           # returns list where [direction, x coordinate, y coordinate]
-          coordinates = self.findAvailableCoordinate(directions,previous)
+          coordinates = self._findAvailableCoordinate(directions,previous)
           if coordinates:
             new_room.coordinates = (coordinates[1],coordinates[2])
             previous.connectRooms(coordinates[0], new_room)
@@ -99,7 +109,7 @@ class World:
     return self.rooms
   
   # finds available coordinate from list of directions as [direction,x,y] else returns None
-  def findAvailableCoordinate(self,directions,previous):
+  def _findAvailableCoordinate(self,directions,previous):
     
     while directions:
       direction = directions.pop()

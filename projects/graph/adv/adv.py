@@ -24,6 +24,7 @@ rock = Item("Rock", "This is a rock")
 # Give the player junk and put the rock in the starting room
 playerStartingItems = [junk]
 world.startingRoom.addItem(rock)
+world.dropTreasure()
 
 
 #################################
