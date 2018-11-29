@@ -12,6 +12,7 @@ class Room:
         self.items = []
         self.valid_dirs = ["n", "s", "w", "e"]
         self.coord = None
+        self.index = None
     def __str__(self):
         return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n{self._get_exits()}\n"
     def printRoomDescription(self, player):
@@ -19,13 +20,13 @@ class Room:
     def _get_exits(self):
         exits = list()
         if self.n_to is not None:
-            exits.append("n")
+            exits.append(f"n to {self.n_to.name}")
         if self.s_to is not None:
-            exits.append("s")
+            exits.append(f"s to {self.s_to.name}")
         if self.w_to is not None:
-            exits.append("w")
+            exits.append(f"w to {self.w_to.name}")
         if self.e_to is not None:
-            exits.append("e")
+            exits.append(f"e to {self.e_to.name}")
         return f"Exits: [{', '.join(exits)}]"
     def get_valid_random_dir(self):
         shuffle(self.valid_dirs)
