@@ -64,14 +64,38 @@ class Map:
             if count == room_number:
                 if  'items' not in self.graph.vertices[vertex]:
                     self.graph.vertices[vertex]['items'] = set()
-                self.graph.vertices[vertex]['items'].add('treasure')
+                self.graph.vertices[vertex]['items'].add('Treasure')
                 return
             count += 1
+
+    def find_item(self, item):
+        self.graph.color_vertices()
+        self.graph.vertices[(0,0)]['color'] = 'grey'
+        queue = [(0,0)]
+        path = []
+        while len(queue) > 0:
+            room = queue[0]
+            path.append(room)
+            if 'items' in self.graph.vertices[room]:
+                if item in self.graph.vertices[room]['items']:
+                    return path
+            at_end = True
+            for connected_room in self.graph.vertices[room]['edges']:
+                if self.graph.vertices[connected_room]['color'] == 'white':
+                    self.graph.vertices[connected_room]['color'] = 'grey'
+                    queue.append(connected_room)
+                    at_end = False
+            if at_end:
+                path.pop()
+            queue.pop(0)
+            self.graph.vertices[room]['color'] = 'black'
+        return '%s does not exist in this adventure.' %item
 
 # Tests
 map = Map(100)
 map.drop_a_random_treasure()
-print(map.graph.vertices)
+print(map.find_item('Treasure'))
+# print(map.graph.vertices)
 # print(map.graph.breadth_first_traversal((0,0)))
 # print(map.graph.depth_first_traversal((0,0)))
 # print(map.graph.vertices[(1,1)])

@@ -78,7 +78,6 @@ class Graph:
         path = []
         while len(queue)>0:
             first = queue[0]
-            print(first)
             path.append(first)
             if first == destination:
                 return path
