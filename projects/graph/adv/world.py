@@ -1,4 +1,5 @@
 from room import Room
+import random
 
 
 class World:
@@ -35,26 +36,49 @@ class World:
     # MODIFY THIS CODE
     ####
     def generateRooms(self, numRooms):
-        self.rooms = {}
+        self.rooms = {}  # {i: [room, coordinate]}
 
         if numRooms < 1:
             print("Must create at least 1 room")
             return None
 
         # Create n rooms
+        coordinate = [0,0]
+        occupied_coord = []
         for i in range(0, numRooms):
-            # Create n rooms.
-            self.rooms[i] = Room(f"Room {i}", "You are standing in an empty room.")
+            occupied_coord.append(str(coordinate))
+            self.rooms[i] = { 'room': Room(f"Room {i}", "You are standing in an empty room."), 'coord': coordinate.copy() }
+            while str(coordinate) in occupied_coord:
+                coordinate[round(random.random())] += 1 if round(random.random()) else -1
 
-        # Hard-code a single room connection.
-        # You should replace this with procedural connection code.
-        if numRooms > 1:
-            self.rooms[0].connectRooms("n", self.rooms[1])
+        for room_id in self.rooms:
+            for c_room_id in self.rooms:
+                if self.rooms[room_id]['coord'][1]-self.rooms[c_room_id]['coord'][1] == 0:  #if on the same  y axis
+                    if self.rooms[room_id]['coord'][0]-self.rooms[c_room_id]['coord'][0] == 1:  #to the east 643703
+                        self.rooms[room_id]['room'].connectRooms('w', self.rooms[c_room_id]['room'])
+
+                    elif self.rooms[room_id]['coord'][0]-self.rooms[c_room_id]['coord'][0] == -1:  #to the west 643703
+                        self.rooms[room_id]['room'].connectRooms('e', self.rooms[c_room_id]['room'])
+
+                elif  self.rooms[room_id]['coord'][0]-self.rooms[c_room_id]['coord'][0] == 0: #if on the same x axis
+                    if self.rooms[room_id]['coord'][1]-self.rooms[c_room_id]['coord'][1] == 1:  #to the south 643703
+                        self.rooms[room_id]['room'].connectRooms('s', self.rooms[c_room_id]['room'])
+
+                    elif self.rooms[room_id]['coord'][1]-self.rooms[c_room_id]['coord'][1] == -1:  #to the north 643703
+                        self.rooms[room_id]['room'].connectRooms('n', self.rooms[c_room_id]['room'])
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
         return self.rooms
+
+
+world = World()
+
+world.generateRooms(10)
+
+
+
 
 
 
