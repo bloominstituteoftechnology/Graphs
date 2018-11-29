@@ -3,6 +3,8 @@ Simple graph implementation compatible with BokehGraph class.
 """
 import random
 from termcolor import colored
+import heapq # saves writing a heap
+
 # super really basic vec2 class
 class Vec2:
     def __init__(self, x, y):
@@ -95,7 +97,19 @@ class Stack:
     def size(self):
         return len(self.storage)
 
-
+# helper class for the a star search with bfs etc
+class HeapQueue:
+    def __init__(self):
+        self.elements = []
+    
+    def empty(self):
+        return len(self.elements) == 0
+    
+    def put(self, item, priority):
+        heapq.heappush(self.elements, (priority, item))
+    
+    def get(self):
+        return heapq.heappop(self.elements)[1]
 
 
 # implement the basics of a vertex class
