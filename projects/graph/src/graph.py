@@ -2,7 +2,7 @@ from collections import deque
 from enum import Enum
 
 """
-Simple graph implementation compatible with BokehGraph class.
+Simple graph implementation
 """
 class Algorithm(Enum):
 	BREADTH = 0
