@@ -307,6 +307,33 @@ def heuristic(a, b):
     (x2, y2) = b
     return abs(x1 - x2) + abs(y1 - y2)
 
+
+## more complexity for the algorithm to make for some elegant code
+## dijkstra search ## referenced : https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+def dijkstra_search(graph, start, goal):
+    front_bias = HeapQueue()
+    front_bias.put(start, 0)
+    source_pos = {}
+    current_cost = {}
+    source_pos[start] = None
+    current_cost[start] = 0
+    
+    while not front_bias.empty():
+        current = front_bias.get()
+        
+        if current == goal:
+            break
+        
+        for next in graph.neighbors(current):
+            new_cost = current_cost[current] + graph.cost(current, next)
+            if next not in current_cost or new_cost < current_cost[next]:
+                current_cost[next] = new_cost
+                priority = new_cost
+                front_bias.put(next, priority)
+                source_pos[next] = current
+    
+    return source_pos, current_cost
+
 # some basic tests for the vertex class
 
 #constructor test
