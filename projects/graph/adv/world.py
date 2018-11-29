@@ -105,7 +105,7 @@ class World:
         # Create n rooms
         for i in range(0, numRooms):
             # Create a room
-            new_room = Room(f"Room {i}", "You are standing in an empty room.")
+            new_room = Room(f"Room {i}", "You are standing in an empty room")
             self.rooms[i] = new_room
             if i == 0:
                 # Our first room is always valid
