@@ -95,18 +95,37 @@ class Graph:
                     s.push(child)
 
     def bfs(self, starting_node, target_node):
-        # Create an array to hold visited nodes
-        visited = []
+        # Create an empty visited list
+        visited = set()
         # Create an empty Queue
         q = Queue()
-        q.enqueue(starting_node)
+        # Add the starting node to the Queue
+        q.enqueue([starting_node])
+        # While the Queue is not empty...
         while q.size() > 0:
+            # Remove the first node from the Queue
             node = q.dequeue()
-            visited.append(node)
-            for edge in self.vertices[node].edges:
-                if edge not in visited:
-                    q.enqueue(edge)
-        return False
+            # If it hasn't been visited
+            if node[-1] not in visited:
+                # Mark it as visited
+                if target_node == node[-1]:
+                    return node
+                visited.add(node[-1])
+                # Then put all its children in the queue
+                for child in self.vertices[node[-1]].edges:
+                    new_path = list(node)
+                    new_path.append(child)
+                    q.enqueue(new_path)
+        return None
+
+    def dft_r(self, starting_node, visited = None):
+        if visited is None:
+            visited = set()
+        print(starting_node)
+        visited.add(starting_node)
+        for child in self.vertices[starting_node].edges:
+            if child not in visited:
+                self.dft_r(child, visited)
 
 
 class Vertex:
@@ -131,6 +150,8 @@ graph.add_edge('1', '2')
 graph.add_edge('3', '6')
 graph.add_edge('6', '7')
 graph.add_edge('4', '5')
-graph.dft('0')
-graph.bft('0')
-graph.bfs('0', '5')
+# graph.dft('0')
+# graph.bft('0')
+# graph.bfs('0', '5')
+# print(graph.dft_r('0'))
+# print(graph.bfs('0', '4'))
