@@ -75,19 +75,19 @@ class Graph:
 
 
     # PART 3.5: Recursive implementation
-    def dft_recursive_helper(self, vertex, result, visited = set()):
+    def _dft_recursive_helper(self, vertex, result, visited = set()):
 
     	visited.add(vertex)
     	result.append(vertex)
     	neighbors = self.vertices[vertex]
     	for neighbor in neighbors:
     		if neighbor not in visited:
-    			self.dft_recursive_helper(neighbor, result, visited)
+    			self._dft_recursive_helper(neighbor, result, visited)
 
     def dft_recursive(self, vertex):
     	result = []
     	print("Recursive Depth First Traversal:")
-    	self.dft_recursive_helper(vertex, result)
+    	self._dft_recursive_helper(vertex, result)
     	return " ,".join(result)
 
 
