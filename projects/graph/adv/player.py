@@ -1,3 +1,5 @@
+# new fork and clone
+
 class Player:
     def __init__(self, name, startingRoom, startingItems=[]):
         self.name = name
@@ -42,4 +44,3 @@ class Player:
             itemToDrop.on_drop()
         else:
             print("You are not holding that item.")
-
