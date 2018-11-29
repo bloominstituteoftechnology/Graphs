@@ -51,8 +51,14 @@ class World:
         # You should replace this with procedural connection code.
         if numRooms > 1:
             self.rooms[0].connectRooms("n", self.rooms[1])
+            self.rooms[1].connectRooms("e", self.rooms[1])
+            self.rooms[2].connectRooms("s", self.rooms[1])
+            self.rooms[3].connectRooms("n", self.rooms[1])
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
         return self.rooms
+
+
+World.generateRooms(10)
