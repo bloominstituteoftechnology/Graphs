@@ -374,3 +374,10 @@ print(maze.walls)
 print("\n\n\n\n")
 draw_maze(maze, tres=[20, 10])
 print("\n\n\n\n")
+
+
+## Maze with weights tests
+maze2 = MazeWithWeights(10, 10)
+maze2.walls = [(1, 7), (1, 8), (2, 7), (2, 8), (3, 7), (3, 8)]
+maze2.weights = {loc: 5 for loc in [(3, 4), (3, 5), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6), (6, 7), (7, 3), (7, 4), (7, 5)]}
+# draw_maze(maze2, tres=[])
