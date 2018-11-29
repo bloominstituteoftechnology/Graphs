@@ -94,12 +94,42 @@ class World:
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
+        self._connect_all_nodes(graph)
+
         all_nodes_connected = self._check_bft_and_lengths(graph, numRooms)
 
         if all_nodes_connected is True:
             return self.rooms
         else:
             print('NOT ALL NODES CONNECTED PROPERLY')
+
+    def _connect_all_nodes(self, graph):
+        for first_room in self.rooms:
+            first_room_x = self.rooms[first_room].coord[0]
+            first_room_y = self.rooms[first_room].coord[1]
+            for second_room in self.rooms:
+                second_room_x = self.rooms[second_room].coord[0]
+                second_room_y = self.rooms[second_room].coord[1]
+                if first_room_x == second_room_x and first_room_y == second_room_y + 1:
+                    if "s" in self.rooms[first_room].valid_dirs:
+                        self.rooms[first_room].valid_dirs.remove("s")
+                        self.rooms[first_room].connectRooms("s", self.rooms[second_room])
+                        graph.add_edge(first_room, second_room)
+                elif first_room_x == second_room_x and first_room_y == second_room_y - 1:
+                    if "n" in self.rooms[first_room].valid_dirs:
+                        self.rooms[first_room].valid_dirs.remove("n")
+                        self.rooms[first_room].connectRooms("n", self.rooms[second_room])
+                        graph.add_edge(first_room, second_room)
+                elif first_room_y == second_room_y and first_room_x == second_room_x + 1:
+                    if "w" in self.rooms[first_room].valid_dirs:
+                        self.rooms[first_room].valid_dirs.remove("w")
+                        self.rooms[first_room].connectRooms("w", self.rooms[second_room])
+                        graph.add_edge(first_room, second_room)
+                elif first_room_y == second_room_y and first_room_x == second_room_x - 1:
+                    if "e" in self.rooms[first_room].valid_dirs:
+                        self.rooms[first_room].valid_dirs.remove("e")
+                        self.rooms[first_room].connectRooms("e", self.rooms[second_room])
+                        graph.add_edge(first_room, second_room)
 
     def _try_add_coord(self, dir):
         last_coord = self.coords_list[-1]
