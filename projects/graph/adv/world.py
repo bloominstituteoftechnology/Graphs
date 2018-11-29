@@ -1,4 +1,5 @@
 from room import Room
+from item import Item
 import random
 
 class World:
@@ -114,6 +115,11 @@ class World:
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
+        # Add treasure to a random room
+        treasure = Item('Treasure', 'A golden glove with radiant jewels!')
+        random_room = random.randint(0, numRooms + 1)
+        self.rooms[random_room].addItem(treasure)
+
         if len(self.occupied) == numRooms:
             print('World successfully created!')
         else:
@@ -136,6 +142,9 @@ class World:
 
         for v in visited:
             print(f'{v.name} => ', end='', flush=True)
+            for item in v.items:
+                if item.name == 'Treasure':
+                    print(f'The Treasure is in {v.name}.')
         print('\n')
         return visited
 
