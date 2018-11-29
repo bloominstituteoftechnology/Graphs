@@ -13,7 +13,7 @@ world = World()
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
-world.generateRooms(10)
+world.generateRooms(50)
 
 # using 10 rooms to simplify some things
 
@@ -55,6 +55,8 @@ while True:
             player.printInventory()
         elif cmds[0] == "status":
             player.printStatus()
+        elif cmds[0] == "traverse":
+            world.traverseRooms(0)
         else:
             print("I did not understand that command.")
     else:

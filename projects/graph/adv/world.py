@@ -83,9 +83,26 @@ class World:
 
         return self.rooms
 
-    def traverseRooms(self, visited=None):
-        if visited is None:
-            visited = []
+    def traverseRooms(self, room):
+        stack = [self.rooms[room]]
+        visited = []
+        while len(stack) > 0:
+            current = stack.pop()
+            visited.append(current)
+
+            paths = [current.n_to, current.s_to, current.e_to, current.w_to]
+
+            for path in paths:
+                if path and path not in visited:
+                    stack.append(path)
+
+        for v in visited:
+            print(f'{v.name} => ', end='', flush=True)
+        print('\n')
+        return visited
+
+
+        
 
 
 # TODO
