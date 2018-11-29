@@ -5,23 +5,38 @@ class World:
     def __init__(self):
         self.startingRoom = None
         self.rooms = {}
+        self.occupied = set()
 
-    def getRandomDirection(self, room):
+    def getRandomDirection(self, room, coords):
         dirs = []
-        if room.n_to is None:
+        if room.n_to is None and self._checkCoordinates(coords, 'n'):
             dirs.append('n')
-        if room.s_to is None:
+        if room.s_to is None and self._checkCoordinates(coords, 's'):
             dirs.append('s')
-        if room.e_to is None:
+        if room.e_to is None and self._checkCoordinates(coords, 'e'):
             dirs.append('e')
-        if room.w_to is None:
+        if room.w_to is None and self._checkCoordinates(coords, 'w'):
             dirs.append('w')
-        # ...
         random.shuffle(dirs)
         if len(dirs) > 0:
             return dirs[0]
         else:
             return None
+
+    def _updateCoordinates(self, coords, direction):
+        new_coords = list(coords)
+        if direction == 'n':
+            new_coords[1] += 1
+        if direction == 's':
+            new_coords[1] -= 1
+        if direction == 'e':
+            new_coords[0] += 1
+        if direction == 'w':
+            new_coords[0] -= 1
+        return new_coords
+    
+    def _checkCoordinates(self, coords, direction):
+        return str(self._updateCoordinates(coords, direction)) not in self.occupied
 
     def generateDefaultRooms(self):
         self.rooms = {
@@ -58,6 +73,12 @@ class World:
             print("Must create at least 1 room")
             return None
 
+        xy = [0,0]
+
+        self.occupied = set()
+
+        validRooms = set()
+
         # Create n rooms
         for i in range(0, numRooms):
             # Create n rooms.
@@ -65,13 +86,25 @@ class World:
             new_room = Room(f"Room {i}", "You are standing in an empty room.")
             # index the new room in our rooms list
             self.rooms[i] = new_room
+            if i == 0:
+                validRooms.add(i)
+                self.occupied.add(str(xy))
             # if not starting room
-            if i > 0:
-                # get random direction
-                random_dir = self.getRandomDirection(self.rooms[i-1])
-                # if we get a direction, connect it to the previous room
-                if random_dir is not None:
-                    self.rooms[i-1].connectRooms(random_dir, new_room)
+            else:
+                random_dir = None
+            
+                while random_dir is None:
+                    connectingRoom = validRooms.pop()
+                    xy = self.rooms[connectingRoom].xy
+                    random_dir = self.getRandomDirection(self.rooms[connectingRoom], xy)
+                    if random_dir is not None:
+                        validRooms.add(connectingRoom)
+
+                xy = self._updateCoordinates(xy, random_dir)
+                self.rooms[connectingRoom].connectRooms(random_dir, new_room)
+                self.occupied.add(str(xy))
+                new_room.xy = xy
+                validRooms.add(i)
 
         # # Hard-code a single room connection.
         # # You should replace this with procedural connection code.
@@ -80,6 +113,11 @@ class World:
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
+
+        if len(self.occupied) == numRooms:
+            print('World successfully created!')
+        else:
+            print('Something went horribly, horribly wrong.')
 
         return self.rooms
 
@@ -101,12 +139,35 @@ class World:
         print('\n')
         return visited
 
+    def printMap(self):
+        coordinates = [[int(i) for i in x[1:-1].split(', ')] for x in self.occupied]
+        xMax = xMin = yMax = yMin = 0
 
-        
+        # look over the coordinates and find the max values for x and y
+        # these will be the constraints of our map
+        for c in coordinates:
+            if c[0] > xMax:
+                xMax =c[0]
+            if c[0] < xMin:
+                xMin = c[0]
+            if c[1] > yMax:
+                yMax = c[1]
+            if c[1] < yMin:
+                yMin = c[1]
 
-
-# TODO
-# ENSURE ROOMS ARE CONNECTED
-# PROVIDE ROOM EXITS IN DESCRIPTION
-
+        row = [' '] * (1 + yMax - yMin)
+        grid = []
+        for i in range(0, 1 + xMax - xMin):
+            grid.append(list(row))
+        for c in coordinates:
+            if c[0] == 0 and c[1] == 0:
+                grid[c[0] - xMin][c[1] - yMin] = 'S'
+            else:
+                grid[c[0] - xMin][c[1] - yMin] = '0'
+        gridString = ''
+        for row in grid:
+            for room in row:
+                gridString += room
+            gridString += '\n'
+        print(gridString)
 

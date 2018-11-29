@@ -57,6 +57,8 @@ while True:
             player.printStatus()
         elif cmds[0] == "traverse":
             world.traverseRooms(0)
+        elif cmds[0] == "map":
+            world.printMap()
         else:
             print("I did not understand that command.")
     else:

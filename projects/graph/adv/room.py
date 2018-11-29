@@ -10,15 +10,17 @@ class Room:
         self.w_to = None
         self.items = []
         self.exits = []
+        self.xy = [0,0]
     def __str__(self):
-        if self.n_to is not None:
-            self.exits.append(f'North: {self.n_to.name}')
-        if self.s_to is not None:
-            self.exits.append(f'South: {self.s_to.name}')
-        if self.w_to is not None:
-            self.exits.append(f'West: {self.w_to.name}')
-        if self.e_to is not None:
-            self.exits.append(f'East: {self.e_to.name}')
+        if self.exits == []:
+            if self.n_to is not None:
+                self.exits.append(f'North: {self.n_to.name}')
+            if self.s_to is not None:
+                self.exits.append(f'South: {self.s_to.name}')
+            if self.w_to is not None:
+                self.exits.append(f'West: {self.w_to.name}')
+            if self.e_to is not None:
+                self.exits.append(f'East: {self.e_to.name}')
 
         return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n Exits: {self.exits} \n"
     def printRoomDescription(self, player):
