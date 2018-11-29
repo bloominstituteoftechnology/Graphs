@@ -310,6 +310,16 @@ def heuristic(a, b):
     (x2, y2) = b
     return abs(x1 - x2) + abs(y1 - y2)
 
+## added helper function path_fixer
+def path_fixer(source_pos, start, goal):
+    current = goal
+    path = []
+    while current != start:
+        path.append(current)
+        current = source_pos[current]
+    path.append(start)
+    path.reverse()
+    return path
 
 ## more complexity for the algorithm to make for some elegant code
 ## dijkstra search ## referenced : https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
@@ -440,4 +450,6 @@ maze2.weights = {loc: 5 for loc in [(3, 4), (3, 5), (4, 1), (4, 2), (4, 3), (4, 
 # draw_maze(maze2, tres=[])
 came_from, cost_so_far = dijkstra_search(maze2, (1, 4), (7, 8))
 
-draw_maze(maze2, width=3, point_to=came_from, start=(1, 4), goal=(7, 8), tres=[])
+## draw_maze(maze2, width=3, point_to=came_from, start=(1, 4), goal=(7, 8), tres=[])
+draw_maze(maze2, width=3, number=cost_so_far, start=(1, 4), goal=(7, 8), tres=[])
+draw_maze(maze2, width=3, path=path_fixer(came_from, start=(1, 4), goal=(7, 8)), tres=[])
