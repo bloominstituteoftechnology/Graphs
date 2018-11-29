@@ -3,9 +3,6 @@ from room import Room
 from item import Treasure
 import random
 
-
-# def __init__(self, name, description, score_amount):
-
 golden_idol = Treasure('golden idol', 'it apears to be a golden idol in the form of a bird claw', 100)
 
 def random_direction(room):
@@ -91,10 +88,38 @@ def game_generator(num_rooms):
 	for i in rooms:
 		print(f'room id: {rooms[i].id}, room edge list: {rooms[i].edges}')
 
+	print()
+	print(f'treasure is in room {rooms[random_num].id}')
+
 	return rooms
 
+def find_treasure(rooms, start_room):
+	q = []
+	q.append([start_room])
+	checked = []
 
-room_list = game_generator(3)
+	while len(q) > 0:
+
+		if len(q) > 0:
+			path = q.pop(0)
+
+		n = path[-1]
+
+		if n not in checked:
+
+			if len(rooms[n].items) > 0:
+				return path
+
+			checked.append(n)
+			for i in rooms[n].edges:
+				next_path = list(path)
+				next_path.append(i)
+				q.append(next_path)
+
+	return False
+
+room_list = game_generator(20)
+print(find_treasure(room_list, 0))
 current_room = room_list[0]
 res = ['start']
 
