@@ -1,10 +1,27 @@
 from room import Room
+import random
 
 
 class World:
     def __init__(self):
         self.startingRoom = None
         self.rooms = {}
+
+    def getRandDir(self, room):
+        dirs = []
+        if room.n_to == None:
+            dirs.append("n")
+        if room.e_to == None:
+            dirs.append("e")
+        if room.w_to == None:
+            dirs.append("w")
+        if room.s_to == None:
+            dirs.append("s")
+        random.shuffle(dirs)
+        if len(dirs) > 0:
+            return dirs[0]
+        else:
+            return None
 
     def generateDefaultRooms(self):
         self.rooms = {
@@ -44,8 +61,12 @@ class World:
         # Create n rooms
         for i in range(0, numRooms):
             # Create n rooms.
-            self.rooms[i] = Room(
-                f"Room {i}", "You are standing in an empty room.")
+            new_room = Room(f"Room {i}", "You are standing in an empty room.")
+            self.rooms[i] = new_room
+            if i > 0:
+                rand_dir = self.getRandDir(self.rooms[i])
+                if rand_dir is not None:
+                    self.rooms[i-1].connectRooms(rand_dir, new_room)
 
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
@@ -61,4 +82,4 @@ class World:
         return self.rooms
 
 
-World.generateRooms(10)
+# World.generateRooms(10)
