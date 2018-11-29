@@ -118,6 +118,32 @@ class Graph:
                     q.enqueue(new_path)
         return None
 
+
+    def dfs(self, starting_node, target_node):
+        # Create an empty visited list
+        visited = set()
+        # Create an empty Queue
+        s = Stack()
+        # Add the starting node to the Queue
+        s.push([starting_node])
+        # While the Queue is not empty...
+        while s.size() > 0:
+            # Remove the first node from the Queue
+            path = s.pop()
+            # If it hasn't been visited
+            if path[-1] not in visited:
+                # Mark it as visited
+                if target_node == path[-1]:
+                    return path
+                visited.add(path[-1])
+                # Then put all its children in the queue
+                for child in self.vertices[path[-1]].edges:
+                    new_path = list(path)
+                    new_path.append(child)
+                    s.push(new_path)
+        return None
+
+
     def dft_r(self, starting_node, visited = None):
         if visited is None:
             visited = set()
@@ -155,3 +181,4 @@ graph.add_edge('4', '5')
 # graph.bfs('0', '5')
 # print(graph.dft_r('0'))
 # print(graph.bfs('0', '4'))
+# print(graph.dfs('0', '7'))
