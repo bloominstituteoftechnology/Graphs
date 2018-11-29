@@ -48,7 +48,7 @@ def get_cords(direction, xy):
 def mapGenerator(num_rooms):
 	rooms = {}
 	cordinates = [0,0]
-	occupied = []
+	occupied = set()
 
 	for i in range(0, num_rooms):
 		new_room = Room(f'Room {i}', "You are standing in an empty room.")
@@ -59,14 +59,14 @@ def mapGenerator(num_rooms):
 			new_cords = get_cords(get_random, cordinates)
 			print(new_cords)
 
-			if get_random is not None and new_cords not in occupied:
+			if get_random is not None and tuple(new_cords) not in occupied:
 				connections(rooms[i - 1], rooms[i], get_random)
-				occupied.append(list(new_cords))
+				occupied.add(tuple(new_cords))
 
 	print(occupied)
 	return rooms
 
-room_list = mapGenerator(5)
+room_list = mapGenerator(10)
 current_room = room_list[0]
 res = ['start']
 
