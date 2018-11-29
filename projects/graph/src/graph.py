@@ -1,7 +1,3 @@
-"""
-Simple graph implementation compatible with BokehGraph class.
-"""
-
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -33,29 +29,33 @@ class Graph:
         self.color_vertices()
         self.vertices[start_vertex]['color'] = 'grey'
         queue = [start_vertex]
+        path = []
         while len(queue)>0:
             first = queue[0]
-            print(first)
+            path.append(first)
             for vertex in self.vertices[first]['edges']:
                 if self.vertices[vertex]['color'] == 'white':
                     self.vertices[vertex]['color'] = 'grey'
                     queue.append(vertex)
             queue.pop(0)
             self.vertices[first]['color'] = 'black'
+        return path
     
     def depth_first_traversal(self, start_vertex):
         print('depth first traversal with a stack')
         self.color_vertices()
         self.vertices[start_vertex]['color'] = 'grey'
         stack = [start_vertex]
+        path = []
         while len(stack)>0:
             first = stack.pop()
-            print(first)
+            path.append(first)
             for vertex in self.vertices[first]['edges']:
                 if self.vertices[vertex]['color'] == 'white':
                     self.vertices[vertex]['color'] = 'grey'
                     stack.append(vertex)
             self.vertices[first]['color'] = 'black'
+        return path
 
     def depth_first_traversal_recursive(self, start_vertex):
         print('depth first traversal with recursion')
@@ -116,6 +116,12 @@ class Graph:
                 path.pop()
             self.vertices[first]['color'] = 'black'
         return 'Did not find %s.' %destination
+
+    def createRandomRooms(self, *argv):
+        if len(argv)==1:
+            return adventure_map.Map(argv[0])
+        else:
+            return adventure_map.Map()
 
 # Tests
     # graph = Graph()  # Instantiate your graph
