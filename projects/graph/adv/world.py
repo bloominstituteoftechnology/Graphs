@@ -1,6 +1,7 @@
 from room import Room
 from item import Item
 import random
+import queue as queue
 
 class World:
     def __init__(self):
@@ -128,6 +129,7 @@ class World:
         return self.rooms
 
     def traverseRooms(self, room):
+        # Dept First Traversal
         stack = [self.rooms[room]]
         visited = []
         while len(stack) > 0:
@@ -146,6 +148,37 @@ class World:
                 if item.name == 'Treasure':
                     print(f'The Treasure is in {v.name}.')
         print('\n')
+        return visited
+
+    def bfSearch(self, root):
+        # Breadth first traversal
+
+        visited = []
+        storage = queue.Queue()
+        storage.put(self.rooms[root])
+
+        while not storage.empty():
+            current = storage.get()
+
+            if current not in visited:
+                visited.append(current)
+            
+            for item in current.items:
+                if item.name == 'Treasure':
+                    for v in visited:
+                        print(f'{v.name} => ', end='')
+                    
+                    print('Treasure')
+                    return visited
+            
+            paths = [current.n_to, current.s_to, current.w_to, current.e_to]
+
+            for path in paths:
+                if path not in visited and path is not None:
+                    storage.put(path)
+        
+        for v in visited:
+            print(f'{v.name} => ', end='')
         return visited
 
     def printMap(self):
