@@ -49,7 +49,7 @@ class Room:
            self.coordinates = (con_rm_x_coord, con_rm_y_coord + 1)
        elif direction == "e":
            self.e_to = connectingRoom
-           connectingRoom.w_to = selfself.coordinates = (con_rm_x_coord - 1, con_rm_y_coord)
+           connectingRoom.w_to = self.coordinates = (con_rm_x_coord - 1, con_rm_y_coord)
        elif direction == "w":
            self.w_to = connectingRoom
            connectingRoom.e_to = self

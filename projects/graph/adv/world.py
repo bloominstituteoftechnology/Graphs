@@ -6,10 +6,12 @@ class World:
         self.startingRoom = None
         self.rooms = {}
         self.avail_rm_dir = []
+        self.rm_coords = []
 
     def getRandomRoom(self):
         if len(self.avail_rm_dir) > 0:
-            random_rooms = list(self.rooms)
+            random_rooms = list(self.rooms.values())
+            # print(random_rooms)
             random.shuffle(random_rooms)
             return random_rooms[0]
         else: 
@@ -18,13 +20,13 @@ class World:
     def getRandomDirection(self):
         random_room = self.getRandomRoom()
         available_dir = []
-        if room.n_to is None:
+        if random_room.n_to is None:
             available_dir.append("n")
-        if room.s_to is None:
+        if random_room.s_to is None:
             available_dir.append("s")
-        if room.w_to is None:
+        if random_room.w_to is None:
             available_dir.append("w")
-        if room.e_to is None:
+        if random_room.e_to is None:
             available_dir.append("e")
         random.shuffle(available_dir)
         if len(available_dir) > 0:
@@ -85,19 +87,37 @@ class World:
             
             self.rooms[i] = new_room
             # if first room, add new room's available directions to avail_rm_dirs
-            if i = 0:
-                self.avail_rm_dir.append(new_room, "n")
-                self.avail_rm_dir.append(new_room, "s")
-                self.avail_rm_dir.append(new_room, "e")
-                self.avail_rm_dir.append(new_room, "w")
+            if i == 0:
+                self.avail_rm_dir.append((new_room, "n"))
+                self.avail_rm_dir.append((new_room, "s"))
+                self.avail_rm_dir.append((new_room, "e"))
+                self.avail_rm_dir.append((new_room, "w"))
             # If it's not the first room....
             if i > 0:
-                # ...connect to the previous room in a random direction
-                random_rm_tuple = self.getRandomDirection()
+                # find a random room and random direction to connect the new room to
+                
+                flag = False
+                while flag == False:
+                    random_rm_tuple = self.getRandomDirection()
+                    for rm_coord in self.rm_coords:
+                        if random_rm_tuple[0].coordinates == rm_coord:
+                            flag = True
+
                 if random_rm_tuple is not None:
                     random_rm = random_rm_tuple[0]
                     random_rm_dir = random_rm_tuple[1]
                     self.rooms[random_rm.id].connectRooms(random_rm_dir, new_room)
+                    if new_room.n_to is None:
+                        self.avail_rm_dir.append((new_room, "n"))
+                    if new_room.s_to is None:
+                        self.avail_rm_dir.append((new_room, "s"))
+                    if new_room.w_to is None:
+                        self.avail_rm_dir.append((new_room, "w"))
+                    if new_room.e_to is None:
+                        self.avail_rm_dir.append((new_room, "e")) 
+            self.rm_coords.append(new_room.coordinates)
+            # print(self.avail_rm_dir)
+            print(new_room.coordinates)
                     
 
         # Set the starting room to the first room. Change this if you want a new starting room.
