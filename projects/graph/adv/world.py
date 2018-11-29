@@ -48,8 +48,8 @@ class World:
 
         self.rooms[0] = Room(f"Room 0", "You are standing in an empty room.")
         graph.add_vertex(0)
-        self.rooms[0].coord = (0, 0)
-        self.coords_list.append((0, 0))
+        self.rooms[0].coord = [0, 0]
+        self.coords_list.append([0, 0])
 
         # Create n rooms
         i = 1
@@ -104,13 +104,13 @@ class World:
     def _try_add_coord(self, dir):
         last_coord = self.coords_list[-1]
         if dir is "n":
-            new_coord = (last_coord[0], last_coord[1] + 1)
+            new_coord = [last_coord[0], last_coord[1] + 1]
         elif dir is "s":
-            new_coord = (last_coord[0], last_coord[1] - 1)
+            new_coord = [last_coord[0], last_coord[1] - 1]
         elif dir is "w":
-            new_coord = (last_coord[0] - 1, last_coord[1])
+            new_coord = [last_coord[0] - 1, last_coord[1]]
         elif dir is "e":
-            new_coord = (last_coord[0] + 1, last_coord[1])
+            new_coord = [last_coord[0] + 1, last_coord[1]]
         if new_coord in self.coords_list:
             return None
         else:
@@ -125,3 +125,31 @@ class World:
             return True
         else:
             return False
+
+    def printMap(self):
+        coordinates = list(self.coords_list)
+        xMax = xMin = yMax = yMin = 0
+        for c in coordinates:
+            if c[0] > xMax:
+                xMax = c[0]
+            if c[0] < xMin:
+                xMin = c[0]
+            if c[1] > yMax:
+                yMax = c[1]
+            if c[1] < yMin:
+                yMin = c[1]
+        row = [" "] * (1 + yMax - yMin)
+        grid = []
+        for i in range(0, 1 + xMax - xMin):
+            grid.append(list(row))
+        for c in coordinates:
+            if c[0] == 0 and c[1] == 0:
+                grid[c[0] - xMin][c[1] - yMin] = "S"
+            else:
+                grid[c[0] - xMin][c[1] - yMin] = "0"
+        gridString = ""
+        for row in grid:
+            for room in row:
+                gridString += room
+            gridString += "\n"
+        print (gridString)
