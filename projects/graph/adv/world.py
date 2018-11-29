@@ -1,4 +1,6 @@
+import random
 from room import Room
+from item import Item
 
 import sys
 sys.path.insert(0, '../src')
@@ -94,7 +96,13 @@ class World:
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
+        # Connect all adjacent rooms to one another
         self._connect_all_nodes(graph)
+
+        # Add treasure to random room
+        random_room = random.randint(1, 100)
+        treasure = Item("Treasure", "This is a treasure")
+        self.rooms[random_room].addItem(treasure)
 
         all_nodes_connected = self._check_bft_and_lengths(graph, numRooms)
 
