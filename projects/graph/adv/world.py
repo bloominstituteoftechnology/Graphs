@@ -10,6 +10,8 @@ class World:
     def __init__(self):
         self.startingRoom = None
         self.rooms = {}
+        self.graph = Graph()
+        self.treasure_room_index = None
 
     def generateDefaultRooms(self):
         self.rooms = {
@@ -42,14 +44,14 @@ class World:
     def generateRooms(self, numRooms):
         self.rooms = {}
         self.coords_list = []
-        graph = Graph()
 
         if numRooms < 1:
             print("Must create at least 1 room")
             return None
 
         self.rooms[0] = Room(f"Room 0", "You are standing in an empty room.")
-        graph.add_vertex(0)
+        self.rooms[0].index = 0
+        self.graph.add_vertex(0)
         self.rooms[0].coord = [0, 0]
         self.coords_list.append([0, 0])
 
@@ -86,32 +88,36 @@ class World:
                 continue
 
             new_room = Room(f"Room {i}", "You are standing in an empty room.")
-            graph.add_vertex(i)
+            self.graph.add_vertex(i)
             self.rooms[i] = new_room
+            self.rooms[i].index = i
             self.rooms[i].coord = new_coord
             self.rooms[i - 1].connectRooms(dir, self.rooms[i])
-            graph.add_edge(i - 1, i)
+            self.graph.add_edge(i - 1, i)
             i += 1
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
         # Connect all adjacent rooms to one another
-        self._connect_all_nodes(graph)
+        self._connect_all_nodes()
 
         # Add treasure to random room
-        random_room = random.randint(1, 100)
-        treasure = Item("Treasure", "This is a treasure")
-        self.rooms[random_room].addItem(treasure)
+        random_room_index = random.randint(1, numRooms - 1)
+        treasure = Item("A treasure", "This is a treasure")
+        treasure_room = self.rooms[random_room_index]
+        treasure_room.addItem(treasure)
+        treasure_room.description = "You are standing in the treasure room!"
+        self.treasure_room_index = random_room_index
 
-        all_nodes_connected = self._check_bft_and_lengths(graph, numRooms)
+        all_nodes_connected = self._check_bft_and_lengths(numRooms)
 
         if all_nodes_connected is True:
             return self.rooms
         else:
             print('NOT ALL NODES CONNECTED PROPERLY')
 
-    def _connect_all_nodes(self, graph):
+    def _connect_all_nodes(self):
         for first_room in self.rooms:
             first_room_x = self.rooms[first_room].coord[0]
             first_room_y = self.rooms[first_room].coord[1]
@@ -122,22 +128,22 @@ class World:
                     if "s" in self.rooms[first_room].valid_dirs:
                         self.rooms[first_room].valid_dirs.remove("s")
                         self.rooms[first_room].connectRooms("s", self.rooms[second_room])
-                        graph.add_edge(first_room, second_room)
+                        self.graph.add_edge(first_room, second_room)
                 elif first_room_x == second_room_x and first_room_y == second_room_y - 1:
                     if "n" in self.rooms[first_room].valid_dirs:
                         self.rooms[first_room].valid_dirs.remove("n")
                         self.rooms[first_room].connectRooms("n", self.rooms[second_room])
-                        graph.add_edge(first_room, second_room)
+                        self.graph.add_edge(first_room, second_room)
                 elif first_room_y == second_room_y and first_room_x == second_room_x + 1:
                     if "w" in self.rooms[first_room].valid_dirs:
                         self.rooms[first_room].valid_dirs.remove("w")
                         self.rooms[first_room].connectRooms("w", self.rooms[second_room])
-                        graph.add_edge(first_room, second_room)
+                        self.graph.add_edge(first_room, second_room)
                 elif first_room_y == second_room_y and first_room_x == second_room_x - 1:
                     if "e" in self.rooms[first_room].valid_dirs:
                         self.rooms[first_room].valid_dirs.remove("e")
                         self.rooms[first_room].connectRooms("e", self.rooms[second_room])
-                        graph.add_edge(first_room, second_room)
+                        self.graph.add_edge(first_room, second_room)
 
     def _try_add_coord(self, dir):
         last_coord = self.coords_list[-1]
@@ -155,8 +161,8 @@ class World:
             self.coords_list.append(new_coord)
             return new_coord
 
-    def _check_bft_and_lengths(self, graph, numRooms):
-        traversal_list = graph.bft(0)
+    def _check_bft_and_lengths(self, numRooms):
+        traversal_list = self.graph.bft(0)
         traversal_list_len = len(traversal_list)
         coords_list_len = len(self.coords_list)
         if traversal_list_len is numRooms and traversal_list_len is coords_list_len:
@@ -191,3 +197,7 @@ class World:
                 gridString += room
             gridString += "\n"
         print (gridString)
+
+    def find_shortest_path_to_treasure(self, currentRoom):
+        shortest_path = self.graph.bfs(currentRoom.index, self.treasure_room_index)
+        return shortest_path[1:]
