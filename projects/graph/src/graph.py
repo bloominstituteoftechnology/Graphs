@@ -1,7 +1,8 @@
 """
 Simple graph implementation compatible with BokehGraph class.
 """
-
+import random
+from termcolor import colored
 # super really basic vec2 class
 class Vec2:
     def __init__(self, x, y):
@@ -225,7 +226,7 @@ def width_bias(id, width):
     return (id % width, id // width)
 
 # draw a block to the console in ascii with a specific style dependant on grid data
-def draw_block(graph, id, style, width):
+def draw_block(graph, tres, id, style, width):
     block = "."
     if 'number' in style and id in style['number']: block = "%d" % style['number'][id]
     if 'point_to' in style and style['point_to'].get(id, None) is not None:
@@ -235,22 +236,23 @@ def draw_block(graph, id, style, width):
         if x2 == x1 - 1: block = "<"
         if y2 == y1 + 1: block = "v"
         if y2 == y1 - 1: block = "^"
-    if 'start' in style and id == style['start']: block = "A"
+    if 'start' in style and id == style['start']: block = "T"
     if 'goal' in style and id == style['goal']: block = "Z"
     if 'path' in style and id in style['path']: block = "@"
     if id in graph.walls: block = "#" * width
+    if id not in graph.walls and random.randint(1, 101) > 99: block = 'T' ## tried to do colored blocks but it messes with the data ## colored('T', 'green')
     return block
 
 # draw a maze to the console utilizing the draw block helper function
-def draw_maze(maze, width=2, **style):
+def draw_maze(maze, tres, width=2, **style):
     for y in range(maze.height):
         for x in range(maze.width):
-            print("%%-%ds" % width % draw_maze(maze, (x, y), style, width), end="")
+            print("%%-%ds" % width % draw_block(maze, tres, (x, y), style, width), end="")
         print()
 
 # data
 WALLS = [width_bias(id, width=30) for id in [21,22,51,52,81,82,93,94,111,112,123,124,133,134,141,142,153,154,163,164,171,172,173,174,175,183,184,193,194,201,202,203,204,205,213,214,223,224,243,244,253,254,273,274,283,284,303,304,313,314,333,334,343,344,373,374,403,404,433,434]]
-
+TREASURE = [width_bias(tres, width=30) for tres in [30, 70]]
 
 ## Grid Maze Generator
 class GridMaze:
@@ -258,6 +260,7 @@ class GridMaze:
         self.width = width
         self.height = height
         self.walls = []
+        self.treasure = []
     
     def in_bounds(self, id):
         (x, y) = id
@@ -273,6 +276,19 @@ class GridMaze:
         results = filter(self.in_bounds, results)
         results = filter( not self.solid, results)
         return results
+
+
+### Adding some more traversal and path finding code
+class MazeWithWeights(GridMaze):
+    def __init__(self, width, height):
+        super().__init__(width, height)
+        self.weights = {}
+    ## added a costings
+    def cost(self, from_node, to_node):
+        return self.weights.get(to_node, 1)
+
+## TODO: add a heuristic method to do some best guess algorithm
+
 
 # some basic tests for the vertex class
 
@@ -335,5 +351,9 @@ print(g0.path_b(7, "Node1"))
 ## lTODO: lets draw a maze
 maze = GridMaze(30, 15)
 maze.walls = WALLS
+maze.treasure = TREASURE
 ## print the maze object
 print(maze.walls)
+print("\n\n\n\n")
+draw_maze(maze, tres=[20, 10])
+print("\n\n\n\n")
