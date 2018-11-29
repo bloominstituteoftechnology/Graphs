@@ -35,6 +35,10 @@ class Room:
       return f"The room contains: {', '.join([item.name for item in self.items])}"
     else:
       return "The room is empty"
+
+  def setCoordinates(self, x, y):
+    self.x = x
+    self.y = y
   def connectRooms(self, direction, connectingRoom):
     if direction == "n":
       self.n_to = connectingRoom

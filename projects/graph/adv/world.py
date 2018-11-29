@@ -18,8 +18,11 @@ class World:
     if room.w_to == None:
         dirs.append("w")
 
+    if len(dirs) < 1:
+      return None
+
     random.shuffle(dirs)
-    return dirs[0]
+    return dirs
   
   def generateDefaultRooms(self):
     self.rooms = {
@@ -70,36 +73,17 @@ class World:
         # since rooms is dict, we need easy way to access previously created room
       else:
         # gets random direction from previous room and sets coordinate of new room accordingly
-        direction = self.getRandomDirection(previous)
-        # print(f"{i}, {direction}, p: {previous.name} ({previous.x},{previous.y})")
-        if direction == "n":
-          new_room.x = previous.x
-          new_room.y = previous.y - 1
-        elif direction == "s":
-          new_room.x = previous.x
-          new_room.y = previous.y + 1  
-        elif direction == "w":
-          new_room.x = previous.x - 1
-          new_room.y = previous.y
-        elif direction == "e":
-          new_room.x = previous.x + 1
-          new_room.y = previous.y
+        directions = self.getRandomDirection(previous)
+        coordinates = self.findAvailableCoordinate(directions,previous)
+        new_room.setCoordinates(coordinates[1],coordinates[2])
         # print(f"{i},    n: {new_room.name} ({new_room.x},{new_room.y})")
-        previous.connectRooms(direction, new_room)
+        previous.connectRooms(coordinates[0], new_room)
         
         if new_room.x not in self.rooms:
           self.rooms[new_room.x] = {}
         self.rooms[new_room.x][new_room.y] = new_room
       previous = new_room
           
-
-
-
-
-
-
-
-
 
     # Hard-code a single room connection.
     # You should replace this with procedural connection code.
@@ -108,7 +92,38 @@ class World:
     self.startingRoom = self.rooms[0][0]
 
     return self.rooms
+  
+  # finds available coordinate from list of directions as [direction,x,y] else returns None
+  def findAvailableCoordinate(self,directions,previous):
+    print("New Iteration: ", previous.name, previous.x,previous.y, directions)
+    while directions:
+      direction = directions.pop()
+      if direction == "n":
+        possible_x = previous.x
+        possible_y = previous.y - 1
+      elif direction == "s":
+        possible_x = previous.x
+        possible_y = previous.y + 1  
+      elif direction == "w":
+        possible_x = previous.x - 1
+        possible_y = previous.y
+      elif direction == "e":
+        possible_x = previous.x + 1
+        possible_y = previous.y
+      
+      print(possible_x,possible_y)
+      if self.isCoordinateAvailable(possible_x, possible_y):
+        return [direction,possible_x,possible_y]
+      print(direction, self.rooms[possible_x][possible_y].name)
 
+    return None
+     
+# returns true if self.rooms contains room at given coordinate
+  def isCoordinateAvailable(self,x,y):
+    if x in self.rooms:
+      if y in self.rooms[x]:
+        return False
+    return True
 
 
 
