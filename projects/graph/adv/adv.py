@@ -13,8 +13,7 @@ world = World()
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
-world.generateRooms(8)
-
+world.generateRooms(11)
 
 
 # Add some items

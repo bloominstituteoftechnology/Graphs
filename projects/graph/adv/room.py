@@ -12,11 +12,11 @@ class Room:
 
     def __str__(self):
         return f"""
-            \n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n
-            Go "n" to {self.getRoomInDirection("n").name if self.getRoomInDirection("n") is not None else ""}
-            Go "e" to {self.getRoomInDirection("e").name if self.getRoomInDirection("e") is not None else ""}
-            Go "s" to {self.getRoomInDirection("s").name if self.getRoomInDirection("s") is not None else ""}
-            Go "w" to {self.getRoomInDirection("w").name if self.getRoomInDirection("w") is not None else ""}
+          \n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n
+          {self.getRoomInDirection("n") and str("n ") + self.getRoomInDirection("n").name or "n ---"}
+          {self.getRoomInDirection("e") and str("e ") + self.getRoomInDirection("e").name or "e ---"}
+          {self.getRoomInDirection("s") and str("s ") + self.getRoomInDirection("s").name or "s ---"}
+          {self.getRoomInDirection("w") and str("w ") + self.getRoomInDirection("w").name or "w ---"}
         """
     
     def printRoomDescription(self, player):

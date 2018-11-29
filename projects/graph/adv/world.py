@@ -69,17 +69,17 @@ class World:
             if i > 0:
                 path = self.get_random_direction(self.rooms[i - 1])
                 if path is not None:
-                    if path == 'n':
+                    if path == "n":
                         self.y_counter += 1
-                    elif path == 's':
+                    elif path == "s":
                         self.y_counter -= 1
-                    elif path == 'e':
+                    elif path == "e":
                         self.x_counter += 1
-                    elif path == 'w':
+                    elif path == "w":
                         self.x_counter -= 1
 
                     if (self.x_counter, self.y_counter) not in self.avoid_list:
-                        self.rooms[i - 1]. connectRooms(path, self.rooms[i])
+                        self.rooms[i - 1].connectRooms(path, self.rooms[i])
                         self.avoid_list.add((self.x_counter, self.y_counter))
                         print(path, (self.x_counter, self.y_counter), self.avoid_list)
                     else:
@@ -87,7 +87,7 @@ class World:
                             "COLLISION", 
                             path, 
                             (self.x_counter, self.y_counter), 
-                            self.avoid_list
+                            self.avoid_list,
                         )
 
         # Hard-code a single room connection.
