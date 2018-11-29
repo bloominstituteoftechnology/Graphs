@@ -38,7 +38,8 @@ valid_directions = {"n": "n", "s": "s", "e": "e", "w": "w",
 
 player = Player(input("What is your name? "), world.startingRoom, playerStartingItems)
 
-print(player.currentRoom)
+shortest_treasure_path = world.find_shortest_path_to_treasure(player.currentRoom)
+print(player.currentRoom, f"Shortest path to treasure: {shortest_treasure_path}" if len(shortest_treasure_path) > 0 else "You made it to the treasure!")
 
 while True:
     cmds = input("-> ").lower().split(" ")
@@ -47,6 +48,8 @@ while True:
             break
         elif cmds[0] in valid_directions:
             player.travel(valid_directions[cmds[0]])
+            shortest_treasure_path = world.find_shortest_path_to_treasure(player.currentRoom)
+            print(f"Shortest path to treasure: {shortest_treasure_path}" if len(shortest_treasure_path) > 0 else "You made it to the treasure!")
         elif cmds[0] == "l" or cmds[0] == "look":
             player.look()
         elif cmds[0] == "i" or cmds[0] == "inventory":
