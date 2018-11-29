@@ -334,6 +334,33 @@ def dijkstra_search(graph, start, goal):
     
     return source_pos, current_cost
 
+## and now for A-STAR (this one i ported over some of my ideas from my JAVA and C++ A-STAR algorithm implementations)
+## similar look for this as the J search
+def a_star_search(graph, start, goal):
+    front_bias = PriorityQueue()
+    front_bias.put(start, 0)
+    source_pos = {}
+    current_cost = {}
+    source_pos[start] = None
+    current_cost[start] = 0
+    
+    while not front_bias.empty():
+        current = front_bias.get()
+        
+        if current == goal:
+            break
+        
+        for next in graph.neighbors(current):
+            new_cost = current_cost[current] + graph.cost(current, next)
+            if next not in current_cost or new_cost < current_cost[next]:
+                current_cost[next] = new_cost
+                ## Using my Heuristic helper function
+                priority = new_cost + heuristic(goal, next)
+                front_bias.put(next, priority)
+                source_pos[next] = current
+    
+    return source_pos, current_cost
+
 # some basic tests for the vertex class
 
 #constructor test
