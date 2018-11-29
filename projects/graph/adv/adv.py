@@ -38,7 +38,7 @@ valid_directions = {"n": "n", "s": "s", "e": "e", "w": "w",
 
 player = Player(input("What is your name? "), world.startingRoom, playerStartingItems)
 
-print(player.currentRoom)
+player.currentRoom.printRoomDescription(player)
 
 while True:
     cmds = input("-> ").lower().split(" ")

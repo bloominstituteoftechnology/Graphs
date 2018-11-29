@@ -13,8 +13,23 @@ class Room:
     self.items = []
   def __str__(self):
     return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n"
+  def getPossibleDirections(self):
+    dirs = []
+    if self.n_to == None:
+      dirs.append("n")
+    if self.s_to == None:
+      dirs.append("s")
+    if self.e_to == None:
+      dirs.append("e")
+    if self.w_to == None:
+      dirs.append("w")
+
+    return dirs
+
   def printRoomDescription(self, player):
     print(str(self))
+    print(f"Exits: {self.getPossibleDirections()}")
+     
   def getItemsString(self):
     if len(self.items) > 0:
       return f"The room contains: {', '.join([item.name for item in self.items])}"
