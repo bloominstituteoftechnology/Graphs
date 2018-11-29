@@ -48,7 +48,8 @@ class World:
                     # e.g., if previous room has random_dir="n", place current room at e_to location from previous room
                     self.rooms[i-1].connectRooms(random_dir, new_room)
                 # print(random_dir)
-            print(f'New Room: \n', self.rooms[i])
+            print(self.rooms[i])
+            print(f'To the North is Room {self.rooms[i].n_to}\nTo the East is Room {self.rooms[i].e_to}\nTo the South is Room {self.rooms[i].s_to}\nTo the West is Room {self.rooms[i].w_to}')
 
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
