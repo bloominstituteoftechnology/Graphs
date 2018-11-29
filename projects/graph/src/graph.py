@@ -42,7 +42,35 @@ Simple graph implementation compatible with BokehGraph class.
 ###### Lecture Notes- Solution ######
 class Queue:
     def __init__(self):
-        self
+        self.queue = []
+        
+    def enqueue(self, value):
+        self.queue.append(value)
+    
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    
+    def size(self):
+        return len(self.queue)
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, value):
+        self.stack.append(value)
+    
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+        
+    def size(self):
+        return len(self.stack)
 
 class Graph:
     def __init__(self):
@@ -88,8 +116,24 @@ class Graph:
                 visited.add(node)
                 #then put all its children in the queue
                 for child in self.vertices[node].edges:
-                    print(f" add child: {child}")
+                    # print(f" add child: {child}")
                     s.push(child)
+    
+    #DFT Recursion
+    #why do we set the default of visited to None? 
+
+    def dft_r(self, starting_node, visited=None):
+        if visited is None:
+            visited = set()
+            # Mark startig_node as visited
+        print(starting_node)
+        visited.add(starting_node)
+        for child in self.vertices[starting_node].edges:
+            # Mark starting_node as visited
+            if child not in visited:
+                # call dft_r on that child
+                self.dft_r(child, visited)
+
 
     def bft(self, starting_node):
         #Create an empty Queue
@@ -109,7 +153,7 @@ class Graph:
                 visited.add(node)
                 #then put all its children in the queue
                 for child in self.vertices[node].edges:
-                    print(f" add child: {child}")
+                    # print(f" add child: {child}")
                     q.enqueue(child)
 
     #Another way to do this BFT                
@@ -136,6 +180,12 @@ class Graph:
 
 
     # BF Search
+    # visited = [1, 2, 3, 4]
+    # queue = [[1,2,3,5], [1,2,4,6], [1,2,4,7]]
+    # we go down each path starting with just 1, then 1,2, then 1,2,3, but that is just one path
+    # we get through all of the paths, looking at the last path item in queue, if it hasn't be
+    # visited then it is marked as visited by being pushing it into the visited list, 
+    # all visited items are ignored.
 
     def bfs(self, starting_node, destination_node):
         #Create an empty Queue
@@ -143,35 +193,49 @@ class Graph:
         #Create an empty visited list
         visited = set()
         #Add the start node to the queue
-        q.enqueue(starting_node)
+        q.enqueue([starting_node])
         #while the Queue is not empty...
         while q.size() > 0:
             #remove the first node from the Queue
             node = q.dequeue()
+            #If it the last item in the path list ([node[-1]]) b/c it goes by index hasn't been visited
+            if node[-1] not in visited:
+                #Mark it as visited, by visited.add(node[-1])
+                if destination_node == node[-1]:
+                    return node
+                visited.add(node[-1])
+                # then put all its children in the queue
+                for child in self.vertices[node[-1]].edges:
+                    new_path = list(node)
+                    new_path.append(child)
+                    q.enqueue(new_path)
+        return None
+
+    # DFS Search
+    def dfs(self, starting_node, destination_node):
+        #Create an empty stack
+        s = Stack()
+        #Create an empty visited list
+        visited = set()
+        #Add the start node to the queue
+        s.push([starting_node])
+        #while the stack is not empty...
+        while s.size() > 0:
+            #remove the first node from the stack
+            path = s.pop()
             #If it hasn't been visited
-            if node not in visited:
+            if path[-1] not in visited:
                 #Mark it as visited
-                print(node)
-                if destination_node == node:
-                    return True
-                visited.add(node)
-                #then put all its children in the queue
-                for child in self.vertices[node].edges:
-                    print(f" add child: {child}")
-                    q.enqueue(child)
-
-    #Lecture Solution
-    #DFT Recursion
-    #why do we set the default of visited to None? 
-
-    def dft_r(self, starting_node, visited=None):
-        # Mark starting_node as visited
-        # Then call dft_r on each child
-        if visited is None:
-            visited = set()
-        visited.add(starting_node)
-        for child in self.vertices[starting_node].edges:
-            
+                # print(node)
+                if destination_node == path[-1]:
+                    return path
+                visited.add(path[-1])
+                # then put all its children in the stack
+                for child in self.vertices[path[-1]].edges:
+                    new_path = list(path)
+                    new_path.append(child)
+                    s.push(new_path)
+        return None
         
 class Vertex:
     def __init__(self, vertex_id):

@@ -27,7 +27,7 @@ def main():
    graph.add_directed_edge(7, 6)
    graph.add_directed_edge(7, 1)
 
-   graph.bft(1)
+   print(graph.dfs(1, 6))
 
 
 
