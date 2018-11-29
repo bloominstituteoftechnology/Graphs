@@ -13,8 +13,7 @@ world = World()
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
-world.generateRooms(100)
-
+world.generateRooms(10)
 
 
 # Add some items
@@ -32,9 +31,20 @@ world.startingRoom.addItem(rock)
 #
 #################################
 
-valid_directions = {"n": "n", "s": "s", "e": "e", "w": "w",
-                    "north": "n", "south": "s", "east": "e", "west": "w",
-                    "forward": "n", "backwards": "s", "right": "e", "left": "w"}
+valid_directions = {
+    "n": "n",
+    "s": "s",
+    "e": "e",
+    "w": "w",
+    "north": "n",
+    "south": "s",
+    "east": "e",
+    "west": "w",
+    "forward": "n",
+    "backwards": "s",
+    "right": "e",
+    "left": "w",
+}
 
 player = Player(input("What is your name? "), world.startingRoom, playerStartingItems)
 
@@ -71,6 +81,4 @@ while True:
             player.dropItem(cmds[1:])
         else:
             print("I did not understand that command.")
-
-
 

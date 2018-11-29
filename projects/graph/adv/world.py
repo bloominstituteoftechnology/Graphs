@@ -62,6 +62,9 @@ class World:
 
     def generateRooms(self, numRooms):
         self.rooms = {}
+        self.x_counter = 0
+        self.y_counter = 0
+        self.avoid_list = set()
 
         if numRooms < 1:
             print("Must create at least 1 room")
@@ -74,7 +77,26 @@ class World:
             if i > 0:
                 path = self.get_random_direction(self.rooms[i - 1])
                 if path is not None:
-                    self.rooms[i - 1].connectRooms(path, self.rooms[i])
+                    if path == "n":
+                        self.y_counter += 1
+                    elif path == "s":
+                        self.y_counter -= 1
+                    elif path == "e":
+                        self.x_counter += 1
+                    elif path == "w":
+                        self.x_counter -= 1
+
+                    if (self.x_counter, self.y_counter) not in self.avoid_list:
+                        self.rooms[i - 1].connectRooms(path, self.rooms[i])
+                        self.avoid_list.add((self.x_counter, self.y_counter))
+                        print(path, (self.x_counter, self.y_counter), self.avoid_list)
+                    else:
+                        print(
+                            "COLLISION",
+                            path,
+                            (self.x_counter, self.y_counter),
+                            self.avoid_list,
+                        )
 
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
