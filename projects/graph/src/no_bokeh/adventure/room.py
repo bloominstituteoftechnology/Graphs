@@ -1,6 +1,8 @@
 class Room:
-	def __init__(self, name, desciption):
+	def __init__(self, name, desciption, room_id):
 		self.name = name
+		self.id = room_id
+		self.edges = []
 		self.desciption = desciption
 		self.items = []
 		self.n_to = None
@@ -32,10 +34,10 @@ class Room:
 		if self.e_to is not None:
 			exits.append("e")
 
-		if len(exits) == 1:
-			print(f'exit: {exits[0]}')
-		else:
-			print(f'exits: {",".join(exits)}')
+		# if len(exits) == 1:
+		# 	print(f'exit: {exits[0]}')
+		# else:
+		# 	print(f'exits: {",".join(exits)}')
 		return exits
 
 	def __str__(self):
