@@ -132,6 +132,23 @@ class Graph:
             if child not in visited:
                 self.dft_r(child, visited)
 
+    def dfs_r(self, start, end, visited=None, path=None):
+        if visited is None:
+            visited = set()
+        if path is None:
+            path = []
+        visited.add(start)
+        extended_path = list(path)
+        extended_path.append(start)
+        if start == end:
+            return extended_path
+        for child in self.vertices[start].edges:
+            if child not in visited:
+                new_path = self.dfs_r(child, end, visited)
+                if new_path:
+                    return new_path
+        return None
+
 
 class Vertex:
     def __init__(self, vertex_id):
