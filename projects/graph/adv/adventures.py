@@ -1,6 +1,7 @@
-from room import Room
-from player import Player
-from item import Item
+from rooms import Room
+from players import Player
+from items import Item
+from world import World
 
 # Declare all the rooms_______ Dictionary__________
 #We have created an "obj" of "objs" for the Rooms Class (room.py) , it is 'here' in adv.py b/c
@@ -39,16 +40,16 @@ items = {"pickle": "pickle", "skull": "skull", "boot": "boot", "trash": "trash",
 directions = {"n": "n", "e": "e", "s": "s", "w":"w"}
 
 # Link rooms together
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
-room['treasure'].e_to = room['garden']
-room['garden'].w_to = room['treasure']
+# room['outside'].n_to = room['foyer']
+# room['foyer'].s_to = room['outside']
+# room['foyer'].n_to = room['overlook']
+# room['foyer'].e_to = room['narrow']
+# room['overlook'].s_to = room['foyer']
+# room['narrow'].w_to = room['foyer']
+# room['narrow'].n_to = room['treasure']
+# room['treasure'].s_to = room['narrow']
+# room['treasure'].e_to = room['garden']
+# room['garden'].w_to = room['treasure']
 
 #__________________________________________________________
 # Main
@@ -65,6 +66,7 @@ room['garden'].w_to = room['treasure']
 #let's get the players name and place them 'outside' to start
 name_input = input("What is your name hero?...")
 player = Player(name_input, room["outside"])
+
 print(f"{player.current_room}")
 
 #_______The LOOP_____________________

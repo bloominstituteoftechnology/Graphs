@@ -1,5 +1,5 @@
-from room import Room
-from item import Item
+from rooms import Room
+from items import Item
 #__________________LECTURE NOTES_________________________________
 # 'self' = 'this' (more or less)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # "__init__" is a reserved method in python classes. It is known as a constructor in 
