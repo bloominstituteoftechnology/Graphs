@@ -30,7 +30,10 @@ def main():
     # print(graph.vertices)
 
     # graph.bft(1)
-    graph.bft(4)
+    # graph.bft(4)
+
+    # graph.dft(1)
+    graph.dft(7)
 
 
 if __name__ == '__main__':
