@@ -78,18 +78,7 @@ def game_generator(num_rooms):
 
 		#to do this I will need to 
 
-	for i in rooms:
-		print(f'{rooms[i].getExits()}')
-
-	print()
-	print(f'treasure is in room {rooms[random_num].id}')
-	print()
-
-	return rooms
-
-def find_treasure(rooms, start_room):
-
-		#I will loop through all my rooms
+	#I will loop through all my rooms
 	for i in rooms:
 		#I will give each room an edge list based on the rooms they connect to
 		for j in rooms[i].getExits():
@@ -97,9 +86,31 @@ def find_treasure(rooms, start_room):
 			edge = connected.id
 			rooms[i].edges.append(edge)
 
+	for i in rooms:
+		print(f'room: {rooms[i].id}, exits {rooms[i].getExits()}, edges, {rooms[i].edges}')
+
+	print()
+	print(f'treasure is in room {rooms[random_num].id}')
+	print()
+
+	return rooms
+
+def find_treasure(rooms, start_room, starting_exits):
+
+	# 	#I will loop through all my rooms
+	# for i in rooms:
+	# 	#I will give each room an edge list based on the rooms they connect to
+	# 	for j in rooms[i].getExits():
+	# 		connected = rooms[i].room_direction(j)
+	# 		edge = connected.id
+	# 		rooms[i].edges.append(edge)
+
 	q = []
 	q.append([start_room])
 	checked = []
+	exits = []
+
+	print(starting_exits)
 
 	while len(q) > 0:
 
@@ -109,8 +120,13 @@ def find_treasure(rooms, start_room):
 		n = path[-1]
 
 		if n not in checked:
+			# print(n)
+
+			if len(rooms[n].items) == 0:
+				exits.insert(0, rooms[n].getExits())
 
 			if len(rooms[n].items) > 0:
+				print(f'directions: {generate_directions(rooms, path)}')
 				return path
 
 			checked.append(n)
@@ -118,11 +134,65 @@ def find_treasure(rooms, start_room):
 				next_path = list(path)
 				next_path.append(i)
 				q.append(next_path)
+				# print(q)
 
 	return False
 
+def generate_directions(rooms, path):
+	directions = []
+	arrow_path = rooms[0].getExits()[0]
+
+	if len(path) == 1:
+		return "you're there already"
+	else:
+		directions.append(arrow_path)
+
+	#I need to take the value of arrow path and add it to directions
+
+	#I need to make sure the next value apped to directions is not the direction
+	#that would go back in the path
+
+	for i in path:
+
+		if i > 0:
+			next_arrow = rooms[i].getExits()
+
+			if i == len(path) - 1:
+				break
+
+			if arrow_path == 'n':
+				for i in next_arrow:
+					if i != 's':
+						directions.append(i)
+						arrow_path = i
+
+			elif arrow_path == 's':
+				for i in next_arrow:
+					if i != 'n':
+						directions.append(i)
+						arrow_path = i
+
+			elif arrow_path == 'e':
+				for i in next_arrow:
+					if i != 'w':
+						directions.append(i)
+						arrow_path = i
+
+			elif arrow_path == 'w':
+				for i in next_arrow:
+					if i != 'e':
+						directions.append(i)
+						arrow_path = i
+
+	return directions
+
+
+
+
+
+
 room_list = game_generator(10)
-print(find_treasure(room_list, 0))
+print(find_treasure(room_list, 0, room_list[0].getExits()))
 current_room = room_list[0]
 res = ['start']
 
