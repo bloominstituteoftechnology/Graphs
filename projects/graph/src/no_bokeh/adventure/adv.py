@@ -62,7 +62,13 @@ def game_generator(num_rooms):
 			get_random = random_direction(rooms[i - 1])
 			new_cords = get_cords(get_random, cordinates)
 
-			if get_random is not None and tuple(new_cords) not in occupied:
+			#to make sure I don't have rooms that don't connect to anything
+			while tuple(new_cords) in occupied:
+				get_random = random_direction(rooms[i - 1])
+				new_cords = get_cords(get_random, cordinates)
+
+
+			if get_random is not None:
 				connections(rooms[i - 1], rooms[i], get_random)
 				occupied.add(tuple(new_cords))
 
@@ -70,11 +76,20 @@ def game_generator(num_rooms):
 	random_num = random.randint(0, len(rooms) - 1)
 	rooms[random_num].items.append(golden_idol)
 
-	print()
-	for i in rooms:
-		print(f'room number: {rooms[i].id}, exits: {rooms[i].getExits()}')
+		#to do this I will need to 
 
-	#I will loop through all my rooms
+	for i in rooms:
+		print(f'{rooms[i].getExits()}')
+
+	print()
+	print(f'treasure is in room {rooms[random_num].id}')
+	print()
+
+	return rooms
+
+def find_treasure(rooms, start_room):
+
+		#I will loop through all my rooms
 	for i in rooms:
 		#I will give each room an edge list based on the rooms they connect to
 		for j in rooms[i].getExits():
@@ -82,18 +97,6 @@ def game_generator(num_rooms):
 			edge = connected.id
 			rooms[i].edges.append(edge)
 
-		#to do this I will need to 
-
-	print()
-	for i in rooms:
-		print(f'room id: {rooms[i].id}, room edge list: {rooms[i].edges}')
-
-	print()
-	print(f'treasure is in room {rooms[random_num].id}')
-
-	return rooms
-
-def find_treasure(rooms, start_room):
 	q = []
 	q.append([start_room])
 	checked = []
@@ -118,7 +121,7 @@ def find_treasure(rooms, start_room):
 
 	return False
 
-room_list = game_generator(20)
+room_list = game_generator(10)
 print(find_treasure(room_list, 0))
 current_room = room_list[0]
 res = ['start']
