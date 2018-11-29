@@ -39,6 +39,7 @@ class World:
     ####
     def generateRooms(self, numRooms):
         self.rooms = {}
+        self.coords_list = []
         graph = Graph()
 
         if numRooms < 1:
@@ -47,35 +48,80 @@ class World:
 
         self.rooms[0] = Room(f"Room 0", "You are standing in an empty room.")
         graph.add_vertex(0)
+        self.rooms[0].coord = (0, 0)
+        self.coords_list.append((0, 0))
 
         # Create n rooms
-        for i in range(1, numRooms):
+        i = 1
+        while i < numRooms:
+            dir = self.rooms[i - 1].get_valid_random_dir()
+            new_coord = None
+
+            while dir is not None:
+                new_coord = self._try_add_coord(dir)
+                if new_coord is not None:
+                    break
+                else:
+                    self.rooms[i - 1].valid_dirs.remove(dir)
+                    dir = self.rooms[i - 1].get_valid_random_dir()
+
+            if dir is None:
+                curr_coord = self.rooms[i - 1].coord
+                prev_coord = self.rooms[i - 2].coord
+                if curr_coord[0] > prev_coord[0]:
+                    self.rooms[i - 2].valid_dirs.remove("e")
+                    self.coords_list.pop()
+                elif curr_coord[0] < prev_coord[0]:
+                    self.rooms[i - 2].valid_dirs.remove("w")
+                    self.coords_list.pop()
+                elif curr_coord[1] > prev_coord[1]:
+                    self.rooms[i - 2].valid_dirs.remove("n")
+                    self.coords_list.pop()
+                elif curr_coord[1] < prev_coord[1]:
+                    self.rooms[i - 2].valid_dirs.remove("s")
+                    self.coords_list.pop()
+                i -= 1
+                continue
+
             new_room = Room(f"Room {i}", "You are standing in an empty room.")
             graph.add_vertex(i)
             self.rooms[i] = new_room
-            dir = self.rooms[i - 1].get_valid_random_dir()
-            if dir is None:
-                print('dir was none')
+            self.rooms[i].coord = new_coord
             self.rooms[i - 1].connectRooms(dir, self.rooms[i])
             graph.add_edge(i - 1, i)
+            i += 1
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
 
-        all_nodes_connected = self.check_bft(graph, numRooms)
+        all_nodes_connected = self._check_bft_and_lengths(graph, numRooms)
 
         if all_nodes_connected is True:
             return self.rooms
         else:
-            print('Not all nodes connected')
+            print('NOT ALL NODES CONNECTED PROPERLY')
 
-    def check_bft(self, graph, numRooms):
+    def _try_add_coord(self, dir):
+        last_coord = self.coords_list[-1]
+        if dir is "n":
+            new_coord = (last_coord[0], last_coord[1] + 1)
+        elif dir is "s":
+            new_coord = (last_coord[0], last_coord[1] - 1)
+        elif dir is "w":
+            new_coord = (last_coord[0] - 1, last_coord[1])
+        elif dir is "e":
+            new_coord = (last_coord[0] + 1, last_coord[1])
+        if new_coord in self.coords_list:
+            return None
+        else:
+            self.coords_list.append(new_coord)
+            return new_coord
+
+    def _check_bft_and_lengths(self, graph, numRooms):
         traversal_list = graph.bft(0)
-        if len(traversal_list) is numRooms:
+        traversal_list_len = len(traversal_list)
+        coords_list_len = len(self.coords_list)
+        if traversal_list_len is numRooms and traversal_list_len is coords_list_len:
             return True
         else:
             return False
-
-
-
-
