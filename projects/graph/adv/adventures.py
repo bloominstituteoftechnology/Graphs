@@ -3,32 +3,36 @@ from players import Player
 from items import Item
 from world import World
 
+world = World()
+
+world.generateRooms(100)
+
 # Declare all the rooms_______ Dictionary__________
 #We have created an "obj" of "objs" for the Rooms Class (room.py) , it is 'here' in adv.py b/c
 #the classes are just blue prints, this here below, is "The Room" content
-room = {
-    'outside':  Room("Outside the Cave Entrance",
-                     "North of you, the cave mouth beckons.", "skull"),
+# room = {
+#     'outside':  Room("Outside the Cave Entrance",
+#                      "North of you, the cave mouth beckons.", "skull"),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east.""", "pickle"),
+#     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
+# passages run north and east.""", "pickle"),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""", "trash"),
+#     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
+# into the darkness. Ahead to the north, a light flickers in
+# the distance, but there is no way across the chasm.""", "trash"),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""", "boot"),
+#     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
+# to north. The smell of gold permeates the air.""", "boot"),
 
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. There are two exits, one to the south, and a door hidden in cobwebs 
-to the east .""", "toothpick butterfly"),
+#     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
+# chamber! Sadly, it has already been completely emptied by
+# earlier adventurers. There are two exits, one to the south, and a door hidden in cobwebs 
+# to the east .""", "toothpick butterfly"),
 
-    'garden': Room("Rose Garden", """Long rows of the most beautiful roses you have ever
-     seen span before you. The aroma alone makes you want to stay. The only exit is through 
-     the door to the west. """, "puppy")
-}
+#     'garden': Room("Rose Garden", """Long rows of the most beautiful roses you have ever
+#      seen span before you. The aroma alone makes you want to stay. The only exit is through 
+#      the door to the west. """, "puppy")
+# }
 
 #__________Item Dictionary___________
 items = {"pickle": "pickle", "skull": "skull", "boot": "boot", "trash": "trash","puppy": "puppy",
@@ -65,7 +69,7 @@ directions = {"n": "n", "e": "e", "s": "s", "w":"w"}
 
 #let's get the players name and place them 'outside' to start
 name_input = input("What is your name hero?...")
-player = Player(name_input, room["outside"])
+player = Player(name_input, world.startingRoom)
 
 print(f"{player.current_room}")
 
