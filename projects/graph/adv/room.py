@@ -4,8 +4,7 @@ class Room:
   def __init__(self, name, description):
     self.name = name
     self.description = description
-    self.x = None
-    self.y = None
+    self.coordinates = None
     self.n_to = None
     self.s_to = None
     self.e_to = None
@@ -36,9 +35,9 @@ class Room:
     else:
       return "The room is empty"
 
-  def setCoordinates(self, x, y):
-    self.x = x
-    self.y = y
+  # def setCoordinates(self, x, y):
+  #   self.x = x
+  #   self.y = y
   def connectRooms(self, direction, connectingRoom):
     if direction == "n":
       self.n_to = connectingRoom
