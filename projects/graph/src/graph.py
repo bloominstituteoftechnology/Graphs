@@ -287,8 +287,11 @@ class MazeWithWeights(GridMaze):
     def cost(self, from_node, to_node):
         return self.weights.get(to_node, 1)
 
-## TODO: add a heuristic method to do some best guess algorithm
-
+##  add a heuristic method to do some best guess algorithm
+def heuristic(a, b):
+    (x1, y1) = a
+    (x2, y2) = b
+    return abs(x1 - x2) + abs(y1 - y2)
 
 # some basic tests for the vertex class
 
