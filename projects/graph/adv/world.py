@@ -56,13 +56,13 @@ class World:
       print("Must create at least 1 room")
       return None
 
-    previous = None
+    # previous = None
     # Create n rooms
     for i in range(0, numRooms):
 
       new_room = Room(f"Room {i}", "You are standing in an empty room.")
       if i == 0:
-        print(f"{i} FirstRoom")
+        # print(f"{i} FirstRoom")
         # sets first room coordinate to 0,0 and store in rooms
         new_room.x = 0
         new_room.y = 0
@@ -71,6 +71,7 @@ class World:
       else:
         # gets random direction from previous room and sets coordinate of new room accordingly
         direction = self.getRandomDirection(previous)
+        # print(f"{i}, {direction}, p: {previous.name} ({previous.x},{previous.y})")
         if direction == "n":
           new_room.x = previous.x
           new_room.y = previous.y - 1
@@ -80,10 +81,10 @@ class World:
         elif direction == "w":
           new_room.x = previous.x - 1
           new_room.y = previous.y
-        elif direction == "s":
+        elif direction == "e":
           new_room.x = previous.x + 1
           new_room.y = previous.y
-        print(f"{i}, {direction}, p: ({previous.x},{previous.y}), n: ({new_room.x},{new_room.y})")
+        # print(f"{i},    n: {new_room.name} ({new_room.x},{new_room.y})")
         previous.connectRooms(direction, new_room)
         
         if new_room.x not in self.rooms:
@@ -102,11 +103,9 @@ class World:
 
     # Hard-code a single room connection.
     # You should replace this with procedural connection code.
-    if numRooms > 1:
-      self.rooms[0].connectRooms("n", self.rooms[1])
-
+   
     # Set the starting room to the first room. Change this if you want a new starting room.
-    self.startingRoom = self.rooms[0]
+    self.startingRoom = self.rooms[0][0]
 
     return self.rooms
 
