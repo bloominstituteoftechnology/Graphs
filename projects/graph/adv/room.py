@@ -8,6 +8,7 @@ class Room:
         self.s_to = None
         self.e_to = None
         self.w_to = None
+        self.xy = [0, 0]
         self.items = []
     def __str__(self):
         return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n"
