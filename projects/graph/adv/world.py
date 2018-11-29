@@ -11,8 +11,8 @@ class World:
     def getRandomRoom(self):
         if len(self.avail_rm_dir) > 0:
             random_rooms = list(self.rooms.values())
-            # print(random_rooms)
             random.shuffle(random_rooms)
+            # print(random_rooms[0].coordinates)
             return random_rooms[0]
         else: 
             return None
@@ -29,10 +29,33 @@ class World:
         if random_room.e_to is None:
             available_dir.append("e")
         random.shuffle(available_dir)
+        # print(random_room.coordinates, available_dir)
         if len(available_dir) > 0:
+            # print(random_room.coordinates, available_dir[0])
             return (random_room, available_dir[0])
         else:
             return None
+    
+    # check if the randomly-picked available room and direction allows connection to the new room without overlaping any existing rooms
+    def checkNewRoomCoords(self, random_room, direction):
+        potential_coord = tuple()
+        random_room_x_coord = random_room.coordinates[0]  
+        random_room_y_coord = random_room.coordinates[1] 
+        # using the available direction, determine the potential coordinates of the new room  
+        if direction == 'n':
+            potential_coord = (random_room_x_coord, random_room_y_coord + 1)
+        if direction == 's':
+            potential_coord = (random_room_x_coord, random_room_y_coord - 1)
+        if direction == 'e':
+            potential_coord = (random_room_x_coord + 1, random_room_y_coord)
+        if direction == 'w':
+            potential_coord = (random_room_x_coord - 1, random_room_y_coord)
+        # determine if potential coordinates had already existed
+        if potential_coord not in self.rm_coords:
+            return potential_coord
+        else:
+            return None
+            
 
     def generateDefaultRooms(self):
         self.rooms = {
@@ -73,7 +96,7 @@ class World:
     ####
     # MODIFY THIS CODE
     ####
-    def generateRooms(self, numRooms):
+    def createRandomRooms(self, numRooms):
         self.rooms = {}
 
         if numRooms < 1:
@@ -83,40 +106,46 @@ class World:
         # Create n rooms
         for i in range(0, numRooms):
             # Create n rooms.
-            new_room = Room(f"Room {i}", "You are standing in an empty room.", i)
+            new_room = Room(f"Room {i}", "You are standing in an empty room.", i, (0,0))
             
             self.rooms[i] = new_room
             # if first room, add new room's available directions to avail_rm_dirs
             if i == 0:
+                # self.startingRoom = new_room
                 self.avail_rm_dir.append((new_room, "n"))
                 self.avail_rm_dir.append((new_room, "s"))
                 self.avail_rm_dir.append((new_room, "e"))
                 self.avail_rm_dir.append((new_room, "w"))
             # If it's not the first room....
             if i > 0:
-                # find a random room and random direction to connect the new room to
+                potential_coord = None
                 
-                flag = False
-                while flag == False:
+                while potential_coord == None :
+                    # find a random room and random direction that can potentially connect to the new room
                     random_rm_tuple = self.getRandomDirection()
-                    for rm_coord in self.rm_coords:
-                        if random_rm_tuple[0].coordinates == rm_coord:
-                            flag = True
-
-                if random_rm_tuple is not None:
-                    random_rm = random_rm_tuple[0]
-                    random_rm_dir = random_rm_tuple[1]
-                    self.rooms[random_rm.id].connectRooms(random_rm_dir, new_room)
-                    if new_room.n_to is None:
-                        self.avail_rm_dir.append((new_room, "n"))
-                    if new_room.s_to is None:
-                        self.avail_rm_dir.append((new_room, "s"))
-                    if new_room.w_to is None:
-                        self.avail_rm_dir.append((new_room, "w"))
-                    if new_room.e_to is None:
-                        self.avail_rm_dir.append((new_room, "e")) 
+                    if random_rm_tuple:
+                        random_rm = random_rm_tuple[0]
+                        random_rm_dir = random_rm_tuple[1]
+                        # determine the potential coordinates derived from the random_rm_tuple
+                        potential_coord = self.checkNewRoomCoords(random_rm, random_rm_dir)
+                        new_room.coordinates = potential_coord
+                # connect random_rm and the new room    
+                self.rooms[random_rm.id].connectRooms(random_rm_dir, new_room)
+                # remove random_rm_tuple from the avail_rm_dir list
+                for rm_dir_tuple in self.avail_rm_dir:
+                    if rm_dir_tuple[0].coordinates == random_rm.coordinates:
+                        self.avail_rm_dir.remove(random_rm_tuple)
+                        break
+                # print(self.avail_rm_dir)
+                if new_room.n_to is None:
+                    self.avail_rm_dir.append((new_room, "n"))
+                if new_room.s_to is None:
+                    self.avail_rm_dir.append((new_room, "s"))
+                if new_room.w_to is None:
+                    self.avail_rm_dir.append((new_room, "w"))
+                if new_room.e_to is None:
+                    self.avail_rm_dir.append((new_room, "e")) 
             self.rm_coords.append(new_room.coordinates)
-            # print(self.avail_rm_dir)
             print(new_room.coordinates)
                     
 
