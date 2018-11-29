@@ -71,7 +71,26 @@ class Graph:
                     # if child not in visited:
                         q.enqueue(child)
 
-
+    def dft(self, starting_node):
+        # create an empty Stack
+        s = Stack()
+        # create an empty visited list
+        visited = set()
+        # add the start node to the stack
+        s.push(starting_node)
+        # while the Stack is not empty...
+        while s.size() > 0:
+            # remove the first node from the Stack
+            node = s.pop()
+            # if it hasn't been visited
+            if node not in visited:
+                # mark it as visited
+                print(node)
+                visited.add(node)
+                # then put all its children in the stack
+                for child in self.vertices[node].edges:
+                    s.push(child)
+    
 
 
 class Vertex:
