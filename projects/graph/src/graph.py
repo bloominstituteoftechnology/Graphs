@@ -282,13 +282,16 @@ class GridMaze:
     
     def solid(self, id):
         return id in self.walls
+
+    def is_passable(self, id):
+        return id not in self.walls
     
     def neighbors(self, id):
         (x, y) = id
         results = [(x + 1, y), (x, y - 1), (x - 1, y), (x, y + 1)]
-        if (x + y) % 2 == 0: results.reverse() # aesthetics
+        if (x + y) % 2 == 0: results.reverse()
         results = filter(self.in_bounds, results)
-        results = filter( not self.solid, results)
+        results = filter(self.is_passable, results)
         return results
 
 
@@ -337,7 +340,7 @@ def dijkstra_search(graph, start, goal):
 ## and now for A-STAR (this one i ported over some of my ideas from my JAVA and C++ A-STAR algorithm implementations)
 ## similar look for this as the J search
 def a_star_search(graph, start, goal):
-    front_bias = PriorityQueue()
+    front_bias = HeapQueue()
     front_bias.put(start, 0)
     source_pos = {}
     current_cost = {}
@@ -435,3 +438,6 @@ maze2 = MazeWithWeights(10, 10)
 maze2.walls = [(1, 7), (1, 8), (2, 7), (2, 8), (3, 7), (3, 8)]
 maze2.weights = {loc: 5 for loc in [(3, 4), (3, 5), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6), (6, 7), (7, 3), (7, 4), (7, 5)]}
 # draw_maze(maze2, tres=[])
+came_from, cost_so_far = dijkstra_search(maze2, (1, 4), (7, 8))
+
+draw_maze(maze2, width=3, point_to=came_from, start=(1, 4), goal=(7, 8), tres=[])
