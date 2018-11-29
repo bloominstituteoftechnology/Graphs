@@ -94,6 +94,15 @@ class Graph:
                     print(child)
                     s.push(child)
 
+    def dft_r(self, starting_node, visited = None):
+        if visited is None:
+            visited = set()
+        print(starting_node)
+        visited.add(starting_node)
+        for child in self.vertices[starting_node].edges:
+            if child not in visited:
+                self.dft_r(child, visited)
+
     def bfs(self, starting_node, target_node):
         # Create an empty visited list
         visited = set()
@@ -144,14 +153,23 @@ class Graph:
         return None
 
 
-    def dft_r(self, starting_node, visited = None):
+    def dfs_r(self, starting_node, target_node, visited = None, path = None):
         if visited is None:
             visited = set()
-        print(starting_node)
+        if path is None:
+            path = []
+        # print(starting_node)
         visited.add(starting_node)
+        extended_path = list(path)
+        extended_path.append(starting_node)
+        if starting_node == target_node:
+            return extended_path
         for child in self.vertices[starting_node].edges:
             if child not in visited:
-                self.dft_r(child, visited)
+                new_path = self.dfs_r(child, target_node, visited, extended_path)
+                if new_path:
+                    return new_path
+        return None
 
 
 class Vertex:
@@ -182,3 +200,4 @@ graph.add_edge('4', '5')
 # print(graph.dft_r('0'))
 # print(graph.bfs('0', '4'))
 # print(graph.dfs('0', '7'))
+# print(graph.dfs_r('0', '6'))
