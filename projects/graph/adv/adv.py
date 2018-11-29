@@ -4,7 +4,7 @@ from item import Item
 
 from world import World
 
-
+# create instance of World called world
 world = World()
 
 # Uncomment this to generate the default rooms from Week 1
@@ -15,16 +15,13 @@ world = World()
 # room generation.
 world.generateRooms(100)
 
-
-
 # Add some items
 junk = Item("Junk", "This is junk")
 rock = Item("Rock", "This is a rock")
 
-# Give the player junk and put the rock in the starting room
+# Give the player junk item to start and put the rock item in the starting room
 playerStartingItems = [junk]
 world.startingRoom.addItem(rock)
-
 
 #################################
 #

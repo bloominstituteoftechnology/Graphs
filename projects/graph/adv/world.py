@@ -1,10 +1,22 @@
 from room import Room
-
+import random
 
 class World:
     def __init__(self):
         self.startingRoom = None
         self.rooms = {}
+    def getRandomDirection(self, room):
+        dirs = []
+        if room.n_to is None:
+            dirs.append("n")
+        if room.s_to is None:
+            dirs.append("s")
+        if room.w_to is None:
+            dirs.append("w")
+        if room.e_to is None:
+            dirs.append("e") 
+        random.shuffle(dirs)
+        return dirs[0]
 
     def generateDefaultRooms(self):
         self.rooms = {
@@ -45,6 +57,9 @@ class World:
         for i in range(0, numRooms):
             # Create n rooms.
             self.rooms[i] = Room(f"Room {i}", "You are standing in an empty room.")
+            if i > 0:
+                random_dir = self.getRandomDirection(self.rooms[i])
+                print(random_dir)
 
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
