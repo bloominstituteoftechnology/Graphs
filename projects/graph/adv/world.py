@@ -61,6 +61,7 @@ class World:
 
     # previous = None
     # Create n rooms
+    stack = []
     for i in range(0, numRooms):
 
       new_room = Room(f"Room {i}", "You are standing in an empty room.")
@@ -73,16 +74,22 @@ class World:
         # since rooms is dict, we need easy way to access previously created room
       else:
         # gets random direction from previous room and sets coordinate of new room accordingly
-        directions = self.getRandomDirection(previous)
-        coordinates = self.findAvailableCoordinate(directions,previous)
-        new_room.setCoordinates(coordinates[1],coordinates[2])
-        # print(f"{i},    n: {new_room.name} ({new_room.x},{new_room.y})")
-        previous.connectRooms(coordinates[0], new_room)
+        isCoordinateAvailable = False
+        while(not isCoordinateAvailable):
+          directions = self.getRandomDirection(previous)
+          coordinates = self.findAvailableCoordinate(directions,previous)
+          if coordinates:
+            new_room.setCoordinates(coordinates[1],coordinates[2])
+            previous.connectRooms(coordinates[0], new_room)
+            isCoordinateAvailable = True
+          else:
+            previous = stack.pop()
         
         if new_room.x not in self.rooms:
           self.rooms[new_room.x] = {}
         self.rooms[new_room.x][new_room.y] = new_room
       previous = new_room
+      stack.append(new_room)
           
 
     # Hard-code a single room connection.
@@ -95,7 +102,7 @@ class World:
   
   # finds available coordinate from list of directions as [direction,x,y] else returns None
   def findAvailableCoordinate(self,directions,previous):
-    print("New Iteration: ", previous.name, previous.x,previous.y, directions)
+    
     while directions:
       direction = directions.pop()
       if direction == "n":
@@ -111,10 +118,9 @@ class World:
         possible_x = previous.x + 1
         possible_y = previous.y
       
-      print(possible_x,possible_y)
       if self.isCoordinateAvailable(possible_x, possible_y):
         return [direction,possible_x,possible_y]
-      print(direction, self.rooms[possible_x][possible_y].name)
+      
 
     return None
      
