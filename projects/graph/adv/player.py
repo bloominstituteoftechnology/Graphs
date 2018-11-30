@@ -3,6 +3,7 @@ class Player:
         self.name = name
         self.currentRoom = startingRoom
         self.items = startingItems
+
     def travel(self, direction):
         nextRoom = self.currentRoom.getRoomInDirection(direction)
         if nextRoom is not None:
@@ -10,6 +11,7 @@ class Player:
             nextRoom.printRoomDescription(self)
         else:
             print("You cannot move in that direction.")
+
     def look(self, direction=None):
         if direction is None:
             self.currentRoom.printRoomDescription(self)
@@ -19,21 +21,27 @@ class Player:
                 nextRoom.printRoomDescription(self)
             else:
                 print("There is nothing there.")
+
     def printStatus(self):
         print(f"Your name is {self.name}")
+
     def printInventory(self):
         print("You are carrying:\n")
         for item in self.items:
             print(f"  {item.name} - {item.description}\n")
+
     def addItem(self, item):
         self.items.append(item)
+
     def removeItem(self, item):
         self.items.remove(item)
+
     def findItemByName(self, name):
         for item in self.items:
             if item.name.lower() == name.lower():
                 return item
         return None
+
     def dropItem(self, itemName):
         itemToDrop = self.findItemByName(" ".join(itemName))
         if itemToDrop is not None:
@@ -43,3 +51,26 @@ class Player:
         else:
             print("You are not holding that item.")
 
+    def findTreasure(self):
+        queue = []
+        visited = []
+        visited_list = []
+        queue.append(self.currentRoom)
+
+        while len(queue) > 0:
+            discovered = queue.pop(0)
+            for item in discovered.items:
+                if item.name == "Treasure":
+                    print(f"---Treasure discoverd in {discovered.name}---")
+                    for room in visited:
+                        visited_list.append(room.name)
+                    break
+            if discovered not in visited:
+                visited.append(discovered)
+                discovered.n_to and queue.append(discovered.n_to)
+                discovered.e_to and queue.append(discovered.e_to)
+                discovered.s_to and queue.append(discovered.s_to)
+                discovered.w_to and queue.append(discovered.w_to)
+
+        print(visited_list)
+        return

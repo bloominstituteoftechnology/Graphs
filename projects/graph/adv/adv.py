@@ -13,7 +13,7 @@ world = World()
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
-total_rooms = 100
+total_rooms = 25
 world.generateRooms(total_rooms)
 world.add_random_treasure(total_rooms)
 
@@ -65,6 +65,8 @@ while True:
             player.printInventory()
         elif cmds[0] == "status":
             player.printStatus()
+        elif cmds[0] == "ft" or cmds[0] == "findTreasure":
+            player.findTreasure()
         else:
             print("I did not understand that command.")
     else:
