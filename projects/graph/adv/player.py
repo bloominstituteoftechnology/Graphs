@@ -54,23 +54,24 @@ class Player:
     def findTreasure(self):
         queue = []
         visited = []
-        visited_list = []
+        shortest_path = []
         queue.append(self.currentRoom)
 
         while len(queue) > 0:
-            discovered = queue.pop(0)
-            for item in discovered.items:
-                if item.name == "Treasure":
-                    print(f"---Treasure discoverd in {discovered.name}---")
-                    for room in visited:
-                        visited_list.append(room.name)
-                    break
-            if discovered not in visited:
-                visited.append(discovered)
-                discovered.n_to and queue.append(discovered.n_to)
-                discovered.e_to and queue.append(discovered.e_to)
-                discovered.s_to and queue.append(discovered.s_to)
-                discovered.w_to and queue.append(discovered.w_to)
+            found = queue.pop(0)
 
-        print(visited_list)
-        return
+            if any(x for x in found.items if x.name == "Treasure"):
+                print(f"---Treasure discovered in {found.name}---")
+                for room in visited:
+                    shortest_path.append(room.name)
+                break
+
+            if found not in visited:
+                visited.append(found)
+                found.n_to and queue.append(found.n_to)
+                found.e_to and queue.append(found.e_to)
+                found.s_to and queue.append(found.s_to)
+                found.w_to and queue.append(found.w_to)
+
+        print(f"shortest_path: {shortest_path}")
+        return shortest_path
