@@ -54,6 +54,24 @@ class Graph:
         for item in self.vertices[current_vertex]:
             self.recursive_depth_first_traversal(item)
 
+    def breadth_first_search(self, starting_node, destination_node):
+        queue = Queue()
+        traversal_path = []
+        queue.add([starting_node])
+
+        while queue.size() > 0:
+            current_node = queue.pop()
+            if current_node[-1] == destination_node:
+                return current_node
+            traversal_path.append(current_node[-1])
+            for item in self.vertices[current_node[-1]]:
+                new_path = list(current_node)
+                new_path.append(item)
+                queue.add(new_path)
+            # queue.pop()
+
+        print(f"traversal_path: {traversal_path}")
+
 class Vertex:
     def __init__(self, vertex):
         self.vertex = vertex
@@ -130,4 +148,6 @@ graph.add_directed_edge('5', '9')
 # graph.depth_first_traversal('2')
 # graph.depth_first_traversal('3')
 
-graph.recursive_depth_first_traversal('0')
+# graph.recursive_depth_first_traversal('0')
+
+print(graph.breadth_first_search('0', '4'))
