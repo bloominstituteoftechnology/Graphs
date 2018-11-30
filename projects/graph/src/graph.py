@@ -17,24 +17,28 @@ class Graph:
         self.vertices[vertex_two].add(vertex_one)
 
     def breadth_first_traversal(self, starting_vertex):
-        queue = Queue()
-        traversal_path = []
-        queue.add(self.vertices[starting_vertex])
-        while queue.size() > 0:
-            traversal_path.append(queue.queue[0])
-            checking_children = list(queue.queue[0].edge)
-            for i in range(0, len(queue.queue[0].edge) - 1):
-                # print(f"count: {traversal_path.count(checking_children[i])}")
-                if traversal_path.count(self.vertices[str(checking_children[i])]) == 0:
-                    print(f"child being checked: {self.vertices[checking_children[i]]}")
-                    queue.add(self.vertices[str(checking_children[i])])
-                    # print(f"size of queue: {queue.size()}")
-            queue.pop()
-            # print(f"size: {queue.size()}")
+        queue = Queue() # new queue
+        traversal_path = [] # new list for reporting traversal history; only str, not Vertexes
+        traversal_path.append(starting_vertex) # adds input to keep track
+        queue.add(self.vertices[starting_vertex]) # adds input as starting member
+        for item in self.vertices[starting_vertex]:
+            if item in traversal_path:
+                pass
+            else:
+                traversal_path.append(item)
+                queue.add(self.vertices[item]) # the item's children
+        queue.pop()
 
-        print(f"Starting vertex: {starting_vertex}")
-        for item in traversal_path:
-            print(item)
+        while queue.size() > 0:
+            for item in queue.pop():
+                if item in traversal_path:
+                    pass
+                else:
+                    traversal_path.append(item)
+                    queue.add(self.vertices[item])
+            # queue.pop()
+
+        print(f"traversal_path: {traversal_path}")
 
 class Vertex:
     def __init__(self, vertex):
@@ -57,6 +61,10 @@ class Queue:
     def size(self):
         return len(self.queue)
 
+    def __repr__(self):
+        pretty_print = "" # actually conventionally a separator character
+        return pretty_print.join(str(self.queue))
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -66,8 +74,8 @@ graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 print(graph.vertices)
-# 
-# graph.breadth_first_traversal('2')
-# graph.breadth_first_traversal('0')
-# graph.breadth_first_traversal('1')
-# graph.breadth_first_traversal('3')
+
+graph.breadth_first_traversal('2')
+graph.breadth_first_traversal('0')
+graph.breadth_first_traversal('1')
+graph.breadth_first_traversal('3')
