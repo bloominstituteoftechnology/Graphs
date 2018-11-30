@@ -1,4 +1,5 @@
 from room import Room
+from item import Item
 import random
 
 
@@ -116,3 +117,7 @@ class World:
         self.startingRoom = self.rooms[0]
         return self.rooms
 
+    def add_random_treasure(self, total_rooms):
+        treasure = Item("Treasure", "Treasure beyond the sultan's imagination.")
+        random_room = random.randint(1, total_rooms - 1)
+        self.rooms[random_room].items.append(treasure)

@@ -13,7 +13,9 @@ world = World()
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
-world.generateRooms(100)
+total_rooms = 100
+world.generateRooms(total_rooms)
+world.add_random_treasure(total_rooms)
 
 
 # Add some items
