@@ -51,6 +51,8 @@ while True:
             player.look()
         elif cmds[0] == "i" or cmds[0] == "inventory":
             player.printInventory()
+        elif cmds[0] == "pm":
+            world.printMap()
         elif cmds[0] == "status":
             player.printStatus()
         else:
