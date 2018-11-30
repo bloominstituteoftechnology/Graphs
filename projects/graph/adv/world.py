@@ -62,7 +62,8 @@ class World:
     room = self.rooms[keys.pop()]
 
     room.addItem(treasure)
-    print(room.name, room.getItemsString())
+    print(f"The treasure was dropped in {room.name}")
+    print("Type 'magic' to light the path towards the treasure \n")
 
   def generateRooms(self, numRooms):
     self.rooms = {}
@@ -99,8 +100,7 @@ class World:
         
         self.rooms[new_room.coordinates] = new_room
       previous = new_room
-      stack.append(new_room)
-          
+      stack.append(new_room)          
 
     # Hard-code a single room connection.
     # You should replace this with procedural connection code.
