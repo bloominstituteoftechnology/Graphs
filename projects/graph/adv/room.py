@@ -9,8 +9,7 @@ class Room:
         self.e_to = None
         self.w_to = None
         self.items = []
-        self.x_coord = 0
-        self.y_coord = 0
+        self.coords = [0, 0]
 
     def __str__(self):
         return f"""

@@ -45,15 +45,30 @@ class World:
     ####
     # MODIFY THIS CODE
     ####
+    def update_coordinates(self, coords, direction):
+        new_coords = list(coords)
+        if direction == "n":
+            new_coords[1] += 1
+        if direction == "e":
+            new_coords[0] += 1
+        if direction == "s":
+            new_coords[1] -= 1
+        if direction == "w":
+            new_coords[0] -= 1
+        return new_coords
+
+    def check_coordinates(self, coords, direction):
+        return str(self.update_coordinates(coords, direction)) not in self.avoid_list
+
     def get_random_direction(self, room, coords):
         paths = []
-        if room.n_to is None and coords not in self.avoid_list:
+        if self.check_coordinates(coords, "n"):
             paths.append("n")
-        if room.e_to is None and coords not in self.avoid_list:
+        if self.check_coordinates(coords, "e"):
             paths.append("e")
-        if room.s_to is None and coords not in self.avoid_list:
+        if self.check_coordinates(coords, "s"):
             paths.append("s")
-        if room.w_to is None and coords not in self.avoid_list:
+        if self.check_coordinates(coords, "w"):
             paths.append("w")
         random.shuffle(paths)
         if len(paths) > 0:
@@ -65,53 +80,39 @@ class World:
         self.rooms = {}
         self.avoid_list = set()
         valid_rooms = set()
-        x = 0
-        y = 0
+        coords = [0, 0]
 
         if numRooms < 1:
             print("Must create at least 1 room")
             return None
 
         for i in range(0, numRooms):
-            new_room = Room(f"Room {i}", f"You are standing in an empty room {i}.")
+            new_room = Room(f"Room {i}", f"Standing in Room {i}")
             self.rooms[i] = new_room
+
             if i == 0:
                 valid_rooms.add(i)
-                self.avoid_list.add((x, y))
-            else:
-                path = None
+                self.avoid_list.add(str(coords))
 
-                while path is None:
-                    connecting_room = valid_rooms.pop()
-                    room_coords = (
-                        self.rooms[connecting_room].x_coord,
-                        self.rooms[connecting_room].y_coord,
+            else:
+                random_path = None
+
+                while random_path is None:
+                    previous_room = valid_rooms.pop()
+                    coords = self.rooms[previous_room].coords
+                    random_path = self.get_random_direction(
+                        self.rooms[previous_room], coords
                     )
-                    path = self.get_random_direction(
-                        self.rooms[connecting_room], room_coords
-                    )
-                    if path is not None:
-                        valid_rooms.add(connecting_room)
-                if path == "n":
-                    new_room.y_coord += 1
-                elif path == "s":
-                    new_room.y_coord -= 1
-                elif path == "e":
-                    new_room.x_coord += 1
-                elif path == "w":
-                    new_room.x_coord -= 1
-                room_coords = (new_room.x_coord, new_room.y_coord)
-                self.rooms[connecting_room].connectRooms(path, new_room)
-                self.avoid_list.add(room_coords)
+
+                    if random_path is not None:
+                        valid_rooms.add(previous_room)
+
+                coords = self.update_coordinates(coords, random_path)
+                self.rooms[previous_room].connectRooms(random_path, new_room)
+                self.avoid_list.add(str(coords))
+                new_room.coords = coords
                 valid_rooms.add(i)
 
-        # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
-
-        if len(self.avoid_list) == numRooms:
-            print("World successfully created!")
-        else:
-            print("Something is wrong....")
-
         return self.rooms
 
