@@ -18,7 +18,7 @@ world.generateRooms(100)
 torch = Item("A Torch", "You have discovered fire, your new name is Promethius")
 junk = Item("Piece of Junk", "Unless your having a garage sale, leave it")
 phone = Item("A Cell Phone", "A powerful device from the future! All you need is a charger and an outlet. oh right, nevermind")
-rock = Item("A Rock", "You discovered a rock, call the Nobel Committee")
+rock = Item("A Rock", "You discovered a rock, call the Nobel Committee...Seriously, call them")
 
 # Give the player junk and put the rock in the starting room
 playerStartingItems = [junk]
