@@ -18,16 +18,8 @@ class Graph:
 
     def breadth_first_traversal(self, starting_vertex):
         queue = Queue() # new queue
-        traversal_path = [] # new list for reporting traversal history; only str, not Vertexes
-        traversal_path.append(starting_vertex) # adds input to keep track
+        traversal_path = [starting_vertex] # new list for reporting traversal history; only str, not Vertexes
         queue.add(self.vertices[starting_vertex]) # adds input as starting member
-        for item in self.vertices[starting_vertex]:
-            if item in traversal_path:
-                pass
-            else:
-                traversal_path.append(item)
-                queue.add(self.vertices[item]) # the item's children
-        queue.pop()
 
         while queue.size() > 0:
             for item in queue.pop():
@@ -38,6 +30,20 @@ class Graph:
                     queue.add(self.vertices[item])
             # queue.pop()
 
+        print(f"traversal_path: {traversal_path}")
+
+    def depth_first_traversal(self, starting_vertex):
+        stack = Stack()
+        traversal_path = [starting_vertex]
+        stack.add(self.vertices[starting_vertex])
+        while stack.size() > 0:
+            for item in stack.pop():
+                if item in traversal_path:
+                    pass
+                else:
+                    traversal_path.append(item)
+                    stack.add(self.vertices[item])
+            # stack.add(self.vertices[stack.pop()])
         print(f"traversal_path: {traversal_path}")
 
 class Vertex:
@@ -65,6 +71,23 @@ class Queue:
         pretty_print = "" # actually conventionally a separator character
         return pretty_print.join(str(self.queue))
 
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def add(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        return self.stack.pop()
+
+    def size(self):
+        return len(self.stack)
+
+    def __repr__(self):
+        pretty_print = ""
+        return pretty_print.join(str(self.stack))
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -79,3 +102,8 @@ graph.breadth_first_traversal('2')
 graph.breadth_first_traversal('0')
 graph.breadth_first_traversal('1')
 graph.breadth_first_traversal('3')
+
+graph.depth_first_traversal('0')
+graph.depth_first_traversal('1')
+graph.depth_first_traversal('2')
+graph.depth_first_traversal('3')
