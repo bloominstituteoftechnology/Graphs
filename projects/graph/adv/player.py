@@ -46,19 +46,40 @@ class Player:
         
         stack = [self.currentRoom]
         previous_room = None
+        history = {}
+
         while(len(stack) > 0):
-            print(len(stack))
             current_room = stack.pop()
-            print(current_room.name)
             if(item in current_room.items):
-                print(f"Treasure at {current_room.name}")
+                print(f"Treasure at {current_room.coordinates}")
+                print(f"Follow this path to find what you seek: \
+                    \n {self._findPathFromDictionary(previous_room.coordinates, history)}")
                 return
             directions = current_room.getPossibleDirections(True)
             for direction in directions:
                 neighbor = getattr(current_room, direction)
-                if neighbor != previous_room:
+
+                if neighbor != previous_room and neighbor.coordinates not in history:
                     stack.append(neighbor)
+                    if previous_room:
+                        history[neighbor.coordinates] = [direction[0],previous_room.coordinates]
+                    else:
+                        self.currentRoom.coordinates:[None, None]
+
             previous_room = current_room
         print("No treasure")
+
+    def _findPathFromDictionary(self,room_coordinate,dictionary):
+        rev_path = []
+        print(dictionary)
+        coordinate = room_coordinate
+        while coordinate:
+            previous = dictionary[coordinate]
+            rev_path.append(previous[0])
+            coordinate = previous[1]
+        rev_path.pop()
+        rev_path.reverse()
+        print(rev_path)
+        return ">".join(rev_path)
 
 
