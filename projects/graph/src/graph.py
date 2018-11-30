@@ -16,6 +16,9 @@ class Graph:
         self.vertices[vertex_one].add(vertex_two)
         self.vertices[vertex_two].add(vertex_one)
 
+    def add_directed_edge(self, start_vertex, end_vertex):
+        self.vertices[start_vertex].add(end_vertex)
+
     def breadth_first_traversal(self, starting_vertex):
         queue = Queue() # new queue
         traversal_path = [starting_vertex] # new list for reporting traversal history; only str, not Vertexes
@@ -45,6 +48,11 @@ class Graph:
                     stack.add(self.vertices[item])
             # stack.add(self.vertices[stack.pop()])
         print(f"traversal_path: {traversal_path}")
+
+    def recursive_depth_first_traversal(self, current_vertex):
+        print(current_vertex)
+        for item in self.vertices[current_vertex]:
+            self.recursive_depth_first_traversal(item)
 
 class Vertex:
     def __init__(self, vertex):
@@ -94,16 +102,32 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_vertex('8')
+graph.add_vertex('9')
 
-graph.breadth_first_traversal('2')
-graph.breadth_first_traversal('0')
-graph.breadth_first_traversal('1')
-graph.breadth_first_traversal('3')
+graph.add_directed_edge('0', '1')
+graph.add_directed_edge('0', '2')
+graph.add_directed_edge('1', '3')
+graph.add_directed_edge('1', '4')
+graph.add_directed_edge('3', '6')
+graph.add_directed_edge('3', '7')
+graph.add_directed_edge('2', '5')
+graph.add_directed_edge('5', '8')
+graph.add_directed_edge('5', '9')
+# print(graph.vertices)
 
-graph.depth_first_traversal('0')
-graph.depth_first_traversal('1')
-graph.depth_first_traversal('2')
-graph.depth_first_traversal('3')
+# graph.breadth_first_traversal('2')
+# graph.breadth_first_traversal('0')
+# graph.breadth_first_traversal('1')
+# graph.breadth_first_traversal('3')
+#
+# graph.depth_first_traversal('0')
+# graph.depth_first_traversal('1')
+# graph.depth_first_traversal('2')
+# graph.depth_first_traversal('3')
+
+graph.recursive_depth_first_traversal('0')
