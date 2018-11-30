@@ -56,7 +56,9 @@
 
 #         return self.rooms
 
-# from room import Room
+
+
+from room import Room
 import random
 
 
@@ -107,32 +109,32 @@ class World:
         xy = [0,0]
 
         # Create n rooms
-        for i in range(0, numRooms):
-            if i == 0:
-                new_room = Room(f"Room {i}", "You are alone in an empty room look around for clues.", xy)
+        # for i in range(0, numRooms):
+        #     if i == 0:
+        #         new_room = Room(f"Room {i}", "You are alone in an empty room look around for clues.", xy)
             
-                self.rooms[i] = new_room
+        #         self.rooms[i] = new_room
             
-            if i > 0:
+        #     if i > 0:
                  
 
-                random_dir = self.randomDirection(self.rooms[i-1])
-                new_coords = str(self.updateCoordinates(xy, random_dir))
-                new_room = Room(f"Room {i}", "You are standing in an empty room pondering of your life.", new_coords)
+        #         random_dir = self.randomDirection(self.rooms[i-1])
+        #         new_coords = str(self.updateCoordinates(xy, random_dir))
+        #         new_room = Room(f"Room {i}", "You are standing in an empty room pondering of your life.", new_coords)
             
-                self.rooms[i] = new_room
-                if random_dir is not None and new_coords not in occupied:
-                    self.rooms[i-1].connectRooms(random_dir, new_room)
-                    occupied.add(str(new_coords))
+        #         self.rooms[i] = new_room
+        #         if random_dir is not None and new_coords not in occupied:
+        #             self.rooms[i-1].connectRooms(random_dir, new_room)
+        #             occupied.add(str(new_coords))
             
-            for i in occupied:
-                for j in occupied:
-                    count = 0
-                    if i == j:
-                        count+=1
-                        if count > 1:
-                            print(f"{i} equaled {j} {count} times")
-        print(f'start {occupied}')
+        #     for i in occupied:
+        #         for j in occupied:
+        #             count = 0
+        #             if i == j:
+        #                 count+=1
+        #                 if count > 1:
+        #                     print(f"{i} equaled {j} {count} times")
+        # print(f'start {occupied}')
 
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
