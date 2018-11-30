@@ -9,13 +9,14 @@ class Room:
         self.e_to = None
         self.w_to = None
         self.items = []
+        self.xy = [0,0]
     def __str__(self):
         return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n"
     def printRoomDescription(self, player):
         print(str(self))
     def getItemsString(self):
         if len(self.items) > 0:
-            return f"The room contains: {', '.join([item.name for item in self.items])}"
+            return f"The room {self.name} contains: {', '.join([item.name for item in self.items])}"
         else:
             return "The room is empty"
     def connectRooms(self, direction, connectingRoom):

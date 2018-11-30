@@ -1,9 +1,9 @@
 from room import Room
 from player import Player
 from item import Item
-
 from world import World
 
+from random import randint
 
 world = World()
 
@@ -13,18 +13,22 @@ world = World()
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
-world.generateRooms(100)
-
-
+room_nums = 100
+world.generateRooms(room_nums)
 
 # Add some items
 junk = Item("Junk", "This is junk")
 rock = Item("Rock", "This is a rock")
+treasure = Item("Treasure", "This is a rock")
 
 # Give the player junk and put the rock in the starting room
 playerStartingItems = [junk]
 world.startingRoom.addItem(rock)
 
+#add treasure to a random room
+a = randint(0, room_nums)
+print(a)
+world.rooms[a].addItem(treasure)
 
 #################################
 #
@@ -53,6 +57,8 @@ while True:
             player.printInventory()
         elif cmds[0] == "status":
             player.printStatus()
+        elif cmds[0] == "map":
+            world.printMap()
         else:
             print("I did not understand that command.")
     else:
@@ -71,6 +77,3 @@ while True:
             player.dropItem(cmds[1:])
         else:
             print("I did not understand that command.")
-
-
-
