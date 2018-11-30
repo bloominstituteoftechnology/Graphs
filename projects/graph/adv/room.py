@@ -1,7 +1,7 @@
 # Implement a class to hold room information. This should have name and
 # description attributes.
 class Room:
-    def __init__(self, name, description, id=None, coordinates=None):
+    def __init__(self, name, description):
             self.name = name
             self.description = description
             self.n_to = None
@@ -11,10 +11,11 @@ class Room:
             self.items = []
             # if id == None:
             #     id = -1
-            self.id = id
+            # self.id = id
             # if coordinates == None:
             #     coordinates = (0, 0)
-            self.coordinates = coordinates
+            # self.coordinates = coordinates
+            self.xy = [0,0]
 
     def __str__(self):
         return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n{self.getExits()}\n"
@@ -37,8 +38,8 @@ class Room:
         else:
             return "The room is empty"
     def connectRooms(self, direction, connectingRoom):
-        con_rm_x_coord = connectingRoom.coordinates[0]
-        con_rm_y_coord = connectingRoom.coordinates[1]
+        # con_rm_x_coord = connectingRoom.coordinates[0]
+        # con_rm_y_coord = connectingRoom.coordinates[1]
         if direction == "n":
             self.n_to = connectingRoom
             connectingRoom.s_to = self
