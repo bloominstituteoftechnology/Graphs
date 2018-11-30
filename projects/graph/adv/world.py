@@ -6,6 +6,7 @@ class World:
     def __init__(self):
         self.startingRoom = None
         self.rooms = {}
+        self.avoid_list = set()
 
     def generateDefaultRooms(self):
         self.rooms = {
@@ -44,15 +45,15 @@ class World:
     ####
     # MODIFY THIS CODE
     ####
-    def get_random_direction(self, room):
+    def get_random_direction(self, room, coords):
         paths = []
-        if room.n_to is None:
+        if room.n_to is None and coords not in self.avoid_list:
             paths.append("n")
-        if room.e_to is None:
+        if room.e_to is None and coords not in self.avoid_list:
             paths.append("e")
-        if room.s_to is None:
+        if room.s_to is None and coords not in self.avoid_list:
             paths.append("s")
-        if room.w_to is None:
+        if room.w_to is None and coords not in self.avoid_list:
             paths.append("w")
         random.shuffle(paths)
         if len(paths) > 0:
@@ -62,49 +63,55 @@ class World:
 
     def generateRooms(self, numRooms):
         self.rooms = {}
-        self.x_counter = 0
-        self.y_counter = 0
         self.avoid_list = set()
+        valid_rooms = set()
+        x = 0
+        y = 0
 
         if numRooms < 1:
             print("Must create at least 1 room")
             return None
 
-        # Create n rooms
         for i in range(0, numRooms):
-            # Create n rooms.
-            self.rooms[i] = Room(f"Room {i}", f"You are standing in an empty room {i}.")
-            if i > 0:
-                path = self.get_random_direction(self.rooms[i - 1])
-                if path is not None:
-                    if path == "n":
-                        self.y_counter += 1
-                    elif path == "s":
-                        self.y_counter -= 1
-                    elif path == "e":
-                        self.x_counter += 1
-                    elif path == "w":
-                        self.x_counter -= 1
+            new_room = Room(f"Room {i}", f"You are standing in an empty room {i}.")
+            self.rooms[i] = new_room
+            if i == 0:
+                valid_rooms.add(i)
+                self.avoid_list.add((x, y))
+            else:
+                path = None
 
-                    if (self.x_counter, self.y_counter) not in self.avoid_list:
-                        self.rooms[i - 1].connectRooms(path, self.rooms[i])
-                        self.avoid_list.add((self.x_counter, self.y_counter))
-                        print(path, (self.x_counter, self.y_counter), self.avoid_list)
-                    else:
-                        print(
-                            "COLLISION",
-                            path,
-                            (self.x_counter, self.y_counter),
-                            self.avoid_list,
-                        )
-
-        # Hard-code a single room connection.
-        # You should replace this with procedural connection code.
-        if numRooms > 1:
-            self.rooms[0].connectRooms("n", self.rooms[1])
+                while path is None:
+                    connecting_room = valid_rooms.pop()
+                    room_coords = (
+                        self.rooms[connecting_room].x_coord,
+                        self.rooms[connecting_room].y_coord,
+                    )
+                    path = self.get_random_direction(
+                        self.rooms[connecting_room], room_coords
+                    )
+                    if path is not None:
+                        valid_rooms.add(connecting_room)
+                if path == "n":
+                    new_room.y_coord += 1
+                elif path == "s":
+                    new_room.y_coord -= 1
+                elif path == "e":
+                    new_room.x_coord += 1
+                elif path == "w":
+                    new_room.x_coord -= 1
+                room_coords = (new_room.x_coord, new_room.y_coord)
+                self.rooms[connecting_room].connectRooms(path, new_room)
+                self.avoid_list.add(room_coords)
+                valid_rooms.add(i)
 
         # Set the starting room to the first room. Change this if you want a new starting room.
         self.startingRoom = self.rooms[0]
+
+        if len(self.avoid_list) == numRooms:
+            print("World successfully created!")
+        else:
+            print("Something is wrong....")
 
         return self.rooms
 
