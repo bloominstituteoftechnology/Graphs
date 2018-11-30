@@ -54,6 +54,8 @@ while True:
             player.printInventory()
         elif cmds[0] == "status":
             player.printStatus()
+        elif cmds[0] == "magic":
+            player.findPathToItem(world.treasure)            
         else:
             print("I did not understand that command.")
     else:

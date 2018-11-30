@@ -42,4 +42,23 @@ class Player:
             itemToDrop.on_drop()
         else:
             print("You are not holding that item.")
+    def findPathToItem(self, item):
+        
+        stack = [self.currentRoom]
+        previous_room = None
+        while(len(stack) > 0):
+            print(len(stack))
+            current_room = stack.pop()
+            print(current_room.name)
+            if(item in current_room.items):
+                print(f"Treasure at {current_room.name}")
+                return
+            directions = current_room.getPossibleDirections(True)
+            for direction in directions:
+                neighbor = getattr(current_room, direction)
+                if neighbor != previous_room:
+                    stack.append(neighbor)
+            previous_room = current_room
+        print("No treasure")
+
 

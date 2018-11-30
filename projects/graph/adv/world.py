@@ -7,9 +7,10 @@ class World:
   def __init__(self):
     self.startingRoom = None
     self.rooms = {}
+    self.treasure = None
   
   def _getRandomDirection(self,room):
-    dirs = []
+    dirs = [] 
     if room.n_to == None:
         dirs.append("n")
     if room.s_to == None:
@@ -54,6 +55,7 @@ class World:
   def dropTreasure(self):
     # create item
     treasure = Item("Treasure", "Cobbler's Boot: The legendary boot that the town Cobbler used to single handedly drive away the Roman legion.")
+    self.treasure = treasure
     # creates list of all keys to rooms, shuffle and select random room to put boot.
     keys = list(self.rooms.keys())
     random.shuffle(keys)

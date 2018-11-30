@@ -12,16 +12,21 @@ class Room:
     self.items = []
   def __str__(self):
     return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n"
-  def getPossibleDirections(self):
+  def getPossibleDirections(self, asAttribute = False):
     dirs = []
+    if asAttribute:
+      suffix = "_to"
+    else:
+      suffix = ""
+
     if self.n_to != None:
-      dirs.append("n")
+      dirs.append(f"n{suffix}")
     if self.s_to != None:
-      dirs.append("s")
+      dirs.append(f"s{suffix}")
     if self.e_to != None:
-      dirs.append("e")
+      dirs.append(f"e{suffix}")
     if self.w_to != None:
-      dirs.append("w")
+      dirs.append(f"w{suffix}")
 
     return dirs
 
@@ -35,9 +40,7 @@ class Room:
     else:
       return "The room is empty"
 
-  # def setCoordinates(self, x, y):
-  #   self.x = x
-  #   self.y = y
+
   def connectRooms(self, direction, connectingRoom):
     if direction == "n":
       self.n_to = connectingRoom
