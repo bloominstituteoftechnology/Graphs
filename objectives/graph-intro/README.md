@@ -16,6 +16,7 @@ The nodes in a graph are called _vertexes_ (or _vertices_ or _verts_), and the c
 
 And edge denotes a relationship or linkage between the two verts.
 
+
 ## What can they represent?
 
 Graphs can represent any kind of multiway relational data.
@@ -41,6 +42,14 @@ If the edges are "one way" (have an arrow), the graph is said to be a
 _directed graph_. If there are no arrows, the edges are bidirectional
 and the graph is an _undirected_ graph.
 
+![Undirected Graph](img/social_graph_undirected.jpg)
+
+This is an __undirected graph__ which could represent a social network like Facebook. Alice is friends with Bob, Carol and Dave, Bob is friends with Alice and Dave, Carol is only friend with Alice, and Dave is friends with only Alice and Bob. In this example, the nodes represent people and the edges represent friendship.
+
+![Directed Graph](img/social_graph_directed.jpg)
+
+This is an __directed graph__ which could represent a social network like Twitter or Instagram. Since Twitter/Instagram follows are one-way as opposed to always-mutual Facebook friendships, they are represented with arrows. In the above directed graph, Alice and Bob follow each other, Dave follows Alice and Bob, and Carol only follows Alice.
+
 ### Cyclic/Acyclic Graphs
 
 If a cycle can be formed (e.g. you can follow the edges and arrive again at an already-visited vert), the graph is _cyclic_. Otherwise it is _acyclic_.
@@ -50,6 +59,8 @@ If a cycle can be formed (e.g. you can follow the edges and arrive again at an a
 Graphs with values (_weights_) associated with the edges are called _weighted graphs_.
 
 The meaning of the weight is dependent on the type of graph. A graph of road network segments might have weight represent the length of the road. The higher the total weight of a route on the graph, the longer the trip is. The weights can be used to help decide if a particular route should be chosen over another.
+
+![Directed Graph](img/GoogleMaps.jpg)
 
 Weights can be further modified. For example, if one were building a bicycle map, roads with bad car traffic or very steep uphills could be given unnaturally large weights so a routing algorithm would be unlikely to take them. (This is how Google Maps avoids freeways when you ask it for walking directions.)
 
