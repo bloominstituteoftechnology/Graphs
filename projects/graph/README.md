@@ -14,10 +14,10 @@ contains a dictionary mapping vertex labels to edges. For example:
 
 ```python
 {
-    '0': {'1', '3'},
-    '1': {'0'},
-    '2': set(),
-    '3': {'0'}
+'0': {'1', '3'},
+'1': {'0'},
+'2': set(),
+'3': {'0'}
 }
 ```
 
@@ -83,7 +83,11 @@ Write an algorithm, `createRandomRooms` that takes in a number and generates tha
 * None of the rooms should overlap and they should all exist on a valid grid. For example, starting in the lower left and traveling E,W,N,S or N,E,S,W should always return you to the original room.
 ```
 [_]-[_]
+<<<<<<< HEAD
+|   |
+=======
  |   |
+>>>>>>> upstream/master
 [_]-[_]
 ```
 * How can you verify that all of the rooms are connected? (Hint: use a traversal)

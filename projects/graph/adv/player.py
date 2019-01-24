@@ -42,4 +42,45 @@ class Player:
             itemToDrop.on_drop()
         else:
             print("You are not holding that item.")
+    def findPathToItem(self, item):
+        
+        stack = [self.currentRoom]
+        # previous_room = None
+        history = {self.currentRoom.coordinates: [None, None]}
+
+        while(len(stack) > 0):
+            current_room = stack.pop()
+            if(item in current_room.items):
+                
+                if current_room == self.currentRoom:
+                    print("The treasure is underneath your nose!")
+                else:
+                    print(f"The treasure is in {current_room.name}")
+                    print(f"Follow this path to find what you seek: \
+                        \n {self._findPathFromDictionary(current_room.coordinates, history)}")
+                return
+            directions = current_room.getPossibleDirections(True)
+
+            for direction in directions:
+                neighbor = getattr(current_room, direction)
+
+                if neighbor != current_room and neighbor.coordinates not in history:
+                    stack.append(neighbor)
+                    history[neighbor.coordinates] = [direction[0],current_room.coordinates]
+
+        print("No treasure")
+
+    def _findPathFromDictionary(self,room_coordinate,dictionary):
+        rev_path = []
+
+        coordinate = room_coordinate
+        while coordinate:
+            previous = dictionary[coordinate]
+            rev_path.append(previous[0])
+            coordinate = previous[1]
+        rev_path.pop()
+        rev_path.reverse()
+        
+        return ">".join(rev_path)
+
 

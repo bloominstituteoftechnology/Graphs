@@ -13,9 +13,7 @@ world = World()
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
-world.generateRooms(100)
-
-
+world.generateRooms(10)
 
 # Add some items
 junk = Item("Junk", "This is junk")
@@ -24,6 +22,7 @@ rock = Item("Rock", "This is a rock")
 # Give the player junk and put the rock in the starting room
 playerStartingItems = [junk]
 world.startingRoom.addItem(rock)
+world.dropTreasure()
 
 
 #################################
@@ -38,7 +37,7 @@ valid_directions = {"n": "n", "s": "s", "e": "e", "w": "w",
 
 player = Player(input("What is your name? "), world.startingRoom, playerStartingItems)
 
-print(player.currentRoom)
+player.currentRoom.printRoomDescription(player)
 
 while True:
     cmds = input("-> ").lower().split(" ")
@@ -53,6 +52,8 @@ while True:
             player.printInventory()
         elif cmds[0] == "status":
             player.printStatus()
+        elif cmds[0] == "magic":
+            player.findPathToItem(world.treasure)            
         else:
             print("I did not understand that command.")
     else:
