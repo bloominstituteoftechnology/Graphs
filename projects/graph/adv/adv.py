@@ -13,8 +13,9 @@ world = World()
 # This will generate 100 rooms.
 # You will be modifying this function in world.py for better
 # room generation.
-world.generateRooms(100)
-
+total_rooms = 100
+world.generateRooms(total_rooms)
+world.add_random_treasure(total_rooms)
 
 
 # Add some items
@@ -32,9 +33,20 @@ world.startingRoom.addItem(rock)
 #
 #################################
 
-valid_directions = {"n": "n", "s": "s", "e": "e", "w": "w",
-                    "north": "n", "south": "s", "east": "e", "west": "w",
-                    "forward": "n", "backwards": "s", "right": "e", "left": "w"}
+valid_directions = {
+    "n": "n",
+    "s": "s",
+    "e": "e",
+    "w": "w",
+    "north": "n",
+    "south": "s",
+    "east": "e",
+    "west": "w",
+    "forward": "n",
+    "backwards": "s",
+    "right": "e",
+    "left": "w",
+}
 
 player = Player(input("What is your name? "), world.startingRoom, playerStartingItems)
 
@@ -53,6 +65,8 @@ while True:
             player.printInventory()
         elif cmds[0] == "status":
             player.printStatus()
+        elif cmds[0] == "ft" or cmds[0] == "findTreasure":
+            player.findTreasure()
         else:
             print("I did not understand that command.")
     else:
@@ -71,6 +85,4 @@ while True:
             player.dropItem(cmds[1:])
         else:
             print("I did not understand that command.")
-
-
 
