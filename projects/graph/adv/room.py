@@ -1,16 +1,27 @@
 # Implement a class to hold room information. This should have name and
 # description attributes.
 class Room:
-    def __init__(self, name, description):
+    def __init__(self, name, description, coordinates):
         self.name = name
         self.description = description
         self.n_to = None
         self.s_to = None
         self.e_to = None
         self.w_to = None
+        self.coordinates = coordinates
         self.items = []
     def __str__(self):
-        return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n"
+        room_exits = []
+        if self.n_to != None:
+            room_exits.append('N')
+        if self.s_to != None:
+            room_exits.append('S')
+        if self.e_to != None:
+            room_exits.append('E')
+        if self.w_to != None:
+            room_exits.append('W')
+                 
+        return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getItemsString()}\n \nRoom exits are:{room_exits}\nCoordinates are:\n{self.coordinates}\n"
     def printRoomDescription(self, player):
         print(str(self))
     def getItemsString(self):
@@ -34,6 +45,7 @@ class Room:
         else:
             print("INVALID ROOM CONNECTION")
             return None
+ 
     def getRoomInDirection(self, direction):
         if direction == "n":
             return self.n_to
