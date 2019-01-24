@@ -1,4 +1,5 @@
 from room import Room
+import random
 
 
 class World:
@@ -34,8 +35,28 @@ class World:
     ####
     # MODIFY THIS CODE
     ####
+    
+    def get_random_direction(self, room):
+        paths = []
+        if room.n_to is None:
+            paths.append('n')
+        if room.e_to is None:
+            paths.append('e')
+        if room.s_to is None:
+            paths.append('s')
+        if room.w_to is None:
+            paths.append('w')
+        random.shuffle(paths)
+        if len(paths) > 0:
+            return paths[0]
+        else:
+            return None
+
     def generateRooms(self, numRooms):
         self.rooms = {}
+        self.x_counter = 0
+        self.y_counter = 0
+        self.avoid_list = set()
 
         if numRooms < 1:
             print("Must create at least 1 room")
@@ -44,7 +65,30 @@ class World:
         # Create n rooms
         for i in range(0, numRooms):
             # Create n rooms.
-            self.rooms[i] = Room(f"Room {i}", "You are standing in an empty room.")
+            self.rooms[i] = Room(f"Room {i}", f"You are standing in an empty room {i}.")
+            if i > 0:
+                path = self.get_random_direction(self.rooms[i - 1])
+                if path is not None:
+                    if path == "n":
+                        self.y_counter += 1
+                    elif path == "s":
+                        self.y_counter -= 1
+                    elif path == "e":
+                        self.x_counter += 1
+                    elif path == "w":
+                        self.x_counter -= 1
+
+                    if (self.x_counter, self.y_counter) not in self.avoid_list:
+                        self.rooms[i - 1].connectRooms(path, self.rooms[i])
+                        self.avoid_list.add((self.x_counter, self.y_counter))
+                        print(path, (self.x_counter, self.y_counter), self.avoid_list)
+                    else:
+                        print(
+                            "COLLISION", 
+                            path, 
+                            (self.x_counter, self.y_counter), 
+                            self.avoid_list,
+                        )
 
         # Hard-code a single room connection.
         # You should replace this with procedural connection code.
