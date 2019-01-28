@@ -1,6 +1,8 @@
 """
 Simple graph implementation
 """
+from structures import Queue
+from structures import LinkedList
 
 
 class Graph:
@@ -17,5 +19,8 @@ class Graph:
     def add_edge(self, vertex1, vertex2):
         if vertex1 and vertex2:
             self.vertices[vertex1].add(vertex2)
+
+    def BGT(self, starting):
+        
 
 
