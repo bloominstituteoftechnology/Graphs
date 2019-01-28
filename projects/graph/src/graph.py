@@ -9,7 +9,7 @@ class Graph:
         # below: a dictionary mapping vertex labels to edges
         self.vertices = {}
 
-    # ---- DAY 1 -------
+    # ---- DAY 1 goal -------
     # below: methods to add to/build the graph
 
     def add_vertex(self, vertex):
@@ -43,16 +43,24 @@ class Graph:
         print(visited)
        
     def df_traversal(self, starting_v):
+        # FUNCTION RETURNS : "prints the vertices in the order they were visited"
         #create stack
-        s = Stack()
-        visited = set()
+        s = deque()
         #push starting vertex
-        s.Push(starting_v)
+        s.append(starting_v)
+        visited = []
         #while the stack is not empty, 
+        while s:
             #pop a vertex from the stack
+            current_v = s.pop()
             #mark it as visited 
+            if current_v not in visited:
+                visited.append(current_v)
             #push all of it's children that have not been visited 
-        pass
+                for edge in self.vertices[current_v]:
+                    s.append(edge)
+
+        print(visited)
 
     def dft_stack():
         pass
