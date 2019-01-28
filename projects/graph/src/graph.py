@@ -31,7 +31,22 @@ class Graph:
                         nextItems.put(num)
                 nextItems.get()
                 visited.append(first)
-            print(visited)
+            print('BFT', visited)
+    
+    def dft(self, start):
+        if start in self.vertices:
+            nextItems = []
+            visited = []
+            nextItems.append(start)
+            while len(nextItems) != 0:
+                print(visited)
+                first = nextItems.pop()
+                print(first)
+                for num in self.vertices[first]:
+                    if num not in visited:
+                        nextItems.append(num)
+                visited.append(first)
+            print('DFT', visited)
 
 class Vertex:
     def __init__(self, label):

@@ -34,6 +34,7 @@ def main():
     graph.add_edge('2', '8')
     print(graph.vertices)
     graph.bft('0')
+    graph.dft('0')
 
 if __name__ == '__main__':
     main()
