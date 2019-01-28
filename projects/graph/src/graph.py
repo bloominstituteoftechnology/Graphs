@@ -22,20 +22,24 @@ class Graph:
 
     # Breadth First Traversal
 
-    def bft(self, starting_node):
+    def bft(self, starting_vert):
         # Create a queue
         queue = deque()
         # create a visited list
         visited = set()
-        # mark the first node as visited
-        # enqueue the starting node
-        queue.append(starting_node)
+        # enqueue the starting vert
+        queue.append(starting_vert)
         # while queue is not empty
         while queue:
-            pass
-            # -> dequeue a node from queue
+            # -> dequeue a vert from queue
+            dequeued = queue.popleft()
             # -> mark it as visited
+            visited.add(dequeued)
             # -> enqueue all of it's children
+            for vert in self.vertices[dequeued]:
+                if vert not in visited:
+                    queue.append(vert)
+        return visited
 
     # Depth First Traversal
 
