@@ -45,3 +45,14 @@ class Graph:
         for vertex in self.vertices[starting_vertex]:
             if vertex not in visited:
                 self.dfs_recursive(vertex, visited)
+
+    def dfs_stack(self, starting_vertex):
+        visited = set()
+        stack = [starting_vertex]
+
+        while stack:
+            vertex = stack.pop()
+            if vertex not in visited:
+                visited.add(vertex)
+                stack.extend(self.vertices[vertex] - visited)
+        return visited
