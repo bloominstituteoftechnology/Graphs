@@ -43,7 +43,8 @@ class Graph:
         while len(queue) > 0:
             current = queue.popleft()
             print(current)
-            visited.append(current)
+            if current not in visited:
+                visited.append(current)
 
             for item in self.vertices[current]:
                 if item not in visited:
@@ -57,7 +58,8 @@ class Graph:
         while stack.size() > 0:
             current = stack.pop()
             print(current)
-            visited.append(current)
+            if current not in visited:
+                visited.append(current)
 
             for item in self.vertices[current]:
                 if item not in visited:
