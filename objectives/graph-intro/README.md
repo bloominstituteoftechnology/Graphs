@@ -98,6 +98,8 @@ no way to go back and form a repeating loop in the git commit hierarchy.
 Draw examples of the following:
 
 * Undirected graph of 4 verts.
+  4 degrees of Kevin Bacon 
 * Directed graph of 5 verts.
+  Organizational Charts
 * Cyclic directed graph of 6 verts.
 * DAG of 7 verts.
