@@ -23,8 +23,19 @@ class Graph:
             node = q.popleft()
             visited.append(node)
             for child in node:
-                if child not in visited
+                if child not in visited:
                     q.append(child)
+        return visited
+    def depth_first_traversal(self, starting_node):
+        stack = []
+        visited = []
+        stack.append(starting_node)
+        while len(stack) > 0:
+            node = stack.pop()
+            visited.append(node)
+            for child in node:
+                if child not in visited:
+                    stack.append(child)
         return visited
             
 
@@ -38,3 +49,4 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 # print(graph.vertices)
 print(graph.breadth_first_traversal(graph.vertices['0']))
+print(graph.depth_first_traversal(graph.vertices['0']))
