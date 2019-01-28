@@ -13,8 +13,11 @@ class Graph:
         self.vertices[value] = set()
 
     def add_edge(self, vert, value):
-        self.vertices[vert].add(value)
-        self.vertices[value].add(vert)
+        if value in self.vertices:
+            self.vertices[vert].add(value)
+            self.vertices[value].add(vert)
+        else:
+            print(f'{value} is not a vertex')
 
     def bft(self, starting_node):
         # Create a Queue
