@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-
+from queue import Queue
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
