@@ -34,5 +34,15 @@ class Stack:
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        pass
+        self.vertices = {}
 
+    def add_vertex(self, vertex):
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+        else:
+            return
+
+    def add_edge(self, vertex_one, vertex_two):
+        if vertex_one in self.vertices and vertex_two in self.vertices:
+            self.vertices[vertex_one].add(vertex_two)
+            self.vertices[vertex_two].add(vertex_one)
