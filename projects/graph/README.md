@@ -1,7 +1,6 @@
 # Searching and Generating Graphs
 
-This is a multi-stage project to draw a graph and show the connected
-components of that graph in different colors.
+This is a multi-stage project to generate a random social network and find people in a user's extended social network.
 
 
 # Day 1-2
