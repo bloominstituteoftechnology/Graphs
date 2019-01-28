@@ -58,9 +58,15 @@ class Graph:
         if visited is None:
             visited = set()
         # if the node has not been visited:
+        if starting_node not in visited:
             # mark the node as visited
+            visited.add(starting_node)
             # call dft_r on all children
-                # dft_r(child_node, visited)
+            if self.vertices[starting_node] != set():
+                for item in self.vertices[starting_node]:
+                    if item not in visited:
+                        # dft_r(child_node, visited)
+                        self.dft_r(item, visited)
 
 # graph = Graph()
 # graph.add_vertex('0')
