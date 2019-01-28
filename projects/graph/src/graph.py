@@ -35,3 +35,12 @@ class Graph:
                     q.enqueue(child)
 
         return visited
+class Queue:
+    def __init__(self):
+        self.storage = []
+
+    def enqueue(self, value):
+        self.storage.append(value)
+
+    def dequeue(self):
+        return self.storage.pop(0)
