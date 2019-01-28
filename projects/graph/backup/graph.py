@@ -38,11 +38,21 @@ class Graph:
     def dft(self, starting_node):
         pass
         # Create a stack
+        s = []
+        visited = set()
         # push the starting node
+        s.append(starting_node)
         # while the stack is not empty:
+        while len(s) > 0:
             # pop a node from the stack
+            n = s.pop(-1)
             # mark it as visited
+            visited.add(n)
             # push all of it's children that have not been visited
+            if self.vertices[n] != set():
+                for item in self.vertices[n]:
+                    if item not in visited:
+                        s.append(item)
 
     def dft_r(self, starting_node, visited = None):
         if visited is None:
