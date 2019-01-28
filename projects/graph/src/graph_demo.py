@@ -20,6 +20,7 @@ def main():
     print(graph.vertices)
 
     print(graph.bfs("0"))
+    print(graph.dfs_recursive("0"))
 
 if __name__ == '__main__':
     # TODO - parse argv

@@ -38,3 +38,10 @@ class Graph:
                     queue.append(neighbor)
         return visited
     
+    def dfs_recursive(self, starting_vertex, visited = []):
+        visited.append(starting_vertex)
+        print(starting_vertex)
+
+        for vertex in self.vertices[starting_vertex]:
+            if vertex not in visited:
+                self.dfs_recursive(vertex, visited)
