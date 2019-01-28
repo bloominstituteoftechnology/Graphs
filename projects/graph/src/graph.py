@@ -71,7 +71,16 @@ class Graph:
         s.push(starting_node)
 
         while s:
-            pass
+            # dequeue node from stack
+            dequeued = s.pop()
+            #mark it as visited
+            if dequeued not in visited:
+                visited.append(dequeued)
+                print(dequeued)
+            for vert in self.vertices[dequeued]:
+                if vert not in visited:
+                    s.push(vert)
+            return visited
         
 
 
@@ -79,11 +88,35 @@ class Graph:
 
 
 
-    def dft_r(self, starting_node):
-        #mark node as visited
-        #call dft_r on all children
-        pass
 
+    def dft_r(self, starting_node, visited=None):
+        #mark node as visited
+        if visited is None:
+            visited = []
+        if starting_node not in visited:
+            visited.append(starting_node)
+            print(starting_node)
+        #call dft_r on all children
+        for vert in self.vertices[starting_node]:
+            if vert not in visited:
+                self.dft_r(vert, visited)
+
+
+    def bfs(self, starting_node, target_node):
+        q = Queue()
+        visited = []
+        q.enqueue(starting_node)
+        while q:
+            dequeued = q.dequeue()
+            if dequeued == target_node:
+                return True
+            if dequeued not in visited:
+                visited.append(dequeued)
+            for vert in self.vertices[dequeued]:
+                if vert not in visited:
+                    q.enqueue(vert)
+
+        return False
 
 
 graph = Graph() #my graph instance
