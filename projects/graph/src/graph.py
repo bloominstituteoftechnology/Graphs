@@ -36,6 +36,25 @@ class Graph:
 
         return visited
 
+    def dft(self, starting_node):
+    # Initialize a Stack instance
+    s = Stack()
+    visited = []
+    # Add starting node
+    s.push(starting_node)
+    # While the stack isn't empty
+    while len(s.storage) > 0:
+        # Pop a node from the stack
+        node = s.pop()
+        # Mark it as visited
+        visited.append(node)
+        # Push all of its children that have not been visited
+        for child in self.vertices[node]:
+            if child not in visited:
+                s.push(child)
+
+    return visited
+
     def dft_r(self, starting_node, visited=None):
         if visited is None:
             visited = []
