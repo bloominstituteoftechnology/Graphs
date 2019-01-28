@@ -60,19 +60,31 @@ class Graph:
 
         print(visited)
 
+    def recursive_dft(self, vertex, visited=None):
+        if visited is None:
+            visited = []
 
+        # # If the node has not been visited,
+        if vertex not in visited:
+            # Mark the node as visited
+            visited.append(vertex)
+            # Call recursive_dft on all children
+            for child_node in self.vertices[vertex]:
+                self.recursive_dft(child_node, visited)
+
+        return visited
+
+
+# 0->3->5 and 0->1->4
 # graph = Graph()  # Instantiate your graph
-# graph.add_vertex("A")
-# graph.add_vertex("B")
-# graph.add_vertex("C")
-# graph.add_vertex("D")
-# graph.add_vertex("E")
-# graph.add_edge("B", "A")
-# graph.add_edge("C", "B")
-# graph.add_edge("D", "B")
-# graph.add_edge("E", "C")
-# graph.add_edge("A", "D")
-# graph.add_edge("D", "E")
-# graph.df_traversal("A")
-# print(graph.vertices)
-
+# graph.add_vertex("0")
+# graph.add_vertex("1")
+# graph.add_vertex("3")
+# graph.add_vertex("4")
+# graph.add_vertex("5")
+# graph.add_edge("3", "0")
+# graph.add_edge("1", "0")
+# graph.add_edge("4", "1")
+# graph.add_edge("5", "3")
+# graph.df_traversal("0")  # ['0', '1', '4', '3', '5']
+# print(graph.recursive_dft("0"))

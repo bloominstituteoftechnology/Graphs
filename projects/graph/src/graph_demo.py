@@ -24,6 +24,7 @@ def main():
     graph.add_edge("D", "E")
     graph.bf_traversal("A")
     graph.df_traversal("A")
+    print(graph.recursive_dft("A"))
     print(graph.vertices)
 
 
