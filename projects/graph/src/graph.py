@@ -1,7 +1,8 @@
+from collections import deque
+
 """
 Simple graph implementation
 """
-
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -22,3 +23,24 @@ class Graph:
             else:
                 invalid_vertex = vertex_1 if vertex_1 not in self.vertices else vertex_2
                 raise KeyError(f"{invalid_vertex} is not a valid vertex")
+
+    def bft(self, start, q=deque(), visited=set()):
+        if start in self.vertices:
+            print(start)
+            if len(visited) == 0:
+                visited.add(start)
+            for related in self.vertices[start]:
+                if related not in visited:
+                    q.append(related)
+                    visited.add(related)
+            if len(q) > 0:
+                self.bft(q.popleft(), q, visited)
+
+    def dft(self, start):
+        pass
+
+    def bfs(self, target):
+        pass
+
+    def dfs(self, target):
+        pass
