@@ -27,6 +27,7 @@ class Graph:
         
         while len(queue) > 0:
             current = queue.popleft()
+            print(current)
             visited.append(current)
 
             for item in self.vertices[current]:
