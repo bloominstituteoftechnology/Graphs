@@ -43,8 +43,19 @@ class Graph:
         if not node.visited:
           queque.appendleft(node)    
       print(current_node.value)
+  
+  def dft(self, current_node):
+    
+    node = self.vertices[current_node]
+
+    print(node.value)
+    node.visited = True
+    for key, child in node.edges.items():
+      if not child.visited:
+        self.dft(key)
 
 
+  
 
 
 
@@ -62,4 +73,4 @@ graph.add_edge('0', '3')
 print(graph.vertices)
 graph.add_edge('0', '4')
 print(graph.vertices)
-graph.bft("4")
+graph.dft("1")
