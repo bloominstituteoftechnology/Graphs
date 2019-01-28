@@ -13,5 +13,4 @@ class Graph:
         self.vertices[value] = set()
 
     def add_edge(self, vertex1, vertex2):
-        if self.vertices[vertex1] and self.vertices[vertex2]:
-            self.vertices[vertex1].add(vertex2)
+        self.vertices[vertex1].add(vertex2)
