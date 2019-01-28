@@ -20,8 +20,9 @@ def main():
     graph.add_edge('1', '2')
     graph.add_edge('2', '3')
     graph.add_edge('3', '1')
-    print(graph.vertices)
-    print(graph.bft('0'))
+    print(f"Adjacency List -> {graph.vertices}")
+    print(f"BFT -> {graph.bft('0')}")
+    print(f"DFT -> {graph.dft('0')}")
 
 
 if __name__ == '__main__':

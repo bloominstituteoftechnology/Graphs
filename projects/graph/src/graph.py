@@ -43,26 +43,31 @@ class Graph:
 
     # Depth First Traversal
 
-    def dft(self, starting_node):
+    def dft(self, starting_vert):
         # Create a stack
         stack = deque()
         # create a visited list
         visited = set()
-        # mark the first node as visited
-        # enstack the starting node
-        stack.append(starting_node)
+        # enqueue the starting vert
+        stack.append(starting_vert)
         # while stack is not empty
         while stack:
-            pass
-            # -> destack a node from stack
+            # -> dequeue a vert from stack
+            dequeued = stack.pop()
             # -> mark it as visited
-            # -> enstack all of it's children
+            visited.add(dequeued)
+            # -> enqueue all of it's children
+            for vert in self.vertices[dequeued]:
+                if vert not in visited:
+                    stack.append(vert)
+        return visited
 
     def dft_rec(self, starting_node, visted=None):
         # create visited
         if visited is None:
             visted = set()
         # If the node has not been visited
+        # if
         # Mark the node as visited
         # call dft_rec on all children
 
