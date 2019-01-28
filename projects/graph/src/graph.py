@@ -30,3 +30,5 @@ class Graph:
                     queue.append(vertex)
                 visited.append(queue.pop(0))
             return(visited)
+        else:
+            print("Vertex not in list")
