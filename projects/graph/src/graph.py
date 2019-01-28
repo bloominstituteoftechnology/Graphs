@@ -70,7 +70,7 @@ class Graph:
 
         s.push(starting_node)
 
-        while stack:
+        while s:
             pass
         
 
@@ -82,6 +82,7 @@ class Graph:
     def dft_r(self, starting_node):
         #mark node as visited
         #call dft_r on all children
+        pass
 
 
 
