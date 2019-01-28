@@ -32,6 +32,7 @@ class Graph:
                 for i in self.vertices[f"{n}"]:
                     q.enqueue(f"{i}")
 
+    # Using Recursion
     def dft(self, starting_point, next_set=[], visited=[]):
         visited.append(starting_point)
         for num in self.vertices[f"{starting_point}"]:
