@@ -1,3 +1,5 @@
+from queue import Queue
+
 """
 Simple graph implementation
 """
@@ -20,3 +22,10 @@ class Graph:
             self.vertices[vertex2].add(vertex1)
         else:
             raise Exception("Edges to nonexistent vetices")
+
+    def bredth_first_traversal(self, start_node):
+        queue = Queue()
+        visited = set()
+        queue.enqueue(start_node)
+        while queue:
+            visited.add(queue.dequeue())

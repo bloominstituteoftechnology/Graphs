@@ -13,7 +13,7 @@ def main():
     graph.add_vertex('1')
     graph.add_vertex('2')
     graph.add_vertex('3')
-    graph.add_edge('0', '5')
+    graph.add_edge('0', '1')
     graph.add_edge('0', '3')
     print(graph.vertices)
 
