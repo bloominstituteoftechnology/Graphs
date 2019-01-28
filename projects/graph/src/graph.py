@@ -19,7 +19,7 @@ class Graph:
     def bft(self, starting_node):
         # Create a Queue
         q = Queue()
-        visited = set()
+        visited = []
         # Enqueue the starting node
         q.enqueue(starting_node)
         # While the queue is not empty
@@ -27,7 +27,7 @@ class Graph:
             # Dequeue a node from the queue
             node = q.dequeue()
             # Mark it as visited
-            visited.add(node)
+            visited.append(node)
             # Enqueue all of its children that have not been visted
             for child in self.vertices[node]:
                 if child not in visited:
@@ -35,17 +35,24 @@ class Graph:
 
         return visited
 
+    def dft(self, starting_node):
+        # Create a Stack
+        s = Stack()
+        visited = []
+        # Push the starting node
+        s.push(starting_node)
+        # While the stack is not empty
+        while len(s.storage) > 0:
+            # Pop a node from the stack
+            node = s.pop()
+            # Mark it as visited
+            visited.append(node)
+            # Push all of its children that have not been visted
+            for child in self.vertices[node]:
+                if child not in visited:
+                    s.push(child)
 
-def dft(self, starting_node):
-    # Create a Stack
-    s = Stack()
-    visited = set()
-    # Push the starting node
-    s.push(starting_node)
-    # While the stack is not empty
-    # Pop a node from the stack
-    # Mark it as visited
-    # Push all of its children that have not been visted
+        return visited
 
 
 def dft_r(self, starting_node, visted=None):
@@ -80,3 +87,14 @@ class Queue:
 
     def dequeue(self):
         return self.storage.pop(0)
+
+
+class Stack:
+    def __init__(self):
+        self.storage = []
+
+    def push(self, value):
+        self.storage.append(value)
+
+    def pop(self):
+        return self.storage.pop()

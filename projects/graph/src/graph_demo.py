@@ -17,9 +17,12 @@ def main():
     graph.add_vertex('3')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
-    print(graph.vertices)
+    # print(graph.vertices)
 
-    print(graph.bft('2'))
+    graph.bft('2')  # Returns ['2']
+    graph.bft('0')  # Returns ['0', '3', '1']
+
+    graph.dft('0')  # Returns ['0', '1', '3']
 
 
 if __name__ == '__main__':
