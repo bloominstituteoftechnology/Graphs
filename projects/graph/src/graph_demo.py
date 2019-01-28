@@ -23,6 +23,7 @@ def main():
     graph.add_edge("A", "D")
     graph.add_edge("D", "E")
     graph.bf_traversal("A")
+    graph.df_traversal("A")
     print(graph.vertices)
 
 
