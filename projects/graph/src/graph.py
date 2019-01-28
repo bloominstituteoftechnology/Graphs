@@ -65,6 +65,11 @@ class Graph:
                     print(node)
                 # Place child(ren) in the stack
         # Should work in theory
+
+    def bfs(self):
+        pass
+
+    def dfs(self):
         pass
 
 
