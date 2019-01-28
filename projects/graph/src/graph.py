@@ -29,17 +29,22 @@ class Graph:
         visited = set()
         # enqueue the starting vert
         queue.append(starting_vert)
+        # Print
+        print("BFT NODES VISITED:")
         # while queue is not empty
         while queue:
             # -> dequeue a vert from queue
             dequeued = queue.popleft()
             # -> mark it as visited
-            visited.add(dequeued)
+            if dequeued not in visited:
+                visited.add(dequeued)
+                print(dequeued)
             # -> enqueue all of it's children
             for vert in self.vertices[dequeued]:
                 if vert not in visited:
                     queue.append(vert)
-        return visited
+
+            return visited
 
     # Depth First Traversal
 
@@ -50,26 +55,33 @@ class Graph:
         visited = set()
         # enqueue the starting vert
         stack.append(starting_vert)
+        # Print
+        print("DFT NODES VISITED:")
         # while stack is not empty
         while stack:
             # -> dequeue a vert from stack
             dequeued = stack.pop()
             # -> mark it as visited
-            visited.add(dequeued)
+            if dequeued not in visited:
+                visited.add(dequeued)
+                print(dequeued)
             # -> enqueue all of it's children
             for vert in self.vertices[dequeued]:
                 if vert not in visited:
                     stack.append(vert)
         return visited
 
-    def dft_rec(self, starting_node, visted=None):
+    def dft_rec(self, starting_vert, visted=None):
         # create visited
         if visited is None:
-            visted = set()
-        # If the node has not been visited
-        # if
+            visited = set()
         # Mark the node as visited
-        # call dft_rec on all children
+        visited.add(starting_vert)
+        # If the node has not been visited
+        for vert in self.vertices[starting_vert]:
+            if vert not in visited:
+                self.dft_rec(vert, visted)
+        return visited
 
     # Breadth First Search
 
