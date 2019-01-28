@@ -19,6 +19,7 @@ def main():
     graph.add_edge('0','3')
 
     print(graph.vertices)
+    graph.breadth_first_traversal()
     
 if __name__ == '__main__':
     # TODO - parse argv

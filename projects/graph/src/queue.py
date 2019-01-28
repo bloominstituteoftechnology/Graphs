@@ -7,15 +7,20 @@ class Queue:
         self.queue.append(value)
     
     def dequeue(self):
-        if len(self.queue > 0):
-            return queue[0]
+        if self.size() > 0:
+            return self.queue[0]
         else:
             return None
     
     def is_Empty(self):
-        if len(self.queue) == 0:
+        if self.size() == 0:
             return False
         else:
             return True
+    
+    def size(self):
+        return len(self.queue)
+
+
 
 

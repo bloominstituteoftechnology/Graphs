@@ -22,6 +22,27 @@ class Graph:
         return "vertices not in graph"
     
     
+    def breadth_first_traversal(self):
+        # Create a Queue
+        queue = Queue()
+        visited = []
+        if self.vertices:
+            # Enqueue the starting node
+            queue.enqueue(self.vertices['0'])
+
+        # While the queue is not empty
+        while queue:
+            # Dequeue a node from the queue 
+            current_vertex = queue.dequeue()
+            # Mark it as visited
+            visited.append(current_vertex)
+            print(current_vertex)
+
+            # Enqueue all of its children that have not been visted
+            for edge in self.vertices[str(current_vertex)]: 
+                if edge not in visited: 
+                    queue.enqueue(edge) 
     
+            
 
 
