@@ -88,3 +88,9 @@ class LinkedList:
                 max_val = current.get_value()
             current = current.get_next()
         return max_val
+
+
+# class Stack:
+#     def __init__(self):
+#         self.storage = []
+# I don't think I'll actually need this

@@ -43,6 +43,31 @@ class Graph:
             if node not in visited:
                 self.dft(next_set[0], next_set)
 
+    # Using a stack
+    def dfts(self, starting_point):
+        # Pseudo code
+        # ---------------------------------------------
+        # Create a stack
+        visited = []
+        stack = []
+        # add starting_point to that stack
+        stack.append(starting_point)
+        # while the stack is not None:
+        while len(stack) > 0:
+            # take the first node in stack out
+            visited.append(stack.pop(0))
+            # put it in a visited array
+            # if child(ren) is not in the visited array
+            for node in self.vertices[f"{visited[len(visited)-1]}"]:
+                if node not in visited:
+                    stack.append(node)
+                    # print("APPENDED NODE L66 : ", node)
+                    print(node)
+                # Place child(ren) in the stack
+        # Should work in theory
+        pass
+
+
 
 
 
