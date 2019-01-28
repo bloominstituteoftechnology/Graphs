@@ -53,8 +53,18 @@ class Graph:
     for key, child in node.edges.items():
       if not child.visited:
         self.dft(key)
-
-
+  
+  def dft_s(self, current_node):
+    s = []
+    node = self.vertices[current_node]
+    s.append(node)
+    while s != []:
+      current_node = s.pop()
+      current_node.visited = True
+      print(current_node.value)
+      for node in current_node.edges.values():
+        if not node.visited:
+          s.append(node)
   
 
 
@@ -73,4 +83,4 @@ graph.add_edge('0', '3')
 print(graph.vertices)
 graph.add_edge('0', '4')
 print(graph.vertices)
-graph.dft("1")
+graph.dft("0")
