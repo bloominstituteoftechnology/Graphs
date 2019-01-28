@@ -10,15 +10,25 @@ Simple graph implementation
 }
 """
 import pprint
-import queue
+from queue import *
+
+
+class Vertex:
+    def __init__(self, name, neighbors=list(), distance=9999, color='black'):
+        self.name = name #label
+        self.neighbor = list() #same as edges?
+        self.distance = 9999 #destination
+        self.color = 'black' #black for visited, red for not visited
+
+
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self, destination = None, label = None):
+    def __init__(self):
         self.vertices = {}
         self.edges = set()
-        self.destination = destination
-        self.label = label
+        # self.destination = destination
+        # self.label = label
 
 
 
@@ -47,17 +57,26 @@ class Graph:
 
     def breadth_first_traverse(self, starting_vertex):
         # create a _queue_ FIFO
-        q = queue.Queue()
+        q = []
         visited = set()
-        # Mark the first node as visited
-        # print(starting_vertex)
-        # visited.add(starting_vertex)
         # Enqueue the starting vertex
-        q.Enqueue(starting_vertex)
-        # while the queue is not empty 
+        q.append(starting_vertex)
+        print(q)
+        # while the queue is not empty
+        while len(q) > 0:
             # dequeue a node from the queue
+            deq = q.pop()
+
             # Mark it as visited
+            visited.add(deq)
+            print("visited: ",visited)
             # Enqueue all of its children
+            for i in self.vertices[deq]:
+                if i not in visited:
+                    q.append(i)
+                if len(q) == 0:
+                    return visited
+
 
     def depth_first_traverse(self, starting_vertex):
         # create a stack LIFO
@@ -71,29 +90,45 @@ class Graph:
             # Mark it as visited
             # push all of its children
 
-    def dfr_r(self, starting_vertex, visited=None):
-        if visited is None:
-            visited = set()
+    def dfr_2(self, v, visited):
+        for key in self.vertices:
+            list_of_keys = [key]
+
+            if key == v:
+
+                visited[list_of_keys.index(v)] = True
+                print(v)
+
+        for i in self.vertices[v]:
+            ano_list = [x for x in self.vertices]
+            if visited[ano_list.index(i)] == False:
+                self.dfr_2(i, visited)
+                print(visited)
+
+    def dfr_r(self, starting_vertex):
+
+        visited = [False]*(len(self.vertices))
+        print(visited)
         #mark the node as visited
         #call dft_r on all children
-        dft_r(child_vertex, visited)
+        self.dfr_2(starting_vertex, visited)
 
 
-    def breadth_first_traverse(self, starting_vertex):
-        # create a _queue_ FIFO
-        q = Queue()
-        visited = set()
-        # Mark the first node as visited
-        # print(starting_vertex)
-        # visited.add(starting_vertex)
-        # Enqueue the starting vertex
-        q.Enqueue(starting_vertex)
-        # while the queue is not empty
-            # dequeue a node from the queue
-            # Mark it as visited
-            # If node == target node: return True
-            # Enqueue all of its children
-        # return False
+    # def breadth_first_traverse(self, starting_vertex):
+    #     # create a _queue_ FIFO
+    #     q = Queue()
+    #     visited = set()
+    #     # Mark the first node as visited
+    #     # print(starting_vertex)
+    #     # visited.add(starting_vertex)
+    #     # Enqueue the starting vertex
+    #     q.Enqueue(starting_vertex)
+    #     # while the queue is not empty
+    #         # dequeue a node from the queue
+    #         # Mark it as visited
+    #         # If node == target node: return True
+    #         # Enqueue all of its children
+    #     # return False
 
 
 def print_vertex():
@@ -106,4 +141,9 @@ def print_vertex():
     graph.add_edge('0', '3')
     graph.add_edge('6', '7')
     print("The Vertices: ",graph.vertices)
+    for v in graph.vertices['0']:
+        print(v)
+    print(graph.breadth_first_traverse('0'))
+    print(graph.dfr_r('0'))
+
 print_vertex()
