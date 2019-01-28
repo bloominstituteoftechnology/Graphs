@@ -54,14 +54,18 @@ class Graph:
 
         return visited
 
-
-def dft_r(self, starting_node, visted=None):
-    if visited is None:
-        visited = set()
-    # If the node has not been visited
-        # Mark the node as visted
-        # Call dft_r on all children
-        deft_r(child_node, visited)
+    def dft_r(self, starting_node, visited=None):
+        if visited is None:
+            visited = []
+        # If the node has not been visited
+        if starting_node not in visited:
+            visited.append(starting_node)
+            # Mark the node as visted
+            # Call dft_r on all children
+            for child in self.vertices[starting_node]:
+                if child not in visited:
+                    self.dft_r(child, visited)
+        return visited
 
 
 def bfs(self, starting_node, target_node):
