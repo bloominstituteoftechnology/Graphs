@@ -20,5 +20,4 @@ def main():
     print(graph.vertices)
 
 if __name__ == '__main__':
-    # TODO - parse argv
     main()
