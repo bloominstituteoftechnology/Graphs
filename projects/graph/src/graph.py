@@ -1,4 +1,16 @@
 from collections import deque
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, item):
+        self.stack.append(item)
+    
+    def pop(self, item):
+        return self.stack.pop()
+
+
 """
 Simple graph implementation
 """
