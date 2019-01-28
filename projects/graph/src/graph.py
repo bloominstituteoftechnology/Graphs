@@ -90,28 +90,31 @@ class Graph:
             # Mark it as visited
             # push all of its children
 
-    def dfr_2(self, v, visited):
+    def dfr_2(self, v, visited, storage):
+
         for key in self.vertices:
             list_of_keys = [key]
 
             if key == v:
 
                 visited[list_of_keys.index(v)] = True
-                print(v)
+                storage.insert(0, v)
+                print("visited recursively: ",storage)
 
         for i in self.vertices[v]:
             ano_list = [x for x in self.vertices]
             if visited[ano_list.index(i)] == False:
-                self.dfr_2(i, visited)
                 print(visited)
+                self.dfr_2(i, visited, storage)
+
 
     def dfr_r(self, starting_vertex):
-
+        visited_nodes = []
         visited = [False]*(len(self.vertices))
         print(visited)
         #mark the node as visited
         #call dft_r on all children
-        self.dfr_2(starting_vertex, visited)
+        self.dfr_2(starting_vertex, visited, visited_nodes)
 
 
     # def breadth_first_traverse(self, starting_vertex):
