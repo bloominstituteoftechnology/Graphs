@@ -17,7 +17,10 @@ def main():
     graph.add_vertex('3')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
-    graph.add_edge('0', '4')
+    graph.add_edge('3', '2')
+    graph.add_edge('3', '1')
+    graph.add_edge('3', '0')
+
     print(graph.vertices)
 
     graph.breadth_first_traversal('0')

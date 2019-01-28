@@ -27,3 +27,12 @@ class Graph:
                 for child in self.vertices[deq_node]:
                     to_visit.append(child)
 
+    def depth_first_traversal(self, starting_node):
+        to_visit = []
+        visited = set()
+        to_visit.append(starting_node)
+        while to_visit:
+            deq_node = to_visit.pop()
+            print(deq_node)
+            for child in self.vertices[deq_node]:
+                to_visit.append(child)
