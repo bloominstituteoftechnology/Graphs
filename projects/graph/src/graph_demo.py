@@ -35,6 +35,7 @@ def main():
     print(graph.vertices)
     graph.bft('0')
     graph.dft('0')
+    graph.dft_recursion('0')
 
 if __name__ == '__main__':
     main()

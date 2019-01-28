@@ -39,15 +39,22 @@ class Graph:
             visited = []
             nextItems.append(start)
             while len(nextItems) != 0:
-                print(visited)
                 first = nextItems.pop()
-                print(first)
                 for num in self.vertices[first]:
                     if num not in visited:
                         nextItems.append(num)
                 visited.append(first)
             print('DFT', visited)
 
+    def dft_recursion(self, start, visited=None):
+        if visited is None:
+            visited = []
+        if start in self.vertices:
+            visited.append(start)
+            for num in self.vertices[start]:
+                if num not in visited:
+                    self.dft_recursion(num, visited)
+        print(visited)
 class Vertex:
     def __init__(self, label):
         self.label = label
