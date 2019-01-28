@@ -1,4 +1,4 @@
-# Graphs
+ls# Graphs
 
 ## Objectives
 
@@ -11,4 +11,4 @@
 
 ## Projects
 
-* [Drawing Connected Components](projects/graph)
+* [Random Social Network](projects/graph)
