@@ -19,7 +19,7 @@ class Graph:
         else:
             raise IndexError("No vertex")
 
-    def bfs(self, starting_vertex):
+    def bft(self, starting_vertex):
         visited = []
 
         queue = deque()
