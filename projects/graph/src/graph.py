@@ -36,10 +36,20 @@ class Graph:
             if len(q) > 0:
                 self.bft(q.popleft(), q, visited)
 
-    def dft(self, start):
+    def dft_recursive(self, start, visited=set()):
+        if start in self.vertices:
+            print(start)
+            if len(visited) == 0:
+                visited.add(start)
+            for related in self.vertices[start]:
+                if related not in visited:
+                    visited.add(related)
+                    self.dft_recursive(related, visited)
+
+    def dft_stack(self, start):
         pass
 
-    def bfs(self, target):
+    def bfs(self, start, destination, q=deque(), visited=set()):
         pass
 
     def dfs(self, target):

@@ -32,6 +32,8 @@ def main():
     graph.add_edge('2', '8')
     print(graph.vertices)
     graph.bft('0')
+    print("")
+    graph.dft_recursive('0')
 
 
 if __name__ == '__main__':
