@@ -1,4 +1,4 @@
-#!/usr/bin/python
+from graph import Graph
 
 """
 Demonstration of Graph functionality.
@@ -8,7 +8,15 @@ from sys import argv
 
 
 def main():
-    pass  # TODO
+    graph = Graph()  # Instantiate your graph
+    graph.add_vertex('0')
+    graph.add_vertex('1')
+    graph.add_vertex('2')
+    graph.add_vertex('3')
+    graph.add_edge('0', '1')
+    graph.add_edge('0', '3')
+    graph.add_edge('0', '5')
+    print(graph.vertices)
 
 
 if __name__ == '__main__':
