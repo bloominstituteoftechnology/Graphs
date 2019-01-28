@@ -25,6 +25,8 @@ class Graph:
             queue.append(vertex)
             while queue:
                 for vertex in self.vertices[queue[0]]:
+                    if vertex in visited:
+                        continue
                     queue.append(vertex)
                 visited.append(queue.pop(0))
             return(visited)
