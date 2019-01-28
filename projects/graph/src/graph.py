@@ -26,6 +26,12 @@ class Graph:
         print(self.vertices)
 
     def add_edge(self, vertex_start, vertex_end):
+        if vertex_start not in self.vertices:
+            print(f'You chose: {vertex_start}. That Beginning Vertex does not exist...')
+            return
+        if vertex_end not in self.vertices:
+            print(f"You chose: {vertex_end} That End Vertex does not exist...")
+            return
         for i in self.vertices:
             # temp = set()
             # temp.add(i)
@@ -37,6 +43,8 @@ class Graph:
                 print(self.vertices)
 
 
+
+
 def print_vertex():
     graph = Graph()
     graph.add_vertex('0')
@@ -45,5 +53,6 @@ def print_vertex():
     graph.add_vertex('3')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
+    graph.add_edge('6', '7')
     print("The Vertices: ",graph.vertices)
 print_vertex()
