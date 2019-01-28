@@ -37,6 +37,12 @@ class Graph:
                 if child not in visited:
                     stack.append(child)
         return visited
+
+    def dft_recursive(self, node,visited=None):
+        if visited is None:
+            visited = []
+        visited.append(node)
+
             
 
 
