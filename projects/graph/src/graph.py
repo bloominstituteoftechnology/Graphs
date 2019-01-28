@@ -24,8 +24,7 @@ class Graph:
             print(deq_node)
             if deq_node not in visited:
                 visited.add(deq_node)
-                for child in self.vertices[deq_node]:
-                    to_visit.append(child)
+                [to_visit.append(child) for child in self.vertices[deq_node]]
 
     def depth_first_traversal(self, starting_node):
         to_visit = []
@@ -34,5 +33,18 @@ class Graph:
         while to_visit:
             deq_node = to_visit.pop()
             print(deq_node)
+            if deq_node not in visited:
+                visited.add(deq_node)
+                [to_visit.append(child) for child in self.vertices[deq_node]]
+
+    def depth_first_traversal_rec(self, starting_node, to_visit=[], visited=set()):
+        to_visit = to_visit
+        visited = visited
+        to_visit.append(starting_node)
+
+        deq_node = to_visit.pop()
+        print(deq_node)
+        if deq_node not in visited:
+            visited.add(deq_node)
             for child in self.vertices[deq_node]:
-                to_visit.append(child)
+                self.depth_first_traversal_rec(child, to_visit, visited)

@@ -25,6 +25,9 @@ def main():
 
     graph.breadth_first_traversal('0')
 
+    print("\n")
+    graph.depth_first_traversal_rec('0')
+
 if __name__ == '__main__':
     # TODO - parse argv
     main()
