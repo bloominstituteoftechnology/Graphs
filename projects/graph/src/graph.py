@@ -74,6 +74,52 @@ class Graph:
 
         return visited
 
+    def bf_search(self, starting_vertex, target_vertex):
+        # Create a queue
+        queue = Queue()
+        # Enqueue starting vertex
+        queue.enqueue(starting_vertex)
+        visited = []
+
+        # while queue is not empty
+        while queue.len() > 0:
+            # Dequeue vertex from queue
+            current_vertex = queue.dequeue()
+
+            # check if current vertex is already visited
+            if current_vertex not in visited:
+                if current_vertex == target_vertex:
+                    return True
+                # Mark vertex as visited
+                visited.append(current_vertex)
+                # Enqueue current_vertex's child vertices
+                for edge in self.vertices[current_vertex]:
+                    queue.enqueue(edge)
+
+        return False
+
+    def df_search(self, starting_vertex, target_vertex):
+        # Create a stack and
+        # Push starting_vertex to stack
+        stack = [starting_vertex]
+        visited = []
+
+        while len(stack) > 0:
+            # Pop off last node in the stack
+            current_vertex = stack.pop()
+
+            # check if current_vertex is not yet visited
+            if current_vertex not in visited:
+                if current_vertex == target_vertex:
+                    return True
+                # Mark vertex as visited
+                visited.append(current_vertex)
+                # Push current_vertex's child vertices
+                for edge in self.vertices[current_vertex]:
+                    stack.append(edge)
+
+        return False
+
 
 # 0->3->5 and 0->1->4
 # graph = Graph()  # Instantiate your graph

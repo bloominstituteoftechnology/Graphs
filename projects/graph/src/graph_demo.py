@@ -25,6 +25,8 @@ def main():
     graph.bf_traversal("A")
     graph.df_traversal("A")
     print(graph.recursive_dft("A"))
+    print(graph.bf_search("A", "Q"))
+    print(graph.df_search("A", "9"))
     print(graph.vertices)
 
 
