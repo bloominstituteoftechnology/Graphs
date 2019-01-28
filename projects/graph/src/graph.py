@@ -20,15 +20,21 @@ class Graph:
             raise IndexError("No vertex")
 
     def bfs(self, starting_vertex):
+        #Used to keep track of visited verticies
         visited = []
         # Create a queue
         queue = deque()
-        queue.append(self.vertices[starting_vertex])
+
+        queue.append(starting_vertex)
         # Mark first vertex as visited
         # Enqueue the starting node
-        while len(queue) > 0:
-            current = queue.popleft()
-            if current not in visited:
-                visited.append(current)
+        while queue:
+            vertex = queue.popleft()
+            if vertex not in visited:
+                visited.append(vertex)
+                neighbors = self.vertices[vertex]
 
+                for neighbor in neighbors:
+                    queue.append(neighbor)
+        return visited
     
