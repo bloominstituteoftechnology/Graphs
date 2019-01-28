@@ -10,6 +10,7 @@ Simple graph implementation
 }
 """
 import pprint
+import queue
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -43,6 +44,56 @@ class Graph:
                 print(self.vertices)
 
 
+
+    def breadth_first_traverse(self, starting_vertex):
+        # create a _queue_ FIFO
+        q = queue.Queue()
+        visited = set()
+        # Mark the first node as visited
+        # print(starting_vertex)
+        # visited.add(starting_vertex)
+        # Enqueue the starting vertex
+        q.Enqueue(starting_vertex)
+        # while the queue is not empty 
+            # dequeue a node from the queue
+            # Mark it as visited
+            # Enqueue all of its children
+
+    def depth_first_traverse(self, starting_vertex):
+        # create a stack LIFO
+        s = queue.LifoQueue()
+        visited = set()
+        # visited.add(starting_vertex)
+        # Push the starting vertex
+        q.Enqueue(starting_vertex)
+        # while the stack is not empty
+            # pop a node from the queue
+            # Mark it as visited
+            # push all of its children
+
+    def dfr_r(self, starting_vertex, visited=None):
+        if visited is None:
+            visited = set()
+        #mark the node as visited
+        #call dft_r on all children
+        dft_r(child_vertex, visited)
+
+
+    def breadth_first_traverse(self, starting_vertex):
+        # create a _queue_ FIFO
+        q = Queue()
+        visited = set()
+        # Mark the first node as visited
+        # print(starting_vertex)
+        # visited.add(starting_vertex)
+        # Enqueue the starting vertex
+        q.Enqueue(starting_vertex)
+        # while the queue is not empty
+            # dequeue a node from the queue
+            # Mark it as visited
+            # If node == target node: return True
+            # Enqueue all of its children
+        # return False
 
 
 def print_vertex():
