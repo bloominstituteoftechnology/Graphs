@@ -2,7 +2,6 @@
 Simple graph implementation compatible with BokehGraph class.
 """
 
-
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -20,11 +19,21 @@ class Graph:
     def bft(self, starting_node):
         pass
         # create a queue
+        q = []
+        visited = set()
         # enqueue the starting node
+        q.append(starting_node)
         # while the queue is not empty:
+        while len(q) > 0:
             # Dequeue a node from the queue
+            n = q.pop()
             # mark it as visited
+            visited.add(n)
             # enqueue all of it's children that have not been visited
+            if self.vertices[n] != set():
+                for item in self.vertices[n]:
+                    if item not in visited:
+                        q.append(item)
 
     def dft(self, starting_node):
         pass
