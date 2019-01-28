@@ -6,8 +6,21 @@ Simple graph implementation
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        pass  # TODO
-    #day 1
+        # below: a dictionary mapping vertex labels to edges
+        self.vertices = {}
+
+    # ---- DAY 1 -------
+    # below: methods to add to/build the graph
+
+    def add_vertex(self, vertex):
+        self.vertices[vertex] = set()
+    
+    def add_edge(self, edge, vertex):
+        if vertex in self.vertices:
+            self.vertices[vertex].add(edge)
+        else:
+            print(f"No {vertex} vertex found")
+
     def bf_traversal(self, starting_v):
         #create queue
         q = Queue()
@@ -18,7 +31,7 @@ class Graph:
             #dequeue a vertex from the queue 
             #mark it as visited 
             #enqueue all of it's children that have not been visited 
-    
+        pass
     def df_traversal(self, starting_v):
         #create stack
         s = Stack()
@@ -29,9 +42,9 @@ class Graph:
             #pop a vertex from the stack
             #mark it as visited 
             #push all of it's children that have not been visited 
-    
+        pass
     def dft_stack():
-    
+        pass
     def dft_recursion(self, starting_v, visited=None):
         if visited is None:
             visited = set()
@@ -39,7 +52,7 @@ class Graph:
             #mark node as visited
             #call dft_recursion on all children 
             dft_recursion(child_v, visited)
-    
+        pass
     #day 2
     def bfs_search(self, starting_v, target_v):
         #create queue
@@ -54,6 +67,7 @@ class Graph:
             #enqueue all of it's children that have not been visited 
         #return false 
     
-    
+        pass
     def dft_search():
+        pass
 
