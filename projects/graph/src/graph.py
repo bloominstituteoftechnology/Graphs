@@ -44,6 +44,23 @@ class Graph:
           queque.appendleft(node)    
       print(current_node.value)
   
+  def bfs(self, starting_node, target):
+    queque = deque([])
+    queque.appendleft(self.vertices[starting_node])
+    visited = []
+    while len(queque) > 0:
+      current_node = queque.popleft()
+      current_node.visited = True
+      visited.append(current_node.value)
+      if current_node.value == target:
+        print(visited)
+        return
+      else:        
+        for node in current_node.edges.values():
+          if not node.visited:
+            queque.appendleft(node)
+  def    
+
   def dft(self, current_node):
     
     node = self.vertices[current_node]
@@ -83,4 +100,4 @@ graph.add_edge('0', '3')
 print(graph.vertices)
 graph.add_edge('0', '4')
 print(graph.vertices)
-graph.dft("0")
+graph.bfs("0", "4")
