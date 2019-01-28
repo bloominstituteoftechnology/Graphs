@@ -12,5 +12,8 @@ class Graph:
     def add_vertex(self, value):
         self.vertices[value] = set()
 
-    def add_edge(self, vertex1, vertex2):
-        self.vertices[vertex1].add(vertex2)
+    def add_edge(self, parent, child):
+        if parent in self.vertices and child in self.vertices:
+            self.vertices[parent].add(child)
+        else:
+            print("One or more vertices, not in graph")
