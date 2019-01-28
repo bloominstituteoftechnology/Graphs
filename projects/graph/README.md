@@ -5,10 +5,9 @@ This is a multi-stage project to generate a random social network and find peopl
 
 # Day 1-2
 
-## Part 1: Graph, Vertex, Edge Classes
+## Part 1: Graph, Vertex Classes
 
-In the file `graph.py`, implement a `Graph` class that supports the API expected
-by `draw.py`. In particular, this means there should be a field `vertices` that
+In the file `graph.py`, implement a `Graph` class that supports the API in the example below. In particular, this means there should be a field `vertices` that
 contains a dictionary mapping vertex labels to edges. For example:
 
 ```python
