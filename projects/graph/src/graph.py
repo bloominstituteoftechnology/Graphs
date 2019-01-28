@@ -34,20 +34,22 @@ class Graph:
             # check if node has edges
             if len(self.vertices[node]) is 0:
                 # dequeue next num
-                visited.insert(0, node)
+                visited.append(node)
                 pass
             else:
                 # dequeue first node
                 edge_nodes = list(self.vertices[node].copy())
-                visited.insert(0, node)
+                visited.append(node)
                 for i in edge_nodes:
-                    if i in visited:
+                    if i in visited or i in nodes:
                         pass
                     else:
                         nodes.append(i)
-                print(nodes)
+                print("this is nodes", nodes)
 
         print("i have visited", visited)
+
+    def dft_traversal(self, start_node):
         pass
 
 
@@ -56,8 +58,23 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_vertex('8')
+graph.add_vertex('9')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+graph.add_edge('1', '3')
+graph.add_edge('9', '2')
+graph.add_edge('2', '3')
+graph.add_edge('4', '5')
+graph.add_edge('3', '4')
+graph.add_edge('5', '9')
+graph.add_edge('6', '7')
+graph.add_edge('7', '9')
+graph.add_edge('2', '8')
 graph.bst_traversal('0')
 # graph.add_edge('0', '4')
 print(graph.vertices)
