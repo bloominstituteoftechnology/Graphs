@@ -44,7 +44,7 @@ class Graph:
                 if vert not in visited:
                     queue.append(vert)
 
-            return visited
+        return visited
 
     # Depth First Traversal
 
@@ -71,32 +71,38 @@ class Graph:
                     stack.append(vert)
         return visited
 
-    def dft_rec(self, starting_vert, visted=None):
+    def dft_rec(self, starting_vert, visited=None):
         # create visited
         if visited is None:
             visited = set()
         # Mark the node as visited
-        visited.add(starting_vert)
+        if starting_vert not in visited:
+            visited.add(starting_vert)
+            print(starting_vert)
         # If the node has not been visited
         for vert in self.vertices[starting_vert]:
             if vert not in visited:
-                self.dft_rec(vert, visted)
-        return visited
+                self.dft_rec(vert, visited)
 
     # Breadth First Search
 
-    def bfs(self, starting_node, target_node):
-        # Create a queue
+    def bfs(self, starting_vert, target_vert):
         queue = deque()
-        # create a visited list
         visited = set()
-        # mark the first node as visited
-        # enqueue the starting node
-        queue.append(starting_node)
+        queue.append(starting_vert)
         # while queue is not empty
         while queue:
-            pass
-            # -> dequeue a node from queue
+            # -> dequeue a vert from queue
+            dequeued = queue.popleft()
+            # check if target vert
+            if dequeued == target_vert:
+                return True
             # -> mark it as visited
-            # -> if node == target return True
+            if dequeued not in visited:
+                visited.add(dequeued)
             # -> enqueue all of it's children
+            for vert in self.vertices[dequeued]:
+                if vert not in visited:
+                    queue.append(vert)
+
+        return False
