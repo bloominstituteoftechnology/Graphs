@@ -33,10 +33,3 @@ class Graph:
             for item in self.vertices[current]:
                 if item not in visited:
                     queue.append(item)
-                
-
-        # While Queue is not Empty
-            # Dequeue a node from the queue
-            # If that node has not been visited
-                # Mark it as visited
-                # Enqueue all of its children that have not been visited
