@@ -16,17 +16,24 @@ class Graph:
         self.vertices[vert].add(value)
         self.vertices[value].add(vert)
 
+    def bft(self, starting_node):
+        # Create a Queue
+        q = Queue()
+        visited = set()
+        # Enqueue the starting node
+        q.enqueue(starting_node)
+        # While the queue is not empty
+        while len(q.storage) > 0:
+            # Dequeue a node from the queue
+            node = q.dequeue()
+            # Mark it as visited
+            visited.add(node)
+            # Enqueue all of its children that have not been visted
+            for child in self.vertices[node]:
+                if child not in visited:
+                    q.enqueue(child)
 
-def bft(self, starting_node):
-    # Create a Queue
-    q = Queue()
-    visited = set()
-    # Enqueue the starting node
-    q.enqueue(starting_node)
-    # While the queue is not empty
-    # Dequeue a node from the queue
-    # Mark it as visited
-    # Enqueue all of its children that have not been visted
+        return visited
 
 
 def dft(self, starting_node):
@@ -62,3 +69,14 @@ def bfs(self, starting_node, target_node):
     # If node == target_node: return True
     # Enqueue all of its children that have not been visted
     # return False
+
+
+class Queue:
+    def __init__(self):
+        self.storage = []
+
+    def enqueue(self, value):
+        self.storage.append(value)
+
+    def dequeue(self):
+        return self.storage.pop(0)
