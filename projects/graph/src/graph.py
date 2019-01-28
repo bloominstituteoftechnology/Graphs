@@ -7,7 +7,6 @@ from structures import Queue
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
-
     def __init__(self):
         self.vertices = {}
 
@@ -32,3 +31,13 @@ class Graph:
                 print(visited)
                 for i in self.vertices[f"{n}"]:
                     q.enqueue(f"{i}")
+
+    def dft(self, starting_point, next_set=[], visited=[]):
+        visited.append(starting_point)
+        for num in self.vertices[f"{starting_point}"]:
+            next_set.append(num)
+        for node in next_set:
+            print(node)
+            visited.append(node)
+            if node not in visited:
+                self.dft(next_set[0], next_set)
