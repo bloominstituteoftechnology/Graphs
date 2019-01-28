@@ -16,7 +16,8 @@ def main():
     graph.add_vertex('3')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
-    graph.bfs('0')
+    graph.bft('0')
+    graph.dft('0')
 
 if __name__ == '__main__':
     # TODO - parse argv

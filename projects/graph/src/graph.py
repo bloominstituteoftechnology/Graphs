@@ -7,8 +7,11 @@ class Stack:
     def push(self, item):
         self.stack.append(item)
     
-    def pop(self, item):
+    def pop(self):
         return self.stack.pop()
+
+    def size(self):
+        return len(self.stack)
 
 
 """
@@ -45,3 +48,17 @@ class Graph:
             for item in self.vertices[current]:
                 if item not in visited:
                     queue.append(item)
+
+    def dft(self, starting_vertex):
+        visited = []
+        stack = Stack()
+        stack.push(starting_vertex)
+
+        while stack.size() > 0:
+            current = stack.pop()
+            print(current)
+            visited.append(current)
+
+            for item in self.vertices[current]:
+                if item not in visited:
+                    stack.push(item)
