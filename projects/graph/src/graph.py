@@ -2,7 +2,7 @@
 Simple graph implementation
 """
 from structures import Queue
-from structures import LinkedList
+# from structures import LinkedList
 
 
 class Graph:
@@ -21,4 +21,14 @@ class Graph:
         if vertex1 and vertex2:
             self.vertices[vertex1].add(vertex2)
 
-    def BGT(self, starting):
+    def bft(self, starting_point):
+        q = Queue()
+        visited = []
+        q.enqueue(starting_point)
+        while q.len() is not 0:
+            n = q.dequeue()
+            if n not in visited:
+                visited.append(n)
+                print(visited)
+                for i in self.vertices[f"{n}"]:
+                    q.enqueue(f"{i}")
