@@ -16,6 +16,7 @@ def main():
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
     print(graph.vertices)
+    graph.bf_traversal('1')
 
 
 if __name__ == '__main__':
