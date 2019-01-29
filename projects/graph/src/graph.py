@@ -62,6 +62,37 @@ class Graph:
                 if vertex not in visited:
                     self.depth_first_traversal_recursive(vertex, visited)
 
+    def breadth_first_search(self, starting_node, target):
+        queue = Queue()
+        visited = set()
+        queue.put([starting_node])
+        while not queue.empty():
+            path = queue.get()
+            node = path[-1]
+            if node not in visited:
+                visited.add(node)
+                if node == target:
+                    return path
+                for next_vertex in self.vertices[node]:
+                    queue.put(path + [next_vertex])
+
+    def depth_first_search(self, starting_node, target, visited=None, path=[]):
+        print(path)
+        if visited is None:
+            visited = set()
+
+        if starting_node == target:
+            path.append(starting_node)
+            return path
+
+        if starting_node not in visited:
+            visited.add(starting_node)
+            for vertex in self.vertices[starting_node]:
+                if vertex not in visited:
+                    path.append(starting_node)
+                    self.depth_first_search(
+                        vertex, target, visited, path)
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -80,4 +111,7 @@ graph.add_edge('6', '4')
 
 
 # graph.breadth_first_traversal('0')
-graph.depth_first_traversal_recursive('0')
+# graph.depth_first_traversal('0')
+# graph.depth_first_traversal_recursive('0')
+# print(graph.breadth_first_search('0', '5'))
+print(graph.depth_first_search('0', '5'))
