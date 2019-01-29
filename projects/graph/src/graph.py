@@ -65,6 +65,7 @@ class Graph:
                     # print("APPENDED NODE L66 : ", node)
                     print(node)
                 # Place child(ren) in the stack
+        return visited
         # Should work in theory
 
     def bfs(self, starting_point, value):
@@ -74,8 +75,11 @@ class Graph:
             return True
         return False
 
-    def dfs(self):
-        pass
+    def dfs(self, starting_point, value):
+        a = self.dfts(starting_point)
+        if str(value) in a:
+            return True
+        return False
 
 
 
