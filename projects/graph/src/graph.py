@@ -24,11 +24,11 @@ class Graph:
                 invalid_vertex = vertex_1 if vertex_1 not in self.vertices else vertex_2
                 raise KeyError(f"{invalid_vertex} is not a valid vertex")
 
-    def bft(self, start, q=deque(), visited=set()):
+    def bft(self, start, q=deque(), visited=None):
         if start in self.vertices:
             print(start)
-            if len(visited) == 0:
-                visited.add(start)
+            if not visited:
+                visited = {start}
             for related in self.vertices[start]:
                 if related not in visited:
                     q.append(related)
@@ -36,20 +36,29 @@ class Graph:
             if len(q) > 0:
                 self.bft(q.popleft(), q, visited)
 
-    def dft_recursive(self, start, visited=set()):
+    def dft_recursive(self, start, visited=None):
         if start in self.vertices:
             print(start)
-            if len(visited) == 0:
-                visited.add(start)
+            if not visited:
+                visited = {start}
             for related in self.vertices[start]:
                 if related not in visited:
                     visited.add(related)
                     self.dft_recursive(related, visited)
 
-    def dft_stack(self, start):
-        pass
+    def dft_stack(self, start, q=deque(), visited=None):
+            if start in self.vertices:
+                print(start)
+                if not visited:
+                    visited = {start}
+                for related in self.vertices[start]:
+                    if related not in visited:
+                        q.append(related)
+                        visited.add(related)
+                if len(q) > 0:
+                    self.dft_stack(q.pop(), q, visited)
 
-    def bfs(self, start, destination, q=deque(), visited=set()):
+    def bfs(self, start, destination, q=(), visited=None):
         pass
 
     def dfs(self, target):
