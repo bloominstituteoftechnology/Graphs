@@ -43,8 +43,14 @@ def main():
     # #graph.depth_first_traversal_rec('1')
 
     print("\n")
-    shortest_path = graph.breadth_first_search('1', '5')
-    print(shortest_path)
+    shortest_bfs_path = graph.breadth_first_search('1', '6')
+    print(shortest_bfs_path)
+    print("\n")
+
+    print("***********************")
+    print("\n")
+    shortest_dfs_path = graph.depth_first_search('1', '6')
+    print(shortest_dfs_path)
 
 if __name__ == '__main__':
     # TODO - parse argv

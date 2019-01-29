@@ -104,6 +104,8 @@ class Graph:
         while to_visit.size() > 0:
             deq_path = to_visit.dequeue()
             deq_node = deq_path[-1]
+            print(f"Visited: {visited}")
+            print(f"Path: {deq_path}")
 
             if deq_node not in visited:
                 if deq_node == dest_node:
@@ -119,17 +121,28 @@ class Graph:
         return None
 
 
-    # def depth_first_search(self, start_node, dest_node):
-    #     to_visit = Stack()
-    #     visited = set()
-    #     to_visit.push(start_node)
-    #     while to_visit.size() > 0:
-    #         deq_node = to_visit.pop()
-    #         if deq_node not in visited:
-    #             if deq_node == dest_node:
-    #                 return True
-    #             print(deq_node)
-    #             visited.add(deq_node)
-    #             [to_visit.push(child) for child in self.vertices[deq_node].edges]
-    #
-    #     return False
+    def depth_first_search(self, start_node, dest_node):
+        to_visit = Stack()
+        visited = set()
+        start_path = [start_node]
+
+        to_visit.push(start_path)
+
+        while to_visit.size() > 0:
+            deq_path = to_visit.pop()
+            deq_node = deq_path[-1]
+            print(f"Visited: {visited}")
+            print(f"Path: {deq_path}")
+
+            if deq_node not in visited:
+                if deq_node == dest_node:
+                    return deq_path
+
+                visited.add(deq_node)
+
+                for child in self.vertices[deq_node].edges:
+                    copied_path = list(deq_path)
+                    copied_path.append(child)
+                    to_visit.push(copied_path)
+
+        return None
