@@ -79,6 +79,35 @@ class Graph:
         print("DFT has returned", visited)
         pass
 
+    def bfs_search(self, starting_node, target_node):
+        nodes = []
+        visited = []
+        node = starting_node
+        nodes.append(node)
+
+        # enqueue the starting node
+        while nodes:
+            node = nodes.pop(0)
+            # check if node has edges
+            if len(self.vertices[node]) is 0:
+                # dequeue next num
+                visited.append(node)
+                pass
+            else:
+                # dequeue first node
+                if node == target_node:
+                    return True
+                else:
+                    edge_nodes = list(self.vertices[node].copy())
+                    print(node)
+                    visited.append(node)
+                for i in edge_nodes:
+                    if i in visited or i in nodes:
+                        pass
+                    else:
+                        nodes.append(i)
+        return False
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -91,7 +120,5 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.add_edge('3', '5')
 graph.add_edge('1', '4')
-print(graph.vertices)
-graph.bst_traversal('0')
-graph.dft_traversal('0')
+print(graph.bfs_search('0', "5"))
 # graph.add_edge('0', '4')
