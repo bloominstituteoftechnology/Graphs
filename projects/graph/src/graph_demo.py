@@ -19,7 +19,7 @@ def main():
     graph.add_edge('0', '3')
     graph.add_edge('1', '2')
     print(graph.vertices)
-    graph.dfts(0)
+    print(graph.dfs(0,5))
 
 if __name__ == '__main__':
     # TODO - parse argv
