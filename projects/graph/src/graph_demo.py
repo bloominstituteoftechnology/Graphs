@@ -32,8 +32,9 @@ def main():
     
     print(graph.vertices)
     
-    graph.breadth_first_traversal('2')
-    graph.depth_first_traversal('4')
+#    graph.breadth_first_traversal('2')
+#    graph.depth_first_traversal('4')
+    graph.depth_first_recursion('6')
 
 if __name__ == '__main__':
     # TODO - parse argv

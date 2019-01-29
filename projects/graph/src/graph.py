@@ -119,3 +119,29 @@ class Graph:
                 for child in self.vertices[current_vertex]:
                     if child is not None:
                         stack.push(child)
+
+    def depth_first_recursion(self, starting_node, queue = Queue(), visited = None):
+        """
+        Want to pass the visited set around in the recursion, visited = None
+        Create visited set if there isn't one already
+        Mark the node as visited
+        If the node has children and they are not in the visited set, add them and call this method recursively on the unvisited children
+        """
+        
+        queue = queue
+        
+        if visited is None:
+            visited = set()
+        
+        queue.enqueue(starting_node)
+        print(starting_node)
+        
+        current_vertex = queue.dequeue()
+        
+        if current_vertex not in visited:
+            visited.add(current_vertex)
+            
+            for child_node in self.vertices[current_vertex]:
+                if child_node not in visited:
+                    self.depth_first_recursion(child_node, queue, visited)
+
