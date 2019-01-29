@@ -40,7 +40,7 @@ class Graph:
         if vertex not in self.vertices:
             self.vertices[vertex] = set()
         else:
-            return
+            return None
 
     def add_edge(self, vertex_one, vertex_two):
         if vertex_one in self.vertices and vertex_two in self.vertices:
