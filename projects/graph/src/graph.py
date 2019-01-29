@@ -74,3 +74,13 @@ class Graph:
                 if edge not in visited:
                     stack.push(edge)
             return visited
+
+    def dft_r(self, starting_vertex, visited = None):
+        if visited = None:
+            visited = []
+        if starting_vertex not in visited:
+            visited.append(starting_vertex)
+        for edge in self.vertices[starting_vertex]:
+            if edge not in visited:
+                self.dft_r(edge, visited)
+        return visited
