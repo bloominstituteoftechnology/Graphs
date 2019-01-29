@@ -32,7 +32,8 @@ def main():
     graph.add_edge('2', '8')
     print(graph.vertices)
     graph.bf_traversal('2')
-    graph.df_traversal('2')
+    #graph.dft_stack('2')
+    graph.bfs_search('9', '6')
 
 
 if __name__ == '__main__':
