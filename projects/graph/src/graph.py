@@ -76,7 +76,7 @@ class Graph:
                 if child not in visited:
                     self.dft_r(child, visited)
 
-    def bfs(self, starting_vertex, target_node):
+    def bfs(self, starting_vertex, target_vertex):
         visited = []
         queue = deque()
         queue.append([starting_vertex])
@@ -91,7 +91,27 @@ class Graph:
             for child in self.vertices[current_vertex]:
                 dupe_path = list(current_path_list)
                 dupe_path.append(child)
-                if dupe_path[-1] == target_node:
+                if dupe_path[-1] == target_vertex:
                     return dupe_path
                 else:
                     queue.append(dupe_path)
+
+    def dfs(self, starting_vertex, target_vertex):
+        visited = []
+        stack = Stack()
+        stack.push([starting_vertex])
+        
+        while stack.size() > 0:
+            current_path_list = stack.pop()
+            current_vertex = current_path_list[-1]
+
+            if current_vertex not in visited:
+                visited.append(current_vertex)
+
+            for child in self.vertices[current_vertex]:
+                dupe_path = list(current_path_list)
+                dupe_path.append(child)
+                if dupe_path[-1] == target_vertex:
+                    return dupe_path
+                else:
+                    stack.push(dupe_path)

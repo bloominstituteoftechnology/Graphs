@@ -33,6 +33,7 @@ def main():
     print('_______DFT________')
     graph.dft('1')
     print(graph.bfs('1', '5'))
+    print(graph.dfs('1', '7'))
     
 
 if __name__ == '__main__':
