@@ -36,7 +36,7 @@ class Graph:
         self.vertices[vertex] = set()
         print(self.vertices)
 
-    def add_edge(self, vertex_start, vertex_end):
+    def add_edge_bi(self, vertex_start, vertex_end):
         if vertex_start not in self.vertices:
             print(f'You chose: {vertex_start}. That Beginning Vertex does not exist...')
             return
@@ -51,6 +51,20 @@ class Graph:
                 print(self.vertices)
             if vertex_end == i:
                 self.vertices[vertex_end].add(vertex_start)
+                print(self.vertices)
+
+    def add_edge_mono(self, vertex_start, vertex_end):
+        if vertex_start not in self.vertices:
+            print(f'You chose: {vertex_start}. That Beginning Vertex does not exist...')
+            return
+        if vertex_end not in self.vertices:
+            print(f"You chose: {vertex_end} That End Vertex does not exist...")
+            return
+        for i in self.vertices:
+            # temp = set()
+            # temp.add(i)
+            if i == vertex_start:
+                self.vertices[vertex_start].add(vertex_end)
                 print(self.vertices)
 
 
@@ -106,9 +120,9 @@ class Graph:
             list_of_keys = [key]
 
             if key == v:
-
+                print(v)
                 visited[list_of_keys.index(v)] = True
-                storage.insert(0, v)
+                storage.insert(-1, v)
                 print("visited recursively: ",storage)
 
         for i in self.vertices[v]:
@@ -126,32 +140,46 @@ class Graph:
         #call dft_r on all children
         self.dfr_2(starting_vertex, visited, visited_nodes)
 
+    def dft_recurse(self, starting_vertex, visited = None):
+        if visited == None:
+            visited = set()
+
+        visited.add(starting_vertex)
+        print(starting_vertex)
+        for i in self.vertices[starting_vertex]:
+            if i not in visited:
+                self.dft_recurse(i, visited)
+                print("Visited 2nd Recurse Func: ",visited)
+
 
     def breadth_first_search(self, starting_vertex, target):
         # create a _queue_ FIFO
         q = []
-        visited = set()
+        visited = []
         # Enqueue the starting vertex
         q.append(starting_vertex)
-        print(q)
+        print("stack: ",q)
         # while the queue is not empty
         while len(q) > 0:
             # dequeue a node from the queue
-            deq = q.pop()
+            path = q.pop()
+            node = path[-1]
+            if node not in visited:
+                # Mark it as visited
+                visited.append(node)
+                print("visited breadth: ",visited)
+                if target in visited:
+                    print("Path: ",path)
+                    print("Dup_Path: ", dup_path)
+                    return dup_path
+                # Enqueue all of its children
+                for i in self.vertices[node]:
+                    if i not in visited:
+                        dup_path = list(path)
+                        dup_path.append(i)
+                        q.append(dup_path)
 
-            # Mark it as visited
-            visited.add(deq)
-            print("visited: ",visited)
-            if target in visited:
-                return True
-            # Enqueue all of its children
-            for i in self.vertices[deq]:
-                if i not in visited:
-                    q.append(i)
-                if len(q) == 0:
-                    return visited
-            else:
-                return False
+        return None
 
     def depth_first_search(self, starting_vertex, target):
         # create a _queue_ FIFO
@@ -159,16 +187,16 @@ class Graph:
         visited = []
         # Enqueue the starting vertex
         stack.append(starting_vertex)
-        print(stack)
+        print("stack: ",stack)
         # while the queue is not empty
         while len(stack) > 0:
             # dequeue a node from the queue
             path = stack.pop(0)
-            node = path[0]
+            node = path[-1]
             if node not in visited:
                 # Mark it as visited
                 visited.append(node)
-                print("visited: ",visited)
+                print("visited depth: ",visited)
                 if target in visited:
                     print("Path: ",path)
                     print("Dup_Path: ", dup_path)
@@ -180,7 +208,7 @@ class Graph:
                         dup_path.append(i)
                         stack.append(dup_path)
 
-            return None
+        return None
 
 
 def print_vertex():
@@ -189,13 +217,25 @@ def print_vertex():
     graph.add_vertex('1')
     graph.add_vertex('2')
     graph.add_vertex('3')
-    graph.add_edge('0', '1')
-    graph.add_edge('0', '3')
-    graph.add_edge('6', '7')
+    graph.add_vertex('4')
+    graph.add_vertex('5')
+    graph.add_vertex('6')
+    graph.add_edge_bi('0', '3')
+    graph.add_edge_mono('0', '1')
+    graph.add_edge_mono('0', '4')
+    graph.add_edge_mono('2', '1')
+    graph.add_edge_mono('3', '5')
+    graph.add_edge_mono('3', '2')
+    graph.add_edge_mono('5', '4')
+    graph.add_edge_mono('6', '5')
+    graph.add_edge_mono('6', '2')
     print("The Vertices: ",graph.vertices)
     for v in graph.vertices['0']:
         print(v)
     print(graph.breadth_first_traverse('0'))
     print(graph.dfr_r('0'))
+    print(graph.dft_recurse('0'))
+    print(graph.depth_first_search('0', '2'))
+    print(graph.breadth_first_search('0', '2'))
 
 print_vertex()
