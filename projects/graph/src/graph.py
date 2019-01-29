@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from queue import Queue
+from stack import Stack
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -61,5 +62,46 @@ class Graph:
                     visited.append(edge_node)
         return False
     
-          
+    def depth_first_traversal(self, starting_vertex):
+        """
+        depth_first_traversal is to just explore vertex from given point.
+        Here all vertices will be visited depth first top-to-bottom
+        """
+        # push the starting point and mark it visited to stack
+        # while stack is not empty
+              # pop the TOP  (LIFO)
+              # PRINT IT
+              # if not visited mark it visited..
+              # push all edge-vertex adjacent to it
+                    # check if visited
+        stack = Stack()
+        visited = []        
+        stack.push(starting_vertex)
+
+        while stack.size() != 0:
+            node = stack.pop_1()
+            if node not in visited:
+                print(node,end = " -> ")
+                visited.append(node)
+                for edge_node in self.vertices[node]:
+                    #if edge_node not in visited:
+                        stack.push(edge_node)
+    
+    def depth_first_search(self, starting_vertex, search_value):
+        
+        stack = Stack()
+        visited = []        
+        stack.push(starting_vertex)
+
+        while stack.size() != 0:
+            node = stack.pop_1()
+            if node == search_value:
+                return True
+
+            if node not in visited:
+                visited.append(node)
+                for edge_node in self.vertices[node]:
+                    #if edge_node not in visited:
+                        stack.push(edge_node)
+        return False
 

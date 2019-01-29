@@ -39,6 +39,7 @@ def main():
     print("\ndepth_first_traversal\n")
     graph.depth_first_traversal(0)
     print("\n",graph.breadth_first_search(0, 3))
+    print("\n",graph.depth_first_search(0, 9))
     
 if __name__ == '__main__':
     # TODO - parse argv
