@@ -145,3 +145,66 @@ class Graph:
                 if child_node not in visited:
                     self.depth_first_recursion(child_node, queue, visited)
 
+    def breath_first_search_path(self, starting_node, target_node):
+        """
+        Want to check to the path (shortest) contains the target node
+        Want to record the path that it took to get to a node, by getting the parent node 
+        Make a copy of the path and add the children to it
+        Enqueue the new path
+        """
+        
+        queue = Queue()
+        visited = []
+        
+        queue.enqueue([starting_node])
+        
+        while queue.len() > 0:    # .len() is a method in Queue class
+            path = queue.dequeue()
+            node = path[-1] # last node in path
+            
+            if node not in visited:
+                print(node)
+                visited.append(node)
+                
+                if node == target_node:
+                    return path
+                
+                for next_node in self.vertices[node]:
+                    new_path = path.copy()
+                    new_path.append(next_node)
+                    
+                    queue.enqueue(new_path)
+                    
+        return False
+        
+    def depth_first_search_path(self, starting_node, target_node):
+        """
+        For performance, depth first is going to be fast because it's going to give back the first result.
+        But breadth first is overall better, even though, it is slower, it's always going to give back the best result.
+        Example: Direction to Noshi, but you only get to use the map once to get direction.
+            It's better to take a little more time to get the shortest route then the first route available (we don't want a route that will take us from here to New York then back to Noshi).
+        """
+        
+        stack = Stack()
+        visited = []
+        
+        stack.push([starting_node])
+        
+        while stack.size() > 0:    # .len() is a method in Queue class
+            path = stack.pop()
+            node = path[-1] # last node in path
+            
+            if node not in visited:
+                print(node)
+                visited.append(node)
+                
+                if node == target_node:
+                    return path
+                
+                for next_node in self.vertices[node]:
+                    new_path = path.copy()
+                    new_path.append(next_node)
+                    
+                    stack.push(new_path)
+                    
+        return False

@@ -5,6 +5,7 @@ Demonstration of Graph functionality.
 """
 
 from sys import argv
+import time
 
 from graph import Graph
 
@@ -31,10 +32,17 @@ def main():
     graph.add_edge('6', '3')
     
     print(graph.vertices)
+
+    start_time = time.time()
     
 #    graph.breadth_first_traversal('2')
-#    graph.depth_first_traversal('4')
-    graph.depth_first_recursion('6')
+#    graph.depth_first_traversal('1')
+#    graph.depth_first_recursion('6')
+    print(graph.breath_first_search_path('1', '6'))
+#    print(graph.depth_first_search_path('1', '6'))
+    
+    end_time = time.time()
+    print (f"runtime: {end_time - start_time} seconds")
 
 if __name__ == '__main__':
     # TODO - parse argv
