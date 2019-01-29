@@ -11,6 +11,15 @@ class Queue:
     def dequeue(self):
         return self.queue.pop(0)
 
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, value):
+        self.stack.append(value)
+    
+    def pop(self):
+        return self.stack.pop()
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -39,6 +48,7 @@ class Graph:
         # create a queue
         q = Queue()
         visited = set()
+        # visited = []
         # enqueue the starting node
         q.enqueue(starting_node)
         # while the queue is not empty
@@ -46,24 +56,38 @@ class Graph:
             # dequeue a node from the queue
             node = q.dequeue()
             # mark it as visited
-            if node not in visited:
-                visited.add(node)
-                print('visited:', visited)
+            visited.add(node)
+            print('visted from queue:', visited)
+            # if node not in visited:
+            #     visited.append(node)
+            #     print('visted from queue:', visited)
             # enqueue all of its children that have not been visited
             for child in self.vertices[node]:
                 if child not in visited:
                     q.enqueue(child)
 
-    # def dfs(self, starting_node):
-    #     # create a stack
-    #     s = Stack()
-    #     visited = set()
-    #     # push the starting node
-    #     s.Push(starting_node)
-    #     # while the stack is not empty
-    #         # pop a node from the stack
-    #         # mark it as visited
-    #         # push all of its children that have not been visited
+    # Depth-First Traversal
+    def dft(self, starting_node):
+        # create a stack
+        s = Stack()
+        visited = set()
+        # visited = []
+        # push the starting node
+        s.push(starting_node)
+        # while the stack is not empty
+        while len(s.stack) > 0:
+            # pop a node from the stack
+            node = s.pop()
+            # mark it as visited
+            visited.add(node)
+            print('visted from stack:', visited)
+            # if node not in visited:
+            #     visited.append(node)
+            #     print('visted from stack:', visited)
+            # push all of its children that have not been visited
+            for child in self.vertices[node]:
+                if child not in visited:
+                    s.push(child)
 
     # def dft_recursion(self, starting_node, visited=None):
     #     if visited is None:
@@ -78,11 +102,13 @@ class Graph:
     #     q = Queue()
     #     visited = set()
     #     #enqueue the starting vertex
-    #     q.Enqueue(starting_v)
+    #     q.Enqueue(starting_node)
     #     #while the queue is not empty, 
     #         #dequeue a vertex from the queue 
     #         #mark it as visited 
     #         # ---*---- if node == target_node: return true
     #         #enqueue all of it's children that have not been visited 
     #     #return false 
+
+
 
