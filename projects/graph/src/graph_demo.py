@@ -25,6 +25,9 @@ def main():
     print(graph.dft('3'))
     print(graph.dft_r('0'))
 
+    print(graph.bfs('0', '3'))
+    print(graph.bfs('0', '4'))
+
 if __name__ == '__main__':
     # TODO - parse argv
     main()

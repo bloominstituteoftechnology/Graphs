@@ -84,3 +84,19 @@ class Graph:
             if edge not in visited:
                 self.dft_r(edge, visited)
         return visited
+
+    def bfs(self, starting_vertex, target_vertex):
+        queue = Queue()
+        visited = []
+
+        queue.enqueue(starting_vertex)
+
+        while queue.size() > 0:
+            current_node = queue.dequeue()
+            visited.append(current_node)
+            for edge in self.vertices[current_node]:
+                if edge not in visited:
+                    if edge == target_vertex:
+                        return True
+                    queue.enqueue(edge)
+        return False
