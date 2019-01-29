@@ -28,9 +28,10 @@ class Graph:
             n = q.dequeue()
             if n not in visited:
                 visited.append(n)
-                print(visited)
+                # print(visited)
                 for i in self.vertices[f"{n}"]:
                     q.enqueue(f"{i}")
+        return visited
 
     # Using Recursion
     def dft(self, starting_point, next_set=[], visited=[]):
@@ -66,11 +67,17 @@ class Graph:
                 # Place child(ren) in the stack
         # Should work in theory
 
-    def bfs(self):
-        pass
+    def bfs(self, starting_point, value):
+        a = self.bft(starting_point)
+        print("a=", a)
+        if str(value) in a:
+            return True
+        return False
 
     def dfs(self):
         pass
+
+
 
 
 
