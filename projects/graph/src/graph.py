@@ -20,29 +20,46 @@ class Graph:
             self.vertices[start_point].add(end_point)
             self.vertices[end_point].add(start_point) 
         return "vertices not in graph"
-    
-    
-    def breadth_first_traversal(self):
-        # Create a Queue
+        
+    def breadth_first_traversal(self, starting_vertex):
+        """
+        breadth_first_traversal is to just explore vertex from given point.
+        Here all vertices will be visited width-wise i.e. level by level
+        """
+        # Enqueue the starting point and mark it visited
+        # while queue is not empty
+              # Dequeue the queue (FIFO)
+              # PRINT IT
+              # enqueue all vertuces adjacent to it
+                    # check if visited
         queue = Queue()
         visited = []
-        if self.vertices:
-            # Enqueue the starting node
-            queue.enqueue(self.vertices['0'])
-
-        # While the queue is not empty
-        while queue:
-            # Dequeue a node from the queue 
-            current_vertex = queue.dequeue()
-            # Mark it as visited
-            visited.append(current_vertex)
-            print(current_vertex)
-
-            # Enqueue all of its children that have not been visted
-            for edge in self.vertices[str(current_vertex)]: 
-                if edge not in visited: 
-                    queue.enqueue(edge) 
+        queue.enqueue(starting_vertex)
+        visited.append(starting_vertex)
+        
+        while queue.is_Empty() != True:
+            node = queue.dequeue()
+            print(node, end = " -> ")
+            for edge_node in self.vertices[node]:
+                if edge_node not in visited:
+                    queue.enqueue(edge_node)
+                    visited.append(edge_node)
     
-            
-
+    def breadth_first_search(self, starting_vertex, search_value):
+        queue = Queue()
+        visited = []
+        queue.enqueue(starting_vertex)
+        visited.append(starting_vertex)
+        
+        while queue.is_Empty() != True:
+            node = queue.dequeue()
+            if node == search_value:
+                return True
+            for edge_node in self.vertices[node]:
+                if edge_node not in visited:
+                    queue.enqueue(edge_node)
+                    visited.append(edge_node)
+        return False
+    
+          
 
