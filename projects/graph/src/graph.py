@@ -52,10 +52,15 @@ class Graph:
 
     def dtf_r(self, starting_node, visited=None):
         if visited is None:
-            visited = set()
-        # If the node has not been visited
-            # Mark the node as visited
-            # Call dtf_r on all children
+            visited = []
+        # Mark the node as visited
+        if starting_node not in visited:
+            visited.append(starting_node)
+        for child_node in self.vertices[starting_node]:
+            # Call dft_r on all unvisited children
+            if child_node not in visited:
+                self.dtf_r(child_node, visited)
+        return visited
     
     def bfs(self, starting_node, target_node):
         # Create a queue

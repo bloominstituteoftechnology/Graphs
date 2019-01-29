@@ -24,6 +24,8 @@ def main():
 
     print(graph.dft('0'))
 
+    print(graph.dtf_r('0'))
+
 if __name__ == '__main__':
     # TODO - parse argv
     main()
