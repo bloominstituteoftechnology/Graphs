@@ -77,21 +77,21 @@ class Graph:
                     queue.put(path + [next_vertex])
 
     def depth_first_search(self, starting_node, target, visited=None, path=[]):
-        print(path)
         if visited is None:
             visited = set()
 
-        if starting_node == target:
-            path.append(starting_node)
-            return path
-
-        if starting_node not in visited:
-            visited.add(starting_node)
+        visited.add(starting_node)
+        copy_path = list(path)
+        copy_path.append(starting_node)
+        if len(self.vertices[starting_node]) > 0:
             for vertex in self.vertices[starting_node]:
+                if vertex == target:
+                    copy_path.append(vertex)
+                    return copy_path
                 if vertex not in visited:
-                    path.append(starting_node)
-                    self.depth_first_search(
-                        vertex, target, visited, path)
+                    return self.depth_first_search(
+                        vertex, target, visited, copy_path)
+        return
 
 
 graph = Graph()  # Instantiate your graph
@@ -113,5 +113,5 @@ graph.add_edge('6', '4')
 # graph.breadth_first_traversal('0')
 # graph.depth_first_traversal('0')
 # graph.depth_first_traversal_recursive('0')
-# print(graph.breadth_first_search('0', '5'))
+# print(graph.breadth_first_search('0', '6'))
 print(graph.depth_first_search('0', '5'))
