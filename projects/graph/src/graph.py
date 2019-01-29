@@ -13,23 +13,29 @@ class Graph:
         self.vertices[vertex] = set()
     
     def add_edge(self, v1, v2):
+        #if vertex in indices
         if v1 in vertices and v2 in vertices:
             self.vertices[v1].add[v2]
+            #for undirected edge add second
             self.vertices[v2].add[v1]
             return 
         else: 
             print("At least one vertex does not exist.")
             return 
 
-
-# graph = Graph()  # Instantiate your graph
-# graph.add_vertex('0')
-# graph.add_vertex('1')
-# graph.add_vertex('2')
-# graph.add_vertex('3')
-# graph.add_edge('0', '1')
-# graph.add_edge('0', '3')
-# print(graph.vertices)
+class Queue():
+    __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    #big O(n) b/c have to move everything (n) over. n is prob small enough not to matter for now. more readable might be more important. 
+    def dequeue(self):
+        if self.size > 0:
+            self.queue.pop()
+        else:
+            return None
+    def size(self):
+        return(len(self.queue))
 
     def bft(self, s):
         #create a queue
@@ -38,7 +44,7 @@ class Graph:
         #mark the first node as visited
         #enqueue the starting node
         q.append(s)
-        visited[s] = True
+        #visited[s] = True
         #while the queue is not empty
         while q:
             #dequeue a node from the queue
@@ -47,8 +53,41 @@ class Graph:
             if dequeue not in visited:
                 visited.add(dequeue)
             #enqueue all of its children that have not already been added to queue
-            for i in self.vertices(i):
+            for i in self.vertices(dequeue):
                 if i not in visited:
                     q.append(i)
 
         return visited
+
+class Stack():
+    __init__(self):
+        self.stack = []
+        #these are big O of 1
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size > 0:
+            self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return(len(self.stack))
+
+    def dft(self, starting_node):
+        #create a queue
+        s = Stack()
+        visited = set()
+        #push the starting node
+        s.push()
+        #while the node is not empty
+        while s:
+            #pop a node from the stack
+            popped = s.pop(0)
+            #mark it as visited
+            if popped not in visited:
+                visited.append(popped)
+            #push all of the children that have not been visited. 
+            for i in self.vertices(popped):
+                if i not in visited: 
+                    s.append(i)
+
