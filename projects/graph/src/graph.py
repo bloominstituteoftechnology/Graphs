@@ -3,6 +3,19 @@ Simple graph implementation
 """
 from collections import deque
 
+class Stack:
+  def __init__(self):
+    self.__storage = []
+
+  def isEmpty(self):
+    return len(self.__storage) == 0
+
+  def push(self,p):
+    self.__storage.append(p)
+
+  def pop(self):
+    return self.__storage.pop()
+
 class Vertex:
   def __init__(self, vertex):
     self.value = vertex
@@ -59,7 +72,22 @@ class Graph:
         for node in current_node.edges.values():
           if not node.visited:
             queque.appendleft(node)
-  def    
+  def dfs(self, current_node, target):
+    node = self.vertices[current_node]
+    visited = []
+    s = Stack()
+    s.push(node)
+    while not s.isEmpty():
+      current_node = s.pop()
+      current_node.visited = True
+      visited.append(current_node.value)
+      if current_node.value == target:
+        print(visited)
+        return
+      for node in current_node.edges.values():
+        if not node.visited:
+          s.push(node)
+    
 
   def dft(self, current_node):
     
@@ -72,16 +100,16 @@ class Graph:
         self.dft(key)
   
   def dft_s(self, current_node):
-    s = []
+    s = Stack()
     node = self.vertices[current_node]
-    s.append(node)
-    while s != []:
+    s.push(node)
+    while not s.isEmpty():
       current_node = s.pop()
       current_node.visited = True
       print(current_node.value)
       for node in current_node.edges.values():
         if not node.visited:
-          s.append(node)
+          s.push(node)
   
 
 
@@ -100,4 +128,4 @@ graph.add_edge('0', '3')
 print(graph.vertices)
 graph.add_edge('0', '4')
 print(graph.vertices)
-graph.bfs("0", "4")
+graph.dfs("0", "4")
