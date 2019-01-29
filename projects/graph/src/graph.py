@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-
+from collections import deque
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -16,30 +16,40 @@ class Graph:
 
     def bft(self, starting_node):
         # create a queue
-        q = dequeue()
-        visited = set()
+        q = deque()
+        visited = []
         # Enqueue the starting node
         q.append(starting_node)
         # while the queue is not empty,
         while q:
-            pass
             # Dequeue a node form the queue
+            node = q.popleft()
             # Mark it as visited
+            visited.append(node)
             # Enqueue all of its children that have not been visited
+            for child in self.vertices[node]:
+                if child not in visited:
+                    q.append(child)
+        return visited
 
-    def dtf(self, starting_node):
+    def dft(self, starting_node):
         # Create stack
-        s = dequeue()
-        visited = set()
+        s = deque()
+        visited = []
         # Push the starting node
         s.append(starting_node)
         # while the stack is not empty,
         while s:
-            pass
             # Pop a node from the stack
+            node = s.pop()
             # Mark it as visited
+            visited.append(node)
             # Push all of its children that have not been visited
-    
+            for child in self.vertices[node]:
+                if child not in visited:
+                    s.append(child)
+        return visited
+
     def dtf_r(self, starting_node, visited=None):
         if visited is None:
             visited = set()
@@ -63,13 +73,3 @@ class Graph:
             # if node == target return True
             # enqueue all of it's children
             
-
-
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
