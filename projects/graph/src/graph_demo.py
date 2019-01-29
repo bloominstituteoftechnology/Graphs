@@ -34,12 +34,16 @@ def main():
     graph.add_edge(5,7)
 
     print(graph.vertices)
-    print("breadth_first_traversal\n")
+    print("\nBREADTH-FIRST-TRAVERSAL...")
     graph.breadth_first_traversal(0)
-    print("\ndepth_first_traversal\n")
+    print("\nDEPTH-FIRST-TRAVERSAL...")
     graph.depth_first_traversal(0)
-    print("\n",graph.breadth_first_search(0, 3))
-    print("\n",graph.depth_first_search(0, 9))
+    print("\nDEPTH-FIRST-TRAVERSAL-RECURSIVE")
+    print("\n",graph.DFT_recursive(0))
+    print("\nBREADTH-FIRST-SERACH...")
+    print("\n",graph.breadth_first_search(0, 3)) # TRUE as 3 is in vertices
+    print("\nDEPTH-FIRST-SEARCH...")
+    print("\n",graph.depth_first_search(0, 9))  # False as 9 is not present in vertices
     
 if __name__ == '__main__':
     # TODO - parse argv

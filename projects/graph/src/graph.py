@@ -105,3 +105,15 @@ class Graph:
                         stack.push(edge_node)
         return False
 
+    # depth first traversal RECURSIVE-WAY
+    def DFT_recursive(self, starting_vertex, visited = None):
+        if visited is None:
+            visited = []        
+            
+        visited.append(starting_vertex)
+        print(starting_vertex, end = " -> ")
+
+        for edge_node in self.vertices[starting_vertex]:
+            if edge_node not in visited:
+                self.DFT_recursive(edge_node, visited)
+    
