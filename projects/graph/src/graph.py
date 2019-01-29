@@ -38,13 +38,53 @@ class Graph:
         return visited
 
     def depth_first_traversal(self, start_node):
+        # Create a new stack instance
+        stack = Stack()
+        # Create new set with intention to store visited nodes
+        visited = set()
+        # Add start_node to the stack
+        stack.push(start_node)
+        # While the stack is not empty
+        while stack.size() > 0:
+            # Assign node to stack.pop()
+            node = stack.pop()
+            # If current node is not in visited set
+            if node not in visited:
+                # Print node for clarity
+                print(node)
+                # Add current node to visited set
+                visited.add(node)
+                # For each child node in current node
+                for next_node in self.vertices[node]:
+                    # Add each child to the stack
+                    stack.push(next_node)
+
+    def bredth_first_search(self, start_node, target_node):
+        queue = Queue()
+        visited = set()
+        queue.enqueue(start_node)
+        while queue.len() > 0:
+            node = queue.dequeue()
+            if node not in visited:
+                if node == target_node:
+                    return True
+                print(node)
+                visited.add(node)
+                for next_node in self.vertices[node]:
+                    queue.enqueue(next_node)
+        return False
+
+    def depth_first_search(self, start_node, target_node):
         s = Stack()
         visited = set()
         s.push(start_node)
         while s.size() > 0:
             node = s.pop()
             if node not in visited:
+                if node == target_node:
+                    return True
                 print(node)
                 visited.add(node)
                 for next_node in self.vertices[node]:
                     s.push(next_node)
+        return False

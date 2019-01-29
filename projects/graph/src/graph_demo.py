@@ -25,7 +25,6 @@ def main():
     graph.add_edge('E', 'C')
     graph.add_edge('F', 'C')
     graph.add_edge('G', 'F')
-    graph.add_edge('G', 'A')
     # graph.add_vertex('0')
     # graph.add_vertex('1')
     # graph.add_vertex('2')
@@ -35,7 +34,9 @@ def main():
     # print(graph.vertices)
     # print(graph.vertices['D'])
     # print(graph.depth_first_traversal(1))
-    print(graph.depth_first_traversal("A"))
+    # print(graph.depth_first_traversal("A"))
+    # print(graph.bredth_first_search("A", "B"))
+    print(graph.depth_first_search("A", "B"))
 
 
 if __name__ == '__main__':
