@@ -29,14 +29,32 @@ class Graph:
         visited = set(vertex)
 
         while len(queue) > 0:
-        # Add all edges of given vertex to queue
+            # Add all edges of given vertex to queue
             for i in self.vertices[queue[0]]:
                 if i not in visited:
                     visited.add(i)
                     queue.append(i)
 
-        # Print and Remove current vertex
+            # Print and Remove current vertex
             print(queue.pop(0))
+
+    def dft(self, vertex):
+        # Keep track of vertices to be visited
+        stack = [vertex]
+
+        # Keep track of vertices visited
+        visited = set(vertex)
+
+        while len(stack) > 0:
+            # Print and Remove current vertex
+            current_vertex = stack.pop()
+            print(current_vertex)
+
+            # Add all edges of given vertex to queue
+            for i in self.vertices[current_vertex]:
+                if i not in visited:
+                    visited.add(i)
+                    stack.append(i)
 
 
 # Test
@@ -64,3 +82,5 @@ print(graph.vertices)
 # graph.add_edge('0', '4')
 
 graph.bft('0')
+print('')
+graph.dft('0')
