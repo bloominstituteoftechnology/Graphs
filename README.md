@@ -1,4 +1,4 @@
-ls# Graphs
+# Graphs
 
 ## Objectives
 

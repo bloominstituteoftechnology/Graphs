@@ -5,7 +5,10 @@ Demonstration of Graph functionality.
 """
 
 from sys import argv
+<<<<<<< HEAD
 from graph import Graph
+=======
+>>>>>>> origin/master
 
 
 def main():
@@ -19,6 +22,7 @@ def main():
     graph.add_edge('0', '1')
     graph.add_edge('0', '2')
     graph.add_edge('0', '3')
+<<<<<<< HEAD
     graph.add_edge('2', '3')
     graph.add_edge('3', '4')
     graph.add_edge('4', '5')
@@ -28,6 +32,9 @@ def main():
     print('DFT_R:', graph.dft_r('0'))
     print('BFS:', graph.bfs('0', '5'))
     print('DFS:', graph.dfs('0', '5'))
+=======
+    print(graph.vertices)
+>>>>>>> origin/master
 
 if __name__ == '__main__':
     # TODO - parse argv
