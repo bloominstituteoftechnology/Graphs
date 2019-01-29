@@ -17,22 +17,33 @@ class Graph:
         # Add vertex as a value to the edge
         self.vertices[value].add(vertex)
     
-    def bfs(self, starting_node):
-        # create a queue
-        q = Queue()
-        visited = set()
-        # Enqueue the starting node
-        q.Enqueue(starting_node)
-       # While the queue is not empty
-        while len(q.storage) > 0:
-            # Dequeue a node from the queue
-            node = q.dequeue()
-            # Mark it as visited
-            visited.append(node)
-            # Enqueue all of its children that have not been visted
-            for child in self.vertices[node]:
-                if child not in visited:
-                    q.enqueue(child)
+    def bfs(self, s): 
+  
+        # Mark all the vertices as not visited 
+        visited = [False] * (len(self.graph)) 
+  
+        # Create a queue for BFS 
+        queue = [] 
+  
+        # Mark the source node as  
+        # visited and enqueue it 
+        queue.append(s) 
+        visited[s] = True
+  
+        while queue: 
+            # Dequeue a vertex from  
+            # queue and print it 
+            s = queue.pop(0) 
+            print (s, end = " ") 
+  
+            # Get all adjacent vertices of the 
+            # dequeued vertex s. If a adjacent 
+            # has not been visited, then mark it 
+            # visited and enqueue it 
+            for i in self.graph[s]: 
+                if visited[i] == False: 
+                    queue.append(i) 
+                    visited[i] = True
 
         return visited
 
