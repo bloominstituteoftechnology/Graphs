@@ -2,15 +2,38 @@
 Simple graph implementation
 """
 
-import queue as queue
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 
 class Vertex:
-    def __init__(self, vertex_value):
-        self.value = vertex_value
-        self.edges = set()
-
-    def __repr__(self):
-        return f'{self.value}'
+	def __init__(self, vertex_id):
+		self.vertex_id = vertex_id
+		self.edges = set()
+	def __repr__(self):
+		return f'{self.edges}'
 
 
 class Graph:
@@ -20,58 +43,115 @@ class Graph:
         
 
     def add_vertex(self,key):
-        self.vertices[key] = Vertex(key)
+        self.vertices[key] = Vertex(key) 
+
 
     def add_edge(self,ver1,ver2):
         if ver1 in self.vertices and ver2 in self.vertices:
             self.vertices[ver1].edges.add(ver2)
             self.vertices[ver2].edges.add(ver1)
-            
+        else:
+            raise IndexError("That vertex does not exist")
+
+    
 
     def bft(self, starting_node):
-        if self.vertices == None:
-            return
+        
+        storage = Queue()
+        visited = set()
+        storage.enqueue(starting_node)
 
-        if starting_node not in self.vertices:
-            return None
+        while storage.size() > 0:
+            node = storage.dequeue()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for next_node in self.vertices[node].edges:
+                    storage.enqueue(next_node)
+        return visited
 
+
+    def dft(self, starting_node):
+
+        visited = set()
+        storage = Stack()
+        storage.push(starting_node)
+
+        while storage.size() > 0:
+            node = storage.pop()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for next_node in self.vertices[node].edges:
+                    storage.push(next_node)
+        return visited
+
+    def dft_r(self, starting_node, visited=None):
+        if visited is None:
+            visited =set()
+        visited.add(starting_node)
+        print(starting_node)
+        for child_node in self.vertices[starting_node].edges:
+            if child_node not in visited:
+                self.dft_r(child_node, visited)
+    
+
+
+    def bfs(self, starting_node, target_node):
+        storage = Queue()
         visited = []
-        storage = queue.Queue()
-        storage.put(self.vertices[starting_node])
+        storage.enqueue([starting_node])
+        while storage.size() > 0:
+            path = storage.dequeue()
+            vertex = path[-1]
+            if vertex not in visited:
+                visited.append(vertex)
+                if vertex is target_node:
+                    return path
+                for child in self.vertices[vertex].edges:
+                    new_path = list(path)
+                    new_path.append(child)
+                    storage.enqueue(new_path)
+        return None
 
-        while not storage.empty():
-            current = storage.get()
-
-            if current not in visited:
-                visited.append(current)
-
-            for edge in current.edges:
-                if self.vertices[edge] not in visited:
-                    storage.put(self.vertices[edge])
-
-        return visited
-
-    def dfs(self, starting_node):
-        stack = [self.vertices[starting_node]]
+    def dfs(self, starting_node, target_node):
+        storage = Stack()
         visited = []
+        storage.push([starting_node])
+        while storage.size() > 0:
+            path = storage.pop()
+            vertex = path[-1]
+            if vertex not in visited:
+                visited.append(vertex)
+                if vertex is target_node:
+                    return path
+                for child in self.vertices[vertex].edges:
+                    new_path = list(path)
+                    new_path.append(child)
+                    storage.push(new_path)
+        return None
 
-        while len(stack) > 0:
-            current = stack.pop()
-            visited.append(current)
+    # def bfs_path(self, starting_node, target_node):
+    #     storage = Queue()
+    #     visited = set()
+    #     storage.enqueue(starting_node)
 
-            for edge in current.edges:
-                if self.vertices[edge] not in visited:
-                    stack.append(self.vertices[edge])
+    #     while storage.size() > 0:
+    #         #Dequeue a path from the queue
+    #         path = storage.dequeue()
+    #         node = path[-1]
 
-        return visited
+    #         if node not in visited:
+    #             if node == target_node:
+    #                 return path
+               
 
-    def dft_r(self, starting_node, visited = None):
-        #mark the node as visited
-        #call dft_r on all children
-        visited.append(starting_node)
 
-        for edge in self.vertices[starting_node].edges:
-            if edge not in visited:
-                self.dft_r(edge, visited)
+    #             for next_node in self.vertices[node]:
+    #                 storage.enqueue(next_node)
+    #     return False
 
-        return visited
+
+
+        # q = [[1,2,3] [1,2,4]]
+        #visited = {1,2,3}
