@@ -29,7 +29,7 @@ class Graph:
                 for i in self.vertices[node]:
                     q.enqueue(i)
 
-    def dft(self, starting_node, ):
+    def dft(self, starting_node):
         stack = [starting_node]
         visited = set()
         while len(stack) > 0:
@@ -38,11 +38,10 @@ class Graph:
                 for i in self.vertices[node]:
                     stack.append(i)
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1') 
-graph.add_edge('0', '3')
-print(graph.vertices)
+    def dft_r(self, starting_node, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(starting_node)
+        for i in self.vertices[starting_node]:
+            if i not in visited:
+                self.dft_r(i, visited)
