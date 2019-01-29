@@ -21,6 +21,7 @@ class Graph:
         else:
             print('One of the provided vertices does not exist.')
 
+    # Breadth First Traversal
     def bft(self, vertex):
         # Keep track of vertices to be visited
         queue = [vertex]
@@ -38,6 +39,7 @@ class Graph:
             # Print and Remove current vertex
             print(queue.pop(0))
 
+    # Depth First Traversal
     def dft(self, vertex):
         # Keep track of vertices to be visited
         stack = [vertex]
@@ -55,6 +57,21 @@ class Graph:
                 if i not in visited:
                     visited.add(i)
                     stack.append(i)
+
+    # Recursive Depth First Traversal
+    def dft_r(self, vertex, cache = set()):
+        # Print the vertex
+        print(vertex)
+
+        # Add vertex to cache
+        cache.add(vertex)
+
+        # Check all edges of current vertex 
+        for i in self.vertices[vertex]:
+            
+            # with vertices not already checked
+            if i not in cache:
+                self.dft_r(i, cache)
 
 
 # Test
@@ -84,3 +101,5 @@ print(graph.vertices)
 graph.bft('0')
 print('')
 graph.dft('0')
+print('')
+graph.dft_r('0')
