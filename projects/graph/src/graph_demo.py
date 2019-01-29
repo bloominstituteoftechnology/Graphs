@@ -34,7 +34,10 @@ def main():
     graph.add_edge(5,7)
 
     print(graph.vertices)
+    print("breadth_first_traversal\n")
     graph.breadth_first_traversal(0)
+    print("\ndepth_first_traversal\n")
+    graph.depth_first_traversal(0)
     print("\n",graph.breadth_first_search(0, 3))
     
 if __name__ == '__main__':
