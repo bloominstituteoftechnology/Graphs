@@ -1,25 +1,8 @@
 from queue import Queue
-
+from stack import Stack
 """
 Simple graph implementation
 """
-
-
-class Stack():
-    def __init__(self):
-        self.stack = []
-
-    def push(self, value):
-        self.stack.append(value)
-
-    def pop(self):
-        if self.size() > 0:
-            return self.stack.pop()
-        else:
-            return None
-
-    def size(self):
-        return len(self.stack)
 
 
 class Graph:
@@ -54,15 +37,14 @@ class Graph:
                     queue.enqueue(c_node)
         return visited
 
-    # def depth_first_traversal(self, start_node):
-    #     stack = []
-    #     visited = []
-    # def depth_first_traversal_recursive(self, start_node):
-    #     if visited is None:
-    #         visited = set()
-    #     visited.add(start_node)
-    #     print(Starting_node)
-    #     for child_node in self.vertices[start_node]
-    #     if child_node not in visited:
-    #             self.depth_first_traversal_recursive(child_node, visited)
-    #             depth_first_Traversal_recursive(child_node, visited)
+    def depth_first_traversal(self, start_node):
+        s = Stack()
+        visited = set()
+        s.push(start_node)
+        while s.size() > 0:
+            node = s.pop()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for next_node in self.vertices[node]:
+                    s.push(next_node)
