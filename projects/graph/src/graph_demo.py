@@ -35,9 +35,11 @@ def main():
 
     print(graph.dft('1'))
 
-    print(graph.dtf_r('1'))
+    print(graph.dft_r('1'))
 
     print(graph.bfs('6', '2'))
+
+    print(graph.dfs('1', '6'))
 
 if __name__ == '__main__':
     # TODO - parse argv
