@@ -75,32 +75,17 @@ class Graph:
                     self.dft_r(child, visited)
 
     def bfs(self, starting_node, target_node):
+        # Create a Queue
         q = Queue()
         visited = set()
-        q.enqueue(starting_node)
-        while len(q.storage) > 0:
-            node = q.dequeue()
-            visited.add(node)
-            if node == target_node:
-                return True
-            for child in self.vertices[node]:
-                if child not in visited and child not in q.storage:
-                    q.enqueue(child)
-
-        return False
-
-    def dft_r(self, starting_node, visited=None):
-        if visited is None:
-            visited = set()
-        # If the node has not been visited
-        if starting_node not in visited:
-            visited.add(starting_node)
-            print(starting_node)
-            # Mark the node as visted
-            # Call dft_r on all children
-            for child in self.vertices[starting_node]:
-                if child not in visited:
-                    self.dft_r(child, visited)
+        # Enqueue the starting node
+        # q.enqueue(starting_node)
+        # While the queue is not empty
+        # Dequeue a node from the queue
+        # Mark it as visited
+        # If node == target_node: return True
+        # Enqueue all of its children that have not been visted
+        # return False
 
 
 class Queue:
@@ -111,7 +96,7 @@ class Queue:
         self.storage.append(value)
 
     def dequeue(self):
-        if self.size > 0:
+        if len(self.storage) > 0:
             return self.storage.pop(0)
         else:
             return None
@@ -125,7 +110,7 @@ class Stack:
         self.storage.append(value)
 
     def pop(self):
-        if self.size > 0:
+        if len(self.storage) > 0:
             return self.storage.pop()
         else:
             return None

@@ -39,8 +39,6 @@ def main():
 
     graph.dft_r('1')
 
-    graph.bfs('1', '2')
-
 
 if __name__ == '__main__':
     # TODO - parse argv
