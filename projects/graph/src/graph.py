@@ -76,7 +76,7 @@ class Graph:
             return visited
 
     def dft_r(self, starting_vertex, visited = None):
-        if visited = None:
+        if visited == None:
             visited = []
         if starting_vertex not in visited:
             visited.append(starting_vertex)
