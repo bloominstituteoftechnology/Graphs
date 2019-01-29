@@ -32,7 +32,8 @@ def main():
     graph.bft('1')
     graph.dft('1')
     graph.dft_recursion('1')
-    print(graph.bft_path('2', '6'))
+    print('PATH BFT', graph.bft_path('2', '6'))
+    print('PATH DFT', graph.bft_path('2', '6'))
 
 if __name__ == '__main__':
     main()

@@ -67,7 +67,6 @@ class Graph:
                 print('Path', path)
                 first = nextItems.get()
                 print('First', first)
-                
                 if first not in visited:
                     path.append(first[-1])
                     if first[-1] == target:
@@ -82,6 +81,28 @@ class Graph:
             return None
         ## Create a store for the path
         ## If first is in the path 
+
+    def dft_path(self, start, target):
+        print('DFT')
+        if start in self.vertices:
+            nextItems = []
+            visited = []
+            path = []
+            nextItems.append([start])
+            while len(nextItems) != 0:
+                first = nextItems.pop()
+                if first[-1] not in visited:
+                    path.append(first[-1])
+                    visited.append(first)
+                    if first[-1] == target:
+                        path = first
+                        return path
+                    for num in self.vertices[first[-1]]:
+                        tempPath = path + [num]
+                        nextItems.append(tempPath)
+        else:
+            return None
+        print('-----------')
 
 class Vertex:
     def __init__(self, label):
