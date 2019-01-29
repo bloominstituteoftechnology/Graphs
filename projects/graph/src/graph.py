@@ -20,9 +20,10 @@ class Graph:
             self.vertices[vertex1].add(vertex2)
             self.vertices[vertex2].add(vertex1)
         else:
-            raise Exception("Edges to nonexistent vetices") def bredth_first_traversal(self, start_node):
+            raise Exception("Edges to nonexistent vetices")
 
-                # Create a new queue using the imported queue file
+    def bredth_first_traversal(self, start_node):
+        # Create a new queue using the imported queue file
         queue = Queue()
         # Storage for the nodes that were visted
         visited = []
