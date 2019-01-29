@@ -32,6 +32,13 @@ class Stack:
         return len(self.stack)
 
 
+class Vertex:
+    def __init__(self, value):
+        self.value = value
+        self.color = "white"
+        self.edges = set()
+
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
@@ -39,14 +46,20 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, value):
-        self.vertices[value] = set()
+        self.vertices[value] = Vertex(value)
 
     def add_edge(self, vert, value):
         if vert in self.vertices and value in self.vertices:
-            self.vertices[vert].add(value)
-            self.vertices[value].add(vert)
+            self.vertices[vert].edges.add(value)
         else:
             IndexError()
+
+    def add_bidirectional_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].edges.add(v2)
+            self.vertices[v2].edges.add(v1)
+        else:
+            raise IndexError("Vertex does not exist")
 
     def bft(self, start_node):
         queue = Queue()
@@ -73,14 +86,60 @@ class Graph:
                 for next in self.vertices[node]:
                     stack.push(next)
 
-    
+    def dft_recursion(self, start_node, visited=None):
+        if visited is None:
+            visited = set()
+
+        visited.add(start_node)
+        for child in self.vertices[start_node]:
+            if child not in visited:
+                self.dft_recursion(child, visited)
+
+    def bfs(self, start_node, destination_node):
+        queue = Queue()
+        visited = set()
+        start_path = [start_node]
+
+        queue.enqueue(start_path)
+
+        while queue.size() > 0:
+            dequeue_path = queue.dequeue()
+            dequeue_node = dequeue_path[-1]
+
+            if dequeue_node not in visited:
+                if dequeue_node == destination_node:
+                    return dequeue_path
+
+                visited.add(dequeue_node)
+
+                for child in self.vertices[dequeue_node].edges:
+                    copied_path = list(dequeue_path)
+                    copied_path.append(child)
+                    queue.enqueue(copied_path)
+
+        return None
 
 
-graph = Graph()
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-print(graph.vertices)
+    def dfs(self, start_node, destination_node):
+        stack = Stack()
+        visited = set()
+        start_path = [start_node]
+
+        stack.push(start_path)
+
+        while stack.size() > 0:
+            dequeue_path = stack.pop()
+            dequeue_node = dequeue_path[-1]
+
+            if dequeue_node not in visited:
+                if dequeue_node == destination_node:
+                    return dequeue_path
+
+                visited.add(dequeue_node)
+
+                for child in self.vertices[dequeue_node].edges:
+                    copied_path = list(dequeue_path)
+                    copied_path.append(child)
+                    stack.push(copied_path)
+
+        return None
