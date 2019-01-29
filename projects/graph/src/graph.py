@@ -43,3 +43,27 @@ class Graph:
                 i += 1
 
             return queue
+
+    def dft(self, start_vertex):
+        if start_vertex not in self.vertices:
+            print('Graph does not contain that vertex')
+
+        else:
+            visited = {}
+            stack = [start_vertex]
+            order = []
+
+            for vertex in self.vertices.keys():
+                visited[vertex] = 0
+
+            while len(stack):
+                vertex = stack.pop()
+                visited[vertex] = 1
+
+                for neighbor in self.vertices[vertex]:
+                    if not visited[neighbor]:
+                        stack.append(neighbor)
+
+                order.append(vertex)
+
+            return order
