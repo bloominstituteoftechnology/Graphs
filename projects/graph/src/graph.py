@@ -29,6 +29,15 @@ class Graph:
                 for i in self.vertices[node]:
                     q.enqueue(i)
 
+    def dft(self, starting_node, ):
+        stack = [starting_node]
+        visited = set()
+        while len(stack) > 0:
+            node = stack.pop()
+            if node not in visited:
+                for i in self.vertices[node]:
+                    stack.append(i)
+
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
 graph.add_vertex('1')
