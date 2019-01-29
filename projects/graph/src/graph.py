@@ -9,15 +9,15 @@ class Queue:
         self.queue.append(value)
     
     def dequeue(self):
-        return self.queue.pop(0) # O(n), to be optimal better to use linked list
-        # if self.size() > 0:
-        #     return self.queue.pop(0)
-        # else:
-        #     return None
+        if self.size() > 0:
+            return self.queue.pop(0) # O(n), to be optimal better to use linked list
+        else:
+            return None
     
-    # def size(self):
-    #     return len(self.queue)
+    def size(self):
+        return len(self.queue)
 
+    # # Adds color to vertexes
     # class Vertex:
     #     def __init__(self, value):
     #         self.value = value
@@ -32,14 +32,13 @@ class Stack:
         self.stack.append(value)
     
     def pop(self):
-        return self.stack.pop()
-        # if self.size() > 0:
-        #     return self.stack.pop()
-        # else:
-        #     return None
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
 
-    # def size(self):
-    #     return len(self.stack)
+    def size(self):
+        return len(self.stack)
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -55,32 +54,35 @@ class Graph:
     
     # v1 is vertex1, v2 is vertex2
     def add_edge(self, v1, v2):
-        if (v1 and v2) in self.vertices:
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndentationError(f'There is no {v1 if not self.vertices else v2} vertex, edge ({v1},{v2}) was not added.')
+
+    def add_undirected_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
             self.vertices[v2].add(v1)
-        elif not v1 in self.vertices:
-            print(f'There is no {v1} vertex, edge was not added.')
         else:
-            print(f'There is no {v2} vertex, edge was not added.')
+            raise IndentationError(f'There is no {v1 if not self.vertices else v2} vertex, edge ({v1},{v2}) was not added.')    
             
     # Breadth-First Traversal
     def bft(self, starting_node):
         # create a queue
         q = Queue()
         visited = set()
-        # visited = []
+        # visited = [] # the array metod
         # enqueue the starting node
         q.enqueue(starting_node)
         # while the queue is not empty
-        while len(q.queue) > 0:
+        while q.size() > 0:
             # dequeue a node from the queue
             node = q.dequeue()
             # mark it as visited
-            visited.add(node)
-            print('visted from queue:', visited)
-            # if node not in visited:
-            #     visited.append(node)
-            #     print('visted from queue:', visited)
+            if node not in visited:
+                print('visted from bft:', node)
+                visited.add(node)
+                # visited.append(node) # the array metod
             # enqueue all of its children that have not been visited
             for child in self.vertices[node]:
                 if child not in visited:
@@ -91,19 +93,18 @@ class Graph:
         # create a stack
         s = Stack()
         visited = set()
-        # visited = []
+        # visited = [] # the array metod
         # push the starting node
         s.push(starting_node)
         # while the stack is not empty
-        while len(s.stack) > 0:
+        while s.size() > 0:
             # pop a node from the stack
             node = s.pop()
             # mark it as visited
-            visited.add(node)
-            print('visted from stack:', visited)
-            # if node not in visited:
-            #     visited.append(node)
-            #     print('visted from stack:', visited)
+            if node not in visited:
+                print('visted from dft:', node)
+                visited.add(node)
+                # visited.append(node) # the array metod
             # push all of its children that have not been visited
             for child in self.vertices[node]:
                 if child not in visited:
@@ -113,8 +114,8 @@ class Graph:
     def dft_r(self, starting_node, visited=None):
         if visited is None:
             visited = set()
+        print('visted from dft_r:', starting_node)
         visited.add(starting_node)
-        print('visted from stack recursion:', visited)
         for child in self.vertices[starting_node]:
             # call dft_r on all unvisisted children  
             if child not in visited:
@@ -129,20 +130,43 @@ class Graph:
         #enqueue the starting vertex
         q.enqueue(starting_node)
         #while the queue is not empty, 
-        while len(q.queue) > 0:
+        while q.size() > 0:
             #dequeue a vertex from the queue 
             node = q.dequeue()
-            # if node == target_node: return true
+            # if that node has not been visited..
             if node not in visited:
                 #mark it as visited 
                 if node == target_node:
                     return True
-                print('visited from bfs', visited)
+                print('visited from bfs:', node)
                 visited.add(node)
-            #enqueue all of it's children that have not been visited 
-            for next_node in self.vertices[node]:
-                if next_node not in visited:
-                    q.enqueue(next_node)
+                #enqueue all of it's children that have not been visited 
+                for next_node in self.vertices[node]:
+                        q.enqueue(next_node)
+        # return false
+        return False
+
+    # Depth-First Search
+    def dfs(self, starting_node, target_node):
+        #create stack
+        s = Stack()
+        visited = set()
+        #push the starting vertex
+        s.push(starting_node)
+        #while the stack is not empty, 
+        while s.size() > 0:
+            #pop a vertex from the stack 
+            node = s.pop()
+            # if that node has not been visited..
+            if node not in visited:
+                #mark it as visited 
+                if node == target_node:
+                    return True
+                print('visited from bfs:', node)
+                visited.add(node)
+                #push all of it's children that have not been visited 
+                for next_node in self.vertices[node]:
+                        s.push(next_node)
         # return false
         return False
 
