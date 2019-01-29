@@ -85,44 +85,45 @@ class Graph:
     def bfs_search(self, starting_v, target_v):
         q = deque()
         # Enqueue starting vertex
-        q.append(starting_v)
         visited = []
-
+        q.append(starting_v)
         #while the queue is not empty, 
-        while q:
+        while len(q) > 0:
             #dequeue a vertex from the queue 
-            current_v = q.popleft()
+            path = q.popleft()
+            current_v = path[-1]
             #...and mark it as visited 
             if current_v not in visited:
                 visited.append(current_v)
                 # ---*---- if node == target_node: return true
                 if current_v == target_v:
-                    print("BFT_SEARCH:")
                     print(visited)
+                    return path 
                 #enqueue all of it's children that have not been visited 
                 for edge in self.vertices[current_v]:
                     q.append(edge)
        
 
     def dfs_search(self, starting_v, target_v):
-        #create stack
         s = deque()
-        #push starting vertex
-        s.append(starting_v)
+        # Enqueue starting vertex
         visited = []
-        #while the stack is not empty, 
-        while s:
-            #pop a vertex from the stack
-            current_v = s.pop()
-            #mark it as visited 
+        s.append(starting_v)
+        #while the queue is not empty, 
+        while len(s) > 0:
+            #dequeue a vertex from the queue 
+            path = s.pop()
+            current_v = path[-1]
+            #...and mark it as visited 
             if current_v not in visited:
                 visited.append(current_v)
                 # ---*---- if node == target_node: return true
                 if current_v == target_v:
-                    print("DFT_SEARCH:")
                     print(visited)
-            #push all of it's children that have not been visited 
+                    return path 
+                #enqueue all of it's children that have not been visited 
                 for edge in self.vertices[current_v]:
                     s.append(edge)
+       
         
     
