@@ -9,7 +9,20 @@ class Queue:
         self.queue.append(value)
     
     def dequeue(self):
-        return self.queue.pop(0)
+        return self.queue.pop(0) # O(n), to be optimal better to use linked list
+        # if self.size() > 0:
+        #     return self.queue.pop(0)
+        # else:
+        #     return None
+    
+    # def size(self):
+    #     return len(self.queue)
+
+    # class Vertex:
+    #     def __init__(self, value):
+    #         self.value = value
+    #         self.color = 'white'
+    #         self.edge = set()
 
 class Stack:
     def __init__(self):
@@ -20,6 +33,13 @@ class Stack:
     
     def pop(self):
         return self.stack.pop()
+        # if self.size() > 0:
+        #     return self.stack.pop()
+        # else:
+        #     return None
+
+    # def size(self):
+    #     return len(self.stack)
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -31,7 +51,7 @@ class Graph:
         if v not in self.vertices.keys():
             self.vertices[v] = set()
         else:
-            print(f'{v} vertex already exists, vertex was not added.')
+            raise IndexError(f'Vertex {v} already exists, vertex was not added.')
     
     # v1 is vertex1, v2 is vertex2
     def add_edge(self, v1, v2):
@@ -89,26 +109,42 @@ class Graph:
                 if child not in visited:
                     s.push(child)
 
-    # def dft_recursion(self, starting_node, visited=None):
-    #     if visited is None:
-    #         visited = set()
-    #     #if the node has not been visited 
-    #         #mark node as visited
-    #         #call dft_recursion on all children 
-    #         dft_recursion(child_node, visited)
+    # Depth-First Traversal using Recursion
+    def dft_r(self, starting_node, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(starting_node)
+        print('visted from stack recursion:', visited)
+        for child in self.vertices[starting_node]:
+            # call dft_r on all unvisisted children  
+            if child not in visited:
+                self.dft_r(child, visited)
+        
 
-    # def bfs_search(self, starting_node, target_node):
-    #     #create queue
-    #     q = Queue()
-    #     visited = set()
-    #     #enqueue the starting vertex
-    #     q.Enqueue(starting_node)
-    #     #while the queue is not empty, 
-    #         #dequeue a vertex from the queue 
-    #         #mark it as visited 
-    #         # ---*---- if node == target_node: return true
-    #         #enqueue all of it's children that have not been visited 
-    #     #return false 
+    # Breadth-First Search
+    def bfs(self, starting_node, target_node):
+        #create queue
+        q = Queue()
+        visited = set()
+        #enqueue the starting vertex
+        q.enqueue(starting_node)
+        #while the queue is not empty, 
+        while len(q.queue) > 0:
+            #dequeue a vertex from the queue 
+            node = q.dequeue()
+            # if node == target_node: return true
+            if node not in visited:
+                #mark it as visited 
+                if node == target_node:
+                    return True
+                print('visited from bfs', visited)
+                visited.add(node)
+            #enqueue all of it's children that have not been visited 
+            for next_node in self.vertices[node]:
+                if next_node not in visited:
+                    q.enqueue(next_node)
+        # return false
+        return False
 
 
 
