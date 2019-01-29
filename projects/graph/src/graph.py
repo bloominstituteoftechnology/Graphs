@@ -79,16 +79,26 @@ class Graph:
 
 
     def depth_first_traverse(self, starting_vertex):
-        # create a stack LIFO
-        s = queue.LifoQueue()
+        # create a _queue_ FIFO
+        stack = []
         visited = set()
-        # visited.add(starting_vertex)
-        # Push the starting vertex
-        q.Enqueue(starting_vertex)
-        # while the stack is not empty
-            # pop a node from the queue
+        # Enqueue the starting vertex
+        stack.append(starting_vertex)
+        print(stack)
+        # while the queue is not empty
+        while len(stack) > 0:
+            # dequeue a node from the queue
+            deq = stack.pop(0)
+
             # Mark it as visited
-            # push all of its children
+            visited.add(deq)
+            print("visited: ",visited)
+            # Enqueue all of its children
+            for i in self.vertices[deq]:
+                if i not in visited:
+                    stack.append(i)
+                if len(stack) == 0:
+                    return visited
 
     def dfr_2(self, v, visited, storage):
 
@@ -119,35 +129,58 @@ class Graph:
 
     def breadth_first_search(self, starting_vertex, target):
         # create a _queue_ FIFO
-        q = Queue()
+        q = []
         visited = set()
-        # Mark the first node as visited
-        # print(starting_vertex)
-        # visited.add(starting_vertex)
         # Enqueue the starting vertex
-        q.Enqueue(starting_vertex)
+        q.append(starting_vertex)
+        print(q)
         # while the queue is not empty
+        while len(q) > 0:
             # dequeue a node from the queue
-            # Mark it as visited
-            # If node == target node: return True
-            # Enqueue all of its children
-        # return False
+            deq = q.pop()
 
-    def breadth_first_search(self, starting_vertex, target):
-        # create a _queue_ FIFO
-        q = Queue()
-        visited = set()
-        # Mark the first node as visited
-        # print(starting_vertex)
-        # visited.add(starting_vertex)
-        # Enqueue the starting vertex
-        q.Enqueue(starting_vertex)
-        # while the queue is not empty
-            # dequeue a node from the queue
             # Mark it as visited
-            # If node == target node: return True
+            visited.add(deq)
+            print("visited: ",visited)
+            if target in visited:
+                return True
             # Enqueue all of its children
-        # return False
+            for i in self.vertices[deq]:
+                if i not in visited:
+                    q.append(i)
+                if len(q) == 0:
+                    return visited
+            else:
+                return False
+
+    def depth_first_search(self, starting_vertex, target):
+        # create a _queue_ FIFO
+        stack = []
+        visited = []
+        # Enqueue the starting vertex
+        stack.append(starting_vertex)
+        print(stack)
+        # while the queue is not empty
+        while len(stack) > 0:
+            # dequeue a node from the queue
+            path = stack.pop(0)
+            node = path[0]
+            if node not in visited:
+                # Mark it as visited
+                visited.append(node)
+                print("visited: ",visited)
+                if target in visited:
+                    print("Path: ",path)
+                    print("Dup_Path: ", dup_path)
+                    return dup_path
+                # Enqueue all of its children
+                for i in self.vertices[node]:
+                    if i not in visited:
+                        dup_path = list(path)
+                        dup_path.append(i)
+                        stack.append(dup_path)
+
+            return None
 
 
 def print_vertex():
