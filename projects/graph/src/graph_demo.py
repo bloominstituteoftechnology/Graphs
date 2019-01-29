@@ -15,17 +15,24 @@ def main():
     graph.add_vertex('1')
     graph.add_vertex('2')
     graph.add_vertex('3')
+    graph.add_vertex('4')
+    graph.add_vertex('5')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
+    graph.add_edge('0', '5')
+    graph.add_edge('5', '4')
+    graph.add_edge('4', '2')
     graph.add_edge('0', '20')
     print(graph.vertices)
 
-    graph.bft('2')  # Returns ['2']
-    print(graph.bft('0'))  # Returns ['0', '3', '1']
+    graph.bft('2')
+    graph.bft('0')
 
-    print(graph.dft('0'))  # Returns ['0', '1', '3']
+    graph.dft('0')
 
-    print(graph.dft_r('0'))
+    graph.dft_r('0')
+
+    graph.bfs('0', '2')
 
 
 if __name__ == '__main__':
