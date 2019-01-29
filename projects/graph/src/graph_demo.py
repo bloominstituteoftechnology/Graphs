@@ -32,16 +32,19 @@ def main():
     # graph.add_edge('3', '1')
     # graph.add_edge('3', '0')
 
-    print(graph.vertices)
-
-    graph.breadth_first_traversal('1')
+    # print(graph.vertices)
+    #
+    # graph.breadth_first_traversal('1')
+    #
+    # print("\n")
+    # graph.depth_first_traversal('1')
+    #
+    # print("\n")
+    # #graph.depth_first_traversal_rec('1')
 
     print("\n")
-    graph.depth_first_traversal_rec('1')
-
-    print("\n")
-    shortest_path = graph.depth_first_search('0', '1')
-    #print(shortest_path)
+    shortest_path = graph.breadth_first_search('1', '5')
+    print(shortest_path)
 
 if __name__ == '__main__':
     # TODO - parse argv

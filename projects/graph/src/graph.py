@@ -37,24 +37,31 @@ class Queue():
         return len(self.queue)
 
 
+class Vertex:
+    def __init__(self, value):
+        self.value = value
+        self.color = "white"
+        self.edges = set()
+
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
 
     def add_vertex(self, value):
-        self.vertices[value] = set()
+        self.vertices[value] = Vertex(value)
 
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
+            self.vertices[v1].edges.add(v2)
         else:
             raise IndexError("Vertex does not exist")
 
     def add_bidirectional_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add(v2)
-            self.vertices[v2].add(v1)
+            self.vertices[v1].edges.add(v2)
+            self.vertices[v2].edges.add(v1)
         else:
             raise IndexError("Vertex does not exist")
 
@@ -67,54 +74,62 @@ class Graph:
             if deq_node not in visited:
                 print(deq_node)
                 visited.add(deq_node)
-                [to_visit.enqueue(child) for child in self.vertices.get(deq_node)]
+                [to_visit.enqueue(child) for child in self.vertices[deq_node].edges]
 
     def depth_first_traversal(self, starting_node):
         to_visit = Stack()
         visited = set()
         to_visit.push(starting_node)
-        while to_visit:
+        while to_visit.size() > 0:
             deq_node = to_visit.pop()
             if deq_node not in visited:
                 print(deq_node)
                 visited.add(deq_node)
-                [to_visit.push(child) for child in self.vertices.get(deq_node)]
+                [to_visit.push(child) for child in self.vertices[deq_node].edges]
 
     def depth_first_traversal_rec(self, starting_node, visited=set()):
-        visited = visited
-        if starting_node in self.vertices and starting_node not in visited:
-            print(starting_node)
-            visited.add(starting_node)
-            for child in self.vertices.get(starting_node):
-                self.depth_first_traversal_rec(child, visited)
+        visited.add(starting_node)
+        print(starting_node)
+        for child_node in self.vertices[starting_node]:
+            if child_node not in visited:
+                self.depth_first_traversal_rec(child_node, visited)
 
-    def depth_first_search(self, start_node, dest_node):
-        start = start_node
-        dest = dest_node
-        dist = float("inf")
-        shortest_path = []
+    def breadth_first_search(self, start_node, dest_node):
+        to_visit = Queue()
+        visited = set()
+        start_path = [start_node]
 
-        to_visit = []
-        visited = []
+        to_visit.enqueue(start_path)
 
-        if start not in self.vertices or dest not in self.vertices:
-            print("Start or destination node don't exist")
-            return
+        while to_visit.size() > 0:
+            deq_path = to_visit.dequeue()
+            deq_node = deq_path[-1]
 
-        to_visit.append(start)
+            if deq_node not in visited:
+                if deq_node == dest_node:
+                    return deq_path
 
-        while to_visit:
-            curr_node = to_visit.pop()
-            if curr_node not in visited:
-                # Check visited distance to currently shortest distance
-                if curr_node == dest and len(visited) < dist:
-                    dist = len(visited)
-                    shortest_path = visited
-                    print(shortest_path)
-                    print(to_visit)
-                    #visited = visited[:1]
-                else:
-                    visited.append(curr_node)
-                    [to_visit.append(child) for child in self.vertices[curr_node]]
+                visited.add(deq_node)
 
-        return shortest_path
+                for child in self.vertices[deq_node].edges:
+                    copied_path = list(deq_path)
+                    copied_path.append(child)
+                    to_visit.enqueue(copied_path)
+
+        return None
+
+
+    # def depth_first_search(self, start_node, dest_node):
+    #     to_visit = Stack()
+    #     visited = set()
+    #     to_visit.push(start_node)
+    #     while to_visit.size() > 0:
+    #         deq_node = to_visit.pop()
+    #         if deq_node not in visited:
+    #             if deq_node == dest_node:
+    #                 return True
+    #             print(deq_node)
+    #             visited.add(deq_node)
+    #             [to_visit.push(child) for child in self.vertices[deq_node].edges]
+    #
+    #     return False
