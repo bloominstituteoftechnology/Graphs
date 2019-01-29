@@ -30,7 +30,7 @@ class Graph:
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
-            self.vertices[v2].add(v1)
+            # self.vertices[v2].add(v1)
         else:
             raise IndexError("No vertex")
 
@@ -75,4 +75,23 @@ class Graph:
             for child in self.vertices[starting_vertex]:
                 if child not in visited:
                     self.dft_r(child, visited)
-                    
+
+    def bfs(self, starting_vertex, target_node):
+        visited = []
+        queue = deque()
+        queue.append([starting_vertex])
+        
+        while len(queue) > 0:
+            current_path_list = queue.popleft()
+            current_vertex = current_path_list[-1]
+
+            if current_vertex not in visited:
+                visited.append(current_vertex)
+
+            for child in self.vertices[current_vertex]:
+                dupe_path = list(current_path_list)
+                dupe_path.append(child)
+                if dupe_path[-1] == target_node:
+                    return dupe_path
+                else:
+                    queue.append(dupe_path)
