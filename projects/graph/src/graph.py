@@ -35,7 +35,6 @@ class Graph:
     def add_edge(self, vertex1, vertex2):
         if vertex1 in self.vertices and vertex2 in self.vertices:
             self.vertices[vertex1].add(vertex2)
-            self.vertices[vertex2].add(vertex1)
         else:
             raise Exception(f'Vertex {vertex1} does not exist.')
 
