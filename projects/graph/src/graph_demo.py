@@ -28,6 +28,9 @@ def main():
     print(graph.bfs('0', '3'))
     print(graph.bfs('0', '4'))
 
+    print(graph.dfs('0', '3'))
+    print(graph.dfs('0', '4'))
+
 if __name__ == '__main__':
     # TODO - parse argv
     main()

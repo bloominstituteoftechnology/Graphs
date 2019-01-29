@@ -100,3 +100,19 @@ class Graph:
                         return True
                     queue.enqueue(edge)
         return False
+
+    def dfs(self, starting_vertex, target_vertex):
+        stack = Stack()
+        visited = []
+
+        stack.push(starting_vertex)
+
+        while stack.size() > 0:
+            current_node = stack.pop()
+            visited.append(current_node)
+            for edge in self.vertices[current_node]:
+                if edge not in visited:
+                    if edge == target_vertex:
+                        return True
+                    stack.push(edge)
+        return False
