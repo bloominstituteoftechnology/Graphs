@@ -79,12 +79,12 @@ class Graph:
         visited = set()
         queue.append(list(starting_vert))
         while queue:
-            # -> dequeue a vert from queue
+            # -> dequeue a list from queue
             dequeued_list = queue.popleft()
             path_end = dequeued_list[-1]
             # -> mark it as visited
             if path_end not in visited:
-                # check if target vert
+                # check if target vert == last item in list
                 if path_end == target_vert:
                     return dequeued_list
                 visited.add(path_end)
@@ -102,16 +102,16 @@ class Graph:
         visited = set()
         stack.append(list(starting_vert))
         while stack:
-            # -> pop a vert from stack
+            # -> pop a list from stack
             popped_list = stack.pop()
             path_end = popped_list[-1]
             # -> mark it as visited
             if path_end not in visited:
-                # check if target vert
+                # check if target vert == last item in list
                 if path_end == target_vert:
                     return popped_list
                 visited.add(path_end)
-                # -> enstack all of it's children
+                # stack all of it's children
                 for vert in self.vertices[path_end]:
                     path_copy = list(popped_list)
                     path_copy.append(vert)
