@@ -30,7 +30,8 @@ class Graph:
                 print(visited[-1:][0])
                 next_layer = self.vertices[vertex]
                 for node in next_layer:
-                    queue.append(node)
+                    if node not in queue and node not in visited:
+                        queue.append(node)
         return visited
 
 
@@ -47,13 +48,13 @@ class Graph:
                 print(visited[-1:][0])
                 next_layer = self.vertices[current]
                 for node in next_layer:
-                    stack.append(node)
+                    if node not in stack and node not in visited:
+                        stack.append(node)
         return visited
 
     def dft_recursive(self, starting_vertex, visited=[]):
         visited = visited + [starting_vertex]
         print(visited[-1:][0])
-
         for next_level in self.vertices[starting_vertex]:
             if next_level not in visited:
                 visited =  self.dft_recursive(next_level, visited)
