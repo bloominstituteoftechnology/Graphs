@@ -43,10 +43,8 @@ class Graph:
 
         while stack.len() > 0: 
             cur_vert = stack.remove_from_tail()
-            # if cur_vert is in visited, just pass
             if cur_vert in visited:
                 pass
-
             else:
                 visited.add(cur_vert)
                 print(f'cur_vert: {cur_vert}')
@@ -56,7 +54,18 @@ class Graph:
                         if not vert in visited:
                             stack.add_to_tail(vert)
 
-                            
+    def dft_recursion(self, starting_vert, visited=None):
+        if visited is None:
+            visited = set()
+
+        print(f'starting_vert: {starting_vert}')
+        visited.add(starting_vert)
+
+        for vert in self.vertices[starting_vert]:
+            if vert is not None:
+                if not vert in visited:
+                    self.dft_recursion(vert, visited) 
+
 
 
 
@@ -79,4 +88,4 @@ graph.add_directed_edge('4', '2')
 graph.add_directed_edge('2', '5')
 graph.add_directed_edge('4', '6')
 graph.add_directed_edge('6', '7')
-graph.dft('0')
+graph.dft_recursion('0')
