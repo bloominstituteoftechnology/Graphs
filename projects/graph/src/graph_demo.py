@@ -29,11 +29,11 @@ def main():
     graph.add_edge('7', '6')
     graph.add_edge('5', '3')
     graph.add_edge('6', '3')
-
     
     print(graph.vertices)
     
-    graph.breadth_first_traversal('1')
+    graph.breadth_first_traversal('2')
+    graph.depth_first_traversal('4')
 
 if __name__ == '__main__':
     # TODO - parse argv

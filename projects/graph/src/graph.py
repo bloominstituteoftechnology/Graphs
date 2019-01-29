@@ -3,7 +3,7 @@ Simple graph implementation
 """
 from queue import Queue
 
-class Stack():
+class Stack:
     def __init__(self):
         self.stack = []
     def push(self, value):    # O(1)
@@ -16,7 +16,7 @@ class Stack():
     def size(self):
         return len(self.stack)
         
-#class Queue():
+#class Queue:
 #    def __init__(self):
 #        self.queue = []
 #    def enqueue(self, value):
@@ -92,4 +92,30 @@ class Graph:
                     if child is not None:
                         queue.enqueue(child)
 
-    
+    def depth_first_traversal(self, starting_node):
+        """ 
+        Create a stack (last in, first out) and a set for visited nodes
+        Push the starting node
+        While the stack is not empty,
+            Pop a node from the stack
+            Mark it as visited
+            Push all of its children that have not been visited
+        """
+                
+        stack = Stack()
+        visited = set()
+                
+        stack.push(starting_node)
+        
+        while stack.size() > 0:
+            current_vertex = stack.pop()
+            
+            if current_vertex is None:
+                return
+            
+            if current_vertex not in visited:
+                visited.add(current_vertex)
+                print(current_vertex)
+                for child in self.vertices[current_vertex]:
+                    if child is not None:
+                        stack.push(child)
