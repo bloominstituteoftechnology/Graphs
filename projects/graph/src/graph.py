@@ -102,7 +102,7 @@ class Graph:
             else:
                 # dequeue first node
                 if node == target_node:
-                    print("shortest path is: ", copied_list)
+                    print("BFS Shortest Path: ", copied_list)
                     return True
                 else:
                     edge_nodes = list(self.vertices[node].copy())
@@ -172,8 +172,8 @@ graph.add_edge('0', '3')
 graph.add_edge('3', '5')
 graph.add_edge('1', '4')
 print("------------------------BFS SEARCH STARTS HERE-------------------------")
-print(graph.bfs_search('0', "7"))
+print(graph.bfs_search('0', "4"))
 print("------------------------DFS SEARCH STARTS HERE-------------------------")
-print(graph.dfs_search('0', "7"))
+print(graph.dfs_search('0', "4"))
 # print(graph.dfs_search('0', "4"))
 # graph.add_edge('0', '4')
