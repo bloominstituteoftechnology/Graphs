@@ -23,8 +23,8 @@ def main():
     graph.add_edge('0', '1')
     graph.add_edge('0', '2')
     graph.add_edge('1', '3')
-    graph.add_edge('1', '4')  # throws error - doesnt add 4
-    graph.add_edge('5', '3')  # throws error - doesnt add 5
+    # graph.add_edge('1', '4')  # throws error - doesnt add 4
+    # graph.add_edge('5', '3')  # throws error - doesnt add 5
     print(f"Adjacency List -> {graph.vertices}")
     print(graph.bft('0'))
     print(graph.dft('0'))

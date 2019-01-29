@@ -18,14 +18,10 @@ class Graph:
         self.vertices[vertex] = set()
 
     def add_edge(self, vertex, edge):
-        if edge not in self.vertices:
-            print(f'{edge} is not a vertex.')
-            return
-        elif vertex not in self.vertices:
-            print(f'{vertex} is not a vertex.')
-            return
-        else:
+        if edge in self.vertices and vertex in self.vertices:
             self.vertices[vertex].add(edge)
+        else:
+            raise IndexError("That vertex does not exist")
 
     # Breadth First Traversal
 
