@@ -60,7 +60,7 @@ Home      4. remove from stack
 Shortest path of tree
 Detecting cycle in a graph
 Solving puzzles with only one solution (like a maze)
-
+```
 Adjacency Matrix    Graph   Adjacency List
   A B X P T                      
 A 0 1 0 0 0         A  X        { A: B
@@ -68,7 +68,7 @@ B 1 0 1 1 1         | /           B: A, X, P, T
 X 0 1 0 1 0         B             X: B, P
 P 0 1 1 0 0         | \           P: X, B
 T 0 1 0 0 0         T  P          T: B }
-
+```
 O(v^2)                            O(V + n) => O(# of vertices + # of edges)
 
 Takeaways: Adjacency Matrix vs Adjacency List
