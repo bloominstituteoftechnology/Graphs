@@ -3,6 +3,34 @@ Simple graph implementation
 """
 
 
+class Queue:
+    def __init__(self):
+        self.storage = []
+
+    def enqueue(self, value):
+        self.storage.append(value)
+
+    def dequeue(self):
+        if len(self.storage) > 0:
+            return self.storage.pop(0)
+        else:
+            return None
+
+
+class Stack:
+    def __init__(self):
+        self.storage = []
+
+    def push(self, value):
+        self.storage.append(value)
+
+    def pop(self):
+        if len(self.storage) > 0:
+            return self.storage.pop()
+        else:
+            return None
+
+
 class Graph:
     """Represent a graph as a dictionary of
     vertices mapping labels to edges."""
@@ -75,42 +103,22 @@ class Graph:
                     self.dft_r(child, visited)
 
     def bfs(self, starting_node, target_node):
-        # Create a Queue
         q = Queue()
         visited = set()
-        # Enqueue the starting node
-        # q.enqueue(starting_node)
-        # While the queue is not empty
-        # Dequeue a node from the queue
-        # Mark it as visited
-        # If node == target_node: return True
-        # Enqueue all of its children that have not been visted
-        # return False
+        path = []
+        q.enqueue(list(starting_node))
 
+        while len(q.storage) > 0:
+            node = q.dequeue()
+            path = node
+            vnode = node[-1]
+            if vnode == target_node:
+                return path
+            visited.add(vnode)
+            for child in self.vertices[vnode]:
+                if child not in visited and child not in q.storage:
+                    dup_node = node[:]
+                    dup_node.append(child)
+                    q.enqueue(dup_node)
 
-class Queue:
-    def __init__(self):
-        self.storage = []
-
-    def enqueue(self, value):
-        self.storage.append(value)
-
-    def dequeue(self):
-        if len(self.storage) > 0:
-            return self.storage.pop(0)
-        else:
-            return None
-
-
-class Stack:
-    def __init__(self):
-        self.storage = []
-
-    def push(self, value):
-        self.storage.append(value)
-
-    def pop(self):
-        if len(self.storage) > 0:
-            return self.storage.pop()
-        else:
-            return None
+        return False

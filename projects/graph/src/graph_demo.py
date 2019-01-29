@@ -29,15 +29,17 @@ def main():
     graph.add_edge('7', '6')
     graph.add_edge('7', '1')
 
-    graph.add_edge('0', '20')
-    print(graph.vertices)
+    # graph.add_edge('0', '20')
+    # print(graph.vertices)
 
-    graph.bft('2')
-    graph.bft('1')
+    # graph.bft('2')
+    # graph.bft('1')
 
-    graph.dft('1')
+    # graph.dft('1')
 
-    graph.dft_r('1')
+    # graph.dft_r('1')
+
+    print(graph.bfs('1', '6'))
 
 
 if __name__ == '__main__':
