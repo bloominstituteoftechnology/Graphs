@@ -49,6 +49,7 @@ class Graph:
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
+            # self.vertices[v2].add(v1)
         else:
             raise IndexError('That vertex does not exist.')
 
@@ -100,7 +101,6 @@ class Graph:
                 queue.enqueue(next_node)
         return False
     
-    # modify to return a path of search
 
     def dfs(self, start_node, target_node):
         stack = Stack()
@@ -132,7 +132,21 @@ class Graph:
                 dupl_path = list(path)
                 dupl_path.append(next_node)
                 queue.enqueue(dupl_path)
-            
         return None
     
-    # modify ^ to return a path of search
+    def dfs_path(self, start_node, target_node):
+        stack = Stack()
+        visited = set()
+        stack.push([start_node])
+        while stack.size() > 0:
+            path = stack.pop()
+            node = path[-1]
+            if node not in visited:
+                visited.add(node)
+                if node == target_node:
+                    return path
+            for next_node in self.vertices[node]:
+                dupl_path = list(path)
+                dupl_path.append(next_node)
+                stack.push(dupl_path)
+        return None

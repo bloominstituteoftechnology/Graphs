@@ -30,21 +30,25 @@ def main():
     graph.add_edge('1', '6')
     graph.add_edge('1', '8')
     graph.add_edge('1', '2')
-    graph.add_edge('6', '7')
+    graph.add_edge('6', '7')    
     graph.add_edge('8', '3')
     graph.add_edge('2', '3')
     graph.add_edge('7', '9')
     graph.add_edge('7', '5')
+    graph.add_edge('9', '3')
     graph.add_edge('9', '5')
-    graph.add_edge('7', '9')
     graph.add_edge('3', '4')
     graph.add_edge('4', '5')
 
-    # print(graph.vertices)
-
-    print(graph.bfs_path('1', '3')) # correct
-    print(graph.bfs_path('1', '7')) # correct
-    print(graph.bfs_path('8', '5')) # correct
+    print(graph.vertices)
+    print('\n bfs_path')
+    print(graph.bfs_path('1', '3'))
+    print(graph.bfs_path('1', '7'))
+    print(graph.bfs_path('8', '5'))
+    print('\n dfs_path')
+    print(graph.dfs_path('1', '4'))
+    print(graph.dfs_path('8', '5'))
+    print(graph.dfs_path('2', '5'))
 
     
 
