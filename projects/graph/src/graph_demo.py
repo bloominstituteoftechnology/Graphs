@@ -32,7 +32,7 @@ def main():
     print(graph.recursive_dft("A"))
     print("")
     print("breath-first search:")
-    print(graph.bf_search("A", "Q"))
+    print(graph.bf_search("A", "E"))
     print("")
     print("depth-first search:")
     print(graph.df_search("A", "9"))

@@ -78,25 +78,32 @@ class Graph:
         # Create a queue
         queue = Queue()
         # Enqueue starting vertex
-        queue.enqueue(starting_vertex)
+        queue.enqueue([starting_vertex])
         visited = []
 
         # while queue is not empty
         while queue.len() > 0:
-            # Dequeue vertex from queue
-            current_vertex = queue.dequeue()
+            # Dequeue path from queue
+            path = queue.dequeue()  # returns a list
+            # Set as current_vertex the last el of path
+            current_vertex = path[-1]
 
             # check if current vertex is already visited
             if current_vertex not in visited:
-                if current_vertex == target_vertex:
-                    return True
                 # Mark vertex as visited
                 visited.append(current_vertex)
+                if current_vertex == target_vertex:
+                    return path
                 # Enqueue current_vertex's child vertices
                 for child_vertex in self.vertices[current_vertex]:
-                    queue.enqueue(child_vertex)
+                    # duplicate path for each child_vertex
+                    dup_path = list(path)
+                    # append each child_vertex to path
+                    dup_path.append(child_vertex)
+                    # append dup_path to queue
+                    queue.enqueue(dup_path)
 
-        return False
+        return None
 
     def df_search(self, starting_vertex, target_vertex):
         # Create a stack and
@@ -122,15 +129,21 @@ class Graph:
 
 
 # 0->3->5 and 0->1->4
-# graph = Graph()  # Instantiate your graph
-# graph.add_vertex("0")
-# graph.add_vertex("1")
-# graph.add_vertex("3")
-# graph.add_vertex("4")
-# graph.add_vertex("5")
-# graph.add_edge("3", "0")
-# graph.add_edge("1", "0")
-# graph.add_edge("4", "1")
-# graph.add_edge("5", "3")
-# graph.df_traversal("0")  # ['0', '1', '4', '3', '5']
-# print(graph.recursive_dft("0"))
+graph = Graph()  # Instantiate your graph
+graph.add_vertex("1")
+graph.add_vertex("2")
+graph.add_vertex("3")
+graph.add_vertex("4")
+graph.add_vertex("5")
+graph.add_vertex("6")
+graph.add_vertex("7")
+graph.add_edge("2", "1")
+graph.add_edge("3", "2")
+graph.add_edge("4", "2")
+graph.add_edge("5", "3")
+graph.add_edge("6", "4")
+graph.add_edge("7", "4")
+graph.add_edge("3", "5")
+graph.add_edge("3", "6")
+graph.add_edge("1", "7")
+print(graph.bf_search("1", "6"))  # ['1', '2', '4', '6']
