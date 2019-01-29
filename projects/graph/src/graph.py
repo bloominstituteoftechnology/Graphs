@@ -59,7 +59,7 @@ class Graph:
             for edge in self.vertices[current_node]:
                 if edge not in visited:
                     queue.enqueue(edge)
-            return visited
+        return visited
 
     def dft(self, starting_vertex):
         stack = Stack()
@@ -73,7 +73,7 @@ class Graph:
             for edge in self.vertices[current_node]:
                 if edge not in visited:
                     stack.push(edge)
-            return visited
+        return visited
 
     def dft_r(self, starting_vertex, visited = None):
         if visited == None:
