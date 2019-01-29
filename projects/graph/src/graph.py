@@ -15,6 +15,7 @@ class Stack():
     def size(self):
         return len(self.stack)
 
+# covert this to a link list later
 class Queue():
     def __init__(self):
         self.queue = []
@@ -46,20 +47,24 @@ class Graph:
     
     def bft(self, start):
         # create que
-        # add vertex to to que
-        q = [start]
+        q = Queue()
         # create visited
         visited = set()
-        print(q)
-        print(q + list(self.vertices[start]))
-        while len(q) > 0:
-            q = q + list(self.vertices[start])
-            next_q = q.pop()
-            # # while que not empty
-                # remove item from que
-                # mark as visited / add to visited 
+        # que the start
+        q.nq(start)
+        # # while que not empty
+        while q.size() > 0:
+            # remove item from que
+            node = q.dq()
+            if node not in visited:
+                # mark as visited / add to visited
+                visited.add(node) 
                 # add children to que
+                for next_node in self.vertices[node]:
+                    q.nq(next_node)
+        print(visited)
         pass
+    
 
 
 tester = Graph()
