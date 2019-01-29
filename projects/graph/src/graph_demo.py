@@ -41,7 +41,8 @@ def main():
     print(graph.dft('1'))
     print('DFT_REC NODES VISITED:')
     print(graph.dft_rec('1'))
-    print(graph.bfs('7', '5'))  # False
+    print(graph.bfs('6', '2'))  # False
+    print(graph.dfs('1', '6'))  # False
     # print(graph.bfs('1', '3'))  # True
 
 

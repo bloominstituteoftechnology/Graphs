@@ -43,7 +43,6 @@ class Graph:
         return visited
 
     # Depth First Traversal
-
     def dft(self, starting_vert):
         stack = deque()
         visited = set()
@@ -60,6 +59,7 @@ class Graph:
                     stack.append(vert)
         return visited
 
+    # Depth First Traversal with Recursion
     def dft_rec(self, starting_vert, visited=None):
         # create visited
         if visited is None:
@@ -74,53 +74,47 @@ class Graph:
                 self.dft_rec(vert, visited)
 
     # Breadth First Search
-    '''
-    q = [ node 4]
-    visited = {}
-
-    duplicate list list()
-    append children and add to queue
-    '''
-
     def bfs(self, starting_vert, target_vert):
         queue = deque()
         visited = set()
-        path = []
         queue.append(list(starting_vert))
-        # while queue is not empty
         while queue:
             # -> dequeue a vert from queue
-            dequeued = queue.popleft()
+            dequeued_list = queue.popleft()
+            path_end = dequeued_list[-1]
             # -> mark it as visited
-            if dequeued[-1] not in visited:
+            if path_end not in visited:
                 # check if target vert
-                if dequeued[-1] == target_vert:
-                    path = dequeued
-                    return path
-                visited.add(dequeued[-1])
+                if path_end == target_vert:
+                    return dequeued_list
+                visited.add(path_end)
                 # -> enqueue all of it's children
-                for vert in self.vertices[dequeued[-1]]:
-                    path_copy = list(dequeued)
+                for vert in self.vertices[path_end]:
+                    path_copy = list(dequeued_list)
                     path_copy.append(vert)
                     queue.append(path_copy)
 
-        return False
+        return f"There is no path from {starting_vert} to {target_vert}"
 
-    def dfs(self, starting_vert):
+    # Deptg First Search
+    def dfs(self, starting_vert, target_vert):
         stack = deque()
         visited = set()
-        stack.append(starting_vert)
-        # Print
-        print("DFT NODES VISITED:")
+        stack.append(list(starting_vert))
         while stack:
-            popped = stack.pop()
-            if popped not in visited:
+            # -> pop a vert from stack
+            popped_list = stack.pop()
+            path_end = popped_list[-1]
+            # -> mark it as visited
+            if path_end not in visited:
                 # check if target vert
-                if popped == target_vert:
-                    return True
-                print(popped)
-                visited.add(popped)
-                for vert in self.vertices[popped]:
-                    # if vert not in visited:
-                    stack.append(vert)
-        return visited
+                if path_end == target_vert:
+                    return popped_list
+                visited.add(path_end)
+                # -> enstack all of it's children
+                for vert in self.vertices[path_end]:
+                    path_copy = list(popped_list)
+                    path_copy.append(vert)
+                    stack.append(path_copy)
+
+        return f"There is no path from {starting_vert} to {target_vert}"
