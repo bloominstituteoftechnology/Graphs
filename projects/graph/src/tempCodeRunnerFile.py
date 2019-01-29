@@ -1,4 +1,4 @@
-('0')
-    graph.add_vertex('1')
-    graph.add_vertex('2')
-    graph.add_vertex
+
+                # for vertex in next_layer:
+                #     if vertex not in queue and vertex not in seen:
+                #         queu
