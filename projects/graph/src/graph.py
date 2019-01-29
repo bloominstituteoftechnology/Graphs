@@ -45,3 +45,24 @@ class Graph:
         for i in self.vertices[starting_node]:
             if i not in visited:
                 self.dft_r(i, visited)
+
+    def bfs(self, starting_node, target_node):
+        queue = Queue()
+        visited = []
+        queue.enqueue([starting_node])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            node = path[-1]
+            if node not in visited:
+                visited.append(node)
+                if node == target_node:
+                    return path
+                for next_node in self.vertices[node]:
+                    duplicate = list(path)
+                    duplicate.append(next_node)
+                    queue.enqueue(duplicate)
+        return None
+
+
+
+
