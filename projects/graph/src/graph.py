@@ -26,7 +26,7 @@ class Graph:
         nodes = []
         visited = []
         node = start_node
-        nodes.insert(0, node)
+        nodes.append(node)
 
         # enqueue the starting node
         while nodes:
@@ -34,21 +34,110 @@ class Graph:
             # check if node has edges
             if len(self.vertices[node]) is 0:
                 # dequeue next num
-                visited.insert(0, node)
+                visited.append(node)
                 pass
             else:
                 # dequeue first node
                 edge_nodes = list(self.vertices[node].copy())
-                visited.insert(0, node)
+                visited.append(node)
                 for i in edge_nodes:
-                    if i in visited:
+                    if i in visited or i in nodes:
                         pass
                     else:
                         nodes.append(i)
-                print(nodes)
+                print("this is nodes", nodes)
 
-        print("i have visited", visited)
+        print("BFT has returned ", visited)
+
+    def dft_traversal(self, start_node):
+        nodes = []
+        visited = []
+        node = start_node
+        nodes.append(node)
+
+        # enqueue the starting node
+        while nodes:
+
+            node = nodes.pop()
+            # check if node has edges
+            if len(self.vertices[node]) is 0:
+                # dequeue next num
+                visited.append(node)
+
+                pass
+            else:
+                # dequeue first node
+                edge_nodes = list(self.vertices[node].copy())
+                visited.append(node)
+                for i in edge_nodes:
+                    if i in visited or i in nodes:
+                        pass
+                    else:
+                        nodes.append(i)
+
+                print("this is nodes", nodes)
+        print("DFT has returned", visited)
         pass
+
+    def bfs_search(self, starting_node, target_node):
+        nodes = []
+        visited = []
+        node = starting_node
+        nodes.append(node)
+
+        # enqueue the starting node
+        while nodes:
+            node = nodes.pop(0)
+            # check if node has edges
+            if len(self.vertices[node]) is 0:
+                # dequeue next num
+                visited.append(node)
+                pass
+            else:
+                # dequeue first node
+                if node == target_node:
+                    return True
+                else:
+                    edge_nodes = list(self.vertices[node].copy())
+                    print(node)
+                    visited.append(node)
+                    for i in edge_nodes:
+                        if i in visited or i in nodes:
+                            pass
+                        else:
+                            nodes.append(i)
+        return False
+
+    def dfs_search(self, starting_node, target_node):
+        nodes = []
+        visited = []
+        node = starting_node
+        nodes.append(node)
+
+        # enqueue the starting node
+        while nodes:
+
+            node = nodes.pop()
+            # check if node has edges
+            if len(self.vertices[node]) is 0:
+                # dequeue next num
+                visited.append(node)
+
+                pass
+            else:
+                # dequeue first node
+                if node == target_node:
+                    return True
+                else:
+                    edge_nodes = list(self.vertices[node].copy())
+                    print(node)
+                    visited.append(node)
+                    for i in edge_nodes:
+                        if i in visited or i in nodes:
+                            pass
+                        else:
+                            nodes.append(i)
+        return False
 
 
 graph = Graph()  # Instantiate your graph
@@ -56,8 +145,12 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-graph.bst_traversal('0')
+graph.add_edge('3', '5')
+graph.add_edge('1', '4')
+print(graph.bfs_search('0', "5"))
+print(graph.dfs_search('0', "9"))
 # graph.add_edge('0', '4')
-print(graph.vertices)
