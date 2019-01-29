@@ -50,3 +50,13 @@ class Graph:
                 for child_vertex in self.vertices[current_vertex]:
                     if child_vertex is not None:
                         queue.enqueue(child_vertex)
+
+    def depth_first_traversal(self, starting_node):
+        """ 
+        Create a stack (last in, first out) and a set for visited nodes
+        Push the starting node
+        While the stack is not empty,
+            Pop a node from the stack
+            Mark it as visited
+            Push all of its children that have not been visited
+        """
