@@ -117,21 +117,37 @@ class Graph:
         self.dfr_2(starting_vertex, visited, visited_nodes)
 
 
-    # def breadth_first_traverse(self, starting_vertex):
-    #     # create a _queue_ FIFO
-    #     q = Queue()
-    #     visited = set()
-    #     # Mark the first node as visited
-    #     # print(starting_vertex)
-    #     # visited.add(starting_vertex)
-    #     # Enqueue the starting vertex
-    #     q.Enqueue(starting_vertex)
-    #     # while the queue is not empty
-    #         # dequeue a node from the queue
-    #         # Mark it as visited
-    #         # If node == target node: return True
-    #         # Enqueue all of its children
-    #     # return False
+    def breadth_first_search(self, starting_vertex, target):
+        # create a _queue_ FIFO
+        q = Queue()
+        visited = set()
+        # Mark the first node as visited
+        # print(starting_vertex)
+        # visited.add(starting_vertex)
+        # Enqueue the starting vertex
+        q.Enqueue(starting_vertex)
+        # while the queue is not empty
+            # dequeue a node from the queue
+            # Mark it as visited
+            # If node == target node: return True
+            # Enqueue all of its children
+        # return False
+
+    def breadth_first_search(self, starting_vertex, target):
+        # create a _queue_ FIFO
+        q = Queue()
+        visited = set()
+        # Mark the first node as visited
+        # print(starting_vertex)
+        # visited.add(starting_vertex)
+        # Enqueue the starting vertex
+        q.Enqueue(starting_vertex)
+        # while the queue is not empty
+            # dequeue a node from the queue
+            # Mark it as visited
+            # If node == target node: return True
+            # Enqueue all of its children
+        # return False
 
 
 def print_vertex():
