@@ -19,6 +19,12 @@ def main():
     graph.add_edge('0', '3')
     print(graph.vertices)
 
+    print(graph.bft('0'))
+    print(graph.bft('1'))
+    print(graph.dft('0'))
+    print(graph.dft('3'))
+    print(graph.dft_r('0'))
+
 if __name__ == '__main__':
     # TODO - parse argv
     main()
