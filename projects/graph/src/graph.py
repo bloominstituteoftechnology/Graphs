@@ -21,22 +21,39 @@ class Graph:
 
     def bft(self, starting_vertex):
         visited = []
-        # Create a queue
         queue = deque()
-        queue.extend(self.vertices[starting_vertex])
+        queue.append(starting_vertex)
+        while queue:
+            vertex = queue.popleft()
+            if vertex not in visited:
+                visited.append(vertex)
+                print(visited[-1:][0])
+                next_layer = self.vertices[vertex]
+                for node in next_layer:
+                    queue.append(node)
+        return visited
+
+
+    def dft(self, starting_vertex):
+        visited = []
+        # Create a stack
+        stack = [starting_vertex]
         # Mark first vertex as visited
-        # Enqueue the starting node
-        print(starting_vertex)
-        while len(queue) > 0:
-            current = queue.popleft()
-            print(current)
+        # push the starting node
+        while stack:
+            current = stack.pop()
             if current not in visited:
                 visited.append(current)
-        return [starting_vertex] + visited
+                print(visited[-1:][0])
+                next_layer = self.vertices[current]
+                for node in next_layer:
+                    stack.append(node)
+        return visited
 
     def dft_recursive(self, starting_vertex, visited=[]):
         visited = visited + [starting_vertex]
-        print(visited[-1:])
+        print(visited[-1:][0])
+
         for next_level in self.vertices[starting_vertex]:
             if next_level not in visited:
                 visited =  self.dft_recursive(next_level, visited)
