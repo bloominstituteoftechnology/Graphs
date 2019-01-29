@@ -52,6 +52,17 @@ class Graph:
                 for vertex in self.vertices[node]:
                     stack.append(vertex)
 
+    def depth_first_traversal_recursive(self, starting_node, visited=None):
+        if visited is None:
+            visited = set()
+        if starting_node not in visited:
+            visited.add(starting_node)
+            print(starting_node)
+            for vertex in self.vertices[starting_node]:
+                if vertex not in visited:
+                    self.depth_first_traversal_recursive(vertex, visited)
+            return None
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -66,7 +77,8 @@ graph.add_edge('0', '3')
 graph.add_edge('3', '4')
 graph.add_edge('1', '2')
 graph.add_edge('3', '5')
-graph.add_edge('6', '5')
+graph.add_edge('6', '4')
+
 
 # graph.breadth_first_traversal('0')
-graph.depth_first_traversal('0')
+graph.depth_first_traversal_recursive('0')
