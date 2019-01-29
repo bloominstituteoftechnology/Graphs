@@ -78,8 +78,8 @@ class Graph:
 
      # ---- DAY 2 -------
        # BFS FUNCTION RETURNS: "the shortest path from the start node to the destination node."
-            # for unweighted graphs shortest path = standard breadth first search
-            # for weighted graphs shortest path = Dijkstra Algorithm
+            # (target near start)for unweighted graphs shortest path = standard breadth first search
+            # (target near faraway)for weighted graphs shortest path = Dijkstra Algorithm
             # for weighted graphs with negative weights shortest path = Bellman-Ford Algorithm
             
     def bfs_search(self, starting_v, target_v):
@@ -104,5 +104,25 @@ class Graph:
                     q.append(edge)
        
 
-    def dft_search():
-      
+    def dfs_search(self, starting_v, target_v):
+        #create stack
+        s = deque()
+        #push starting vertex
+        s.append(starting_v)
+        visited = []
+        #while the stack is not empty, 
+        while s:
+            #pop a vertex from the stack
+            current_v = s.pop()
+            #mark it as visited 
+            if current_v not in visited:
+                visited.append(current_v)
+                # ---*---- if node == target_node: return true
+                if current_v == target_v:
+                    print("DFT_SEARCH:")
+                    print(visited)
+            #push all of it's children that have not been visited 
+                for edge in self.vertices[current_v]:
+                    s.append(edge)
+        
+    
