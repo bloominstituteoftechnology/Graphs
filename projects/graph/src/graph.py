@@ -16,7 +16,6 @@ class Graph:
     def add_edge(self, vert, value):
         if vert in self.vertices and value in self.vertices:
             self.vertices[vert].add(value)
-            self.vertices[value].add(vert)
         else:
             print(f'{value} is not a vertex')
 
@@ -75,6 +74,34 @@ class Graph:
                 if child not in visited:
                     self.dft_r(child, visited)
 
+    def bfs(self, starting_node, target_node):
+        q = Queue()
+        visited = set()
+        q.enqueue(starting_node)
+        while len(q.storage) > 0:
+            node = q.dequeue()
+            visited.add(node)
+            if node == target_node:
+                return True
+            for child in self.vertices[node]:
+                if child not in visited and child not in q.storage:
+                    q.enqueue(child)
+
+        return False
+
+    def dft_r(self, starting_node, visited=None):
+        if visited is None:
+            visited = set()
+        # If the node has not been visited
+        if starting_node not in visited:
+            visited.add(starting_node)
+            print(starting_node)
+            # Mark the node as visted
+            # Call dft_r on all children
+            for child in self.vertices[starting_node]:
+                if child not in visited:
+                    self.dft_r(child, visited)
+
 
 class Queue:
     def __init__(self):
@@ -84,7 +111,10 @@ class Queue:
         self.storage.append(value)
 
     def dequeue(self):
-        return self.storage.pop(0)
+        if self.size > 0:
+            return self.storage.pop(0)
+        else:
+            return None
 
 
 class Stack:
@@ -95,4 +125,7 @@ class Stack:
         self.storage.append(value)
 
     def pop(self):
-        return self.storage.pop()
+        if self.size > 0:
+            return self.storage.pop()
+        else:
+            return None
