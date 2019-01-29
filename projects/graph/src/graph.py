@@ -108,42 +108,29 @@ class Graph:
     def df_search(self, starting_vertex, target_vertex):
         # Create a stack and
         # Push starting_vertex to stack
-        stack = [starting_vertex]
+        stack = [[starting_vertex]]
         visited = []
 
         while len(stack) > 0:
-            # Pop off last node in the stack
-            current_vertex = stack.pop()
+            # Pop off path in the stack
+            path = stack.pop()
+            # Set as current_vertex the last el of path
+            current_vertex = path[-1]
 
             # check if current_vertex is not yet visited
             if current_vertex not in visited:
-                if current_vertex == target_vertex:
-                    return True
                 # Mark vertex as visited
                 visited.append(current_vertex)
+                if current_vertex == target_vertex:
+                    return path
                 # Push current_vertex's child vertices
                 for child_vertex in self.vertices[current_vertex]:
-                    stack.append(child_vertex)
+                    # duplicate path for each child_vertex
+                    dup_path = list(path)
+                    # append each child_vertex to path
+                    dup_path.append(child_vertex)
+                    # append dup_path to queue
+                    stack.append(dup_path)
 
-        return False
+        return None
 
-
-# 0->3->5 and 0->1->4
-graph = Graph()  # Instantiate your graph
-graph.add_vertex("1")
-graph.add_vertex("2")
-graph.add_vertex("3")
-graph.add_vertex("4")
-graph.add_vertex("5")
-graph.add_vertex("6")
-graph.add_vertex("7")
-graph.add_edge("2", "1")
-graph.add_edge("3", "2")
-graph.add_edge("4", "2")
-graph.add_edge("5", "3")
-graph.add_edge("6", "4")
-graph.add_edge("7", "4")
-graph.add_edge("3", "5")
-graph.add_edge("3", "6")
-graph.add_edge("1", "7")
-print(graph.bf_search("1", "6"))  # ['1', '2', '4', '6']
