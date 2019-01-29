@@ -45,20 +45,20 @@ class Graph:
     def __init__(self):
         self.vertices = {}
 
-    # v is the vertex
     def add_vertex(self, v):
         if v not in self.vertices.keys():
             self.vertices[v] = set()
         else:
             raise IndexError(f'Vertex {v} already exists, vertex was not added.')
     
-    # v1 is vertex1, v2 is vertex2
+    # Directional Edge
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
         else:
             raise IndentationError(f'There is no {v1 if not self.vertices else v2} vertex, edge ({v1},{v2}) was not added.')
-
+    
+    # Uniderectional Edge
     def add_undirected_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
@@ -140,7 +140,7 @@ class Graph:
                     return True
                 print('visited from bfs:', node)
                 visited.add(node)
-                #enqueue all of it's children that have not been visited 
+                #enqueue all of its children that have not been visited 
                 for next_node in self.vertices[node]:
                         q.enqueue(next_node)
         # return false
@@ -169,6 +169,40 @@ class Graph:
                         s.push(next_node)
         # return false
         return False
+
+    
+    # Breadth-First Search Path
+    def bfs_p(self, starting_node, target_node):
+        # create queue
+        q = Queue()
+        visited = []
+        # enqueue starting vertex
+        q.enqueue(starting_node)
+        # while queue is not empty
+        while q.size() > 0:
+            # path is the first duplicate path from the queue
+            path = q.dequeue()
+            print('path', path)
+            # node is the last index from the path
+            node = path[-1]
+            print('node', node)
+            # if that node has not visited...
+            if node not in visited:
+                # mark it as visited by returning shortest path
+                if node == target_node:
+                    return path
+                visited.append(node)
+                print('visited', visited)
+                # enqueue all of its children that have not been visited
+                for children in self.vertices[node]:
+                        # creates duplicate list
+                        duplicate_path = list(path)
+                        # adds child(ren) to duplicate path
+                        duplicate_path.append(children)
+                        print('duplicate_path', duplicate_path)
+                        # add duplicate list to queue
+                        q.enqueue(duplicate_path)
+        return None
 
 
 

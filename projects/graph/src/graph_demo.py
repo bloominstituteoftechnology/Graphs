@@ -46,6 +46,9 @@ def main():
 
     # print(graph.dfs('1', '6'))
 
+    print(graph.bfs_p('1', '5'))
+
+
 
 if __name__ == '__main__':
     # TODO - parse argv
