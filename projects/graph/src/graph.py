@@ -28,7 +28,7 @@ class Graph:
             visited.append(node)
             # Enqueue all of its children that have not been visited
             for child in self.vertices[node]:
-                if child not in visited:
+                if child not in visited and child not in q:
                     q.append(child)
         return visited
 
@@ -46,7 +46,7 @@ class Graph:
             visited.append(node)
             # Push all of its children that have not been visited
             for child in self.vertices[node]:
-                if child not in visited:
+                if child not in visited and child not in s:
                     s.append(child)
         return visited
 
@@ -63,18 +63,22 @@ class Graph:
         return visited
     
     def bfs(self, starting_node, target_node):
-        # Create a queue
-        q = dequeue()
-        # create a visited list
+        q = deque()
         visited = set()
-        # mark the first node as visited
-        # enqueue the starting node
-        q.append(starting_node)
-        # while queue is not empty
+        path = []
+        q.append(list(starting_node))
+       
         while q:
-            pass
-            # dequeue a node from queue
-            # mark it as visited
-            # if node == target return True
-            # enqueue all of it's children
+            node = q.popleft()
+            end_path = node[-1]
+            if end_path not in visited:
+                if end_path == target_node:
+                    return node
+                visited.add(end_path)
+                for child in self.vertices[end_path]:
+                    copy = list(node)
+                    copy.append(child)
+                    q.append(copy)
+        return f'There is no path'
+           
             
