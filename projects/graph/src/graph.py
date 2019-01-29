@@ -61,7 +61,6 @@ class Graph:
             for vertex in self.vertices[starting_node]:
                 if vertex not in visited:
                     self.depth_first_traversal_recursive(vertex, visited)
-            return None
 
 
 graph = Graph()  # Instantiate your graph
