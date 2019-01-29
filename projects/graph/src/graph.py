@@ -137,6 +137,7 @@ class Graph:
                             pass
                         else:
                             nodes.append(i)
+        return False
 
 
 graph = Graph()  # Instantiate your graph
@@ -151,5 +152,5 @@ graph.add_edge('0', '3')
 graph.add_edge('3', '5')
 graph.add_edge('1', '4')
 print(graph.bfs_search('0', "5"))
-print(graph.dfs_search('0', "5"))
+print(graph.dfs_search('0', "9"))
 # graph.add_edge('0', '4')
