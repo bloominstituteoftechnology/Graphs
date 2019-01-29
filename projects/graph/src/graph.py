@@ -101,12 +101,42 @@ class Graph:
                     edge_nodes = list(self.vertices[node].copy())
                     print(node)
                     visited.append(node)
-                for i in edge_nodes:
-                    if i in visited or i in nodes:
-                        pass
-                    else:
-                        nodes.append(i)
+                    for i in edge_nodes:
+                        if i in visited or i in nodes:
+                            pass
+                        else:
+                            nodes.append(i)
         return False
+
+    def dfs_search(self, starting_node, target_node):
+        nodes = []
+        visited = []
+        node = starting_node
+        nodes.append(node)
+
+        # enqueue the starting node
+        while nodes:
+
+            node = nodes.pop()
+            # check if node has edges
+            if len(self.vertices[node]) is 0:
+                # dequeue next num
+                visited.append(node)
+
+                pass
+            else:
+                # dequeue first node
+                if node == target_node:
+                    return True
+                else:
+                    edge_nodes = list(self.vertices[node].copy())
+                    print(node)
+                    visited.append(node)
+                    for i in edge_nodes:
+                        if i in visited or i in nodes:
+                            pass
+                        else:
+                            nodes.append(i)
 
 
 graph = Graph()  # Instantiate your graph
@@ -121,4 +151,5 @@ graph.add_edge('0', '3')
 graph.add_edge('3', '5')
 graph.add_edge('1', '4')
 print(graph.bfs_search('0', "5"))
+print(graph.dfs_search('0', "5"))
 # graph.add_edge('0', '4')
