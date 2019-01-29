@@ -71,7 +71,7 @@ class Graph:
                 new_path.append(related)
                 if related == destination:
                     return new_path
-                elif related not in visited:
+                if related not in visited:
                     q.append((related, new_path))
                     visited.add(related)
             if len(q) > 0:
@@ -80,5 +80,22 @@ class Graph:
             else:
                 raise IndexError(f"Can't get to {destination}")
 
-    def dfs(self, target):
-        pass
+    def dfs(self, start, destination, q=None, visited=None, path=None):
+            if start in self.vertices:
+                if not visited:
+                    visited = {start}
+                    q = deque()
+                    path = [start]
+                for related in self.vertices[start]:
+                    new_path = path[:]
+                    new_path.append(related)
+                    if related == destination:
+                        return new_path
+                    if related not in visited:
+                        q.append((related, new_path))
+                        visited.add(related)
+                if len(q) > 0:
+                    vertex, path = q.pop()
+                    return self.dfs(vertex, destination, q, visited, path)
+                else:
+                    raise IndexError(f"Can't get to {destination}")

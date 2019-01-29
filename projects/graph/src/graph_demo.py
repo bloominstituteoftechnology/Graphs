@@ -32,6 +32,8 @@ def main():
     graph.dft_stack('0')
     print("\nBreadth-first Search:")
     print(graph.bfs('0', '6'))
+    print("\nDepth-first Search:")
+    print(graph.dfs('0', '6'))
 
 
 if __name__ == '__main__':
