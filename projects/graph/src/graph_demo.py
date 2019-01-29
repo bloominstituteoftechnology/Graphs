@@ -31,7 +31,12 @@ def main():
     graph.add_edge('6', '7')
     graph.add_edge('7', '9')
     graph.add_edge('2', '8')
+    print('_______bft________')
     graph.bft('0')
+    print('_______DFT_R________')
+    graph.dft_r('0')
+    print('_______DFT________')
+    graph.dft('0')
     
 
 if __name__ == '__main__':

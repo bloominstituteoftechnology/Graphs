@@ -42,9 +42,10 @@ class Graph:
         
         while len(queue) > 0:
             current = queue.popleft()
-            print(current)
+            
             if current not in visited:
                 visited.append(current)
+                print(current)
 
             for item in self.vertices[current]:
                 if item not in visited:
@@ -57,10 +58,21 @@ class Graph:
 
         while stack.size() > 0:
             current = stack.pop()
-            print(current)
+            
             if current not in visited:
                 visited.append(current)
-
+                print(current)
             for item in self.vertices[current]:
                 if item not in visited:
                     stack.push(item)
+
+    def dft_r(self, starting_vertex, visited=None):
+        if visited is None:
+            visited = set()
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            print(starting_vertex)
+            for child in self.vertices[starting_vertex]:
+                if child not in visited:
+                    self.dft_r(child, visited)
+                    
