@@ -25,18 +25,18 @@ class Graph:
         queue.enqueue(starting_vertex)
         visited = []
 
-        # while queue is not empty
+        # While queue is not empty
         while queue.len() > 0:
             # Dequeue vertex from queue
             current_vertex = queue.dequeue()
 
-            # check if current vertex is already visited
+            # Check if current vertex is already visited
             if current_vertex not in visited:
                 # Mark vertex as visited
                 visited.append(current_vertex)
                 # Enqueue current_vertex's child vertices
-                for edge in self.vertices[current_vertex]:
-                    queue.enqueue(edge)
+                for child_vertex in self.vertices[current_vertex]:
+                    queue.enqueue(child_vertex)
 
         print(visited)
 
@@ -55,8 +55,8 @@ class Graph:
                 # Mark vertex as visited
                 visited.append(current_vertex)
                 # Push current_vertex's child vertices
-                for edge in self.vertices[current_vertex]:
-                    stack.append(edge)
+                for child_vertex in self.vertices[current_vertex]:
+                    stack.append(child_vertex)
 
         print(visited)
 
@@ -69,8 +69,8 @@ class Graph:
             # Mark the node as visited
             visited.append(vertex)
             # Call recursive_dft on all children
-            for child_node in self.vertices[vertex]:
-                self.recursive_dft(child_node, visited)
+            for child_vertex in self.vertices[vertex]:
+                self.recursive_dft(child_vertex, visited)
 
         return visited
 
@@ -93,8 +93,8 @@ class Graph:
                 # Mark vertex as visited
                 visited.append(current_vertex)
                 # Enqueue current_vertex's child vertices
-                for edge in self.vertices[current_vertex]:
-                    queue.enqueue(edge)
+                for child_vertex in self.vertices[current_vertex]:
+                    queue.enqueue(child_vertex)
 
         return False
 
@@ -115,8 +115,8 @@ class Graph:
                 # Mark vertex as visited
                 visited.append(current_vertex)
                 # Push current_vertex's child vertices
-                for edge in self.vertices[current_vertex]:
-                    stack.append(edge)
+                for child_vertex in self.vertices[current_vertex]:
+                    stack.append(child_vertex)
 
         return False
 
