@@ -40,6 +40,7 @@ def main():
     # graph.dft_r('1')
 
     print(graph.bfs('1', '6'))
+    print(graph.dfs('1', '6'))
 
 
 if __name__ == '__main__':

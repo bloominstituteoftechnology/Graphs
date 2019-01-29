@@ -116,9 +116,30 @@ class Graph:
                 return path
             visited.add(vnode)
             for child in self.vertices[vnode]:
-                if child not in visited and child not in q.storage:
+                if child not in visited:
                     dup_node = node[:]
                     dup_node.append(child)
                     q.enqueue(dup_node)
+
+        return False
+
+    def dfs(self, starting_node, target_node):
+        s = Stack()
+        visited = set()
+        path = []
+        s.push(list(starting_node))
+
+        while len(s.storage) > 0:
+            node = s.pop()
+            path = node
+            vnode = node[-1]
+            if vnode == target_node:
+                return path
+            visited.add(vnode)
+            for child in self.vertices[vnode]:
+                if child not in visited:
+                    dup_node = node[:]
+                    dup_node.append(child)
+                    s.push(dup_node)
 
         return False
