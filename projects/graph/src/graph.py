@@ -46,3 +46,31 @@ class Graph:
         if vertex_one in self.vertices and vertex_two in self.vertices:
             self.vertices[vertex_one].add(vertex_two)
             self.vertices[vertex_two].add(vertex_one)
+
+    def bft(self, starting_vertex):
+        queue = Queue()
+        visited = []
+
+        queue.enqueue(starting_vertex)
+
+        while queue.size() > 0:
+            current_node = queue.dequeue()
+            visited.append(current_node)
+            for edge in self.vertices[current_node]:
+                if edge not in visited:
+                    queue.enqueue(edge)
+            return visited
+
+    def dft(self, starting_vertex):
+        stack = Stack()
+        visited = []
+
+        stack.push(starting_vertex)
+
+        while stack.size() > 0:
+            current_node = stack.pop()
+            visited.append(current_node)
+            for edge in self.vertices[current_node]:
+                if edge not in visited:
+                    stack.push(edge)
+            return visited
