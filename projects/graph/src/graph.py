@@ -26,9 +26,18 @@ class Graph:
         queue.extend(self.vertices[starting_vertex])
         # Mark first vertex as visited
         # Enqueue the starting node
+        print(starting_vertex)
         while len(queue) > 0:
             current = queue.popleft()
             print(current)
             if current not in visited:
                 visited.append(current)
+        return [starting_vertex] + visited
+
+    def dft_recursive(self, starting_vertex, visited=[]):
+        visited = visited + [starting_vertex]
+        print(visited[-1:])
+        for next_level in self.vertices[starting_vertex]:
+            if next_level not in visited:
+                visited =  self.dft_recursive(next_level, visited)
         return visited

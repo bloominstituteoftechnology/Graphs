@@ -25,7 +25,10 @@ def main():
     graph.add_edge('0', '3')
     # graph.add_edge('0', '4') # raise IndexError("No vertex")
     print(graph.vertices)
-    print(graph.bfs('0'))
+    print(graph.bft('0'))
+    print(graph.bft('2'))
+    print(graph.dft_recursive('0'))
+    print(graph.dft_recursive('2'))
 
 if __name__ == '__main__':
     # TODO - parse argv
