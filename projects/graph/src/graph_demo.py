@@ -15,9 +15,12 @@ def main():
     graph.add_vertex('1')
     graph.add_vertex('2')
     graph.add_vertex('3')
-    graph.add_edge('0', '1')
-    graph.add_edge('0', '3')
+    graph.add_edge('1', '2')
+    graph.add_edge('2', '3')
+    graph.add_edge('3', '2')
     print(graph.vertices)
+    print("\n")
+    graph.bft(1) # cant start at 0 because no edges
 
 if __name__ == '__main__':
     # TODO - parse argv
