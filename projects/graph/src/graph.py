@@ -51,11 +51,11 @@ class Graph:
         # Print
         print("DFT NODES VISITED:")
         while stack:
-            dequeued = stack.pop()
-            if dequeued not in visited:
-                visited.add(dequeued)
-                print(dequeued)
-                for vert in self.vertices[dequeued]:
+            popped = stack.pop()
+            if popped not in visited:
+                visited.add(popped)
+                print(popped)
+                for vert in self.vertices[popped]:
                     # if vert not in visited:
                     stack.append(vert)
         return visited
@@ -74,24 +74,53 @@ class Graph:
                 self.dft_rec(vert, visited)
 
     # Breadth First Search
+    '''
+    q = [ node 4]
+    visited = {}
+
+    duplicate list list()
+    append children and add to queue
+    '''
 
     def bfs(self, starting_vert, target_vert):
         queue = deque()
         visited = set()
-        queue.append(starting_vert)
+        path = []
+        queue.append(list(starting_vert))
         # while queue is not empty
         while queue:
             # -> dequeue a vert from queue
             dequeued = queue.popleft()
-            # check if target vert
-            if dequeued == target_vert:
-                return True
             # -> mark it as visited
-            if dequeued not in visited:
-                visited.add(dequeued)
+            if dequeued[-1] not in visited:
+                # check if target vert
+                if dequeued[-1] == target_vert:
+                    path = dequeued
+                    return path
+                visited.add(dequeued[-1])
                 # -> enqueue all of it's children
-                for vert in self.vertices[dequeued]:
-                    if vert not in visited:
-                        queue.append(vert)
+                for vert in self.vertices[dequeued[-1]]:
+                    path_copy = list(dequeued)
+                    path_copy.append(vert)
+                    queue.append(path_copy)
 
         return False
+
+    def dfs(self, starting_vert):
+        stack = deque()
+        visited = set()
+        stack.append(starting_vert)
+        # Print
+        print("DFT NODES VISITED:")
+        while stack:
+            popped = stack.pop()
+            if popped not in visited:
+                # check if target vert
+                if popped == target_vert:
+                    return True
+                print(popped)
+                visited.add(popped)
+                for vert in self.vertices[popped]:
+                    # if vert not in visited:
+                    stack.append(vert)
+        return visited
