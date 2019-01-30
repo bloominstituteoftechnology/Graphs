@@ -96,3 +96,7 @@ Removing edges: from both adjacency lists and matrices is very efficient.
 Finding edges: from both adjacency lists and matrices is very efficient.
 Fetching all edges: is more efficient in an adjacency list than an adjacency matrix.
 Undirected Matrix
+
+
+Random
+Law of Large Numbers

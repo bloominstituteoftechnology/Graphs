@@ -93,8 +93,8 @@ def main():
     print(graph2.dfs('0', '5'))
     print(graph2.dfs('2', '5'))
     print(('*' * 10))
-    print(graph2.dfs_recursive('0', '5'))
-    print(graph2.dfs_recursive('2', '5'))
+#     print(graph2.dfs_recursive('0', '5'))
+#     print(graph2.dfs_recursive('2', '5'))
     graph3 = Graph()  # Instantiate your graph
     graph3.add_vertex('A')
     graph3.add_vertex('B')
