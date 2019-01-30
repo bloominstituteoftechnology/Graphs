@@ -96,7 +96,7 @@ class Graph:
 
         return f"There is no path from {starting_vert} to {target_vert}"
 
-    # Deptg First Search
+    # Depth First Search
     def dfs(self, starting_vert, target_vert):
         stack = deque()
         visited = set()

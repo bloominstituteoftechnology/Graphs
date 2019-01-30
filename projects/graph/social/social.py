@@ -1,4 +1,5 @@
 import random
+from collections import deque
 
 
 class User:
@@ -81,8 +82,34 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        if self.friendships[userID]:
+            for i in range(1, self.lastID + 1):
+                visited[i] = self.bfs(userID, i)
+
+            return visited
+        else:
+            return 'No friends'
+
+    # Breadth First Search
+    def bfs(self, starting_vert, target_vert):
+        queue = deque()
+        visited = set()
+        queue.append([starting_vert])
+        while queue:
+            # -> dequeue a list from queue
+            dequeued_list = queue.popleft()
+            path_end = dequeued_list[-1]
+            # -> mark it as visited
+            if path_end not in visited:
+                # check if target vert == last item in list
+                if path_end == target_vert:
+                    return dequeued_list
+                visited.add(path_end)
+                # -> enqueue all of it's children
+                for vert in self.friendships[path_end]:
+                    path_copy = list(dequeued_list)
+                    path_copy.append(vert)
+                    queue.append(path_copy)
 
 
 if __name__ == '__main__':
