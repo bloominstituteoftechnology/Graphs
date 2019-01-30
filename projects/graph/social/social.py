@@ -1,6 +1,7 @@
 from itertools import combinations
 from random import shuffle
 from collections import deque
+from random import randint
 
 class User:
     def __init__(self, name):
@@ -18,11 +19,14 @@ class SocialGraph:
         """
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return True
 
     def addUser(self, name):
         """
@@ -60,7 +64,25 @@ class SocialGraph:
         for friendship in friendship_list:
             self.addFriendship(friendship[0], friendship[1])
         
-        
+    def populate_graph(self, numUsers, avgFriendships):
+        # Reset graph
+        self.lastID = 0
+        self.users = {}
+        self.friendships = {}
+
+        # Add users
+        for i in range(numUsers):
+            self.addUser(f"User {i}")
+
+        # Create friendships
+        success = False
+        num_friendships = (avgFriendships * numUsers) // 2
+        for _ in range(num_friendships):
+            while not success:
+                friend_1 = randint(1, len(self.users))
+                friend_2 = randint(1, len(self.users))
+                success = self.addFriendship(friend_1, friend_2)
+            success = False
 
     def getAllSocialPaths(self, userID, q=None, visited=None, path=None):
         """
@@ -101,7 +123,7 @@ If you create 1000 users with an average of 5 random friends each, what percenta
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populate_graph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
