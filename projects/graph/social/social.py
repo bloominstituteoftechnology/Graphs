@@ -1,4 +1,4 @@
-from random import shuffle
+from random import shuffle, randint
 from itertools import combinations
 from queue import Queue
 
@@ -20,11 +20,14 @@ class SocialGraph:
         """
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
+            return 0
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
             print("WARNING: Friendship already exists")
+            return 0
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return 1
 
     def addUser(self, name):
         """
@@ -57,11 +60,18 @@ class SocialGraph:
         for user in range(numUsers):
             self.addUser(user)
         # Create friendships
-        possible_friendships = list(combinations(range(1, numUsers+1), 2))
-        shuffle(possible_friendships)
-        for num in range((numUsers*avgFriendships)//2):
-            friendship = possible_friendships[num]
-            self.addFriendship(friendship[0], friendship[1])
+        # possible_friendships = list(combinations(range(1, numUsers+1), 2))
+        # shuffle(possible_friendships)
+        # for num in range((numUsers*avgFriendships)//2):
+        #     friendship = possible_friendships[num]
+        #     self.addFriendship(friendship[0], friendship[1])
+
+        # Refactor for adding friendships stretch
+        numFriends = 0
+        while numFriends < numUsers*avgFriendships//2:
+            friends_added = self.addFriendship(
+                randint(1, numUsers), randint(1, 10))
+            numFriends += friends_added
 
     def getAllSocialPaths(self, userID):
         """
@@ -91,3 +101,12 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+    # testing question 2 of part 3 below
+    # test = SocialGraph()
+    # test.populateGraph(1000, 5)
+    # test_connections = test.getAllSocialPaths(1)
+    # print(len(test_connections))
+    # degree_of_sep = []
+    # for key in test_connections:
+    #     degree_of_sep.append(len(test_connections[key]))
+    # print(sum(degree_of_sep)/len(degree_of_sep))
