@@ -124,7 +124,7 @@ graph.add_edge('5', '18')
 #graph.breadth_first_traversal('0')
 #graph.depth_first_traversal('2')
 #print('recursive:')
-#graph.dft_recursive('2')
+#graph.dft_recursive('7')
 
 #Check BFS path
 print("BFS path:")
