@@ -1,4 +1,5 @@
-
+from itertools import combinations
+import random
 
 class User:
     def __init__(self, name):
@@ -47,24 +48,34 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-        # #Psuedo Code:
-        # # Create friendships
-        # from itertools import combinations
-        # import random
-        # sf = SocialGraph()
+        for i in range(numUsers):
+            self.addUser({f'User {i}'})  
+        possible_friendships = list(combinations(range(1, numUsers+1), avgFriendships))
+        random.shuffle(possible_friendships)
+        total = int((avgFriendships * numUsers)/2)
+        actual_friendships = possible_friendships[:total]
+
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
+
+        # # My atttemp using (random.randint(), random.randint()) method
         # for i in range(numUsers):
-        #     sg.addUser({f'User {i}'})        
-        # possible_friendships = list(combinations(range(1, len(sg.users)+1), 2))
+        #     self.addUser({f'User {i}'}) 
+
+        # possible_friendships = []
+        # target_friendships = int(avgFriendships * numUsers)
+        # while 0 < target_friendships:
+        #     print('here', numUsers, target_friendships)
+        #     possible_friendships.append((random.randint(1, numUsers), random.randint(1, numUsers)))
+        #     target_friendships -= 1
+        #     print('there', possible_friendships)
+
+        # total = int((avgFriendships * numUsers)/2)
         # random.shuffle(possible_friendships)
-        # actual_friendships = possible_friendships[:15]
+        # actual_friendships = possible_friendships[:total]
 
-        # for friendship in actual_friendships:
-        #     sg.addFriendship(friendship[0], friendship[1])
-
-        # (random.randint(1, 10), random.randint(1, 10)) # O(n) # Combination of friendships
-
-        # while numFriends < targetNumber:
-        #     createFriendship(random.randint(1, 10), random.randint(1, 10))
+        # for friends in actual_friendships:
+        #     self.addFriendship(friends[0], friends[1])
 
         # # use to see function's runtime
         # import time

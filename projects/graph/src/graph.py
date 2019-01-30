@@ -211,17 +211,14 @@ class Graph:
         while q.size() > 0:
             # path is the first duplicate path from the stack
             path = q.pop()
-            print('path', path)
             # node is the last index from the path
             node = path[-1]
-            print('node', node)
             # if that node has not visited...
             if node not in visited:
                 # mark it as visited by returning shortest path
                 if node == target_node:
                     return path
                 visited.append(node)
-                print('visited', visited)
                 # push all of its children that have not been visited
                 for children in self.vertices[node]:
                         # creates duplicate list
@@ -229,7 +226,6 @@ class Graph:
                         # adds child(ren) to duplicate path
                         duplicate_path.append(children)
                         # add duplicate list to stack
-                        print('duplicate_path', duplicate_path)
                         q.push(duplicate_path)
         return None
 
