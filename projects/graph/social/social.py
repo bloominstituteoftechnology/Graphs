@@ -48,16 +48,17 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
         social_g = SocialGraph()
         for i in range(numUsers):
-            social_g.addUser(f"Username: ", i)
+            social_g.addUser(f"Username: {i}")
 
-        possible_friendships = list(combinations(range(1, len(sg.users) + 1), 2))
+        possible_friendships = list(combinations(range(1, len(social_g.users) + 1), 2))
         random.shuffle(possible_friendships)
         total = (numUsers*avgFriendships)//2
         actual_friendships = possible_friendships[:total]
         for friendship in actual_friendships:
-            sg.addFriendship(friendship[0], friendship[1])
+            social_g.addFriendship(friendship[0], friendship[1])
+        print(social_g.friendships)
 
-SocialGraph.populateGraph(10, 2)
+
         # Add users
 
         # Create friendships
