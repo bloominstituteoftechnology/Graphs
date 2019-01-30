@@ -119,22 +119,42 @@ class Graph:
     # create a queue
     q = []
     visited = set()
-    path = []
     # enqueue the starting node
-    q.append(starting_node)
+    q.append([starting_node])
     # while the queue is not empty:
     while len(q) > 0:
       # Dequeue a node from the queue
       n = q.pop()
       # mark it as visited
-      if n == destination_node:
-        return True
-      visited.add(n)
+      if n[-1] == destination_node:
+        return n
+      visited.add(n[-1])
       # enqueue all of it's children that have not been visited
-      if self.vertices[n] != set():
-        for item in self.vertices[n]:
+      if self.vertices[n[-1]] != set():
+        for item in self.vertices[n[-1]]:
           if item not in visited:
-            q.append(item)
+            q.append(n + [item])
+    return False
+
+  def dfs_path(self, starting_node, destination_node):
+    # Create a stack
+    s = []
+    visited = set()
+    # push the starting node
+    s.append([starting_node])
+    # while the stack is not empty:
+    while len(s) > 0:
+      # pop a node from the stack
+      n = s.pop(-1)
+      # mark it as visited
+      if n[-1] == destination_node:
+        return n
+      visited.add(n[-1])
+      # push all of it's children that have not been visited
+      if self.vertices[n[-1]] != set():
+        for item in self.vertices[n[-1]]:
+          if item not in visited:
+            s.append(n + [item])
     return False
 
 graph = Graph()
@@ -143,7 +163,7 @@ graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
-graph.add_edge('0', '3')
+graph.add_edge('2', '3')
 graph.add_edge('1', '2')
 print(f'Graph Vertices: {graph.vertices}')
 graph.bft('0')
@@ -153,5 +173,7 @@ print(graph.bfs('0', '3'))
 print(graph.bfs('0', '4'))
 print(graph.dfs('0', '3'))
 print(graph.dfs('0', '4'))
+print(graph.bfs_path('0', '3'))
+print(graph.dfs_path('0', '3'))
 
 
