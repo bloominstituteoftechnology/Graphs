@@ -86,6 +86,7 @@ class Graph:
 
         if start in self.vertices and destination in self.vertices:
             while len(queue):
+                # This is O(n) and could be improved with a proper queue
                 path = queue.pop(0)
                 vertex = path[-1]
 
@@ -99,7 +100,7 @@ class Graph:
                         else:
                             queue.append(new_path)
 
+            print('No path found')
+
         else:
             print('Those vertices are not in this graph')
-
-        print('No path found')
