@@ -3,8 +3,9 @@ import time
 import sys
 sys.path.append('../')  # noqa
 from src.graph import Graph
+from src.graph import Queue
 
-
+start_time = time.time()
 # class Queue:
 #     def __init__(self):
 #         self.storage = []
@@ -105,23 +106,50 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        g = Graph()
-        for user in self.users:
-            g.add_vertex(user)
 
-        for user in self.friendships:
-            for friend in self.friendships[user]:
-                g.add_edge(user, friend)
+        # With the Graph class
+        # g = Graph()
+        # for user in self.users:
+        #     g.add_vertex(user)
 
+        # for user in self.friendships:
+        #     for friend in self.friendships[user]:
+        #         g.add_edge(user, friend)
+
+        # for friend in self.users:
+        #     path = g.bfs(userID, friend)
+        #     visited[friend] = path
+
+        # Without the Graph class but have Queue
         for friend in self.users:
-            path = g.bfs(userID, friend)
-            visited[friend] = path
+            q = Queue()
+            visit = set()
+            path = []
+            q.enqueue([userID])
+
+            while len(q.storage) > 0:
+                node = q.dequeue()
+                path = node
+                vnode = node[-1]
+                if vnode == friend:
+                    visited[friend] = path
+                    pass
+                visit.add(vnode)
+                for child in self.friendships[vnode]:
+                    if child not in visit:
+                        dup_node = node[:]
+                        dup_node.append(child)
+                        q.enqueue(dup_node)
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(5, 2)
+    sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+end_time = time.time()
+print(f"runtime: {end_time - start_time} seconds")
