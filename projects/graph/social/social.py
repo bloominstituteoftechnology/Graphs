@@ -88,14 +88,21 @@ class SocialGraph:
             return self.getAllSocialPaths(user, q, visited, path)
 
 
+"""
+To create 100 users with an average of 10 friends each, how many times would you need to call addFriendship()? Why?
+    - 500 becuase friendships are bi-directional and 1000 friendships would average out to 10 per user.
+
+If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+    - About 100%
+    - Avg is 3 intermediate people
+    - They say there's about ~6 degrees of separation between any person on the planet and another
+"""
+
+
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
-
-
-
-
 
