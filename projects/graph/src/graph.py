@@ -72,7 +72,7 @@ class Graph:
     def breadth_first_traverse(self, starting_vertex):
         # create a _queue_ FIFO
         q = []
-        visited = set()
+        visited = list()
         # Enqueue the starting vertex
         q.append(starting_vertex)
         print(q)
@@ -82,20 +82,24 @@ class Graph:
             deq = q.pop()
 
             # Mark it as visited
-            visited.add(deq)
-            print("visited: ",visited)
+            # if deq not in visited:
+            #     print("deq: ",deq)
+            visited.append(deq)
+
+            print("visited using queue: ",visited)
             # Enqueue all of its children
             for i in self.vertices[deq]:
                 if i not in visited:
                     q.append(i)
-                if len(q) == 0:
-                    return visited
+                # if len(q) == 0:
+        print("Traverse End: ", visited)
+        return visited
 
 
     def depth_first_traverse(self, starting_vertex):
         # create a _queue_ FIFO
         stack = []
-        visited = set()
+        visited = list()
         # Enqueue the starting vertex
         stack.append(starting_vertex)
         print(stack)
@@ -105,13 +109,14 @@ class Graph:
             deq = stack.pop(0)
 
             # Mark it as visited
-            visited.add(deq)
-            print("visited: ",visited)
+            visited.append(deq)
+            print("visited using stack: ",visited)
             # Enqueue all of its children
             for i in self.vertices[deq]:
                 if i not in visited:
                     stack.append(i)
                 if len(stack) == 0:
+                    print("Traverse End: ", visited)
                     return visited
 
     def dfr_2(self, v, visited, storage):
@@ -142,9 +147,9 @@ class Graph:
 
     def dft_recurse(self, starting_vertex, visited = None):
         if visited == None:
-            visited = set()
+            visited = list()
 
-        visited.add(starting_vertex)
+        visited.append(starting_vertex)
         print(starting_vertex)
         for i in self.vertices[starting_vertex]:
             if i not in visited:
@@ -158,7 +163,7 @@ class Graph:
         visited = []
         # Enqueue the starting vertex
         q.append(starting_vertex)
-        print("stack: ",q)
+        print("Queue: ",q)
         # while the queue is not empty
         while len(q) > 0:
             # dequeue a node from the queue
@@ -167,7 +172,7 @@ class Graph:
             if node not in visited:
                 # Mark it as visited
                 visited.append(node)
-                print("visited breadth: ",visited)
+                print("visited breadth search: ",visited)
                 if target in visited:
                     print("Path: ",path)
                     print("Dup_Path: ", dup_path)
@@ -196,7 +201,7 @@ class Graph:
             if node not in visited:
                 # Mark it as visited
                 visited.append(node)
-                print("visited depth: ",visited)
+                print("visited depth search: ",visited)
                 if target in visited:
                     print("Path: ",path)
                     print("Dup_Path: ", dup_path)
@@ -233,6 +238,7 @@ def print_vertex():
     for v in graph.vertices['0']:
         print(v)
     print(graph.breadth_first_traverse('0'))
+    print(graph.depth_first_traverse('0'))
     print(graph.dfr_r('0'))
     print(graph.dft_recurse('0'))
     print(graph.depth_first_search('0', '2'))
