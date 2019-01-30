@@ -108,6 +108,8 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # With the Graph class
+        # runtime: 1.9708278179168701 seconds 100 users, 20 average
+        # runtime: 24.768869876861572 seconds 200 users, 20 average
         # g = Graph()
         # for user in self.users:
         #     g.add_vertex(user)
@@ -121,6 +123,8 @@ class SocialGraph:
         #     visited[friend] = path
 
         # Without the Graph class but have Queue
+        # runtime: 1.8722269535064697 seconds
+        # runtime: 27.13098406791687 seconds
         for friend in self.users:
             q = Queue()
             visit = set()
@@ -146,7 +150,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(200, 20)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
