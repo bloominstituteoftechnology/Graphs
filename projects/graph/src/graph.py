@@ -79,3 +79,27 @@ class Graph:
                 self.recursive_dft(neighbor, stack)
 
         return stack
+
+    def bfs(self, start, destination):
+        visited = set()
+        queue = [[start]]
+
+        if start in self.vertices and destination in self.vertices:
+            while len(queue):
+                path = queue.pop(0)
+                vertex = path[-1]
+
+                for neighbor in self.vertices[vertex]:
+                    if neighbor not in visited:
+                        new_path = path + [neighbor]
+
+                        if neighbor is destination:
+                            return new_path
+
+                        else:
+                            queue.append(new_path)
+
+        else:
+            print('Those vertices are not in this graph')
+
+        print('No path found')
