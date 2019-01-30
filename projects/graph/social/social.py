@@ -1,5 +1,29 @@
 import random
 import time
+import sys
+sys.path.append('../')  # noqa
+from src.graph import Graph
+
+
+# class Queue:
+#     def __init__(self):
+#         self.storage = []
+#         self.size = 0
+
+#     def enqueue(self, value):
+#         self.storage.append(value)
+#         self.size += 1
+
+#     def dequeue(self):
+#         if len(self.storage) > 0:
+#             return self.storage.pop(0)
+#             self.size -= 1
+
+#         else:
+#             return None
+
+#     def length(self):
+#         return self.size
 
 
 class User:
@@ -65,7 +89,6 @@ class SocialGraph:
         # Create friendships
         random.shuffle(possible_friendships)
         total = int((numUsers * avgFriendships) / 2)
-        print(total)
         made_friendship = possible_friendships[:total]
 
         for friends in made_friendship:
@@ -82,6 +105,17 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        g = Graph()
+        for user in self.users:
+            g.add_vertex(user)
+
+        for user in self.friendships:
+            for friend in self.friendships[user]:
+                g.add_edge(user, friend)
+
+        for friend in self.users:
+            path = g.bfs(userID, friend)
+            visited[friend] = path
         return visited
 
 
@@ -91,17 +125,3 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
-
-
-"""
-sg = SocialGraph()
-for i in range(numUsers):
-    self.addUser(f"User {i}")
-
-possible_combos = list(combonations(range(1, len(sg.users) + 1), 2))
-shuffle(possible_combos)
-actual_friendships = possible_combos[:15]
-
-for friendship in actual_friendships:
-    self.addFriendship(friendship[0], friendship[1])
-"""

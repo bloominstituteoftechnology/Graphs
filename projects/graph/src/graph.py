@@ -106,7 +106,7 @@ class Graph:
         q = Queue()
         visited = set()
         path = []
-        q.enqueue(list(starting_node))
+        q.enqueue([starting_node])
 
         while len(q.storage) > 0:
             node = q.dequeue()
