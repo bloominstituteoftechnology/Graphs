@@ -54,7 +54,6 @@ class SocialGraph:
         # Create friendships
 
         allPossibleFrienships = list(combinations(range(1, numUsers+1), 2))
-        print(allPossibleFrienships)
         random.shuffle(allPossibleFrienships)
         total = avgFriendships * numUsers
         for i in range(numUsers):
@@ -73,12 +72,38 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        for i in range(1, len(self.users) + 1):
+            if len(self.friendships[i]) is not 0:
+                visited[i] = self.bft_path(userID, i)
+                print(visited)
+            
         return visited
 
 
+    def bft_path(self, start, target):
+        from queue import Queue
+        if start in self.friendships:
+            nextItems = Queue()
+            visited = []
+            path = []
+            nextItems.put([start])
+            while nextItems.empty() is not True:
+                first = nextItems.get()
+                if first[-1] not in visited:
+                    path.append(first[-1])
+                    if first[-1] == target:
+                        path = first
+                        return path
+                    visited.append(first[-1])
+                    for num in self.friendships[first[-1]]:
+                        tempPath = path + [num]
+                        nextItems.put(tempPath)
+        else:
+            return None
+    
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(5, 2)
+    sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
