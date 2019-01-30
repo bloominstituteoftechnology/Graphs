@@ -35,8 +35,9 @@ def main():
     # print(graph.vertices['D'])
     # print(graph.depth_first_traversal(1))
     # print(graph.depth_first_traversal("A"))
-    # print(graph.bredth_first_search("A", "B"))
-    print(graph.depth_first_search("A", "B"))
+    # print(graph.breadth_first_search("A", "B"))
+    # print(graph.depth_first_search("A", "B"))
+    print(graph.breadth_first_path("A", "G"))
 
 
 if __name__ == '__main__':

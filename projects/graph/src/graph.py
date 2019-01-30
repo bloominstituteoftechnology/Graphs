@@ -21,7 +21,7 @@ class Graph:
         else:
             raise Exception(f'Vertex {vertex1} does not exist.')
 
-    def bredth_first_traversal(self, start_node):
+    def breadth_first_traversal(self, start_node):
         # Create a new queue using the imported queue file
         queue = Queue()
         # Storage for the nodes that were visted
@@ -58,8 +58,9 @@ class Graph:
                 for next_node in self.vertices[node]:
                     # Add each child to the stack
                     stack.push(next_node)
+        return visited
 
-    def bredth_first_search(self, start_node, target_node):
+    def breadth_first_search(self, start_node, target_node):
         queue = Queue()
         visited = set()
         queue.enqueue(start_node)
@@ -88,3 +89,19 @@ class Graph:
                 for next_node in self.vertices[node]:
                     s.push(next_node)
         return False
+
+    def breadth_first_path(self, start_node, target_node):
+        queue = Queue()
+        visited = set()
+        queue.enqueue([start_node])
+        while queue.len() > 0:
+            path = queue.dequeue()
+            node = path[-1]
+            for neighbor in self.vertices[node]:
+                visited.add(neighbor)
+                upath = path + [neighbor]
+                if neighbor is target_node:
+                    return upath
+                else:
+                    queue.enqueue(upath)
+        return print('no path found')
