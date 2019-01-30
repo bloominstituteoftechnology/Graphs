@@ -1,4 +1,27 @@
+import random
+# --------------- NOTES from instructions / instructors ------------
 
+'''The functionality behind creating users and friendships has been 
+completed already via functions below : addFriendship + addUser'''
+
+""" POPULATION GRAPH FUNCTION 
+_ Takes a number of users and an average number of friendships as arguments
+
+_ Creates that number of users and a randomly distributed friendships between those users.
+
+_ The number of users must be greater than the average number of friendships. """
+
+""" GET ALL SOCIAL PATHS FUNCTION
+_Takes a user's userID as an argument
+
+_Returns a dictionary containing every user in that user's extended network 
+with the shortest friendship path between them.
+
+_The key is the friend's ID and the value is the path."""
+
+# - Lambda -  <----- denotes which comments are provided by Lambda staff
+
+# ------------------------------- END of NOTES ---------------------------
 
 class User:
     def __init__(self, name):
@@ -24,43 +47,34 @@ class SocialGraph:
 
     def addUser(self, name):
         """
-        Create a new user with a sequential integer ID
+        Creates a new user with a sequential integer ID
         """
         self.lastID += 1  # automatically increment the ID to assign the new user
         self.users[self.lastID] = User(name)
         self.friendships[self.lastID] = set()
 
+
+
     def populateGraph(self, numUsers, avgFriendships):
-        """
-        Takes a number of users and an average number of friendships
-        as arguments
-
-        Creates that number of users and a randomly distributed friendships
-        between those users.
-
-        The number of users must be greater than the average number of friendships.
-        """
-        # Reset graph
+        # a feature that creates large numbers of users to the network and assigns them a random distribution of friends.
+        # - Lambda - Reset graph
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
+        # - Lambda - !!!! IMPLEMENT ME
 
-        # Add users
+        # - Lambda - Add users
+        # use addUsers function here
 
-        # Create friendships
+        # - Lambda - Create friendships
+        # use addFriendships function here
 
     def getAllSocialPaths(self, userID):
-        """
-        Takes a user's userID as an argument
-
-        Returns a dictionary containing every user in that user's
-        extended network with the shortest friendship path between them.
-
-        The key is the friend's ID and the value is the path.
-        """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # BFS for shortest path
+        # - Lambda - shows all the friends in a user's extended social network and chain of friendships that link them
+       
+        visited = {}  # - Lambda - Note that this is a dictionary, not a set
+        # - Lambda -  !!!! IMPLEMENT ME
         return visited
 
 
