@@ -35,10 +35,8 @@ class SocialGraph:
         """
         Takes a number of users and an average number of friendships
         as arguments
-
         Creates that number of users and a randomly distributed friendships
         between those users.
-
         The number of users must be greater than the average number of friendships.
         """
         # Reset graph
@@ -46,11 +44,13 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+        
+        # Itertools combinations way:
         # Add users
         for i in range(numUsers):
             self.addUser({f'User {i}'})  
         possible_friendships = list(combinations(range(1, numUsers+1), avgFriendships))
+        # Create friendships
         random.shuffle(possible_friendships)
         total = int((avgFriendships * numUsers)/2)
         actual_friendships = possible_friendships[:total]
@@ -58,18 +58,37 @@ class SocialGraph:
         for friendship in actual_friendships:
             self.addFriendship(friendship[0], friendship[1])
 
-        # # My atttemp using (random.randint(), random.randint()) method
+        # # Two for loops way;
+        # # Add users
+        # for i in range(numUsers):
+        #     self.addUser(f"User {i}")
+
+        # possible_friendships = []
+        # for i in range(1, numUsers + 1):
+        #     for j in range(1, numUsers + 1):
+        #         if i != j and ((i, j) and (j, i)) not in possible_friendships:
+        #             possible_friendships.append((i, j))
+
+        #  # Create friendships	        
+        # random.shuffle(possible_friendships)
+        # total = int((avgFriendships * numUsers) / 2)
+        # actual_friendships = possible_friendships[:total]
+
+        # for friends in actual_friendships:
+        #     self.addFriendship(friends[0], friends[1])
+
+        # # Random randit way (needs more work):
+        # # Add users
         # for i in range(numUsers):
         #     self.addUser({f'User {i}'}) 
 
         # possible_friendships = []
         # target_friendships = int(avgFriendships * numUsers)
         # while 0 < target_friendships:
-        #     print('here', numUsers, target_friendships)
         #     possible_friendships.append((random.randint(1, numUsers), random.randint(1, numUsers)))
         #     target_friendships -= 1
-        #     print('there', possible_friendships)
 
+        # # Create friendships
         # total = int((avgFriendships * numUsers)/2)
         # random.shuffle(possible_friendships)
         # actual_friendships = possible_friendships[:total]
@@ -77,20 +96,11 @@ class SocialGraph:
         # for friends in actual_friendships:
         #     self.addFriendship(friends[0], friends[1])
 
-        # # use to see function's runtime
-        # import time
-        # start_time = time.time()
-        # # Run function
-        # end_time = time.time()
-        # print(f'runtime: {end_time - start_time} seconds')
-
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
-
         Returns a dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
-
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
@@ -104,3 +114,10 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+# # use to see function's runtime
+# import time
+# start_time = time.time()
+# # Run function
+# end_time = time.time()
+# print(f'runtime: {end_time - start_time} seconds')
