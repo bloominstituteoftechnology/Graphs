@@ -17,13 +17,6 @@ class Queue:
     def size(self):
         return len(self.queue)
 
-    # # Adds color to vertexes
-    # class Vertex:
-    #     def __init__(self, value):
-    #         self.value = value
-    #         self.color = 'white'
-    #         self.edge = set()
-
 class Stack:
     def __init__(self):
         self.stack = []
@@ -40,6 +33,14 @@ class Stack:
     def size(self):
         return len(self.stack)
 
+#    # Adds color to vertexes
+#     class Vertex:
+#         '''Adds color to vertices'''
+#         def __init__(self, value):
+#             self.value = value
+#             self.color = 'white'
+#             self.edge = set()
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -53,21 +54,22 @@ class Graph:
     
     # Directional Edge
     def add_edge(self, v1, v2):
+        '''Directional Edges'''
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
         else:
             raise IndentationError(f'There is no {v1 if not self.vertices else v2} vertex, edge ({v1},{v2}) was not added.')
     
-    # Uniderectional Edge
     def add_undirected_edge(self, v1, v2):
+        '''Undirectional Edge'''
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
             self.vertices[v2].add(v1)
         else:
             raise IndentationError(f'There is no {v1 if not self.vertices else v2} vertex, edge ({v1},{v2}) was not added.')    
             
-    # Breadth-First Traversal
     def bft(self, starting_node):
+        '''Breadth-First Traversal'''
         # create a queue
         q = Queue()
         visited = set()
@@ -88,8 +90,8 @@ class Graph:
                 if child not in visited:
                     q.enqueue(child)
 
-    # Depth-First Traversal
     def dft(self, starting_node):
+        '''Depth-First Traversal'''
         # create a stack
         s = Stack()
         visited = set()
@@ -110,8 +112,8 @@ class Graph:
                 if child not in visited:
                     s.push(child)
 
-    # Depth-First Traversal using Recursion
     def dft_r(self, starting_node, visited=None):
+        '''Depth-First Traversal using Recursion'''
         if visited is None:
             visited = set()
         print('visted from dft_r:', starting_node)
@@ -121,9 +123,8 @@ class Graph:
             if child not in visited:
                 self.dft_r(child, visited)
         
-
-    # Breadth-First Search
     def bfs(self, starting_node, target_node):
+        '''Breadth-First Search'''
         #create queue
         q = Queue()
         visited = set()
@@ -146,8 +147,8 @@ class Graph:
         # return false
         return False
 
-    # Depth-First Search
     def dfs(self, starting_node, target_node):
+        '''Depth-First Search'''
         #create stack
         s = Stack()
         visited = set()
@@ -170,9 +171,8 @@ class Graph:
         # return false
         return False
 
-    
-    # Breadth-First Search Path
     def bfs_p(self, starting_node, target_node):
+        '''Breadth-First Search Shortest Path'''
         # create queue
         q = Queue()
         visited = []
@@ -182,6 +182,35 @@ class Graph:
         while q.size() > 0:
             # path is the first duplicate path from the queue
             path = q.dequeue()
+            # node is the last index from the path
+            node = path[-1]
+            # if that node has not visited...
+            if node not in visited:
+                # mark it as visited by returning shortest path
+                if node == target_node:
+                    return path
+                visited.append(node)
+                # enqueue all of its children that have not been visited
+                for children in self.vertices[node]:
+                        # creates duplicate list
+                        duplicate_path = list(path)
+                        # adds child(ren) to duplicate path
+                        duplicate_path.append(children)
+                        # add duplicate list to queue
+                        q.enqueue(duplicate_path)
+        return None
+
+    def dfs_p(self, starting_node, target_node):
+        '''Depth-First Search Any Valid Path'''
+        # create stack
+        q = Stack()
+        visited = []
+        # push starting vertex
+        q.push(starting_node)
+        # while stack is not empty
+        while q.size() > 0:
+            # path is the first duplicate path from the stack
+            path = q.pop()
             print('path', path)
             # node is the last index from the path
             node = path[-1]
@@ -193,16 +222,19 @@ class Graph:
                     return path
                 visited.append(node)
                 print('visited', visited)
-                # enqueue all of its children that have not been visited
+                # push all of its children that have not been visited
                 for children in self.vertices[node]:
                         # creates duplicate list
                         duplicate_path = list(path)
                         # adds child(ren) to duplicate path
                         duplicate_path.append(children)
+                        # add duplicate list to stack
                         print('duplicate_path', duplicate_path)
-                        # add duplicate list to queue
-                        q.enqueue(duplicate_path)
+                        q.push(duplicate_path)
         return None
+
+     
+
 
 
 
