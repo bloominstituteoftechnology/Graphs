@@ -1,5 +1,6 @@
 from itertools import combinations
 from random import shuffle
+from collections import deque
 
 class User:
     def __init__(self, name):
@@ -61,7 +62,7 @@ class SocialGraph:
         
         
 
-    def getAllSocialPaths(self, userID):
+    def getAllSocialPaths(self, userID, q=None, visited=None, path=None):
         """
         Takes a user's userID as an argument
 
@@ -70,9 +71,21 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        if not visited:
+            q = deque()
+            path = [userID]
+            visited = {userID: path}
+        for related in self.friendships[userID]:
+            new_path = path[:]
+            new_path.append(related)
+            if related not in visited:
+                q.append((related, new_path))
+                visited[related] = new_path
+        if len(q) == 0:
+            return visited
+        if len(q) > 0:
+            user, path = q.popleft()
+            return self.getAllSocialPaths(user, q, visited, path)
 
 
 if __name__ == '__main__':
