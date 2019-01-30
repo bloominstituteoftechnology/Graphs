@@ -66,7 +66,27 @@ class Graph:
                 if not vert in visited:
                     self.dft_recursion(vert, visited) 
 
+    def bfs(self, starting_vert, target_vert):
+        paths = Queue()
+        paths.enqueue([starting_vert]) 
+        visited = set() 
 
+        while paths.len() > 0:
+            cur_path = paths.dequeue()
+            cur_vert = cur_path[-1]
+            visited.add(cur_vert)
+
+            if cur_vert is target_vert:
+                return cur_path
+            else:
+                for vert in self.vertices[cur_vert]:
+                    if vert is not None:
+                        if not vert in visited:
+                            new_path = list(cur_path)
+                            new_path.append(vert)
+                            paths.enqueue(new_path)
+
+        return None
 
 
 
@@ -88,4 +108,4 @@ graph.add_directed_edge('4', '2')
 graph.add_directed_edge('2', '5')
 graph.add_directed_edge('4', '6')
 graph.add_directed_edge('6', '7')
-graph.dft_recursion('0')
+print(graph.bfs('0', '5'))
