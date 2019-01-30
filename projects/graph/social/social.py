@@ -55,8 +55,8 @@ class SocialGraph:
 
         allPossibleFrienships = list(combinations(range(1, numUsers+1), 2))
         random.shuffle(allPossibleFrienships)
-        total = avgFriendships * numUsers
-        for i in range(numUsers):
+        total = (numUsers * avgFriendships) / 2
+        for i in range(int(total)):
             friends = allPossibleFrienships[i]
             self.addFriendship(friends[0], friends[1])
         
@@ -74,9 +74,7 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
         for i in range(1, len(self.users) + 1):
             if len(self.friendships[i]) is not 0:
-                visited[i] = self.bft_path(userID, i)
-                print(visited)
-            
+                visited[i] = self.bft_path(userID, i)      
         return visited
 
 
@@ -103,7 +101,7 @@ class SocialGraph:
     
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(10, 5)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
