@@ -118,6 +118,30 @@ class Graph:
                 for next_node in self.vertices[node]:
                     q.nq(next_node)
         return False
+    
+    def bfs_path(self, start, target):
+        # create que
+        q = Queue()
+        # create visited
+        visited = set()
+        # create a path as an empty list
+        path = []
+        # que the start
+        q.nq(start)
+        # # while que not empty
+        while q.size() > 0:
+            # remove item from que
+            node = q.dq()
+            if node not in visited:
+                # mark as visited / add to visited
+                if node == target:
+                    return path
+                print(node)
+                visited.add(node)
+                # add children to que
+                for next_node in self.vertices[node]:
+                    q.nq(next_node)
+        return False
 
     def dfs(self, start, target):
         # create a stack
