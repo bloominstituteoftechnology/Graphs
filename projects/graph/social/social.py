@@ -66,14 +66,15 @@ class SocialGraph:
 
         # - Lambda - Add users
         # use addUsers function here
-        for i in range(10):
+        for i in range(numUsers):
             self.addUser(f"user {i}")
 
         # - Lambda - Create friendships
         # use addFriendships function here
         possible_friendships = list(combinations(range(1, numUsers + 1), 2))
         random.shuffle(possible_friendships)
-        actual_friendships = possible_friendships[:15]
+        num_friendships = (numUsers * avgFriendships) // 2
+        actual_friendships = possible_friendships[:num_friendships]
 
         for friendship in actual_friendships:
             self.addFriendship(friendships[0], friendships[1])
