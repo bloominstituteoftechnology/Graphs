@@ -56,7 +56,7 @@ class SocialGraph:
         possible_friendships = list(combinations(range(1, numUsers+1), 2))
         shuffle(possible_friendships)
         num_friendships = avgFriendships * numUsers
-        friendship_list = possible_friendships[:num_friendships]
+        friendship_list = possible_friendships[:num_friendships//2]
         for friendship in friendship_list:
             self.addFriendship(friendship[0], friendship[1])
         
