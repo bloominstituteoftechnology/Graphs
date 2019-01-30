@@ -35,14 +35,20 @@ class Graph:
 
     # Using Recursion
     def dft(self, starting_point, next_set=[], visited=[]):
-        visited.append(starting_point)
-        for num in self.vertices[f"{starting_point}"]:
-            next_set.append(num)
-        for node in next_set:
-            print(node)
-            visited.append(node)
-            if node not in visited:
-                self.dft(next_set[0], next_set)
+        # visited.append(starting_point)
+        # for num in self.vertices[f"{starting_point}"]:
+        #     next_set.append(num)
+        # for node in next_set:
+        #     print(node)
+        #     visited.append(node)
+        #     if node not in visited:
+        #         self.dft(next_set[0], next_set)
+        if starting_point not in visited:
+            visited.append(starting_point)
+            for child in self.vertices[f"{starting_point}"]:
+                if child not in visited:
+                    self.dft(child, visited)
+        return visited[1::] if visited[1:] else "No children"
 
     # Using a stack
     def dfts(self, starting_point):
