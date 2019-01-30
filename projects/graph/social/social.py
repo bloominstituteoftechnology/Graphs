@@ -1,4 +1,4 @@
-
+from itertools import combinations
 
 class User:
     def __init__(self, name):
@@ -45,10 +45,13 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+        for i in range(numUsers):
+            self.addUser(f'user{i+1}')
         # Add users
-
+        print(self.users)
         # Create friendships
+        friends = list(combinations(range(1, numUsers+1), 2))
+        # shuffle friends list
 
     def getAllSocialPaths(self, userID):
         """
