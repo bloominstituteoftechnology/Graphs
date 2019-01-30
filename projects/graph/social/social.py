@@ -1,4 +1,5 @@
-
+from itertools import combinations
+import random
 
 class User:
     def __init__(self, name):
@@ -31,36 +32,40 @@ class SocialGraph:
         self.friendships[self.lastID] = set()
 
     def populateGraph(self, numUsers, avgFriendships):
-        """
-        Takes a number of users and an average number of friendships
-        as arguments
+        for user in range(1, numUsers + 1):
+            self.addUser(user)
 
-        Creates that number of users and a randomly distributed friendships
-        between those users.
+        half = int((numUsers * avgFriendships) / 2)
+        possible_friendships = list(combinations(range(1, len(self.users) + 1), 2))
+        random.shuffle(possible_friendships)
+        actual_friendships = possible_friendships[:half]
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
 
-        The number of users must be greater than the average number of friendships.
-        """
-        # Reset graph
-        self.lastID = 0
-        self.users = {}
-        self.friendships = {}
-        # !!!! IMPLEMENT ME
-
-        # Add users
-
-        # Create friendships
 
     def getAllSocialPaths(self, userID):
-        """
-        Takes a user's userID as an argument
-
-        Returns a dictionary containing every user in that user's
-        extended network with the shortest friendship path between them.
-
-        The key is the friend's ID and the value is the path.
-        """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+
+        for user in self.users:
+            to_visit = []
+            friends_searched = set()
+            to_visit.append([userID])
+
+            while len(to_visit) > 0:
+                deq_path = to_visit.pop(0)
+                deq_user = deq_path[-1]
+                if deq_user not in friends_searched:
+                    if deq_user == user:
+                        visited[user] = deq_path
+                        break
+
+                    friends_searched.add(deq_user)
+
+                    for friend in self.friendships[deq_user]:
+                        copied_path = list(deq_path)
+                        copied_path.append(friend)
+                        to_visit.append(copied_path)
+
         return visited
 
 
