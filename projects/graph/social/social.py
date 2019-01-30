@@ -74,8 +74,17 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        return visited
+        if userID in self.users:
+            print("VALID USER.....")
+            if self.friendships[userID]:
+                print("Have Friends.........")
+                print(self.friendships[userID])
 
+
+
+            return visited
+        else:
+            return 'Invalid User...'
 
 if __name__ == '__main__':
     sg = SocialGraph()
