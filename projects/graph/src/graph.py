@@ -69,14 +69,13 @@ class Graph:
                 if node not in visited:
                     stack.append(node)
                     # print("APPENDED NODE L66 : ", node)
-                    print(node)
+                    # print(node)
                 # Place child(ren) in the stack
         return visited
         # Should work in theory
 
     def bfs(self, starting_point, value):
         a = self.bft(starting_point)
-        print("a=", a)
         if str(value) in a:
             return True
         return False
