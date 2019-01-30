@@ -63,6 +63,19 @@ class Graph:
                     queue.enqueue(duplicate)
         return None
 
-
-
+    def dfs(self, starting_node, target_node):
+        visited = []
+        stack = [[starting_node]]
+        while len(stack) > 0:
+            path = stack.pop()
+            current_node = path[-1]
+            if current_node not in visited:
+                visited.append(current_node)
+                if current_node == target_node:
+                    return path
+                for next_node in self.vertices[current_node]:
+                    duplicate = list(path)
+                    duplicate.append(next_node)
+                    stack.append(duplicate)
+        return None
 
