@@ -112,7 +112,6 @@ class Graph:
                 # mark as visited / add to visited
                 if node == target:
                     return True
-                print(node)
                 visited.add(node)
                 # add children to que
                 for next_node in self.vertices[node]:
@@ -121,26 +120,27 @@ class Graph:
     
     def bfs_path(self, start, target):
         # create que
-        q = Queue()
+        q = []
         # create visited
         visited = set()
-        # create a path as an empty list
-        path = []
         # que the start
-        q.nq(start)
-        # # while que not empty
-        while q.size() > 0:
+        path = [start]
+        q.append(path)
+        # while que not empty
+        while len(q) > 0:
             # remove item from que
-            node = q.dq()
-            if node not in visited:
+            current_path = q.pop(0)
+            check = current_path[-1]
+            if check not in visited:
                 # mark as visited / add to visited
-                if node == target:
-                    return path
-                print(node)
-                visited.add(node)
+                if check == target:
+                    return current_path
+                visited.add(check)
                 # add children to que
-                for next_node in self.vertices[node]:
-                    q.nq(next_node)
+                for child in self.vertices[check]:
+                    duplicate_cp = list(current_path)
+                    duplicate_cp.append(child)
+                    q.append(duplicate_cp)
         return False
 
     def dfs(self, start, target):
@@ -165,30 +165,52 @@ class Graph:
                     s.push(next_node)
         return False
 
+    def dfs_path(self, start, target):
+        # create a stack
+        s = Stack()
+        visited = set()
+        # create a path
+        path = [start]
+        # push start
+        s.push(path)
+        # while stack is not empty
+        while s.size() > 0:
+            # pop a node from the stack
+            current_path = s.pop()
+            check = current_path[-1]
+            # if the node is not in visited
+            if check not in visited:
+                if check == target:
+                    return current_path
+                # mark it as visited
+                visited.add(check)
+                # push all children that have not been visited
+                for child in self.vertices[check]:
+                    duplicate_cp = list(current_path)
+                    duplicate_cp.append(child)
+                    s.push(duplicate_cp)
+        return False
 
 
-tester = Graph()
-tester.add_vertex('1')
-tester.add_vertex('2')
-tester.add_vertex('3')
-tester.add_vertex('4')
-tester.add_vertex('5')
-tester.add_vertex('6')
-tester.add_vertex('7')
-tester.add_vertex('8')
-tester.add_edge('1', '2')
-tester.add_edge('1', '3')
-tester.add_edge('1', '4')
-tester.add_edge('2', '4')
-tester.add_edge('2', '5')
-tester.add_edge('3', '6')
-tester.add_edge('4', '6')
-tester.add_edge('4', '7')
-tester.add_edge('5', '8')
-tester.add_edge('6', '7')
-tester.add_edge('7', '8')
-print(tester.vertices)
-# tester.bft('1')
-# tester.dft('1')
-tester.dft_r('1')
-print(tester.dfs('1', '6'))
+# tester = Graph()
+# tester.add_vertex('1')
+# tester.add_vertex('2')
+# tester.add_vertex('3')
+# tester.add_vertex('4')
+# tester.add_vertex('5')
+# tester.add_vertex('6')
+# tester.add_vertex('7')
+# tester.add_vertex('8')
+# tester.add_edge('1', '2')
+# tester.add_edge('1', '3')
+# tester.add_edge('1', '4')
+# tester.add_edge('2', '4')
+# tester.add_edge('2', '5')
+# tester.add_edge('3', '6')
+# tester.add_edge('4', '6')
+# tester.add_edge('4', '7')
+# tester.add_edge('5', '8')
+# tester.add_edge('6', '7')
+# tester.add_edge('7', '8')
+# # print(tester.vertices)
+# print(tester.dfs_path('1', '9'))
