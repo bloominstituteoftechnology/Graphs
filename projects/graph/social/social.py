@@ -47,8 +47,31 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        # #Psuedo Code:
+        # # Create friendships
+        # from itertools import combinations
+        # import random
+        # sf = SocialGraph()
+        # for i in range(numUsers):
+        #     sg.addUser({f'User {i}'})        
+        # possible_friendships = list(combinations(range(1, len(sg.users)+1), 2))
+        # random.shuffle(possible_friendships)
+        # actual_friendships = possible_friendships[:15]
 
-        # Create friendships
+        # for friendship in actual_friendships:
+        #     sg.addFriendship(friendship[0], friendship[1])
+
+        # (random.randint(1, 10), random.randint(1, 10)) # O(n) # Combination of friendships
+
+        # while numFriends < targetNumber:
+        #     createFriendship(random.randint(1, 10), random.randint(1, 10))
+
+        # # use to see function's runtime
+        # import time
+        # start_time = time.time()
+        # # Run function
+        # end_time = time.time()
+        # print(f'runtime: {end_time - start_time} seconds')
 
     def getAllSocialPaths(self, userID):
         """
