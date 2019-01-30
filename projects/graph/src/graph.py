@@ -117,5 +117,36 @@ class Graph:
             if edge_node not in visited:
                 self.DFT_recursive(edge_node, visited)
     
-    def BFS_path(self, start, end):
-        pass
+    def BFS_path(self, start, destination):
+        """
+        finds a shortest path in undirected `graph` between `start` and `end`. 
+        If no path is found, returns `None`
+        """
+        if start in self.vertices and destination in self.vertices:
+
+            if start == destination:
+                return [start]
+       
+            visited = set()
+            queue = Queue()
+            queue.enqueue([start])
+
+            while queue.size() > 0:
+                path = queue.dequeue()
+                vertex = path[-1]
+
+                for edge_vertex in self.vertices[vertex]:
+                    if edge_vertex not in visited:
+                        visited.add(edge_vertex)
+                        new_path = path + [edge_vertex]
+
+                        if edge_vertex is destination:
+                            return new_path
+
+                        else:
+                            queue.enqueue(new_path)
+
+            return 'No path found'
+
+        else:
+            return 'Not valid vertices'
