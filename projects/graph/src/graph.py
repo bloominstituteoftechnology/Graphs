@@ -82,13 +82,19 @@ class Graph:
     def bfs_search(self, starting_node, target_node):
         nodes = []
         visited = []
-        node = starting_node
-        nodes.append(node)
+        nodes.append(list(starting_node))
 
         # enqueue the starting node
         while nodes:
-            node = nodes.pop(0)
+            print("this is nodes before popping:", nodes)
+            list_of_nodes = nodes.pop(0)
+            copied_list = list_of_nodes.copy()
+            print("this is your copied list: ", copied_list)
+            print("this is the indexed list we are grabbing: ", list_of_nodes)
+            node = list_of_nodes.pop()
+            print("this is your node: ", node)
             # check if node has edges
+
             if len(self.vertices[node]) is 0:
                 # dequeue next num
                 visited.append(node)
@@ -96,28 +102,38 @@ class Graph:
             else:
                 # dequeue first node
                 if node == target_node:
+                    print("BFS Shortest Path: ", copied_list)
                     return True
                 else:
                     edge_nodes = list(self.vertices[node].copy())
-                    print(node)
                     visited.append(node)
                     for i in edge_nodes:
                         if i in visited or i in nodes:
                             pass
                         else:
-                            nodes.append(i)
+                            print("this is a path to: ", i)
+                            copy_list = copied_list.copy()
+                            copy_list.append(i)
+                            print(copy_list)
+                            nodes.append(copy_list)
         return False
 
     def dfs_search(self, starting_node, target_node):
         nodes = []
         visited = []
-        node = starting_node
-        nodes.append(node)
+        nodes.append(list(starting_node))
 
         # enqueue the starting node
         while nodes:
+            print("this is nodes before popping:", nodes)
+            list_of_nodes = nodes.pop()
+            print(list_of_nodes)
+            copied_list = list_of_nodes.copy()
+            print("this is your copied list: ", copied_list)
+            print("this is the indexed list we are grabbing: ", list_of_nodes)
+            node = list_of_nodes.pop()
+            print("this is your node: ", node)
 
-            node = nodes.pop()
             # check if node has edges
             if len(self.vertices[node]) is 0:
                 # dequeue next num
@@ -127,16 +143,20 @@ class Graph:
             else:
                 # dequeue first node
                 if node == target_node:
+                    print("DFS Search Path is: ", copied_list)
                     return True
                 else:
                     edge_nodes = list(self.vertices[node].copy())
-                    print(node)
                     visited.append(node)
                     for i in edge_nodes:
                         if i in visited or i in nodes:
                             pass
                         else:
-                            nodes.append(i)
+                            print("this is a path to: ", i)
+                            copy_list = copied_list.copy()
+                            copy_list.append(i)
+                            print(copy_list)
+                            nodes.append(copy_list)
         return False
 
 
@@ -151,6 +171,9 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.add_edge('3', '5')
 graph.add_edge('1', '4')
-print(graph.bfs_search('0', "5"))
-print(graph.dfs_search('0', "9"))
+print("------------------------BFS SEARCH STARTS HERE-------------------------")
+print(graph.bfs_search('0', "4"))
+print("------------------------DFS SEARCH STARTS HERE-------------------------")
+print(graph.dfs_search('0', "4"))
+# print(graph.dfs_search('0', "4"))
 # graph.add_edge('0', '4')
