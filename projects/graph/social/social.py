@@ -1,3 +1,4 @@
+
 import random
 
 
@@ -50,12 +51,14 @@ class SocialGraph:
         # Add users
         for num in range(numUsers):
             self.addUser(f"User {num}")
-        # Create friendships
+        # Declare friend list array variable
         friend_list = []
-        for i in range(numUsers):
-            for j in range(numUsers):
-                if i != j and i < j:
-                    friend_list += [[i, j]]
+        # Iterate over the range of numUsers + 1 for i, j
+        for user_id in range(numUsers + 1):
+            for friend_id in range(numUsers + 1):
+                # Check if
+                if user_id != friend_id and user_id < friend_id:
+                    friend_list += [[user_id + 1, friend_id]]
         random.shuffle(friend_list)
         friend_list = friend_list[:10]
         for x, y in friend_list:
@@ -72,6 +75,14 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # queue = []
+        # queue.append(userID)
+        # while len(queue) > 0:
+        #     node = queue.pop()
+        #     visited[node] = node
+        #     for friends in self.users[node]:
+        #         if friends not in visited:
+        #             queue.append(friends)
         return visited
 
 
