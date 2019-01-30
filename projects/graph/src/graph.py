@@ -18,7 +18,11 @@ class Graph:
         if origin in self.vertices and target in self.vertices:
             self.vertices[origin].add(target)
         else:
-            print('One of the provided vertices does not exist.')
+            if origin not in self.vertices and target not in self.vertices:
+                print(f"The provided vertices '{origin}' and '{target}' do not exist.")
+            else:
+                vertex = origin if origin not in self.vertices else target
+                print(f"Vertex '{vertex}' does not exist.")
 
     # Breadth First Traversal
     def bft(self, vertex):
@@ -166,7 +170,7 @@ graph.add_edge('5', '2')
 graph.add_edge('12', '14')
 
 # print(graph.vertices)
-# graph.add_edge('0', '4')
+graph.add_edge('0', '4')
 
 # graph.bft('0')
 # print('')
