@@ -81,10 +81,10 @@ class Graph:
         return stack
 
     def bfs(self, start, destination):
-        visited = set()
-        queue = [[start]]
-
         if start in self.vertices and destination in self.vertices:
+            visited = set()
+            queue = [[start]]
+
             while len(queue):
                 # This is O(n) and could be improved with a proper queue
                 path = queue.pop(0)
@@ -92,6 +92,7 @@ class Graph:
 
                 for neighbor in self.vertices[vertex]:
                     if neighbor not in visited:
+                        visited.add(neighbor)
                         new_path = path + [neighbor]
 
                         if neighbor is destination:
@@ -99,6 +100,31 @@ class Graph:
 
                         else:
                             queue.append(new_path)
+
+            print('No path found')
+
+        else:
+            print('Those vertices are not in this graph')
+
+    def dfs(self, start, destination):
+        if start in self.vertices and destination in self.vertices:
+            visited = set()
+            stack = [[start]]
+
+            while len(stack):
+                path = stack.pop()
+                vertex = path[-1]
+
+                for neighbor in self.vertices[vertex]:
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        new_path = path + [neighbor]
+
+                        if neighbor is destination:
+                            return new_path
+
+                        else:
+                            stack.append(new_path)
 
             print('No path found')
 
