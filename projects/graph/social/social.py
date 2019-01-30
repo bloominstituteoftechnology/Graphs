@@ -50,7 +50,6 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
         for i in range(numUsers):
@@ -114,7 +113,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(1000, 5)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
