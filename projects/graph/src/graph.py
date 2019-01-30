@@ -41,9 +41,9 @@ class Graph:
     def add_edge(self, v1, v2):
         #if vertex in indices
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add[v2]
+            self.vertices[v1].add(v2)
             #for undirected edge add second
-            self.vertices[v2].add[v1]
+            self.vertices[v2].add(v1)
             return 
         else: 
             print("At least one vertex does not exist.")
@@ -76,18 +76,18 @@ class Graph:
         s = Stack()
         visited = set()
         #push the starting node
-        s.push()
+        s.push(starting_node)
         #while the node is not empty
         while s:
             #pop a node from the stack
-            popped = s.pop(0)
+            popped = s.pop()
             #mark it as visited
             if popped not in visited:
-                visited.append(popped)
+                visited.add(popped)
             #push all of the children that have not been visited. 
             for i in self.vertices(popped):
                 if i not in visited: 
-                    s.append(i)
+                    s.push(i)
 
     def dft_recursive(self, starting_vertex, visited=None):
         pass
