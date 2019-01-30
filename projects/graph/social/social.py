@@ -1,8 +1,12 @@
+from random import shuffle, randint
+from itertools import combinations
+from queue import Queue
 
 
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -16,11 +20,14 @@ class SocialGraph:
         """
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
+            return 0
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
             print("WARNING: Friendship already exists")
+            return 0
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return 1
 
     def addUser(self, name):
         """
@@ -45,10 +52,26 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
+        if numUsers <= avgFriendships:
+            print("WARNING: Number of users must be greater than average friendships")
+            return
 
         # Add users
-
+        for user in range(numUsers):
+            self.addUser(user)
         # Create friendships
+        # possible_friendships = list(combinations(range(1, numUsers+1), 2))
+        # shuffle(possible_friendships)
+        # for num in range((numUsers*avgFriendships)//2):
+        #     friendship = possible_friendships[num]
+        #     self.addFriendship(friendship[0], friendship[1])
+
+        # Refactor for adding friendships stretch
+        numFriends = 0
+        while numFriends < numUsers*avgFriendships//2:
+            friends_added = self.addFriendship(
+                randint(1, numUsers), randint(1, 10))
+            numFriends += friends_added
 
     def getAllSocialPaths(self, userID):
         """
@@ -60,7 +83,15 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        queue = Queue()
+        queue.put([userID])
+        while not queue.empty():
+            path = queue.get()
+            node = path[-1]
+            if node not in visited:
+                visited[node] = path
+                for next_friend in self.friendships[node]:
+                    queue.put(path + [next_friend])
         return visited
 
 
@@ -70,3 +101,12 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+    # testing question 2 of part 3 below
+    # test = SocialGraph()
+    # test.populateGraph(1000, 5)
+    # test_connections = test.getAllSocialPaths(1)
+    # print(len(test_connections))
+    # degree_of_sep = []
+    # for key in test_connections:
+    #     degree_of_sep.append(len(test_connections[key]))
+    # print(sum(degree_of_sep)/len(degree_of_sep))
