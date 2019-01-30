@@ -45,11 +45,23 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+        from itertools import combinations
+        import random
         # Add users
+        for i in range(numUsers):
+            self.addUser(f'User{i}')
 
         # Create friendships
 
+        allPossibleFrienships = list(combinations(range(1, numUsers+1), 2))
+        print(allPossibleFrienships)
+        random.shuffle(allPossibleFrienships)
+        total = avgFriendships * numUsers
+        for i in range(numUsers):
+            friends = allPossibleFrienships[i]
+            self.addFriendship(friends[0], friends[1])
+        
+            
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -66,7 +78,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(5, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
