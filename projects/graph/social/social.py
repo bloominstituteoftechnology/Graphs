@@ -1,6 +1,7 @@
 import random
 from itertools import combinations
 
+
 class User:
     def __init__(self, name):
         self.name = name #Vertex
@@ -22,6 +23,35 @@ class SocialGraph:
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+
+    def breadth_first_search(self, starting_vertex, target):
+        # create a _queue_ FIFO
+        q = []
+        visited = []
+        # Enqueue the starting vertex
+        q.append(starting_vertex)
+        print("Queue: ",q)
+        # while the queue is not empty
+        while len(q) > 0:
+            # dequeue a node from the queue
+            path = q.pop()
+            node = path[-1]
+            if node not in visited:
+                # Mark it as visited
+                visited.append(node)
+                print("visited breadth search: ",visited)
+                if target in visited:
+                    print("Path: ",path)
+                    print("Dup_Path: ", dup_path)
+                    return dup_path
+                # Enqueue all of its children
+                for i in self.friendships[int(node)]:
+                    if i not in visited:
+                        dup_path = list(path)
+                        dup_path.append(i)
+                        q.append(dup_path)
+
+        return None
 
     def addUser(self, name):
         """
@@ -56,7 +86,7 @@ class SocialGraph:
         actual_friendships = possible_friendships[:total]
         for friendship in actual_friendships:
             social_g.addFriendship(friendship[0], friendship[1])
-        print(social_g.friendships)
+        self.friendships = social_g.friendships
 
 
         # Add users
@@ -72,8 +102,12 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        # sg = SocialGraph()
+        print("inside getAllSocialPaths", self.friendships )
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        for i in self.friendships[userID]:
+            visited[i] = sg.breadth_first_search(str(userID), i)
         return visited
 
 
