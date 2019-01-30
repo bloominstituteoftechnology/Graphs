@@ -3,7 +3,7 @@ from collections import deque
 Simple graph implementation
 """
 class Queue():
-    __init__(self):
+    def __init__(self):
         self.queue = []
     def enqueue(self, value):
         self.queue.append(value)
@@ -17,7 +17,7 @@ class Queue():
         return(len(self.queue))
 
 class Stack():
-    __init__(self):
+    def __init__(self):
         self.stack = []
         #these are big O of 1
     def push(self, value):
@@ -40,7 +40,7 @@ class Graph:
     
     def add_edge(self, v1, v2):
         #if vertex in indices
-        if v1 in vertices and v2 in vertices:
+        if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add[v2]
             #for undirected edge add second
             self.vertices[v2].add[v1]
@@ -95,24 +95,56 @@ class Graph:
     def bfs(self, starting_vertex, target):
         #create a queue
         q = Queue()
-        visited = set()
+        visited = []
+        #path = [] #def use list since it needs to be ordered
+        #queue entire path
         #enqueue starting vertex
         q.enqueue(starting_vertex)
         #while the queue is not empty
         while q: 
             #dequeue a vertex from the queue
-            dequeued = q.dequeue()
+            path = q.dequeue()
+            last_vertex = path[-1:]
             #if that vertex has not been visited
-            if dequeued not in visited:
-                #mark it as visited
-                if dequeued == target:
-                    return True
-                print(dequeued)
-                visited.add(dequeued)
+            if last_vertex not in visited:
+                #mark it as visited and if is equal to target return that path
+                if last_vertex == target:
+                    return path
+                print(last_vertex, path)
+                visited.add(last_vertex)
                 #enqueue all of its children
-                for children in self.vertices(dequeued):
-                    q.enqueue(children)
+                for child in self.vertices[last_vertex]:
+                    duplicate_path = list(path)
+                    duplicate_path.append(child)
+                    enqueue(duplicate_path)
         return False
+    
+    def dfs(self, starting_vertex, target):
+        #create stack
+        s = Stack()
+        visited = []
+        #push starting vertex
+        s.push(starting_vertex)
+        #while stack is not empty
+        while s:
+            #pop a vertex from stack
+            path = s.pop()
+            last_vertex = path[-1:]
+            #if that vertex has not been visited
+            if last_vertex not in visited:
+                #mark it as visited and if is equal to target return that path
+                if last_vertex == target:
+                    return path
+                print(last_vertex, path)
+                visited.add(last_vertex)
+                #stack all of its children
+                for child in self.vertices[last_vertex]:
+                    duplicate_path = list(path)
+                    duplicate_path.append(child)
+                    push(duplicate_path)
+        return False
+
+
 
 
 
