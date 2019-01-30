@@ -47,6 +47,19 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        from itertools import combinations
+        import random
+
+        sg = SocialGraph()
+        for user in range(numUsers):
+            sg.addUser(f"User {user}")
+        
+        possible_friendships = list(combinations(range(1, len(sg.users)+1), 2))
+        random.shuffle(possible_friendships)
+        friendships = possible_friendships[:15]
+
+        for friendship in friendships:
+            sg.addFriendship(friendship[0], friendship[1])
 
         # Create friendships
 
