@@ -1,8 +1,11 @@
+import random
+from itertools import combinations
 
 
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -16,7 +19,9 @@ class SocialGraph:
         """
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
-        elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
+        elif (
+            friendID in self.friendships[userID] or userID in self.friendships[friendID]
+        ):
             print("WARNING: Friendship already exists")
         else:
             self.friendships[userID].add(friendID)
@@ -47,8 +52,17 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f"User {i}")
 
         # Create friendships
+        possible_friendships = list(combinations(range(1, numUsers + 1), 2))
+        random.shuffle(possible_friendships)
+        numFriendships = (numUsers * avgFriendships) // 2
+        actual_friendships = possible_friendships[:numFriendships]
+
+        for friendships in actual_friendships:
+            self.addFriendship(friendships[0], friendships[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -64,9 +78,9 @@ class SocialGraph:
         return visited
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(10, 3)
     print(sg.friendships)
-    connections = sg.getAllSocialPaths(1)
-    print(connections)
+    # connections = sg.getAllSocialPaths(1)
+    # print(connections)
