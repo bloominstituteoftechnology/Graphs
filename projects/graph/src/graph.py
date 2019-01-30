@@ -29,6 +29,23 @@ class Graph:
                         continue
                     queue.append(vertex)
                 visited.append(queue.pop(0))
-            return(visited)
+            print(visited)
+        else:
+            print("Vertex not in list")
+
+    def dft(self, vertex):
+        queue = []
+        visited = []
+        if vertex in self.vertices:
+            queue.append(vertex)
+            while queue:
+                print("iteration", queue)
+                for vertex in self.vertices[queue[0]]:
+                    if vertex in visited:
+                        continue
+                    queue.insert(0, vertex)
+                    print(queue)
+                visited.append(queue.pop(-1))
+            print(visited)
         else:
             print("Vertex not in list")
