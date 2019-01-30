@@ -83,6 +83,10 @@ class SocialGraph:
         possible_friendships = list(combinations(range(1, len(social_g.users) + 1), 2))
         random.shuffle(possible_friendships)
         total = (numUsers*avgFriendships)//2
+        print("Theoretical Friendships: ",len(possible_friendships))
+        print("Total Actual Friendships: ",total)
+        percent_others = (total/len(possible_friendships))*100
+        print(f"Percentage of extended network: {percent_others}%", )
         actual_friendships = possible_friendships[:total]
         for friendship in actual_friendships:
             social_g.addFriendship(friendship[0], friendship[1])
@@ -113,7 +117,11 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(10, 3)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+    sg.populateGraph(100, 10)
+    print(sg.friendships)
+    sg.populateGraph(1000, 5)
+    print(sg.friendships)
