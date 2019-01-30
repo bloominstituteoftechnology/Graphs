@@ -88,6 +88,28 @@ class Graph:
 
         return None
 
+    def dfs(self, starting_vert, target_vert):
+        paths = Stack()
+        paths.add_to_tail([starting_vert]) 
+        visited = set() 
+
+        while paths.len() > 0:
+            cur_path = paths.remove_from_tail()
+            cur_vert = cur_path[-1]
+            visited.add(cur_vert)
+
+            if cur_vert is target_vert:
+                return cur_path
+            else:
+                for vert in self.vertices[cur_vert]:
+                    if vert is not None:
+                        if not vert in visited:
+                            new_path = list(cur_path)
+                            new_path.append(vert)
+                            paths.add_to_tail(new_path)
+
+        return None
+
 
 
 
@@ -108,4 +130,4 @@ graph.add_directed_edge('4', '2')
 graph.add_directed_edge('2', '5')
 graph.add_directed_edge('4', '6')
 graph.add_directed_edge('6', '7')
-print(graph.bfs('0', '5'))
+print(graph.dfs('0', '5'))
