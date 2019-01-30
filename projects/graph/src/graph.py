@@ -64,7 +64,6 @@ class Graph:
                 # add children to que
                 for next_node in self.vertices[node]:
                     q.nq(next_node)
-        # print(visited)
         pass
     
     def dft(self, start):
@@ -98,6 +97,51 @@ class Graph:
             if child not in visited:
                 self.dft_r(child, visited)
 
+    def bfs(self, start, target):
+        # create que
+        q = Queue()
+        # create visited
+        visited = set()
+        # que the start
+        q.nq(start)
+        # # while que not empty
+        while q.size() > 0:
+            # remove item from que
+            node = q.dq()
+            if node not in visited:
+                # mark as visited / add to visited
+                if node == target:
+                    return True
+                print(node)
+                visited.add(node)
+                # add children to que
+                for next_node in self.vertices[node]:
+                    q.nq(next_node)
+        return False
+
+    def dfs(self, start, target):
+        # create a stack
+        s = Stack()
+        visited = set()
+        # push start
+        s.push(start)
+        # while stack is not empty
+        while s.size() > 0:
+            # pop a node from the stack
+            node = s.pop()
+            # if the node is not in visited
+            if node not in visited:
+                if node == target:
+                    return True
+                # mark it as visited
+                print(node)
+                visited.add(node)
+                # push all children that have not been visited
+                for next_node in self.vertices[node]:
+                    s.push(next_node)
+        return False
+
+
 
 tester = Graph()
 tester.add_vertex('1')
@@ -123,3 +167,4 @@ print(tester.vertices)
 # tester.bft('1')
 # tester.dft('1')
 tester.dft_r('1')
+print(tester.dfs('1', '6'))
