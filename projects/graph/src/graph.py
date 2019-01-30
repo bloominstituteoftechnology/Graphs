@@ -150,3 +150,34 @@ class Graph:
 
         else:
             return 'Not valid vertices'
+
+    def DFS_PATH(self, start, destination):
+        if start in self.vertices and destination in self.vertices:
+
+            if start == destination:
+                return [start]
+       
+            visited = set()
+            stack = Stack()
+            stack.push([start])
+
+            while stack.size() > 0:
+                path = stack.pop_1()
+                vertex = path[-1]
+
+                for edge_vertex in self.vertices[vertex]:
+                    if edge_vertex not in visited:
+                        visited.add(edge_vertex)
+                        new_path = path + [edge_vertex]
+
+                        if edge_vertex is destination:
+                            return new_path
+
+                        else:
+                            stack.push(new_path)
+
+            return 'No path found'
+
+        else:
+            return 'Not valid vertices'
+

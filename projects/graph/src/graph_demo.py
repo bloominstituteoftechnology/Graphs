@@ -44,7 +44,9 @@ def main():
     print("\n",graph.breadth_first_search(0, 3)) # TRUE as 3 is in vertices
     print("\nDEPTH-FIRST-SEARCH...")
     print("\n",graph.depth_first_search(0, 9))  # False as 9 is not present in vertices
-    print("BFS_PATH    " ,graph.BFS_path(0, 3))
+    print("BFS_PATH    " ,graph.BFS_path(0, 3)) #0-1-3
+    print("DFS_PATH    " ,graph.BFS_path(0, 3)) #0-1-3
+    print("DFS_PATH    " ,graph.BFS_path(0, 4)) #0-1-4
     
     
 if __name__ == '__main__':
