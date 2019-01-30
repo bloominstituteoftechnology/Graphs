@@ -27,7 +27,7 @@ class Graph:
       # Dequeue a node from the queue
       n = q.pop()
       # mark it as visited
-      print(f'bft visit: {n}') # <-- debugging
+      # print(f'bft visit: {n}') # <-- debugging
       visited.add(n)
       # enqueue all of it's children that have not been visited
       if self.vertices[n] != set():
@@ -46,7 +46,7 @@ class Graph:
       # pop a node from the stack
       n = s.pop(-1)
       # mark it as visited
-      print(f'dst visit: {n}') # <-- debugging
+      # print(f'dst visit: {n}') # <-- debugging
       visited.add(n)
       # push all of it's children that have not been visited
       if self.vertices[n] != set():
@@ -60,7 +60,7 @@ class Graph:
     # if the node has not been visited:
     if starting_node not in visited:
       # mark the node as visited
-      print(f'dst_r visit: {starting_node}') # <-- debugging
+      # print(f'dst_r visit: {starting_node}') # <-- debugging
       visited.add(starting_node)
       # call dft_r on all children
       if self.vertices[starting_node] != set():
@@ -157,23 +157,23 @@ class Graph:
             s.append(n + [item])
     return False
 
-graph = Graph()
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('2', '3')
-graph.add_edge('1', '2')
-print(f'Graph Vertices: {graph.vertices}')
-graph.bft('0')
-graph.dft('0')
-graph.dft_r('0')
-print(graph.bfs('0', '3'))
-print(graph.bfs('0', '4'))
-print(graph.dfs('0', '3'))
-print(graph.dfs('0', '4'))
-print(graph.bfs_path('0', '3'))
-print(graph.dfs_path('0', '3'))
+# graph = Graph()
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('2', '3')
+# graph.add_edge('1', '2')
+# print(f'Graph Vertices: {graph.vertices}')
+# graph.bft('0')
+# graph.dft('0')
+# graph.dft_r('0')
+# print(graph.bfs('0', '3'))
+# print(graph.bfs('0', '4'))
+# print(graph.dfs('0', '3'))
+# print(graph.dfs('0', '4'))
+# print(graph.bfs_path('0', '3'))
+# print(graph.dfs_path('0', '3'))
 
 
