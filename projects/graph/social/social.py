@@ -1,6 +1,7 @@
 import random
 import math
 from itertools import combinations
+from Queue import Queue
 
 class User:
     def __init__(self, name):
@@ -81,7 +82,17 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        q = Queue()
+        q.enqueue(userID)
+        while q.len() is not 0:
+            n = q.dequeue()
+            if n not in visited:
+                visited[n]= self.friendships[n]
+                for i in self.friendships[int(n)]:
+                    q.enqueue(i)
         return visited
+
+
 
 
 if __name__ == '__main__':
