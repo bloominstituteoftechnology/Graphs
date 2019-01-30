@@ -57,7 +57,7 @@ class SocialGraph:
         for user_id in range(numUsers + 1):
             for friend_id in range(numUsers + 1):
                 # Check if
-                if user_id != friend_id and user_id < friend_id:
+                if user_id + 1 != friend_id and user_id < friend_id:
                     friend_list += [[user_id + 1, friend_id]]
         random.shuffle(friend_list)
         friend_list = friend_list[:10]
