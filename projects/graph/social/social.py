@@ -1,4 +1,5 @@
 from itertools import combinations
+import random
 
 class User:
     def __init__(self, name):
@@ -49,7 +50,12 @@ class SocialGraph:
             self.addUser(f"User: {i}")
 
         # Create friendships
-        friendshipator = list(combinations(range(1, numUsers+1), 2))
+        possible_friendships = list(combinations(range(1, numUsers+1), 2))
+        random.shuffle(possible_friendships)
+        friendships_on_avg = (possible_friendships * avgFriendships) // 2
+        actual_friendships = possible_friendships[:friendships_on_avg]
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         
