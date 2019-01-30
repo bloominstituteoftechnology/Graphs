@@ -1,3 +1,4 @@
+from itertools import combinations
 import random
 # --------------- NOTES from instructions / instructors ------------
 
@@ -65,9 +66,19 @@ class SocialGraph:
 
         # - Lambda - Add users
         # use addUsers function here
+        for i in range(10):
+            self.addUser(f"user {i}")
 
         # - Lambda - Create friendships
         # use addFriendships function here
+        possible_friendships = list(combinations(range(1, numUsers + 1), 2))
+        random.shuffle(possible_friendships)
+        actual_friendships = possible_friendships[:15]
+
+        for friendship in actual_friendships:
+            self.addFriendship(friendships[0], friendships[1])
+        
+        # HINT for STRETCH #2 --- (random.randint(1,10), random.randint(1,10))
 
     def getAllSocialPaths(self, userID):
         # BFS for shortest path
