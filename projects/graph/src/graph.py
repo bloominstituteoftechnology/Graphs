@@ -112,7 +112,37 @@ class Graph:
 
 
     # Depth First Search
+    def dfs(self, origin, target):
 
+        # Check if target matches the origin
+        if target == origin:
+            return 'Self matches origin.'
+        
+        # Keep track of vertices to be visited
+        stack = [origin]
+
+        # Keep track of the paths need to reach vertices
+        paths = {origin:[origin]}
+
+        while len(stack) > 0:
+            current_vertex = stack.pop()
+            if current_vertex == target:
+                return paths[i]
+            # Add all edges of given vertex to stack
+            for i in self.vertices[current_vertex]:
+
+                # If vertex has not been visited, cache its path
+                if i not in paths:
+                    paths[i] = list(paths[current_vertex])
+                    paths[i].append(i)
+                    stack.append(i)
+
+                    # If vertex matches target, return target
+                    if i == target:
+                        return paths[i]
+        
+        # Return a message if target was not found
+        return 'A path to the given target vertex could not be found.'
 
 # Test
 graph = Graph()
@@ -144,4 +174,5 @@ graph.add_edge('12', '14')
 # print('')
 # graph.dft_r('0')
 
-print(graph.bfs('3', '2'))
+print(graph.bfs('0', '2'))
+print(graph.dfs('0', '2'))
