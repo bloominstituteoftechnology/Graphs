@@ -47,14 +47,14 @@ class SocialGraph:
         queue = deque()
         queue.append([starting_vertex])
         visited = {}
-        avg = 0
+        # avg = 0
         
         while queue:     
             path = queue.popleft()
             last_node = path[-1:][0]
             if last_node not in visited_bfs:
                 visited[last_node] = path
-                avg += (len(path) - 1)
+                # avg += (len(path) - 1)
                 # print(last_node, path)
                 if last_node == target:
                     return path
@@ -63,7 +63,7 @@ class SocialGraph:
                     new_list = list(path)
                     new_list.append(v)
                     queue.append(new_list)
-        print('Avg', avg)
+        # print('Avg', avg)
         return visited
 
     def populateGraph(self, numUsers, avgFriendships):
@@ -131,6 +131,9 @@ class SocialGraph:
         # !! 100% of users are in a user's extended social network
         # !! (with such a large number there were no empty sets.)
         # !! On average they are 3.2 degrees of separation from each other. Most are 4 degrees apart with some a little closer.
+
+        # !! Stretch: Instead of creating one average for the numbers of  friends provide different averages for different population groups. 
+        # !! Higher average number of contacts for people who are: outgoing, travel frequently, live in larger cities, involved in many social clubs,etc. And a lower average for the inverse.
 
 
 
