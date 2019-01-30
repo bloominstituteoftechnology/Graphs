@@ -1,4 +1,5 @@
-
+import random
+from itertools import combinations
 
 class User:
     def __init__(self, name):
@@ -44,11 +45,20 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
+        for id in range(1, numUsers + 1):
+            self.addUser(id)
 
         # Create friendships
+        possible_friendships = list(combinations(range(1, len(self.users) + 1), avgFriendships))
+        random.shuffle(possible_friendships)
+
+        number_of_friendships = int((numUsers * avgFriendships) / 2)
+        actual_friendships = possible_friendships[:number_of_friendships]
+
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -60,7 +70,31 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+
+        # For each user in the network
+        for user in self.users:
+            to_visit = []
+            friends_visited = set()
+            to_visit.append([userID])
+
+            while len(to_visit) > 0:
+                deq_path = to_visit.pop(0)
+                deq_user = deq_path[-1]
+
+                if deq_user not in friends_visited:
+                    if deq_user == user:
+                        visited[user] = deq_path
+                        break
+
+                    # Mark user as visited
+                    friends_visited.add(deq_user)
+
+                    # For each friend of user, copy a new path and append the friend
+                    for friend in self.friendships[deq_user]:
+                        copied_path = list(deq_path)
+                        copied_path.append(friend)
+                        to_visit.append(copied_path)
+
         return visited
 
 
