@@ -97,9 +97,10 @@ class SocialGraph:
             if node not in visited:
                 visited[node] = path
             for next_friendship in self.friendships[node]:
-                dupl_path = list(path)
-                dupl_path.append(next_friendship)
-                queue.enqueue(dupl_path)
+                if next_friendship not in visited:
+                    dupl_path = list(path)
+                    dupl_path.append(next_friendship)
+                    queue.enqueue(dupl_path)
         return visited
 
 
