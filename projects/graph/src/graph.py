@@ -25,19 +25,16 @@ class Graph:
             print('Graph does not contain that vertex')
 
         else:
-            visited = {}
+            visited = set()
             queue = [start_vertex]
             i = 0
 
-            for vertex in self.vertices.keys():
-                visited[vertex] = 0
-
             while i < len(queue):
                 vertex = queue[i]
-                visited[vertex] = 1
+                visited.add(vertex)
 
                 for neighbor in self.vertices[vertex]:
-                    if not visited[neighbor]:
+                    if neighbor not in visited:
                         queue.append(neighbor)
 
                 i += 1
@@ -49,21 +46,36 @@ class Graph:
             print('Graph does not contain that vertex')
 
         else:
-            visited = {}
+            visited = set()
             stack = [start_vertex]
             order = []
 
-            for vertex in self.vertices.keys():
-                visited[vertex] = 0
-
             while len(stack):
                 vertex = stack.pop()
-                visited[vertex] = 1
+                visited.add(vertex)
 
                 for neighbor in self.vertices[vertex]:
-                    if not visited[neighbor]:
+                    if neighbor not in visited:
                         stack.append(neighbor)
 
                 order.append(vertex)
 
             return order
+
+    def recursive_dft(self, vertex, stack=None):
+        if stack is None:
+            if vertex not in self.vertices:
+                print('Graph does not contain that vertex')
+
+                return None
+
+            else:
+                stack = []
+
+        stack.append(vertex)
+
+        for neighbor in self.vertices[vertex]:
+            if neighbor not in stack:
+                self.recursive_dft(neighbor, stack)
+
+        return stack
