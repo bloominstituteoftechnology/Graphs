@@ -56,6 +56,7 @@ class SocialGraph:
       user_arr.append(i + 1)
 
     # Create friendships
+<<<<<<< HEAD
     # poss_friendships = []
     # for f1 in range(1, len(user_arr)):
     #   friend_1 = f1
@@ -65,6 +66,12 @@ class SocialGraph:
     from itertools import combinations
 
     poss_friendships = list(combinations(range(1, numUsers), 2))
+=======
+    poss_friendships = []
+    for f1 in range(1, len(user_arr)):
+      for f2 in range(f1 + 1, len(user_arr)):
+        poss_friendships.append([f1, f2])
+>>>>>>> fcca79715c3b605cd2a74fac6bec4e1bd81c9c40
 
     # select random friendships until average is filled
     self.fisherYatesShuffle(poss_friendships)
