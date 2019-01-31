@@ -125,4 +125,6 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
 
+   1. I would expect there to be a smaller degree of connection because in "real life" there is only a 6 degree of seperation apparently. So I think one way to fix this would be to have a denser graph to make up for the very even distribution of friends and connections.
+
 2. If you followed the hints for part 1, your `populateGraph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
