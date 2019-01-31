@@ -50,6 +50,7 @@ class SocialGraph:
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return True
 
     def addUser(self, name):
         """
@@ -80,20 +81,30 @@ class SocialGraph:
         for i in range(numUsers):
             self.addUser(f"User {i}")
 
-        possible_friendships = []
-        for i in range(1, numUsers + 1):
-            for j in range(1, numUsers + 1):
-                if i != j and (i, j) not in possible_friendships \
-                        and (j, i) not in possible_friendships:
-                    possible_friendships.append((i, j))
+        # O(n^2)
+        # possible_friendships = []
+        # for i in range(1, numUsers + 1):
+        #     for j in range(1, numUsers + 1):
+        #         if i != j and (i, j) not in possible_friendships \
+        #                 and (j, i) not in possible_friendships:
+        #             possible_friendships.append((i, j))
 
-        # Create friendships
-        random.shuffle(possible_friendships)
-        total = int((numUsers * avgFriendships) / 2)
-        made_friendship = possible_friendships[:total]
+        # # Create friendships
+        # random.shuffle(possible_friendships)
+        # total = int((numUsers * avgFriendships) / 2)
+        # made_friendship = possible_friendships[:total]
 
-        for friends in made_friendship:
-            self.addFriendship(friends[0], friends[1])
+        # for friends in made_friendship:
+        #     self.addFriendship(friends[0], friends[1])
+
+        # O(n)
+        count = 0
+        total = (numUsers * avgFriendships) // 2
+        while count < total:
+            friendship = (random.randint(1, numUsers),
+                          random.randint(1, numUsers))
+            if self.addFriendship(friendship[0], friendship[1]):
+                count += 1
 
     def getAllSocialPaths(self, userID):
         """
@@ -110,47 +121,52 @@ class SocialGraph:
         # With the Graph class
         # runtime: 1.9708278179168701 seconds 100 users, 20 average
         # runtime: 24.768869876861572 seconds 200 users, 20 average
-        # g = Graph()
-        # for user in self.users:
-        #     g.add_vertex(user)
+        # runtime: 24.120848417282104 seconds
+        # runtime: 24.88981318473816 seconds
+        g = Graph()
+        for user in self.users:
+            g.add_vertex(user)
 
-        # for user in self.friendships:
-        #     for friend in self.friendships[user]:
-        #         g.add_edge(user, friend)
+        for user in self.friendships:
+            for friend in self.friendships[user]:
+                g.add_edge(user, friend)
 
-        # for friend in self.users:
-        #     path = g.bfs(userID, friend)
-        #     visited[friend] = path
+        for friend in self.users:
+            path = g.bfs(userID, friend)
+            if path is not False:
+                visited[friend] = path
 
         # Without the Graph class but have Queue
         # runtime: 1.8722269535064697 seconds
         # runtime: 27.13098406791687 seconds
-        for friend in self.users:
-            q = Queue()
-            visit = set()
-            path = []
-            q.enqueue([userID])
+        # runtime: 26.577613592147827 seconds
+        # runtime: 26.608980178833008 seconds
+        # for friend in self.users:
+        #     q = Queue()
+        #     visit = set()
+        #     path = []
+        #     q.enqueue([userID])
 
-            while len(q.storage) > 0:
-                node = q.dequeue()
-                path = node
-                vnode = node[-1]
-                if vnode == friend:
-                    visited[friend] = path
-                    pass
-                visit.add(vnode)
-                for child in self.friendships[vnode]:
-                    if child not in visit:
-                        dup_node = node[:]
-                        dup_node.append(child)
-                        q.enqueue(dup_node)
+        #     while len(q.storage) > 0:
+        #         node = q.dequeue()
+        #         path = node
+        #         vnode = node[-1]
+        #         if vnode == friend:
+        #             visited[friend] = path
+        #             pass
+        #         visit.add(vnode)
+        #         for child in self.friendships[vnode]:
+        #             if child not in visit:
+        #                 dup_node = node[:]
+        #                 dup_node.append(child)
+        #                 q.enqueue(dup_node)
 
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(200, 20)
+    sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
