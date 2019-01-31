@@ -1,6 +1,7 @@
 from itertools import combinations
 import random
 from queue import Queue
+import time
 
 class User:
     def __init__(self, name):
@@ -51,6 +52,7 @@ class SocialGraph:
 
         # Create friendships
         # Combinations return back a slice of the list
+        # Combinations is O(n) because of how itertools work behind the scene, and also because we have to get all the possible friendships
         possible_friendships = list(combinations(range(1, len(self.users)+1), 2))    # O(n choose r) => O(n^2)?
         random.shuffle(possible_friendships)
         # Since addFriendsip creates two connections internally, we divide by 2 that way we create only half of the connections
@@ -118,11 +120,14 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
+    
+    start_time = time.time()
+    
 #    sg.populateGraph(1000, 5)
-    sg.populateGraphFast(1000000, 5)
+    sg.populateGraphFast(100000, 50)
 #    print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
-    print(len(connections))
+#    print(len(connections))
     
     total_degree_of_separation = 0
     total_number_of_samples = 0
@@ -137,15 +142,16 @@ if __name__ == '__main__':
     
     print(f"Average degrees of separation: {total_degree_of_separation/total_number_of_samples}")
 
-
+    end_time = time.time()
+    print(f"Runtime: {end_time - start_time} seconds")
 
 #    Part 3
 #    To create 100 users with an average of 10 friends each, how many times would you need to call addFriendship()? Why?
 #    - 100 * 10 // 2 => 500, number of connections. This is used to get the actual_friendships, since we're looping thru it, its that number of calls
 #
 #    If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
-#    - Running line 97 several times seems to be about 99%.
-#    - Using the algorithm between lines 102 - 109, it seems the average is about 4 - 5 degrees of separation. (Not including yourself)
+#    - Running line 127 several times seems to be about 99%.
+#    - Using the algorithm between lines 132 - 139, it seems the average is about 4 - 5 degrees of separation. (Not including yourself)
 #
 #
 #    Part 4 - Refactor
