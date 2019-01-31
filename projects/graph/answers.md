@@ -17,3 +17,4 @@ if __name__ == '__main__':
     total_extended += len(value)
   print(f'Average connections in extended network: {total_extended/total_keys}')
   ```
+  which is between 11 and 12 % of total users
