@@ -1,7 +1,15 @@
 from itertools import combinations
-from random import shuffle
 from collections import deque
 from random import randint
+#from random import shuffle
+
+
+def fisher_yates_shuffle(l):
+    n = len(l)
+    for i in range(n):
+        j = randint(i, n - 1)
+        l[i], l[j] = l[j], l[i]
+
 
 class User:
     def __init__(self, name):
@@ -58,7 +66,8 @@ class SocialGraph:
 
         # Create friendships
         possible_friendships = list(combinations(range(1, numUsers+1), 2))
-        shuffle(possible_friendships)
+        # shuffle(possible_friendships)
+        fisher_yates_shuffle(possible_friendships)
         num_friendships = avgFriendships * numUsers
         friendship_list = possible_friendships[:num_friendships//2]
         for friendship in friendship_list:
@@ -123,8 +132,8 @@ If you create 1000 users with an average of 5 random friends each, what percenta
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(sg.friendships)
+    sg.populateGraph(10, 2)
+    print(f"Friendships:\n{sg.friendships}")
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    print(f"\nConnections:\n{connections}")
 
