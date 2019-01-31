@@ -1,4 +1,21 @@
+from itertools import combinations
+import random
 
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def size(self):
+        return len(self.queue)
+    
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else: 
+            return None
 
 class User:
     def __init__(self, name):
@@ -47,8 +64,20 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        if numUsers > avgFriendships:
+            for i in range(numUsers):
+                self.addUser(f'User {i}')
+        else:
+            print('Number of users must be larger than average number of friendships.')
 
         # Create friendships
+
+        possible_friendships = list(combinations(range(1, numUsers+1), 2))
+        random.shuffle(possible_friendships)
+        actual_friendships = possible_friendships[:avgFriendships * numUsers // 2]
+
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -60,13 +89,32 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        queue = Queue()
+        queue.enqueue([userID])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            node = path[-1]
+            if node not in visited:
+                visited[node] = path
+            for next_friendship in self.friendships[node]:
+                if next_friendship not in visited:
+                    dupl_path = list(path)
+                    dupl_path.append(next_friendship)
+                    queue.enqueue(dupl_path)
         return visited
+
+
+
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    print(sg.friendships)
+    sg.populateGraph(1000, 5)
+    print('Friendships:', sg.friendships)
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    total = 0
+    for key in connections:
+        total += len(connections[key])
+    avg_degree_of_separation = total / len(connections)
+    print('Connections:', connections)
+    print('avg_degree_of_separation:', avg_degree_of_separation)
