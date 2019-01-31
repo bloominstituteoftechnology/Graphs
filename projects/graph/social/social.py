@@ -20,14 +20,17 @@ class SocialGraph:
         Creates a bi-directional friendship
         """
         if userID == friendID:
-            print("WARNING: You cannot be friends with yourself")
+            # print("WARNING: You cannot be friends with yourself")
+            return False
         elif (
             friendID in self.friendships[userID] or userID in self.friendships[friendID]
         ):
-            print("WARNING: Friendship already exists")
+            # print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return True
 
     def addUser(self, name):
         """
@@ -58,14 +61,22 @@ class SocialGraph:
             self.addUser(f"User {i}")
 
         # Create friendships
-        possible_friendships = list(combinations(range(1, numUsers + 1), 2))
-        # random.seed(1)
-        random.shuffle(possible_friendships)
-        numFriendships = (numUsers * avgFriendships) // 2
-        actual_friendships = possible_friendships[:numFriendships]
+        # possible_friendships = list(combinations(range(1, numUsers + 1), 2))
+        # # random.seed(1)
+        # random.shuffle(possible_friendships)
+        # numFriendships = (numUsers * avgFriendships) // 2
+        # actual_friendships = possible_friendships[:numFriendships]
 
-        for friendships in actual_friendships:
-            self.addFriendship(friendships[0], friendships[1])
+        # for friendships in actual_friendships:
+        #     self.addFriendship(friendships[0], friendships[1])
+
+        # Run in O(n) time
+        target_friendships = (numUsers * avgFriendships) // 2
+        num_created = 0
+        while num_created < target_friendships:
+            friendship = (random.randint(1, numUsers), random.randint(1, numUsers))
+            if self.addFriendship(friendship[0], friendship[1]):
+                num_created += 1
 
     def getAllSocialPaths(self, userID):
         """
@@ -106,7 +117,7 @@ class SocialGraph:
 
 if __name__ == "__main__":
     sg = SocialGraph()
-    sg.populateGraph(10, 3)
+    sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
