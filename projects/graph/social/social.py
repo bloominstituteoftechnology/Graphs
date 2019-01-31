@@ -45,11 +45,22 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+        from itertools import combinations
+        import random
         # Add users
+        for i in range(numUsers):
+            self.addUser(f'User{i}')
 
         # Create friendships
 
+        allPossibleFrienships = list(combinations(range(1, numUsers+1), 2))
+        random.shuffle(allPossibleFrienships)
+        total = (numUsers * avgFriendships) / 2
+        for i in range(int(total)):
+            friends = allPossibleFrienships[i]
+            self.addFriendship(friends[0], friends[1])
+        
+            
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -61,12 +72,48 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        for i in range(1, len(self.users) + 1):
+            if len(self.friendships[i]) is not 0:
+                visited[i] = self.bft_path(userID, i)  
+        total = 0
+        for path in visited:
+            if len(visited[path]) is not 0:
+                total += len(visited[path]) - 1
+        print(total)
         return visited
 
 
+    def bft_path(self, start, target):
+        from queue import Queue
+        if start in self.friendships:
+            nextItems = Queue()
+            visited = []
+            path = []
+            nextItems.put([start])
+            while nextItems.empty() is not True:
+                first = nextItems.get()
+                if first[-1] not in visited:
+                    path.append(first[-1])
+                    if first[-1] == target:
+                        path = first
+                        return path
+                    visited.append(first[-1])
+                    for num in self.friendships[first[-1]]:
+                        tempPath = path + [num]
+                        nextItems.put(tempPath)
+        else:
+            return None
+    
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    print(sg.friendships)
+    sg.populateGraph(1000, 5)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+'''
+ Questions:
+ 1. numUsers * avg / 2 = timesCalled
+    100 * 10 / 2 = timesCalled
+    500 = timesCalled
+ 2. .5% . The average degree of seperation is around 190, changed depending on how the graph 
+ is created.
+'''
