@@ -120,8 +120,18 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
         for i in self.friendships[userID]:
             visited[i] = sg.breadth_first_search(userID, i)
+        count = 0
         for connections in visited:
-            print("connections average: ", connections)
+            list_conn = []
+            list_conn.append(connections)
+            print("listed connections for average: ", visited[connections])
+            print("connections degree length: ", len(visited[connections]) - 1)
+            degrees = len(visited[connections])-1
+            count+=degrees
+            print("connections in xxxxxxx", connections)
+
+
+        print("Average Degree of separation: ", count/len(visited))
         return visited
 
 
@@ -132,6 +142,6 @@ if __name__ == '__main__':
     # connections = sg.getAllSocialPaths(1)
     # print(connections)
     # sg.populateGraph(100, 10)
-    sg.populateGraph(10, 2)
+    sg.populateGraph(100, 5)
     print(sg.friendships)
     print("connections: ",sg.getAllSocialPaths(1))
