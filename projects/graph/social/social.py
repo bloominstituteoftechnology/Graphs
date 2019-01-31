@@ -1,3 +1,9 @@
+import random
+from itertools import combinations
+import sys
+sys.path.append('../') #https://stackoverflow.com/questions/4383571/importing-files-from-different-folder
+from src.graph import Graph
+from src.graph import Queue
 
 
 class User:
@@ -45,11 +51,18 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
+        possible_friendships = list(combinations(range(1, numUsers+1), 2))
+        random.shuffle(possible_friendships)
+        actual_friendships = possible_friendships[:numUsers*avgFriendships]
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f'User {i}')
 
         # Create friendships
-
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
+            
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -61,6 +74,18 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        queue = Queue()
+        queue.enqueue([userID])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            node = path[-1]
+            if node not in visited:
+                visited[node] = path
+            for next_friend in self.friendships[node]:
+                if next_friend not in visited:
+                    dup_path = list(path)
+                    dup_path.append(next_friend)
+                    queue.enqueue(dup_path)
         return visited
 
 
