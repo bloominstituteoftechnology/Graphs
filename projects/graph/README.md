@@ -119,7 +119,7 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
    1. 500 times. To get the total number of friendships we would multiply 100 \* 10 to get 1000. Each instance of `addFriendship()` creates two friendships - one in each direction. So we only need to call it half as many times as the total number of friendships.
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
-   1. .5%? 6 degrees of seperation!
+   1. .5%? Writing out the code to find the average degree of seperation I found that the avearge is in between 5 and 6.
 
 ## 4. Stretch Goal
 

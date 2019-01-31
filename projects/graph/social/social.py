@@ -85,6 +85,14 @@ class SocialGraph:
             for i in range(1, self.lastID + 1):
                 visited[i] = self.bfs(userID, i)
 
+            # Code to find average degrees of seperation
+            total = 0
+            for user in visited:
+                if visited[user] is not None:
+                    length = len(visited[user])
+                    total += length
+                    average = total / len(visited)
+            print(f"\naverage: {average}\n")
             return visited
         else:
             return 'No friends'
@@ -115,5 +123,5 @@ if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(1000, 5)
     print(sg.friendships)
-    connections = sg.getAllSocialPaths(1)
+    connections = sg.getAllSocialPaths(5)
     print(connections)
