@@ -1,4 +1,6 @@
-
+from itertools import combinations
+import random
+from queue import Queue
 
 class User:
     def __init__(self, name):
@@ -47,9 +49,22 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f"User {i}")
 
         # Create friendships
+        possible_friendships = list(combinations(range(1, len(self.users)+1), 2))
+        random.shuffle(possible_friendships)
+        number_connections = numUsers * avgFriendships // 2
+        actual_friendships = possible_friendships[:number_connections]
+#        print(actual_friendships)
 
+        for friendship in actual_friendships:
+            sg.addFriendship(friendship[0], friendship[1])
+            
+#        print(sg.friendships)
+
+    
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -59,8 +74,30 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        
+        if userID not in self.friendships:
+            return None
+        
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        
+        queue = Queue()
+        
+        queue.enqueue([userID])
+        
+        while queue.len() > 0:    # .len() is a method in Queue class
+            path = queue.dequeue()
+            node = path[-1] # last node in path
+            
+            if node not in visited:
+#                print(node)
+                visited[node] = path
+                
+                for next_node in self.friendships[node]:
+                    new_path = path.copy()
+                    new_path.append(next_node)
+                    
+                    queue.enqueue(new_path)
+                    
         return visited
 
 
@@ -70,3 +107,34 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+
+
+
+
+#all_friendships = [(1,2), (1,3), (1,4), (1,5), (2,3), (2,4), (2,5), (3,4), (3,5), (4,5)]
+
+#sg = SocialGraph()
+#for i in range(10):
+#    sg.addUser(f"User {i}")
+#
+#possible_friendships = list(combinations(range(1, len(sg.users)+1), 2))
+#random.shuffle(possible_friendships)
+#actual_friendships = possible_friendships[:15]
+#print(actual_friendships)
+#
+#for friendship in actual_friendships:
+#    sg.addFriendship(friendship[0], friendship[1])
+#    
+#print(sg.friendships)
+
+
+
+#print(list(combinations([1, 2, 3, 4, 5], 2)))
+
+
+
+# Stretch
+# using sampling
+#(random.randint(1,10), random.randint(1,10))
+# 10 users, want each user to have an average of 9 friendships
