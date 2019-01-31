@@ -17,7 +17,8 @@ def main():
     graph.add_vertex('3')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
-    print(graph.vertices)
+    # graph.add_edge('0', '4')
+    # print(graph.vertices)
 
 if __name__ == '__main__':
     # TODO - parse argv
