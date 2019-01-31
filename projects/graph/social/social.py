@@ -1,6 +1,24 @@
 from itertools import combinations
 import random
 
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def nq(self, value):
+        self.queue.append(value)
+
+    def dq(self):
+        if self.size() > 0:
+            return self.queue.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -61,6 +79,31 @@ class SocialGraph:
         for id_1, id_2 in friends:
             self.addFriendship(id_1, id_2)
 
+    def bfs_path(self, start, target):
+        # create que
+        q = []
+        # create visited
+        visited = set()
+        # que the start
+        path = [start]
+        q.append(path)
+        # while que not empty
+        while len(q) > 0:
+            # remove item from que
+            current_path = q.pop(0)
+            check = current_path[-1]
+            if check not in visited:
+                # mark as visited / add to visited
+                if check == target:
+                    return current_path
+                visited.add(check)
+                # add children to que
+                for child in self.friendships[check]:
+                    duplicate_cp = list(current_path)
+                    duplicate_cp.append(child)
+                    q.append(duplicate_cp)
+        return False
+
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -72,12 +115,31 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # create que
+        q = Queue()
+        # create visited
+        check = set()
+        # que the start
+        q.nq(userID)
+        # # while que not empty
+        while q.size() > 0:
+            # remove item from que
+            node = q.dq()
+            if node not in check:
+                # mark as visited / add to visited
+                check.add(node)
+                visited[node] = self.bfs_path(userID, node)
+                # add children to que
+                for next_node in self.friendships[node]:
+                    q.nq(next_node)
         return visited
+        
+        # return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(1520, 6)
+    sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
