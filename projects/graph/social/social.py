@@ -1,4 +1,5 @@
 import random
+from collections import deque
 
 class User:
     def __init__(self, name):
@@ -75,8 +76,28 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        if self.friendships[userID]:
+            for i in range(1, self.lastID + 1):
+                visited[i] = self.bfs(userID, i)
         return visited
 
+    def bfs(self, starting_node, target_node):
+        q = deque()
+        visited = set()
+        q.append([starting_node])
+       
+        while q:
+            dequeued = q.popleft()
+            end_path = dequeued[-1]
+            if end_path not in visited:
+                if end_path == target_node:
+                    return dequeued
+                visited.add(end_path)
+                for child in self.friendships[end_path]:
+                    copy = list(dequeued)
+                    copy.append(child)
+                    q.append(copy)
+        return f'There is no path'
 
 if __name__ == '__main__':
     sg = SocialGraph()
