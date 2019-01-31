@@ -59,9 +59,7 @@ class SocialGraph:
     # Create friendships
     poss_friendships = []
     for f1 in range(1, len(user_arr)):
-      friend_1 = f1
       for f2 in range(f1 + 1, len(user_arr)):
-        friend_2 = f2
         poss_friendships.append([f1, f2])
 
     # select random friendships until average is filled
