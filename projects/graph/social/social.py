@@ -1,4 +1,6 @@
-
+from random import shuffle
+from itertools import combinations
+import collections
 
 class User:
     def __init__(self, name):
@@ -46,9 +48,22 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
+
         # Add users
+        for i in range(numUsers):
+            name = f'User{i+1}'
+            # print(name)
+            self.addUser(name)
 
         # Create friendships
+        possible_friendships = list(combinations( range(1, len(sg.users)+1), 2))
+        shuffle(possible_friendships)
+        total_friendships = (numUsers*avgFriendships)//2
+        actual_friendships = possible_friendships[:total_friendships]
+
+        for friendship in actual_friendships:
+            sg.addFriendship(friendship[0], friendship[1])
+        
 
     def getAllSocialPaths(self, userID):
         """
@@ -58,9 +73,25 @@ class SocialGraph:
         extended network with the shortest friendship path between them.
 
         The key is the friend's ID and the value is the path.
+
+
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        queue = collections.deque()
+        queue.append([userID])
+
+        while queue:
+            path = queue.popleft()
+            new_user = path[-1]
+            if new_user not in visited:
+                visited[new_user] = path
+                for friend in self.friendships[new_user]:
+                    if friend not in visited:
+                        new_path = list(path)
+                        new_path.append(friend)
+                        queue.append(new_path)
+        
         return visited
 
 
@@ -69,4 +100,4 @@ if __name__ == '__main__':
     sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    print(f'\nconnection: {connections}')
