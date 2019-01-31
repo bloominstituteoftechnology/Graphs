@@ -1,4 +1,5 @@
-
+import itertools
+from random import shuffle
 
 class User:
     def __init__(self, name):
@@ -25,6 +26,7 @@ class SocialGraph:
     def addUser(self, name):
         """
         Create a new user with a sequential integer ID
+        !! Users start from 1!
         """
         self.lastID += 1  # automatically increment the ID to assign the new user
         self.users[self.lastID] = User(name)
@@ -44,11 +46,24 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(i)
 
-        # Create friendships
+        # Add friendships
+        possible_friendships = list(itertools.combinations(range(1, numUsers + 1), avgFriendships))
+        shuffle(possible_friendships)
+        friendships_needed = avgFriendships * numUsers
+        actual_friendships = possible_friendships[:friendships_needed]
+        print(f'actual_friendships: {actual_friendships}')
+
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
+
+
+
+
 
     def getAllSocialPaths(self, userID):
         """
@@ -66,7 +81,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(5, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
