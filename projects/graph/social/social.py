@@ -99,12 +99,17 @@ class SocialGraph:
 
         while q.size() > 0:
 
-            friend = q.dequeue()
+            path = q.dequeue()
 
-            if friend not in visited:
-                visited[friend]
-                for friendship in self.friendships[friend]:
-                    q.enqueue(friendship)
+            next_user = path[-1]
+
+            if next_user not in visited:
+                visited[next_user] = path
+
+            for friend in self.friendships[next_user]:
+                if friend not in visited:
+                    path.append(friend)
+                    q.enqueue(path)
 
         return visited
 
