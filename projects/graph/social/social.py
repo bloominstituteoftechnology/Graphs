@@ -1,4 +1,5 @@
 from itertools import combinations
+from collections import deque
 import random
 # --------------- NOTES from instructions / instructors ------------
 
@@ -58,18 +59,14 @@ class SocialGraph:
 
     def populateGraph(self, numUsers, avgFriendships):
         # a feature that creates large numbers of users to the network and assigns them a random distribution of friends.
-        # - Lambda - Reset graph
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # - Lambda - !!!! IMPLEMENT ME
 
-        # - Lambda - Add users
         # use addUsers function here
         for i in range(numUsers):
             self.addUser(f"user {i}")
 
-        # - Lambda - Create friendships
         # use addFriendships function here
         possible_friendships = list(combinations(range(1, numUsers + 1), 2))
         random.shuffle(possible_friendships)
@@ -77,17 +74,43 @@ class SocialGraph:
         actual_friendships = possible_friendships[:num_friendships]
 
         for friendship in actual_friendships:
-            self.addFriendship(friendships[0], friendships[1])
+            self.addFriendship(friendship[0], friendship[1])
         
         # HINT for STRETCH #2 --- (random.randint(1,10), random.randint(1,10))
 
     def getAllSocialPaths(self, userID):
-        # BFS for shortest path
-        # - Lambda - shows all the friends in a user's extended social network and chain of friendships that link them
-       
-        visited = {}  # - Lambda - Note that this is a dictionary, not a set
-        # - Lambda -  !!!! IMPLEMENT ME
+        # Function calls bfs_search on each user to output the shortest path between the
+        # the userID and all other connected users. Each 'friend' serves as the target for 
+        # bfs function. 
+
+        visited = {}  
+
+        for friend in self.users:
+            visited[friend] = self.bfs_search(userID,friend)
+        
         return visited
+        # solution based off of "Connected Components Algorithm" 
+        
+    def bfs_search(self, starting_v, target_v):
+        #finds shortest path between a starting point and end point in a graph 
+        #the syntax is: mydict[key] = "value"
+        # _The key is the friend's ID and the value is the path."""
+        q = deque()
+        visited = {}
+        q.append(starting_v)
+     
+        while len(q) > 0:
+            path = q.popleft()
+            current_v = path
+
+            if current_v not in visited:
+                visited["path"]=current_v
+                if current_v == target_v:
+                    #print(visited)
+                    return path 
+               #enqueue all of it's children that have not been visited 
+                for friend in self.friendships[current_v]:
+                    q.append(friend)
 
 
 if __name__ == '__main__':

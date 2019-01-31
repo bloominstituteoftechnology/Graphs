@@ -87,11 +87,16 @@ class Graph:
         # Enqueue starting vertex
         visited = []
         q.append(starting_v)
+        print(q)
         #while the queue is not empty, 
         while len(q) > 0:
             #dequeue a vertex from the queue 
             path = q.popleft()
-            current_v = path[-1]
+            print ("PATH")
+            print (path)
+            current_v = (path[-1])
+            print("currentv")
+            print(current_v)
             #...and mark it as visited 
             if current_v not in visited:
                 visited.append(current_v)
