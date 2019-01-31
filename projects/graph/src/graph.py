@@ -3,6 +3,40 @@ Simple graph implementation
 """
 
 
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
+
+
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
@@ -19,33 +53,25 @@ class Graph:
             print("One or more vertices, not in graph")
 
     def bft(self, vertex):
-        queue = []
-        visited = []
-        if vertex in self.vertices:
-            queue.append(vertex)
-            while queue:
-                for vertex in self.vertices[queue[0]]:
-                    if vertex in visited:
-                        continue
-                    queue.append(vertex)
-                visited.append(queue.pop(0))
-            print(visited)
-        else:
-            print("Vertex not in list")
+        q = Queue()
+        visited = set()
+        q.enqueue(vertex)
+        while q.queue:
+            node = q.dequeue()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for vertex in self.vertices[node]:
+                    q.enqueue(vertex)
 
     def dft(self, vertex):
-        queue = []
-        visited = []
-        if vertex in self.vertices:
-            queue.append(vertex)
-            while queue:
-                print("iteration", queue)
-                for vertex in self.vertices[queue[0]]:
-                    if vertex in visited:
-                        continue
-                    queue.insert(0, vertex)
-                    print(queue)
-                visited.append(queue.pop(-1))
-            print(visited)
-        else:
-            print("Vertex not in list")
+        s = Stack()
+        visited = set()
+        s.push(vertex)
+        while s.stack:
+            node = s.pop()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for vertex in self.vertices[node]:
+                    s.push(vertex)
