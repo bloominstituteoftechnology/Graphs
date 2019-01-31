@@ -1,4 +1,5 @@
 import random 
+from queue import Queue
 from itertools import combinations
 
 class User:
@@ -58,7 +59,6 @@ class SocialGraph:
         for friendship in actual_friendships:
             self.addFriendship(friendship[0], friendship[1])
 
-
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -69,9 +69,28 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
+
         # !!!! IMPLEMENT ME
+        for user in self.users:
+            visited[user] = self.bfs(user, userID)
         return visited
 
+    def bfs(self, starting_node, target_node):
+        queue = Queue()
+        visited = []
+        queue.enqueue([starting_node])
+        while queue.len() > 0:
+            path = queue.dequeue()
+            node = path[-1]
+            if node not in visited:
+                visited.append(node)
+                if node == target_node:
+                    return path
+                for next_node in self.friendships[node]:
+                    duplicate = list(path)
+                    duplicate.append(next_node)
+                    queue.enqueue(duplicate)
+        return None
 
 if __name__ == '__main__':
     sg = SocialGraph()
@@ -79,3 +98,5 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+
