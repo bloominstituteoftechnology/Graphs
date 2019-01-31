@@ -31,7 +31,6 @@ class SocialGraph:
             self.friendships[friendID].add(userID)
 
     def addUser(self, name):
-:
         """
         Create a new user with a sequential integer ID
         """
@@ -115,12 +114,12 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
+        # visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
 
-        visited = self.bfs(userID, self.users[1])
+        # visited = self.bfs(userID, self.users[1])
 
-        return visited
+        return self.bfs(userID, self.users[1])
 
 
         # !! When there are 100 users with 10 friends each, addFriendship must be called 500 times. 
