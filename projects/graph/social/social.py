@@ -1,4 +1,6 @@
-
+import random
+from collections import deque
+from itertools import combinations
 
 class User:
     def __init__(self, name):
@@ -47,8 +49,21 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f"User {i}")
 
         # Create friendships
+
+        # possible_friendships = list(combinations(range(1, len(self.users) + 1), 2))
+        # random.shuffle(possible_friendships)
+        # total = (numUsers * avgFriendships) // 2
+        # sliced_friendships = possible_friendships[:total]
+        # for friendship in sliced_friendships:
+        #     self.addFriendship(friendship[0], friendship[1])
+
+        target_friendships = numUsers * avgFriendships // 2
+        for friendship in range(target_friendships):
+            self.addFriendship(random.randint(1, numUsers), random.randint(1, numUsers))
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,8 +76,28 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        if self.friendships[userID]:
+            for i in range(1, self.lastID + 1):
+                visited[i] = self.bfs(userID, i)
         return visited
 
+    def bfs(self, starting_node, target_node):
+        q = deque()
+        visited = set()
+        q.append([starting_node])
+       
+        while q:
+            dequeued = q.popleft()
+            end_path = dequeued[-1]
+            if end_path not in visited:
+                if end_path == target_node:
+                    return dequeued
+                visited.add(end_path)
+                for child in self.friendships[end_path]:
+                    copy = list(dequeued)
+                    copy.append(child)
+                    q.append(copy)
+        return f'There is no path'
 
 if __name__ == '__main__':
     sg = SocialGraph()
@@ -70,3 +105,15 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+    
+    # degree_of_sep = []
+    # for key in connections:
+    #     degree_of_sep.append(len(connections[key]))
+    # print(sum(degree_of_sep) / len(degree_of_sep))
+
+"""
+1. To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
+    100 * 10 //2 => 500 Each instance of addFriendship() creates two friendships so it only needs to be called half as many times as the total number of friendships.
+2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+    Nearly 99% and average degree of separation is about 5
+"""
