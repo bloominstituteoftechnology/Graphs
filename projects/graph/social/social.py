@@ -70,7 +70,6 @@ class SocialGraph:
             self.addFriendship(friend[0], friend[1])
         # print(all_friends)
 
-
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -83,13 +82,17 @@ class SocialGraph:
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
         q = Queue()
-        q.enqueue(userID)
+        q.enqueue([userID])
         while q.len() is not 0:
             n = q.dequeue()
-            if n not in visited:
-                visited[n]= self.friendships[n]
-                for i in self.friendships[int(n)]:
-                    q.enqueue(i)
+            node = n[-1]
+            if node not in visited:
+                visited[node]= n
+            for i in self.friendships[node]:
+                if i not in visited:
+                    next_path = list(n)
+                    next_path.append(i)
+                    q.enqueue(next_path)
         return visited
 
 
