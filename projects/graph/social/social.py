@@ -1,5 +1,19 @@
 from itertools import combinations
+from collections import deque
 import random
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, item):
+        self.stack.append(item)
+    
+    def pop(self):
+        return self.stack.pop()
+
+    def size(self):
+        return len(self.stack)
 
 class User:
     def __init__(self, name):
@@ -69,13 +83,55 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        in_network = self.bft(userID)
+        for possible_friend in in_network:
+            visited[possible_friend] = self.bfs(userID, possible_friend)
+
         return visited
 
+    def bfs(self, starting_vertex, target_vertex):
+        if starting_vertex == target_vertex:
+            return [starting_vertex]
+        visited = []
+        queue = deque()
+        queue.append([starting_vertex])
+        
+        while len(queue) > 0:
+            current_path_list = queue.popleft()
+            current_vertex = current_path_list[-1]
+
+            if current_vertex not in visited:
+                visited.append(current_vertex)
+
+            for child in self.friendships[current_vertex]:
+                dupe_path = list(current_path_list)
+                dupe_path.append(child)
+                if dupe_path[-1] == target_vertex:
+                    return dupe_path
+                else:
+                    queue.append(dupe_path)
+        return visited
+
+    def bft(self, starting_vertex):
+        visited = []
+
+        queue = deque()
+        queue.append(starting_vertex)
+        
+        while len(queue) > 0:
+            current = queue.popleft()
+            
+            if current not in visited:
+                visited.append(current)
+
+            for item in self.friendships[current]:
+                if item not in visited:
+                    queue.append(item)
+        return visited
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(10, 2)
     print(sg.friendships)
-    connections = sg.getAllSocialPaths(1)
+    connections = sg.getAllSocialPaths(4)
     print(connections)
