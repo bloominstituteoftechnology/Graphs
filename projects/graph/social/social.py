@@ -1,4 +1,22 @@
+from itertools import combinations
+import random
 
+class Queue():
+
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
 
 class User:
     def __init__(self, name):
@@ -47,19 +65,20 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-        from itertools import combinations
-        import random
 
-        sg = SocialGraph()
         for user in range(numUsers):
-            sg.addUser(f"User {user}")
+            self.addUser(f"User {user}")
         
-        possible_friendships = list(combinations(range(1, len(sg.users)+1), 2))
+        possible_friendships = list(combinations(range(1, len(self.users)+1), 2))
+
         random.shuffle(possible_friendships)
-        friendships = possible_friendships[:15]
+
+        total_friendships = avgFriendships * numUsers // 2
+
+        friendships = possible_friendships[:total_friendships]
 
         for friendship in friendships:
-            sg.addFriendship(friendship[0], friendship[1])
+            self.addFriendship(friendship[0], friendship[1])
 
         # Create friendships
 
@@ -72,8 +91,21 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        q = Queue()
+
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        q.enqueue([userID])
+
+        while q.size() > 0:
+
+            friend = q.dequeue()
+
+            if friend not in visited:
+                visited[friend]
+                for friendship in self.friendships[friend]:
+                    q.enqueue(friendship)
+
         return visited
 
 
