@@ -46,7 +46,6 @@ class SocialGraph:
     self.lastID = 0
     self.users = {}
     self.friendships = {}
-    # !!!! IMPLEMENT ME
     if numUsers < avgFriendships:
       return "Number of users must be greater than avarage number of friendships"
 
@@ -57,12 +56,15 @@ class SocialGraph:
       user_arr.append(i + 1)
 
     # Create friendships
-    poss_friendships = []
-    for f1 in range(1, len(user_arr)):
-      friend_1 = f1
-      for f2 in range(f1 + 1, len(user_arr)):
-        friend_2 = f2
-        poss_friendships.append([f1, f2])
+    # poss_friendships = []
+    # for f1 in range(1, len(user_arr)):
+    #   friend_1 = f1
+    #   for f2 in range(f1 + 1, len(user_arr)):
+    #     friend_2 = f2
+    #     poss_friendships.append([f1, f2])
+    from itertools import combinations
+
+    poss_friendships = list(combinations(range(1, numUsers), 2))
 
     # select random friendships until average is filled
     self.fisherYatesShuffle(poss_friendships)
@@ -71,8 +73,6 @@ class SocialGraph:
       f_id_1 = poss_friendships[i][0]
       f_id_2 = poss_friendships[i][1]
       self.addFriendship(f_id_1, f_id_2)
-
-
 
   def getAllSocialPaths(self, userID):
     """
@@ -98,10 +98,6 @@ class SocialGraph:
             path = n + [friend]
             q.append(path)
             visited[path[-1]] = path
-
-
-
-
     return visited
 
   def fisherYatesShuffle(self, arr):
