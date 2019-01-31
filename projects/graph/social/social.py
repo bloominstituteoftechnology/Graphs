@@ -1,3 +1,5 @@
+from queue import Queue
+
 import random
 from itertools import combinations
 
@@ -57,6 +59,7 @@ class SocialGraph:
 
         # Create friendships
         possible_friendships = list(combinations(range(1, numUsers + 1), 2))
+        # random.seed(1)
         random.shuffle(possible_friendships)
         numFriendships = (numUsers * avgFriendships) // 2
         actual_friendships = possible_friendships[:numFriendships]
@@ -75,12 +78,35 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        for user in self.users:
+            visited[user] = self.bf_search(userID, user)
         return visited
+
+    def bf_search(self, starting_vertex, target_vertex):
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        visited = []
+
+        while queue.len() > 0:
+            path = queue.dequeue()
+            current_vertex = path[-1]
+
+            if current_vertex not in visited:
+                visited.append(current_vertex)
+                if current_vertex == target_vertex:
+                    return path
+
+                for child_vertex in self.friendships[current_vertex]:
+                    dup_path = list(path)
+                    dup_path.append(child_vertex)
+                    queue.enqueue(dup_path)
+
+        return None
 
 
 if __name__ == "__main__":
     sg = SocialGraph()
     sg.populateGraph(10, 3)
     print(sg.friendships)
-    # connections = sg.getAllSocialPaths(1)
-    # print(connections)
+    connections = sg.getAllSocialPaths(1)
+    print(connections)
