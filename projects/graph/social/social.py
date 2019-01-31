@@ -19,11 +19,14 @@ class SocialGraph:
         """
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return True
 
     def addUser(self, name):
         """
@@ -54,11 +57,24 @@ class SocialGraph:
         
 
         # Create friendships
-        all_friendships = list(combinations(range(1, numUsers+1), avgFriendships))
+        # --- Following approach has O(n^2) runtime because of combinations, gets slow when n>1000 ----
+        all_friendships = list(combinations(range(1, numUsers+1), 2))
         random.shuffle(all_friendships)
-        friendships = all_friendships[:int(numUsers/2)]
+        friendships = all_friendships[:int(numUsers*avgFriendships/2)]
         for friendship in friendships:
             self.addFriendship(friendship[0], friendship[1])
+        
+        # --- Following approach has O(n) runtime because of combinations, gets slow when friendship density is high ----
+        # total = numUsers * avgFriendships // 2
+        # count = 0
+        # while count < total:
+        #     random1 = random.randrange(1,len(self.users)-1)
+        #     random2 = random.randrange(1,len(self.users)-1)
+        #     print(random1,random2)
+        #     friendship = self.addFriendship(random1, random2)
+        #     if friendship:
+        #         count += 1
+        
         
         
     def getAllSocialPaths(self, userID):
@@ -71,26 +87,24 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-
-        # !!!! IMPLEMENT ME
         q = deque()
-        visited = {userID: []}
-        q.append([self.users[userID]])
+        q.append([userID])
         while len(q) > 0:
+            # print(visited)
             path = q.popleft()
-            id = path[-1]
-            if id not in visited:
-                visited[id] = path
-                for child in self.friendships[userID]:
+            user = path[-1]
+            if user not in visited:
+                for friend in self.friendships[user]:
                     path_copy = path.copy()
-                    path_copy.append(child)
+                    path_copy.append(friend)
                     q.append(path_copy)
+                    visited[user] = path
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 5)
+    sg.populateGraph(100, 25)
     print('friendships:')
     print(sg.friendships)
     print('connections:')
