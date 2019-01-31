@@ -57,9 +57,9 @@ class SocialGraph:
         canidates = numUsers * avgFriendships // 2
         # grab samples
         friends = friends[:canidates]
+        # add 'friends list' to friends connections
         for id_1, id_2 in friends:
             self.addFriendship(id_1, id_2)
-        # print(friends)
 
     def getAllSocialPaths(self, userID):
         """
@@ -77,7 +77,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(1520, 6)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
