@@ -51,10 +51,28 @@ class SocialGraph:
       return "Number of users must be greater than avarage number of friendships"
 
     # Add users
-    for i in range(0, numUsers):
-      pass
+    user_arr = []
+    for i in range(0, numUsers - 1):
+      self.addUser(i)
+      user_arr.append(i + 1)
 
     # Create friendships
+    poss_friendships = []
+    for f1 in range(1, len(user_arr)):
+      friend_1 = f1
+      for f2 in range(f1 + 1, len(user_arr)):
+        friend_2 = f2
+        poss_friendships.append([f1, f2])
+
+    # select random friendships until average is filled
+    self.fisherYatesShuffle(poss_friendships)
+    n = numUsers * avgFriendships // 2
+    for i in range(0, n):
+      f_id_1 = poss_friendships[i][0]
+      f_id_2 = poss_friendships[i][1]
+      self.addFriendship(f_id_1, f_id_2)
+
+
 
   def getAllSocialPaths(self, userID):
     """
@@ -65,11 +83,30 @@ class SocialGraph:
 
     The key is the friend's ID and the value is the path.
     """
+
+    q = []
     visited = {}  # Note that this is a dictionary, not a set
-    # !!!! IMPLEMENT ME
+    q.append([userID])
+    while len(q) > 0:
+      n = q.pop()
+      if self.friendships[n[-1]] == set():
+        if n[-1] != userID:
+          visited[n[-1]] = n
+      else:
+        for friend in self.friendships[n[-1]]:
+          if friend not in visited and friend is not userID:
+            path = n + [friend]
+            q.append(path)
+            visited[path[-1]] = path
+
+
+
+
     return visited
 
-  def fisherYatesShuffle(arr):
+  def fisherYatesShuffle(self, arr):
+    # random.seed(1) # <-- Debugging general pause
+    # random.seed(9) # <-- Debugging 1 has no friends
     for i in range(0, len(arr) - 2):
       random_index = random.randint(i, len(arr) - 1)
       arr[random_index], arr[i] = arr[i], arr[random_index]
