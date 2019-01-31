@@ -83,6 +83,20 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+
+        newGraph = Graph()
+        for user in self.users:
+            newGraph.add_vertex(user)
+
+        for user in self.friendships:
+            for friend in self.friendships[user]:
+                newGraph.add_edge(user, friend)
+
+        for friend in self.users:
+            socialPath = newGraph.bfs(userID, friend)
+            if socialPath is not False:
+                visited[friend] = socialPath
+
         return visited
 
 
