@@ -74,7 +74,12 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
         for i in range(1, len(self.users) + 1):
             if len(self.friendships[i]) is not 0:
-                visited[i] = self.bft_path(userID, i)      
+                visited[i] = self.bft_path(userID, i)  
+        total = 0
+        for path in visited:
+            if len(visited[path]) is not 0:
+                total += len(visited[path]) - 1
+        print(total)
         return visited
 
 
@@ -101,7 +106,14 @@ class SocialGraph:
     
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 5)
-    print(sg.friendships)
+    sg.populateGraph(1000, 5)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+'''
+ Questions:
+ 1. numUsers * avg / 2 = timesCalled
+    100 * 10 / 2 = timesCalled
+    500 = timesCalled
+ 2. .5% . The average degree of seperation is around 190, changed depending on how the graph 
+ is created.
+'''
