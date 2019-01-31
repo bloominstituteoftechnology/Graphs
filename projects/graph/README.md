@@ -118,9 +118,12 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 ## 3. Questions
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
+    A: You would call 'addFriendship()' 100 times. Because when I ran the method with those numbers it returned 100 different friendship connections to be added. 
+    A: Since each friend has an average of 10 bidirectional friendship connections the fact that it is 100 friends makes it this way.
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
-
+    A: I believe it would be 5%.
+    A: The average degree of separation is 5.96.
 
 
 ## 4. Stretch Goal
