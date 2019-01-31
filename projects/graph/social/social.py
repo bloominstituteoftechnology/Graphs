@@ -52,16 +52,31 @@ class SocialGraph:
         for i in range(numUsers):
             self.addUser(f"User {i}")
         # Create friendships
-        possible_friendships = list(combinations(range(1, numUsers+1), 2))
-        shuffle(possible_friendships)
-        total_friendships = numUsers * avgFriendships
 
-        friends = possible_friendships[:total_friendships // 2]
+        #Creating every possible friendship
+        possible_friendships = list(combinations(range(1, numUsers+1), 2))
+        #Shuffle the possible friendships
+        shuffle(possible_friendships)
+        total_friendships = numUsers * avgFriendships // 2
+
+        friends = possible_friendships[:total_friendships]
 
         for friend in friends:
             self.addFriendship(friend[0], friend[1])
 
-    def getAllSocialPaths(self, userID):
+
+
+        """
+        O(N) for adding friends
+        """
+        # target_friendships = numUsers *avgFriendships // 2
+        # num_created = 0
+        # while num_created < target_friendships:
+        #     friendship = (randint(1, numUsers), randint(1, numUsers))
+        #     if self.addFriendship(friendship[0], friendship[1]):
+        #         num_created += 1
+
+    def getAllSocialPaths(self, userID, queue = None, visited = None, path = None):
         """
         Takes a user's userID as an argument
 
@@ -70,10 +85,24 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        if not visited:
+            queue = deque()
+            path = [userID]
+            visited = {userID: path}
 
+        for friend in self.friendships[userID]:
+            _path = path[:]
+            _path.append(friend)
+
+            if friend not in visited:
+                queue.append((friend, _path))
+                visited[friend] = _path
+        if len(queue) == 0:
+            return visited
+        elif len(queue) > 0:
+            user, path = queue.popleft()
+            return self.getAllSocialPaths(user, queue, visited, path)
+                
 
 if __name__ == '__main__':
     sg = SocialGraph()
@@ -81,3 +110,15 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+
+
+
+"""
+To create 100 users with an average of 10 friends each, how many times would you need to call addFriendship()? Why?
+-500 since its bidirectional
+
+
+If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+-About all of them ~2%
+"""
