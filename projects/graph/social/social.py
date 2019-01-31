@@ -98,7 +98,7 @@ if __name__ == '__main__':
     start = time.time()
 
     sg = SocialGraph()
-    sg.populateGraph(100, 4)
+    sg.populateGraph(1000, 5)
     print(sg.friendships)
 
     end = time.time()
@@ -111,3 +111,24 @@ if __name__ == '__main__':
 
     end = time.time()
     print(f'{end - start}s')
+
+
+'''
+    Q: To create 100 users with an average of 10 friends each, how many times
+would you need to call addFriendship()? Why?
+
+    A: Since friendships are not one-way, each pairing counts as two
+friendships. Therefore, addFriendship() needs to be called 500 times because
+500 is half of 10 * 100.
+'''
+
+'''
+    Q: If you create 1000 users with an average of 5 random friends each, what
+percentage of other users will be in a particular user's extended social
+network? What is the average degree of separation between a user and those in
+his/her extended network?
+
+
+
+    A:
+'''
