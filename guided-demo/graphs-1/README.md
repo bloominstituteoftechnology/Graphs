@@ -33,3 +33,4 @@ This is the recommended approach for our graph projects.
 ## Comparison
 
 What are the relative advantages and disadvantages of both methods?
+
