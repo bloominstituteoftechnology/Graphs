@@ -53,12 +53,17 @@ class SocialGraph:
             self.addUser(f"User {i}")
 
         # Create friendships
-        possible_friendships = list(combinations(range(1, len(self.users) + 1), 2))
-        random.shuffle(possible_friendships)
-        total = (numUsers * avgFriendships) // 2
-        sliced_friendships = possible_friendships[:total]
-        for friendship in sliced_friendships:
-            self.addFriendship(friendship[0], friendship[1])
+
+        # possible_friendships = list(combinations(range(1, len(self.users) + 1), 2))
+        # random.shuffle(possible_friendships)
+        # total = (numUsers * avgFriendships) // 2
+        # sliced_friendships = possible_friendships[:total]
+        # for friendship in sliced_friendships:
+        #     self.addFriendship(friendship[0], friendship[1])
+
+        target_friendships = numUsers * avgFriendships // 2
+        for friendship in range(target_friendships):
+            self.addFriendship(random.randint(1, numUsers), random.randint(1, numUsers))
 
     def getAllSocialPaths(self, userID):
         """
@@ -96,15 +101,15 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(1000, 5)
+    sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
     
-    degree_of_sep = []
-    for key in connections:
-        degree_of_sep.append(len(connections[key]))
-    print(sum(degree_of_sep) / len(degree_of_sep))
+    # degree_of_sep = []
+    # for key in connections:
+    #     degree_of_sep.append(len(connections[key]))
+    # print(sum(degree_of_sep) / len(degree_of_sep))
 
 """
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
