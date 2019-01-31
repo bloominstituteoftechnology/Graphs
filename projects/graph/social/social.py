@@ -1,4 +1,5 @@
-
+from itertools import combinations
+import random
 
 class User:
     def __init__(self, name):
@@ -40,6 +41,7 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
+        
         # Reset graph
         self.lastID = 0
         self.users = {}
@@ -47,8 +49,18 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f"User{i}")
+        possible_friendships = list(combinations(range(1, len(sg.users)+1), 2))
+        random.shuffle(possible_friendships)
+        friendset = (numUsers * avgFriendships) // 2
+        actual_friendships = possible_friendships[:friendset]
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
+
 
         # Create friendships
+        #all_friendships[:5]
 
     def getAllSocialPaths(self, userID):
         """
@@ -60,7 +72,23 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        storage = []
+        storage.append([userID])
+        checked = []
+        visited.update({userID: [userID]})
+
+        while len(storage) > 0:
+            if len(storage) > 0:
+                path = storage.pop(0)
+            n = path[-1]
+            if n not in checked:
+                checked.append(n)
+                for i in self.friendships[n]:
+                    if n > 1:
+                        visited.update({n: list(path)})
+                    next_path = list(path)
+                    next_path.append(i)
+                    storage.append(next_path)
         return visited
 
 
@@ -70,3 +98,10 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+
+
+# 10 users 3 friends each
+# 30/2 = 15 so we pull off 15 friendships
+# actual_friendships = possible_friendships[:15] after random.shuffle possible_friendships
+
