@@ -1,4 +1,7 @@
-
+from itertools import combinations
+import random 
+import time
+from queue import Queue
 
 class User:
     def __init__(self, name):
@@ -45,10 +48,22 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
         # Add users
-
+        for i in range(numUsers):
+            self.addUser(f'User_{i}')
+        
         # Create friendships
+        possible_friendships = list(combinations(range(1, int(len(self.users) + 1)),2))
+        #print(possible_friendships,"\nlength of possible combinations  : ", len(possible_friendships))
+        random.shuffle(possible_friendships)
+        index = (numUsers * avgFriendships) //2
+        #print("index  : ", type(index))
+        actual_friendships = possible_friendships[ : index]
+        #print("\n\nactual friendships  : ", actual_friendships)
+        
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
+        
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,12 +76,49 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        return visited
+        if userID in self.users:
+            print("VALID USER.....")
+            if self.friendships[userID]:
+                print("Have Friends.........")
+                print(self.friendships[userID])
+                
+                for i in range(1, len(self.users) + 1):
+                    visited[i] = self.BFS_path(userID, i)
+            return visited
+        else:
+            return 'Invalid User...'
+
+    def BFS_path(self, start, destination):
+        if start in self.users and destination in self.users:
+            if start == destination:
+                return [start]
+       
+            visited = set()
+            queue = Queue()
+            queue.enqueue([start])
+
+            while queue.size() > 0:
+                path = queue.dequeue()
+                vertex = path[-1]
+
+                for edge_vertex in self.friendships[vertex]:
+                    if edge_vertex not in visited:
+                        visited.add(edge_vertex)
+                        new_path = path + [edge_vertex]
+
+                        if edge_vertex is destination:
+                            return new_path
+
+                        else:
+                            queue.enqueue(new_path)
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(1000, 5)
     print(sg.friendships)
+    start_time = time.time()
     connections = sg.getAllSocialPaths(1)
+    end_time = time.time()
     print(connections)
+    print(end_time - start_time)
