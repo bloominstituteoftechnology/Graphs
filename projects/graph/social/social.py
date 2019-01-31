@@ -32,7 +32,7 @@ class SocialGraph:
         self.users[self.lastID] = User(name)
         self.friendships[self.lastID] = set()
 
-    def populateGraph(self, numUsers, avgFriendships):
+    def populateGraph(self, numUsers, avgFriendships): # O(n^2)
         """
         Takes a number of users and an average number of friendships
         as arguments
@@ -51,7 +51,7 @@ class SocialGraph:
 
         # Create friendships
         # Combinations return back a slice of the list
-        possible_friendships = list(combinations(range(1, len(self.users)+1), 2))
+        possible_friendships = list(combinations(range(1, len(self.users)+1), 2))    # O(n choose r) => O(n^2)?
         random.shuffle(possible_friendships)
         # Since addFriendsip creates two connections internally, we divide by 2 that way we create only half of the connections
         number_connections = numUsers * avgFriendships // 2 
@@ -59,6 +59,30 @@ class SocialGraph:
 
         for friendship in actual_friendships:    # O(n)
             sg.addFriendship(friendship[0], friendship[1])    # O(1)
+            
+    def populateGraphFast(self, numUsers, avgFriendships):    # O(n)
+        """
+        Takes a number of users and an average number of friendships
+        as arguments
+        Creates that number of users and a randomly distributed friendships
+        between those users.
+        The number of users must be greater than the average number of friendships.
+        """
+        # Reset graph
+        self.lastID = 0
+        self.users = {}
+        self.friendships = {}
+      
+        # Add users
+        for i in range(numUsers):    # O(n)
+            self.addUser(f"User {i}")    # O(1)
+
+        # Create friendships
+        # Since addFriendsip creates two connections internally, we divide by 2 that way we create only half of the connections
+        number_connections = numUsers * avgFriendships // 2
+
+        for friendship in range(number_connections):    # O(n)
+            sg.addFriendship(random.randint(1, numUsers), random.randint(1, numUsers))    # O(1)
             
     def getAllSocialPaths(self, userID):
         """
@@ -94,7 +118,8 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(1000, 5)
+#    sg.populateGraph(1000, 5)
+    sg.populateGraphFast(1000000, 5)
 #    print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(len(connections))
@@ -113,42 +138,20 @@ if __name__ == '__main__':
     print(f"Average degrees of separation: {total_degree_of_separation/total_number_of_samples}")
 
 
-"""
-To create 100 users with an average of 10 friends each, how many times would you need to call addFriendship()? Why?
-- 100 * 10 // 2 => 500, number of connections. This is used to get the actual_friendships, since we're looping thru it, its that number of calls
 
-If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
-- Running line 97 several times seems to be about 99%.
-- Using the algorithm between lines 102 - 109, it seems the average is about 4 - 5 degrees of separation. (Not including yourself)
-
-You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
-- 
-
-"""
-
-#all_friendships = [(1,2), (1,3), (1,4), (1,5), (2,3), (2,4), (2,5), (3,4), (3,5), (4,5)]
-
-#sg = SocialGraph()
-#for i in range(10):
-#    sg.addUser(f"User {i}")
+#    Part 3
+#    To create 100 users with an average of 10 friends each, how many times would you need to call addFriendship()? Why?
+#    - 100 * 10 // 2 => 500, number of connections. This is used to get the actual_friendships, since we're looping thru it, its that number of calls
 #
-#possible_friendships = list(combinations(range(1, len(sg.users)+1), 2))
-#random.shuffle(possible_friendships)
-#actual_friendships = possible_friendships[:15]
-#print(actual_friendships)
+#    If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+#    - Running line 97 several times seems to be about 99%.
+#    - Using the algorithm between lines 102 - 109, it seems the average is about 4 - 5 degrees of separation. (Not including yourself)
 #
-#for friendship in actual_friendships:
-#    sg.addFriendship(friendship[0], friendship[1])
-#    
-#print(sg.friendships)
-
-
-
-#print(list(combinations([1, 2, 3, 4, 5], 2)))
-
-
-
-# Stretch
-# using sampling
-#(random.randint(1,10), random.randint(1,10))
-# 10 users, want each user to have an average of 9 friendships
+#
+#    Part 4 - Refactor
+#    You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
+#    - I don't believe it is possible for one person to have a connection to 99% of the rest of the population. However, there seem to be research that suggests that everyone is connected to everyone else by about 6 degrees of separation. To make the distribution model more accurate, we might cluster groups of friends together so that everyone knows each other, and have smaller connections between these groups. This will mimick how people tend to congregate within their social circles, communities, cities, countries, etc.
+#
+#    - Tradeoffs:
+#        1. Sometimes we create friendship with ourself, and sometimes with already existing friends, because it's getting random numbers, so we could get the same results twice in a row
+#        2. Every time we miss a connection because we got the same results twice, it causes the average number of friends to be less than what we specified.
