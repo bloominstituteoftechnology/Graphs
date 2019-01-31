@@ -5,8 +5,6 @@ sys.path.append('../')
 from src.graph import Graph
 from src.graph import Queue
 
-start_time = time.time()
-
 class User:
     def __init__(self, name):
         self.name = name
