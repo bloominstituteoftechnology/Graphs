@@ -59,7 +59,12 @@ class SocialGraph:
         # Create friendships
         # --- Following approach has O(n^2) runtime because of combinations, gets slow when n>1000 ----
         all_friendships = list(combinations(range(1, numUsers+1), 2))
-        random.shuffle(all_friendships)
+
+        #----- Fisher yates shuffle
+        for i in range(0, len(all_friendships)):
+            j = random.randint(i, len(all_friendships)-1)
+            all_friendships[i], all_friendships[j] = all_friendships[j], all_friendships[i]
+    
         friendships = all_friendships[:int(numUsers*avgFriendships/2)]
         for friendship in friendships:
             self.addFriendship(friendship[0], friendship[1])
@@ -104,7 +109,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(100, 25)
+    sg.populateGraph(10, 2)
     print('friendships:')
     print(sg.friendships)
     print('connections:')
