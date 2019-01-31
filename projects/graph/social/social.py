@@ -35,11 +35,15 @@ class SocialGraph:
         while len(q) > 0:
             # dequeue a node from the queue
             path = q.pop()
-            node = path[-1]
+            # print(type(path))
+            if type(path) == int:
+                node = path
+            else:
+                node = path[-1]
             if node not in visited:
                 # Mark it as visited
                 visited.append(node)
-                print("visited breadth search: ",visited)
+                # print("visited breadth search: ",visited)
                 if target in visited:
                     print("Path: ",path)
                     print("Dup_Path: ", dup_path)
@@ -47,7 +51,10 @@ class SocialGraph:
                 # Enqueue all of its children
                 for i in self.friendships[int(node)]:
                     if i not in visited:
-                        dup_path = list(path)
+                        if type(path) == int:
+                            dup_path = [path]
+                        else:
+                            dup_path = list(path)
                         dup_path.append(i)
                         q.append(dup_path)
 
@@ -87,6 +94,7 @@ class SocialGraph:
         print("Total Actual Friendships: ",total)
         percent_others = (total/len(possible_friendships))*100
         print(f"Percentage of extended network: {percent_others}%", )
+        print(f"")
         actual_friendships = possible_friendships[:total]
         for friendship in actual_friendships:
             social_g.addFriendship(friendship[0], friendship[1])
@@ -111,17 +119,19 @@ class SocialGraph:
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
         for i in self.friendships[userID]:
-            visited[i] = sg.breadth_first_search(str(userID), i)
+            visited[i] = sg.breadth_first_search(userID, i)
+        for connections in visited:
+            print("connections average: ", connections)
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 3)
+    # sg.populateGraph(10, 3)
+    # print(sg.friendships)
+    # connections = sg.getAllSocialPaths(1)
+    # print(connections)
+    # sg.populateGraph(100, 10)
+    sg.populateGraph(10, 2)
     print(sg.friendships)
-    connections = sg.getAllSocialPaths(1)
-    print(connections)
-    sg.populateGraph(100, 10)
-    print(sg.friendships)
-    sg.populateGraph(1000, 5)
-    print(sg.friendships)
+    print("connections: ",sg.getAllSocialPaths(1))
