@@ -154,7 +154,7 @@ print(f'runtime: {end_time - start_time} seconds')
 #     totals[key] = len(sg.friendships[key])
 #     total_friendships += totals[key]
 
-# # Hint for Stretch:
+# # Hint Day 3-4, Question 2 from Questions:
 # connections = {1: [1], 8: [1, 8], 10: [1, 10], 5: [1, 5], 2: [1, 10, 2], 6: [1, 10, 6], 7: [1, 10, 2, 7]}
 
 # total = 0
