@@ -55,19 +55,20 @@ class SocialGraph:
         else:
             for i in range(1, numUsers + 1):
                 self.addUser(i)
+            
+            # for user in self.users:
+            #     for i in range(random.randint(1, avgFriendships)):
+            #         randomFriend = random.randint(1, numUsers)
+            #         if len(self.friendships[randomFriend]) < avgFriendships:
+            #             count += 1
+            #             self.addFriendship(user, random.randint(1, numUsers))
 
-            for user in self.users:
-                for i in range(random.randint(1, avgFriendships)):
-                    randomFriend = random.randint(1, numUsers)
-                    if len(self.friendships[randomFriend]) < avgFriendships:
-                        self.addFriendship(user, random.randint(1, numUsers))
+            possibleCombinations = list(itertools.combinations(list(self.users), 2))
 
-            # possibleCombinations = list(itertools.combinations(list(self.users), 2))
+            random.shuffle(possibleCombinations)
 
-            # random.shuffle(possibleCombinations)
-
-            # for i in range(0, numUsers * avgFriendships):
-            #     self.addFriendship(possibleCombinations[i][0], possibleCombinations[i][1])
+            for i in range(0, (numUsers * avgFriendships) // 2):
+                self.addFriendship(possibleCombinations[i][0], possibleCombinations[i][1])
 
 
     def getAllSocialPaths(self, userID):
@@ -97,10 +98,6 @@ class SocialGraph:
                     paths[i].append(i)
                     queue.append(i)
 
-                    # If vertex matches target, return target
-                    # if i == target:
-                    #     return paths[i]
-
             # Remove last item checked
             queue.pop(0)
         
@@ -112,7 +109,6 @@ if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(10, 2)
     print(sg.friendships)
-    print('')
     connections = sg.getAllSocialPaths(1)
     print(connections)
 
