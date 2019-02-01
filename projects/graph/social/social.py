@@ -1,5 +1,7 @@
-
+import sys
 import random
+
+from queue import Queue
 
 
 class User:
@@ -11,7 +13,7 @@ class SocialGraph:
     def __init__(self):
         self.lastID = 0
         self.users = {}  # Verticies
-        self.friendships = {}  # Edge
+        self.friendships = {}  # Dictionary of users and their edges
 
     def addFriendship(self, userID, friendID):
         """
@@ -60,7 +62,7 @@ class SocialGraph:
                 if user_id + 1 != friend_id and user_id < friend_id:
                     friend_list += [[user_id + 1, friend_id]]
         random.shuffle(friend_list)
-        friend_list = friend_list[:10]
+        friend_list = friend_list[:numUsers]
         for x, y in friend_list:
             self.addFriendship(x, y)
 
@@ -73,16 +75,26 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        # queue = []
-        # queue.append(userID)
-        # while len(queue) > 0:
-        #     node = queue.pop()
-        #     visited[node] = node
-        #     for friends in self.users[node]:
-        #         if friends not in visited:
-        #             queue.append(friends)
+        visited = {userID: [userID]}
+        queue = Queue()
+        queue.enqueue([userID])
+
+        while queue.len() > 0:
+
+            path = queue.dequeue()
+
+            node = path[-1]
+
+            for friend in self.friendships[node]:
+                if friend not in visited:
+
+                    upath = path + [friend]
+
+                    visited[friend] = upath
+
+                    queue.enqueue(upath)
+
         return visited
 
 
