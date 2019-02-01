@@ -117,7 +117,16 @@ class SocialGraph:
 
 if __name__ == "__main__":
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    print(sg.friendships)
+    sg.populateGraph(1000, 5)
+    # print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    # print(connections)
+    total = 0
+    for user in connections:
+        if connections[user]:
+            length = len(connections[user]) - 1
+        if length >= 0:
+            total += length
+    avg_deg = total / len(connections)
+    print(avg_deg)
+

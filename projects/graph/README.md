@@ -117,13 +117,19 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
    - 500 times. (100 users \* avg of 10 friends) / 2 = 500 since `addFriendship()` is bi-directional, we only need 1 in each direction.
 
-2. ## If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
    ```python
-   percentage = (5 / 1000) * 100 # => 0.5%?
+   percentage = (1000 - 5) / 1000 * 100 # => 99.5%? ¯\_(ツ)_/¯
 
-   numFriendships = (1000 * 5) / 2 = 2500
-   avg degree of separation = 2500 / 1000 # => 2.5? Lol idk
+   total = 0
+    for user in connections:
+        if connections[user]:
+            length = len(connections[user]) - 1
+        if length >= 0:
+            total += length
+    avg_deg = total / len(connections)
+    print(avg_deg) # => ~4
    ```
 
 ## 4. Stretch Goal
