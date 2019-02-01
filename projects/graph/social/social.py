@@ -56,16 +56,18 @@ class SocialGraph:
             for i in range(1, numUsers + 1):
                 self.addUser(i)
 
-            # for user in self.users:
-            #     for i in range(random.randint(1, avgFriendships - len(self.friendships[user])):
-            #         randomFriend = random.randint(1, numUsers)
-            #         if randomFriend < 
-            #         self.addFriendship(user, random.randint(1, numUsers))
-            possibleCombinations = list(itertools.combinations(list(self.users), 2))
-            random.shuffle(possibleCombinations)
+            for user in self.users:
+                for i in range(random.randint(1, avgFriendships)):
+                    randomFriend = random.randint(1, numUsers)
+                    if len(self.friendships[randomFriend]) < avgFriendships:
+                        self.addFriendship(user, random.randint(1, numUsers))
 
-            for i in range(0, numUsers * avgFriendships):
-                self.addFriendship(possibleCombinations[i][0], possibleCombinations[i][1])
+            # possibleCombinations = list(itertools.combinations(list(self.users), 2))
+
+            # random.shuffle(possibleCombinations)
+
+            # for i in range(0, numUsers * avgFriendships):
+            #     self.addFriendship(possibleCombinations[i][0], possibleCombinations[i][1])
 
 
     def getAllSocialPaths(self, userID):
@@ -113,3 +115,4 @@ if __name__ == '__main__':
     print('')
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
