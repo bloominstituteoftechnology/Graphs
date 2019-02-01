@@ -107,8 +107,29 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    print(sg.friendships)
+    sg.populateGraph(1000, 3)
+    # print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    # print(connections)
+
+    allConnections = {}
+    for i in [sg.getAllSocialPaths(i) for i in sg.users]:
+        count = 0
+        current = 0
+        for j in i:
+            count += 1
+            current = i[j][0]
+            if i[j][0] not in allConnections:
+                allConnections[i[j][0]] = 0
+
+            allConnections[i[j][0]] += len(i[j]) - 1
+        allConnections[current] //= count
+        
+    total = 0
+    for i in allConnections:
+        total += allConnections[i]
+    
+    total //= len(allConnections)
+    print(total)
+        
 
