@@ -126,7 +126,6 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
    for user in connections:
        if connections[user]:
            length = len(connections[user]) - 1
-       if length >= 0:
            total += length
    avg_deg = total / len(connections)
    print(avg_deg) # => ~4-5
