@@ -47,25 +47,25 @@ graph.add_edge('0', '4')  # No '4' vertex, should raise an Exception!
 
 ## Part 2: Implement Breadth-First Traversal
 
-Write a function within your Graph class that takes takes a starting node as an argument, then performs BFT. Your function should print the resulting nodes in the order they were visited.
+Write a function within your Graph class that takes a starting node as an argument, then performs BFT. Your function should print the resulting nodes in the order they were visited.
 
 
 ## Part 3: Implement Depth-First Traversal with a Stack
 
-Write a function within your Graph class that takes takes a starting node as an argument, then performs DFT. Your function should print the resulting nodes in the order they were visited.
+Write a function within your Graph class that takes a starting node as an argument, then performs DFT. Your function should print the resulting nodes in the order they were visited.
 
 
 ## Part 3.5: Implement Depth-First Traversal using Recursion
 
-Write a function within your Graph class that takes takes a starting node as an argument, then performs DFT using recursion. Your function should print the resulting nodes in the order they were visited.
+Write a function within your Graph class that takes a starting node as an argument, then performs DFT using recursion. Your function should print the resulting nodes in the order they were visited.
 
 ## Part 4: Implement Breadth-First Search
 
-Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs BFS. Your function should return the shortest path from the start node to the destination node.
+Write a function within your Graph class that takes a starting node and a destination node as an argument, then performs BFS. Your function should return the shortest path from the start node to the destination node.
 
 ## Part 5: Implement Depth-First Search
 
-Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs DFS. Your function should return a valid path (not necessarily the shortest) from the start node to the destination node.
+Write a function within your Graph class that takes a starting node and a destination node as an argument, then performs DFS. Your function should return a valid path (not necessarily the shortest) from the start node to the destination node.
 
 
 # Day 3-4
@@ -118,10 +118,12 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 ## 3. Questions
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
+**Using the average equation we have been using this week to find total will give us 500.** 
+**addFriendship = (numUsers * avgFriendships) // 2**
+**addFriendship = (   100   *       10      ) // 2**
+**addFriendship = 500**
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
-
-
 
 ## 4. Stretch Goal
 
