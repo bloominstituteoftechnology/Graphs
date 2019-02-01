@@ -87,15 +87,13 @@ class SocialGraph:
             n = q.dequeue()
             node = n[-1]
             if node not in visited:
-                visited[node]= n
+                visited[node] = n
             for i in self.friendships[node]:
                 if i not in visited:
                     next_path = list(n)
                     next_path.append(i)
                     q.enqueue(next_path)
         return visited
-
-
 
 
 if __name__ == '__main__':
