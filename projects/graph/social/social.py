@@ -54,7 +54,7 @@ class SocialGraph:
         #itertools uses nested for loop under hood so this is inefficient at n^2
         possible_friendships = list(combinations(range(1, numUsers+1), 2))
         random.shuffle(possible_friendships)
-        total_friendships = (possible_friendships * avgFriendships) // 2
+        total_friendships = (len(possible_friendships) * avgFriendships) // 2  #need len b/c pos friends is a list
         actual_friendships = possible_friendships[:total_friendships]
         for friendship in actual_friendships:
             self.addFriendship(friendship[0], friendship[1])
@@ -79,23 +79,25 @@ class SocialGraph:
         # The key is the friend's ID and the value is the path.
         
         visited = {}  # Note that this is a dictionary, not a set
-            if 
-
+        if self.friendships[userID]:
+            #userID is target, i is starting_vertex
+            for i in range(1, len(self.users) + 1):
+                visited[i] = self.social_paths_bfs(i, userID)
         return visited
     
     #bfs returns shortest path v dfs
     def social_paths_bfs(self, starting_vertex, target):
         q = deque()
         visited = []
-        q.append(starting_vertex)  #list v set??
+        q.append([starting_vertex])  #list v set??
         while q:
             social_path = q.pop()
             last_vertex = social_path[-1:]
             if last_vertex not in visited:
                 if last_vertex == target:
                     return social_path
-                print(last_vertex, social_path)
-                visited.add(last_vertex)
+                #print(last_vertex, social_path)
+                visited.append(last_vertex)
             for child in self.friendships[last_vertex]:
                 duplicate_path = list(social_path)
                 duplicate_path.append(child)
