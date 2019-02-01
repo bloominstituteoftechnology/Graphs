@@ -75,3 +75,13 @@ class Graph:
                 visited.add(node)
                 for vertex in self.vertices[node]:
                     s.push(vertex)
+
+    def dft_r(self, vertex, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(vertex)
+        print(vertex)
+        for vertex in self.vertices[vertex]:
+            if vertex in visited:
+                continue
+            self.dft_r(vertex, visited)
