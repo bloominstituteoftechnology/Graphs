@@ -118,7 +118,9 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
-    -- I think the percentage of a person being in another person's group would be a 0.2%. This is because there are 2500 connections possible in this scenario and the person has the chance of being 1 of the 5 random friends. The degree of seperation is 4 after I caculated it using the app.
+    -- The degree of seperation is 4 after I caculated it using the app.
+
+    -- So if I did the connections length divided by users length then I would get 99%.
 
 ## 4. Stretch Goal
 

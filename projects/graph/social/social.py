@@ -177,8 +177,10 @@ if __name__ == '__main__':
         length = len(connections[user]) - 1
         if length >= 0:
             total += length
-
-    print(total / len(connections))
+    print(len(connections))
+    degrees = total/len(connections)
+    print("Degrees:", degrees)
+    print("Percentage:", (len(connections)/len(sg.users) * 100))
 
 end_time = time.time()
 print(f"runtime: {end_time - start_time} seconds")
