@@ -1,6 +1,6 @@
 # Implement a Graph
 
-## Using an Adjacency Matrix 
+## Using an Adjacency Matrix
 
 One way of representing connections between verts is with a matrix that
 records `1` for a connection or `0` for no connection.
@@ -33,3 +33,6 @@ This is the recommended approach for our graph projects.
 ## Comparison
 
 What are the relative advantages and disadvantages of both methods?
+
+Adjacency lists are easier to read, and take up less space complexity.
+A matrix uses O(n^2) space complexity, but has the advantage of using weights
