@@ -17,6 +17,10 @@ class Graph:
             self.vertices[v1].update(v2)
             self.vertices[v2].update(v1)
         if v1 not in self.vertices:
-            raise Exception("v1 is not in self.vertices")
+            raise Exception("Input 1 is not in self.vertices")
         if v2 not in self.vertices:
-            raise Exception("v2 is not in self.vertices")
+            raise Exception("Input 2 is not in self.vertices")
+
+    def BFT(self, start):
+        if start not in self.vertices:
+            raise Exception("The input is not in self.vertices")
