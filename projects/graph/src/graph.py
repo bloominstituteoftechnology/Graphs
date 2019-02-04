@@ -11,6 +11,7 @@ class Graph:
     # placeholders for add_vertex and add_edge methods
     # add_vertex needs only a vertex, while add_edge needs both a vertex and edge
     def add_vertex(self, vertex):
-        pass #TODO
+        self.vertices[vertex] = {}
+        
     def add_edge(self, vertex, edge):
         pass #TODO
