@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-
+from collections import deque
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -22,5 +22,14 @@ class Graph:
             raise Exception("Input 2 is not in self.vertices")
 
     def BFT(self, start):
-        if start not in self.vertices:
-            raise Exception("The input is not in self.vertices")
+        d = deque()
+        visited = []
+        d.append(start)
+        while d:
+            vertex = d.popleft()
+            if vertex not in visited:
+                visited.append(vertex)
+                next_nodes = self.vertices[vertex]
+                for node in next_nodes:
+                    d.append(node)
+        return visited 
