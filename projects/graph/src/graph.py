@@ -10,7 +10,8 @@ test_graph =  {
     "F": {"C"},
     "G": {"A", "F"}
                 }
-        
+
+  
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -24,4 +25,32 @@ class Graph:
     
     def add_vertex(self, value):
         self.vertices[value] = set()
+
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)  
 
