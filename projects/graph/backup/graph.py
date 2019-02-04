@@ -9,8 +9,8 @@ class Graph:
         self.vertices = {
 
         }
-    def add_vertex(self):
-        
+    def add_vertex(self, vertex):
+        self.vertices[vertex] = set()
         pass
     def add_edge(self):
         pass
