@@ -1,7 +1,8 @@
 """
 Simple graph implementation
 """
-#initial commit
+
+from collections import deque
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -16,6 +17,28 @@ class Graph:
     def add_edge(self, vertex, edge):
         if vertex in self.vertices:
             self.vertices[vertex].add(edge)
+        elif vertex not in self.vertices:
+            raise Exception(f'There is no edge to vertex {vertex}! Please try again.') # will revisit this
+
+    # breadth-first traversal method
+    def bft(self, start):
+        x = deque()
+        visited = []
+        x.append(start)
+
+        """
+        popleft() covers what we need to do for breadth-first, we keep moving along the same level
+        the visited node is added to the 'visited' list
+        if after the breadth-wide search a node has an unvisited child, we append the child to the list as well
+        """
+
+        while len(x) > 0:
+            node = x.popleft()
+            visited.append(node)
+            for child in node:
+                if child not in visited:
+                    x.append(child)
+        return visited
 
 # testing
 
@@ -26,4 +49,6 @@ graph.add_vertex('2')
 graph.add_vertex('3')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-print(graph.vertices)
+# test case for exception
+# graph.add_edge('0', '4') # should cause an error
+print(graph.bft(graph.vertices['0']))
