@@ -16,19 +16,29 @@ class Graph:
         self.vertices[vert_2].add(vert_1)
     
     def bfs(self, node):
-        visisted = set()
+        visited = []
         queue = []
 
         queue.append(node)
 
         while len(queue) > 0:
             current_node = queue.pop()
-            visisted.add(current_node)
+            visited.append(current_node)
+            for i in self.vertices[current_node]:
+                if i not in visited:
+                    queue.append(i)
+            return queue
 
-            if self.vertices[current_node] is not set():
-                for item in self.vertices[current_node]:
-                    if item not in visisted:
-                        queue.append(item)
+    def dfs(self, node):
+        visited = []
+        stack = []
+        stack.append(node)
+        while len(stack) > 0:
+            current_node = stack.pop()
+            if node not in visited:
+                visited.append(current_node)
+                for next_nodes in self.vertices[current_node]:
+                    stack.append(next_nodes)
 
-        
+          
         
