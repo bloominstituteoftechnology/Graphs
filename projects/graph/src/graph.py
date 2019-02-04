@@ -1,31 +1,17 @@
 """
 Simple graph implementation
 """
-test_graph =  { 
-    "A": {"B"},
-    "B": {"C", "D"},
-    "C": {"E"},
-    "D": {"F", "G"},
-    "E": {"C"},
-    "F": {"C"},
-    "G": {"A", "F"}
-                }
+# test_graph =  { 
+#     "A": {"B"},
+#     "B": {"C", "D"},
+#     "C": {"E"},
+#     "D": {"F", "G"},
+#     "E": {"C"},
+#     "F": {"C"},
+#     "G": {"A", "F"}
+#                 }
 
   
-
-class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self):
-        self.vertices = {}
-        print(self.vertices)
-        
-    
-    def add_edge(self, from_vertex, to_vertex):
-        self.vertices[from_vertex].add(to_vertex)
-    
-    def add_vertex(self, value):
-        self.vertices[value] = set()
-
 
 class Queue():
     def __init__(self):
@@ -54,3 +40,36 @@ class Stack():
     def size(self):
         return len(self.stack)  
 
+
+class Graph:
+    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    def __init__(self):
+        self.vertices = {}
+        print(self.vertices)
+        
+    def add_edge(self, from_vertex, to_vertex):
+        self.vertices[from_vertex].add(to_vertex)
+    
+    def add_vertex(self, value):
+        self.vertices[value] = set()
+    
+    def breadth_first_traversal(self, start_vert):
+        new_queue = Queue()
+        visited_node = []
+
+        new_queue.enqueue(start_vert)
+
+        while new_queue.size() is not 0:
+            n = new_queue.dequeue()
+
+            if n not in visited_node:
+                visited_node.append(n)
+                print(f"Visited nodes: {visited_node}")
+
+                for edge in self.vertices[n]:
+                    new_queue.enqueue(edge)
+
+           
+testing = Graph()
+
+print(testing.breadth_first_traversal(5))
