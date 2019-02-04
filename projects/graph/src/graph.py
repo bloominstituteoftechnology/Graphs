@@ -39,7 +39,26 @@ class Graph:
                 if child not in visited:
                     x.append(child)
         return visited
+    
+    # depth-first traversal with stack
+    def dft(self, start):
+        stack = []
+        visited = []
+        stack.append(start)
 
+        """
+        for depth-first we'll use pop() instead since we're moving 'vertically' rather than shifting left/right
+        once the node is popped it is added to the 'visited' list
+        move to the children of the nodes afterward
+        
+        """
+        while len(stack) > 0:
+            node = stack.pop()
+            visited.append(node)
+            for child in self.vertices[node]:
+                if child not in visited:
+                    stack.append(child)
+        return visited
 # testing
 
 graph = Graph() 
@@ -52,3 +71,4 @@ graph.add_edge('0', '3')
 # test case for exception
 # graph.add_edge('0', '4') # should cause an error
 print(graph.bft(graph.vertices['0']))
+print(graph.dft(graph.vertices['0']))
