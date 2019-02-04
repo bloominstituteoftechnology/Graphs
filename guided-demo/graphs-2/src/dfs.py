@@ -10,7 +10,7 @@ from sys import argv
 
 class Vertex:
     """Represent a vertex with label and set of edges to other vertices."""
-    # Just holds data, but is class and not namedtuple/dict so it is hashable
+    # iJust holds data, but is class and not namedtuple/dict so it is hashable
     # pylint: disable=too-few-public-methods
     def __init__(self, label):
         self.label = label
