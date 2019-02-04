@@ -11,9 +11,9 @@ class Graph:
         }
     def add_vertex(self, vertex):
         self.vertices[vertex] = set()
-        pass
+        
     def add_edge(self, vert_1, vert_2):
         self.vertices[vert_1].add(vert_2)
         self.vertices[vert_2].add(vert_1)
-        pass
+       
         
