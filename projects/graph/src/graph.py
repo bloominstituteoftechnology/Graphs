@@ -33,3 +33,15 @@ class Graph:
                 for node in next_nodes:
                     d.append(node)
         return visited 
+
+    def DFT(self, start):
+        s = []
+        visited = []
+        s.append(start)
+        while len(s) > 0:
+            vertex = s.pop()
+            if vertex not in visited:
+                visited.append(vertex)
+                for child in self.vertices[vertex]:
+                    s.append(child)
+        return visited
