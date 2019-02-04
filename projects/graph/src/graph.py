@@ -70,6 +70,6 @@ class Graph:
                     new_queue.enqueue(edge)
 
            
-testing = Graph()
+# testing = Graph()
 
-print(testing.breadth_first_traversal(5))
+# print(testing.breadth_first_traversal(3))
