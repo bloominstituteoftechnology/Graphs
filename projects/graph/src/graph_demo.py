@@ -18,6 +18,8 @@ def main():
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
     print(graph.vertices)
+    print(graph.bfs('3'))
+
 
 if __name__ == '__main__':
     # TODO - parse argv
