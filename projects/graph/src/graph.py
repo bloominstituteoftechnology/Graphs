@@ -32,7 +32,7 @@ class Graph:
                 next_nodes = self.vertices[vertex]
                 for node in next_nodes:
                     d.append(node)
-        return visited 
+        return visited
 
     def DFT(self, start):
         s = []
@@ -44,4 +44,13 @@ class Graph:
                 visited.append(vertex)
                 for child in self.vertices[vertex]:
                     s.append(child)
+        return visited
+
+    def DFTR(self, start, visited=None):
+        if visited is None:
+            visited = []
+        if start not in visited:
+            visited.append(start)
+            for child in self.vertices[start]:
+                self.DFTR(child, visited)
         return visited

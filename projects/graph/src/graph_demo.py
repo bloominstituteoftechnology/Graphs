@@ -20,6 +20,7 @@ def main():
     print(graph.vertices)
     print(graph.BFT("0"))
     print(graph.DFT("0"))
+    print(graph.DFTR("0"))
 
 if __name__ == '__main__':
     # TODO - parse argv
