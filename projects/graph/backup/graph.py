@@ -31,14 +31,10 @@ class Graph:
 
     def dfs(self, node):
         visited = []
-        stack = []
-        stack.append(node)
-        while len(stack) > 0:
-            current_node = stack.pop()
-            if node not in visited:
-                visited.append(current_node)
-                for next_nodes in self.vertices[current_node]:
-                    stack.append(next_nodes)
+        visited.append(node)
+        for current_node in self.vertices[node]:
+            if current_node not in visited:
+                self.dfs(current_node)
 
           
         
