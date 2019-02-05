@@ -49,11 +49,12 @@ class Graph:
 
         while queue.size() > 0:
             current_node = queue.dequeue()
-            visited.append(current_node)
-            for i in self.vertices[current_node]:
-                if i not in visited:
+            if current_node not in visited:
+                visited.append(current_node)
+                print(f"Visited: {current_node}")
+                for i in self.vertices[current_node]:
                     queue.enqueue(i)
-            return queue
+      
 
     # def dfs(self, node):
     #     visited = []
