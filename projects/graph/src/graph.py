@@ -32,7 +32,24 @@ class Graph:
             print(queue.pop(0))
 
     # Depth First Traversal
-    
+    def dft(self, vertex):
+        stack = [vertex]
+        visited = set(vertex)
+        while len(stack) > 0:
+            current_vertex = stack.pop()
+            print(current_vertex)
+            for i in self.vertices[current_vertex]:
+                if i not in visited:
+                    visited.add(i)
+                    stack.append(i)
+
+    def dft_r(self, vertex, cache = set()):
+        print(vertex)
+        cache.add(vertex)
+        for i in self.vertices[vertex]:
+            if i not in cache:
+                self.dft_r(i, cache)
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('0')
@@ -44,4 +61,6 @@ graph.add_edge('0', '3')
 graph.add_edge('0', '4')  # No '4' vertex, should raise an Exception!
 print(graph.vertices)
 graph.bft('0')
+graph.dft('2')
+graph.dft_r('0')
 
