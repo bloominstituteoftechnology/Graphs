@@ -59,7 +59,7 @@ class Graph:
                 for i in self.vertices[current_node]:
                     queue.enqueue(i)
 
-    def bfs(self, node, target_node):
+    def bfs_search(self, node, target_node):
         visited = []
         queue = Queue()
 
@@ -69,17 +69,21 @@ class Graph:
             current_node = queue.dequeue()
             if current_node not in visited:
                 visited.append(current_node)
+                if current_node == target_node:
+                    return True
                 print(f"Visited: {current_node}")
                 for i in self.vertices[current_node]:
                     queue.enqueue(i)
       
 
-    def dfs(self, node, target_node):
+    def dfs_search(self, node, target_node):
         visited = []
         stack = [node]
         while len(stack) > 0:
             current_node = stack.pop()
             if current_node not in visited:
+                if current_node == target_node:
+                    return True
                 visited.append(current_node)
                 for edge in self.vertices[current_node]:
                     stack.append(edge)
