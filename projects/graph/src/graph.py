@@ -39,9 +39,9 @@ class Queue():
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
-    def __init__(self, vertices=None):
+    def __init__(self):
         # includes all vertices
-        self.vertices = {} if vertices is None else vertices
+        self.vertices = {}
 
     def add_vertex(self, vertex):
         self.vertices[vertex] = set()
@@ -49,6 +49,9 @@ class Graph:
     # adding/creating an edge to a graph between vertices i and j
     def add_edge(self, i, j):
         # check if vertices are connected
+        if i not in self.vertices or j not in self.vertices:
+            raise Exception(
+                'Cannot create edges on vertices that do not exist')
         if not (i in self.vertices[j]):
             # makes sure that i is included in the list of vertices that connect to j
             self.vertices[j].add(i)
@@ -89,3 +92,24 @@ class Graph:
         for child_node in self.vertices[start_node]:
             if child_node not in visited:
                 self.dft_recursive(child_node, visited)
+
+
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_edge('0', '1')
+graph.add_edge('1', '2')
+graph.add_edge('1', '4')
+# graph.add_edge('5', '7')
+
+# graph.add_edge(1, 3)
+# graph.add_edge(2, 3)
+# graph.add_edge(2, 4)
+# graph.add_edge(2, 1)
+print(graph.vertices)
+# print(graph.bft('1'))
+# print(graph.dft('1'))
+# print(graph.dft_recursive('1'))
