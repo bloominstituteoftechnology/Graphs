@@ -92,6 +92,28 @@ class Graph:
                     x.append(newpath)
         return None
 
+    def dfs(self, start, target):
+        stack = []
+        visited = []
+        stack.append([start])
+
+        """
+        logic here should be more or less the same as the bfs method
+        main difference is using pop() rather than popleft() to move vertically instead of horizontally
+        """
+        while len(stack) > 0:
+            path = stack.pop()
+            node = path[-1]
+            if node not in visited:
+                visited.append(node)
+                if node == target:
+                    return path
+                for child in self.vertices[node]:
+                    newpath = path.copy()
+                    newpath.append(child)
+                    stack.append(newpath)
+        return None
+
         
 # testing
 
