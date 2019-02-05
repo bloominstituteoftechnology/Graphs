@@ -70,6 +70,15 @@ class Graph:
                     new_queue.enqueue(edge)
 
            
-# testing = Graph()
+    def depth_first_traversal(self, start_vert):
+        
+        visited = []
 
-# print(testing.breadth_first_traversal(3))
+        if start_vert not in visited:
+            visited.append(start_vert)
+
+            for node in self.vertices[start_vert]:
+                self.depth_first_traversal(node, visited)
+        
+        return visited
+        
