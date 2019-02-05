@@ -122,8 +122,18 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_vertex('8')
+graph.add_vertex('15')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
+
+
+
+
 # test case for exception
 # graph.add_edge('0', '4') # should cause an error
 print(graph.bft(graph.vertices['0']))
