@@ -14,9 +14,9 @@ class Graph:
     def add_vertex(self, vertex):
         self.vertices[vertex] = set()
 
-    def add_edge(self, vertex, edge):
-        if vertex in self.vertices:
-            self.vertices[vertex].add(edge)
+    def add_edge(self, vertex1, vertex2):
+        if vertex1 in self.vertices and vertex2 in self.vertices:
+            self.vertices[vertex1].add(vertex2)
         elif vertex not in self.vertices:
             raise Exception(f'There is no edge to vertex {vertex}! Please try again.') # will revisit this
 
@@ -67,7 +67,7 @@ class Graph:
             visited.append(node)
         for child in self.vertices[node]:
             self.dft_recur(child, visited)
-            
+        
 # testing
 
 graph = Graph() 
