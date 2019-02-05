@@ -49,29 +49,37 @@ class Graph:
         #keeps track of order to be printed at the end
         visited = [] #must be an array b/c sets aren't ordered
         #add start_vertex to Queue
-        queue.enqueue(start_vertex)
+        queue.enqueue(start_vertex) #{3}
         # while Queue.length > 0
         while queue.size():
             #dequeue first item in queue
             #mark node as visited
-            vertex = queue.dequeue() #current vertex
+            vertex = queue.dequeue() #current vertex #queue {}
             if vertex not in visited:
-                visited.append(vertex)
+                visited.append(vertex) # visted = [3, 0, 4, 1, 5]
                 #if neighbor, add to the queue
                 for neighbor in self.vertices[vertex]:
                     if neighbor not in visited:
-                        queue.enqueue(neighbor) #add neighbor
+                        queue.enqueue(neighbor) #add neighbor queue {}
         return visited
 
     def depth_first_traversal(self, start_vertex):
         stack = Stack() # FILO
         visited = []
         stack.push(start_vertex)
-        while stack.size():
-            vertex = stack.pop() #value of current node
-            if vertex not in visited:
+        while stack.size(): # stack
+            vertex = stack.pop() #value of current node {}
+            if vertex not in visited: # [3, 4, 5, 0, 1]
                 visited.append(vertex)
             for neighbor in self.vertices[vertex]:
                 if neighbor not in visited:
                     stack.push(neighbor)
         return visited
+
+    def depth_first_recursive(self, start_vertex):
+        visited = []
+        visited.append(start_vertex)
+        print(start_vertex)
+        for neighbor in self.vertices[start_vertex]:
+            if neighbor not in visited:
+                self.depth_first_recursive(neighbor, visited)
