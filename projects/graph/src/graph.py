@@ -79,6 +79,19 @@ class Graph:
     since this is a search rather than a traversal we'll need to return a path as well
     general BFS searching logic should apply in the same way that it did earlier
     """
+        while len(x) > 0:
+            path = q.popleft()
+            node = path[-1]
+            if node not in visited:
+                visited.append(node)
+                if node == target:
+                    return path # search is over when node matches target
+                for child in self.vertices[node]:
+                    newpath = path.copy()
+                    newpath.append(child)
+                    x.append(newpath)
+        return None
+
         
 # testing
 
