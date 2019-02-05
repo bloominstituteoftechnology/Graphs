@@ -130,9 +130,11 @@ graph.add_vertex('8')
 graph.add_vertex('15')
 graph.add_edge('0', '1')
 graph.add_edge('0', '3')
-
-
-
+graph.add_edge('1', '2')
+graph.add_edge('1', '15')
+graph.add_edge('3', '8')
+graph.add_edge('3', '6')
+# add directed edges next after add_directed_edge() is created
 
 # test case for exception
 # graph.add_edge('0', '4') # should cause an error
