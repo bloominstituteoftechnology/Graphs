@@ -18,7 +18,8 @@ def main():
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
     # graph.dfs('0')
-    graph.bfs('3')
+    graph.add_edge('0', '4')
+    graph.bfs('0')
     print(graph.vertices)
 
 if __name__ == '__main__':
