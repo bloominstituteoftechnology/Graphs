@@ -55,7 +55,7 @@ class Graph:
             # viseversa makes sure that j is included in the list of vertices that connect to i
             self.vertices[i].add(j)
 
-    def bfs(self, target):
+    def bft(self, target):
         queue = Queue()
         visited = []
         queue.enqueue(target)
@@ -68,7 +68,7 @@ class Graph:
                         queue.enqueue(neighbor)
         return visited
 
-    def dfs(self, start_vertex):
+    def dft(self, start_vertex):
         stack = Stack()
         visited = []
         stack.push(start_vertex)
