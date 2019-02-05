@@ -76,10 +76,13 @@ class Graph:
                     stack.push(neighbor)
         return visited
 
-    def depth_first_recursive(self, start_vertex):
-        visited = []
+    def depth_first_recursive(self, start_vertex, visited = None):
+        if visited is None:
+            visited = []  #set()
         visited.append(start_vertex)
-        print(start_vertex)
+        # visited.add(start_vertex)
+        # print(start_vertex)
         for neighbor in self.vertices[start_vertex]:
             if neighbor not in visited:
                 self.depth_first_recursive(neighbor, visited)
+        return visited

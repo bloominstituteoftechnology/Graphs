@@ -30,9 +30,9 @@ def main():
     # graph.add_edge('9', '10')
     # graph.add_edge('10', '11')
     print(graph.vertices)
-    print(graph.breadth_first_traversal("4"))
-    print(graph.depth_first_traversal("4"))
-    print(graph.depth_first_recursive("4"))
+    print(graph.breadth_first_traversal("0"))
+    print(graph.depth_first_traversal("0"))
+    print(graph.depth_first_recursive("0"))
 
 if __name__ == '__main__':
     # TODO - parse argv
