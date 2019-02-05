@@ -67,6 +67,13 @@ class Graph:
             visited.append(node)
         for child in self.vertices[node]:
             self.dft_recur(child, visited)
+
+    # searches - will require a target parameter unlike traversals
+
+    def bfs(self, start, target):
+        x = deque()
+        visited = []
+        x.append([start])
         
 # testing
 
