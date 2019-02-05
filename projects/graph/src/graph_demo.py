@@ -22,6 +22,7 @@ def main():
     print(graph.DFT("0"))
     print(graph.DFTR("0"))
     print(graph.BFS("0", "1"))
+    print(graph.DFS("0", "1"))
 
 
 if __name__ == '__main__':

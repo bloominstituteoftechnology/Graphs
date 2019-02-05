@@ -68,11 +68,25 @@ class Graph:
             if vertex == end:
                 visited.append(vertex)
                 return visited
-            if  end in visited:
+            if end in visited:
                 return visited
             if vertex not in visited:
                 visited.append(vertex)
                 next_nodes = self.vertices[vertex]
                 for node in next_nodes:
                     d.append(node)
+        return False
+
+    def DFS(self, start, end):
+        s = []
+        visited = []
+        s.append(start)
+        while len(s) > 0:
+            vertex = s.pop()
+            if vertex not in visited:
+                visited.append(vertex)
+                if vertex == end:
+                    return visited
+                for child in self.vertices[vertex]:
+                    s.append(child)
         return False
