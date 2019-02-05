@@ -21,6 +21,8 @@ def main():
     print(graph.BFT("0"))
     print(graph.DFT("0"))
     print(graph.DFTR("0"))
+    print(graph.BFS("0", "1"))
+
 
 if __name__ == '__main__':
     # TODO - parse argv

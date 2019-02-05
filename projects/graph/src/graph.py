@@ -54,3 +54,25 @@ class Graph:
             for child in self.vertices[start]:
                 self.DFTR(child, visited)
         return visited
+
+    def BFS(self, start, end):
+        d = deque()
+        visited = []
+        d.append(start)
+        if end in self.vertices[start]:
+            visited.append(start)
+            visited.append(end)
+            return visited
+        while d:
+            vertex = d.popleft()
+            if vertex == end:
+                visited.append(vertex)
+                return visited
+            if  end in visited:
+                return visited
+            if vertex not in visited:
+                visited.append(vertex)
+                next_nodes = self.vertices[vertex]
+                for node in next_nodes:
+                    d.append(node)
+        return False
