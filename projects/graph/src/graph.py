@@ -49,6 +49,7 @@ class Graph:
         
     def add_edge(self, from_vertex, to_vertex):
         self.vertices[from_vertex].add(to_vertex)
+        self.vertices[to_vertex].add(from_vertex)
     
     def add_vertex(self, value):
         self.vertices[value] = set()
@@ -59,15 +60,18 @@ class Graph:
 
         new_queue.enqueue(start_vert)
 
-        while new_queue.size() is not 0:
+        while new_queue.size() > 0:
             n = new_queue.dequeue()
 
             if n not in visited_node:
                 visited_node.append(n)
                 print(f"Visited nodes: {visited_node}")
+                print(self.vertices[n])
 
                 for edge in self.vertices[n]:
                     new_queue.enqueue(edge)
+                    # print(edge)
+        # print(visited_node)
 
            
     def depth_first_traversal(self, start_vert):
