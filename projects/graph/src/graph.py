@@ -80,3 +80,12 @@ class Graph:
                 if neighbor not in visited:
                     stack.push(neighbor)
         return visited
+
+    def dft_recursive(self, start_node, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(start_node)
+        print(start_node)
+        for child_node in self.vertices[start_node]:
+            if child_node not in visited:
+                self.dft_recursive(child_node, visited)
