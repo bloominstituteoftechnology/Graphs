@@ -45,7 +45,6 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
-        print(self.vertices)
         
     def add_edge(self, from_vertex, to_vertex):
         if self.vertices != None:
@@ -67,23 +66,22 @@ class Graph:
             if n not in visited_node:
                 visited_node.append(n)
                 print(f"Visited nodes: {visited_node}")
-                print(self.vertices[n])
-
+               
                 for edge in self.vertices[n]:
                     new_queue.enqueue(edge)
                     # print(edge)
         # print(visited_node)
 
            
-    def depth_first_traversal(self, start_vert):
+    def depth_first_traversal(self, start_vert, visited=[]):
         
-        visited = []
-
+       
         if start_vert not in visited:
             visited.append(start_vert)
-
-            for node in self.vertices[start_vert]:
-                self.depth_first_traversal(node)
+            
+        for node in self.vertices[start_vert]:
+            if node not in visited:
+                self.depth_first_traversal(node, visited)
         print(visited)
-        return visited
+        # return visited
         
