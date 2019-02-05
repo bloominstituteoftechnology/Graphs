@@ -21,6 +21,14 @@ class Graph:
         if v2 not in self.vertices:
             raise Exception(f"{v2} is not in self.vertices")
 
+    def add_directed_edge(self, v1, v2):
+        if v1 and v2 in self.vertices:
+            self.vertices[v1].update(v2)
+        if v1 not in self.vertices:
+            raise Exception(f"{v1} is not in self.vertices")
+        if v2 not in self.vertices:
+            raise Exception(f"{v2} is not in self.vertices")
+
     def BFT(self, start):
         d = deque()
         visited = []
