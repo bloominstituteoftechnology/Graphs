@@ -50,7 +50,7 @@ class Graph:
         for depth-first we'll use pop() instead since we're moving 'vertically' rather than shifting left/right
         once the node is popped it is added to the 'visited' list
         move to the children of the nodes afterward
-        
+
         """
         while len(stack) > 0:
             node = stack.pop()
@@ -59,6 +59,15 @@ class Graph:
                 if child not in visited:
                     stack.append(child)
         return visited
+
+    def dft_recur(self, node, visited = None):
+        if visited is None:
+            visited = []
+        if node not in visited:
+            visited.append(node)
+        for child in self.vertices[node]:
+            self.dft_recur(child, visited)
+            
 # testing
 
 graph = Graph() 
