@@ -47,19 +47,31 @@ class Graph:
         #empty Queue FIFO
         queue = Queue()
         #keeps track of order to be printed at the end
-        visited = set()
+        visited = [] #must be an array b/c sets aren't ordered
         #add start_vertex to Queue
         queue.enqueue(start_vertex)
         # while Queue.length > 0
-        while queue.size() > 0:
+        while queue.size():
             #dequeue first item in queue
             #mark node as visited
             vertex = queue.dequeue() #current vertex
             if vertex not in visited:
-                visited.add(vertex)
+                visited.append(vertex)
                 #if neighbor, add to the queue
                 for neighbor in self.vertices[vertex]:
                     if neighbor not in visited:
                         queue.enqueue(neighbor) #add neighbor
         return visited
 
+    def depth_first_traversal(self, start_vertex):
+        stack = Stack() # FILO
+        visited = []
+        stack.push(start_vertex)
+        while stack.size():
+            vertex = stack.pop() #value of current node
+            if vertex not in visited:
+                visited.append(vertex)
+            for neighbor in self.vertices[vertex]:
+                if neighbor not in visited:
+                    stack.push(neighbor)
+        return visited
