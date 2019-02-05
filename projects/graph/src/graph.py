@@ -74,6 +74,11 @@ class Graph:
         x = deque()
         visited = []
         x.append([start])
+    """
+    we can use popleft() again here for breadth-first search
+    since this is a search rather than a traversal we'll need to return a path as well
+    general BFS searching logic should apply in the same way that it did earlier
+    """
         
 # testing
 
