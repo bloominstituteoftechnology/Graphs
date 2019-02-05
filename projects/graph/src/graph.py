@@ -3,6 +3,39 @@ Simple graph implementation
 """
 
 
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        return None
+
+    def size(self):
+        return len(self.stack)
+
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
@@ -23,13 +56,27 @@ class Graph:
             self.vertices[i].add(j)
 
     def bfs(self, target):
-        queue = [target]
-        visited = set([target])
-        while queue:
-            current = queue.pop()
-            if current == target:
-                break
-            visited.add(current)
-            queue.extend(self.vertices[current] - visited)
-            visited.update(self.vertices[current])
+        queue = Queue()
+        visited = []
+        queue.enqueue(target)
+        while queue.size():
+            vertex = queue.dequeue()
+            if vertex not in visited:
+                visited.append(vertex)
+                for neighbor in self.vertices[vertex]:
+                    if neighbor not in visited:
+                        queue.enqueue(neighbor)
+        return visited
+
+    def dfs(self, start_vertex):
+        stack = Stack()
+        visited = []
+        stack.push(start_vertex)
+        while stack.size():
+            vertex = stack.pop()
+            if vertex not in visited:
+                visited.append(vertex)
+            for neighbor in self.vertices[vertex]:
+                if neighbor not in visited:
+                    stack.push(neighbor)
         return visited
