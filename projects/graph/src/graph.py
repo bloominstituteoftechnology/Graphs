@@ -48,8 +48,9 @@ class Graph:
         print(self.vertices)
         
     def add_edge(self, from_vertex, to_vertex):
-        self.vertices[from_vertex].add(to_vertex)
-        self.vertices[to_vertex].add(from_vertex)
+        if self.vertices != None:
+            self.vertices[from_vertex].add(to_vertex)
+            self.vertices[to_vertex].add(from_vertex)
     
     def add_vertex(self, value):
         self.vertices[value] = set()
@@ -82,7 +83,7 @@ class Graph:
             visited.append(start_vert)
 
             for node in self.vertices[start_vert]:
-                self.depth_first_traversal(node, visited)
-        
+                self.depth_first_traversal(node)
+        print(visited)
         return visited
         

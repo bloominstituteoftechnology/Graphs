@@ -18,8 +18,8 @@ def main():
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
     # print(graph.vertices)
-    graph.breadth_first_traversal('3')
-    # graph.depth_first_traversal('2')
+    graph.breadth_first_traversal('0')
+    # graph.depth_first_traversal('0')
     # print(graph.vertices)
 
 if __name__ == '__main__':
