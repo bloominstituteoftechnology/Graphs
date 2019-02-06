@@ -52,7 +52,6 @@ class SocialGraph:
         
 
 
-        self.addFriendship(1, user)
 
 
     def getAllSocialPaths(self, userID):
