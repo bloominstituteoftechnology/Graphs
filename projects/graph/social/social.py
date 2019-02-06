@@ -46,6 +46,7 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
+       
 
         # Add users
         for i in range(numUsers):
@@ -58,12 +59,17 @@ class SocialGraph:
                     random_friendships.append((i, x))
         
         
+        # print(f' Users: {self.users.values}')
+        # print(f'Friendships: {self.friendships}')
+        
         random.shuffle(random_friendships)
+        random_friendships = random_friendships[:numUsers]
         print(random_friendships)
 
-        # Create friendships
-        average = (numUsers * avgFriendships) / 2
-        print(average)
+        # average = ()
+        # # Create friendships
+        # for friend in random_friendships:
+        #     self.addFriendship(friend[0], friend[1])
 
     def getAllSocialPaths(self, userID):
         """
