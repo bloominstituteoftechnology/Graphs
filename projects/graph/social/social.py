@@ -78,3 +78,11 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+"""
+Questions:
+
+1. To create 100 users with an average of 10 friends each, how many times would you need to call addFriendship()? Why?
+
+For this we would be looking at (100 * 10) = 1000 total friendships. We don't need to run call addFriendship 1000 times, however; since the relationships are bidirectional, 500 will suffice.
+"""
