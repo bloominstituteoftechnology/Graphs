@@ -92,6 +92,31 @@ class Graph:
         for child_node in self.vertices[start_node]:
             if child_node not in visited:
                 self.dft_recursive(child_node, visited)
+        return visited
+
+    def bfs(self, start, target):
+        # Check if target matches the start
+        if target == start:
+            return 'There'
+        # Keep track of vertices to be visited
+        queue = Queue()
+        queue.enqueue(start)
+        # Keep track of the visited need to reach vertices
+        visited = {start: [start]}
+        while queue.size() > 0:
+            for i in self.vertices[queue.queue[0]]:
+                # If vertex has not been visited, cache its path
+                if i not in visited:
+                    visited[i] = list(visited[queue.queue[0]])
+                    visited[i].append(i)
+                    queue.enqueue(i)
+                    # If vertex matches target, return target
+                    if i == target:
+                        return visited[i]
+            # Remove last item checked
+            queue.dequeue()
+        # Return a message if target was not found
+        return 'A path to the given target vertex could not be found.'
 
 
 graph = Graph()  # Instantiate your graph
@@ -109,7 +134,8 @@ graph.add_edge('1', '4')
 # graph.add_edge(2, 3)
 # graph.add_edge(2, 4)
 # graph.add_edge(2, 1)
-print(graph.vertices)
+# print(graph.vertices)
+print(graph.bfs('1', '3'))
 # print(graph.bft('1'))
 # print(graph.dft('1'))
 # print(graph.dft_recursive('1'))
