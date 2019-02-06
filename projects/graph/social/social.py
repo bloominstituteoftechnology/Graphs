@@ -48,7 +48,7 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-        for i in range(numusers):
+        for i in range(numUsers):
             self.addUser(f'User: {i}')
 
         # Create friendships
