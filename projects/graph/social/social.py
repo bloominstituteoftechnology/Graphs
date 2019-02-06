@@ -52,7 +52,7 @@ class SocialGraph:
             self.addUser(f'User: {i}')
 
         # Create friendships
-        allFriends = list(combinations(range(1, numUsers + 1), avgFriendships))
+        allFriends = list(combinations(range(1, numUsers + 1), 2))
         random.shuffle(allFriends)
         friendships = allFriends[:int(numUsers / 2)]
         for friendship in friendships:
