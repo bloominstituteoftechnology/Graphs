@@ -1,4 +1,5 @@
-
+import random
+from itertools import combinations
 
 class User:
     def __init__(self, name):
