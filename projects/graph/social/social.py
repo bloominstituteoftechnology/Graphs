@@ -46,8 +46,8 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
         # Add users
-        for user in range(1, numUsers):
-            self.users[user] = 
+        for user in range(1, numUsers+1):
+            self.users[user] = None
         # Create friendshipss
 
     def getAllSocialPaths(self, userID):
