@@ -1,4 +1,5 @@
-from random import randrange
+from random import randrange, shuffle
+from itertools import combinations
 
 class User:
     def __init__(self, name):
@@ -44,15 +45,35 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        randomNames = {0:"Bobby", 1:"Ricky", 2:"Carl", 3:"Tina", 4:"Mandy", 5:"Will"}
+        user_combos = []
+        random_names = {0:"Bobby", 1:"Ricky", 2:"Carl", 3:"Tina",
+                         4:"Mandy", 5:"Will", 6:"Randall", 7:"Walter",
+                         8:"Vanessa", 9:"Chris", 10:"Wayne"}
         # !!!! IMPLEMENT ME
         for u in range(0, numUsers):
-            self.addUser(randomNames[randrange(0, len(randomNames))])
+            self.addUser(random_names[randrange(0, len(random_names))])
         # Add users
-        for user in self.users:
-            print(self.users[user].name)
+        # for user in self.users:
+        #     print(self.users[user].name)
 
         # Create friendships
+        def average():
+            sum = 0
+            for friend in self.friendships:
+                sum += len(self.friendships[friend])
+            return sum // len(self.friendships)
+
+        c = combinations(self.users, 2)
+        
+        for i in c:
+            user_combos.append(i)
+        shuffle(user_combos)
+        for i in user_combos:
+            if average() == avgFriendships:
+                break
+            self.addFriendship(i[0], i[1])
+
+
 
     def getAllSocialPaths(self, userID):
         """
