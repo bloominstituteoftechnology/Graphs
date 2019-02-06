@@ -106,9 +106,25 @@ class Graph:
                 if vertex == destination:
                 # if current node/vertex is the target destination
                 # return visited and the destination should be the last node
-                    print(f'{vertex} is at the target')
+                    print(f'{vertex} is at the target with BFS')
                     return visited
                 for neighbor in self.vertices[vertex]:
                     if neighbor not in visited:
                         queue.enqueue(neighbor)
         print(f'{destination} vertex is not found in this graph')
+
+    def depth_first_search(self, start_vertex, destination):
+        stack = Stack()
+        visited = []
+        stack.push(start_vertex)
+        while stack.size() > 0:
+            vertex = stack.pop()
+            if vertex not in visited:
+                visited.append(vertex)
+                if vertex == destination:
+                    print(f'{vertex} is at the target with DFS')
+                    return visited
+                for neigbor in self.vertices[vertex]:
+                    if neigbor not in visited:
+                        stack.push(neigbor)
+        print(f'{destination} vertex is not found in this graph')          
