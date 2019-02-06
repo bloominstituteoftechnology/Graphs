@@ -49,6 +49,11 @@ class SocialGraph:
         for user in range(1, numUsers+1):
             self.addUser(user)
         # Create friendshipss
+        
+
+
+        self.addFriendship(1, user)
+
 
     def getAllSocialPaths(self, userID):
         """
