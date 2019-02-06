@@ -49,8 +49,13 @@ class SocialGraph:
         # Add users
         for i in range(numusers):
             self.addUser(f'User: {i}')
-            
+
         # Create friendships
+        allFriends = list(combinations(range(1, numUsers + 1), avgFriendships))
+        random.shuffle(allFriends)
+        friendships = allFriends[:int(numUsers / 2)]
+        for friendship in friendships:
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
