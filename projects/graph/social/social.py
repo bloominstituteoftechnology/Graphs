@@ -58,10 +58,10 @@ class SocialGraph:
 
         # Create friendships
         def average():
-            sum = 0
+            total = 0
             for friend in self.friendships:
-                sum += len(self.friendships[friend])
-            return sum // len(self.friendships)
+                total += len(self.friendships[friend])
+            return total // len(self.friendships)
 
         c = combinations(self.users, 2)
         
