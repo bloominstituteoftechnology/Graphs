@@ -40,6 +40,7 @@ class Graph:
         if from_vertex in self.vertices and to_vertex in self.vertices:
             self.vertices[from_vertex].add(to_vertex)
             self.vertices[to_vertex].add(from_vertex)
+            # undirected graph
         else: 
             print(f'{from_vertex} and {to_vertex} are not in this graph')
 
@@ -86,3 +87,21 @@ class Graph:
             if neighbor not in visited:
                 self.depth_first_recursive(neighbor, visited)
         return visited
+
+    def breadth_first_search(self, start_vertex, destination):
+        queue = Queue()
+        visited = []
+        queue.enqueue(start_vertex)
+        while queue.size() > 0:
+            vertex = queue.dequeue()
+            if vertex not in visited:
+                visited.append(vertex)
+            if vertex == destination:
+             # if current node/vertex is the target destination
+             # return visited and the destination should be the last node
+                print(f'{vertex} is at the target')
+                return visited
+            for neighbor in self.vertices[vertex]:
+                if neighbor not in visited:
+                    queue.enqueue(neighbor)
+        print(f'{destination} vertex is not found in this graph')

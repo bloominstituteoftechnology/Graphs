@@ -33,6 +33,7 @@ def main():
     print(graph.breadth_first_traversal("0"))
     print(graph.depth_first_traversal("0"))
     print(graph.depth_first_recursive("0"))
+    print(graph.breadth_first_search("0", "1"))
 
 if __name__ == '__main__':
     # TODO - parse argv
