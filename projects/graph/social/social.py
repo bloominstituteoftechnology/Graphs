@@ -48,7 +48,7 @@ class SocialGraph:
 
         # Add users
 
-        # Create friendships
+        # Create friendshipss
 
     def getAllSocialPaths(self, userID):
         """
