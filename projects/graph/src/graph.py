@@ -44,7 +44,12 @@ class Graph:
         else:
             raise Exception("No existing vertix")
 
-            
+    def add_one_direction(self, vert_1, vert_2):
+        if vert_1 in self.vertices and vert_2 in self.vertices:
+            self.vertices[vert_1].add(vert_2)
+        else:
+            raise Exception("No existing vertix")
+
     def bfs(self, node):
         visited = []
         queue = Queue()
@@ -88,3 +93,13 @@ class Graph:
                 for edge in self.vertices[current_node]:
                     stack.append(edge)
         print(visited)
+
+
+    def dfs_recursion(self, start, visited=None):
+        if visited is None:
+            visited = []
+        if start not in visited:
+            visited.append(start)
+            for child_node in self.vertices[start]:
+                self.dfs_recursion(child_node, visited)
+        pass
