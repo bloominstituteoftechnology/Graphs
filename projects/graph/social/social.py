@@ -1,3 +1,4 @@
+import random
 
 
 class User:
@@ -47,8 +48,22 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(i)
+            
+        random_friendships = []
+        for i in range(numUsers):
+            for x in range(numUsers):
+                if i not in random_friendships and x not in random_friendships:
+                    random_friendships.append((i, x))
+        
+        
+        random.shuffle(random_friendships)
+        print(random_friendships)
 
         # Create friendships
+        average = (numUsers * avgFriendships) / 2
+        print(average)
 
     def getAllSocialPaths(self, userID):
         """
