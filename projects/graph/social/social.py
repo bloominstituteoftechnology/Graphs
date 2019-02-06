@@ -46,11 +46,11 @@ class SocialGraph:
         self.friendships = {}
         randomNames = {0:"Bobby", 1:"Ricky", 2:"Carl", 3:"Tina", 4:"Mandy", 5:"Will"}
         # !!!! IMPLEMENT ME
-        for u in range(0, numUsers - 1):
+        for u in range(0, numUsers):
             self.addUser(randomNames[randrange(0, len(randomNames))])
         # Add users
-        # for user in self.users:
-        #     print(self.users[user].name)
+        for user in self.users:
+            print(self.users[user].name)
 
         # Create friendships
 
