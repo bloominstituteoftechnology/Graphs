@@ -1,4 +1,4 @@
-from random import randrange, shuffle
+from random import shuffle
 from itertools import combinations
 
 class User:
@@ -46,12 +46,12 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         user_combos = []
-        random_names = {0:"Bobby", 1:"Ricky", 2:"Carl", 3:"Tina",
-                         4:"Mandy", 5:"Will", 6:"Randall", 7:"Walter",
-                         8:"Vanessa", 9:"Chris", 10:"Wayne"}
+        # random_names = {0:"Bobby", 1:"Ricky", 2:"Carl", 3:"Tina",
+        #                  4:"Mandy", 5:"Will", 6:"Randall", 7:"Walter",
+        #                  8:"Vanessa", 9:"Chris", 10:"Wayne"}
         # !!!! IMPLEMENT ME
-        for u in range(0, numUsers):
-            self.addUser(random_names[randrange(0, len(random_names))])
+        for i in range(0, numUsers):
+            self.addUser(f"User {i}")
         # Add users
         # for user in self.users:
         #     print(self.users[user].name)
