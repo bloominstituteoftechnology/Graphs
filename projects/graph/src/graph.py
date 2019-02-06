@@ -42,7 +42,13 @@ class Graph:
             self.vertices[to_vertex].add(from_vertex)
             # undirected graph
         else: 
-            print(f'{from_vertex} and {to_vertex} are not in this graph')
+            raise IndexError(f'{from_vertex} and {to_vertex} are not in this graph')
+    def add_directed(self, v1, v2):
+        # lines that go in one direction between nodes
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else: 
+            raise IndexError(f'{v2} and {v2} are not in this graph')
 
     def breadth_first_traversal(self, start_vertex):
         #empty Queue FIFO
@@ -85,23 +91,24 @@ class Graph:
         # print(start_vertex)
         for neighbor in self.vertices[start_vertex]:
             if neighbor not in visited:
-                self.depth_first_recursive(neighbor, visited)
+                self.depth_first_recursive(neighbor, visited) 
+                #base case is when no more neigbors/children nodes left
         return visited
 
     def breadth_first_search(self, start_vertex, destination):
         queue = Queue()
         visited = []
         queue.enqueue(start_vertex)
-        while queue.size() > 0:
-            vertex = queue.dequeue()
+        while queue.size() > 0: # base case
+            vertex = queue.dequeue() # leads to base case
             if vertex not in visited:
                 visited.append(vertex)
-            if vertex == destination:
-             # if current node/vertex is the target destination
-             # return visited and the destination should be the last node
-                print(f'{vertex} is at the target')
-                return visited
-            for neighbor in self.vertices[vertex]:
-                if neighbor not in visited:
-                    queue.enqueue(neighbor)
+                if vertex == destination:
+                # if current node/vertex is the target destination
+                # return visited and the destination should be the last node
+                    print(f'{vertex} is at the target')
+                    return visited
+                for neighbor in self.vertices[vertex]:
+                    if neighbor not in visited:
+                        queue.enqueue(neighbor)
         print(f'{destination} vertex is not found in this graph')
