@@ -49,13 +49,16 @@ class SocialGraph:
        
 
         # Add users
-        for i in range(numUsers):
-            self.addUser(i)
+        for i in range(0, numUsers):
             
+            self.addUser(f'User {i}')
+            # print(self.users)
+
+        # print(f'users: {self.users}')    
         random_friendships = []
-        for i in range(numUsers):
-            for x in range(numUsers):
-                if i not in random_friendships and x not in random_friendships:
+        for i in range(0, numUsers):
+            for x in range(0, numUsers): 
+                if i != x:
                     random_friendships.append((i, x))
         
         
@@ -63,13 +66,16 @@ class SocialGraph:
         # print(f'Friendships: {self.friendships}')
         
         random.shuffle(random_friendships)
-        random_friendships = random_friendships[:numUsers]
-        print(random_friendships)
+        # for i in range(0, math.floor(numUsers * avgFriendships / 2)):
+        #     random_friendships.append
+        # print(random_friendships)
 
         # average = ()
         # # Create friendships
-        # for friend in random_friendships:
-        #     self.addFriendship(friend[0], friend[1])
+        for friend in random_friendships:
+            self.addFriendship(friend[0], friend[1])
+            print(friend)
+            # print(friend[0], friend[1])
 
     def getAllSocialPaths(self, userID):
         """
