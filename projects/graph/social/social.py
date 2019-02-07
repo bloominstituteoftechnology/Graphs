@@ -1,17 +1,18 @@
 from random import shuffle
 from itertools import combinations
+from collections import OrderedDict
 
 class User:
-    def __init__(self, name):
+     def __init__(self, name):
         self.name = name
 
 class SocialGraph:
-    def __init__(self):
+     def __init__(self):
         self.lastID = 0
         self.users = {}
         self.friendships = {}
 
-    def addFriendship(self, userID, friendID):
+     def addFriendship(self, userID, friendID):
         """
         Creates a bi-directional friendship
         """
@@ -23,7 +24,7 @@ class SocialGraph:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
 
-    def addUser(self, name):
+     def addUser(self, name):
         """
         Create a new user with a sequential integer ID
         """
@@ -31,12 +32,12 @@ class SocialGraph:
         self.users[self.lastID] = User(name)
         self.friendships[self.lastID] = set()
 
-    def populateGraph(self, numUsers, avgFriendships):
+     def populateGraph(self, numUsers, avgFriendships):
         """
         Takes a number of users and an average number of friendships
         as arguments
 
-        Creates that number of users and a randomly distributed friendships
+        Creates that number of users and a randomly  distributed friendships
         between those users.
 
         The number of users must be greater than the average number of friendships.
@@ -75,17 +76,27 @@ class SocialGraph:
 
 
 
-    def getAllSocialPaths(self, userID):
+     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
 
-        Returns a dictionary containing every user in that user's
+        Returns a  dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {userID: [userID]}
+        d = []
+        d.append([userID])
+
+        while d:
+            path = d.pop()
+            user = path[-1]
+            for friend in self.friendships[user]:
+                if friend not in visited:
+                    social_path = path + [friend]
+                    visited[friend] = social_path
+                    d.append(social_path)
         return visited
 
 
