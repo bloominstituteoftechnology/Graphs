@@ -56,12 +56,9 @@ class SocialGraph:
         for i in c:
             user_combos.append(i)
         shuffle(user_combos)
-        
-        for i in user_combos:
-            if avg == 0:
-                break
+
+        for i in user_combos[:avg]:
             self.addFriendship(i[0], i[1])
-            avg -= 1
 
 
 
