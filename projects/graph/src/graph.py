@@ -79,7 +79,7 @@ class Graph:
                 print(f"Visited: {current_node}")
                 for i in self.vertices[current_node]:
                     queue.enqueue(i)
-      
+        return False
 
     def dfs_search(self, node, target_node):
         visited = []
@@ -102,4 +102,4 @@ class Graph:
             visited.append(start)
             for child_node in self.vertices[start]:
                 self.dfs_recursion(child_node, visited)
-        pass
+   
