@@ -47,35 +47,37 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
        
-
         # Add users
         for i in range(0, numUsers):
-            
             self.addUser(f'User {i}')
-            # print(self.users)
-
-        # print(f'users: {self.users}')    
-        random_friendships = []
-        for i in range(0, numUsers):
-            for x in range(0, numUsers): 
-                if i != x:
-                    random_friendships.append((i, x))
-        
+           
+      
         
         # print(f' Users: {self.users.values}')
         # print(f'Friendships: {self.friendships}')
         
-        random.shuffle(random_friendships)
+        # random.shuffle(random_friendships)
         # for i in range(0, math.floor(numUsers * avgFriendships / 2)):
         #     random_friendships.append
         # print(random_friendships)
 
         # average = ()
         # # Create friendships
-        for friend in random_friendships:
-            self.addFriendship(friend[0], friend[1])
-            print(friend)
-            # print(friend[0], friend[1])
+        totalFriendShips = (numUsers * avgFriendships) // 2
+
+        possible_friendships = []
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID + 1): 
+                possible_friendships.append((userID, friendID))
+        
+        random.shuffle(possible_friendships)
+        for i in range(0, totalFriendShips):
+            friendship = possible_friendships[i]
+            self.addFriendship(friendship[0], friendship[1])
+        # for friend in random_friendships:
+        #     self.addFriendship(friend[0], friend[1])
+        #     print(friend)
+        #     # print(friend[0], friend[1])
 
     def getAllSocialPaths(self, userID):
         """
