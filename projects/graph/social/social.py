@@ -79,12 +79,16 @@ class SocialGraph:
         while len(x) > 0:
             path = x.popleft()
             id = path[-1]
+            print(id)
             if id not in visited:
                 visited[id] = path
+                print(path)
                 for child in self.friendships[userID]:
                     newpath = path.copy()
                     newpath.append(child)
-                    x.append(newpath)            
+                    x.append(newpath)
+                    print(child)
+                    print(newpath)            
         return visited
 
 
