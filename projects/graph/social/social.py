@@ -109,6 +109,13 @@ if __name__ == '__main__':
     print(sgXL.friendships)
     connectionsXL = sgXL.getAllSocialPaths(1)
     print(connectionsXL)
+
+# adding a small set that's easier to see paths and extended networks for
+    small = SocialGraph()
+    small.populateGraph(5, 5)
+    print(small.friendships)
+    smallConnect = small.getAllSocialPaths(1)
+    print(smallConnect)
 """
 Questions:
 
