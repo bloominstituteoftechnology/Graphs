@@ -74,7 +74,7 @@ class SocialGraph:
 
         x = deque()
         visited = {userID: []}
-        x.append([[userID])
+        x.append([userID])
 
         while len(x) > 0:
             path = x.popleft()
