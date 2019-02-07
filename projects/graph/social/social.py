@@ -1,5 +1,6 @@
 import random
 from itertools import combinations
+from collections import deque
 
 class User:
     def __init__(self, name):
@@ -46,7 +47,7 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+    
         # Add users
         for i in range(numUsers):
             self.addUser(f'User: {i}')
@@ -69,6 +70,21 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # trying this with a deque for a now, will work on a non-deque solution afterward
+
+        x = deque()
+        visited = {userID: []}
+        x.append([self.users[userID]])
+
+        while len(x) > 0:
+            path = x.popleft()
+            id = path[-1]
+            if id not in visited:
+                visited[id] = path
+                for child in self.friendships[userID]:
+                    newpath = path.copy()
+                    newpath.append(child)
+                    x.append(newpath)            
         return visited
 
 
