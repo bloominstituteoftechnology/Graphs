@@ -17,6 +17,9 @@ def main():
     graph.add_vertex('3')
     graph.add_edge('0', '1')
     graph.add_edge('0', '3')
+    graph.dfs('2')
+    # graph.add_edge('0', '4')
+    graph.bfs('0')
     print(graph.vertices)
 
 if __name__ == '__main__':
