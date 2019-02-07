@@ -42,37 +42,26 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
-        # Reset graph
         self.lastID = 0
         self.users = {}
         self.friendships = {}
         user_combos = []
-        # random_names = {0:"Bobby", 1:"Ricky", 2:"Carl", 3:"Tina",
-        #                  4:"Mandy", 5:"Will", 6:"Randall", 7:"Walter",
-        #                  8:"Vanessa", 9:"Chris", 10:"Wayne"}
-        # !!!! IMPLEMENT ME
+        avg = numUsers * avgFriendships // 2
+        
         for i in range(0, numUsers):
             self.addUser(f"User {i}")
-        # Add users
-        # for user in self.users:
-        #     print(self.users[user].name)
-
-        # Create friendships
-        def average():
-            total = 0
-            for friend in self.friendships:
-                total += len(self.friendships[friend])
-            return total // len(self.friendships)
 
         c = combinations(self.users, 2)
         
         for i in c:
             user_combos.append(i)
         shuffle(user_combos)
+        
         for i in user_combos:
-            if average() == avgFriendships:
+            if avg == 0:
                 break
             self.addFriendship(i[0], i[1])
+            avg -= 1
 
 
 
