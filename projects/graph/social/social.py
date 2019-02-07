@@ -1,8 +1,44 @@
+import random
+
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
 
 
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -45,10 +81,23 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
         # Add users
+        for i in range(0, numUsers):
+            self.addUser(f"User {i}")
 
         # Create friendships
+        num_of_friendships_to_create = (numUsers * avgFriendships) // 2
+        # divide by 2 b/c it makes two friendships
+
+        possible_friendships = []
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID + 1):
+                possible_friendships.append((userID, friendID))
+        # print(possible_friendship)
+        random.shuffle(possible_friendships)
+        for i in range(0, num_of_friendships_to_create):
+            friendship = possible_friendships[i]
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,6 +110,25 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        if userID not in self.friendships:
+            return None
+
+        queue = Queue()
+        queue.enqueue([userID])
+
+        while queue.size() > 0:
+            path = queue.dequeue()
+            node = path[-1]  # last node in path
+
+            if node not in visited:
+                visited[node] = path
+
+                for next_node in self.friendships[node]:
+                    new_path = path.copy()
+                    new_path.append(next_node)
+
+                    queue.enqueue(new_path)
+
         return visited
 
 
