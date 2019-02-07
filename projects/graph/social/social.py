@@ -74,20 +74,23 @@ class SocialGraph:
 
         x = deque()
         visited = {userID: []}
-        x.append([self.users[userID]])
+        x.append([[userID])
 
         while len(x) > 0:
             path = x.popleft()
-            id = path[-1]
+            user = path[-1]
             print(id)
-            if id not in visited:
+            if user not in visited:
                 visited[id] = path
                 print(path)
-                for child in self.friendships[userID]:
+                print(visited)
+                for friend in self.friendships[userID]:
                     newpath = path.copy()
-                    newpath.append(child)
+                    newpath.append(friend)
                     x.append(newpath)
+                    visited[user] = path
                     print(child)
+                    print(path)
                     print(newpath)            
         return visited
 
