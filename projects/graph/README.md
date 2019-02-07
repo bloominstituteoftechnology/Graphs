@@ -119,15 +119,21 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
     
-    addFriendship() will be called 500 times. Every time addFriendship is called, two users gain a friend. In order for 100 users to have an average of two friends, addFriendship would need to be called 100 times. But for 100 users to have an average of ten friendships, it needs to be called 500 times.
+    addFriendship() will be called 500 times. Every time addFriendship is called, two users gain a friend. In order for 100 users to have an average of two friends, addFriendship would need to be called 100 times. But for 100 users to have an average of ten friendships, it needs to be called 500 times. You can figure out the number of times to call addFriendship() with numUsers * avgFriendships // 2.
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+
+    Nearly 100% of users will be in a particular user's extended social network. Degrees of separation can vary from the low single digits to the high double digits.
 
 
 
 ## 4. Stretch Goal
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
+
+In real life I think that if you took a thousand people from the same area and tried to connect them through an average of five friends, you probably wouldn't see results anywhere near 100% of users being in each other's extended network. Maybe fifty percent would be more realistic. I think to achieve this, we could distribute friendships based on data like "how many people have x amount of friends" and work based off of the results. We could have a pre-set percentage of users that would have more, less, or exactly the average, based on data.
+
+Not sure that makes sense, but it seems kinda plausible to me.
 
 2. If you followed the hints for part 1, your `populateGraph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
 
