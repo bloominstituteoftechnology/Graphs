@@ -55,7 +55,8 @@ class SocialGraph:
         # Create friendships
         allFriends = list(combinations(range(1, numUsers + 1), 2))
         random.shuffle(allFriends)
-        friendships = allFriends[:int(numUsers / 2)]
+        friendships = allFriends[:int((numUsers * avgFriendships) / 2)]
+        print(friendships)
         for friendship in friendships:
             self.addFriendship(friendship[0], friendship[1])
 
