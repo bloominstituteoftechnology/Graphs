@@ -118,8 +118,20 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 ## 3. Questions
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
+We would use num_of_friendships_to_create = (numUsers * avgFriendships) //2  to generate friendships so it would be (100 * 10)/2 which is 500 times.
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+The perecnetage of other users will be: ((1000 - 5) / 1000 )* 100 which is over 99% 
+
+The average degree of separation can be found by:
+total_degree = 0
+for user in connections:
+    if connections[user]:
+        total_degree_of_separation = len(connections[user]) - 1
+        total_degree += total_degree_of_separation
+average_degree = total_degree / len(connections)
+print(f'This is the average degree {average_degree}')
+The average degree is between 4 to 5 separations
 
 
 
