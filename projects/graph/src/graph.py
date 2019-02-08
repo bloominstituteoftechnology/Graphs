@@ -95,23 +95,40 @@ class Graph:
                 #base case is when no more neigbors/children nodes left
         return visited
 
-    def breadth_first_search(self, start_vertex, destination):
-        queue = Queue()
-        visited = []
-        queue.enqueue(start_vertex)
-        while queue.size() > 0: # base case
-            vertex = queue.dequeue() # leads to base case
-            if vertex not in visited:
-                visited.append(vertex)
-                if vertex == destination:
-                # if current node/vertex is the target destination
-                # return visited and the destination should be the last node
-                    print(f'{vertex} is at the target with BFS')
-                    return visited
-                for neighbor in self.vertices[vertex]:
-                    if neighbor not in visited:
-                        queue.enqueue(neighbor)
-        print(f'{destination} vertex is not found in this graph')
+    # def breadth_first_search(self, start_vertex, destination):
+    #     queue = Queue()
+    #     visited = []
+    #     queue.enqueue(start_vertex)
+    #     while queue.size() > 0: # base case
+    #         vertex = queue.dequeue() # leads to base case
+    #         if vertex not in visited:
+    #             visited.append(vertex)
+    #             if vertex == destination:
+    #             # if current node/vertex is the target destination
+    #             # return visited and the destination should be the last node
+    #                 print(f'{vertex} is at the target with BFS')
+    #                 return visited
+    #             for neighbor in self.vertices[vertex]:
+    #                 if neighbor not in visited:
+    #                     queue.enqueue(neighbor)
+    #     print(f'{destination} vertex is not found in this graph')
+
+    def bfs_path(self, starting_vertex_id, target_value):
+        q = Queue()
+        q.enqueue([starting_vertex_id])
+        visited = set()
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+            if v not in visited:
+                if v == target_value:
+                    return path
+                visited.add(v)
+                for next_vert in self.vertices[v]:
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    q.enqueue(new_path)
+        return None
 
     def depth_first_search(self, start_vertex, destination):
         stack = Stack()
