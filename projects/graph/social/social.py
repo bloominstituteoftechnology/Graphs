@@ -16,7 +16,6 @@ class SocialGraph:
         """
         Creates a bi-directional friendship
         """
-        print(userID, friendID)
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
@@ -55,22 +54,10 @@ class SocialGraph:
         while len(user_combos) < avg:
             friend1 = randrange(1, numUsers)
             friend2 = randrange(1, numUsers)
-            if friend1 == friend2:
-                while friend1 == friend2:
-                    friend1 = randrange(1, numUsers)
-                    friend2 = randrange(1, numUsers)
-            if (friend1, friend2) in user_combos or (friend2, friend1) in user_combos:
-                while (friend1, friend2) in user_combos or (friend2, friend1) in user_combos:
-                    friend1 = randrange(1, numUsers)
-                    friend2 = randrange(1, numUsers)
+            while friend1 == friend2 or (friend1, friend2) in user_combos or (friend2, friend1) in user_combos:
+                friend1 = randrange(1, numUsers)
+                friend2 = randrange(1, numUsers)
             user_combos.append((friend1, friend2))
-            print(user_combos)
-
-        # c = combinations(self.users, 2)
-        
-        # for i in c:
-        #     user_combos.append(i)
-        # shuffle(user_combos)
 
         for i in user_combos:
             self.addFriendship(i[0], i[1])
