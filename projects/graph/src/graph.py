@@ -84,3 +84,38 @@ class Graph:
               # Then, put all of it's children into the stack
               for neighbor in self.vertices[v]:
                   s.push(neighbor)
+    def dftc(self, starting_vertex_id):
+        visited =[]
+        visited.append(starting_vertex_id)
+        def helpers(index_id):
+            for neighbor in self.vertices[index_id]:
+                if neighbor not in visited:
+                    visited.append(neighbor)
+                    print(visited)
+                    helpers(neighbor)
+        helpers(starting_vertex_id)
+        print (visited)
+    
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_directed_edge('5', '3')
+graph.add_directed_edge('6', '3')
+graph.add_directed_edge('7', '1')
+graph.add_directed_edge('4', '7')
+graph.add_directed_edge('1', '2')
+graph.add_directed_edge('7', '6')
+graph.add_directed_edge('2', '4')
+graph.add_directed_edge('3', '5')
+graph.add_directed_edge('2', '3')
+graph.add_directed_edge('4', '6')
+# print(graph.vertices)
+
+graph.dft('1')
+graph.dftc('1')
+#graph.bft('1')
