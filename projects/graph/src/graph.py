@@ -57,36 +57,51 @@ class Graph:
             self.vertices[v1].add(v2)
             self.vertices[v2].add(v1)
         else:
-            raise IndexError("The vertex does not exist")
+            raise IndexError("That vertex does not exist")
 
     def bft(self, starting_vertex_id):
-        # create an empty queue
+        # Create an empty queue
         q = Queue()
-        # create an empty set of visited nodes
+        # Create an empty set of visited vertices
         visited = set()
-        # put starting vertex in queue
+        # Put the starting vertex in our Queue
         q.enqueue(starting_vertex_id)
-        # while queue is not empty
+        # While the queue is not empty....
         while q.size() > 0:
-            # dequeue the first node from the queue
+            # Dequeue the first node from the queue
             v = q.dequeue()
-            # if that node has not been visited
+            # If that node has not been visted...
             if v not in visited:
+                # Mark it as visited
                 print(v)
-                # mark it as visited
                 visited.add(v)
-                # put all of its neighbors into the queue
+                # Then, put all of it's children into the queue
                 for neighbor in self.vertices[v]:
                     q.enqueue(neighbor)
 
     def dft(self, starting_vertex_id):
+        # Create an empty stack
         s = Stack()
+        # Create an empty set of visited vertices
         visited = set()
+        # Put the starting vertex in our Stack
         s.push(starting_vertex_id)
+        # While the stack is not empty....
         while s.size() > 0:
+            # Pop the top node from the stack
             v = s.pop()
+            # If that node has not been visted...
             if v not in visited:
+                # Mark it as visited
                 print(v)
                 visited.add(v)
+                # Then, put all of it's children into the stack
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)
+
+    def dftr(self, starting_vertex_id, cache=set()):
+        print(starting_vertex_id)
+        cache.add(starting_vertex_id)
+        for neighbor in self.vertices[starting_vertex_id]:
+            if neighbor not in cache:
+                self.dftr(neighbor, cache)
