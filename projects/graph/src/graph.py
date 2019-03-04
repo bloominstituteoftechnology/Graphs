@@ -37,7 +37,7 @@ class Stack():
         return (len(self.stack))
 
 
-class Graph:
+class Graph():
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
     def __init__(self):
@@ -98,3 +98,37 @@ class Graph:
                 # Then, put all of it's children into the stack
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)
+
+    def dft_recursion(self, starting_vertex, path=[]):
+        path += [starting_vertex]
+
+        print(path)
+
+        for neighbor in self.vertices[starting_vertex]:
+            if neighbor not in path:
+                path = self.dft_recursion(neighbor, path)
+
+        return path
+
+
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_directed_edge('5', '3')
+graph.add_directed_edge('6', '3')
+graph.add_directed_edge('7', '1')
+graph.add_directed_edge('4', '7')
+graph.add_directed_edge('1', '2')
+graph.add_directed_edge('7', '6')
+graph.add_directed_edge('2', '4')
+graph.add_directed_edge('3', '5')
+graph.add_directed_edge('2', '3')
+graph.add_directed_edge('4', '6')
+# print(graph.vertices)
+
+(graph.dft_recursion('2'))
