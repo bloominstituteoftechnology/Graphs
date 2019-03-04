@@ -130,6 +130,36 @@ class Graph:
 
         print("Are you sure that's in there?")
 
+    def bfs(self, starting_vertex_id, target):
+        if target == starting_vertex_id:
+                print("but that's the same thing")
+        q = Queue()
+        q.enqueue(starting_vertex_id)
+
+        paths = {starting_vertex_id: [starting_vertex_id]}
+
+        while q.size() > 0:
+
+        # Add all edges of given vertex to queue
+            v = q.dequeue()
+            for neighbor in self.vertices[v]:
+                if neighbor not in paths:
+                # for i in self.vertices[queue[0]]:
+
+                # If vertex has not been visited, cache its path
+                # if i not in paths:
+                    paths[neighbor] = list(paths[v])
+                    paths[neighbor].append(neighbor)
+                    q.enqueue(neighbor)
+
+                        # If vertex matches target, return target
+                    if neighbor == target:
+                        print(paths[neighbor])
+                        return paths[neighbor]
+
+        print("Are you sure that's in there?")
+
+
 
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('1')
@@ -150,3 +180,4 @@ graph.add_directed_edge('3', '5')
 graph.add_directed_edge('4', '6')
 graph.add_directed_edge('2', '3')
 graph.dfs('1', '7')
+graph.bfs('1', '7')
