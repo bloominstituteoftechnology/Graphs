@@ -3,7 +3,7 @@
 This is a multi-stage project to generate a random social network and find people in a user's extended social network.
 
 
-# Day 1-2
+# Day 1
 
 ## Part 1: Graph, Vertex Classes
 
@@ -68,7 +68,7 @@ Write a function within your Graph class that takes takes a starting node and a 
 Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs DFS. Your function should return a valid path (not necessarily the shortest) from the start node to the destination node.
 
 
-# Day 3-4
+# Day 2
 
 
 You have been assigned the task of building a new friend-based social network. In this network, users are able to view their own friends, friends of their friends, friends of their friends' friends, and so on. People connected to you through any number of friendship connections are considered a part of your extended social network.
