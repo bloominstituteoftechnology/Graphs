@@ -84,6 +84,22 @@ class Graph:
                     # push the values of the vertecies set for the current vertex into the stack
                     stack.push(neighbor)
 
+    # add a depth first traversal method using recursion which takes a starting vertex as an argument, and an empty visited list
+    def dftr(self, starting_vertex_id, visited=[]):
+        # initialize the visited list with the starting vertex, we will keep adding to this list with the recursive calls
+        visited += [starting_vertex_id]
+        # check the values or neighbors for the starting vertex
+        for neighbor in self.verticies[starting_vertex_id]:
+            # if the neighbor is not in the visited list, recursively call the depth first search recursive method and pass in the neighbors and the visited list
+            if neighbor not in visited:
+                # assign visited to the value of the recursive call while passing in the neighbor values and the visited list
+                visited = self.dftr(neighbor, visited)
+        # return the visited list
+        return visited
+
+    # def dftr_helper(self, vector, visited):
+    #     visited[vector] =
+
 
 # queue class, first in first out data structure
 class Queue():
@@ -143,11 +159,37 @@ graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_vertex('8')
+graph.add_vertex('9')
+graph.add_vertex('10')
+graph.add_vertex('11')
+graph.add_vertex('12')
+graph.add_vertex('13')
+graph.add_vertex('14')
+graph.add_vertex('15')
 graph.add_directed_edge('0', '1')
+graph.add_directed_edge('0', '2')
 graph.add_directed_edge('0', '3')
-print(graph.verticies)
+graph.add_directed_edge('1', '4')
+graph.add_directed_edge('1', '5')
+graph.add_directed_edge('4', '6')
+graph.add_directed_edge('3', '7')
+graph.add_directed_edge('3', '8')
+graph.add_directed_edge('7', '9')
+graph.add_directed_edge('7', '10')
+graph.add_directed_edge('8', '11')
+graph.add_directed_edge('8', '12')
+graph.add_directed_edge('11', '13')
+graph.add_directed_edge('11', '14')
+graph.add_directed_edge('13', '15')
+# print(graph.verticies)
 # test for non existing vertex
 # graph.add_directed_edge('0', '4')
 # print(graph.verticies)
 # print(graph.dft('0'))
 # print(graph.bft('0'))
+print(graph.dftr('0'))
