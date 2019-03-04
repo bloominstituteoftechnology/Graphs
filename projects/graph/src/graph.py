@@ -37,6 +37,105 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist")
 
+    # add a breadth first traversal method which takes a starting vertex as an argument
+    # to do this first create a queue class which would be a first in first out data structure
+    def bft(self, starting_vertex_id):
+        # initialize an empty queue for breadth first traversal
+        queue = Queue()
+        # initialize an empty set of visited verticies
+        visited = set()
+        # put the starting vertex into the queue
+        queue.enqueue(starting_vertex_id)
+        # while the queue is not empty traverse the graph
+        while queue.size() > 0:
+            # dequeue the value at the start of the queue and assign it to vertex
+            vertex = queue.dequeue()
+            # if the vertex has not already been visited add it to the visited set
+            if vertex not in visited:
+                print(vertex)
+                # mark as visited
+                visited.add(vertex)
+                # put the verticies that are connected to the current vertex into the queue
+                for neighbor in self.verticies[vertex]:
+                    # enqueue the values of the verticies set for the current vertex into the queue
+                    queue.enqueue(neighbor)
+
+    # add a depth first traversal method which takes a starting vertex as an argument
+    # to do this first create a stack class which would be a last in first out data structure
+
+    def dft(self, starting_vertex_id):
+        # initialize an empty stack for depth first traversal
+        stack = Stack()
+        # initialize an empty set of visited verticies
+        visited = set()
+        # push the starting vertex into the stack
+        stack.push(starting_vertex_id)
+        # while the stack is not empty traverse the graph
+        while stack.size() > 0:
+            # pop the value at the end of the stack and assign it to vertex
+            vertex = stack.pop()
+            # if the vertex has not already been visited add it to the visited set
+            if vertex not in visited:
+                print(vertex)
+                # mark as visited
+                visited.add(vertex)
+                # put the verticies that are connected to the current vertex into the stack
+                for neighbor in self.verticies[vertex]:
+                    # push the values of the vertecies set for the current vertex into the stack
+                    stack.push(neighbor)
+
+
+# queue class, first in first out data structure
+class Queue():
+    def __init__(self):
+        # initialize queue as an empty list / array
+        self.queue = []
+    # create an enqueue method to add a value to the queue
+
+    def enqueue(self, value):
+        # append the value to the end of the queue
+        self.queue.append(value)
+    # create a dequeue method to pop the start value of the queue
+
+    def dequeue(self):
+        # check to see if the length of the queue is greater than zero
+        if self.size() > 0:
+            # if length of queue is greater than zero, pop the value at the start of the queue and return it
+            return self.queue.pop(0)
+        # if length of queue is 0 return none
+        else:
+            return None
+    # add method to check length of queue
+
+    def size(self):
+        return (len(self.queue))
+
+
+# stack class, last in first out data structure
+class Stack():
+    def __init__(self):
+        # initialize the stack as an empty list / array
+        self.stack = []
+    # create a push method to add a value to the stack
+
+    def push(self, value):
+        # append the value to the end of the stack
+        self.stack.append(value)
+    # create a pop method to pop the end value of the stack
+
+    def pop(self):
+        # check to see if the length of the stack is greater than zero
+        if self.size() > 0:
+            # if the length of stack is greater than zero, pop the value at the end of the stack and return it
+            return self.stack.pop()
+        # if the length of the stack is 0 return none
+        else:
+            return None
+    # add method to check length of stack
+
+    def size(self):
+        return (len(self.stack))
+
 
 # test graph
 graph = Graph()  # instantiate graph
@@ -48,5 +147,7 @@ graph.add_directed_edge('0', '1')
 graph.add_directed_edge('0', '3')
 print(graph.verticies)
 # test for non existing vertex
-graph.add_directed_edge('0', '4')
-print(graph.verticies)
+# graph.add_directed_edge('0', '4')
+# print(graph.verticies)
+# print(graph.dft('0'))
+# print(graph.bft('0'))
