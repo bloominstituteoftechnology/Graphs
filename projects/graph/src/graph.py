@@ -1,3 +1,5 @@
+from collections import OrderedDict, defaultdict
+
 """
 Simple graph implementation
 """
@@ -105,3 +107,46 @@ class Graph:
         for neighbor in self.vertices[starting_vertex_id]:
             if neighbor not in cache:
                 self.dftr(neighbor, cache)
+
+    def dfs(self, starting_vertex_id, target):
+        if target == starting_vertex_id:
+            print("But that's the same thing")
+        s = Stack()
+        s.push(starting_vertex_id)
+        paths = {starting_vertex_id: [starting_vertex_id]}
+
+        while s.size() > 0:
+            v = s.pop()
+            if v == target:
+                return paths
+            for neighbor in self.vertices[v]:
+                if neighbor not in paths:
+                    paths[neighbor] = list(paths[v])
+                    paths[neighbor].append(neighbor)
+                    s.push(neighbor)
+                    if neighbor == target:
+                        print(paths[neighbor])
+                        return paths[neighbor]
+
+        print("Are you sure that's in there?")
+
+
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_vertex('4')
+graph.add_vertex('5')
+graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_directed_edge('5', '3')
+graph.add_directed_edge('6', '3')
+graph.add_directed_edge('7', '1')
+graph.add_directed_edge('4', '7')
+graph.add_directed_edge('1', '2')
+graph.add_directed_edge('7', '6')
+graph.add_directed_edge('2', '4')
+graph.add_directed_edge('3', '5')
+graph.add_directed_edge('4', '6')
+graph.add_directed_edge('2', '3')
+graph.dfs('1', '7')
