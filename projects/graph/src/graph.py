@@ -118,6 +118,28 @@ class Graph:
               # Then, put all of it's children into the queue
               for neighbor in self.vertices[v]:
                   q.enqueue(neighbor)
+    def dfs(self, starting_vertex, search_vertex):
+        # Create an empty stack
+        s = Stack()
+        # Create an empty set of visited vertices
+        visited = set()
+        # Put the starting vertex in our Stack
+        s.push(starting_vertex)
+        # While the stack is not empty....
+        while s.size() > 0:
+           # Pop the top node from the stack
+           v = s.pop()
+           # If that node has not been visted...
+           if v==search_vertex:
+               print(v)
+               break
+           if v not in visited:
+              # Mark it as visited
+              print(v)
+              visited.add(v)
+              # Then, put all of it's children into the stack
+              for neighbor in self.vertices[v]:
+                  s.push(neighbor)
     
 graph = Graph()  # Instantiate your graph
 graph.add_vertex('1')
@@ -140,5 +162,7 @@ graph.add_directed_edge('4', '6')
 # print(graph.vertices)
 
 graph.dft('1')
-graph.dftc('1')
-graph.bfs('1','5')
+print('############')
+#graph.dftc('1')
+#graph.bfs('1','5')
+graph.dfs('1','6')
