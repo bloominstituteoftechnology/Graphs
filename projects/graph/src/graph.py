@@ -70,7 +70,7 @@ class Graph:
         while q.size() > 0:
             # Dequeue the first node from the queue
             v = q.dequeue()
-            # If that node has not been visted...
+            # If that node has not been visited...
             if v not in visited:
                 # Mark it as visited
                 print(v)
@@ -78,6 +78,7 @@ class Graph:
                 # Then, put all of it's children into the queue
                 for neighbor in self.vertices[v]:
                     q.enqueue(neighbor)
+                    print(q.queue)
 
     def dft(self, starting_vertex_id):
         # Create an empty stack
@@ -99,23 +100,40 @@ class Graph:
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)
 
-    # def dft_recursion(self, starting_vertex, path=[]):
-    #     path += [starting_vertex]
+    def dft_recursion(self, starting_vertex, path=[]):
+        path += [starting_vertex]
 
-    #     for neighbor in self.vertices[starting_vertex]:
-    #         if neighbor not in path:
-    #             path = self.dft_recursion(neighbor, path)
+        print(path)
 
-    #     return path
-
-    def dft_recursion(self, starting_vert, path=[]):
-        path += [starting_vert]
-
-        for neighbor in self.vertices[starting_vert]:
+        for neighbor in self.vertices[starting_vertex]:
             if neighbor not in path:
                 path = self.dft_recursion(neighbor, path)
 
         return path
+
+    def bfs(self, start, end):
+        verts = self.vertices
+        # maintain a queue of paths
+        queue = []
+        # push the first path into the queue
+        queue.append([start])
+        while len(queue) > 0:
+            # get the first path from the queue
+            path = queue.pop(0)
+            # get the last node from the path
+            node = path[-1]
+            # path found
+            if node == end:
+                return print(path)
+            # enumerate all adjacent nodes, construct a new path and push it into the queue
+            for adjacent in verts.get(node, []):
+                new_path = list(path)
+                new_path.append(adjacent)
+                queue.append(new_path)
+
+    def dfs(self, start, end):
+        
+
 
 g = Graph()
 
@@ -137,4 +155,4 @@ g.add_directed_edge('3', '5')
 g.add_directed_edge('2', '3')
 g.add_directed_edge('4', '6')
 
-print(g.dft_recursion('2'))
+print(g.bfs(4, 7))
