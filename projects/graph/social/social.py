@@ -92,12 +92,11 @@ class SocialGraph:
         # Create an empty queue
         q = Queue()
         # Put UserID in our Queue
-        q.put(userID)
+        q.put([userID])
         # while queue is not empty...
         while q.qsize() > 0:
             # Dequeue first path from queue
-            path = []
-            path.append(q.get())
+            path = q.get()
             # get the current node from the last element in the path
             v = path[-1]
             # if that node is not in the visited dict
@@ -107,18 +106,15 @@ class SocialGraph:
                 # print("friendships:", self.friendships)
                 # Then, put paths to all of it's children into the queue
                 for friendship in self.friendships[v]:
-                    # copy path into new instance
-                    new_path = self.friendships[v]
-                    visited[v] = new_path
-                    # enqueue
-                    q.put(friendship)
+                    if friendship not in visited:
+                        q.put(list(path) + [friendship])
 
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    # sg.populateGraph(10, 2)
+    sg.populateGraph(10, 2)
     sg.addUser(1)
     sg.addUser(2)
     sg.addUser(3)
@@ -136,6 +132,9 @@ if __name__ == '__main__':
     sg.addFriendship(2, 5)
     sg.addFriendship(2, 7)
     sg.addFriendship(3, 4)
+    sg.addFriendship(3, 6)
+    sg.addFriendship(3, 7)
+    sg.addFriendship(3, 1)
     sg.addFriendship(4, 9)
     sg.addFriendship(4, 3)
     sg.addFriendship(5, 8)
@@ -149,5 +148,5 @@ if __name__ == '__main__':
     sg.addFriendship(10, 1)
     sg.addFriendship(10, 2)
     sg.addFriendship(10, 6)
-    connections = sg.getAllSocialPaths(1)
+    connections = sg.getAllSocialPaths(2)
     print(f"connections is {connections}")
