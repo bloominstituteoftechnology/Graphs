@@ -22,9 +22,9 @@ class SocialGraph:
         """
         try:
             if userID == friendID:
-                print("WARNING: You cannot be friends with yourself")
+                None
             elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
-                print("WARNING: Friendship already exists")
+                None
             else:
                 self.friendships[userID].add(friendID)
                 self.friendships[friendID].add(userID)
@@ -118,14 +118,36 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    sg.addFriendship(1, 2)
-    sg.addFriendship(3, 7)
-    sg.addFriendship(5, 2)
+    # sg.populateGraph(10, 2)
+    sg.addUser(1)
+    sg.addUser(2)
+    sg.addUser(3)
+    sg.addUser(4)
+    sg.addUser(5)
+    sg.addUser(6)
+    sg.addUser(7)
+    sg.addUser(8)
+    sg.addUser(9)
+    sg.addUser(10)
+    sg.addFriendship(1, 8)
     sg.addFriendship(1, 10)
     sg.addFriendship(1, 5)
-    sg.addFriendship(1, 7)
+    sg.addFriendship(2, 10)
+    sg.addFriendship(2, 5)
+    sg.addFriendship(2, 7)
+    sg.addFriendship(3, 4)
     sg.addFriendship(4, 9)
-    sg.addFriendship(4, 5)
-    sg.addFriendship(6, 1)
-    print(sg.getAllSocialPaths(1))
+    sg.addFriendship(4, 3)
+    sg.addFriendship(5, 8)
+    sg.addFriendship(5, 2)
+    sg.addFriendship(5, 1)
+    sg.addFriendship(6, 10)
+    sg.addFriendship(7, 2)
+    sg.addFriendship(8, 5)
+    sg.addFriendship(8, 1)
+    sg.addFriendship(9, 4)
+    sg.addFriendship(10, 1)
+    sg.addFriendship(10, 2)
+    sg.addFriendship(10, 6)
+    connections = sg.getAllSocialPaths(1)
+    print(f"connections is {connections}")
