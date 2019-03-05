@@ -124,7 +124,7 @@ class Graph:
             node = path[-1]
             # path found
             if node == end:
-                return print(path)
+                return path
             # enumerate all adjacent nodes, construct a new path and push it into the queue
             for adjacent in verts.get(node, []):
                 new_path = list(path)
@@ -132,7 +132,27 @@ class Graph:
                 queue.append(new_path)
 
     def dfs(self, start, end):
-        
+        # Create an empty stack
+        s = Stack()
+        # Create an empty set of visited vertices
+        visited = set()
+        # Put the starting vertex in our Stack
+        s.push(start)
+        # While the stack is not empty....
+        while end not in visited:
+            # Pop the top node from the stack
+            v = s.pop()
+            # If that node has not been visited...
+            if v not in visited:
+                    # Mark it as visited
+                print(v)
+                visited.add(v)
+                # Then, put all of it's children into the stack
+                if v is not None:
+                    for neighbor in self.vertices[v]:
+                        s.push(neighbor)
+                else:
+                    return print("they don't connect")
 
 
 g = Graph()
@@ -155,4 +175,4 @@ g.add_directed_edge('3', '5')
 g.add_directed_edge('2', '3')
 g.add_directed_edge('4', '6')
 
-print(g.bfs(4, 7))
+print(g.dfs('2', '6'))
