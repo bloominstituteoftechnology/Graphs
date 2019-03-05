@@ -75,12 +75,11 @@ class SocialGraph:
         # Create an empty queue
         q = Queue()
         # Put UserID in our Queue
-        q.put(userID)
+        q.put([userID])
         # while queue is not empty...
         while q.qsize() > 0:
             # Dequeue first path from queue
-            path = []
-            path.append(q.get())
+            path = q.get()
             # get the current node from the last element in the path
             v = path[-1]
             # if that node is not in the visited dict
@@ -91,12 +90,8 @@ class SocialGraph:
                 # print("friendships:", self.friendships)
                 # Then, put paths to all of it's children into the queue
                 for friendship in self.friendships[v]:
-                    # copy path into new instance
-                    new_path = self.friendships[v]
-                    # print("new_path:", new_path)
-                    visited[v] = new_path
-                    # enqueue
-                    q.put(friendship)
+                    if friendship not in visited:
+                        q.put(list(path) + [friendship])
 
         return visited
 
