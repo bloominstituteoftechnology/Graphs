@@ -130,6 +130,8 @@ class Graph:
                     # once the destination vertex is reached return the route
                     if neighbor == destination_vertex_id:
                         return route
+                    else:
+                        return "cannot reach destination"
 
     # depth first search method takes a starting vertex and destination vertex as arguments and returns a valid path from starting vertex to destination vertex
 
@@ -165,6 +167,8 @@ class Graph:
                     # once the destination vertex is reached return the route
                     if neighbor == destination_vertex_id:
                         return route
+                    else:
+                        return "cannot reach destination"
 
 
 # queue class, first in first out data structure
@@ -259,5 +263,5 @@ graph.add_directed_edge('13', '15')
 # print(graph.dft('0'))
 # print(graph.bft('0'))
 # print(graph.dftr('0'))
-# print(graph.bfs('0', '11'))
-# print(graph.dfs('0', '15'))
+# print(graph.bfs('0', '17'))
+# print(graph.dfs('0', '17'))
