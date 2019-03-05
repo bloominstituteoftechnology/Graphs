@@ -97,8 +97,74 @@ class Graph:
         # return the visited list
         return visited
 
-    # def dftr_helper(self, vector, visited):
-    #     visited[vector] =
+    # breadth first search method takes a starting vertex and destination vertex as arguments and returns shortest path from starting vertex to destination vertex
+    def bfs(self, starting_vertex_id, destination_vertex_id):
+        # initialize an empty queue for breadth first search
+        queue = Queue()
+        # initialize an empty set of visitied verticies
+        visited = set()
+        # put the starting vertex into the queue
+        queue.enqueue(starting_vertex_id)
+        # while the queue is not empty traverse the graph
+        while queue.size() > 0:
+            # dequeue the value at the start of the queue and assign it to path
+            path = queue.dequeue()
+            print(f'path: {path}')
+            # assign the vertex or current node to the last vertex of path
+            vertex = path[-1]
+            # if the vertex has not already been visited add it to the visited set
+            if vertex not in visited:
+                print(f'vertex: {vertex}')
+                # mark as visited
+                visited.add(vertex)
+                # put the verticies that are connected to the current vertex into the queue
+                for neighbor in self.verticies[vertex]:
+                    # assign route to a list and pass in path
+                    route = list(path)
+                    print(f'route: {route}')
+                    # append the neighbor to route
+                    route.append(neighbor)
+                    print(f'route after append: {route}')
+                    # enque the value of the route to the queue
+                    queue.enqueue(route)
+                    # once the destination vertex is reached return the route
+                    if neighbor == destination_vertex_id:
+                        return route
+
+    # depth first search method takes a starting vertex and destination vertex as arguments and returns a valid path from starting vertex to destination vertex
+
+    def dfs(self, starting_vertex_id, destination_vertex_id):
+        # initialize an empty stack for depth first search
+        stack = Stack()
+        # initialize an empty set of visited verticies
+        visited = set()
+        # push the starting vertex into the stack
+        stack.push(starting_vertex_id)
+        # while the stack is not empty traverse the graph
+        while stack.size() > 0:
+            # pop the value at the end of the stack and assign it to path
+            path = stack.pop()
+            print(f'path: {path}')
+            # assign the vertex or current node to the last vertex of path
+            vertex = path[-1]
+            # if the vertex has not already been visited add it to the visited set
+            if vertex not in visited:
+                print(f'vertex: {vertex}')
+                # mark as visited
+                visited.add(vertex)
+                # put the verticies that are connected to the current vertex into the stack
+                for neighbor in self.verticies[vertex]:
+                    # assign route to a list and pass in path
+                    route = list(path)
+                    print(f'route: {route}')
+                    # append the neighbor to route
+                    route.append(neighbor)
+                    print(f'route after append: {route}')
+                    # push the value of the route to the stack
+                    stack.push(route)
+                    # once the destination vertex is reached return the route
+                    if neighbor == destination_vertex_id:
+                        return route
 
 
 # queue class, first in first out data structure
@@ -192,4 +258,6 @@ graph.add_directed_edge('13', '15')
 # print(graph.verticies)
 # print(graph.dft('0'))
 # print(graph.bft('0'))
-print(graph.dftr('0'))
+# print(graph.dftr('0'))
+# print(graph.bfs('0', '11'))
+# print(graph.dfs('0', '15'))
