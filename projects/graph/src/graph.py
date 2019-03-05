@@ -102,22 +102,23 @@ class Graph:
         # Create an empty set of visited vertices
         visited = set()
         # Put the starting vertex in our Queue
-        q.enqueue(starting_vertex)
+        q.enqueue([starting_vertex])
         # While the queue is not empty....
         while q.size() > 0:
+           path=q.dequeue()
            # Dequeue the first node from the queue
-           v = q.dequeue()
-           if v ==search_vertex:
-               print(v) 
-               break
+           v = path[-1]
            # If that node has not been visted...
            if v not in visited:
               # Mark it as visited
-              print(v)
               visited.add(v)
+              if v == search_vertex:
+                  return path
               # Then, put all of it's children into the queue
               for neighbor in self.vertices[v]:
-                  q.enqueue(neighbor)
+                  new_path=list(path)
+                  new_path.append(neighbor)
+                  q.enqueue(new_path)
     def dfs(self, starting_vertex, search_vertex):
         # Create an empty stack
         s = Stack()
@@ -161,8 +162,5 @@ graph.add_directed_edge('2', '3')
 graph.add_directed_edge('4', '6')
 # print(graph.vertices)
 
-graph.dft('1')
-print('############')
-#graph.dftc('1')
-#graph.bfs('1','5')
-graph.dfs('1','6')
+
+print(graph.bfs('1','6'))
