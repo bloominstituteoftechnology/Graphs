@@ -96,8 +96,17 @@ class Graph:
                 visited = self.dftr(neighbor, visited)
         # return the visited list
         return visited
+    # #correct way
+    # def dftr(self, starting_vertex_id, visited=None):
+    #     if visited is None:
+    #         visited = set()
+    #     visited.add(starting_vertex_id)
+    #     for neighbor in self.verticies[starting_vertex_id]:
+    #         if neighbor not in visited:
+    #             self.dftr(neighbor, visited)
 
     # breadth first search method takes a starting vertex and destination vertex as arguments and returns shortest path from starting vertex to destination vertex
+
     def bfs(self, starting_vertex_id, destination_vertex_id):
         # initialize an empty queue for breadth first search
         queue = Queue()
@@ -264,6 +273,8 @@ graph.add_directed_edge('13', '15')
 # print(graph.verticies)
 # print(graph.dft('0'))
 # print(graph.bft('0'))
-# print(graph.dftr('0'))
+print(graph.dftr('0'))
+print(graph.dftr('2'))
+print(graph.dftr('2'))
 # print(graph.bfs('0', '17'))
 # print(graph.dfs('0', '17'))
