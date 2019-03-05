@@ -148,5 +148,8 @@ if __name__ == '__main__':
     sg.addFriendship(10, 1)
     sg.addFriendship(10, 2)
     sg.addFriendship(10, 6)
-    connections = sg.getAllSocialPaths(2)
+    connections = sg.getAllSocialPaths(10)
     print(f"connections is {connections}")
+
+# qustion 1. it would be O(!n) factorial of n
+# the other question is weird lol.
