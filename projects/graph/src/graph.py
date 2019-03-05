@@ -14,6 +14,19 @@ class Queue():
     def size(self):
         return (len(self.queue))
 
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop() 
+        else:
+            return None
+    def size(self):
+        return (len(self.stack))
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -53,3 +66,24 @@ class Graph:
                 # put all of it's neighbors in the queue
                 for neighbor in self.vertices[v]:
                     q.enqueue(neighbor)
+
+    def dft(self, starting_vertex):
+        # create an empty stack
+        s = Stack()
+        # create an empty set of visited vertices
+        visited = set()
+        # put the starting vertex in our stack
+        s.push(starting_vertex)
+        # while stack isn't empty
+        while s.size() > 0:
+           # pop top node from stack
+            v = s.pop()
+            # if that node hasn't been visited
+            if v not in visited:
+                # mark it as visited
+                visited.add(v)
+                # print node
+                print(v)
+                # put all of it's children in the stack
+                for child in self.vertices[v]:
+                    s.push(child)
