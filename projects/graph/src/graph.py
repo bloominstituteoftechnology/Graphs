@@ -130,6 +130,7 @@ class Graph:
                     # once the destination vertex is reached return the route
                     if neighbor == destination_vertex_id:
                         return route
+                    # if destination cannot be reached, return error
                     else:
                         return "cannot reach destination"
 
@@ -167,6 +168,7 @@ class Graph:
                     # once the destination vertex is reached return the route
                     if neighbor == destination_vertex_id:
                         return route
+                    # if destination cannot be reached return error
                     else:
                         return "cannot reach destination"
 
