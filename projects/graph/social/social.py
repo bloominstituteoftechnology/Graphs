@@ -43,10 +43,8 @@ class SocialGraph:
         """
         Takes a number of users and an average number of friendships
         as arguments
-
         Creates that number of users and a randomly distributed friendships
         between those users.
-
         The number of users must be greater than the average number of friendships.
         """
         # Reset graph
@@ -67,6 +65,9 @@ class SocialGraph:
         random.shuffle(possibleFriendships)
         print(possibleFriendships[:20])
         print(len(possibleFriendships))
+        random.shuffle(possibleFriendships)
+        for friendship in possibleFriendships[: (numUsers + avgFriendships)]:
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
 
