@@ -72,17 +72,7 @@ class SocialGraph:
         first=True
         keys=[]
         for friendship in possibleFriendships[:20]:
-            print(friendship)
-            if first:
-                self.friendships[friendship[0]]=[friendship[1]]
-                keys.append(friendship[0])
-                first=False
-            else:
-                if friendship[0] not in keys:
-                    self.friendships[friendship[0]]=[friendship[1]]
-                    keys.append(friendship[0])
-                else:
-                   self.friendships[friendship[0]].append(friendship[1])
+            self.addFriendship(friendship[0],friendship[1])
                 
     def bfs(self, starting_vertex, search_vertex):
             # Create an empty queue
