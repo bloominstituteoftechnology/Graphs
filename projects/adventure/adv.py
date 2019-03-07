@@ -22,17 +22,30 @@ player = Player("Name", world.startingRoom)
 
 
 # FILL THIS IN
-traversalPath = []
-graph_map={}
-for room in world.rooms:
-    graph_map[room]={'n':'?','s':'?','e':'?','w':'?'}
-
-print((graph_map))
-
-def path_seeking():
-    pass
 
 
+
+def path_seeking(player):
+    path=[]
+    graph_map={}
+    for i in range(len(world.rooms)):
+        graph_map[i]={}
+        for exit in world.rooms[i].getExits():
+            (graph_map[i])[exit]='?'
+    print(graph_map)
+            
+
+    def helper(player, room):
+        nonlocal graph_map
+        for key in room.getExits():
+            if ((graph_map[room.id])[key])=='?':
+                player.travel(key)
+                (graph_map[room.id])[key]=player.currentRoom.name
+                helper(player, player.currentRoom)
+    helper(player, player.currentRoom)
+    print(graph_map)
+    return graph_map
+traversalPath = path_seeking(player)
 
 
 
