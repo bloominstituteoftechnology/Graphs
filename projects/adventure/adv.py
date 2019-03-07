@@ -24,6 +24,7 @@ player = Player("Name", world.startingRoom)
 
 
 def path_seeking(player):
+    count=0
     path = []
     graph_map = {}
     for i in range(len(world.rooms)):
@@ -35,6 +36,7 @@ def path_seeking(player):
     def helper(player, room):
         nonlocal graph_map
         nonlocal path
+        nonlocal count
         opposite = ''
         exits = room.getExits()
         for key in graph_map[room.id]:
@@ -70,20 +72,23 @@ def path_seeking(player):
         if len(exits)==0:
             headback=''
             checker=False
-            while not checker:
-                if len(steps)>0:
-                    for key in graph_map[room.id]:
-                        if graph_map[room.id][key]==steps[-1]:
-                            headback=key
-                            checker=True
-                            break
-                    player.travel(headback)
-                    path.append(headback)
-                    steps.pop()
-                else:
-                    checker=True
+            if count<len(graph_map):
+                while not checker:
+                    if len(steps)>0:
+                        count+=1
+                        for key in graph_map[room.id]:
+                            if graph_map[room.id][key]==steps[-1]:
+                                headback=key
+                                checker=True
+                                break
+                        player.travel(headback)
+                        path.append(headback)
+                        steps.pop()
+                    else:
+                        checker=True
 
     helper(player, player.currentRoom)
+    print(count)
     return path
 
 
