@@ -1,14 +1,27 @@
+<<<<<<< HEAD
+=======
+import random
+from itertools import combinations
+>>>>>>> 0e437ab262dfc02ae1e71e26034b2d468bdb1c73
 
 
 class User:
     def __init__(self, name):
+<<<<<<< HEAD
         self.name = name
+=======
+        self.name = name #Vertex
+>>>>>>> 0e437ab262dfc02ae1e71e26034b2d468bdb1c73
 
 class SocialGraph:
     def __init__(self):
         self.lastID = 0
         self.users = {}
+<<<<<<< HEAD
         self.friendships = {}
+=======
+        self.friendships = {} #edges
+>>>>>>> 0e437ab262dfc02ae1e71e26034b2d468bdb1c73
 
     def addFriendship(self, userID, friendID):
         """
@@ -22,6 +35,45 @@ class SocialGraph:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
 
+<<<<<<< HEAD
+=======
+    def breadth_first_search(self, starting_vertex, target):
+        # create a _queue_ FIFO
+        q = []
+        visited = []
+        # Enqueue the starting vertex
+        q.append(starting_vertex)
+        print("Queue: ",q)
+        # while the queue is not empty
+        while len(q) > 0:
+            # dequeue a node from the queue
+            path = q.pop()
+            # print(type(path))
+            if type(path) == int:
+                node = path
+            else:
+                node = path[-1]
+            if node not in visited:
+                # Mark it as visited
+                visited.append(node)
+                # print("visited breadth search: ",visited)
+                if target in visited:
+                    print("Path: ",path)
+                    print("Dup_Path: ", dup_path)
+                    return dup_path
+                # Enqueue all of its children
+                for i in self.friendships[int(node)]:
+                    if i not in visited:
+                        if type(path) == int:
+                            dup_path = [path]
+                        else:
+                            dup_path = list(path)
+                        dup_path.append(i)
+                        q.append(dup_path)
+
+        return None
+
+>>>>>>> 0e437ab262dfc02ae1e71e26034b2d468bdb1c73
     def addUser(self, name):
         """
         Create a new user with a sequential integer ID
@@ -45,6 +97,26 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
+<<<<<<< HEAD
+=======
+        social_g = SocialGraph()
+        for i in range(numUsers):
+            social_g.addUser(f"Username: {i}")
+
+        possible_friendships = list(combinations(range(1, len(social_g.users) + 1), 2))
+        random.shuffle(possible_friendships)
+        total = (numUsers*avgFriendships)//2
+        print("Theoretical Friendships: ",len(possible_friendships))
+        print("Total Actual Friendships: ",total)
+        percent_others = (total/len(possible_friendships))*100
+        print(f"Percentage of extended network: {percent_others}%", )
+        print(f"")
+        actual_friendships = possible_friendships[:total]
+        for friendship in actual_friendships:
+            social_g.addFriendship(friendship[0], friendship[1])
+        self.friendships = social_g.friendships
+
+>>>>>>> 0e437ab262dfc02ae1e71e26034b2d468bdb1c73
 
         # Add users
 
@@ -59,14 +131,46 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+<<<<<<< HEAD
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+=======
+        # sg = SocialGraph()
+        print("inside getAllSocialPaths", self.friendships )
+        visited = {}  # Note that this is a dictionary, not a set
+        # !!!! IMPLEMENT ME
+        for i in self.friendships[userID]:
+            visited[i] = sg.breadth_first_search(userID, i)
+        count = 0
+        for connections in visited:
+            list_conn = []
+            list_conn.append(connections)
+            print("listed connections for average: ", visited[connections])
+            print("connections degree length: ", len(visited[connections]) - 1)
+            degrees = len(visited[connections])-1
+            count+=degrees
+            print("connections in xxxxxxx", connections)
+
+
+        print("Average Degree of separation: ", count/len(visited))
+>>>>>>> 0e437ab262dfc02ae1e71e26034b2d468bdb1c73
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
+<<<<<<< HEAD
     sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+=======
+    # sg.populateGraph(10, 3)
+    # print(sg.friendships)
+    # connections = sg.getAllSocialPaths(1)
+    # print(connections)
+    # sg.populateGraph(100, 10)
+    sg.populateGraph(100, 5)
+    print(sg.friendships)
+    print("connections: ",sg.getAllSocialPaths(1))
+>>>>>>> 0e437ab262dfc02ae1e71e26034b2d468bdb1c73
