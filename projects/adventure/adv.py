@@ -40,29 +40,29 @@ world.printRooms()
 class Queue:
     def __init__(self):
         self.queue = []
+    def size(self):
+        return len(self.queue)
     def enqueue(self, node):
         self.queue.append(node)
     def dequeue(self):
-        if self.queue.size() > 0:
+        if self.size() > 0:
             return self.queue.pop(0)
         else:
             return None
-    def size(self):
-        return len(self.queue)
             
 
 class Stack:
     def __init__(self):
         self.stack = []
+    def size(self):
+        return len(self.stack)
     def push(self, node):
         self.stack.append(node)
     def pop(self):
-        if self.stack.size() > 0:
+        if self.size() > 0:
             return self.stack.pop()
         else:
             return None
-    def size(self):
-        return len(self.stack)
 
 class Graph:
     def __init__(self):
@@ -90,20 +90,192 @@ class Graph:
         s = Stack()
         visited = []
         s.push(starting_node)
-        while s.size() > 0:
-            deq = s.pop()
-            if deq not in visited:
-                visited.append(deq)
-                for i in self.vertices[starting_node]:
-                    pass
+
+        
+        while True:
+            prev_room = player.currentRoom.id
+            
+            deq = player.currentRoom.id
+            
+            visited.append(deq)
+
+            # if type(deq) == list:
+            #     return traversalPath
+            print("deq: ",deq)
+            print(self.vertices)
+            print(player.currentRoom.id)
+            unexplored_exits = []
+            for ex in self.print_exits():
+                if self.vertices[deq][ex] == '?':
+                    unexplored_exits.append(ex)
+            if len(unexplored_exits) == 0:
+                if len(visited) == 0:
+                    return traversalPath
+                else:
+                    self.breadth_first_search(player.currentRoom.id, '?', visited)
+            
+                
+                
+            print(unexplored_exits)
+
+        
+            if 'n' in unexplored_exits:
+
+                    if self.vertices[deq]['n'] == '?':
+                        traversalPath.append('n')
+                        player.travel('n')
+                        s.push(player.currentRoom.id)
+                        self.vertices[prev_room]['n'] = player.currentRoom.id
+                        self.vertices[player.currentRoom.id]['s'] = prev_room
+
+
+
+                # elif self.vertices[deq]['n'] == None:
+                #     print("Some shit in n")
+                #     s.push(self.breadth_first_search(player.currentRoom.id))
+                #     print(self.vertices)
+                
+                   
+                    
+                    
+                    
+            elif 's' in unexplored_exits:
+                
+                    if self.vertices[deq]['s'] == '?':
+                        traversalPath.append('s')
+                        player.travel('s')
+                        s.push(player.currentRoom.id)
+                        self.vertices[prev_room]['s'] = player.currentRoom.id
+                        self.vertices[player.currentRoom.id]['n'] = prev_room
+                    
+
+                # elif self.vertices[deq]['s'] == None:
+                #     print("Some shit in s")
+                #     s.push(self.breadth_first_search(player.currentRoom.id))
+                #     print(self.vertices)
+
+                    
+
+            elif 'e' in unexplored_exits:
+                if self.vertices[deq]['e'] == '?':
+                    traversalPath.append('e')
+                    player.travel('e')
+                    s.push(player.currentRoom.id)
+                    self.vertices[prev_room]['e'] = player.currentRoom.id
+                    self.vertices[player.currentRoom.id]['w'] = prev_room
+
+                # elif self.vertices[deq]['e'] == None:
+                #     print("Some shit in e")
+                #     s.push(self.breadth_first_search(player.currentRoom.id))
+                #     print(self.vertices)
+
+
+            elif 'w' in unexplored_exits:
+                if self.vertices[deq]['w'] == '?':
+                    traversalPath.append('w')
+                    player.travel('w')
+                    s.push(player.currentRoom.id)
+                    self.vertices[prev_room]['w'] = player.currentRoom.id
+                    self.vertices[player.currentRoom.id]['e'] = prev_room
+            
+                # elif self.vertices[deq]['w'] == None:
+                #     print("Some shit in w")
+                #     s.push(self.breadth_first_search(player.currentRoom.id))
+                #     print(self.vertices)
+            
+        
+        
+
+
+            # else:
+            #     print(self.breadth_first_search(player.currentRoom.id))
+        return visited
+
+
 
 
     def print_exits(self):
-        print(player.currentRoom.id)
+        return Room.getExits(player.currentRoom)
+
+    
+
+    def breadth_first_search(self, starting_node, target, visited_nodes):
+        visited_nodes.pop()
+        print('visited_nodes: ', visited_nodes)
+        print("executed?")
+        q = Queue()
+        visited = []
+        directions = []
+        q.enqueue([starting_node])
+        while q.size() > 0:
+            path = q.dequeue()
+            deq = path[-1]
 
 
-    def breadth_first_search(self, starting_node, target = '?'):
-        pass
+            if deq not in visited:
+                print("deq not in visited? ", path)
+                if target == self.vertices[deq]['n']:
+                    return "Found It!"
+                    
+                elif target == self.vertices[deq]['s']:
+                    return "Found It!"
+                    
+                elif target == self.vertices[deq]['e']:
+                    return "Found It!"
+                    
+                elif target == self.vertices[deq]['w']:
+                    return "Found It!"
+                    
+                else:
+                    print(len(visited_nodes))
+                    if len(visited_nodes) == 0:
+                        break
+                    next_room = visited_nodes.pop()
+                    print(path)
+                    if self.vertices[deq]['n'] == next_room:
+                        visited.append(player.currentRoom.id)
+                        player.travel('n')
+                        
+                        print("current position in n: ", player.currentRoom.id)
+                        dup_path = list(path)
+                        dup_path.append(self.vertices[deq]['n'])
+                        print(visited)
+                        q.enqueue(dup_path)
+                        
+                        
+                    if self.vertices[deq]['s'] == next_room:
+                        visited.append(player.currentRoom.id)
+                        player.travel('s')
+                        
+                        print("current position in s: ", player.currentRoom.id)
+                        dup_path = list(path)
+                        dup_path.append(self.vertices[deq]['s'])
+                        print(visited)
+                        q.enqueue(dup_path)
+
+                    if self.vertices[deq]['e'] == next_room:
+                        visited.append(player.currentRoom.id)
+                        player.travel('e')
+                        
+                        dup_path = list(path)
+                        dup_path.append(self.vertices[deq]['e'])
+                        
+                        q.enqueue(dup_path)
+
+                    if self.vertices[deq]['w'] == next_room:
+                        visited.append(player.currentRoom.id)
+                        player.travel('w')
+                        
+                        dup_path = list(path)
+                        dup_path.append(self.vertices[deq]['w'])
+                        
+                        q.enqueue(dup_path)
+                    
+
+                    # else:
+                    #     return traversalPath
+                
+
 
         
 def print_graph():
@@ -113,6 +285,7 @@ def print_graph():
     graph.add_edges()
     print(graph.vertices)
     print(graph.print_exits())
+    print(graph.depth_first_traversal(player.currentRoom.id))
 print(print_graph())
 
 
