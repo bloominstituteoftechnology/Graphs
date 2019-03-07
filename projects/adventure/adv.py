@@ -1,7 +1,7 @@
 from room import Room
 from player import Player
 from world import World
-
+from queue import *
 import random
 
 # Load world
@@ -22,8 +22,59 @@ player = Player("Name", world.startingRoom)
 
 
 # FILL THIS IN
-traversalPath = ['n', 's']
+traversalPath = []
 
+# helper for backtracking
+def backtrack(direction):
+    if direction == 'n':
+        return 's'
+    if direction == 's':
+        return 'n'
+    if direction == 'e':
+        return 'w'
+    if direction == 'w':
+        return 'e'        
+
+# dictionary of visited rooms
+visited_rooms = {}
+visited_rooms[player.currentRoom.id] = {x: '?' for x in player.currentRoom.getExits()}
+print('visited_rooms', visited_rooms)
+# print(player.currentRoom.id)
+
+#set of unused moves for base condition
+unused_moves = set()
+for exit in player.currentRoom.getExits():
+    unused_moves.add(f'{player.currentRoom.id}{exit}')
+print('unused_moves', unused_moves)
+print('exits', player.currentRoom.getExits())
+
+#assign current room
+room_number = player.currentRoom.id
+move = None
+
+# depth first search to find a dead end
+while unused_moves:
+    if '?' in visited_rooms[player.currentRoom.id].values():
+        #find a room that hasn't been visited
+        if 'n' in visited_rooms[room_number] and visited_rooms['n'] == '?':
+            move = 'n'
+        if 's' in visited_rooms[room_number] and visited_rooms['s'] == '?':
+            move = 's'
+        if 'e' in visited_rooms[room_number] and visited_rooms['e'] == '?':
+            move = 'e'
+        if 'w' in visited_rooms[room_number] and visited_rooms['w'] == '?':
+            move = 'w'
+    
+    # remove unvisited room, move to the next room, add move to traversalPath
+    unused_moves.remove(f'{player.currentRoom.id}{move}')
+    player.travel(move)
+    traversalPath.append(move)
+    print('traversalPath', traversalPath)
+
+    if room_number not in visited_rooms:
+        visited_rooms[room_number] = {x: '?' for x in player.currentRoom.getExits()}
+    
+        
 
 
 
@@ -45,9 +96,9 @@ else:
 
 
 
-#######
+######
 # UNCOMMENT TO WALK AROUND
-#######
+######
 # player.currentRoom.printRoomDescription(player)
 # while True:
 #     cmds = input("-> ").lower().split(" ")
