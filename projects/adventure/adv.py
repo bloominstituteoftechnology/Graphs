@@ -27,6 +27,92 @@ player = Player("Name", world.startingRoom)
 traversalPath = []
 
 
+# prints visual aid
+world.printRooms()
+
+################################################################
+################################################################
+# get the current user
+traversalPath = []
+
+# keep a ref to the previous room
+prevRoom = []
+# get a ref to the visited areas
+visited = {}
+visited[player.currentRoom.id] = {
+    x: '?' for x in player.currentRoom.getExits()}
+
+# get ref to current room exits
+unvisited = set()
+for exit in player.currentRoom.getExits():
+    unvisited.add(
+        f"{player.currentRoom.id}{exit}")
+
+
+def inverse(direction):
+    if direction == 'n':
+        return 's'
+    if direction == 's':
+        return 'n'
+    if direction == 'e':
+        return 'w'
+    if direction == 'w':
+        return 'e'
+
+
+def movePlayer(room, direction):
+    return direction
+
+    ################################
+    # try:
+
+
+while unvisited:
+    if '?' in visited[player.currentRoom.id].values():
+        start = player.currentRoom.id
+        next_Move = None
+        print(f"current room: {player.currentRoom.id}")
+        print(f"visited rooms: {visited}")
+        print(f"unvisited: {unvisited}")
+
+        directions = ['n', 's', 'e', 'w']
+        # I'm lazy so I wrote this to get the next move direction lol
+        for i in directions:
+            # print(visited[start].keys())
+            if '?' in visited[start][i]:
+                next_Move = movePlayer(
+                    player.currentRoom.id, i)
+                break
+
+        print(f"next move: {next_Move}")
+        unvisited.remove(f"{player.currentRoom.id}{next_Move}")
+        # move the player into a new room
+        # this means I need to get new exits for that room and add to the list
+        # wondering how to automate this
+        print(f"current room before move: {player.currentRoom.id}")
+        player.travel(next_Move)
+        print(f"current room after move: {player.currentRoom.id}")
+        new_Room = player.currentRoom.id
+        traversalPath.append(next_Move)
+
+        if new_Room not in visited:
+            visited[new_Room] = {
+                x: '?' for x in player.currentRoom.getExits()
+            }
+
+
+#######
+# UNCOMMENT TO WALK AROUND
+#######
+# player.currentRoom.printRoomDescription(player)
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     else:
+#         print("I did not understand that command.")
+
+
 # TRAVERSAL TEST
 visited_rooms = set()
 player.currentRoom = world.startingRoom
@@ -41,105 +127,3 @@ if len(visited_rooms) == len(roomGraph):
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms out of {len(roomGraph)}")
-# prints visual aid
-world.printRooms()
-#######
-# UNCOMMENT TO WALK AROUND
-#######
-# player.currentRoom.printRoomDescription(player)
-# while True:
-#     cmds = input("-> ").lower().split(" ")
-#     if cmds[0] in ["n", "s", "e", "w"]:
-#         player.travel(cmds[0], True)
-#     else:
-#         print("I did not understand that command.")
-
-
-# player.currentRoom.id --- gives id to current room
-
-# player.currentRoom.getExits() ---> return all availablie exits
-
-# player.trave(direction) --> makes player move to a room
-
-# get the current user
-traversalPath = []
-# get a ref to the searched areas
-searched = {}
-searched[player.currentRoom.id] = {
-    x: '?' for x in player.currentRoom.getExits()}
-
-# get ref to current room exits
-unvisited = set()
-for exit in player.currentRoom.getExits():
-    unvisited.add(f"{player.currentRoom.id}{exit}")
-
-
-inverse = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
-
-
-def inverse(direction):
-    if direction == 'n':
-        return 's'
-    if direction == 's':
-        return 'n'
-    if direction == 'e':
-        return 'w'
-    if direction == 'w':
-        return 'e'
-
-
-while unvisited:
-    # try:
-    if '?' in searched[player.currentRoom.id].values():
-        next_Move = None
-        print(f"current room: {player.currentRoom.id}")
-        print(f"searched rooms: {searched}")
-        print(f"unvisited: {unvisited}")
-        print(f"traversal path: {traversalPath}")
-        current_room = player.currentRoom.id
-        # check exits to see if one is unexplored then same it as the next move
-        for exit in searched[current_room]:
-            if searched[current_room][exit] == '?':
-                next_Move = exit
-                break
-                # traversalPath += next_Move
-                # player.travel(next_Move)
-                # if exit is None:
-                #     next_Move = current_room
-                #     traversalPath += next_Move
-                #     player.travel(next_Move)
-                # if exit in unvisited:
-                #     next_Move = exit
-                #     traversalPath += next_Move
-                #     player.travel(next_Move)
-
-        # get a ref to the next room which is now the current room
-        new_room = player.currentRoom.id
-        print(f"next move: {next_Move}")
-        print(f"new_room: {new_room}")
-
-        # if the new room is not in the searched list get it's exits
-        if new_room not in searched:
-            searched[new_room] = {
-                x: "?" for x in player.currentRoom.getExits()}
-
-        # remove unvisted
-        unvisited.remove(f"{player.currentRoom.id}{exit}")
-        # move the player to the next room
-        player.travel(next_Move)
-
-        searched[current_room][new_room] = new_room
-        searched[new_room][next_Move] = current_room
-
-        for exit, value in searched[new_room].items():
-            if value == '?':
-                unvisited.add(f"{new_room}{exit}")
-
-        if f"{new_room}{inverse(next_Move)}" in unvisited:
-            unvisited.remove(f'{new_room}{inverse(next_Move)}')
-        # except KeyError:
-        #     print("Hello world")
-
-        # print(traversing(player.currentRoom.id))
-        # print(player.currentRoom.getExits())
-        # traversing(player.currentRoom.id)
