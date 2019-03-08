@@ -103,11 +103,9 @@ class Graph:
             
             visited.append(deq)
 
-            # if type(deq) == list:
-            #     return traversalPath
-            print("deq: ",deq)
-            print(self.vertices)
-            print(player.currentRoom.id)
+            # print("deq: ",deq)
+            # print(self.vertices)
+            # print(player.currentRoom.id)
             unexplored_exits = []
             for ex in self.print_exits():
                 if self.vertices[deq][ex] == '?':
@@ -119,8 +117,7 @@ class Graph:
                 self.breadth_first_search(player.currentRoom.id, '?', visited)
             
                 
-                
-            print(unexplored_exits)
+            print("unexplored exits: ",unexplored_exits)
 
         
             if 'n' in unexplored_exits:
@@ -135,17 +132,7 @@ class Graph:
                         s.push(player.currentRoom.id)
                         self.vertices[prev_room]['n'] = player.currentRoom.id
                         self.vertices[player.currentRoom.id]['s'] = prev_room
-
-
-
-                # elif self.vertices[deq]['n'] == None:
-                #     print("Some shit in n")
-                #     s.push(self.breadth_first_search(player.currentRoom.id))
-                #     print(self.vertices)
-                
-                   
-                    
-                    
+  
                     
             elif 's' in unexplored_exits:
                 
@@ -161,12 +148,6 @@ class Graph:
                         self.vertices[player.currentRoom.id]['n'] = prev_room
                     
 
-                # elif self.vertices[deq]['s'] == None:
-                #     print("Some shit in s")
-                #     s.push(self.breadth_first_search(player.currentRoom.id))
-                #     print(self.vertices)
-
-                    
 
             elif 'e' in unexplored_exits:
                 if self.vertices[deq]['e'] == '?':
@@ -180,10 +161,6 @@ class Graph:
                     self.vertices[prev_room]['e'] = player.currentRoom.id
                     self.vertices[player.currentRoom.id]['w'] = prev_room
 
-                # elif self.vertices[deq]['e'] == None:
-                #     print("Some shit in e")
-                #     s.push(self.breadth_first_search(player.currentRoom.id))
-                #     print(self.vertices)
 
 
             elif 'w' in unexplored_exits:
@@ -198,17 +175,8 @@ class Graph:
                     self.vertices[prev_room]['w'] = player.currentRoom.id
                     self.vertices[player.currentRoom.id]['e'] = prev_room
             
-                # elif self.vertices[deq]['w'] == None:
-                #     print("Some shit in w")
-                #     s.push(self.breadth_first_search(player.currentRoom.id))
-                #     print(self.vertices)
-            
-        
         
 
-
-            # else:
-            #     print(self.breadth_first_search(player.currentRoom.id))
         return traversalPath
 
 
@@ -296,7 +264,7 @@ class Graph:
                         dup_path.append(self.vertices[deq]['w'])
                         
                         q.enqueue(dup_path)
-                    print(traversalPath)
+                    
                     
 
                     # else:
@@ -327,8 +295,11 @@ for move in traversalPath:
     visited_rooms.add(player.currentRoom)
 
 if len(visited_rooms) == len(roomGraph):
+    print(traversalPath)
+    world.printRooms()
     print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
 else:
+    print(traversalPath)
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
 
