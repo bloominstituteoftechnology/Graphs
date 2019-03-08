@@ -127,8 +127,16 @@ class Graph:
                         player.travel('n')
                         self.counter(1)
                         print("BOX*****************",self.box)
-                        if self.box == len(roomGraph) + 3:
-                            truthy = False
+                        if 0 < len(roomGraph) <= 10:
+                            if self.box == len(roomGraph):
+                                    truthy = False
+                        if 10 < len(roomGraph) <= 50:
+                            if self.box == len(roomGraph) + 1:
+                                    truthy = False
+                        if 50 < len(roomGraph) < 503:
+                            if self.box == len(roomGraph) + 3:
+                                    truthy = False
+
                         s.push(player.currentRoom.id)
                         self.vertices[prev_room]['n'] = player.currentRoom.id
                         self.vertices[player.currentRoom.id]['s'] = prev_room
@@ -141,8 +149,16 @@ class Graph:
                         player.travel('s')
                         self.counter(1)
                         print("BOX*****************",self.box)
-                        if self.box == len(roomGraph) + 3:
-                            truthy = False
+                        if 0 < len(roomGraph) <= 10:
+                            if self.box == len(roomGraph):
+                                    truthy = False
+                        if 10 < len(roomGraph) <= 50:
+                            if self.box == len(roomGraph) + 1:
+                                    truthy = False
+                        if 50 < len(roomGraph) < 503:
+                            if self.box == len(roomGraph) + 3:
+                                    truthy = False
+
                         s.push(player.currentRoom.id)
                         self.vertices[prev_room]['s'] = player.currentRoom.id
                         self.vertices[player.currentRoom.id]['n'] = prev_room
@@ -155,8 +171,16 @@ class Graph:
                     player.travel('e')
                     self.counter(1)
                     print("BOX*****************",self.box)
-                    if self.box == len(roomGraph) + 3:
-                            truthy = False
+                    if 0 < len(roomGraph) <= 10:
+                        if self.box == len(roomGraph):
+                                truthy = False
+                    if 10 < len(roomGraph) <= 50:
+                        if self.box == len(roomGraph) + 1:
+                                truthy = False
+                    if 50 < len(roomGraph) < 503:
+                        if self.box == len(roomGraph) + 3:
+                                truthy = False
+
                     s.push(player.currentRoom.id)
                     self.vertices[prev_room]['e'] = player.currentRoom.id
                     self.vertices[player.currentRoom.id]['w'] = prev_room
@@ -169,8 +193,16 @@ class Graph:
                     player.travel('w')
                     self.counter(1)
                     print("BOX*****************",self.box)
-                    if self.box == len(roomGraph) + 3:
-                            truthy = False
+                    if 0 < len(roomGraph) <= 10:
+                        if self.box == len(roomGraph):
+                                truthy = False
+                    if 10 < len(roomGraph) <= 50:
+                        if self.box == len(roomGraph) + 1:
+                                truthy = False
+                    if 50 < len(roomGraph) < 503:
+                        if self.box == len(roomGraph) + 3:
+                                truthy = False
+
                     s.push(player.currentRoom.id)
                     self.vertices[prev_room]['w'] = player.currentRoom.id
                     self.vertices[player.currentRoom.id]['e'] = prev_room
