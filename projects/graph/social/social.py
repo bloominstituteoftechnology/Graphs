@@ -1,16 +1,21 @@
+from random import randint
+from queue import *
 
 
 class User:
     def __init__(self, name):
         self.name = name
 
+
 class SocialGraph:
     def __init__(self):
         self.lastID = 0
         self.users = {}
         self.friendships = {}
+        self.times_addFriendship_called = 0
 
     def addFriendship(self, userID, friendID):
+        self.times_addFriendship_called += 1
         """
         Creates a bi-directional friendship
         """
@@ -44,11 +49,34 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
+
+        # Make sure avg friendships is less then number of users
+        if not numUsers > avgFriendships:
+            avgFriendships = numUsers - 1
 
         # Add users
+        for num in range(1, numUsers + 1):
+            self.addUser(num)
 
         # Create friendships
+        total_friendships = (numUsers * avgFriendships) // 2
+        friendships = []
+
+        while len(friendships) < total_friendships:
+            # generat possiblity
+            possibility = sorted([randint(1, numUsers), randint(1, numUsers)])
+            # discard if user is friends with self
+            if possibility[0] == possibility[1]:
+                continue
+            # discard if friendship already exists
+            if possibility in friendships:
+                continue
+            # otherwise add to friendships
+            friendships.append(possibility)
+
+        # add friendships to network
+        for friendship in friendships:
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,12 +89,55 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        queue = Queue()
+        queue.put([userID])
+
+        while not queue.empty():
+            current_path = queue.get()
+            current = current_path[-1]
+            if current not in visited:
+                visited[current] = current_path
+                # queue up new paths
+                for item in self.friendships[current]:
+                    if item not in visited:
+                        queue.put(list(current_path) + [item])
+
         return visited
+
+    def return_avg_num_of_friends(self):
+        num_friendships = 0
+        for person in self.friendships.keys():
+            num_friendships += len(self.friendships[person])
+        return num_friendships / len(self.friendships)
+
+    def return_avg_separation(self):
+        total_connections = 0
+        total_paths = 0
+        total_path_length = 0
+
+        for person in self.friendships.keys():
+            social_paths = self.getAllSocialPaths(person)
+            print(social_paths)
+            num_friends = len(social_paths)
+            total_connections += num_friends
+
+            for path in social_paths:
+                total_paths += 1
+                total_path_length += len(social_paths[path]) - 1
+                print(social_paths[path])
+
+        print(
+            f'Average extended network size: {total_connections/len(self.friendships.keys())}')
+        print(
+            f'Average degrees of separation: {total_path_length/total_paths}')
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    print(sg.friendships)
+    sg.populateGraph(1000, 5)
+    # print(sg.friendships)
+    # print(sg.times_addFriendship_called)
+    # print(sg.return_avg_num_of_friends())
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    # print(connections)
+    sg.return_avg_separation()
