@@ -2,7 +2,6 @@ from room import Room
 from player import Player
 from world import World
 from queue import *
-import random
 
 # Load world
 world = World()
@@ -24,75 +23,110 @@ player = Player("Name", world.startingRoom)
 # FILL THIS IN
 traversalPath = []
 
-# helper for backtracking
-def backtrack(direction):
-    if direction == 'n':
+def invertDirections(move):
+    if move == 'n':
         return 's'
-    if direction == 's':
+    if move == 's':
         return 'n'
-    if direction == 'e':
+    if move == 'e':
         return 'w'
-    if direction == 'w':
-        return 'e'        
+    if move == 'w':
+        return 'e'
 
-# dictionary of visited rooms
+# init dictionary of visited rooms
 visited_rooms = {}
 visited_rooms[player.currentRoom.id] = {x: '?' for x in player.currentRoom.getExits()}
-print('visited_rooms', visited_rooms)
-# print(player.currentRoom.id)
+print('visited_rooms:', visited_rooms)
 
-#set of unused moves for base condition
-unused_moves = set()
+# init set of unexplored exits for base condition
+unexplored_exits = set()
 for exit in player.currentRoom.getExits():
-    unused_moves.add(f'{player.currentRoom.id}{exit}')
-print('unused_moves', unused_moves)
-print('exits', player.currentRoom.getExits())
+    unexplored_exits.add(f'{player.currentRoom.id}{exit}')
+print('unexplored_exits:', unexplored_exits)
 
 #assign current room
-room_number = player.currentRoom.id
+current_room = player.currentRoom.id
 move = None
 
 # depth first search to find a dead end
-while unused_moves:
+while unexplored_exits:
+    #assign current room
+    # print('visited room values:', visited_rooms[player.currentRoom.id].values())
+    current_room = player.currentRoom.id
+    print('current room', current_room)
+    move = None
     if '?' in visited_rooms[player.currentRoom.id].values():
+        print('in loop:', current_room)
         #find a room that hasn't been visited
-        if 'n' in visited_rooms[room_number] and visited_rooms['n'] == '?':
+        if 'n' in visited_rooms[current_room] and visited_rooms[current_room]['n'] == '?':
             move = 'n'
-        if 's' in visited_rooms[room_number] and visited_rooms['s'] == '?':
-            move = 's'
-        if 'e' in visited_rooms[room_number] and visited_rooms['e'] == '?':
+        elif 'e' in visited_rooms[current_room] and visited_rooms[current_room]['e'] == '?':
             move = 'e'
-        if 'w' in visited_rooms[room_number] and visited_rooms['w'] == '?':
+        elif 's' in visited_rooms[current_room] and visited_rooms[current_room]['s'] == '?':
+            move = 's'
+        elif 'w' in visited_rooms[current_room] and visited_rooms[current_room]['w'] == '?':
             move = 'w'
     
     # remove unvisited room, move to the next room, add move to traversalPath
-    unused_moves.remove(f'{player.currentRoom.id}{move}')
+    print('move', move)
+    print('unexplored 2:', unexplored_exits )
+    unexplored_exits.remove(f'{player.currentRoom.id}{move}')
     player.travel(move)
+    print('current room after loop', player.currentRoom.id)
+    # print('travel:', player.travel(move))
     traversalPath.append(move)
-    print('traversalPath', traversalPath)
-
-    if room_number not in visited_rooms:
-        visited_rooms[room_number] = {x: '?' for x in player.currentRoom.getExits()}
+    print('traversalPath:', traversalPath)
+    new_room = player.currentRoom.id
     
-        
+    # add new room to visited rooms
+    if new_room not in visited_rooms:
+        visited_rooms[new_room] = {x: '?' for x in player.currentRoom.getExits()}
+        print('visited_rooms:', visited_rooms)
+    
+    print('items', visited_rooms[new_room].items())
+    #update current_room and visited_rooms
+    # inverseDirections = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
+    visited_rooms[current_room][move] = new_room
+    visited_rooms[new_room][invertDirections(move)] = current_room
 
+    # add unexplored exits in new room to unexplored_exits
+    for exit, direction in visited_rooms[new_room].items():
+        if direction == '?':
+            unexplored_exits.add(f'{new_room}{exit}')
+    # 
+    if f'{new_room}{invertDirections(move)}' in unexplored_exits:
+        unexplored_exits.remove(f'{new_room}{invertDirections(move)}')
 
+#BFS looking for nearest unexplored exit
+    # else:
+    #     q = Queue()
+    #     q.put([userID])
+    #     while q.qsize() > 0:
+    #         path = q.get()
+    #         v = path[-1]
+    #         if v not in visited:
+    #             visited[v] = path
+    #             for friendship in self.friendships[v]:
+    #                 if friendship not in visited:
+    #                     q.put(list(path) + [friendship])
+
+    #     return visited    
 
 
 
 # TRAVERSAL TEST
-visited_rooms = set()
-player.currentRoom = world.startingRoom
-visited_rooms.add(player.currentRoom)
-for move in traversalPath:
-    player.travel(move)
-    visited_rooms.add(player.currentRoom)
+# visited_rooms = set()
+# player.currentRoom = world.startingRoom
+# visited_rooms.add(player.currentRoom)
+# for move in traversalPath:
+#     player.travel(move)
+#     visited_rooms.add(player.currentRoom)
 
-if len(visited_rooms) == len(roomGraph):
-    print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
-else:
-    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-    print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
+# if len(visited_rooms) == len(roomGraph):
+#     print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
+# else:
+#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+#     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
 
 
 
