@@ -100,6 +100,17 @@ while unvisited:
                 x: '?' for x in player.currentRoom.getExits()
             }
 
+        visited[start][next_Move] = new_Room
+        print(f"sdofsmfoijsf: {visited[start][next_Move]}")
+        visited[new_Room][inverse(new_Room)] = start
+
+        for exit, value in visited[new_Room].items():
+            if value == '?':
+                unvisited.add(f"{new_Room}{exit}")
+
+        if f"{new_Room}{inverse(new_Room)}" in visited:
+            unvisited.remove(f"{new_Room}{inverse(next_Move)}")
+
 
 #######
 # UNCOMMENT TO WALK AROUND
