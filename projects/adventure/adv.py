@@ -17,9 +17,6 @@ roomGraph={494: [(1, 8), {'e': 457}], 492: [(1, 20), {'e': 400}], 493: [(2, 5), 
 world.loadGraph(roomGraph)
 player = Player("Name", world.startingRoom)
 
-
-
-
 # FILL THIS IN
 traversalPath = []
 
@@ -37,26 +34,23 @@ def invertDirections(move):
 visited_rooms = {}
 visited_rooms[player.currentRoom.id] = {x: '?' for x in player.currentRoom.getExits()}
 print('visited_rooms:', visited_rooms)
+# for the current room, let's grab any existing exits.
+visited_rooms[player.currentRoom.id] = {
+    x: '?' for x in player.currentRoom.getExits()}
 
-# init set of unexplored exits for base condition
+# this is where we will log unexplored rooms
 unexplored_exits = set()
 for exit in player.currentRoom.getExits():
-    unexplored_exits.add(f'{player.currentRoom.id}{exit}')
+    unexplored_exits.add(f"Room {player.currentRoom.id}: {exit}")
 print('unexplored_exits:', unexplored_exits)
-
-#assign current room
-current_room = player.currentRoom.id
-move = None
 
 # depth first search to find a dead end
 while unexplored_exits:
-    #assign current room
-    # print('visited room values:', visited_rooms[player.currentRoom.id].values())
-    current_room = player.currentRoom.id
-    print('current room', current_room)
+    # assign current room
     move = None
+    current_room = player.currentRoom.id
     if '?' in visited_rooms[player.currentRoom.id].values():
-        print('in loop:', current_room)
+
         #find a room that hasn't been visited
         if 'n' in visited_rooms[current_room] and visited_rooms[current_room]['n'] == '?':
             move = 'n'
@@ -66,38 +60,37 @@ while unexplored_exits:
             move = 's'
         elif 'w' in visited_rooms[current_room] and visited_rooms[current_room]['w'] == '?':
             move = 'w'
-    
-    # remove unvisited room, move to the next room, add move to traversalPath
-    print('move', move)
-    print('unexplored 2:', unexplored_exits )
-    unexplored_exits.remove(f'{player.currentRoom.id}{move}')
-    player.travel(move)
-    print('current room after loop', player.currentRoom.id)
-    # print('travel:', player.travel(move))
-    traversalPath.append(move)
-    print('traversalPath:', traversalPath)
-    new_room = player.currentRoom.id
-    
-    # add new room to visited rooms
-    if new_room not in visited_rooms:
-        visited_rooms[new_room] = {x: '?' for x in player.currentRoom.getExits()}
-        print('visited_rooms:', visited_rooms)
-    
-    print('items', visited_rooms[new_room].items())
-    #update current_room and visited_rooms
-    # inverseDirections = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
-    visited_rooms[current_room][move] = new_room
-    visited_rooms[new_room][invertDirections(move)] = current_room
 
-    # add unexplored exits in new room to unexplored_exits
-    for exit, direction in visited_rooms[new_room].items():
-        if direction == '?':
-            unexplored_exits.add(f'{new_room}{exit}')
-    # 
-    if f'{new_room}{invertDirections(move)}' in unexplored_exits:
-        unexplored_exits.remove(f'{new_room}{invertDirections(move)}')
+       # remove unvisited room, move to the next room, add move to traversalPath
+        # print('move', move)
+        # print('unexplored 2:', unexplored_exits )
+        unexplored_exits.remove(f"Room {player.currentRoom.id}: {move}")
+        player.travel(move)
+        # print('current room after loop', player.currentRoom.id)
+        traversalPath.append(move)
 
-#BFS looking for nearest unexplored exit
+        # init the room we stepped into
+        new_room = player.currentRoom.id
+
+        # add new room to visited rooms
+        if new_room not in visited_rooms:
+            visited_rooms[new_room] = {
+                x: '?' for x in player.currentRoom.getExits()}
+
+        #update current_room and visited_rooms
+        visited_rooms[current_room][move] = new_room
+        visited_rooms[new_room][invertDirections(move)] = current_room
+        
+
+        # add unexplored exits in new room to unexplored_exits
+        for exit_direction, direction in visited_rooms[new_room].items():
+            if direction == '?':
+                unexplored_exits.add(f"Room {new_room}: {exit_direction}")
+        # remove the newly explored direction from unexplored exits
+        if f"Room {new_room}: {invertDirections(move)}" in unexplored_exits:
+            unexplored_exits.remove(f"Room {new_room}: {invertDirections(move)}")
+
+# BFS looking for nearest unexplored exit
     # else:
     #     q = Queue()
     #     q.put([userID])
