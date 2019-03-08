@@ -84,42 +84,57 @@ while unexplored_exits:
 
         # add unexplored exits in new room to unexplored_exits
         for exit_direction, direction in visited_rooms[new_room].items():
+            # print(direction)
             if direction == '?':
                 unexplored_exits.add(f"Room {new_room}: {exit_direction}")
+        
         # remove the newly explored direction from unexplored exits
         if f"Room {new_room}: {invertDirections(move)}" in unexplored_exits:
             unexplored_exits.remove(f"Room {new_room}: {invertDirections(move)}")
 
 # BFS looking for nearest unexplored exit
-    # else:
-    #     q = Queue()
-    #     q.put([userID])
-    #     while q.qsize() > 0:
-    #         path = q.get()
-    #         v = path[-1]
-    #         if v not in visited:
-    #             visited[v] = path
-    #             for friendship in self.friendships[v]:
-    #                 if friendship not in visited:
-    #                     q.put(list(path) + [friendship])
+    else:
+        current_room = player.currentRoom.id
+        q = Queue()
 
-    #     return visited    
+        for exit_direction, room in visited_rooms[current_room].items():
+            # put exits and room into the queue
+            q.put([[exit_direction, room]])
+        # print(q)
+        while not q.empty():
+            path = q.get()
+            v = path[-1]
+
+            # is there an unexplored exit in the current room? do this...
+            if '?' in [room for exit_direction, room in visited_rooms[v[1]].items()]:
+                # go back and add it to traversalPath
+                for exit_direction, room in path:
+                    player.travel(exit_direction)
+                    traversalPath.append(exit_direction)
+                break #infinite loop happens without this
+            # no unexplored exit in the current room?  do this...
+            else:
+                # put the room and exits into the queue
+                for exit_direction, room in visited_rooms[v[1]].items():
+                    if room != current_room and room not in [room for exit_direction, room in path]:
+                        q.put(list(path) + [[exit_direction, room]])
+ 
 
 
 
 # TRAVERSAL TEST
-# visited_rooms = set()
-# player.currentRoom = world.startingRoom
-# visited_rooms.add(player.currentRoom)
-# for move in traversalPath:
-#     player.travel(move)
-#     visited_rooms.add(player.currentRoom)
+visited_rooms = set()
+player.currentRoom = world.startingRoom
+visited_rooms.add(player.currentRoom)
+for move in traversalPath:
+    player.travel(move)
+    visited_rooms.add(player.currentRoom)
 
-# if len(visited_rooms) == len(roomGraph):
-#     print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
-# else:
-#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-#     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
+if len(visited_rooms) == len(roomGraph):
+    print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
+else:
+    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+    print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
 
 
 
