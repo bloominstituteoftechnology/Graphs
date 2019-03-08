@@ -45,8 +45,7 @@ visited[player.currentRoom.id] = {
 # get ref to current room exits
 unvisited = set()
 for exit in player.currentRoom.getExits():
-    unvisited.add(
-        f"{player.currentRoom.id}{exit}")
+    unvisited.add(f"{player.currentRoom.id}{exit}")
 
 
 def inverse(direction):
@@ -60,7 +59,7 @@ def inverse(direction):
         return 'e'
 
 
-def movePlayer(room, direction):
+def movePlayer(direction):
     return direction
 
     ################################
@@ -71,27 +70,41 @@ while unvisited:
     if '?' in visited[player.currentRoom.id].values():
         start = player.currentRoom.id
         next_Move = None
-        print(f"current room: {player.currentRoom.id}")
-        print(f"visited rooms: {visited}")
-        print(f"unvisited: {unvisited}")
+        # print(f"current room: {player.currentRoom.id}")
+        # print(f"visited rooms: {visited}")
+        # print(f"unvisited: {unvisited}")
 
-        directions = ['n', 's', 'e', 'w']
-        # I'm lazy so I wrote this to get the next move direction lol
-        for i in directions:
-            # print(visited[start].keys())
-            if '?' in visited[start][i]:
-                next_Move = movePlayer(
-                    player.currentRoom.id, i)
-                break
+        # directions = ['n', 's', 'e', 'w']
+        # I'm lazy so I wrote this to get the next move direction
+        # this seems to currently have bugs,
+        # for i in directions:
+        #     print(f"visited start: {visited[start].values()}")
+        #     if '?' in visited[start].values():
+        #         next_Move = movePlayer(i)
+        #         visited[start][i] = next_Move
+        #         print(f"next move: {visited}")
+        #         break
 
-        print(f"next move: {next_Move}")
+        # doing it manually as I think my previous approach has bugs :developer
+        # print(f"wtf is this?: {visited[start]}")
+        if 'n' in visited[start] and visited[start]['n'] == '?':
+            next_Move = 'n'
+        elif 's' in visited[start] and visited[start]['s'] == '?':
+            next_Move = 's'
+        elif 'e' in visited[start] and visited[start]['e'] == '?':
+            next_Move = 'e'
+        elif 'w' in visited[start] and visited[start]['w'] == '?':
+            next_Move = 'w'
+
+        # print(f"next move: {player.currentRoom.id}{next_Move}")
+
         unvisited.remove(f"{player.currentRoom.id}{next_Move}")
         # move the player into a new room
         # this means I need to get new exits for that room and add to the list
         # wondering how to automate this
-        print(f"current room before move: {player.currentRoom.id}")
+        # print(f"current room before move: {player.currentRoom.id}")
         player.travel(next_Move)
-        print(f"current room after move: {player.currentRoom.id}")
+        # print(f"current room after move: {player.currentRoom.id}")
         new_Room = player.currentRoom.id
         traversalPath.append(next_Move)
 
@@ -101,8 +114,8 @@ while unvisited:
             }
 
         visited[start][next_Move] = new_Room
-        print(f"sdofsmfoijsf: {visited[start][next_Move]}")
-        visited[new_Room][inverse(new_Room)] = start
+        # print(f"yet another move attempt: {next_Move}")
+        visited[new_Room][new_Room] = next_Move
 
         for exit, value in visited[new_Room].items():
             if value == '?':
@@ -110,6 +123,36 @@ while unvisited:
 
         if f"{new_Room}{inverse(new_Room)}" in visited:
             unvisited.remove(f"{new_Room}{inverse(next_Move)}")
+
+    else:
+        current = player.currentRoom.id
+        q = Queue()
+        for room, direction in visited[current].items():
+            q.put([[room, direction]])
+
+        while not q.empty():
+            current_path = q.get()
+            current = current_path[-1]
+
+            # if an unknown is found, follow our path to that item
+            for direction, room in visited[current[1]].items():
+                if room == '?' and direction is not int():
+                    print(direction)
+                    player.travel(direction)
+                    print(f"traversalPath: {traversalPath}")
+                    traversalPath.append(direction)
+                    break
+            # if '?' in [room for direction, room in visited[current[1]].items()]:
+            #     for direction, room in current_path:
+            #         player.travel(direction)
+            #         traversalPath.append(direction)
+
+            # otherwise continue our search
+            else:
+                for direction, room in visited[current[1]].items():
+                    if room != current and room not in [y for x, y in current_path]:
+                        # y is room
+                        q.put(list(current_path) + [[direction, room]])
 
 
 #######
