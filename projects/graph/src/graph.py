@@ -92,7 +92,7 @@ class Graph:
         # create a queue for bfs
         queue = []
         queue.append(start_vertex)
-        visited = set()        
+        visited = set()
         tracker = []  # to return ordered list of nodes
         # sets are chosen because they are faster to index
         # sets cant hold duplicates
@@ -141,18 +141,26 @@ class Graph:
             print(visited)
             print(tracker)
 
-    def depth_first_trav_recursive(self, start_vertex):
-        # stack = []
-        # stack.append(start_vertex)
-        visited = set()
+    def depth_first_trav_recursive(self, start_vertex, visited=None):
+        # cant set default variables
+        # mark the start node as visited
+        # then call recursive on each unvisited neighbor
 
+        # cant use sets in recursion because we need to maintain
+        # its values. It can be done with a helper method.
+        # Here we will add another parameter that will be default
+
+        if visited is None:
+            visited = set()
+        visited.add(start_vertex)
+        print(f"visited: {visited}")
         for i in self.vertices[start_vertex]:
             if i not in visited:
-                visited.add(i)
-                depth_first_trav_recursive(i, visited)
-        return visited
+                self.depth_first_trav_recursive(i, visited)
 
-    def breadth_first_search(self):
+# bfs is good for social media, like fb
+# with bfs you need to store all the children
+    def breadth_first_search(self, start_vertex, end_vertex):
         # start_vertex
         # target_vertex
 
@@ -165,15 +173,45 @@ class Graph:
         # change vertex, add copies to queue
 
         # repeat from for loop
-        pass    # TODO
+
         # keep track of every single path you can traverse to your target
         # one you find your target value
-            # print out that path
-    
-    def depth_first_search(self):
-        pass    # TODO
+        # print out that path
+        queue = []
+        queue.append(start_vertex)
+        visited = set()
 
+        while queue:
+            path = queue.pop(0)
+            v = path[-1]  # grabs the last item from a list
+            if v not in visited:
+                visited.add(v)
+                if v == end_vertex:
+                    return path
+                for i in self.vertices[v]:
+                    new_path = list(path)
+                    new_path.append(i)
+                    queue.append(new_path)
 
-g = Graph(graph1)
-g.breadth_first_traversal("0")
+# dfs is good for mazes
+    def depth_first_search(self, start_vertex, end_vertex):
+        stack = []
+        visited = set()
+        stack.append(start_vertex)
+
+        while stack:
+            current = stack.pop()
+            if current not in visited:
+                visited.add(start_vertex)
+                if current == end_vertex:
+                    return current
+                for i in self.vertices[current]:
+                    stack.append(i)
+
+g = Graph(graph2)
+#g.breadth_first_traversal("0")
 #g.depth_first_traversal("2")
+#g.depth_first_trav_recursive("0", )
+print(g.breadth_first_search("1", "6"))
+print(g.depth_first_search("1", "6"))
+
