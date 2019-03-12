@@ -72,8 +72,7 @@ class Graph:
         # create a queue for bfs
         queue = []
         queue.append(start_vertex)
-        visited = set()
-        
+        visited = set()        
         tracker = []  # to return ordered list of nodes
         # sets are chosen because they are faster to index
         # sets cant hold duplicates
@@ -83,7 +82,7 @@ class Graph:
             for i in self.vertices[queue[0]]:
                 if i not in queue and i not in visited:
                     queue.append(i)
-            print(f"visited vertex: ", {queue[0]})
+#            print(f"visited vertex: ", {queue[0]})
             tracker.append(queue[0])
             visited.add(queue.pop(0))
 
@@ -94,9 +93,7 @@ class Graph:
 
         stack = []  # initialize a queue
         stack.append(start_vertex)
-
         visited = set()
-
         tracker = []
         # tracker.append(start_vertex)
 
@@ -112,21 +109,42 @@ class Graph:
             print(visited)
             print(tracker)
 
-        # while stack:
-        #     current = stack.pop()
-        #     if current not in visited:
-        #         visited.add(current)
-        #         tracker.append(current)
-        #         print(f"visited vertex: ", {current})
-        #         for i in self.vertices[current]: # in keys
-        #             stack.append(i)
+    def depth_first_trav_recursive(self, start_vertex):
+        # stack = []
+        # stack.append(start_vertex)
+        visited = set()
 
-        #     print(visited)
-        #     print(tracker)
+        for i in self.vertices[start_vertex]:
+            if i not in visited:
+                visited.add(i)
+                depth_first_trav_recursive(i, visited)
+        return visited
+
+    def breadth_first_search(self):
+        # start_vertex
+        # target_vertex
+
+        # add to the end, take from the front? QUEUE
+        # pop from q
+
+        # for each of the current nodes neighbors
+        # make a copy with the neighbor appended to the end
+
+        # change vertex, add copies to queue
+
+        # repeat from for loop
+        pass    # TODO
+        # keep track of every single path you can traverse to your target
+        # one you find your target value
+            # print out that path
+    
+    def depth_first_search(self):
+        pass    # TODO
 
 
 
 
-g = Graph(graph2)
+g = Graph(graph3)
 # g.breadth_first_traversal("1")
-g.depth_first_traversal("1")
+# g.depth_first_traversal("1")
+g.depth_first_trav_recursive("1")
