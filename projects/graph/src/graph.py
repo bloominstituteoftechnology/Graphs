@@ -142,13 +142,14 @@ class Graph:
             print(tracker)
 
     def depth_first_trav_recursive(self, start_vertex, visited=None):
-        # cant set default variables
+        # cant set default variables to set/dict/list?
         # mark the start node as visited
         # then call recursive on each unvisited neighbor
 
         # cant use sets in recursion because we need to maintain
         # its values. It can be done with a helper method.
-        # Here we will add another parameter that will be default
+        # Here we will add another parameter that will be default None
+        # but allows the visited set to pass through during recursion unchanged
 
         if visited is None:
             visited = set()
@@ -161,19 +162,6 @@ class Graph:
 # bfs is good for social media, like fb
 # with bfs you need to store all the children
     def breadth_first_search(self, start_vertex, end_vertex):
-        # start_vertex
-        # target_vertex
-
-        # add to the end, take from the front? QUEUE
-        # pop from q
-
-        # for each of the current nodes neighbors
-        # make a copy with the neighbor appended to the end
-
-        # change vertex, add copies to queue
-
-        # repeat from for loop
-
         # keep track of every single path you can traverse to your target
         # one you find your target value
         # print out that path
@@ -183,7 +171,7 @@ class Graph:
 
         while queue:
             path = queue.pop(0)
-            v = path[-1]  # grabs the last item from a list
+            v = path[-1]  # grabs the last item (not int) from a list
             if v not in visited:
                 visited.add(v)
                 if v == end_vertex:
@@ -192,6 +180,7 @@ class Graph:
                     new_path = list(path)
                     new_path.append(i)
                     queue.append(new_path)
+        return None
 
 # dfs is good for mazes
     def depth_first_search(self, start_vertex, end_vertex):
@@ -208,7 +197,25 @@ class Graph:
                 for i in self.vertices[current]:
                     # if i not in visited:
                     stack.append(i)
+    # comment on reasons why dfs returns an set, not array like BFS
 
+    def depth_first_search_recursive(self, start_vertex, end_vertex, visited=None):
+        stack = []
+        stack.push([start_vertex])
+        visited = set()
+        while stack.size() > 0:
+            path = stack.pop()
+            v = path[-1]
+            if v not in visited:
+                if v == end_vertex:
+                    return path
+                visited.add(v)
+                for next_vert in self.vertices[v]:
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    s.push(new_path)
+        return None
+        
 g = Graph(graph2)
 #g.breadth_first_traversal("0")
 #g.depth_first_traversal("2")
