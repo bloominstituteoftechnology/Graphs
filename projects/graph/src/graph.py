@@ -202,10 +202,11 @@ class Graph:
         while stack:
             current = stack.pop()
             if current not in visited:
-                visited.add(start_vertex)
+                visited.add(current)
                 if current == end_vertex:
-                    return current
+                    return visited
                 for i in self.vertices[current]:
+                    # if i not in visited:
                     stack.append(i)
 
 g = Graph(graph2)
