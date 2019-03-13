@@ -1,4 +1,6 @@
-
+import random
+from itertools import combinations
+from collections import deque
 
 class User:
     def __init__(self, name):
@@ -45,10 +47,18 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+    
         # Add users
+        for i in range(numUsers):
+            self.addUser(f'User: {i}')
 
         # Create friendships
+        allFriends = list(combinations(range(1, numUsers + 1), 2))
+        random.shuffle(allFriends)
+        friendships = allFriends[:int((numUsers * avgFriendships) / 2)]
+        print(friendships)
+        for friendship in friendships:
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,6 +71,28 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # trying this with a deque for a now, will work on a non-deque solution afterward
+
+        x = deque()
+        visited = {userID: []}
+        x.append([userID])
+
+        while len(x) > 0:
+            path = x.popleft()
+            user = path[-1]
+            print(id)
+            if user not in visited:
+                visited[id] = path
+                print(path)
+                print(visited)
+                for friend in self.friendships[userID]:
+                    newpath = path.copy()
+                    newpath.append(friend)
+                    x.append(newpath)
+                    visited[user] = path
+                    print(child)
+                    print(path)
+                    print(newpath)            
         return visited
 
 
@@ -70,3 +102,26 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+# testing for a larger case (question 2)
+    sgXL = SocialGraph()
+    sgXL.populateGraph(1000, 5)
+    print(sgXL.friendships)
+    connectionsXL = sgXL.getAllSocialPaths(1)
+    print(connectionsXL)
+
+# adding a small set that's easier to see paths and extended networks for
+    small = SocialGraph()
+    small.populateGraph(5, 5)
+    print(small.friendships)
+    smallConnect = small.getAllSocialPaths(1)
+    print(smallConnect)
+"""
+Questions:
+
+1. To create 100 users with an average of 10 friends each, how many times would you need to call addFriendship()? Why?
+
+For this we would be looking at (100 * 10) = 1000 total friendships. We don't need to run call addFriendship 1000 times, however; since the relationships are bidirectional, 500 will suffice.
+
+2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+"""
