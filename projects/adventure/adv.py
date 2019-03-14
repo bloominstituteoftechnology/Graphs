@@ -22,7 +22,19 @@ player = Player("Name", world.startingRoom)
 
 
 # FILL THIS IN
-traversalPath = ['n', 's']
+traversalPath = []
+
+# keep track of the visited rooms inside of dictionary
+visited = {}
+
+# use the current room's getExits method to find the possible exits
+possible_exits = player.currentRoom.getExits()
+
+# for each possible exit, we need a question mark placeholder
+visited[player.currentRoom.id] = {possible_exits[i]: "?" for i in range(0, len(possible_exits))}
+
+# keep track of the paths to go backwards
+backwards = []
 
 
 
