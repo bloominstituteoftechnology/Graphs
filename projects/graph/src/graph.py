@@ -213,7 +213,7 @@ class Graph:
                 for next_vert in self.vertices[v]:
                     new_path = list(path)
                     new_path.append(next_vert)
-                    s.push(new_path)
+                    stack.push(new_path)
         return None
         
 g = Graph(graph2)
