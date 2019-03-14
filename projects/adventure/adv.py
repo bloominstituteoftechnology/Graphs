@@ -36,6 +36,24 @@ visited[player.currentRoom.id] = {possible_exits[i]: "?" for i in range(0, len(p
 # keep track of the paths to go backwards
 backwards = []
 
+# while length of visited is less than rooms in graph
+while len(visited) < len(roomGraph) -1:
+    # if the plays's current room is not in the visited dictionary. 
+    if player.currentRoom.id not in visited:
+        # need to add current room and the exits with question marks to visited dictionary
+        exits = player.currentRoom.getExits()
+        visited[player.currentRoom.id] = {exits[i]: '?' for i in range(0, len(exits))}
+        # if there is a room from before this, set the direction you came from to that room using the room's getRoomInDirection method
+        visited[player.currentRoom.id][backwards[-1]] = player.currentRoom.getRoomInDirection(backwards[-1])
+
+    #find out what unexplored exits are available and add to the list
+    available_exits = []
+    for exit, room in visited[player.currentRoom.id].items():
+        if room == '?':
+            available_exits.append(exit)
+
+        
+
 
 
 
