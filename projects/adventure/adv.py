@@ -52,6 +52,37 @@ while len(visited) < len(roomGraph) -1:
         if room == '?':
             available_exits.append(exit)
 
+    # while there are no unexplored exits available for a room and there are elements in the backwards path
+    while len(available_exits) == 0 and len(backwards) > 0:
+        
+        # pop the last thing off of the backwards path to use as your next move
+        go_back = backwards.pop()
+        # add the new move to the traversal path
+        traversalPath.append(go_back)
+        # move in that direction
+        player.travel(go_back)
+        # find out how many exits are available in the room you just backtracked to
+        new_exits = []
+        for exit, room in visited[player.currentRoom.id].items():
+            if room == '?':
+                new_exits.append(exit)
+        # reset availabe_exits to the current room's available exists (to break out of the while loop when a room has exits)
+        available_exits = new_exits
+    
+    
+    # set the current room's last exit to the room in that direction (using the room's getRoomInDirection method) to prepare to move that way
+    visited[player.currentRoom.id][available_exits[-1]] = player.currentRoom.getRoomInDirection(available_exits[-1])
+    
+    # set the next move as the last available exit in the list
+    move = available_exits.pop()
+    # add the opposite of your move to the backwards path so you can go back
+    opposites = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
+    backwards.append(opposites[move])
+    # add the new move to the traversalPath
+    traversalPath.append(move)
+    # move that way
+    player.travel(move)
+
         
 
 
