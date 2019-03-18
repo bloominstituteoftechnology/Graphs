@@ -62,22 +62,36 @@ class Graph:
                 for node in self.vertices[cur_node]:
                     q.append(node)
         return visited
-    
+
     def bf_search(self, start, target):
+        # add the start node as a list to the queue list
         q = [[start]]
+        # here's the visited dict
         visited = {}
+        # loop it!!!
         while len(q) > 0:
+            # pop off the first path
             path = q.pop(0)
+            # get the new node we are checking
             new_node = path[-1]
+            # if it is the target?
             if new_node == target:
+                # return the path
                 return path
             else:
+                # check for the node in visited
                 if new_node not in visited:
+                    # add it if not
                     visited[new_node] = path
+                    # loop through it's children
                     for item in self.vertices[new_node]:
+                        # create a new path with the old path
                         new_path = list(path)
+                        # append the new node
                         new_path.append(item)
+                        # add it to the queue
                         q.append(new_path)
+        # Return false if nothing was found
         return False
 
 
@@ -100,27 +114,47 @@ class Graph:
         return visited
 
     def dft_recursive(self, start, visited=[]):
+        # check to see if the start node is in the visited list
         if start not in visited:
+            # if not... add it to visited
             visited.append(start)
+            # loop through the children of the start node
             for item in self.vertices[start]:
+                # call the function on the children.
+                # include the visited list
                 self.dft_recursive(item, visited)
+        # return the visited array
         return visited
 
     def df_search(self, start, target):
+        # the stack is a list of lists
         s = [[start]]
+        # visited is a dict
         visited = {}
+        # start the loop
         while len(s) > 0:
+            # the path is popped off the stack
             path = s.pop(0)
+            # get the new node we are checking
             new_node = path[-1]
+            # if the new node is the target....
             if new_node == target:
+                # return the path
                 return path
+            # otherwise check for it's inclsion in the visited
             else:
                 if new_node not in visited:
+                    # add the new node to the visited along with it's path
                     visited[new_node] = path
+                    # iterate through the new_node's children...
                     for item in self.vertices[new_node]:
+                        # create a new path with the old path
                         new_path = list(path)
+                        # append the new path with the new node
                         new_path.append(item)
+                        # add it to the stack
                         s.insert(0, new_path)
+        # if nothing is ever found, return false
         return False
 
     
