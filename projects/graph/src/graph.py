@@ -64,18 +64,19 @@ class Graph:
         return visited
     
     def bf_search(self, start, target):
-        q = [[start]]
-        path = []
-        searching = True
-        while searching:
-            cur_node = q.pop(0)
-            if cur_node not in path:
-                path.append(cur_node)
-                for items in self.vertices[cur_node[-1]]:
-                    new_path = list[]
+        pass
+        # q = [[start]]
+        # path = []
+        # searching = True
+        # while searching:
+        #     cur_node = q.pop(0)
+        #     if cur_node not in path:
+        #         path.append(cur_node)
+        #         for items in self.vertices[cur_node[-1]]:
+        #             new_path = list[]
 
 
-        return path
+        # return path
 
 
     def df_traverse(self, start):
@@ -96,16 +97,31 @@ class Graph:
                     s.insert(0, item)
         return visited
 
-    def dft_recursive(self, start, visited=[])
-        q = [start]
-        in recursive: We get the start. Teh visited list passed in 
+    def dft_recursive(self, start, visited=[]):
+        if start not in visited:
+            visited.append(start)
+            for item in self.vertices[start]:
+                self.dft_recursive(item, visited)
+        return visited
 
 
+
+    #     pass
+        # q = [start]
+        # What is the base case of recursive traverse?
+        # in recursive: We get the start. Teh visited list passed in 
+
+
+
+# x = {1, 2, 3, 4, 5}
+# for i in range(len(x), 0, -1):
+#     print('from set', x[i])
 
 graph = Graph()  # Instantiate your graph
 print('traversal', graph.bf_traverse(0))
 print('df traversal', graph.df_traverse(0)) # yyp
-print('bf search', graph.bf_search(0, 9))
+# print('bf search', graph.bf_search(0, 9))
+print('dft recursive', graph.dft_recursive(0))
 
 # graph.add_vertex('0')
 # graph.add_vertex('1')
