@@ -64,19 +64,21 @@ class Graph:
         return visited
     
     def bf_search(self, start, target):
-        pass
-        # q = [[start]]
-        # path = []
-        # searching = True
-        # while searching:
-        #     cur_node = q.pop(0)
-        #     if cur_node not in path:
-        #         path.append(cur_node)
-        #         for items in self.vertices[cur_node[-1]]:
-        #             new_path = list[]
-
-
-        # return path
+        q = [[start]]
+        visited = {}
+        while len(q) > 0:
+            path = q.pop(0)
+            new_node = path[-1]
+            if new_node == target:
+                return path
+            else:
+                if new_node not in visited:
+                    visited[new_node] = path
+                    for item in self.vertices[new_node]:
+                        new_path = list(path)
+                        new_path.append(item)
+                        q.append(new_path)
+        return False
 
 
     def df_traverse(self, start):
@@ -118,10 +120,12 @@ class Graph:
 #     print('from set', x[i])
 
 graph = Graph()  # Instantiate your graph
-print('traversal', graph.bf_traverse(0))
-print('df traversal', graph.df_traverse(0)) # yyp
-# print('bf search', graph.bf_search(0, 9))
-print('dft recursive', graph.dft_recursive(0))
+# print('bf traversal', graph.bf_traverse(0))
+print('bf search for 14', graph.bf_search(0, 14))
+print('bf search for 67', graph.bf_search(0, 67))
+print('bf search for 99', graph.bf_search(0, 99))
+# print('df traversal', graph.df_traverse(0)) # yyp
+# print('dft recursive', graph.dft_recursive(0))
 
 # graph.add_vertex('0')
 # graph.add_vertex('1')
