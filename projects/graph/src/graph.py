@@ -106,6 +106,26 @@ class Graph:
                 self.dft_recursive(item, visited)
         return visited
 
+    def df_search(self, start, target):
+        s = [[start]]
+        visited = {}
+        while len(s) > 0:
+            path = s.pop(0)
+            new_node = path[-1]
+            if new_node == target:
+                return path
+            else:
+                if new_node not in visited:
+                    visited[new_node] = path
+                    for item in self.vertices[new_node]:
+                        new_path = list(path)
+                        new_path.append(item)
+                        s.insert(0, new_path)
+        return False
+
+    
+
+
 
 
     #     pass
@@ -121,11 +141,14 @@ class Graph:
 
 graph = Graph()  # Instantiate your graph
 # print('bf traversal', graph.bf_traverse(0))
-print('bf search for 14', graph.bf_search(0, 14))
-print('bf search for 67', graph.bf_search(0, 67))
-print('bf search for 99', graph.bf_search(0, 99))
+# print('bf search for 14', graph.bf_search(0, 14))
+# print('bf search for 67', graph.bf_search(0, 67))
+# print('bf search for 99', graph.bf_search(0, 99))
 # print('df traversal', graph.df_traverse(0)) # yyp
 # print('dft recursive', graph.dft_recursive(0))
+print('DF search 14', graph.df_search(0, 14))
+print('DF search 67', graph.df_search(0, 67))
+print('DF search 99', graph.df_search(0, 99))
 
 # graph.add_vertex('0')
 # graph.add_vertex('1')
