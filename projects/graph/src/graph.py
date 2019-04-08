@@ -64,23 +64,23 @@ class Graph:
         self.vertices = graph
         # self.vertices = {}
 
-    def add_vertex(self, key):
-        self.vertices[key] = set()
+    def add_vertex(self, vertex_id):
+        self.vertices[vertex_id] = set()
 
-    def add_edge(self, key, value):
-        # key is the vertex we connecting
-        # value is the vertex that we are connecting to
-        if not self.vertices[key] and not self.vertices[value]:
+    def add_edge(self, v1, v2):
+        # v1 is the vertex we connecting
+        # v2 is the vertex that we are connecting to
+        if not self.vertices[v1] and not self.vertices[v2]:
             print("error: no vertex exists here")
         else:
-            self.vertices.key.add(value)    # directed
-            self.vertices[value].add(key)   # undirected/bidirectional
+            self.vertices.v1.add(v2)    # directed
+            self.vertices[v2].add(v1)   # undirected/bidirectional
 
-    def add_directed_edge(self, key, value):
-        if not self.vertices[key] and not self.vertices[value]:
+    def add_directed_edge(self, v1, v2):
+        if not self.vertices[v1] and not self.vertices[v2]:
             raise IndexError("That vertex does not exist")
         else:
-            self.vertices[key].add(value)
+            self.vertices[v1].add(v2)
             # value is the vertex that we are connecting to
 
     def add_weighted_edge(self):
@@ -89,20 +89,25 @@ class Graph:
 # You need to have a visited set to keep track of what you have already seen.
 # If you did not, in cyclic graphs, you'd just keep looping over and over
     def breadth_first_traversal(self, start_vertex):
-        # create a queue for bfs
+        # create an empty queue for bfs
         queue = []
         queue.append(start_vertex)
+        # create a set to store your vertices
         visited = set()
-        tracker = []  # to return ordered list of nodes
+        # create tracker to return ordered list of nodes
+        tracker = []  
         # sets are chosen because they are faster to index
         # sets cant hold duplicates
 
+        # while the queue is populated
         while queue:
             # dequeue a vertex from queue
             for i in self.vertices[queue[0]]:
+                # if i is not in visited:
                 if i not in queue and i not in visited:
+                    # add to queue
                     queue.append(i)
-#            print(f"visited vertex: ", {queue[0]})
+        #  print(f"visited vertex: ", {queue[0]})
             tracker.append(queue[0])
             visited.add(queue.pop(0))
 
