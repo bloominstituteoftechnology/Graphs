@@ -64,8 +64,8 @@ class Graph:
         # self.vertices = graph
         self.vertices = {}
 
-    def add_vertex(self, v1):
-        self.vertices[v1] = set()
+    def add_vertex(self, vertex_id):
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         # v1 is the vertex we connecting
@@ -93,17 +93,21 @@ class Graph:
         # create a queue for bfs
         queue = []
         queue.append(start_vertex)
+        # create a set to store your vertices
         visited = set()
-        tracker = []  # to return ordered list of nodes
+        # create tracker to return ordered list of nodes
+        tracker = []  
         # sets are chosen because they are faster to index
         # sets cant hold duplicates
         print(f"bf trav start", start_vertex)
         while queue:
             # dequeue a vertex from queue
             for i in self.vertices[queue[0]]:
+                # if i is not in visited:
                 if i not in queue and i not in visited:
+                    # add to queue
                     queue.append(i)
-#            print(f"visited vertex: ", {queue[0]})
+        #  print(f"visited vertex: ", {queue[0]})
             tracker.append(queue[0])
             visited.add(queue.pop(0))
 
