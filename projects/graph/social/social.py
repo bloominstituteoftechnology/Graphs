@@ -88,6 +88,7 @@ class SocialGraph:
         while queue:
             # initial value of q is a single element,
             # in the future it will hold lists
+            print(f"queue index 0", queue.pop(0))
             path = queue.pop(0)
             # grab the last item in list
             new_ID = path[-1]  # errors int not subscriptable. work around is to create an initial list container userID, then appending THAT to 
