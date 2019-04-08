@@ -23,7 +23,7 @@ Simple graph implementation
 
 graph1 = {
     '0': {'1', '3'},
-    #   ^ key : ^ value
+    #   ^ v1 : ^ value
     '1': {'0'},  # inside value is a set, indicated by curly brackets
     '2': set(),  # instantiates an empty set
     '3': {'0'}
@@ -60,35 +60,36 @@ graph3 = {
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
-    def __init__(self, graph):
-        self.vertices = graph
-        # self.vertices = {}
+    def __init__(self):
+        # self.vertices = graph
+        self.vertices = {}
 
-    def add_vertex(self, key):
-        self.vertices[key] = set()
+    def add_vertex(self, v1):
+        self.vertices[v1] = set()
 
-    def add_edge(self, key, value):
-        # key is the vertex we connecting
-        # value is the vertex that we are connecting to
-        if not self.vertices[key] and not self.vertices[value]:
+    def add_edge(self, v1, v2):
+        # v1 is the vertex we connecting
+        # v2 is the vertex that we are connecting to
+        if not self.vertices[v1] and not self.vertices[v2]:
             print("error: no vertex exists here")
         else:
-            self.vertices.key.add(value)    # directed
-            self.vertices[value].add(key)   # undirected/bidirectional
+            self.vertices.v1.add(v2)    # directed/one way
+            self.vertices[v2].add(v1)   # undirected/bidirectional
 
-    def add_directed_edge(self, key, value):
-        if not self.vertices[key] and not self.vertices[value]:
-            raise IndexError("That vertex does not exist")
+    def add_directed_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            # v2 is the vertex that we are connecting to
+            self.vertices[v1].add(v2)
         else:
-            self.vertices[key].add(value)
-            # value is the vertex that we are connecting to
+            raise IndexError("That vertex does not exist")
 
     def add_weighted_edge(self):
         pass    # TODO
 
 # You need to have a visited set to keep track of what you have already seen.
 # If you did not, in cyclic graphs, you'd just keep looping over and over
-    def breadth_first_traversal(self, start_vertex):
+    # breadth_first_traversal
+    def bft(self, start_vertex):
         # create a queue for bfs
         queue = []
         queue.append(start_vertex)
@@ -96,7 +97,7 @@ class Graph:
         tracker = []  # to return ordered list of nodes
         # sets are chosen because they are faster to index
         # sets cant hold duplicates
-
+        print(f"bf trav start", start_vertex)
         while queue:
             # dequeue a vertex from queue
             for i in self.vertices[queue[0]]:
@@ -106,19 +107,19 @@ class Graph:
             tracker.append(queue[0])
             visited.add(queue.pop(0))
 
-            print(visited)
-            print(tracker)
+        print(f"bf trav visited", visited)
+        print(f"bf trav tracker", tracker)
 
         # put the starting vertex in queue
         # while the queue is not empty:
-            # for each key in the graph
+            # for each v1 in the graph
             # dequeue the first node from the queue
             # if that node has not been visited
             # mark as visited (we add to set and print at end)
             # then, put all of it's children into the queue
 
-
-    def depth_first_traversal(self, start_vertex):
+    # depth_first_traversal
+    def dft(self, start_vertex):
         # dft for graphs is very close to bft for graphs
         # the difference is that we use stack in dft and queue in bft
         # this also means we add/remove from the front/index[0] in bft
@@ -128,7 +129,7 @@ class Graph:
         visited = set()
         tracker = []
         # tracker.append(start_vertex)
-
+        print(f"df trav start", start_vertex)
         while stack:
             # dequeue a vertex from queue
             current = stack.pop()
@@ -138,10 +139,11 @@ class Graph:
             tracker.append(current)
             visited.add(current)
 
-            print(visited)
-            print(tracker)
+        print(f"df trav visited", visited)
+        print(f"df trav tracker", tracker)
 
-    def depth_first_trav_recursive(self, start_vertex, visited=None):
+    # depth_first_traversal_recursive
+    def dft_r(self, start_vertex, visited=None):
         # cant set default variables to set/dict/list?
         # mark the start node as visited
         # then call recursive on each unvisited neighbor
@@ -154,14 +156,15 @@ class Graph:
         if visited is None:
             visited = set()
         visited.add(start_vertex)
-        print(f"visited: {visited}")
+        print(f"dftrav-recur visited: {visited}")
         for i in self.vertices[start_vertex]:
             if i not in visited:
                 self.depth_first_trav_recursive(i, visited)
 
 # bfs is good for social media, like fb
 # with bfs you need to store all the children
-    def breadth_first_search(self, start_vertex, end_vertex):
+    # breadth_first_search
+    def bfs(self, start_vertex, end_vertex):
         # keep track of every single path you can traverse to your target
         # one you find your target value
         # print out that path
@@ -183,7 +186,8 @@ class Graph:
         return None
 
 # dfs is good for mazes
-    def depth_first_search(self, start_vertex, end_vertex):
+    # depth_first_search
+    def dfs(self, start_vertex, end_vertex):
         stack = []
         visited = set()
         stack.append(start_vertex)
@@ -199,7 +203,8 @@ class Graph:
                     stack.append(i)
     # comment on reasons why dfs returns an set, not array like BFS
 
-    def depth_first_search_recursive(self, start_vertex, end_vertex, visited=None):
+    # depth_first_search_recursive
+    def dfs_r(self, start_vertex, end_vertex, visited=None):
         stack = []
         stack.push([start_vertex])
         visited = set()
@@ -216,10 +221,12 @@ class Graph:
                     stack.push(new_path)
         return None
         
-g = Graph(graph2)
-#g.breadth_first_traversal("0")
-#g.depth_first_traversal("2")
-#g.depth_first_trav_recursive("0", )
-print(g.breadth_first_search("1", "6"))
-print(g.depth_first_search("1", "6"))
+""" g = Graph(graph3)
+print(g.breadth_first_traversal("2"))
+print(g.depth_first_traversal("2"))
+print(g.depth_first_trav_recursive("2", ))
+
+# find a path
+print(g.breadth_first_search("1", "6")) # start, find
+print(g.depth_first_search("1", "6")) # start, find """
 
