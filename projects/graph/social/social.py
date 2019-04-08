@@ -1,8 +1,10 @@
+import random
 
 
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -44,11 +46,30 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f"User {i+1}")
 
         # Create friendships
+        possibleFriendships = []
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID + 1):
+                possibleFriendships.append((userID, friendID))
+            # the inside for loop matches with next userID, appends
+            # to list, then adds one to both
+            # this will eventually generate all the possible combinations
+            # of friendships
+        print(possibleFriendships)
+        # shuffle the friendships
+        random.shuffle(possibleFriendships)
+        print(possibleFriendships)
+
+        # now we iterate through the possible friendships array, apply the splice: formula
+        for friendship in possibleFriendships[: (numUsers * avgFriendships) // 2]:
+            print(f"CREATING FRIENDSHIP: {friendship}")
+            # add the friendship pair using the addFriendship method written at top
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -59,8 +80,27 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        queue = []
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        initial_list = [userID]  # adds first element to a list
+        queue.append(initial_list)  # adds list to queue
+
+        while queue:
+            # initial value of q is a single element,
+            # in the future it will hold lists
+            path = queue.pop(0)
+            # grab the last item in list
+            new_ID = path[-1]  # errors int not subscriptable. work around is to create an initial list container userID, then appending THAT to 
+
+            if new_ID not in visited:
+                # each iteration we keep track of the node AND the path
+                # we add the id, then have a corresponding path we want to
+                # continue after it
+                visited[new_ID] = path  #key = value {key: value}
+                for friend in self.friendships[new_ID]:
+                    new_path = list(path)
+                    new_path.append(friend)
+                    queue.append(new_path)
         return visited
 
 
