@@ -22,6 +22,26 @@ class Queue:
         return len(self.items)
 
 
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        return self.items.pop()
+
+    def peek(self):
+        return self.items[len(self.items) - 1]
+
+    def size(self):
+        return len(self.items)
+
+
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -43,36 +63,51 @@ class Graph:
 
     def bft(self, node):
         q = Queue()
-        visited = set()
+        visited = []
         q.enqueue(node)
 
         while q.size() > 0:
             v = q.dequeue()
             if v not in visited:
-                print(v)
-                visited.add(v)
-
-                for nextVertice in self.vertices:
+                visited.append(v)
+                for nextVertice in self.vertices[v]:
                     q.enqueue(nextVertice)
+        return visited
+
+    def dft(self, node):
+        s = Stack()
+        visited = []
+        s.push(node)
+
+        while not s.isEmpty():
+            v = s.pop()
+            if v not in visited:
+                visited.append(v)
+                for nextVertice in self.vertices[v]:
+                    s.push(nextVertice)
+        return visited
+
 
 
 graph = Graph()
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
-graph.add_vertex('4')
 graph.add_vertex('5')
-graph.add_vertex('6')
+graph.add_vertex('7')
+graph.add_vertex('8')
+graph.add_vertex('9')
 
-graph.add_directed_edge('1', '2')
+graph.add_directed_edge('1', '5')
 graph.add_directed_edge('1', '3')
-graph.add_directed_edge('2', '4')
-graph.add_directed_edge('3', '1')
-graph.add_directed_edge('3', '4')
-graph.add_directed_edge('3', '5')
-graph.add_directed_edge('5', '6')
+graph.add_directed_edge('5', '2')
+graph.add_directed_edge('3', '2')
+graph.add_directed_edge('2', '8')
+graph.add_directed_edge('2', '7')
+graph.add_directed_edge('7', '9')
+graph.add_directed_edge('8', '9')
 
-
-
-graph.bft('1')
+print(f'Graph is: {graph.vertices})')
+#print(graph.bft('1'))
+print(graph.dft('1'))
 

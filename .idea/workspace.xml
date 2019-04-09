@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ddc97edf-f209-4ee3-a3cf-256242f1998f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/projects/graph/src/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/src/graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/graph/src/graph_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/src/graph_demo.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Graphs$graph.coverage" NAME="graph Coverage Results" MODIFIED="1554760835580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/graph/src" />
+    <SUITE FILE_PATH="coverage/Graphs$graph.coverage" NAME="graph Coverage Results" MODIFIED="1554774584534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/graph/src" />
     <SUITE FILE_PATH="coverage/Graphs$graph_demo.coverage" NAME="graph_demo Coverage Results" MODIFIED="1554758684532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/graph/src" />
   </component>
   <component name="FileEditorManager">
@@ -30,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/projects/graph/src/graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="38" column="28" lean-forward="true" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+            <state relative-caret-position="226">
+              <caret line="82" column="23" lean-forward="true" selection-start-line="82" selection-start-column="23" selection-end-line="82" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -175,12 +174,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1554744942381</updated>
-      <workItem from="1554744944122" duration="5938000" />
+      <workItem from="1554744944122" duration="9297000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5938000" />
+    <option name="totallyTimeSpent" value="9297000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="9" y="35" width="1260" height="737" extended-state="0" />
@@ -238,8 +237,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/projects/graph/src/graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="38" column="28" lean-forward="true" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+        <state relative-caret-position="226">
+          <caret line="82" column="23" lean-forward="true" selection-start-line="82" selection-start-column="23" selection-end-line="82" selection-end-column="23" />
         </state>
       </provider>
     </entry>
