@@ -74,6 +74,27 @@ class Graph:
                     q.enqueue(nextVertice)
         return visited
 
+    def bfs(self, root, searching):
+        # Queue is an array of paths
+        q = Queue()
+        visited = []
+        q.enqueue([root])
+
+        while q.size() > 0:
+            path = q.dequeue()
+            node = path[-1]
+
+            if node not in visited:
+                neighbors = self.vertices[node]
+                for neighbor in neighbors:
+                    nextPath = list(path)
+                    nextPath.append(neighbor)
+                    q.enqueue(nextPath)
+                    if neighbor == searching:
+                        return nextPath
+                visited.append(node)
+        return None
+
     def dft(self, node):
         s = Stack()
         visited = []
@@ -93,21 +114,28 @@ graph = Graph()
 graph.add_vertex('1')
 graph.add_vertex('2')
 graph.add_vertex('3')
+graph.add_vertex('4')
 graph.add_vertex('5')
+graph.add_vertex('6')
 graph.add_vertex('7')
-graph.add_vertex('8')
-graph.add_vertex('9')
 
-graph.add_directed_edge('1', '5')
+graph.add_directed_edge('1', '2')
 graph.add_directed_edge('1', '3')
-graph.add_directed_edge('5', '2')
-graph.add_directed_edge('3', '2')
-graph.add_directed_edge('2', '8')
-graph.add_directed_edge('2', '7')
-graph.add_directed_edge('7', '9')
-graph.add_directed_edge('8', '9')
+graph.add_directed_edge('2', '4')
+graph.add_directed_edge('3', '4')
+graph.add_directed_edge('3', '5')
+graph.add_directed_edge('3', '1')
+graph.add_directed_edge('4', '7')
+graph.add_directed_edge('5', '6')
+graph.add_directed_edge('5', '7')
+graph.add_directed_edge('7', '2')
 
 print(f'Graph is: {graph.vertices})')
 #print(graph.bft('1'))
-print(graph.dft('1'))
+#print(graph.dft('1'))
+
+#print(graph.bfs('1', '7'))
+
+
+
 
