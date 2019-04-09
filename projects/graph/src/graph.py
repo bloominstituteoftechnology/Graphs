@@ -74,7 +74,7 @@ class Graph:
             print("error: no vertex exists here")
         else:
             self.vertices.v1.add(v2)    # directed/one way
-            self.vertices[v2].add(v1)   # undirected/bidirectional
+            # self.vertices[v2].add(v1)   # undirected/bidirectional
 
     def add_directed_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
@@ -85,6 +85,7 @@ class Graph:
 
     def add_weighted_edge(self):
         pass    # TODO
+        """ What is a weighted edge? """
 
 # You need to have a visited set to keep track of what you have already seen.
 # If you did not, in cyclic graphs, you'd just keep looping over and over
@@ -163,12 +164,12 @@ class Graph:
         print(f"dftrav-recur visited: {visited}")
         for i in self.vertices[start_vertex]:
             if i not in visited:
-                self.depth_first_trav_recursive(i, visited)
+                self.dft_r(i, visited)
 
-# bfs is good for social media, like fb
-# with bfs you need to store all the children
+    # bfs is good for social media, like fb
+    # with bfs you need to store all the children
     # breadth_first_search
-    def bfs(self, start_vertex, end_vertex):
+    def bfs_path(self, start_vertex, end_vertex):
         # keep track of every single path you can traverse to your target
         # one you find your target value
         # print out that path
@@ -189,7 +190,7 @@ class Graph:
                     queue.append(new_path)
         return None
 
-# dfs is good for mazes
+    # dfs is good for mazes
     # depth_first_search
     def dfs(self, start_vertex, end_vertex):
         stack = []
@@ -207,12 +208,12 @@ class Graph:
                     stack.append(i)
     # comment on reasons why dfs returns an set, not array like BFS
 
-    # depth_first_search_recursive
+    # depth_first_search_recursive?? Nope
     def dfs_r(self, start_vertex, end_vertex, visited=None):
         stack = []
-        stack.push([start_vertex])
+        stack.append([start_vertex])
         visited = set()
-        while stack.size() > 0:
+        while stack:
             path = stack.pop()
             v = path[-1]
             if v not in visited:
@@ -222,9 +223,25 @@ class Graph:
                 for next_vert in self.vertices[v]:
                     new_path = list(path)
                     new_path.append(next_vert)
-                    stack.push(new_path)
+                    stack.append(new_path)
         return None
-        
+
+    def dfs_r_path(self, start_vertex, end_vertex, visited=None, path=None):
+        if visited is None:
+            visited = set()
+        if path is None:
+            path = []
+        visited.add(start_vertex)
+        path = path + [start_vertex]
+        if start_vertex == end_vertex:
+            return path
+        for child_vertex in self.vertices[start_vertex]:
+            if child_vertex not in visited:
+                new_path = self.dfs_r_path(child_vertex, end_vertex, visited, path)
+                if new_path:
+                    return new_path
+        return None
+
 """ g = Graph(graph3)
 print(g.breadth_first_traversal("2"))
 print(g.depth_first_traversal("2"))
@@ -233,4 +250,3 @@ print(g.depth_first_trav_recursive("2", ))
 # find a path
 print(g.breadth_first_search("1", "6")) # start, find
 print(g.depth_first_search("1", "6")) # start, find """
-
