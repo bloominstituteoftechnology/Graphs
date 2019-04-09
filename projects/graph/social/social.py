@@ -1,5 +1,25 @@
 import random
 
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def enqueue(self, item):
+        self.items.append(item)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.items.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.items)
+
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -67,6 +87,27 @@ class SocialGraph:
             friendship = possibleFriendships[i]
             self.addFriendship(friendship[0], friendship[1])
 
+    def bfs(self, root, searching):
+        # Queue is an array of paths
+        q = Queue()
+        visited = []
+        q.enqueue([root])
+
+        while q.size() > 0:
+            path = q.dequeue()
+            node = path[-1]
+
+            if node not in visited:
+                neighbors = self.friendships[node]
+                for neighbor in neighbors:
+                    nextPath = list(path)
+                    nextPath.append(neighbor)
+                    q.enqueue(nextPath)
+                    if neighbor == searching:
+                        return nextPath
+                visited.append(node)
+        return None
+
 
     def getAllSocialPaths(self, userID):
         """
@@ -78,13 +119,22 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # {friendID: path, friendID: path}
+
+        for friendShip in self.friendships[userID]:
+            path = self.bfs(userID, friendShip)
+            visited[friendShip] = path
+
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(100, 2)
     print(sg.friendships)
-    connections = sg.getAllSocialPaths(1)
+    connections = sg.getAllSocialPaths(3)
     print(connections)
+
+
+
