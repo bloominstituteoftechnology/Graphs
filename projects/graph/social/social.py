@@ -1,4 +1,9 @@
-
+import random
+import time
+import sys
+sys.path.append('../')
+from src.graph import Graph
+from src.graph import Queue
 
 class User:
     def __init__(self, name):
@@ -47,8 +52,23 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f"User {i}")
+
+        friendship_combinations = []
+        for i in range(1, numUsers + 1):
+            for j in range(1, numUsers + 1):
+                if i != j and (i, j) not in friendship_combinations \
+                        and (j, i) not in friendship_combinations:
+                    friendship_combinations.append((i, j))
 
         # Create friendships
+        random.shuffle(friendship_combinations)
+        total_friendships = int((numUsers * avgFriendships) / 2)
+        generated_friendship = friendship_combinations[:total_friendships]
+
+        for friends in generated_friendship:
+            self.addFriendship(friends[0], friends[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,6 +81,20 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+
+        newGraph = Graph()
+        for user in self.users:
+            newGraph.add_vertex(user)
+
+        for user in self.friendships:
+            for friend in self.friendships[user]:
+                newGraph.add_edge(user, friend)
+
+        for friend in self.users:
+            socialPath = newGraph.bfs(userID, friend)
+            if socialPath is not False:
+                visited[friend] = socialPath
+
         return visited
 
 
