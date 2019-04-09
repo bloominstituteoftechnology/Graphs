@@ -108,6 +108,27 @@ class Graph:
                     s.push(nextVertice)
         return visited
 
+    def dfs(self, root, searching):
+        # Queue is an array of paths
+        s = Stack()
+        visited = []
+        s.push([root])
+
+        while s.size() > 0:
+            path = s.pop()
+            node = path[-1]
+
+            if node not in visited:
+                neighbors = self.vertices[node]
+                for neighbor in neighbors:
+                    nextPath = list(path)
+                    nextPath.append(neighbor)
+                    s.push(nextPath)
+                    if neighbor == searching:
+                        return nextPath
+                visited.append(node)
+        return None
+
 
 
 graph = Graph()
@@ -135,6 +156,7 @@ print(f'Graph is: {graph.vertices})')
 #print(graph.dft('1'))
 
 #print(graph.bfs('1', '7'))
+print(graph.dfs('1', '2 '))
 
 
 
