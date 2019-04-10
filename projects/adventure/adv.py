@@ -23,36 +23,25 @@ world.printRooms()
 player = Player("Name", world.startingRoom)
 
 # what do the suggested commands return?
-print(f"player.currentRoom.id: ", player.currentRoom.id)
-print(f"player.currentRoom.getExits(): ", player.currentRoom.getExits())
+# print(f"player.currentRoom.id: ", player.currentRoom.id)
+# print(f"player.currentRoom.getExits(): ", player.currentRoom.getExits())
 # print(f"player.travel(direction)", player.travel(direction))
+print(f"player.currentRoom: ", player.currentRoom)
+
 
 
 # FILL THIS IN
 traversalPath = ['n', 's']
-print(f"traversalPath: ", traversalPath)
+# print(f"traversalPath: ", traversalPath)
 
-""" Assuming we add our functions here """
-# What do I want? 
-# To visit each room, keeping track of the directions in (traversalPath).
+# I want to simply traverse the graph, adding the rooms to a list
 
-# README SAYS:
-# My traversal graph should look like this:
-
-    # {
-    # 0: {'n': '?', 's': '?', 'w': '?', 'e': '?'}
-    # }
-
-# After traversal, there should be 500 entries in my GRAPH and no '?' in the adjacency dictionaries.
-    # Where do the question marks come from?
-    # Where does the adjacency dictionary come from?
-
-# Plan:
-Use a Depth First Traversal to find rooms (DOWN). When you reach a deadend, use 
-Breadth First Search to find the nearest room with no unexplored path (OUT).
- 
-
-
+queue = []
+visited = {}
+initial_list = [player.currentRoom.id]
+queue.append(initial_list)
+print(f"room: ", queue)
+print(f"world: ", world.rooms[0])
 
 
 # TRAVERSAL TEST
