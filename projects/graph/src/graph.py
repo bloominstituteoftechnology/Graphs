@@ -129,7 +129,7 @@ class Graph:
         # the difference is that we use stack in dft and queue in bft
         # this also means we add/remove from the front/index[0] in bft
         # but add/remove to the end in dft
-        stack = []  # initialize a queue
+        stack = []  # initialize a stack
         stack.append(start_vertex)
         visited = set()
         tracker = []

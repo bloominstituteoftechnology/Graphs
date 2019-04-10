@@ -93,7 +93,7 @@ class SocialGraph:
 
             # print(f"queue index 0: ", queue[0])
             # print(f"list before pop: ", queue)
-            path = queue.pop(0)
+            path = queue.pop(0) # remove from index zero
             new_ID = path[-1]
             if new_ID not in visited:
                 # each iteration we keep track of the node AND the path
