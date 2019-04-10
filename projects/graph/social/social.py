@@ -1,4 +1,6 @@
-
+import itertools
+from random import shuffle
+from queue import Queue
 
 class User:
     def __init__(self, name):
@@ -25,6 +27,7 @@ class SocialGraph:
     def addUser(self, name):
         """
         Create a new user with a sequential integer ID
+        !! Users start from 1!
         """
         self.lastID += 1  # automatically increment the ID to assign the new user
         self.users[self.lastID] = User(name)
@@ -44,11 +47,42 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(i)
 
-        # Create friendships
+        # Add friendships
+        possible_friendships = list(itertools.combinations(range(1, numUsers + 1), avgFriendships)) # range(1, numUsers + 1) bc first user added has lastID = 0
+        shuffle(possible_friendships)
+        friendships_needed = avgFriendships * numUsers
+        actual_friendships = possible_friendships[:friendships_needed]
+
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
+
+    def bfs(self, user, target_friend):
+        paths = Queue()
+        paths.enqueue([user]) 
+        visited = set() 
+
+        while paths.len() > 0:
+            cur_path = paths.dequeue()
+            cur_friend = cur_path[-1]
+            visited.add(cur_friend)
+
+            if cur_friend is target_friend:
+                return cur_path
+            else:
+                for friend in self.friendships[cur_friend]:
+                    if friend is not None:
+                        if not friend in visited:
+                            new_path = list(cur_path)
+                            new_path.append(friend)
+                            paths.enqueue(new_path)
+
+        return None
+
 
     def getAllSocialPaths(self, userID):
         """
@@ -58,10 +92,17 @@ class SocialGraph:
         extended network with the shortest friendship path between them.
 
         The key is the friend's ID and the value is the path.
+        all_paths = {4:[1, 3, 4]}
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        all_paths = {}  # Note that this is a dictionary, not a set
+        
+        for friend in self.friendships[userID]:
+            path = self.bfs(userID, friend)
+
+            if path is not None:
+                all_paths[friend] = path
+
+        return all_paths
 
 
 if __name__ == '__main__':
@@ -69,4 +110,4 @@ if __name__ == '__main__':
     sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    print(f'connections: {connections}')
