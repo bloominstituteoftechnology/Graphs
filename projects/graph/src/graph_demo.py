@@ -28,6 +28,10 @@ def main():
     graph.add_directed_edge('3', '5')
     graph.add_directed_edge('2', '3')
     graph.add_directed_edge('4', '6')
+    print('Breadth-First Traversal')
+    graph.bft('1')
+    print('Depth-First Traversal')
+    graph.dft('1')
     print(graph.vertices)
 
 if __name__ == '__main__':
