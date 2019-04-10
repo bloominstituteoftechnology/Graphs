@@ -60,8 +60,8 @@ def oppositeDirection(direction):
 
 # Given the before and after coordinates, returns the direction to get toRoom
 def findDirection(fromCoordinates, toRoom):
-    xMove = toRoom.x - fromCoordinates[0]
-    yMove = toRoom.y - fromCoordinates[1]
+    xMove = toRoom[0] - fromCoordinates[0]
+    yMove = toRoom[1] - fromCoordinates[1]
 
     if yMove == 1:
         return 'n'
@@ -77,7 +77,7 @@ def coordinateDifference(fromCoor, toCoor):
     return (abs(fromCoor[0]-toCoor[0]), abs(fromCoor[1]-toCoor[1]))
 
 def newCoordinatesAfterTraveling(coordinates, direction):
-    coor = coordinates
+    coor = [coordinates[0], coordinates[1]]
     if direction == 'n':
         coor[1] += 1
     elif direction == 's':
@@ -86,6 +86,8 @@ def newCoordinatesAfterTraveling(coordinates, direction):
         coor[0] += 1
     elif direction == 'w':
         coor[0] -= 1
+
+    return (coor[0], coor[1])
 
 
 def goEverywhere():
@@ -114,16 +116,21 @@ def goEverywhere():
             if v not in visited:
                 visited.append(v)
                 for next in v.getExits():
-                    s.push(next)
+                    player.travel(next)
+                    s.push(player.currentRoom)
+                    player.travel(oppositeDirection(next))
+
 
                 travelDir = findDirection(coordinate, (s.peek().x, s.peek().y))
                 player.travel(travelDir)
                 path.append(travelDir)
                 coordinate = (s.peek().x, s.peek().y)
 
+    return path
 
 
 
+traversalPath = goEverywhere()
 
 
 # TRAVERSAL TEST
