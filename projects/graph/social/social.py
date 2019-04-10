@@ -60,10 +60,10 @@ class SocialGraph:
             # to list, then adds one to both
             # this will eventually generate all the possible combinations
             # of friendships
-        print(possibleFriendships)
+        # print(f"poss friend before shuffle", possibleFriendships)
         # shuffle the friendships
         random.shuffle(possibleFriendships)
-        print(possibleFriendships)
+        # print(f"poss friend after shuffle", possibleFriendships)
 
         # now we iterate through the possible friendships array, apply the splice: formula
         for friendship in possibleFriendships[: (numUsers * avgFriendships) // 2]:
@@ -88,10 +88,13 @@ class SocialGraph:
         while queue:
             # initial value of q is a single element,
             # in the future it will hold lists
-            path = queue.pop(0)
             # grab the last item in list
-            new_ID = path[-1]  # errors int not subscriptable. work around is to create an initial list container userID, then appending THAT to 
+            # errors int not subscriptable. work around is to create an initial list container userID, then appending THAT to. 
 
+            # print(f"queue index 0: ", queue[0])
+            # print(f"list before pop: ", queue)
+            path = queue.pop(0)
+            new_ID = path[-1]
             if new_ID not in visited:
                 # each iteration we keep track of the node AND the path
                 # we add the id, then have a corresponding path we want to
@@ -106,7 +109,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    print(sg.friendships)
+    sg.populateGraph(10, 3)
+    print(f"friendships:", sg.friendships)
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    print(f"connections:", connections)

@@ -28,7 +28,11 @@ def main():
     graph.add_directed_edge('3', '5')
     graph.add_directed_edge('2', '3')
     graph.add_directed_edge('4', '6')
-    print(graph.vertices)
+    print(f"connections: ", graph.vertices)
+    # print(graph.dft('7'))
+    #print(graph.dfs('1', "5"))
+    print(f"dfs r path: ", graph.dfs_r_path("1", "5"))
+    print(f"dfs r: ", graph.dfs_r("1", "5"))
 
 if __name__ == '__main__':
     # TODO - parse argv
