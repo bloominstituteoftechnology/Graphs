@@ -30,12 +30,16 @@ roomGraph={0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}], 1: [(3, 6), {'s': 0, '
 # My traversalPath should contain the directions to call of those 500 rooms.
 
 world.loadGraph(roomGraph)
-#world.printRooms()  # prints map
+# world.printRooms()  # prints map
 player = Player("Name", world.startingRoom)  # starting_vertex/returns room 000
 
 traversalPath = []  # tracker for dft # keeps track of your moves
-traversal_graph = {}    # "set" for bfs # dictionary of rooms
+visited = {}    # dictionary of rooms you have visited
 
+while visited:
+    if player.currentRoom.id not in visited:
+        # add to visited (room num and exits) https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/
+        visited.update({player.currentRoom.id: i for i in player.currentRoom.getExits()})      
 
 
 
@@ -69,8 +73,12 @@ else:
 #         print("I did not understand that command.")
 
 
-# what do the suggested commands return?
+# # what I'm traversing
+# print(f"world.rooms", world.rooms) 
+# # returns the room object (includes id, coordinates, exits) 
+# print(f"player.currentRoom", player.currentRoom)
+# # returns only room ID    
 # print(f"player.currentRoom.id: ", player.currentRoom.id)
+# # returns room exits
 # print(f"player.currentRoom.getExits(): ", player.currentRoom.getExits())
-# print(f"player.travel(direction)", player.travel(direction))
-# print(f"player.currentRoom: ", player.currentRoom)
+# # print(f"player.travel(direction)", player.travel(direction))
