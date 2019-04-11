@@ -24,8 +24,19 @@ player = Player("Name", world.startingRoom)
 
 
 # FILL THIS IN
-traversalPath = ['n', 's', 'w', 'e']
-
+def find_path():
+    # Traversal path list
+    traversalPath = []
+    # Dict to store visited rooms
+    visited = {}
+    while len(visited) < len(roomGraph):
+        if player.currentRoom.id not in visited.keys():
+            # Get all the directions available to current room.
+            list_directions = player.currentRoom.getExits()
+            # Initialize dictionary for room's directions.
+            directions = {x: '?' for x in list_directions}
+            # Add room to visited.
+            visited[player.currentRoom.id] = directions
 
 # TRAVERSAL TEST
 visited_rooms = set()
