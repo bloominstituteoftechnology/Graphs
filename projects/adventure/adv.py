@@ -2,6 +2,7 @@ from room import Room
 from player import Player
 from world import World
 
+from queue import Queue
 import random
 
 # Load world
@@ -24,19 +25,30 @@ player = Player("Name", world.startingRoom)
 
 
 # FILL THIS IN
-def find_path():
-    # Traversal path list
-    traversalPath = []
-    # Dict to store visited rooms
-    visited = {}
-    while len(visited) < len(roomGraph):
-        if player.currentRoom.id not in visited.keys():
-            # Get all the directions available to current room.
-            list_directions = player.currentRoom.getExits()
-            # Initialize dictionary for room's directions.
-            directions = {x: '?' for x in list_directions}
-            # Add room to visited.
-            visited[player.currentRoom.id] = directions
+traversalPath = []
+reverse = {'n': 's', 's': 'n', 'w': 'e', 'e': 'w'}
+
+# Create dict for room path
+room_path = {}
+room_path[player.currentRoom.id] =\
+    {x: '?' for x in player.currentRoom.getExits()}
+
+rooms = set()
+for exit in player.currentRoom.getExits():
+    rooms.add(f'{player.currentRoom.id}{exit}')
+
+
+def find_next_move(room):
+    # Function that checks if the current room is available and unexplored
+    if 'n' in room_path[room] and room_path[room]['n'] == '?':
+        return 'n'
+    elif 'e' in room_path[room] and room_path[room]['e'] == '?':
+        return 'e'
+    elif 's' in room_path[room] and room_path[room]['s'] == '?':
+        return 's'
+    elif 'w' in room_path[room] and room_path[room]['w'] == '?':
+        return 'w'
+
 
 # TRAVERSAL TEST
 visited_rooms = set()
