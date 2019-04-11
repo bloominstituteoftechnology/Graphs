@@ -3,7 +3,6 @@ from player import Player
 from world import World
 
 from queue import Queue
-import random
 
 # Load world
 world = World()
@@ -51,7 +50,8 @@ def find_next_move(room):
     elif 'w' in room_path[room] and room_path[room]['w'] == '?':
         return 'w'
 
-# Loops while there are avail rooms 
+
+# Loops while there are avail rooms
 while rooms:
     if '?' in room_path[player.currentRoom.id].values():
         next_move = None
@@ -108,7 +108,8 @@ for move in traversalPath:
     visited_rooms.add(player.currentRoom)
 
 if len(visited_rooms) == len(roomGraph):
-    print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
+    print(
+        f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
