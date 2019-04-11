@@ -1,0 +1,6 @@
+{
+  "python.linting.pylintEnabled": false,
+  "python.linting.pep8Enabled": true,
+  "python.linting.enabled": true,
+  "python.pythonPath": "/Users/BradMortensen/.local/share/virtualenvs/Graphs-DOgD6RJS/bin/python"
+}
