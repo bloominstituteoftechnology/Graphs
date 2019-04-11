@@ -37,24 +37,29 @@ player = Player("Name", world.startingRoom)  # starting_vertex/returns room 000
 graph = world.rooms
 print(f"GRAPH", graph)
 current_room = player.currentRoom
+print(f"player.currentRoom", player.currentRoom)
 exits = current_room.getExits()
 
 traversalPath = []  # tracker for dft # keeps track of your moves
 visited = {}    # dictionary of rooms you have visited
-visited.update({player.currentRoom.id: {i: '?' for i in player.currentRoom.getExits()}})
-# https://www.w3resource.com/python-exercises/dictionary/python-data-type-dictionary-exercise-18.php
+visited.update({player.currentRoom.id: {i: '?' for i in player.currentRoom.getExits()}}) # add start_vertex to visited
 # if not bool(visited):
-#     # add to visited (room num and exits) https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/
+# https://www.w3resource.com/python-exercises/dictionary/python-data-type-dictionary-exercise-18.php
+# add to visited (room num and exits) https://www.geeksforgeeks.org/python-add-new-keys-to-a-dictionary/
+# looping over dictionary https://stackoverflow.com/questions/3294889/iterating-over-dictionaries-using-for-loops
 
 
 # appends dict with start key (room 000)
 # while there is something in visited
-while len(visited) < 18:
+while len(visited) < len(graph):
 # tranverse the graph
     for room, directions in graph.items():
         if room not in visited:
             # if the room/exits dont appear in graphs, add it
             visited.update({room: {i: '?' for i in directions.getExits()}})
+            # print(f"travel", player.travel())
+        
+      
 # print(currentRoom)
 # print(exits)
 print(f"visited", visited)
