@@ -49,6 +49,52 @@ def find_next_move(room):
     elif 'w' in room_path[room] and room_path[room]['w'] == '?':
         return 'w'
 
+while rooms:
+    if '?' in room_path[player.currentRoom.id].values():
+        next_move = None
+        starting_room = player.currentRoom.id
+        next_move = find_next_move(starting_room)
+        rooms.remove(f'{player.currentRoom.id}{next_move}')
+
+        player.travel(next_move)
+
+        new_room = player.currentRoom.id
+        traversalPath.append(next_move)
+
+        if new_room not in room_path:
+            room_path[new_room] = {
+                x: '?' for x in player.currentRoom.getExits()}
+
+        room_path[starting_room][next_move] = new_room
+        room_path[new_room][reverse[next_move]] = starting_room
+
+        for exit, value in room_path[new_room].items():
+            if value == '?':
+                rooms.add(f'{new_room}{exit}')
+
+        if f'{new_room}{reverse[next_move]}' in rooms:
+            rooms.remove(f'{new_room}{reverse[next_move]}')
+
+    else:
+        starting_room = player.currentRoom.id
+        q = Queue()
+        for direction, room in room_path[starting_room].items():
+            q.enqueue([[direction, room]])
+
+        while q.size > 0:
+            current_path = q.dequeue()
+            current = current_path[-1]
+
+            if '?' in [room for direction, room in room_path[current[1]].items()]:
+                for direction, room in current_path:
+                    player.travel(direction)
+                    traversalPath.append(direction)
+                break
+            else:
+                for direction, room in room_path[current[1]].items():
+                    if room != starting_room and room not in [y for x, y in current_path]:
+                        q.enqueue(list(current_path) + [[direction, room]])
+
 
 # TRAVERSAL TEST
 visited_rooms = set()
