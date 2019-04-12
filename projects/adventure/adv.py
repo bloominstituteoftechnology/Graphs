@@ -154,8 +154,8 @@ def goEverywhere():
     return path
 
 
-print(f'Path: {goEverywhere()}')
-traversalPath = goEverywhere()
+#print(f'Path: {goEverywhere()}')
+#traversalPath = goEverywhere()
 
 
 # TRAVERSAL TEST
