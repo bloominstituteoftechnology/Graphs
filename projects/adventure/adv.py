@@ -47,21 +47,32 @@ visited = {}    # dictionary of rooms you have visited
 # print(f"player.currentRoom.getExits()", player.currentRoom.getExits())
 # print(f"player.travel(direction)", player.travel('n'))
 
+visited.update({player.currentRoom.id: {i: player.currentRoom.getRoomInDirection(i).id for i in player.currentRoom.getExits()}})
+
 # keep running until dict is 
 while len(visited) < 9:
-    if player.currentRoom.id not in visited:
-        # add to room and directions
-        visited.update({player.currentRoom.id: {i: '?' for i in player.currentRoom.getExits()}})
-        print(f"if1 visited", visited)
     for room, directions in visited.items():
+        print(f"room", room)
+        print(f"directions", directions)
         for direction, value in directions.items():
-            player.travel(direction)
-            if value == '?':
-                print(f"AFTER MOVE", player.currentRoom.id)
-        print(visited)
-
-
-print(f"visited: ", visited)
+            print(f"direction", direction)
+            print(f"value", value)
+            # add to room and directions
+            if value not in visited:
+                player.travel(direction)
+                visited.update(
+                    {player.currentRoom.id: {i: player.currentRoom.getRoomInDirection(i).id for i in player.currentRoom.getExits()}}
+                    )
+                print(visited)
+    # for room, directions in visited.items():    # iterates thru the value of room number key pair
+    #     for direction, value in directions.items():
+    #         if value == '?':
+    #             print("direction inside the IF", direction)
+    #             # send player in that direction
+    #             player.travel(direction)
+    #             # now the player is in this room
+    #             print(player.currentRoom.id)
+    print(f"visited: ", visited)
 
 
 
