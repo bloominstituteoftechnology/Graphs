@@ -181,16 +181,19 @@ def goEverywhere():
 
             nextDirection = getDirectionToRoom(player.currentRoom, s.peek())
             print(f'Decided to travel {nextDirection}')
+            path.append(nextDirection)
             lastCurrent = player.currentRoom
             player.travel(nextDirection)
-            path.append(nextDirection)
-            path.append(nextDirection)
             count += 1
 
         else:
             # Backwards Travel
             pop = s.pop()
             print(f'Popped: {pop.id}')
+            if s.isEmpty():
+                print(f'{path}')
+                print("Done")
+                return path
             lastCurrent = pop
             backwardsDirection = getDirectionToRoom(pop, s.peek())
             print(f'Need to travel: {backwardsDirection}')
@@ -198,7 +201,6 @@ def goEverywhere():
             path.append(backwardsDirection)
             visited.append(player.currentRoom)
             player.travel(backwardsDirection)
-            path.append(nextDirection)
             count += 1
 
 
@@ -206,7 +208,7 @@ def goEverywhere():
     return path
 
 
-
+print(f'Path: {goEverywhere()}')
 traversalPath = goEverywhere()
 
 
