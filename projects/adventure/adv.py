@@ -70,20 +70,20 @@ while rooms:
         # Overwrites with new room value
         room_path[starting_room][next_move] = new_room
         room_path[new_room][reverse[next_move]] = starting_room
-
+        # Adds unexplored rooms to avail room set
         for exit, value in room_path[new_room].items():
             if value == '?':
                 rooms.add(f'{new_room}{exit}')
-
+        # Finds the reverse room if theres no other option
         if f'{new_room}{reverse[next_move]}' in rooms:
             rooms.remove(f'{new_room}{reverse[next_move]}')
-
+    # If all avail rooms have been explored
     else:
         starting_room = player.currentRoom.id
         q = Queue()
         for direction, room in room_path[starting_room].items():
             q.enqueue([[direction, room]])
-
+        # enqueueing directions from room path dict
         while q.size > 0:
             current_path = q.dequeue()
             current = current_path[-1]
@@ -108,8 +108,7 @@ for move in traversalPath:
     visited_rooms.add(player.currentRoom)
 
 if len(visited_rooms) == len(roomGraph):
-    print(
-        f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
+    print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
