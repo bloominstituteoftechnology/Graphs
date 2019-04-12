@@ -28,11 +28,11 @@ player = Player("Name", world.startingRoom)
 traversalPath = []
 reverse = {'n': 's', 's': 'n', 'w': 'e', 'e': 'w'}
 
-# Create dict for room path
+# Creates dict for starting room path
 room_path = {}
 room_path[player.currentRoom.id] =\
     {x: '?' for x in player.currentRoom.getExits()}
-# Creates set to store rooms
+# Creates set to store starting room and its exits
 rooms = set()
 for exit in player.currentRoom.getExits():
     rooms.add(f'{player.currentRoom.id}{exit}')
@@ -51,16 +51,16 @@ def find_next_move(room):
         return 'w'
 
 
-# Loops while there are avail rooms
+# Loops while there are unexplored rooms
 while rooms:
     if '?' in room_path[player.currentRoom.id].values():
         next_move = None
         starting_room = player.currentRoom.id
         next_move = find_next_move(starting_room)
         rooms.remove(f'{player.currentRoom.id}{next_move}')
-
+        # Moves player to unexplored room
         player.travel(next_move)
-
+        # Adds move to traversal path
         new_room = player.currentRoom.id
         traversalPath.append(next_move)
         # Adds room if not already saved
