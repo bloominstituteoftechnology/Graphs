@@ -109,7 +109,7 @@ class Graph:
         return visited
 
     def dfs(self, root, searching):
-        # Queue is an array of paths
+        # Stack is an array of paths
         s = Stack()
         visited = []
         s.push([root])
