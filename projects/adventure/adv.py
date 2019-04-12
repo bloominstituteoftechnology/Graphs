@@ -54,15 +54,7 @@ class Stack:
             theString.append(i.id)
         return str(theString)
 
-def oppositeDirection(direction):
-    if direction == 'n':
-        return 's'
-    elif direction == 's':
-        return 'n'
-    elif direction == 'e':
-        return 'w'
-    elif direction == 'w':
-        return 'e'
+
 
 # Given the before and after coordinates, returns the direction to get toRoom
 def findDirection(fromCoordinates, toRoom):
@@ -113,65 +105,86 @@ def unvisitedExits(room, visited):
 
     return unvisited
 
+# NEW HELPER FUNCTIONS
+
+def findValidMoves(room, lastCurrent, visited, checked):
+    # Dict {direction: room}
+    validMoves = {}
+
+    for dir in room.getExits():
+        player.travel(dir)
+        if (player.currentRoom is not lastCurrent) and (player.currentRoom not in visited) and (player.currentRoom not in checked):
+            validMoves[dir] = player.currentRoom
+        player.travel(oppositeDirection(dir))
+    return validMoves
+
+def getDirectionToValidMove(validMoves, stack):
+
+    for (dir, room) in validMoves.items():
+        if room == stack.peek():
+            return dir
+
+def oppositeDirection(direction):
+    if direction == 'n':
+        return 's'
+    elif direction == 's':
+        return 'n'
+    elif direction == 'e':
+        return 'w'
+    elif direction == 'w':
+        return 'e'
 
 def goEverywhere():
     s = Stack()
-    coordinate = (world.startingRoom.x, world.startingRoom.y)
     path = []
     visited = []
+    checked = []
 
-    s.push(world.startingRoom)
-    lastRoom = player.currentRoom
-
+    s.push(player.currentRoom)
+    lastCurrent = player.currentRoom
 
     count = 0
 
     while not s.isEmpty():
-        print(f'{player.currentRoom}')
+        if count > 20:
+            break
+        print(f'\n')
         print(f'Stack: {s}')
-        v = s.pop()
-        print(f'v: {v.id}')
-        for next in v.getExits():
-            player.travel(next)
-            if (player.currentRoom is not lastRoom) and (player.currentRoom not in visited):
-                s.push(player.currentRoom)
-            player.travel(oppositeDirection(next))
+        checking = s.pop()
+        checked.append(checking)
+        print(f'Checking room: {checking.id}')
+        print(f'Current room: {player.currentRoom.id}')
+        print(f'visited: {visited}')
+        print(f'checked: {checked}')
 
-        print(f'NumberOfValidExits: {numberOfValidExits(v, lastRoom)}')
-        if numberOfValidExits(v, lastRoom) == 0:
-            # go backwards
-            oppDir = oppositeDirection(path[-1])
-            print(f'Going backwards {oppDir}')
-            lastRoom = player.currentRoom
-            player.travel(oppDir)
-            visited.append(v)
-            path.append(oppDir)
-            newCoord = newCoordinatesAfterTraveling(coordinate, oppDir)
-            coordinate = newCoord
-            count += 1
+        validMoves = findValidMoves(checking, lastCurrent, visited, checked)
+        print(f'Valid moves are: {validMoves}')
 
-        elif len(unvisitedExits(player.currentRoom, visited)) > 0:
-            # normal traverse
-            travelDir = findDirection(coordinate, (s.peek().x, s.peek().y))
-            print(f'Normal travel {travelDir}')
-            lastRoom = player.currentRoom
-            player.travel(travelDir)
-            visited.append(v)
-            path.append(travelDir)
-            coordinate = (s.peek().x, s.peek().y)
+        if len(validMoves) > 0:
+            # Normal Travel
+            for (dir, room) in validMoves.items():
+                s.push(room)
+
+            nextDirection = getDirectionToValidMove(validMoves, s)
+            print(f'Decided to travel {nextDirection}')
+            lastCurrent = player.currentRoom
+            player.travel(nextDirection)
+            path.append(nextDirection)
             count += 1
 
         else:
-            # go backwards
-            oppDir = (path[-1])
-            print(f'Going backwards {oppDir} from else')
-            lastRoom = player.currentRoom
-            player.travel(oppDir)
-            visited.append(v)
+            # Backwards Travel
+            lastCurrent = player.currentRoom
+            #s.push(lastCurrent)
+            lastDir = path[-1]
+            oppDir = oppositeDirection(lastDir)
+            print(f'Going backwards {oppDir} from: {player.currentRoom.id}')
             path.append(oppDir)
-            newCoord = newCoordinatesAfterTraveling(coordinate, oppDir)
-            coordinate = newCoord
+            visited.append(player.currentRoom)
+            player.travel(oppDir)
             count += 1
+
+
 
     return path
 
