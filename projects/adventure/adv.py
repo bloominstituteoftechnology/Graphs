@@ -57,9 +57,19 @@ while len(visited) < 18:
         # if direction == "?", then travel in that direction
         # update direction key with room number value
         for id, directions in visited.items():    # iterates thru the value of room number key pair
-            print(id)
-            print(directions)
-            
+            #print(f"id", id)
+            # print(f"directions", directions)
+            for direction, value in directions.items():
+                # print(f"direction", direction)
+                # print(f"value", value)
+                if value == '?':
+                    print("direction inside the IF")
+                    print(direction)
+                    player.travel(direction)
+                    new_room = player.currentRoom.id
+                    directions[direction][value] = new_room
+                    print(visited)
+
 print(f"visited: ", visited)
 
 
