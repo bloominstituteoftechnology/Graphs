@@ -111,10 +111,10 @@ class Graph:
             print(f"queue", queue)
             if v not in visited:
                 visited.add(v)
-                tracker.append(queue[0])
+                # tracker.append(queue[0])
 
                 for next_vert in self.vertices[v]:
-                    queue.enqueue(next_vert)
+                    queue.append(next_vert)
 
         print(f"bf trav visited", visited)
         print(f"bf trav tracker", tracker)
