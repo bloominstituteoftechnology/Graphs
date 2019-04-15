@@ -1,8 +1,11 @@
+from itertools import combinations
+from random import shuffle
 
 
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -47,8 +50,17 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-
+        for i in range(numUsers):
+            self.addUser(f"User {i}")
         # Create friendships
+        possible_friendships = list(combinations(
+            range(1, len(sg.users)+1), 2))
+        shuffle(possible_friendships)
+        total_friendships = (numUsers*avgFriendships)//2
+        actual_friendships = possible_friendships[:total_friendships]
+
+        for friendship in actual_friendships:
+            sg.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -60,7 +72,34 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        friendships = []
+
+        friendships.append([userID])
+        print(friendships)
+
+        while friendships:
+            list_of_friends = friendships.pop(0)
+            copied_friendships = list_of_friends.copy()
+            # current user
+            node = list_of_friends.pop()
+            # friends of current user we are seeing
+            print(sg.friendships[node])
+            if len(sg.friendships[node]) is 0:
+                visited[node] = friends_of_user
+            else:
+                friends_of_user = list(sg.friendships[node])
+
+                visited[node] = friends_of_user
+
+                for i in friends_of_user:
+                    if i in visited or i in friendships:
+                        pass
+                    else:
+                        copy_list = copied_friendships.copy()
+                        copy_list.append(i)
+                        friendships.append(copy_list)
+
+                # # !!!! IMPLEMENT ME
         return visited
 
 
