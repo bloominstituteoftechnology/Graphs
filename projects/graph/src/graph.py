@@ -190,14 +190,16 @@ class Graph:
 
         while queue:
             path = queue.pop(0)
-            v = path[-1]  # grabs the last item (not int) from a list
-            if v not in visited:
-                visited.add(v)
-                if v == end_vertex:
+            print(f"path before: ", path)
+            current = path[-1]  # grabs the last item (not int) from a list
+            print(f"the value of v: ", current)
+            if current not in visited:
+                visited.add(current)
+                if current == end_vertex:
                     return path
-                for i in self.vertices[v]:
+                for x in self.vertices[current]:
                     new_path = list(path)
-                    new_path.append(i)
+                    new_path.append(x)
                     queue.append(new_path)
         return None
 
@@ -217,16 +219,32 @@ class Graph:
                 for i in self.vertices[current]:
                     # if i not in visited:
                     stack.append(i)
+        return visited
     # comment on reasons why dfs returns an set, not array like BFS
 
-    # depth_first_search_recursive?? Nope
     def dfs_r(self, start_vertex, end_vertex, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(start_vertex)
+
+        if start_vertex == end_vertex:
+            return True
+        
+        for vert in self.vertices[start_vertex]:
+            if vert not in visited:
+                if self.dfs(vert, end_vertex, visited):
+                    pass
+                    
+    # depth_first_search_path??
+    def dfs_path(self, start_vertex, end_vertex, visited=None):
         stack = []
         stack.append([start_vertex])
         visited = set()
+
         while stack:
             path = stack.pop()
             v = path[-1]
+
             if v not in visited:
                 if v == end_vertex:
                     return path
@@ -253,11 +271,11 @@ class Graph:
                     return new_path
         return None
 
-""" g = Graph(graph3)
-print(g.breadth_first_traversal("2"))
-print(g.depth_first_traversal("2"))
-print(g.depth_first_trav_recursive("2", ))
+g = Graph(graph3)
+# print(g.bft("2"))
+# print(g.dft("2"))
+print(f"bfs: ", g.bfs_path("2", "7"))
 
-# find a path
-print(g.breadth_first_search("1", "6")) # start, find
-print(g.depth_first_search("1", "6")) # start, find """
+# # find a path
+# print(g.breadth_first_search("1", "6")) # start, find
+# print(g.depth_first_search("1", "6")) # start, find
