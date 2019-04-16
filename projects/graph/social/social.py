@@ -49,7 +49,7 @@ class SocialGraph:
 
         # Add users
         for i in range(numUsers):
-            self.addUser(f"User {i+1}")
+            self.addUser(f"User {i}")
 
         # Create friendships
         possibleFriendships = []
@@ -80,6 +80,8 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+
+        # BFS
         queue = []
         visited = {}  # Note that this is a dictionary, not a set
         initial_list = [userID]  # adds first element to a list
@@ -111,5 +113,5 @@ if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(10, 3)
     print(f"friendships:", sg.friendships)
-    connections = sg.getAllSocialPaths(1)
+    connections = sg.getAllSocialPaths(3)
     print(f"connections:", connections)
