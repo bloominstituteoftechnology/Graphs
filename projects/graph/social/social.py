@@ -1,4 +1,6 @@
-
+import random 
+from queue import Queue
+from itertools import combinations
 
 class User:
     def __init__(self, name):
@@ -47,8 +49,15 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-
+        for i in range(numUsers):
+            self.addUser(i)
         # Create friendships
+        possible_friendships = list(combinations(range(1, numUsers + 1), 2))
+        random.shuffle(possible_friendships)
+        friends_set = (numUsers * avgFriendships) // 2
+        actual_friendships = possible_friendships[:friends_set]
+        for friendship in actual_friendships:
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -60,9 +69,28 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
+
         # !!!! IMPLEMENT ME
+        for user in self.users:
+            visited[user] = self.bfs(user, userID)
         return visited
 
+    def bfs(self, starting_node, target_node):
+        queue = Queue()
+        visited = []
+        queue.enqueue([starting_node])
+        while queue.len() > 0:
+            path = queue.dequeue()
+            node = path[-1]
+            if node not in visited:
+                visited.append(node)
+                if node == target_node:
+                    return path
+                for next_node in self.friendships[node]:
+                    duplicate = list(path)
+                    duplicate.append(next_node)
+                    queue.enqueue(duplicate)
+        return None
 
 if __name__ == '__main__':
     sg = SocialGraph()
@@ -70,3 +98,14 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
+
+
+"""
+    1. To create 100 users with an average of 10 friends each, how many times would you need to call addFriendship()? Why? 
+    
+        A: 500 because it's bidirectional
+
+
+
+    2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network? 
+"""
