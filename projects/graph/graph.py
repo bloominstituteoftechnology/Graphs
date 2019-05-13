@@ -102,12 +102,32 @@ class Graph:
         return path
 
     def dfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
-        pass  # TODO
+        q = Stack()
+        visited = set()
+        parents = {}
+        path = []
+        q.push(starting_vertex)
+        while q.size() > 0:
+            vert = q.pop()
+            if destination_vertex not in self.vertices[vert]:
+                if vert != destination_vertex:
+                    visited.add(vert)
+                    for n in self.vertices[vert]:
+                        if n not in visited:
+                            parents[n] = vert
+                            q.push(n)
+            else:
+                parents[destination_vertex] = vert
+
+        p = destination_vertex
+        while True:
+            if p in parents:
+                path = [parents[p]] + path
+                p = parents[p]
+            else:
+                path.append(destination_vertex)
+                break
+        return path
 
 
 if __name__ == '__main__':
@@ -176,11 +196,11 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 7))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
