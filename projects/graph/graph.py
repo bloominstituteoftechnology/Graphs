@@ -100,7 +100,7 @@ class Graph:
         while q.size()> 0:
             path = q.dequeue()
             node = path[-1]
-            print('node', node, path)
+            
             if node not in visited:
                 neighbors = self.vertices[node]
                 for neighbor in neighbors:
@@ -119,6 +119,24 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
+        visited = []
+        s = Stack()
+        s.push([starting_vertex])
+        if starting_vertex == destination_vertex:
+            return starting_vertex
+        while s.size()>0:
+            path = s.pop()
+            node = path[-1]
+            if node not in visited:
+                neighbors = self.vertices[node]
+                for neighbor in neighbors:
+                    new_path = list(path)
+                    new_path.append(neighbor)
+                    s.push(new_path)
+                    if neighbor == destination_vertex:
+                        return new_path
+                visited.append(node)
+
         pass  # TODO
 
 
@@ -198,4 +216,4 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
