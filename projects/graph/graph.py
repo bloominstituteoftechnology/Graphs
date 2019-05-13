@@ -17,7 +17,7 @@ class Graph:
         Add a directed edge to the graph.
         """
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add[v2]
+            self.vertices[v1].add(v2)
         else:
             raise IndexError("That vertex does not exist!")
     def bft(self, starting_vertex):
@@ -68,7 +68,6 @@ class Graph:
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)   
         
-
     def dft_recursive(self, starting_vertex, visited = None):
         """
         Print each vertex in depth-first order
@@ -85,16 +84,35 @@ class Graph:
                 self.dft_recursive(neighbor, visited)
         # then call dft_recursive on each unvisited neighbors
 
-
-        
-
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # Store an entire path 
+        # Keep track of every nodes Parent 
+        visited = [] 
+        q = Queue()
+        q.enqueue([starting_vertex])
+        if starting_vertex == destination_vertex:
+            return starting_vertex
+        while q.size()> 0:
+            path = q.dequeue()
+            node = path[-1]
+            print('node', node, path)
+            if node not in visited:
+                neighbors = self.vertices[node]
+                for neighbor in neighbors:
+                    new_path = list(path)
+                    new_path.append(neighbor)
+                    q.enqueue(new_path)
+                    if neighbor == destination_vertex:
+                        return new_path
+                visited.append(node)
+        return "So sorry, but a connecting path doesn't exist :("
+    
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -180,4 +198,4 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
+    # print(graph.dfs(1, 6))
