@@ -116,7 +116,15 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        s = Stack()
+        s.push((starting_vertex, [starting_vertex]))
+        while s.size() > 0:
+            v = s.pop()
+            for neighbor in self.vertices[v[0]]:
+                if neighbor == destination_vertex:
+                    return v[1] + [neighbor]
+                else:
+                    s.push((neighbor, v[1] + [neighbor]))
 
 
 if __name__ == '__main__':
@@ -185,7 +193,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
