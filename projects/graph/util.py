@@ -1,8 +1,3 @@
-"""
-Simple graph implementation
-"""
-
-
 class Queue():
     def __init__(self):
         self.queue = []
@@ -15,9 +10,6 @@ class Queue():
             return None
     def size(self):
         return len(self.queue)
-
-
-
 
 class Stack():
     def __init__(self):
@@ -32,11 +24,3 @@ class Stack():
     def size(self):
         return len(self.stack)
 
-
-
-
-
-class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self):
-        pass  # TODO
