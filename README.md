@@ -11,6 +11,11 @@
 
 ## Projects
 
-* [Random Social Network](projects/graph)
-* [Random Social Network](projects/graph)
+### Day 1
+* [Graph Traversal and Search](projects/graph)
+
+### Day 2
+* [Random Social Network](projects/social)
+
+### Day 3-4
 * [Adventure Map Traversal](projects/adventure)
