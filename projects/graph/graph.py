@@ -74,12 +74,32 @@ class Graph:
                 self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+        q = Queue()
+        visited = set()
+        parents = {}
+        path = []
+        q.enqueue(starting_vertex)
+        while q.size() > 0:
+            vert = q.dequeue()
+            if destination_vertex not in self.vertices[vert]:
+                if vert != destination_vertex:
+                    visited.add(vert)
+                    for n in self.vertices[vert]:
+                        if n not in visited:
+                            parents[n] = vert
+                            q.enqueue(n)
+            else:
+                parents[destination_vertex] = vert
+
+        p = destination_vertex
+        while True:
+            if p in parents:
+                path = [parents[p]] + path
+                p = parents[p]
+            else:
+                path.append(destination_vertex)
+                break
+        return path
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -150,13 +170,13 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 7))
 
     '''
     Valid DFS paths:
