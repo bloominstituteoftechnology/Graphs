@@ -5,7 +5,8 @@ import random
 class User:
     def __init__(self, name):
         self.name = name
-
+    def __repr__(self):
+        return self.name
 
 class SocialGraph:
     def __init__(self):
@@ -69,12 +70,12 @@ class SocialGraph:
         # Time Complexity: O(numUsers ^ 2)
         # Space Complexity: O(1)
         random.shuffle(possibleFriendships)
-        print(f"possibleFriendships:{possibleFriendships}")
-        print(f"possibleFriendships:{len(possibleFriendships)}")
+        # print(f"possibleFriendships:{possibleFriendships}")
+        # print(f"possibleFriendships:{len(possibleFriendships)}")
 
 
-        print(f"avgFriendships:{avgFriendships}")
-        print(f"numUsers:{numUsers}")
+        # print(f"avgFriendships:{avgFriendships}")
+        # print(f"numUsers:{numUsers}")
         # Time Complexity: O(avgFriendships * numUsers // 2)
         # Space Complexity: O(avgFriendships * numUsers // 2)
         for friendship_index in range(avgFriendships * numUsers // 2):
@@ -123,7 +124,15 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(4, 2)
-    print(sg.friendships)
+    sg.populateGraph(1000, 5)
+    # print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     # print(connections)
+    summation = 0
+    for i in connections:
+        summation += len(connections[i])
+        print(i, connections[i])
+    percentage = (len(connections)/1000)*100
+    print(f'Percentage of Seperation for 1000: {percentage}')
+    averageDegree = summation/len(connections)
+    print(f'Average Degree of Seperation: {averageDegree}')
