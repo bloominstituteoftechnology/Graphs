@@ -88,7 +88,6 @@ class SocialGraph:
             v = path[-1]
             # If it is has not been visited...
             if v not in visited:
-                print(v)
                 # Mark it as visited
                 visited[v] = path
                 # Then enqueue each of its neighbors in the queue

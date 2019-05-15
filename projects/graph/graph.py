@@ -100,7 +100,6 @@ class Graph:
         while q.size()> 0:
             path = q.dequeue()
             node = path[-1]
-            
             if node not in visited:
                 neighbors = self.vertices[node]
                 for neighbor in neighbors:
@@ -111,7 +110,21 @@ class Graph:
                         return new_path
                 visited.append(node)
         return "So sorry, but a connecting path doesn't exist :("
-    
+    def bfs_brady(self, sv, dv):
+        q = Queue()
+        visited = set()
+        q.enqueue([sv])
+        while q.size() >0:
+            path = q.dequeue()
+            v = path[-1]
+            if v == dv:
+                return path
+            if v not in visited:
+                visited.add(v)
+                for neighbor in self.vertices[v]:
+                    path_copy = path.copy()
+                    path_copy.append(neighbor)
+                    q.enqueue(path_copy)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
