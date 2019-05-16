@@ -73,9 +73,13 @@ def BFS_DEAD_END(our_graph, search_start):
             for i in our_graph[v]:
                 if our_graph[v][i] == '?':
                 #If there are ? we're at the right id
-                    print(path)
+                    return path
             for i in our_graph[v]:
-                #If there are no ? we're at the wrong id
+                #If there are no ? we're at the wrong id, eneque our siblings... 
+                new_que = our_graph[v][i]
+                path_copy = path.copy()
+                path_copy.append(new_que)
+                q.enqueue(path_copy)
 
                 
 
@@ -90,7 +94,7 @@ def BFS_DEAD_END(our_graph, search_start):
             #     q.enqueue(list(path)+[friendship])    
                     
 
-    return visited
+
 traversalPath = []
 
 graph = {}
