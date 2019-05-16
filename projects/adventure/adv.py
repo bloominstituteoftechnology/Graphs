@@ -36,11 +36,56 @@ world.printRooms()
 player = Player("Name", world.startingRoom)
 
 traversalPath = []
-ourPaths = {}
+
+graph = {}
+
+def opp_exit(val):
+    if val == "n":
+        return "s"
+    if val == "s":
+        return "n"
+    if val == "e":
+        return "w"
+    if val == "w":
+        return "e"
+
+# Build our Own Map, Traverse(DFT) as we build it.
+# When we hit a dead end we'll want to BFS
+# Find our current room
+# Find that rooms exits -> set there values to question marks. 
+# Pick a Direction 
+
+# while len(graph) != roomGraph:
+current_room = player.currentRoom.id
+graph[current_room] = {}
+for ex in player.currentRoom.getExits():
+    graph[current_room][ex] = '?'
+
+direction_to_travel = 'n'
+player.travel(direction_to_travel)
+
+new_room = player.currentRoom.id
+graph[new_room] = {}
+for ex in player.currentRoom.getExits():
+    graph[new_room][ex] = '?'
+
+graph[current_room][direction_to_travel] = new_room
+graph[new_room][opp_exit(direction_to_travel)] = current_room
 
 
+direction_to_travel = 'n'
+player.travel(direction_to_travel)
+new_room = player.currentRoom.id
+graph[new_room] = {}
+for ex in player.currentRoom.getExits():
+    graph[new_room][ex] = '?'
 
-        
+graph[current_room][direction_to_travel] = new_room
+graph[new_room][opp_exit(direction_to_travel)] = current_room
+
+print(graph)
+
+
 
 
 
