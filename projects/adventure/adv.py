@@ -7,6 +7,8 @@ import random
 class Queue():
     def __init__(self):
         self.queue = []
+    def __repr__(self):
+        return f'{self.queue}'
     def enqueue(self, value):
         self.queue.append(value)
     def dequeue(self):
@@ -35,9 +37,6 @@ world.printRooms()
 
 player = Player("Name", world.startingRoom)
 
-traversalPath = []
-
-graph = {}
 
 def opp_exit(val):
     if val == "n":
@@ -49,6 +48,52 @@ def opp_exit(val):
     if val == "w":
         return "e"
 
+
+#BFS For when we hit DEAD Ends, Needs to accept our graph, and Starting point.
+def BFS_DEAD_END(our_graph, search_start):
+    # Create an empty Queue FIFO LIST
+    q = Queue()
+    # Create an empty visited 
+    visited = {}
+    # Add the userID to the queue
+    q.enqueue([search_start])
+        # While the queue is not empty...
+    while q.size() > 0:
+        # Dequeue the first Id
+        path = q.dequeue()
+        # Find the last item in path
+        v = path[-1]
+       
+        # If it is has not been visited...
+        if v not in visited:
+            # Mark it as visited
+            visited[v] = path
+            print(f'this is path {path} in visited {visited}')
+            # Loop over the current position values and see if there are any '?' left
+            for i in our_graph[v]:
+                if our_graph[v][i] == '?':
+                #If there are ? we're at the right id
+                    print(path)
+            for i in our_graph[v]:
+                #If there are no ? we're at the wrong id
+
+                
+
+
+        
+            # Check  i
+
+            # Then enqueue each of its neighbors in the queue
+            # Then check if neighbor exists, then rec
+    
+            # for friendship in self.friendships[v]:
+            #     q.enqueue(list(path)+[friendship])    
+                    
+
+    return visited
+traversalPath = []
+
+graph = {}
 # Build our Own Map, Traverse(DFT) as we build it.
 # When we hit a dead end we'll want to BFS
 # Find our current room
@@ -62,6 +107,7 @@ for ex in player.currentRoom.getExits():
     graph[current_room][ex] = '?'
 
 direction_to_travel = 'n'
+traversalPath.append(direction_to_travel)
 player.travel(direction_to_travel)
 
 new_room = player.currentRoom.id
@@ -74,7 +120,9 @@ graph[new_room][opp_exit(direction_to_travel)] = current_room
 
 
 direction_to_travel = 'n'
+traversalPath.append(direction_to_travel)
 player.travel(direction_to_travel)
+current_room = new_room
 new_room = player.currentRoom.id
 graph[new_room] = {}
 for ex in player.currentRoom.getExits():
@@ -83,8 +131,9 @@ for ex in player.currentRoom.getExits():
 graph[current_room][direction_to_travel] = new_room
 graph[new_room][opp_exit(direction_to_travel)] = current_room
 
-print(graph)
-
+print(graph, player.currentRoom.id)
+yo = player.currentRoom.id
+print(BFS_DEAD_END(graph, player.currentRoom.id))
 
 
 
