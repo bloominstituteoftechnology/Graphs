@@ -1,3 +1,5 @@
+import random
+from util import Stack, Queue  # These may come in handy
 
 
 class User:
@@ -44,11 +46,24 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
-
         # Add users
+        for i in range(numUsers):
+            self.addUser(f"User{i+1}")
 
         # Create friendships
+        # avgFriendships = totalFriendships/ numUsers
+        # Total Friendships = numUsers * avgFriendships
+        possibleFriends = [] 
+        for userID in self.users:
+            for friendID in range(userID +1, self.lastID+1):
+                possibleFriends.append((userID, friendID))
+        random.shuffle(possibleFriends)
+        for friendship in range(avgFriendships * numUsers //2):
+            friends = possibleFriends[friendship]
+            self.addFriendship(friends[0], friends[1])
+
+
+
 
     def getAllSocialPaths(self, userID):
         """
@@ -59,10 +74,37 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # Create an empty Queue FIFO LIST
+        q = Queue()
+        # Create an empty visited 
+        visited = {}
+        # Add the userID to the queue
+        q.enqueue([userID])
+         # While the queue is not empty...
+        while q.size() > 0:
+            # Dequeue the first Id
+            path = q.dequeue()
+            # Find the last item in path
+            v = path[-1]
+            # If it is has not been visited...
+            if v not in visited:
+                # Mark it as visited
+                visited[v] = path
+                # Then enqueue each of its neighbors in the queue
+                for friendship in self.friendships[v]:
+                    q.enqueue(list(path)+[friendship])    
+                     
+
         return visited
 
+        # Get a Users friends
+        
+        # For each item Users friendships BFS 
+
+
+        # For each friend 
+
+#Given a User ID Find all the corresponding friends in a network
 
 if __name__ == '__main__':
     sg = SocialGraph()
