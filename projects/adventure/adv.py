@@ -63,7 +63,6 @@ def BFS_DEAD_END(our_graph, search_start):
         path = q.dequeue()
         # Find the last item in path
         v = path[-1]
-       
         # If it is has not been visited...
         if v not in visited:
             # Mark it as visited
@@ -75,69 +74,85 @@ def BFS_DEAD_END(our_graph, search_start):
                 #If there are ? we're at the right id
                     return path
             for i in our_graph[v]:
-                #If there are no ? we're at the wrong id, eneque our siblings... 
+                #If there are no ? we're at the wrong id, eneque rooms below.
                 new_que = our_graph[v][i]
                 path_copy = path.copy()
                 path_copy.append(new_que)
-                q.enqueue(path_copy)
-
-                
-
-
-        
-            # Check  i
-
-            # Then enqueue each of its neighbors in the queue
-            # Then check if neighbor exists, then rec
-    
-            # for friendship in self.friendships[v]:
-            #     q.enqueue(list(path)+[friendship])    
+                q.enqueue(path_copy)   
                     
-
-
 traversalPath = []
-
 graph = {}
 # Build our Own Map, Traverse(DFT) as we build it.
 # When we hit a dead end we'll want to BFS
 # Find our current room
 # Find that rooms exits -> set there values to question marks. 
 # Pick a Direction 
+#BASE CASE - STOP LOOPING WHEN LENGTH OF GRAPH == INPUT
+while len(graph) != len(roomGraph):
+    #Find Our current room
+    current_room = player.currentRoom.id
+    # Add room to graph
+    graph[current_room] = {}
+    for ex in player.currentRoom.getExits():
+        graph[current_room][ex] = '?'
+    # Find what exits are available to travel
+    # Store a direction to travel
+    direction_to_travel = None
+    for ex in graph[current_room]:
+        # Current rooms behind directions - print(graph[current_room][ex])
+        # Want to check if we've been to this room
+        if graph[current_room][ex] == '?':
+            # If not we want to go there
+            traversalPath.append(graph[current_room])
+            player.travel(graph[current_room])
+            # Figure out where we just went
+            new_room = player.currentRoom.id
+        # ADD our new_room to our graph 
+            graph[new_room] = {}
+            for ex in player.currentRoom.getExits():
+                graph[new_room][ex] = '?'
+        # Assign the directions we just went to each other
+        graph[current_room][direction_to_travel] = new_room
+        graph[new_room][opp_exit(direction_to_travel)] = current_room
 
-# while len(graph) != roomGraph:
-current_room = player.currentRoom.id
-graph[current_room] = {}
-for ex in player.currentRoom.getExits():
-    graph[current_room][ex] = '?'
 
-direction_to_travel = 'n'
-traversalPath.append(direction_to_travel)
-player.travel(direction_to_travel)
+# direction_to_travel = 'n'
+# traversalPath.append(direction_to_travel)
+# player.travel(direction_to_travel)
 
-new_room = player.currentRoom.id
-graph[new_room] = {}
-for ex in player.currentRoom.getExits():
-    graph[new_room][ex] = '?'
+# new_room = player.currentRoom.id
+# graph[new_room] = {}
+# for ex in player.currentRoom.getExits():
+#     graph[new_room][ex] = '?'
 
-graph[current_room][direction_to_travel] = new_room
-graph[new_room][opp_exit(direction_to_travel)] = current_room
+# graph[current_room][direction_to_travel] = new_room
+# graph[new_room][opp_exit(direction_to_travel)] = current_room
 
 
-direction_to_travel = 'n'
-traversalPath.append(direction_to_travel)
-player.travel(direction_to_travel)
-current_room = new_room
-new_room = player.currentRoom.id
-graph[new_room] = {}
-for ex in player.currentRoom.getExits():
-    graph[new_room][ex] = '?'
+# direction_to_travel = 'n'
+# traversalPath.append(direction_to_travel)
+# player.travel(direction_to_travel)
+# current_room = new_room
+# new_room = player.currentRoom.id
+# graph[new_room] = {}
+# for ex in player.currentRoom.getExits():
+#     graph[new_room][ex] = '?'
 
-graph[current_room][direction_to_travel] = new_room
-graph[new_room][opp_exit(direction_to_travel)] = current_room
+# graph[current_room][direction_to_travel] = new_room
+# graph[new_room][opp_exit(direction_to_travel)] = current_room
 
-print(graph, player.currentRoom.id)
-yo = player.currentRoom.id
-print(BFS_DEAD_END(graph, player.currentRoom.id))
+routes = BFS_DEAD_END(graph, player.currentRoom.id)
+# Use each route,  travel to the last room
+print(routes, 'R')
+for option in routes:
+    print(option, 'Op')
+    for i in graph[option]:
+        if graph[option][i] == option:
+            print('direction', graph[option][i])
+        # print(graph[option], 'Dir')
+
+    
+
 
 
 
