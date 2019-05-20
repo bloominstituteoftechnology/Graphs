@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+from GraphsGP_py import Stack, Queue  # These may come in handy
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -11,24 +11,64 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = set()
+
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex does not exist!")
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+            # Create an empty queue 
+        queue = Queue()
+                # enqueue the starting vertex ID 
+        queue.enqueue(starting_vertex)
+                # Create a set to store the visited vertices
+        visited = set()
+                # While the queue is not empty...
+        while queue.size > 0:
+                    # Dequeue the first vertex
+            vertex = queue.dequeue()
+                    # If that vertex has not been visited...
+            if vertex not in visited:
+                        # Mark it as visited
+                print(vertex)
+                visited.add(vertex)
+                        # Then add all of it's neighbors to the back of the queue
+                for next_vertex in self.vertices[vertex]:
+                    queue.enqueue(next_vertex)
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+                        # Create an empty stack and push the starting vertex ID
+        stack = Stack()
+                # enqueue the starting vertex ID 
+        stack.push(starting_vertex)
+                # Create a Set to store visited vertices
+        visited = set()
+                # While the stack is not empty...
+        while stack.size() > 0:
+                        # Pop the first vertex
+            vertex = stack.pop()
+                        # If that vertex has not been visited...	
+            if vertex not in visited:
+                                # Mark it as visited...
+                # print(vertex)
+                visited.add(vertex)
+                                # Then add all of its neighbors to the top of the stack
+                for next_vertex in self.vertices[vertex]:
+                    stack.push(next_vertex)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
