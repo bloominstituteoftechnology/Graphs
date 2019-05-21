@@ -121,6 +121,48 @@ class Graph:
                         queue.enqueue(new_path)
         return None
 
+    def dfs_r_path(self, start_vert, target_value, visited=None, path=None):
+        if visited is None:
+            visited = set()
+        if path is None:
+            path = []
+        visited.add(start_vert)
+        path = path + [start_vert]
+        if start_vert == target_value:
+            return path
+        for child_vert in self.vertices[start_vert]:
+            if child_vert not in visited:
+                new_path = self.dfs_r_path(child_vert, target_value, visited, path)
+                if new_path:
+                    return new_path
+        return None
+
+    def dfs1(self, start_vert, target_value, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(start_vert)
+        if start_vert == target_value:
+            return True
+        for child_vert in self.vertices[start_vert]:
+            if child_vert not in visited:
+                if self.dfs(child_vert, target_value, visited):
+                    return True
+        return False
+				
+    def bfs1(self, starting_vertex_id, target_value):
+        q = Queue()
+        q.enqueue(starting_vertex_id)
+        visited = set()
+        while q.size > 0:
+            v = q.dequeue()
+            if v not in visited:
+                if v == target_value:
+                    return True
+                visited.add(v)
+                for next_vert in self.vertices[v]:
+                    q.enqueue(next_vert)
+        return False       
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
