@@ -69,27 +69,95 @@ class Graph:
                 for next_vertex in self.vertices[vertex]:
                     stack.push(next_vertex)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited = None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited == None:
+            visited = set()
+
+        visited.add(starting_vertex)
+        print(starting_vertex)
+        for child_vert in self.vertices[starting_vertex]:
+            if child_vert not in visited:
+                self.dft_recursive(child_vert, visited)
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # Create an empty queue and enqueue A PATH TO the starting vertex ID
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        # Create a Set to store visited vertices
+        visited = set()
+        # While the queue is not empty...
+        while queue.size > 0:
+                # Dequeue the first PATH
+                path = queue.dequeue()
+                # Grab the last vertex from the PATH
+                node = path[-1]
+                # If that node/vertex has not been visited...
+                if node not in visited:
+                    # CHECK IF IT'S THE TARGET
+                    if node == destination_vertex:
+                    # IF SO, RETURN PATH
+                        return path
+                    # Mark it as visited...    
+                        visited.add(node)
+                    # Then add A PATH TO its neighbors to the back of the queue
+                    print(node)
+                    print(path)
+                    for next_node in self.vertices[node]:
+                    # COPY THE PATH
+                    # new_path = list(path)
+                        new_path = path.copy()
+                    # APPEND THE NEIGHOR TO THE BACK
+                        new_path.append(next_node)
+                        queue.enqueue(new_path)
+        return None
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # Create an empty Stack and push A PATH TO the starting vertex ID
+        stack = Stack()
+        stack.push([starting_vertex])
+        # Create a Set to store visited vertices
+        visited = set()
+        # While the STACK is not empty...
+        while stack.size() > 0:
+                # Pop the first PATH
+                path = stack.pop()
+                # Grab the last vertex from the PATH
+                node = path[-1]
+                # If that node/vertex has not been visited...
+                if node not in visited:
+                    # CHECK IF IT'S THE TARGET
+                    if node == destination_vertex:
+                    # IF SO, RETURN PATH
+                        return path
+                    # Mark it as visited...    
+                        visited.add(node)
+                    # Then add A PATH TO its neighbors to the back of the queue
+                    print(node)
+                    print(path)
+                    for next_node in self.vertices[node]:
+                    # COPY THE PATH
+                    # new_path = list(path)
+                        new_path = path.copy()
+                    # APPEND THE NEIGHOR TO THE BACK
+                        new_path.append(next_node)
+                        stack.push(new_path)
+        return None
+
 
 
 
@@ -156,7 +224,9 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     graph.dft_recursive(1)
-
+    print("__________")
+    graph.dft_recursive(1)
+    print("__________")
     '''
     Valid BFS path:
         [1, 2, 4, 6]
