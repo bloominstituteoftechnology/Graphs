@@ -1,4 +1,5 @@
 
+# Implemented by Ben Hakes
 
 class User:
     def __init__(self, name):
