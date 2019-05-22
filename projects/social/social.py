@@ -1,5 +1,14 @@
-
+import random
+from itertools import combinations
+from util import Stack, Queue  # These may come in handy
 # Implemented by Ben Hakes
+
+def rSubset(arr, r): 
+  
+    # return list of all subsets of length r 
+    # to deal with duplicate subsets use  
+    # set(list(combinations(arr, r))) 
+    return list(combinations(arr, r))
 
 class User:
     def __init__(self, name):
@@ -48,8 +57,20 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-
+        for index in range(0, numUsers):
+            self.addUser(f'User-{index}')
+        
         # Create friendships
+        list_to_shuffle = rSubset([n for n in range(1,numUsers + 1)],2)
+        # shuffle the list
+        random.shuffle(list_to_shuffle)
+        # shorten the list
+        shuffled_list = list_to_shuffle[:int(numUsers * avgFriendships/2)]
+
+        count = 0
+        for pair in shuffled_list:
+            count += 1
+            self.addFriendship(pair[0], pair[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,9 +82,53 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+
+        for user in self.users:
+            if userID == user:
+                continue
+            result = self.bfs(userID, user)
+            if result == None:
+                continue
+            visited[user] = result 
+
         return visited
 
+    def bfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        print(f'Trying to get from {starting_vertex} to {destination_vertex}.')
+        # Create an empty queue and enqueue A PATH TO the starting vertex ID
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        # Create a Set to store visited vertices
+        visited = set()
+        # While the queue is not empty...
+        while queue.size() > 0:
+            # Dequeue the first PATH
+            path = queue.dequeue()
+            # Grab the last vertex from the PATH
+            user = path[-1]
+            # If that node/vertex has not been visited...
+            if user not in visited:
+                # CHECK IF IT'S THE TARGET
+                if user == destination_vertex:
+                    # IF SO, RETURN PATH
+                    return path
+                # Mark it as visited...    
+                visited.add(user)
+                # Then add A PATH TO its neighbors to the back of the queue
+                for next_node in self.friendships[user]:
+                    # COPY THE PATH
+                    # new_path = list(path)
+                    new_path = path.copy()
+                    # APPEND THE NEIGHBOR TO THE BACK
+                    new_path.append(next_node)
+                    queue.enqueue(new_path)
+
+        return None
 
 if __name__ == '__main__':
     sg = SocialGraph()
