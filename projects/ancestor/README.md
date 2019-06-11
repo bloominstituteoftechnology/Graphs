@@ -39,10 +39,10 @@ Example output
   10
 ```
 
-Clarifications
-The input will not be empty.
-There are no cycles in the input.
-There are no "repeated" ancestors – if two individuals are connected, it is by exactly one path.
-IDs will always be positive integers.
-A parent may have any number of children.
+Clarifications:
+* The input will not be empty.
+* There are no cycles in the input.
+* There are no "repeated" ancestors – if two individuals are connected, it is by exactly one path.
+* IDs will always be positive integers.
+* A parent may have any number of children.
 
