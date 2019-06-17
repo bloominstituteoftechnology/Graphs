@@ -119,11 +119,19 @@ def closest_ancestor(target, relationships):
     linages.push([target])
 
     search_ancestors(target, parent_rel_tree, linages, [])
-    print(linages.stack)
+
+    max_len = 0
+    for i in linages.stack:
+        if len(i) > max_len:
+            max_len = len(i)
+
+    ancestor_trees = [i[len(i)-1] for i in linages.stack if len(i) == max_len]
+
+    return min(ancestor_trees)
 
 
 # test relationships
 rels = [[1, 3], [2, 3], [3, 6], [5, 6], [5, 7],
         [4, 5], [4, 8], [8, 9], [11, 8], [10, 1]]
 
-closest_ancestor(9, rels)
+print(closest_ancestor(6, rels))
