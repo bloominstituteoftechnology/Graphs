@@ -21,6 +21,7 @@ class Graph:
         Add a directed edge to the graph.
         """
         # make sure we already know about both nodes already, if so then add
+        # will create bi directional graph
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
             self.vertices[v2].add(v1)
@@ -32,14 +33,30 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # initialize visited set and queue
+        visited = set()
+        q = Queue()
+        q.enqueue(starting_vertex)
+        # continue looping while items still in queue
+        while q.size() > 0:
+            # pop out first item from queue
+            current = q.dequeue()
+
+            # add to visited set if not in there, then print
+            if current not in visited:
+                visited.add(current)
+                print(current)
+                # enqueue nodes that current is connected to in queue
+                for connected_to in self.vertices[current]:
+                    q.enqueue(connected_to)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = {}
+        stack = Stack()
 
     def dft_recursive(self, starting_vertex):
         """
@@ -151,4 +168,7 @@ graph.add_edge('0', '1')
 graph.add_edge('0', '3')
 graph.add_edge('0', '3')
 # graph.add_edge('32', '3')
-print('testing', graph.vertices)
+# print('testing', graph.vertices)
+
+
+# graph.bft('1')
