@@ -102,12 +102,13 @@ class Graph:
         q.enqueue([starting_vertex])
         while q.size() > 0:
             path = q.dequeue()
-            if path[-1] == destination_vertex:
+            v = path[-1]
+            if v == destination_vertex:
                 return path
             
-            if path[-1] not in visited:
-                visited.add(path[-1])
-                for neighbor in self.vertices[path[-1]]:
+            if v not in visited:
+                visited.add(v)
+                for neighbor in self.vertices[v]:
                     new_path = path[::]
                     new_path.append(neighbor)
                     q.enqueue(new_path)
@@ -123,11 +124,12 @@ class Graph:
         s.push([starting_vertex])
         while s.size() > 0:
             path = s.pop()
-            if path[-1] == destination_vertex:
+            v = path[-1]
+            if v == destination_vertex:
                 return path 
-            if path[-1] not in visited:
-                visited.add(path[-1])
-                for neighbor in self.vertices[path[-1]]:
+            if v not in visited:
+                visited.add(v)
+                for neighbor in self.vertices[v]:
                     new_path = path[::]
                     new_path.append(neighbor)
                     s.push(new_path)
