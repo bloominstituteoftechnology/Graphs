@@ -35,6 +35,7 @@ class Graph:
         # Create an empty Queue and enqueue the starting vertex
         q = Queue()
         q.enqueue(starting_vertex)
+        print("--- bft ---")
         # While the queue is not empty...
         while q.size() > 0:
             # Dequeue the first vertex
@@ -59,6 +60,7 @@ class Graph:
         s = Stack()
         s.push(starting_vertex)
         # While the stack is not empty...
+        print("--- dft ---")
         while s.size() > 0:
             # Pop the first vertex
             v = s.pop()
@@ -71,13 +73,24 @@ class Graph:
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)
 
+    def recursive_helper(self, cur_stack, visited):
+        if cur_stack.size == 0:
+            return
+        else:
+            v = cur_stack.pop()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for neighbor in self.vertices[v]:
+                    cur_stack.push(neighbor)
+                self.recursive_helper(cur_stack, visited)
+
     def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        This should be done using recursion.
-        """
-        pass  # TODO
+        visited = set()
+        s = Stack()
+        s.push(starting_vertex)
+        print("--- dft recursive ---")
+        self.recursive_helper(s, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
