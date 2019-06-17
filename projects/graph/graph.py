@@ -127,7 +127,29 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # initialize queue and visited, add starting_vertex as array to queue
+        stack = Stack()
+        visited = set()
+        stack.push([starting_vertex])
+
+        while stack.size() > 0:
+            # dequeue item and set the current vertex to the last item in the list
+            path = stack.pop()
+            vertex = path[-1]
+
+            # if vertex hasnt been visited, add to visited
+            # if vertex is currently at the destination, return the path
+            if vertex not in visited:
+                if vertex == destination_vertex:
+                    return path
+                visited.add(vertex)
+
+                # add the next connected nodes to a copy of the array as those will be next nodes to search
+                for next_node in self.vertices[vertex]:
+                    copy = list(path)
+                    copy.append(next_node)
+                    stack.push(copy)
+        return None
 
 
 if __name__ == '__main__':
