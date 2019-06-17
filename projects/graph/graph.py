@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+import pdb
 
 
 class Graph:
@@ -74,9 +75,9 @@ class Graph:
                 print(vertex)
                 vertices.add(vertex)
 
-            for next_vertex in self.vertices[vertex]:
-                if next_vertex not in vertices:
-                    stack.push(next_vertex)
+                for next_vertex in self.vertices[vertex]:
+                    if next_vertex not in vertices:
+                        stack.push(next_vertex)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -112,7 +113,35 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # pdb.set_trace()
+        # Create an empty set
+        vertices = set()
+        # Create and empty Queue
+        queue = Queue()
+
+        # Create initial path and push to queue
+        initial_path = [starting_vertex]
+        queue.enqueue(initial_path)
+
+        while queue.size() > 0:
+            # Get the path and new vertex information from queue.
+            path = queue.dequeue()
+            vertex = path[-1]
+
+            # If current vertex is same as destination vertex, return path
+            if vertex == destination_vertex:
+                return path
+
+            if vertex not in vertices:
+                vertices.add(vertex)
+
+                for next_vertex in self.vertices[vertex]:
+                    if next_vertex not in vertices:
+                        # Here copy is important else the initial
+                        # path shall be updated incorrectly
+                        new_path = path.copy()
+                        new_path.append(next_vertex)
+                        queue.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -230,6 +259,12 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print("\nBreadth First Search")
+    valid_str = '''
+    Valid BFS path:
+        [1, 2, 4, 6]
+    '''
+    print(valid_str)
     print(graph.bfs(1, 6))
 
     '''
