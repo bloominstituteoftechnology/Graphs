@@ -11,31 +11,68 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = None
+    
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 and v2:
+            self.vertex[v1] += v2
+            self.vertex[v2] += v1
+    
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        q = Queue()
+        q.enqueue(starting_vertex)
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+            visited.add(v)
+            print(v)
+            for neighbor in self.vertices[v]:
+                q.enqueue(neighbor)
+    
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+
+        visited = set()
+        s = Stack()
+        s.push(starting_vertex)
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for neighbor in self.vertices[v]:
+                    s.push(neighbor)
+
+    def dft_recursive(self, starting_vertex, visited = None, stack = None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited == None:
+            visited = set()
+            stack = Stack()
+        stack.push(starting_vertex)
+        
+        vertex = stack.pop()
+        if v not in visited:
+            visited.add(vertex)
+            print(vertex)
+            for neighbor in self.vertices[v]:
+                stack.push(neighbor)
+        dft_recursive(starting_vertex, visited, stack)
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
