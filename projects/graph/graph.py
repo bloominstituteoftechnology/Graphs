@@ -20,7 +20,12 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # make sure we already know about both nodes already, if so then add
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+            self.vertices[v2].add(v1)
+        else:
+            raise IndexError("That index does not exist")
 
     def bft(self, starting_vertex):
         """
@@ -135,3 +140,15 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print(graph.dfs(1, 6))
+
+
+graph = Graph()  # Instantiate your graph
+graph.add_vertex('0')
+graph.add_vertex('1')
+graph.add_vertex('2')
+graph.add_vertex('3')
+graph.add_edge('0', '1')
+graph.add_edge('0', '3')
+graph.add_edge('0', '3')
+# graph.add_edge('32', '3')
+print('testing', graph.vertices)
