@@ -21,10 +21,9 @@ class Graph:
         Add a directed edge to the graph.
         """
         # make sure we already know about both nodes already, if so then add
-        # will create bi directional graph
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
-            self.vertices[v2].add(v1)
+            # self.vertices[v2].add(v1) #uncomment for bidirectional
         else:
             raise IndexError("That index does not exist")
 
@@ -55,8 +54,21 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        visited = {}
+        # initialize visited dict as well as stack
+        visited = set()
         stack = Stack()
+
+        stack.push(starting_vertex)
+
+        while stack.size() > 0:
+            # remove last item
+            current = stack.pop()
+
+            if current not in visited:
+                visited.add(current)
+                print(current)
+                for connected_to in self.vertices[current]:
+                    stack.push(connected_to)
 
     def dft_recursive(self, starting_vertex):
         """
