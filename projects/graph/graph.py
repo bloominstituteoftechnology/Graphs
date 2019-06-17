@@ -96,7 +96,30 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+
+        # initialize queue and visited, add starting_vertex as array to queue
+        queue = Queue()
+        visited = set()
+        queue.enqueue([starting_vertex])
+
+        while queue.size() > 0:
+            # dequeue item and set the current vertex to the last item in the list
+            path = queue.dequeue()
+            vertex = path[-1]
+
+            # if vertex hasnt been visited, add to visited
+            # if vertex is currently at the destination, return the path
+            if vertex not in visited:
+                if vertex == destination_vertex:
+                    return path
+                visited.add(vertex)
+
+                # add the next connected nodes to a copy of the array as those will be next nodes to search
+                for next_node in self.vertices[vertex]:
+                    copy = list(path)
+                    copy.append(next_node)
+                    queue.enqueue(copy)
+        return None
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -183,14 +206,14 @@ if __name__ == '__main__':
     print(graph.dfs(1, 6))
 
 
-graph = Graph()  # Instantiate your graph
-graph.add_vertex('0')
-graph.add_vertex('1')
-graph.add_vertex('2')
-graph.add_vertex('3')
-graph.add_edge('0', '1')
-graph.add_edge('0', '3')
-graph.add_edge('0', '3')
+# graph = Graph()  # Instantiate your graph
+# graph.add_vertex('0')
+# graph.add_vertex('1')
+# graph.add_vertex('2')
+# graph.add_vertex('3')
+# graph.add_edge('0', '1')
+# graph.add_edge('0', '3')
+# graph.add_edge('0', '3')
 # graph.add_edge('32', '3')
 # print('testing', graph.vertices)
 
