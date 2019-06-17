@@ -94,7 +94,24 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        '''
+        modified bft
+        '''
+        visited = set()
+        q = Queue()
+        q.enqueue([starting_vertex])
+        while q.size() > 0:
+            path = q.dequeue()
+            if path[-1] == destination_vertex:
+                return path
+            
+            if path[-1] not in visited:
+                visited.add(path[-1])
+                for neighbor in self.vertices[path[-1]]:
+                    new_path = path[::]
+                    new_path.append(neighbor)
+                    q.enqueue(new_path)
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -167,7 +184,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
