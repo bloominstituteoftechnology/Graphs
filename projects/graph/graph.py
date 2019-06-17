@@ -3,39 +3,109 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    """
+    Represent a graph as a dictionary of vertices mapping labels
+    to edges.
+    """
     def __init__(self):
         self.vertices = {}
+
     def add_vertex(self, vertex):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = set()
+
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError('Incorrect Index Passed')
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create empty set
+        vertices = set()
+        # Create empty Queue
+        queue = Queue()
+
+        queue.enqueue(starting_vertex)
+
+        # Iterate each level and get the next level vertices
+        while queue.size() > 0:
+            vertex = queue.dequeue()
+
+            # Check and update the set
+            if vertex not in vertices:
+                print(vertex)
+                vertices.add(vertex)
+
+                # Get the next layer vertices
+                for next_vertex in self.vertices[vertex]:
+                    if next_vertex not in vertices:
+                        queue.enqueue(next_vertex)
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create empty set
+        vertices = set()
+        # Create empty Stack
+        stack = Stack()
+
+        stack.push(starting_vertex)
+
+        # Iterate all the levels and identify the vertices
+        while stack.size() > 0:
+            vertex = stack.pop()
+
+            # Check if node visited
+            if vertex not in vertices:
+                print(vertex)
+                vertices.add(vertex)
+
+            for next_vertex in self.vertices[vertex]:
+                if next_vertex not in vertices:
+                    stack.push(next_vertex)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        vertices = set()
+
+        def recursive_call(starting_vertex):
+            """
+            Handles the recursive call
+            """
+            nonlocal vertices
+
+            # Base case
+            if starting_vertex in vertices:
+                return
+
+            print(starting_vertex)
+            vertices.add(starting_vertex)
+
+            # Iterate thorough the neighbouring vertices
+            for vertex in self.vertices[starting_vertex]:
+                if vertex not in vertices:
+                    recursive_call(vertex)
+
+        recursive_call(starting_vertex)
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
@@ -43,6 +113,7 @@ class Graph:
         breath-first order.
         """
         pass  # TODO
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -50,9 +121,6 @@ class Graph:
         depth-first order.
         """
         pass  # TODO
-
-
-
 
 
 if __name__ == '__main__':
@@ -80,6 +148,12 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
+    print("Graph Creation")
+    valid_str = '''
+    Should print:
+        {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
+    '''
+    print(valid_str)
     print(graph.vertices)
 
     '''
@@ -89,6 +163,15 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print("\nDepth First Search")
+    valid_str = '''
+    Valid DFT paths:
+        1, 2, 3, 5, 4, 6, 7
+        1, 2, 3, 5, 4, 7, 6
+        1, 2, 4, 7, 6, 3, 5
+        1, 2, 4, 6, 3, 5, 7
+    '''
+    print(valid_str)
     graph.dft(1)
 
     '''
@@ -106,6 +189,23 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print("\nBreadth First Search")
+    valid_str = '''
+    Valid BFT paths:
+        1, 2, 3, 4, 5, 6, 7
+        1, 2, 3, 4, 5, 7, 6
+        1, 2, 3, 4, 6, 7, 5
+        1, 2, 3, 4, 6, 5, 7
+        1, 2, 3, 4, 7, 6, 5
+        1, 2, 3, 4, 7, 5, 6
+        1, 2, 4, 3, 5, 6, 7
+        1, 2, 4, 3, 5, 7, 6
+        1, 2, 4, 3, 6, 7, 5
+        1, 2, 4, 3, 6, 5, 7
+        1, 2, 4, 3, 7, 6, 5
+        1, 2, 4, 3, 7, 5, 6
+    '''
+    print(valid_str)
     graph.bft(1)
 
     '''
@@ -115,6 +215,15 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('\n Depth First Search Recursive')
+    valid_str = '''
+    Valid DFT recursive paths:
+        1, 2, 3, 5, 4, 6, 7
+        1, 2, 3, 5, 4, 7, 6
+        1, 2, 4, 7, 6, 3, 5
+        1, 2, 4, 6, 3, 5, 7
+    '''
+    print(valid_str)
     graph.dft_recursive(1)
 
     '''
