@@ -33,7 +33,6 @@ def earliest_ancestor(test_ancestors, starting_vertex):
         # if vertex == destination_vertex:
             # possible_paths.add(path)
         # If the vertex has not been visited
-        count = 0
         if vertex not in visited:
             # Mark vertex as visited
             visited.add(vertex)
@@ -60,9 +59,15 @@ def earliest_ancestor(test_ancestors, starting_vertex):
     for possible_path in possible_paths:
         if len(possible_path) > len(correct_path):
             correct_path = possible_path
-        elif possible_path[0] < correct_path[0]:
+        elif len(possible_path) == len(correct_path) and possible_path[0] < correct_path[0]:
             correct_path = possible_path
     # return the path with the lowest initial value
+    if len(correct_path) > 1:
+        correct_path = correct_path[-1]
+    if type(correct_path) is list:
+        correct_path = correct_path[0]
+    if correct_path == starting_vertex:
+        correct_path = -1
     return correct_path
 
 
