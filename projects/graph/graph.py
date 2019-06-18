@@ -294,6 +294,7 @@ if __name__ == '__main__':
     '''
     print(valid_str)
     print(graph.bfs(1, 6))
+    print(graph.bfs(7, 3))
 
     '''
     Valid DFS paths:
@@ -308,3 +309,4 @@ if __name__ == '__main__':
     '''
     print(valid_str)
     print(graph.dfs(1, 6))
+    print(graph.dfs(1, 3))
