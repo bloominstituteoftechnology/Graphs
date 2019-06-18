@@ -6,7 +6,7 @@ def find_earliest_ancestor_dfs(adjacency_list, starting_vertex):
     stack = []
     stack.append([starting_vertex])
     # create an empty set of possible paths
-    possible_paths = set()
+    possible_paths = []
     # run the following code while stack size > 0
     while len(stack) > 0:
         # pop first path from the stack and store it into a variable
@@ -24,16 +24,23 @@ def find_earliest_ancestor_dfs(adjacency_list, starting_vertex):
             # add A PATH TO all of its neighbors if vertex is a key in adjacency list
             if vertex in adjacency_list.keys():
                 # if the key has multiple values, iterate over the keys
-                if
                 for neighbor in adjacency_list[vertex]:
-                    # copy the path
-                    path_copy = path.copy()
-                    # append neighbor to the back of the copy
-                    path_copy.append(neighbor)
-                    # push copy to stack
-                    stack.append(path_copy)
-                # else, just access the lone value
+                    # if neighbor is none then pass, because we don't want to risk getting it inside the possible path array
+                    if neighbor == None:
+                        pass
+                    # else keep going normally
+                    else:
+                        # copy the path
+                        path_copy = path.copy()
+                        # append neighbor to the back of the copy
+                        path_copy.append(neighbor)
+                        # push copy to stack
+                        stack.append(path_copy)
+            # else append path to possible_paths
+            else:
+                possible_paths.append(path)
     # out of the while loop now, we compare the first values from each opposite path. First declare a property to hold the first value of each possible path so that we can compare
+    print(possible_paths)
     correct_path = possible_paths[0]
     for possible_path in possible_paths:
         if len(possible_path) > len(correct_path):
@@ -41,6 +48,7 @@ def find_earliest_ancestor_dfs(adjacency_list, starting_vertex):
         elif possible_path[0] < correct_path[0]:
             correct_path = possible_path
     # return the path with the lowest initial value
+    print(correct_path)
     return correct_path
 
 
