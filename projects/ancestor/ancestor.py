@@ -40,7 +40,6 @@ def find_earliest_ancestor_dfs(adjacency_list, starting_vertex):
             else:
                 possible_paths.append(path)
     # out of the while loop now, we compare the first values from each opposite path. First declare a property to hold the first value of each possible path so that we can compare
-    print(possible_paths)
     correct_path = possible_paths[0]
     for possible_path in possible_paths:
         if len(possible_path) > len(correct_path):
@@ -48,7 +47,6 @@ def find_earliest_ancestor_dfs(adjacency_list, starting_vertex):
         elif possible_path[0] < correct_path[0]:
             correct_path = possible_path
     # return the path with the lowest initial value
-    print(correct_path)
     return correct_path
 
 
