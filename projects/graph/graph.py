@@ -99,7 +99,7 @@ class Graph:
                 if c not in dist:
                     queue.append(c)
                     dist[c] = dist[s]+[c]
-                if len(dist[c]) > len(dist[s])+1:
+                elif len(dist[c]) > len(dist[s])+1:
                     dist[c] = dist[s]+[c]
         return dist[destination_vertex]
 
