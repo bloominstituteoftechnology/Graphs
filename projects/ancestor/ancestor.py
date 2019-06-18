@@ -1,4 +1,21 @@
-def find_earliest_ancestor_dfs(adjacency_list, starting_vertex):
+def make_adjacency_list(input_list):
+    # create an empty set to store the adjacency list
+    adjacency_list = {}
+    # create a for loop to go through array of tuples to transform it into an adjacency list
+    for tuple in input_list:
+        # take second element of tuple and check to see if it has a corrsponding key in adjacency_list. If not in the adjacency list, put it in.
+        if tuple[1] in adjacency_list:
+        # take first element of tuple and put it inside the "neighbors" array in the second tuple corresponding key's value
+            adjacency_list[tuple[1]].append(tuple[0])
+        elif tuple[1] not in adjacency_list:
+            adjacency_list[tuple[1]] = [tuple[0]]
+    # return adjacency list
+    print(adjacency_list)
+    return adjacency_list
+
+def earliest_ancestor(test_ancestors, starting_vertex):
+    # Use helper function to convert test_ancestors to an adjacency list
+    adjacency_list = make_adjacency_list(test_ancestors)
     # Write a DFS:
     # empty set to store visited nodes
     visited = set()
@@ -47,19 +64,12 @@ def find_earliest_ancestor_dfs(adjacency_list, starting_vertex):
         elif possible_path[0] < correct_path[0]:
             correct_path = possible_path
     # return the path with the lowest initial value
+    print(correct_path)
     return correct_path
 
 
-adjacency_list = {
+test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
 
-1: (10, None),
-3: (1, 2),
-5: (4, None),
-6: (5, 3),
-7: (5, None),
-8: (4, 11),
-9: (8, None)
+make_adjacency_list(test_ancestors)
 
-}
-
-find_earliest_ancestor_dfs(adjacency_list, 6)
+earliest_ancestor(test_ancestors, 6)
