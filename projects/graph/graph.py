@@ -149,7 +149,35 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # Create an empty set
+        vertices = set()
+        # Create an empty Stack
+        stack = Stack()
+
+        # Add the starting path to Stack
+        initial_path = [starting_vertex]
+        stack.push(initial_path)
+
+        while stack.size() > 0:
+
+            path = stack.pop()
+            vertex = path[-1]
+
+            # If vertex matches the destination vertex
+            # return path
+            if vertex == destination_vertex:
+                return path
+
+            if vertex not in vertices:
+                vertices.add(vertex)
+
+                # Find new paths and push to stack.
+                for next_vertex in self.vertices[vertex]:
+                    if next_vertex not in vertices:
+                        new_path = path.copy()
+                        new_path.append(next_vertex)
+
+                        stack.push(new_path)
 
 
 if __name__ == '__main__':
@@ -272,4 +300,11 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print("\n Depth First Search")
+    valid_str = '''
+    Valid DFS paths:
+        [1, 2, 4, 6]
+        [1, 2, 4, 7, 6]
+    '''
+    print(valid_str)
     print(graph.dfs(1, 6))
