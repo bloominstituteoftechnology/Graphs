@@ -10,7 +10,6 @@ def make_adjacency_list(input_list):
         elif tuple[1] not in adjacency_list:
             adjacency_list[tuple[1]] = [tuple[0]]
     # return adjacency list
-    print(adjacency_list)
     return adjacency_list
 
 def earliest_ancestor(test_ancestors, starting_vertex):
@@ -64,7 +63,6 @@ def earliest_ancestor(test_ancestors, starting_vertex):
         elif possible_path[0] < correct_path[0]:
             correct_path = possible_path
     # return the path with the lowest initial value
-    print(correct_path)
     return correct_path
 
 
