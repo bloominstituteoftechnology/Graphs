@@ -22,6 +22,9 @@ class Graph():
     def add_vertex(self, value):
         self.vertices[value] = set()
 
+    def isvertex(self, value):
+        return value in self.vertices
+
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
@@ -71,6 +74,9 @@ class Graph():
             if len(path) == max_path_len:
                 parent_vertex = min(parent_vertex, path[-1])
 
+        if parent_vertex == starting_vertex:
+            parent_vertex = -1
+
         return parent_vertex
 
 
@@ -101,3 +107,19 @@ if __name__ == '__main__':
 
     # print(graph.dfs(6))
     # print(graph.dfs(9))
+
+
+def earliest_ancestor(ancestors, starting_node):
+    graph = Graph()
+
+    # Create the graph
+    for link in ancestors:
+        if not graph.isvertex(link[0]):
+            graph.add_vertex(link[0])
+
+        if not graph.isvertex(link[1]):
+            graph.add_vertex(link[1])
+
+        graph.add_edge(link[1], link[0])
+
+    return graph.dfs(starting_node)
