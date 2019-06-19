@@ -81,7 +81,7 @@ def earliest_ancestor(ancestors, starting_node):
             graph[tpl[1]] = set()
         graph[tpl[1]].add(tpl[0])
 
-    print(graph)
+    # print(graph)
 
     def dfs(starting_vertex):
         nonlocal graph
@@ -107,7 +107,7 @@ def earliest_ancestor(ancestors, starting_node):
                             distances[neighbor] = len(path_new)
                             continue
                     visited.add(vertex)
-        print(distances)
+        # print(distances)
         results = []
         max_length = -1
         for k, v in distances.items():  # we find the max length
@@ -119,7 +119,7 @@ def earliest_ancestor(ancestors, starting_node):
                 results.append(k)
 
         return min(results)
-        print(results)
+        # print(results)
 
     return dfs(starting_node)
 
