@@ -1,8 +1,13 @@
-
+import random
 
 class User:
     def __init__(self, name):
         self.name = name
+
+def fisher_yates_shuffle(l):
+    for i in range(0, len(l) - 2):
+        random_index = random.randint(i, len(l) - 1)
+        l[random_index], l[i] = l[i], l[random_index]
 
 class SocialGraph:
     def __init__(self):
@@ -47,8 +52,20 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-
+        # ---------
+        # Generate 1 user per number between 1 and numUsers
+        for i in range(numUsers):
+            self.addUser(self.lastID + 1)
+    
         # Create friendships
+        # ------------------
+        # Iterate over every elment in the self.users dictionary
+        for key in self.users.keys():
+            # Now go into another loop and add a friendship to the current user with a random user in the array.
+            friendship_key = random.randint(1, len(self.users.keys()))
+            while friendship_key == key or friendship_key in self.friendships[key] or key in self.friendships[friendship_key]:
+                friendship_key = random.randint(1, len(self.users.keys()))
+            self.addFriendship(key, friendship_key)
 
     def getAllSocialPaths(self, userID):
         """
