@@ -117,6 +117,8 @@ def earliest_ancestor(ancestors, starting_node):
         for k, v in distances.items():
             if v == max_length:
                 results.append(k)
+
+        return min(results)
         print(results)
 
     return dfs(starting_node)
