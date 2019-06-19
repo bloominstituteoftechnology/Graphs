@@ -59,14 +59,18 @@ class SocialGraph:
     
         # Create friendships
         # ------------------
-        # Iterate over every elment in the self.users dictionary
-        for key in self.users.keys():
-            # Now go into another loop and add a friendship to the current user with a random user in the array.
-            friendship_key = random.randint(1, len(self.users.keys()))
-            while friendship_key == key or friendship_key in self.friendships[key] or key in self.friendships[friendship_key]:
-                friendship_key = random.randint(1, len(self.users.keys()))
-            self.addFriendship(key, friendship_key)
+        # Create while loop that goes while count < numUsers * avgFriendships
+        count = 0
+        print((numUsers * avgFriendships) // 2)
+        while count < (numUsers * avgFriendships) // 2:
+            # add a random friend to a random user, checking first to see if they are already friends or if the user is trying to befriend himself
+            friend_key = random.randint(1, numUsers)
+            user_key = random.randint(1, numUsers)
+            while friend_key == user_key or friend_key in self.friendships[user_key] or  user_key in self.friendships[friend_key]:
+                friend_key = random.randint(1, numUsers)
 
+            count += 1
+            self.addFriendship(user_key, friend_key)
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -77,13 +81,17 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        
+        
+        
+        
+        
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(10, 4)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
