@@ -12,13 +12,21 @@ class Graph:
 
     def add_edge(self, v1, v2):
         self.vertices[v1].add(v2)
-        
+
     def bft(self, starting_vertex):
-        """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        visited = [False]*(len(self.vertices)+1)
+        queue = []
+        queue.append(starting_vertex)
+        visited[starting_vertex] = True
+
+        while queue:
+            starting_vertex = queue.pop(0)
+            print(starting_vertex, end = " ")
+            for i in self.vertices[starting_vertex]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -76,7 +84,9 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    print(graph.vertices)
+    # print(graph.vertices)
+
+    # print(len(graph.vertices))
 
     '''
     # Valid DFT paths:
@@ -102,7 +112,7 @@ if __name__ == '__main__':
     #     1, 2, 4, 3, 7, 6, 5
     #     1, 2, 4, 3, 7, 5, 6
     # '''
-    # graph.bft(1)
+    print(graph.bft(1))
 
     # '''
     # Valid DFT recursive paths:
