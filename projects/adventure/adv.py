@@ -46,10 +46,9 @@ def traverse():
     queue = Queue()
     # Get integers from Room.name
     room_name_list = player.currentRoom.name.split()
-    room_name_list = [i for i in room_name_list if i in letter_to_int_dict]
-    room_name = "".join(room_name_list)
+    room_name_list = [int(i) for i in room_name_list if i in letter_to_int_dict]
     # Add initial path to queue
-    queue.enqueue([room_name])
+    queue.enqueue(room_name_list)
     # While queue is not empty
     while queue.size() > 0:
         # Dequeue the first path
@@ -63,12 +62,13 @@ def traverse():
             traversalPath.append(vertex)
             # For every vertex neighbor, add path of neighbor to the back of the queue
             for neighbor in roomGraph[vertex]:
-                # Copy the path
-                path_copy = path.copy()
-                # Append neighbor to the back of the copy
-                path_copy.append(neighbor)
-                # Enqueue the copy
-                queue.enqueue(path_copy)
+                if type(neighbor) is not tuple:
+                    # Copy the path
+                    path_copy = path.copy()
+                    # Append neighbor to the back of the copy
+                    path_copy.append(neighbor)
+                    # Enqueue the copy
+                    queue.enqueue(path_copy)
 
 
 traverse()
