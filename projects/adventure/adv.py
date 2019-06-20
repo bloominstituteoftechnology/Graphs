@@ -59,16 +59,17 @@ def traverse():
         if vertex not in visited:
             # Add vertex to visited set and to traversalPath
             visited.add(vertex)
-            traversalPath.append(vertex)
+            print(vertex)
             # For every vertex neighbor, add path of neighbor to the back of the queue
-            for neighbor in roomGraph[vertex]:
-                if type(neighbor) is not tuple:
-                    # Copy the path
-                    path_copy = path.copy()
-                    # Append neighbor to the back of the copy
-                    path_copy.append(neighbor)
-                    # Enqueue the copy
-                    queue.enqueue(path_copy)
+            for key in roomGraph[vertex][1]:
+                # Copy the path
+                path_copy = path.copy()
+                # Append neighbor to the back of the copy
+                path_copy.append(roomGraph[vertex][1][key])
+                # Append direction to the traversal path
+                traversalPath.append(key)
+                # Enqueue the copy
+                queue.enqueue(path_copy)
 
 
 traverse()
