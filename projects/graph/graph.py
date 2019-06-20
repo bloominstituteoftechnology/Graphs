@@ -28,11 +28,20 @@ class Graph:
                     visited[i] = True
 
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        visited = [False]*(len(self.vertices)+1)
+        stack = []
+        stack.append(starting_vertex)
+
+        while stack:
+            starting_vertex = stack[-1]
+            stack.pop()
+            if (not visited[starting_vertex]):
+                print(starting_vertex, end=" ")
+                visited[starting_vertex] = True
+            for node in self.vertices.get(starting_vertex):
+                if (not visited[node]):
+                    stack.append(node)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -84,7 +93,9 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    # print(graph.vertices)
+    # dict = graph.vertices.get(2)
+    # for i in dict:
+    #     print(i)
 
     # print(len(graph.vertices))
 
@@ -95,7 +106,7 @@ if __name__ == '__main__':
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-    # graph.dft(1)
+    # print(graph.dft(1))
 
     # '''
     # Valid BFT paths:
@@ -112,7 +123,7 @@ if __name__ == '__main__':
     #     1, 2, 4, 3, 7, 6, 5
     #     1, 2, 4, 3, 7, 5, 6
     # '''
-    print(graph.bft(1))
+    # print(graph.bft(1))
 
     # '''
     # Valid DFT recursive paths:
