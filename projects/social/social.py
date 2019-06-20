@@ -85,7 +85,6 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
         q = []
         q.append([userID])
-        count = 0
         while len(q) > 0:
             path = q.pop(0)
             v = path[-1]
@@ -95,7 +94,6 @@ class SocialGraph:
                     path_copy = [*path]
                     path_copy.append(friend)
                     q.append(path_copy)
-            count += 1
         return visited
 
 
