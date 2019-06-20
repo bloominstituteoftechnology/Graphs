@@ -29,7 +29,7 @@ Try moving south and you will find yourself in room `5` which contains exits `['
 }
 ```
 
-You know you are done when you have exactly 500 entries (0-499) in your graph and no `'?'` in the adjacency dictionaries. To do this, you will need to write a traversal algorithm that logs the path into `traversalPath` as it walks.
+You know you are done when you have exactly 500 entries (0-499) in your graph and no `'?'` in the ewns directions of the adjacency dictionary entry. To do this, you will need to write a traversal algorithm that logs the path into `traversalPath` as it walks.
 
 ## Hints
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import sys
 sys.path.append('../graph')
 from graph import Graph
@@ -48,3 +49,8 @@ if __name__ == '__main__':
     print(earliest_ancestor(vs, 8)) # 4
     print(earliest_ancestor(vs, 11)) # -1
 
+=======
+
+def earliest_ancestor(ancestors, starting_node):
+    pass
+>>>>>>> 969a7f9bbc53b26c0653e39b3e250cb12a791964

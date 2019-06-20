@@ -172,7 +172,7 @@ Now that we know how computers generate random numbers, let's try shuffling an a
 Here's the basic algorithm:
 
 1. Begin with a list of N elements
-2. Swap the first element with the i-th element, where i is a random position after the first.
+2. Swap the first element with the i-th element, where i is a random position.
 3. Repeat this for each element, in order, until you reach the end of the list.
 
 Let's try implementing the Fisher-Yates using the Python function, `random.randint(a, b)` which returns a random integer between a and b (including a and b). We'll start with a sorted list of N elements, where N=5.
@@ -253,9 +253,7 @@ We can generalize this into an algorithm like so:
 ```python
 import random
 def fisher_yates_shuffle(l):
-    for i in range(0, len(l) - 2):
-        random_index = random.randint(i, len(l) - 1)
-        swap = l[random_index]
-        l[random_index] = l[i]
-        l[i] = swap
+    for i in range(0, len(l)):
+        random_index = random.randint(0, len(l) - 1)
+        l[random_index], l[i] = l[i], l[random_index]
 ```
