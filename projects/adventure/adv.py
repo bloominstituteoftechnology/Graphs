@@ -50,8 +50,6 @@ opposites_dict = {
 def find_valid_exit(currentRoom, visited):
     valid_exits_array = []
     for exit in currentRoom.getExits():
-        print(currentRoom.getExits())
-        print(roomGraph[currentRoom.id][1])
         if exit in roomGraph[currentRoom.id][1]:
             if roomGraph[currentRoom.id][1][exit] not in visited:
                 valid_exits_array.append(exit)
@@ -77,21 +75,18 @@ def traverse():
         valid_exits_array = find_valid_exit(player.currentRoom, visited)
         
         if len(valid_exits_array) > 0:
-            # Iterate over possible directions in current room exits
-            for direction in find_valid_exit(player.currentRoom, visited):
-                # Append visited list with direction's room id
-                visited.add(roomGraph[current_room][1][direction])
-                # Append traversalPath list with direction
-                traversalPath.append(direction)
-                # Insert at the beginning of reverse_traversal path the opposite direction
-                reversed_traversal_path.insert(0, opposites_dict[direction])
-                # Move the player to that room
-                player.travel(direction)
-                count = 0
-                break
-    
+            # Get a random sample
+            random_direction = random.sample(valid_exits_array, 1)
+            # Append visited list with direction's room id
+            visited.add(roomGraph[current_room][1][random_direction[0]])
+            # Append traversalPath list with direction
+            traversalPath.append(random_direction[0])
+            # Insert at the beginning of reverse_traversal path the opposite direction
+            reversed_traversal_path.insert(0, opposites_dict[random_direction[0]])
+            # Move the player to that room
+            player.travel(random_direction[0])
+            count = 0    
         else:
-            # If current room does not have a valid exit (each exit is either none or visited)
             while len(find_valid_exit(player.currentRoom, visited)) == 0:
                 current_exits = player.currentRoom.getExits()
                 random_direction = random.sample(current_exits, 1)
