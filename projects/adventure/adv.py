@@ -57,23 +57,35 @@ def traverse():
     visited.append(player.currentRoom.id)
     while "?" in visited:
         # Get all directions not visited in key's direction dict
+        there_are_exits = False
         for key, value in roomGraph[player.currentRoom.id][1].items():
-            print(value)
             if value not in visited:
-                print(key, value)
                 player.travel(key)
                 visited.append(value)
                 traversalPath.append(key)
                 visited.remove("?")
-                print("reach end?")
+                there_are_exits = True
                 break
-            else:
-                pass
-        # else
-            # Declare a count property to be equal to -1
-            # while current room has no unvisited directions
-                # count -= 1
-                # go in opposite direction of traversalPath[count]
+        # Declare count property to be 0
+        count = 0
+        # While there_are_exits == False
+        while there_are_exits == False:
+            # Get value for count index of traversalPath
+            # Use opposites_dict to go in the opposite direction as the value
+            opposite_traversalPath = traversalPath.copy()
+            opposite_traversalPath = [opposites_dict[i] for i in opposite_traversalPath]
+            player.travel(opposite_traversalPath[count])
+            count += 1
+            print(count)
+            print(opposite_traversalPath)
+            print(traversalPath)
+            print(visited)
+            # Check for exits
+            for key, value in roomGraph[player.currentRoom.id][1].items():
+                print("in loop")
+                # If there are exits set there_are_exits = True
+                if value not in visited:
+                    there_are_exits = True
 
 
 
