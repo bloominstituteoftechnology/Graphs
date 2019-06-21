@@ -109,20 +109,20 @@ try:
     while True:
         d = randomDirection(roomId)
         if d == None:
-            print('d is None')
+            # print('d is None')
             roomId = bfs(roomId)
             if roomId == None:
                 # print('d is None and roomId from bfs is None')
                 assert len(am) == len(roomGraph), 'noware to move, ajencency dictionary not full'
-                print('traversalPath\t', traversalPath)
-                print('roomPath\t', roomPath)
+                # print('traversalPath\t', traversalPath)
+                # print('roomPath\t', roomPath)
                 break
             # else:
             #     print('d is None new roomId', roomId, 'am[roomId]', am[roomId])
         else:
             nroom = world.rooms[roomId].getRoomInDirection(d)
             nroomId = nroom.id
-            print(f"d: {d} roomId: {roomId} nroomId: {nroomId}")
+            # print(f"d: {d} roomId: {roomId} nroomId: {nroomId}")
             am[roomId][d] = nroomId
             if nroomId not in am:
                 am[nroomId] = copy.deepcopy(empty)
@@ -156,8 +156,8 @@ for move in traversalPath:
     visited_rooms.add(player.currentRoom)
     playRoom.append(player.currentRoom.id)
 
-print('playMove', playMove)
-print('playRoom', playRoom)
+# print('playMove', playMove)
+# print('playRoom', playRoom)
 
 if len(visited_rooms) == len(roomGraph):
     print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
