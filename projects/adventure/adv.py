@@ -57,7 +57,6 @@ def traverse():
         # Get copy of current room
         current_room = player.currentRoom.id        
         valid_exits_array = find_valid_exit(player.currentRoom, visited)
-        print(valid_exits_array)
         
         if len(valid_exits_array) > 0:
             # Iterate over possible directions in current room exits
@@ -72,7 +71,6 @@ def traverse():
                 player.travel(direction)
                 break
         else:
-            print(reversed_traversal_path)
             direction = reversed_traversal_path.pop()
             player.travel(direction)
             traversalPath.append(direction)
