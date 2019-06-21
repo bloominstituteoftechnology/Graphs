@@ -27,19 +27,6 @@ player = Player("Name", world.startingRoom)
 traversalPath = []
 reversed_traversal_path = []
 
-letter_to_int_dict = {
-"1": 1,
-"2": 2,
-"3": 3,
-"4": 4,
-"5": 5,
-"6": 6,
-"7": 7,
-"8": 8,
-"9": 9,
-"0": 0
-}
-
 opposites_dict = {
 "n": "s",
 "s": "n",
@@ -65,40 +52,30 @@ def traverse():
     
     print(f"ID: {player.currentRoom.id}")
     # While '?' in visited
+    reversed_traversal_path = []
     while len(visited) < len(roomGraph.keys()):
-        count = 0
         # Get copy of current room
-        current_room = player.currentRoom.id
-        # Get current room exits
-        current_exits = player.currentRoom.getExits()
-        
+        current_room = player.currentRoom.id        
         valid_exits_array = find_valid_exit(player.currentRoom, visited)
+        print(valid_exits_array)
         
         if len(valid_exits_array) > 0:
-            # Get a random sample
-            random_direction = random.sample(valid_exits_array, 1)
-            # Append visited list with direction's room id
-            visited.add(roomGraph[current_room][1][random_direction[0]])
-            # Append traversalPath list with direction
-            traversalPath.append(random_direction[0])
-            # Insert at the beginning of reverse_traversal path the opposite direction
-            reversed_traversal_path.insert(0, opposites_dict[random_direction[0]])
-            # Move the player to that room
-            player.travel(random_direction[0])
-            count = 0    
+            # Iterate over possible directions in current room exits
+            for direction in valid_exits_array:
+                # Append visited list with direction's room id
+                visited.add(roomGraph[current_room][1][direction])
+                # Append traversalPath list with direction
+                traversalPath.append(direction)
+                # Insert at the beginning of reverse_traversal path the opposite direction
+                reversed_traversal_path.append(opposites_dict[direction])
+                # Move the player to that room
+                player.travel(direction)
+                break
         else:
-            while len(find_valid_exit(player.currentRoom, visited)) == 0:
-                current_exits = player.currentRoom.getExits()
-                random_direction = random.sample(current_exits, 1)
-                player.travel(random_direction[0])
-                traversalPath.append(random_direction[0])
-                reversed_traversal_path.insert(0, opposites_dict[random_direction[0]])
-                # Count += 1
-                count += 1
-
-
-
-
+            print(reversed_traversal_path)
+            direction = reversed_traversal_path.pop()
+            player.travel(direction)
+            traversalPath.append(direction)
 
 
 traverse()
