@@ -9,4 +9,4 @@ class Player:
             if (showRooms):
                 nextRoom.printRoomDescription(self)
         else:
-            print("You cannot move in that direction.")
+            print("You cannot move in that direction:", direction)
