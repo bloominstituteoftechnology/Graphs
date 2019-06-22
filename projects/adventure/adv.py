@@ -68,8 +68,6 @@ def bfs(room):
                 path_copy.append(neighbor)
                 # Enqueue copy
                 q.enqueue(path_copy)
-    # return none when queue is empty, when all verticies on queue are known
-    return None
 
 room = player.currentRoom.id
 exits = player.currentRoom.getExits()
