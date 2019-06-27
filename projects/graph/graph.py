@@ -52,7 +52,23 @@ class Graph:
 
     def dft_recursive(self,starting_vertex):  
         visited = [False]*(len(self.vertices)+1) 
-        self.dft_recursiveHelper(starting_vertex,visited) 
+        self.dft_recursiveHelper(starting_vertex,visited)
+
+    def dft_recursive_no_helper(self, starting_vertex, visited = None):
+        if visited == None:
+            visited = []
+        visited.append(starting_vertex)
+        for vert in self.vertices[starting_vertex]:
+            if vert not in visited:
+                self.dft_recursive_no_helper(vert, visited)
+        # if visited == None:
+        #     visited = set()
+        # visited.add(starting_vertex)
+        # for vert in self.vertices[starting_vertex]:
+        #     if vert not in visited:
+        #         self.dft_recursive_no_helper(vert, visited)
+        
+        return visited
 
     def bfs(self, starting_vertex, destination_vertex):
         q = Queue()
@@ -160,7 +176,8 @@ if __name__ == '__main__':
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-    print(graph.dft_recursive(1))
+    print(graph.dft_recursive_no_helper(1))
+    print(graph.dft_recursive_no_helper(1))
 
     # '''
     # Valid BFS path:
