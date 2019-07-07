@@ -27,7 +27,7 @@ class Graph:
                     queue.append(i)
                     visited[i] = True
 
-    def dft(self, starting_vertex):
+    def dft(self, starting_vertex, visited=None):
         visited = [False]*(len(self.vertices)+1)
         stack = []
         stack.append(starting_vertex)
@@ -150,7 +150,7 @@ if __name__ == '__main__':
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-    # print(graph.dft(1))
+    print(graph.dft(1))
 
     # '''
     # Valid BFT paths:
@@ -176,8 +176,8 @@ if __name__ == '__main__':
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-    print(graph.dft_recursive_no_helper(1))
-    print(graph.dft_recursive_no_helper(1))
+    # print(graph.dft_recursive(1))
+    # print(graph.dft_recursive_no_helper(1))
 
     # '''
     # Valid BFS path:
