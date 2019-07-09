@@ -25,10 +25,23 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        starting_vertex.color = 'gray'
-        self.queue.enqueue(starting_vertex)
+        white = 'white'
+        gray = 'gray'
+        black = 'black'
+        queue = self.queue
+        starting_vertex.color = gray
+        queue.enqueue(starting_vertex)
         for v in self.vertices:
-            v.color = 'white'
+            v.color = white
+
+        while not queue.isEmpty():
+            cur_ver = queue[0]
+            for v in cur_ver.neighbors:
+                if v.color == white:
+                    v.color = gray
+                    queue.enqueue(v)
+            queue.dequeue()
+            u.color = black
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
