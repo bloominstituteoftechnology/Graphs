@@ -29,6 +29,7 @@ class Graph:
         gray = 'gray'
         black = 'black'
         queue = self.queue
+        cur_ver
         starting_vertex.color = gray
         queue.enqueue(starting_vertex)
         for v in self.vertices:
@@ -42,6 +43,7 @@ class Graph:
                     queue.enqueue(v)
             queue.dequeue()
             u.color = black
+        return cur_ver
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -110,7 +112,7 @@ print(graph.queue.size())
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-    # graph.dft(1)
+print(graph.dft(1))
     #
     # '''
     # Valid BFT paths:
