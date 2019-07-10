@@ -11,18 +11,33 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = set()
+        # pass  # TODO
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        self.vertices[v1].add(v2)
+        # pass  # TODO
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        waiting = Queue()
+        waiting.queue = list(self.vertices[starting_vertex])
+        printed = []
+        key = starting_vertex
+        # print(waiting.queue)
+        while len(waiting.queue) > 0:
+            for item in waiting.queue:
+                if item not in printed or item not in waiting.queue:
+                    waiting.enqueue(item)
+                printed.append(item)
+                waiting.dequeue()
+        print(printed)
+
+        # pass  # TODO
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -80,7 +95,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    print(graph.vertices)
+    # print(graph.vertices)
 
     '''
     Valid DFT paths:
@@ -121,11 +136,11 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
+    # print(graph.dfs(1, 6))
