@@ -34,14 +34,33 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        queue = Queue()
+        visited = set()
+        queue.enqueue(starting_vertex)
+
+        while queue.size():
+            node = queue.dequeue()
+            visited.add(node)
+
+            for edge in self.vertices[node]:
+                if edge not in visited:
+                    queue.enqueue(edge)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stack = Stack()
+        visited = set()
+        stack.push(starting_vertex)
+        while stack.size():
+            node = stack.pop()
+            visited.add(node)
+
+            for edge in self.vertices[node]:
+                if edge not in visited:
+                    stack.push(edge)
 
     def dft_recursive(self, starting_vertex):
         """
