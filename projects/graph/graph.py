@@ -8,21 +8,45 @@ class Graph:
     def __init__(self):
         self.vertices = {}
     def add_vertex(self, vertex):
-        """
-        Add a vertex to the graph.
-        """
-        pass  # TODO
+        # Add a vertex to the graph.
+        self.vertices[vertex] = set()
+        #Vertices will have set inside like dictionary
+        
     def add_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph.
-        """
-        pass  # TODO
+        # Add a directed edge to the graph.
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("Vertex doesn't exist!")
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        #create empty set
+        vertices = set()
+        
+        #create empty queue
+        queue = Queue()
+        
+        queue.enqueue(starting_vertex)
+        
+        #we iterate each level and grab the next level of vertices
+        while queue.size() > 0:
+            vertex = queue.dequeue()
+            
+            #check and update the set
+            if vertex not in vertices:
+                print(vertex)
+                vertices.add(vertex)
+                
+                #now get the next vertices
+                for next_vertex in self.vertices[vertex]:
+                    if next_vertex not in vertices:
+                        queue.enqueue(next_vertex)
+        
+        
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -42,14 +66,67 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+         # create an empty queue, add the starting vertex
+        if starting_vertex is destination_vertex:
+            print("Lol that's funny")
+            return starting_vertex
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        visited = set()
+        print(visited)
+        while queue.size() > 0:
+            # dequeue the first path
+            path = queue.dequeue()
+            print(path)
+            # we need to grab the last vertex of the path (hint, path is an array)
+            vertex = path[-1]
+            if vertex == destination_vertex:
+                return path
+            if vertex not in visited:
+                visited.add(vertex)
+            for neighbor in self.vertices[vertex]:
+
+                # create a copy path for each of those neighbors, and then append neighbor to that copy
+                path_copy = path.copy()
+                path_copy.append(neighbor)
+                if neighbor == destination_vertex:
+
+                    return path_copy
+                queue.enqueue(path_copy)
+                
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # create an empty queue, add the starting vertex
+        if starting_vertex is destination_vertex:
+            print("Lol that's funny")
+            return starting_vertex
+        stack = Stack()
+        stack.push([starting_vertex])
+        visited = set()
+        print(visited)
+        while stack.size() > 0:
+            # dequeue the first path
+            path = stack.pop()
+            print(path)
+            # we need to grab the last vertex of the path (hint, path is an array)
+            vertex = path[-1]
+            if vertex == destination_vertex:
+                return path
+            if vertex not in visited:
+                visited.add(vertex)
+            for neighbor in self.vertices[vertex]:
+
+                # create a copy path for each of those neighbors, and then append neighbor to that copy
+                path_copy = path.copy()
+                path_copy.append(neighbor)
+                if neighbor == destination_vertex:
+
+                    return path_copy
+                stack.push(path_copy)
 
 
 
