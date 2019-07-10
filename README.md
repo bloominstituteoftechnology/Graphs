@@ -1,4 +1,4 @@
-# G raphs
+# Graphs
 
 ## Objectives
 
