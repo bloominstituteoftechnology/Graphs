@@ -10,6 +10,8 @@ class Queue():
             return None
     def size(self):
         return len(self.queue)
+    def clear(self):
+            return self.queue.clear()
 
 class Stack():
     def __init__(self):
@@ -21,6 +23,8 @@ class Stack():
             return self.stack.pop()
         else:
             return None
+    
+
     def size(self):
         return len(self.stack)
 
