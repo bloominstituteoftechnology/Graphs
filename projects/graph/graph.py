@@ -20,11 +20,20 @@ class Graph:
         """
         pass  # TODO
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        visited = [False]*(len(self.vertices)+1)
+        stack = []
+        stack.append(starting_vertex)
+
+        while stack:
+            starting_vertex = stack[-1]
+            stack.pop()
+            if (not visited[starting_vertex]):
+                print(starting_vertex, end=" ")
+                visited[starting_vertex] = True
+            for node in self.vertices.get(starting_vertex):
+                if (not visited[node]):
+                    stack.append(node)        
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
