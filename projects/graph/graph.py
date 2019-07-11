@@ -99,7 +99,6 @@ class Graph:
         q = Queue()
         visited = set()
         q.enqueue([starting_vertex])
-        count = 0
 
         #while not empty, dequeue and place in path
         #record the vertex as the last item in the path
@@ -109,8 +108,6 @@ class Graph:
             #if the vertex is equal to the destination return the path
             if vertex == destination_vertex:
                 return path
-            elif count > 10:
-                break
             #if the vertex has not been visited
             elif vertex not in visited:
                 #for each item in the current path
