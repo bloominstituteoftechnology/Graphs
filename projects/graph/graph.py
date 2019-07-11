@@ -1,6 +1,11 @@
 """
 Simple graph implementation
 """
+graph = Graph()
+
+# self.vertices = {}
+
+
 from util import Stack, Queue  # These may come in handy
 
 class Graph:
@@ -16,13 +21,31 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 not self.vertices:
+            self.add_vertex(v1);
+        if v2 not in self.vertices:
+            self.add_vertex(v2);
+        self.vertices[v1].add(v2);
+        
+        
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+       #make a queue
+       queue = Queue()
+       #make a visited set
+       visited = set()
+       # put starting vertex in he queue
+       queue.enqueue(starting_vertex)
+       #while q isn\t empty
+       while queue.size():
+       # dequeue the item, it is our current item
+            node = queue.dequeue()
+            print(node)
+       # mark current as visited
+            visited.add
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
