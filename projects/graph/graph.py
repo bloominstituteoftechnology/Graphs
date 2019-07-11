@@ -92,8 +92,8 @@ class Graph:
             # we have to dequeue somewhere to meet our base case and end the loop!
             # if none of a verts edges touch the destination vert, we can add that vert to the route,
             # because there's no way to get to the destination without traversing it!
-            for v in vertices[location] not in checked:  # yikes, I think this line might be O(n^2).
-                if v is destination_vertex:
+            for v in vertices[location]:  # yikes, I think this line might be O(n^2).
+                if v not in checked and v is destination_vertex:
                     route.append(location)
                     route.append(v)
                     # return route
@@ -103,7 +103,7 @@ class Graph:
             location = checked[i]
             route.append(location)
             i += 1
-            return route
+        return route
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -151,7 +151,7 @@ if __name__ == '__main__':
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-print('dft:', graph.dft(1))
+# print('dft:', graph.dft(1))
     #
     # '''
     # Valid BFT paths:
@@ -183,7 +183,7 @@ print('dft:', graph.dft(1))
     # Valid BFS path:
     #     [1, 2, 4, 6]
     # '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
     #
     # '''
     # Valid DFS paths:
