@@ -92,16 +92,16 @@ class Graph:
             # because there's no way to get to the destination without traversing it!
             for v in vertices[location] or v not in checked:  # yikes, I think this line might be O(n^2).
                 if v is destination_vertex:
+                    route.append(location)
                     route.append(v)
                     return route
                 elif v is not destination_vertex:
                     queue.enqueue(v)
                     checked.append(v)
             location = checked[i]
-            route.append(location)
+            # route.append(location)
             i += 1
         self.queue = Queue()
-        return route
 
 
 
