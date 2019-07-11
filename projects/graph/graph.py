@@ -21,14 +21,14 @@ class Graph:
         if v2 not in self.vertices:
             self.add_vertex(v2)
         
-        self.vertices[v1].add[v2]
-        self.vertices[v2].add[v1]
+        self.vertices[v1].add(v2)
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
+        temp = []
         #make queue
         queue = Queue()
         #visited set
@@ -39,16 +39,19 @@ class Graph:
         while queue.size():
             node = queue.dequeue()
             visited.add(node)
+            temp.append(node)
             #for each dequeued item edges, place in queue if not visited
             for edge in self.vertices[node]:
                 if edge not in visited:
                     queue.enqueue(edge)
+        print(temp)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        temp = []
         #make stack
         stack = Stack()
         #visited set
@@ -59,11 +62,13 @@ class Graph:
         while stack.size():
             node = stack.pop()
             visited.add(node)
+            temp.append(node)
             #for each popped item edges, place in stack if not visited
             for edge in self.vertices[node]:
                 if edge not in visited:
                     visited.add(edge)
                     stack.push(edge)
+        print(temp)
 
     def dft_recursive(self, starting_vertex):
         """
