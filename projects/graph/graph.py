@@ -91,7 +91,41 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        #base case
+        # if staring is equal to the end return starting
+        if starting_vertex == destination_vertex:
+            return [starting_vertex]
+        #create queue, visited flag and add the starting vertex to the queue
+        q = Queue()
+        visited = set()
+        q.enqueue([starting_vertex])
+        count = 0
+
+        #while not empty, dequeue and place in path
+        #record the vertex as the last item in the path
+        while q.size():
+            path = q.dequeue()
+            vertex = path[-1]
+            #if the vertex is equal to the destination return the path
+            if vertex == destination_vertex:
+                return path
+            elif count > 10:
+                break
+            #if the vertex has not been visited
+            elif vertex not in visited:
+                #for each item in the current path
+                for next in self.vertices[vertex]:
+                    #create a copy of the old path, append the next item to this new path, and add the new path to the queue
+                    new_path = list(path)
+                    new_path.append(next)
+                    q.enqueue(new_path)
+                #mark vertex as visited
+                visited.add(vertex)
+        #edge case if destination_vertex is not found
+        if vertex != destination_vertex:
+            return f"path from {starting_vertex} to {destination_vertex} not found"
+        return path
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -171,6 +205,7 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
     '''
     print(graph.bfs(1, 6))
+    print(graph.bfs(1, 16))
 
     '''
     Valid DFS paths:
