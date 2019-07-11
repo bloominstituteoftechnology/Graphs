@@ -52,14 +52,55 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create empty set
+        vertices = set()
+        # Create empty Stack
+        stack = Stack()
+
+        stack.push(starting_vertex)
+
+        # Iterate all the levels and identify the vertices
+        while stack.size() > 0:
+            vertex = stack.pop()
+
+            # Check if node visited
+            if vertex not in vertices:
+                print(vertex)
+                vertices.add(vertex)
+
+                for next_vertex in self.vertices[vertex]:
+                    if next_vertex not in vertices:
+                        stack.push(next_vertex)
+        
+        
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        vertices = set()
+        
+        def recursive_call(starting_vertex):
+            """
+            Handles the recursive call
+            """
+            nonlocal vertices
+
+            # Base case
+            if starting_vertex in vertices:
+                return
+
+            print(starting_vertex)
+            vertices.add(starting_vertex)
+
+            # Iterate thorough the neighbouring vertices
+            for vertex in self.vertices[starting_vertex]:
+                if vertex not in vertices:
+                    recursive_call(vertex)
+
+        recursive_call(starting_vertex)
+        
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
@@ -82,10 +123,11 @@ class Graph:
             vertex = path[-1]
             if vertex == destination_vertex:
                 return path
+            
             if vertex not in visited:
                 visited.add(vertex)
+                
             for neighbor in self.vertices[vertex]:
-
                 # create a copy path for each of those neighbors, and then append neighbor to that copy
                 path_copy = path.copy()
                 path_copy.append(neighbor)
