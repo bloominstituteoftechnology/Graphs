@@ -57,6 +57,7 @@ class Graph:
                 visited.append(cur_ver)
                 for v in vertices[cur_ver]:
                     stack.push(v)
+        self.stack = Stack()
         return visited
     def dft_recursive(self, starting_vertex):
         """
@@ -71,7 +72,20 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+
+        #Edge case: Start node is destination, return start node.
+
+        if starting_vertex is destination_vertex:
+            return starting_vertex
+
+        checked = []
+        queue = self.queue
+        vertices = self.vertices
+        queue.enqueue(starting_vertex)
+        while queue.size():
+            location = starting_vertex
+            for v in self.vertices[location]:
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
