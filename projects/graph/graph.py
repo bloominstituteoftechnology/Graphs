@@ -75,18 +75,15 @@ class Graph:
         """
 
         #Edge case: Start node is destination, return start node.
-
         queue = self.queue
         vertices = self.vertices
         if starting_vertex is destination_vertex:
             return [starting_vertex] # singleton list?
-
         checked = []
         route = []
         queue.enqueue(starting_vertex)
         checked.append(starting_vertex) #Edge case: This/a graph may have cycles to the starting vert.
         location = starting_vertex
-        # checked.append(location)
         route.append(location)
         i = 1
         while queue.size():
@@ -97,15 +94,12 @@ class Graph:
                 if v is destination_vertex:
                     route.append(v)
                     return route
-
                 elif v is not destination_vertex:
-                    # print('v:', v)
                     queue.enqueue(v)
                     checked.append(v)
             location = checked[i]
             route.append(location)
             i += 1
-            # print('checked:', checked)
         self.queue = Queue()
         return route
 
