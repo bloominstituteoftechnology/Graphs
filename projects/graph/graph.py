@@ -84,13 +84,15 @@ class Graph:
         vertices = self.vertices
         queue.enqueue(starting_vertex)
         location = starting_vertex
-        checked.append(location)
+        # checked.append(location)
+        route.append(location)
         while queue.size():
-            checked.append(location)
-            for v in self.vertices[location]:
+            for v in vertices[location]:
                 if v is destination_vertex:
-                    checked.append(v)
+                    route.append(v)
+                    return route
                 else:
+                    queue.enqueue(v)
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
