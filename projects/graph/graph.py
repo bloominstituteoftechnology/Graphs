@@ -66,6 +66,7 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
@@ -105,7 +106,13 @@ class Graph:
             route.append(location)
             i += 1
             # print('checked:', checked)
+        self.queue = Queue()
         return route
+
+
+
+
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
