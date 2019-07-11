@@ -18,36 +18,29 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        self.vertices[v1].add(v2)
+        if v1 not in self.vertices:
+            self.add_vertex(v1)
+        else:
+            self.vertices[v1].add(v2)
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        # white = 'white'
-        # gray = 'gray'
-        # black = 'black'
-        # queue = self.queue
-        # cur_ver
-        # starting_vertex.color = gray
+
         visited = []
+        vertices = self.vertices
         queue = self.queue
         queue.enqueue(starting_vertex)
-        # for v in self.vertices:
-        #     v.color = white
-
-        while not queue.isEmpty():
+        while queue.size():
             cur_ver = queue.dequeue()
-
             if cur_ver not in visited:
-                qu
-                # if v.color == white:
-                #     v.color = gray
-                #     queue.enqueue(v)
-            queue.dequeue()
-            u.color = black
-        return cur_ver
+                visited.append(cur_ver)
+                for v in vertices[cur_ver]:
+                    queue.enqueue(v)
+        return visited
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -101,10 +94,9 @@ if __name__ == '__main__':
     graph.add_edge(3, 5)
     graph.add_edge(2, 3)
     graph.add_edge(4, 6)
-    graph.queue.enqueue(9)
-    graph.queue.enqueue(9)
 
-print(graph.queue.size())
+
+print(graph.vertices)
     # '''
     # Should print:
     #     {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
@@ -117,7 +109,7 @@ print(graph.queue.size())
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-print(graph.dft(1))
+print(graph.bft(1))
     #
     # '''
     # Valid BFT paths:
