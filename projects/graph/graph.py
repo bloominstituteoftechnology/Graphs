@@ -25,17 +25,31 @@ class Graph:
         beginning from starting_vertex.
         """
         waiting = Queue()
-        waiting.queue = list(self.vertices[starting_vertex])
-        printed = []
-        key = starting_vertex
+        level = list(self.vertices[starting_vertex])
+        printed = [starting_vertex]
+    
         # print(waiting.queue)
-        while len(waiting.queue) > 0:
-            for item in waiting.queue:
-                if item not in printed or item not in waiting.queue:
-                    waiting.enqueue(item)
-                printed.append(item)
-                waiting.dequeue()
-        print(printed)
+        
+        #place item in queue
+        #
+        while len(printed) < len(list(self.vertices)):
+            before = printed.copy()
+            waiting.queue = []
+            for item in level:
+                waiting.queue.extend(list(self.vertices[item]))
+                if item not in printed:
+                    printed.append(item)
+                elif len(set(waiting.queue).difference(printed)) == 0:
+                    print('f', printed)
+                    return printed
+
+                print('l', level)
+                print('w', waiting.queue)
+                print('p', printed)
+
+
+            level = waiting.queue
+
 
         # pass  # TODO
     def dft(self, starting_vertex):
@@ -121,7 +135,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    graph.bft(5)
 
     '''
     Valid DFT recursive paths:
