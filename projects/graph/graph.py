@@ -18,13 +18,25 @@ class Graph:
         Add a directed edge to the graph.
         """
         self.vertices[v1].add(v2)
-        
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = [False]*(len(self.vertices)+1)
+        queue = []
+        queue.append(starting_vertex)
+        visited[starting_vertex] = True
+
+        while queue:
+            starting_vertex = queue.pop(0)
+            print(starting_vertex, end = " ")
+            for i in self.vertices[starting_vertex]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
+                    
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
