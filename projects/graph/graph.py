@@ -55,7 +55,7 @@ class Graph:
         for i in self.vertices[starting_vertex]:
             if visited[i] is False:
                 self.dft(i, visited)
-                
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -69,7 +69,26 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+
+        visited = [False] * (len(self.vertices) + 1)
+        queue = []
+        queue.append(starting_vertex)
+        visited[starting_vertex] = True
+
+        match = None
+
+        while queue and match is None:
+            starting_vertex = queue.pop(0)
+            if starting_vertex == destination_vertex:
+                match = starting_vertex
+            for i in self.vertices[starting_vertex]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
+
+        return match
+
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
