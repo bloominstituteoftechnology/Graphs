@@ -78,11 +78,12 @@ class Graph:
         queue = self.queue
         vertices = self.vertices
         if starting_vertex is destination_vertex:
-            return [starting_vertex] # singleton lists!
+            return [starting_vertex] # singleton list?
 
         checked = []
         route = []
         queue.enqueue(starting_vertex)
+        checked.append(starting_vertex) #Edge case: This/a graph may have cycles to the starting vert.
         location = starting_vertex
         # checked.append(location)
         route.append(location)
@@ -93,14 +94,16 @@ class Graph:
             # because there's no way to get to the destination without traversing it!
             for v in vertices[location] not in checked:  # yikes, I think this line might be O(n^2).
                 if v is destination_vertex:
+                    route.append(location)
                     route.append(v)
-                    return route
+                    # return route
                 else:
                     queue.enqueue(v)
                     checked.append(v)
-            route.append(location)
             location = checked[i]
+            route.append(location)
             i += 1
+            return route
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
