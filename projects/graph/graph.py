@@ -28,6 +28,7 @@ class Graph:
         self.vertices[v1].add(v2)
 
     def bft(self, starting_vertex):
+        # Write a function within your Graph class that takes takes a starting node as an argument, then performs BFT. Your function should print the resulting nodes in the order they were visited. Note that there are multiple valid paths that may be printed.
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
@@ -53,6 +54,7 @@ class Graph:
                     queue.enqueue(edge)
 
     def dft(self, starting_vertex):
+        # Write a function within your Graph class that takes takes a starting node as an argument, then performs DFT. Your function should print the resulting nodes in the order they were visited. Note that there are multiple valid paths that may be printed.
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -77,30 +79,78 @@ class Graph:
                     stack.push(edge)
 
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited = None):
+        # Write a function within your Graph class that takes takes a starting node as an argument, then performs DFT using recursion. Your function should print the resulting nodes in the order they were visited. Note that there are multiple valid paths that may be printed.
+
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+            visited = set()
+        visited.add(starting_vertex)
+        print(starting_vertex)
+        for child_vertex in self.vertices[starting_vertex]:
+            if child_vertex not in visited:
+                self.dft_recursive(child_vertex, visited)
+
     def bfs(self, starting_vertex, destination_vertex):
+        # Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs BFS. Your function should return the shortest path from the start node to the destination node. Note that there are multiple valid paths.
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # make a queue
+        queue = Queue()
+        # make a visited set
+        visited = set()
+        # put Starting Vertex in the queue
+        queue.enqueue([starting_vertex])
+        # While queue isn't empty
+        while queue.size():
+            # dequeue the item, it is our current item
+            path = queue.dequeue()
+            node = path[-1]
+            if node not in visited:
+                if node == destination_vertex:
+                    return path
+                visited.add(node)
+                for next_vertex in self.vertices[node]:
+                    new_path = list(path)
+                    new_path.append(next_vertex)
+                    queue.enqueue(new_path)
+        return None
+
     def dfs(self, starting_vertex, destination_vertex):
+        # Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs DFS. Your function should return a valid path (not necessarily the shortest) from the start node to the destination node. Note that there are multiple valid paths.
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # make a stack
+        stack = Stack()
+        # make a visited set
+        visited = set()
+        # put starting vertex in the stack
+        stack.push(starting_vertex)
+        # while the stack isn't empty
+        while stack.size():
+            # Pop off the top of the stack, it is current item
+            node = stack.pop()
 
-
-
+            if node == destination_vertex:
+                visited.add(node)
+                print(visited)
+            # if node isn't visited
+            elif node not in visited:
+                # mark as visited
+                visited.add(node)
+                # for each of our current item's edges
+                for edge in self.vertices[node]:
+                    stack.push(edge)
 
 
 if __name__ == '__main__':
@@ -167,12 +217,14 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print("\ndft_recursive(1)")
     graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print("\ngraph.bfs(1,6)")
     print(graph.bfs(1, 6))
 
     '''
@@ -180,4 +232,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print("\ngraph.dfs(1,6)")
     print(graph.dfs(1, 6))
