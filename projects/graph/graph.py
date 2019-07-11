@@ -70,13 +70,21 @@ class Graph:
                     stack.push(edge)
         print(temp)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, path=[]):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        #add starting index to path
+        path += [starting_vertex]
+        
+        #for the neighboring node, if the neighbor is not present recursivly add it to the path
+        for next in self.vertices[starting_vertex]:
+            if next not in path:
+                path = self.dft_recursive(next, path)
+        return path
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
@@ -156,7 +164,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    print(graph.dft_recursive(1))
 
     '''
     Valid BFS path:
