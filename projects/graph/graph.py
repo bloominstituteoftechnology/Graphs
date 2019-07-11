@@ -55,7 +55,6 @@ class Graph:
                 # put them in the queue
                 if edge not in visited:
                     queue.enqueue(edge)
-
             pass  # TODO
 
     def dft(self, starting_vertex):
@@ -107,8 +106,35 @@ class Graph:
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
-        """`
-        pass  # TODO
+        """
+        # make a queue
+        queue = Queue()
+        # make a visited set
+        visited = set()
+        # queue the starting vertex
+        queue.enqueue([starting_vertex])
+
+        while queue.size() > 0:
+            path = queue.dequeue()
+            # Grab the last vertex from the PATH
+            node = path[-1]
+            # If the node is not been visited
+            if node not in visited:
+                # Then check if this node is our destination
+                if node == destination_vertex:
+                    # If it is return the current path
+                    return path
+
+            # mark current as visited
+            visited.add(node)
+            # for each each friend of the current node
+            for friend in self.vertices[node]:
+                # put the path to that node in the queue
+                update_path = path.copy()
+                # Add new friends to the back of the queue
+                update_path.append(friend)
+                queue.enqueue(update_path)
+        return None
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -116,13 +142,39 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = Stack()
+        # put starting vertext in our stack
+        stack.push([starting_vertex])
+        # make a visited set
+        visited = set()
+        # While the stack isn't empty
+        while stack.size() > 0:
+            # Let pop off the first path
+            path = stack.pop()
+            # Get the last node or vertex from the path
+            node = path[-1]
+            # If that node has not been visited
+            if node not in visited:
+                # See if that node is our destination
+                if node == destination_vertex:
+                    # If it is return the path
+                    return path
+
+                # Mark the node as visited
+                visited.add(node)
+                for friend in self.vertices[node]:
+                    short_path = path.copy()
+                    short_path.append(friend)
+                    stack.push(short_path)
+
+        return None
+
+
+pass  # TODO
 
 
 if __name__ == '__main__':
-    graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
-    graph.add_vertex(1)
+    graph = Graph()
     graph.add_vertex(2)
     graph.add_vertex(3)
     graph.add_vertex(4)
@@ -153,7 +205,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    print(graph.dft(1))
+    # print(graph.dft(1))
 
     '''
     Valid BFT paths:
@@ -170,7 +222,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    # graph.bft(1)
 
     '''
     Valid DFT recursive paths:
@@ -179,13 +231,13 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
