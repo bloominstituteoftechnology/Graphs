@@ -75,26 +75,32 @@ class Graph:
 
         #Edge case: Start node is destination, return start node.
 
+        queue = self.queue
+        vertices = self.vertices
         if starting_vertex is destination_vertex:
             return [starting_vertex] # singleton lists!
 
         checked = []
         route = []
-        queue = self.queue
-        vertices = self.vertices
         queue.enqueue(starting_vertex)
         location = starting_vertex
         # checked.append(location)
         route.append(location)
+        i = 1
         while queue.size():
-            for v in vertices[location] not in checked:
+            # we have to dequeue somewhere to meet our base case and end the loop!
+            # if none of a verts edges touch the destination vert, we can add that vert to the route,
+            # because there's no way to get to the destination without traversing it!
+            for v in vertices[location] not in checked:  # yikes, I think this line might be O(n^2).
                 if v is destination_vertex:
                     route.append(v)
                     return route
                 else:
                     queue.enqueue(v)
-                    checked.append(location)
-            location = queue.dequeue()
+                    checked.append(v)
+            route.append(location)
+            location = checked[i]
+            i += 1
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
