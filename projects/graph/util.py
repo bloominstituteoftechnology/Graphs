@@ -10,6 +10,7 @@ class Queue():
             return None
     def size(self):
         return len(self.queue)
+        
     def clear(self):
             return self.queue.clear()
 
