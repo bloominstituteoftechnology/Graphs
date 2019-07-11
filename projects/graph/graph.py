@@ -26,30 +26,33 @@ class Graph:
         """
         queue = Queue()
         visited = set()
+        path = []
         queue.enqueue(starting_vertex)
         while queue.size():
             node = queue.dequeue()
-            print(node)
             visited.add(node)
+            path.append(node)
             for edge in self.vertices[node]:
                 if edge not in visited:
                     queue.enqueue(edge)
-
+        print(path)
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        stack = Stack()
         visited = set()
+        stack = Stack()
+        path = []
         stack.push(starting_vertex)
-        while stack.size():
-            node = stack.pop
+        while stack.size() > 0:
+            node = stack.pop()
             if node not in visited:
-                print(node)
                 visited.add(node)
+                path.append(node)
                 for edge in self.vertices[node]:
                     stack.push(edge)
+        print(path)
 
     def dft_recursive(self, starting_vertex, visited=None):
         """
@@ -90,14 +93,28 @@ class Graph:
                     queue.enqueue(new_path)
         return None
 
-        pass  # TODO
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = Stack()
+        stack.push([starting_vertex])
+        visited = set()
+
+        while stack.size():
+            path = stack.pop()
+            node = path[-1]
+            if node not in visited:
+                if node == destination_vertex:
+                    return path
+                visited.add(node)
+                for edge in self.vertices[node]:
+                    new_path = list(path)
+                    new_path.append(edge)
+                    stack.push(new_path)
+        return None
 
 
 
