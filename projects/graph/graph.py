@@ -8,7 +8,7 @@ class Graph:
     def __init__(self):
         self.vertices = {}
         self.queue = Queue()
-
+        self.stack = Stack()
     def add_vertex(self, vertex):
         """
         Add a vertex to the graph.
@@ -39,6 +39,7 @@ class Graph:
                 visited.append(cur_ver)
                 for v in vertices[cur_ver]:
                     queue.enqueue(v)
+        self.queue = Queue()
         return visited
 
     def dft(self, starting_vertex):
@@ -46,8 +47,17 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        stack = Stack()
-        pass  # TODO
+        stack = self.stack
+        vertices = self.vertices
+        visited = []
+        stack.push(starting_vertex)
+        while stack.size():
+            cur_ver = stack.pop()
+            if cur_ver not in visited:
+                visited.append(cur_ver)
+                for v in vertices[cur_ver]:
+                    stack.push(v)
+        return visited
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -96,7 +106,7 @@ if __name__ == '__main__':
     graph.add_edge(4, 6)
 
 
-print(graph.vertices)
+# print(graph.vertices)
     # '''
     # Should print:
     #     {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
@@ -109,7 +119,7 @@ print(graph.vertices)
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-print(graph.bft(1))
+print('dft:', graph.dft(1))
     #
     # '''
     # Valid BFT paths:
