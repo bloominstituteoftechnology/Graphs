@@ -92,17 +92,20 @@ class Graph:
             # we have to dequeue somewhere to meet our base case and end the loop!
             # if none of a verts edges touch the destination vert, we can add that vert to the route,
             # because there's no way to get to the destination without traversing it!
-            for v in vertices[location]:  # yikes, I think this line might be O(n^2).
-                if v not in checked and v is destination_vertex:
+            for v in vertices[location] or v not in checked:  # yikes, I think this line might be O(n^2).
+                if v is destination_vertex:
                     route.append(location)
                     route.append(v)
-                    # return route
-                else:
+                    return route
+
+                elif v is not destination_vertex:
+                    # print('v:', v)
                     queue.enqueue(v)
                     checked.append(v)
             location = checked[i]
             route.append(location)
             i += 1
+            # print('checked:', checked)
         return route
     def dfs(self, starting_vertex, destination_vertex):
         """
