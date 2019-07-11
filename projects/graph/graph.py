@@ -76,16 +76,21 @@ class Graph:
         #Edge case: Start node is destination, return start node.
 
         if starting_vertex is destination_vertex:
-            return starting_vertex
+            return [starting_vertex] # singleton lists!
 
         checked = []
+        route = []
         queue = self.queue
         vertices = self.vertices
         queue.enqueue(starting_vertex)
+        location = starting_vertex
+        checked.append(location)
         while queue.size():
-            location = starting_vertex
+            checked.append(location)
             for v in self.vertices[location]:
-
+                if v is destination_vertex:
+                    checked.append(v)
+                else:
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
