@@ -91,18 +91,18 @@ class Graph:
             # if none of a verts edges touch the destination vert, we can add that vert to the route,
             # because there's no way to get to the destination without traversing it!
             for v in vertices[location]:  #  or v not in checked:  # yikes, I think this line might be O(n^2).
-                if v is destination_vertex or v in checked:
+                if v is destination_vertex:
                     route.append(location)
                     route.append(v)
                     return route
-                elif v is not destination_vertex:
+                elif v is not destination_vertex or v in checked:
                     queue.enqueue(v)
                     checked.append(v)
                 print('location:', location)
-            # route.append(location)
             location = checked[i]
             i += 1
             print('checked: ', checked)
+        route.append(location)
         self.queue = Queue()
 
 
