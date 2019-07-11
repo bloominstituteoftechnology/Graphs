@@ -55,14 +55,18 @@ class Graph:
             for node in self.vertices.get(starting_vertex):
                 if (not visited[node]):
                     stack.append(node)
-                    
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        This should be done using recursion.
-        """
-        pass  # TODO
+
+    def dft_recursive(self, starting_vertex, visited = None):
+        if visited == None:
+            visited = []
+        visited.append(starting_vertex)
+
+        for vert in self.vertices[starting_vertex]:
+            if vert not in visited:
+                self.dft_recursive(vert, visited)
+        
+        return visited
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
