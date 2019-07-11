@@ -91,10 +91,6 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        #base case
-        # if staring is equal to the end return starting
-        if starting_vertex == destination_vertex:
-            return [starting_vertex]
         #create queue, visited flag and add the starting vertex to the queue
         q = Queue()
         visited = set()
@@ -203,7 +199,7 @@ if __name__ == '__main__':
     '''
     print(graph.bfs(1, 6))
     print(graph.bfs(1, 16))
-
+    print(graph.bfs(3, 3))
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
