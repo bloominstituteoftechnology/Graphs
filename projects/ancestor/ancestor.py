@@ -11,10 +11,8 @@ class Stack():
         
     def size(self):
         return len(self.stack)
+      
     
-class Stack():
-    def __init__(self):
-      self.stack = []
 
         
         
