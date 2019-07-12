@@ -125,9 +125,33 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
-
-
+        #make stack
+        s = Stack()
+        #visited set
+        visited = set()
+        #put starting in stack
+        s.push([starting_vertex])
+        #while not empty, pop item, and mark item as visited
+        while s.size():
+            path = s.pop()
+            vertex = path[-1]
+            #if the vertex is equal to the destination return the path
+            if vertex == destination_vertex:
+                return path
+            #if the vertex has not been visited
+            elif vertex not in visited:
+                #for each item in the current path
+                for next in self.vertices[vertex]:
+                    #create a copy of the old path, append the next item to this new path, and add the new path to the queue
+                    new_path = list(path)
+                    new_path.append(next)
+                    s.push(new_path)
+                #mark vertex as visited
+                visited.add(vertex)
+        #edge case if destination_vertex is not found
+        if vertex != destination_vertex:
+            return f"path from {starting_vertex} to {destination_vertex} not found"
+        return path
 
 
 
@@ -206,3 +230,5 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print(graph.dfs(1, 6))
+    print(graph.dfs(3, 26))
+    print(graph.dfs(2, 2))
