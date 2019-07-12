@@ -80,13 +80,13 @@ class Graph:
         if starting_vertex is destination_vertex:
             return [starting_vertex] # singleton list?
         checked = []
-        route = []
+        route = set()
         searched = []
         found = set()
         queue.enqueue(starting_vertex)
         checked.append(starting_vertex) #Edge case: This/a graph may have cycles to the starting vert.
         location = starting_vertex
-        route.append(location)
+        route.add(location)
         i = 0
         while queue.size():
             # we have to dequeue somewhere to meet our base case and end the loop!
@@ -94,9 +94,9 @@ class Graph:
             # because there's no way to get to the destination without traversing it!
             for v in vertices[location]:  #  or v not in checked:  # yikes, I think this line might be O(n^2).
                 if v is destination_vertex:
-                    route.append(location)
+                    route.add(location)
                     print('location in if: ',location)
-                    route.append(v)
+                    route.add(v)
                     return route
                 elif v is not destination_vertex:
                     queue.enqueue(v)
@@ -106,7 +106,7 @@ class Graph:
                 #     searched.append(location)
                 if destination_vertex in vertices[v]:
                     found.add(location)
-                    route.append(location)
+                    route.add(location)
                 print('found: ', found)
                 # print('route: ',route)
                 # print('checked: ',checked)
@@ -115,6 +115,7 @@ class Graph:
             i += 1
             print('searched: ',searched)
             print('location in for: ', location)
+            print('checked:', checked)
         self.queue = Queue()
 
 
