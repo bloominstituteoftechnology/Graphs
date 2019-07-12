@@ -87,7 +87,6 @@ class Graph:
         vertices = self.vertices
         checked = []
         route = set()
-        vals = []
         queue.enqueue(starting_vertex)
         checked.append(starting_vertex)
         location = starting_vertex
