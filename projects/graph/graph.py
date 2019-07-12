@@ -73,9 +73,8 @@ class Graph:
             cur_ver = stack.pop()
             if cur_ver not in visited:
                 visited.append(cur_ver)
-                for v in vertices[cur_ver]:
-                    stack.push(v)
-        self.dft_recursive(cur_ver)
+                for v in vertices[cur_ver] or v not in visited:
+                    self.dft_recursive(v)
         return visited
 
     def bfs(self, starting_vertex, destination_vertex):
@@ -88,6 +87,7 @@ class Graph:
         vertices = self.vertices
         checked = []
         route = set()
+        vals = []
         queue.enqueue(starting_vertex)
         checked.append(starting_vertex)
         location = starting_vertex
@@ -105,7 +105,6 @@ class Graph:
                     queue.enqueue(v)
                     checked.append(v)
                 if destination_vertex in vertices[v]:
-                    found.add(location)
                     route.add(location)
             location = checked[i]
             i += 1
@@ -188,13 +187,13 @@ if __name__ == '__main__':
     #     1, 2, 4, 7, 6, 3, 5
     #     1, 2, 4, 6, 3, 5, 7
     # '''
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
     #
     # '''
     # Valid BFS path:
     #     [1, 2, 4, 6]
     # '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
     #
     # '''
     # Valid DFS paths:
