@@ -62,13 +62,21 @@ class Graph:
                 if edge not in visited:
                     stack.push(edge)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, node, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        # Take the node we're given
+        # if this node hasn't been visited:
+        if node not in visited:
+            # mark it as visited
+            visited.add(node)
+        # for each of this node's neighbors:
+            for neighbor in self.vertices[node]:
+                # call dft_recursive
+                self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -76,25 +84,33 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        queue = Queue()
-        # create initial node and push to queue
-        queue.enqueue([starting_vertex])
+        # make a queue
+        q = Queue()
+        # make a visited set
         visited = set()
-
-        while queue.size():
-            path = queue.dequeue()
-            node = path[-1]
-
-            if node == destination_vertex:
-                return path
-
+        # enqueue the PATH to that node
+        q.enqueue([starting_vertex])
+        # while the queue isn't empty:
+        while q.size() > 0:
+            # dequeue the PATH
+            path = q.dequeue()
+            # the last thing in the path is our current item
+            node = path[-1]  # -1 in python is the end of the list
+            # if it's not visited:
             if node not in visited:
-                visited.add(node)
-                for next_node in self.vertices[node]:
-                    if next_node not in visited:
-                        new_path = path.copy()
-                        new_path.append(next_node)
-                        queue.enqueue(new_path)
+                # CHECK if it'ss the target
+                if node == destination_vertex:
+                    # if so, return the path
+                    return path
+                # for each of the node's neighbor's
+                for neighbor in self.vertices[node]:
+                    # copy the path
+                    # slicing the entire list works too - path[:]
+                    copy_path = path.copy()
+                    # add the neighbor to the path
+                    copy_path.append(neighbor)
+                    # enqueue the PATH_COPY
+                    q.enqueue(copy_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -102,7 +118,32 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        s = Stack()
+        # make a visited set
+        visited = set()
+        # push on the stack the PATH to that node
+        s.push([starting_vertex])
+        # while the queue isn't empty:
+        while s.size() > 0:
+            # pop the PATH
+            path = s.pop()
+            # the last thing in the path is our current item
+            node = path[-1]  # -1 in python is the end of the list
+            # if it's not visited:
+            if node not in visited:
+                # CHECK if it'ss the target
+                if node == destination_vertex:
+                    # if so, return the path
+                    return path
+                # for each of the node's neighbor's
+                for neighbor in self.vertices[node]:
+                    # copy the path
+                    # slicing the entire list works too - path[:]
+                    copy_path = path.copy()
+                    # add the neighbor to the path
+                    copy_path.append(neighbor)
+                    # enqueue the PATH_COPY
+                    s.push(copy_path)
 
 
 if __name__ == '__main__':
