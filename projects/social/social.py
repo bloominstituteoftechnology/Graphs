@@ -1,7 +1,10 @@
-
+import random
 
 class User:
     def __init__(self, name):
+        self.name = name
+        
+    def __repr__(self)
         self.name = name
 
 class SocialGraph:
@@ -35,7 +38,7 @@ class SocialGraph:
         Takes a number of users and an average number of friendships
         as arguments
 
-        Creates that number of users and a randomly distributed friendships
+        Creates that number of users and randomly distributed friendships
         between those users.
 
         The number of users must be greater than the average number of friendships.
@@ -47,8 +50,27 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        # O(n)
+        for userID in range(numUsers):
+            self.addUser(f"User {userID+1}")
+        print(self.users)
 
         # Create friendships
+        # O(n^2)) looping thru nested array
+        possible_friendships = [] #it becomes an array of objects
+        for userID in range(1, self.lastID + 1): #for userID in self.users:
+            for friendID in range(userID + 1, self.lastID + 1): #why we do +1? user 1 will always be plus 1 , and you can't be friends with user 1 / recurssive problem
+                possible_friendships.append( (userID, friendID) )
+
+        # O(n)
+        random.shuffle(possible_friendships)
+
+        # O(?)/ slice: take all possible friendships/ fisseyetes
+        #we are trying to create certain kind of possible friendships
+        friendships_to_create = numUsers * avgFriendships // 2
+        for friendship in possible_friendships[:friendships_to_create]:
+            self.addFriendship(friendship[0], friendship[1])
+
 
     def getAllSocialPaths(self, userID):
         """
@@ -59,9 +81,21 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+          # Note that this is a dictionary, not a set
+        # Why using set ? not dictionary // BFT traversal = enqueue the starting node
+        visited = {}
+        queue.enqueue([userID])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            vertex = path[-1]
+            if vertex not in visited:
+                visited[verted] = path
+                for neighbor in self.frienships[vertex]:
+                    path_copy = path.copy() #list(path)
+                    path_copy.append(neighbor)
+                    queue.enqueu(path_copy)
         return visited
+    
 
 
 if __name__ == '__main__':
