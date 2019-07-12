@@ -95,10 +95,11 @@ class Graph:
                     route.append(location)
                     route.append(v)
                     return route
-                elif v is not destination_vertex or v in checked:
+                elif v is not destination_vertex or v not in checked:
                     queue.enqueue(v)
                     checked.append(v)
-                print('location:', location)
+                    if v is location:
+                        route.append(v)
             location = checked[i]
             i += 1
             print('checked: ', checked)
