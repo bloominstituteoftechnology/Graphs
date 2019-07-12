@@ -73,49 +73,31 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-
-        #Edge case: Start node is destination, return start node.
         queue = self.queue
         vertices = self.vertices
-        if starting_vertex is destination_vertex:
-            return [starting_vertex] # singleton list?
         checked = []
         route = set()
-        searched = []
-        found = set()
         queue.enqueue(starting_vertex)
-        checked.append(starting_vertex) #Edge case: This/a graph may have cycles to the starting vert.
+        checked.append(starting_vertex)
         location = starting_vertex
         route.add(location)
         i = 0
+        if starting_vertex is destination_vertex:
+            return [starting_vertex]
         while queue.size():
-            # we have to dequeue somewhere to meet our base case and end the loop!
-            # if none of a verts edges touch the destination vert, we can add that vert to the route,
-            # because there's no way to get to the destination without traversing it!
-            for v in vertices[location]:  #  or v not in checked:  # yikes, I think this line might be O(n^2).
+            for v in vertices[location]:
                 if v is destination_vertex:
                     route.add(location)
-                    print('location in if: ',location)
                     route.add(v)
                     return route
                 elif v is not destination_vertex:
                     queue.enqueue(v)
                     checked.append(v)
-                # print('location: ', location)
-                # if destination_vertex not in vertices[location]:
-                #     searched.append(location)
                 if destination_vertex in vertices[v]:
                     found.add(location)
                     route.add(location)
-                print('found: ', found)
-                # print('route: ',route)
-                # print('checked: ',checked)
-                # route.append(location)
             location = checked[i]
             i += 1
-            print('searched: ',searched)
-            print('location in for: ', location)
-            print('checked:', checked)
         self.queue = Queue()
 
 
