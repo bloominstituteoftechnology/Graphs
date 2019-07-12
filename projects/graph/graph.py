@@ -14,11 +14,19 @@ class Graph:
         self.vertices[v1].add(v2)
         
     def bft(self, starting_vertex):
-        """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        visited = [False]*(len(self.vertices)+1)
+        queue = []
+        queue.append(starting_vertex)
+        visited[starting_vertex] = True
+        
+        while queue:
+            starting_vertex = queue.pop(0)
+            print(starting_vertex, end = " ")
+            for i in self.vertices[starting_vertex]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
+
     def dft(self, starting_vertex):
         visited = [False]*(len(self.vertices)+1)
         stack = []
@@ -34,13 +42,16 @@ class Graph:
                 if (not visited[node]):
                     stack.append(node)        
 
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        This should be done using recursion.
-        """
-        pass  # TODO
+    def dft_recursive_no_helper(self, starting_vertex, visited = None):
+        if visited == None:
+            visited = []
+        visited.append(starting_vertex)
+        for vert in self.vertices[starting_vertex]:
+            if vert not in visited:
+                self.dft_recursive_no_helper(vert, visited)
+        
+        return visited            
+
     def bfs(self, starting_vertex, destination_vertex):
         q = Queue()
         q.enqueue([starting_vertex])
