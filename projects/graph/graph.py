@@ -75,27 +75,97 @@ class Graph:
                 for edge in self.vertices[node]:
                 ### put them on the stack
                     stack.push(edge)
-    def dft_recursive(self, starting_vertex):
+
+                    
+    def dft_recursive(self, node, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+
+        #take the node (starting_vertex)
+        # if this node hasn't been visited:
+        if node not in visited:
+            print(node)
+        # mark it as visited
+            visited.add(node)
+        # for each of this node's neighbors:
+            for neighbor in self.vertices[node]:
+        # call dft_recursive
+                self.dft_recursive(neighbor, visited)
+
+      
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # make a queue
+        q = Queue()
+        # make a visted set
+        visited = set()
+        # enqueue the PATh to the node
+        q.enqueue([starting_vertex])
+        #while the queue isn't empty:
+        while q.size() > 0:
+        # dequeue the PATH
+            path = q.dequeue()
+        # the last thing in the path is our current item
+            node = path[-1]
+        # if it's not visited:
+            if node not in visited:
+        # CHECK if it's the target
+                if node == destination_vertex:
+        # if so, return the path
+                    return path
+        # for each of the node's neighbor's
+                for neighbor in self.vertices[node]:
+        #copy the path
+                    copy_path = path[:]
+        # add the neighbor to the path
+                    copy_path.append(neighbor)
+        # enqueue the PATH_COPY
+                    q.enqueue(copy_path)
+
+        
+    
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+          # make a queue
+        q = Queue()
+        # make a visted set
+        visited = set()
+        # enqueue the PATh to the node
+        q.enqueue([starting_vertex])
+        #while the queue isn't empty:
+        while q.size() > 0:
+        # dequeue the PATH
+            path = q.dequeue()
+        # the last thing in the path is our current item
+            node = path[-1]
+        # if it's not visited:
+            if node not in visited:
+        # CHECK if it's the target
+                if node == destination_vertex:
+        # if so, return the path
+                    return path
+        # for each of the node's neighbor's
+                for neighbor in self.vertices[node]:
+        #copy the path
+                    copy_path = path[:]
+        # add the neighbor to the path
+                    copy_path.append(neighbor)
+        # enqueue the PATH_COPY
+                    q.enqueue(copy_path)
+
+        
 
 
 
