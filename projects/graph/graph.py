@@ -12,13 +12,13 @@ class Graph:
 
     def add_edge(self, v1, v2):
         self.vertices[v1].add(v2)
-        
+
     def bft(self, starting_vertex):
         visited = [False]*(len(self.vertices)+1)
         queue = []
         queue.append(starting_vertex)
         visited[starting_vertex] = True
-        
+
         while queue:
             starting_vertex = queue.pop(0)
             print(starting_vertex, end = " ")
@@ -27,7 +27,7 @@ class Graph:
                     queue.append(i)
                     visited[i] = True
 
-    def dft(self, starting_vertex):
+    def dft(self, starting_vertex, visited=None):
         visited = [False]*(len(self.vertices)+1)
         stack = []
         stack.append(starting_vertex)
@@ -40,7 +40,19 @@ class Graph:
                 visited[starting_vertex] = True
             for node in self.vertices.get(starting_vertex):
                 if (not visited[node]):
-                    stack.append(node)        
+                    stack.append(node)
+
+    def dft_recursiveHelper(self, starting_vertex, visited):
+        visited[starting_vertex] = True
+        print(starting_vertex, end=" ")
+
+        for i in self.vertices[starting_vertex]:
+            if visited[i] == False:
+                self.dft_recursiveHelper(i, visited)
+
+    def dft_recursive(self,starting_vertex):  
+        visited = [False]*(len(self.vertices)+1) 
+        self.dft_recursiveHelper(starting_vertex,visited)
 
     def dft_recursive_no_helper(self, starting_vertex, visited = None):
         if visited == None:
@@ -49,8 +61,8 @@ class Graph:
         for vert in self.vertices[starting_vertex]:
             if vert not in visited:
                 self.dft_recursive_no_helper(vert, visited)
-        
-        return visited            
+
+        return visited
 
     def bfs(self, starting_vertex, destination_vertex):
         q = Queue()
@@ -92,6 +104,8 @@ class Graph:
 
 
 
+
+
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
@@ -117,7 +131,11 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    print(graph.vertices)
+    dict = graph.vertices.get(2)
+    for i in dict:
+        print(i)
+
+    print(len(graph.vertices))
 
     '''
     Valid DFT paths:
@@ -126,7 +144,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft(1)
+    print(graph.dft(1))
 
     '''
     Valid BFT paths:
@@ -143,7 +161,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT recursive paths:
@@ -152,7 +170,8 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    print(graph.dft_recursive(1))
+    print(graph.dft_recursive_no_helper(1))
 
     '''
     Valid BFS path:
