@@ -119,7 +119,13 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = self.stack
+        visited = []
+        route = set()
+        vertices = self.vertices
+        stack.push(starting_vertex)
+        visited.append(starting_vertex)
+        location = starting_vertex
 
 
 
