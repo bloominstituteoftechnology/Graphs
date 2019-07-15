@@ -126,7 +126,18 @@ class Graph:
         stack.push(starting_vertex)
         visited.append(starting_vertex)
         location = starting_vertex
-
+        if starting_vertex is destination_vertex:
+            return [starting_vertex]
+        while stack.size():
+            print('Placeholder')
+            for v in vertices[location]:
+                if v is destination_vertex:
+                    print('Placeholder')
+                elif v is not destination_vertex:
+                    print('Placeholder')
+                if destination_vertex in vertices[v]:
+                    print('Placeholder')
+        self.stack = Stack()
 
 
 
