@@ -47,6 +47,22 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for user in range(numUsers):
+            self.addUser(user)
+        # Create friendships
+        friendship_combinations = []
+        ##Make all possible frienship combinations
+        for userID in self.users:
+            for friend in range(userID +1, self.lastID + 1):
+                if user != friend:
+                    friendship_combinations.append((user, friend))
+        # print(friendship_combinations)
+        ## shuggle the friendship combinations
+        random.shuffle(friendship_combinations)
+        # print(friendship_combinations)
+        ## take the N number of friendships
+        friends_to_make = friendship_combinations[0:avgFriendships * numUsers / 2`]
+        # avg Frienships + total Frienships / numUsers
 
         # Create friendships
 
