@@ -142,8 +142,8 @@ def earliest_ancestor(ancestors, starting_node):
         queue.append(parent)
         visited.add(parent)
 
-  print('Breadth First Traversal Path', bft_path)
-  print('Highest Nodes List', highest_nodes)
+  # print('Breadth First Traversal Path', bft_path)
+  # print('Highest Nodes List', highest_nodes)
 
   if highest_nodes[0] == starting_node:
     return -1
