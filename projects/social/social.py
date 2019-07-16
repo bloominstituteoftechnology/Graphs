@@ -138,28 +138,35 @@ class SocialGraph:
 
         #create graph
         graph = Graph()
-        visited = {}  # Note that this is a dictionary, not a set
 
         #loop through user friendships
         #add vertex and edges to graph
         for user in self.friendships:
             for friend in self.friendships[user]:
                 graph.add_edge(user, friend)
+
+        visited = {}  # Note that this is a dictionary, not a set
         q = []
-        temp = []
+        path = []
+        current_user = []
 
         q.append(userID)
-        temp = set()
-        temp.add(userID)
 
-        #loop through friends
-        #store bfs in path
-        #add path to visited dictionary
-        for friend in self.users:
-            print(self.friendships[friend])
-            path = graph.bfs(userID, friend)
+        #while the queue is not empty
+        # current user is the removed from the queue
+        #run bfs to find shortest distance from userID to current user
+        #if there is a extended connection, add path to visited
+        #add the current users friends to the queue if not visited
+        while len(q):
+            current_user = q.pop(0)
+            path = graph.bfs(userID, current_user)
             if type(path) is not str:
-                visited[friend] = path
+                visited[current_user] = path
+            else:
+                visited[current_user] = None
+            for friend in self.friendships[current_user]:
+                if friend not in visited:
+                    q.append(friend)
 
         return visited
 
