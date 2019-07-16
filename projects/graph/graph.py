@@ -27,12 +27,43 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        #Instantiate q
+        queue = Queue()
+        #set for visited numbers
+        visited = set()
+        #adds starting vertyex to queue
+        queue.enqueue(starting_vertex)
+        #clause for loop- while there are still items in the queue
+        while queue.size():
+            #node is dequeud current item
+            node = queue.dequeue()
+            # print(node)
+            #node gets marked in visited set
+            visited.add(node)
+            #grabs edges(connections) from current node
+            for edge in self.vertices[node]:
+                if edge not in visited:
+
+                #queues edges
+                    queue.enqueue(edge)
+        
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        stack = Stack()
+        visited = set()
+        stack.push(starting_vertex)
+        while stack.size():
+            node = stack.pop()
+            print(node)
+            visited.add(node)
+            for edge in self.vertices[node]:
+                if edge not in visited:
+                    stack.push(edge)
+                
         pass  # TODO
     def dft_recursive(self, starting_vertex):
         """
@@ -111,7 +142,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT recursive paths:
