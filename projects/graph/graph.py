@@ -29,7 +29,7 @@ class Graph:
         # Make a path
         path = []
         #put starting vertex in the queue
-        queue.enqueue(starting_vertex)
+        queue.enqueue(starting_vertex)   # []
         # while queue is not empty - dequeue the item, it is our current item
         while queue.size():
             node = queue.dequeue()
@@ -41,7 +41,7 @@ class Graph:
                 if edge not in visited:
                     # Put them in the queue
                     queue.enqueue(edge)
-        print(path)
+        print("BFT", path)
     
     def dft(self, starting_vertex):
         """
@@ -51,19 +51,24 @@ class Graph:
         # Make a stack - Make a visited set
         stack = Stack()
         visited = set()
+        path= []
         # Put starting vertext in our stack - while the stack isn't empty
         stack.push(starting_vertex)
         # POp off the top of the stack, it is our current item
         while stack.size():
             node = stack.pop()
+            path.append(node)
         #Mark it as visited
             visited.add(node)
         #for each of our current item's edges - if not visited
             for edge in self.vertices[node]:
                 if edge not in visited:
+                    # print(edge)
+                    visited.add(edge)  # remember this one
                     stack.push(edge)
         #put them on the stack.
- 
+        print("DFT", path)
+        
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -85,20 +90,32 @@ class Graph:
         """Return a list containing the shortest path from
            starting_vertex to destination_vertex in
            breath-first order."""
-        # Make a queue - Make a visited set
-        # Enqueue the path to the node
+        # Make a queue.
+        queue = Queue()
+        # Make a visited set.
+        visited = set()
+        # Enqueue the path to the node.
+        queue.enqueue([starting_vertex])
         # While the queue isn't empty:
-        ## dequeue the PATH
-        # the last thing in the path is our current item
-        ## CHECK if it's the target
-        #### if so, return the path
-        ### for each of the node's neighbor's
-        #### copy the path
-        #### add the neighbor to the path
-        #### enqueue the PATH COPY
-        pass
-
-
+        while queue.size() > 0:
+            ## dequeue and this is our current item
+            path = queue.dequeue()
+            ## the last item in the path is our current item            
+            node = path[-1]
+            # if the node not visited
+            if node not in visited:
+                # Check if it is the target item - if yes --> return path
+                if node == destination_vertex:
+                    return path
+                # For each node connections
+                for connection in self.vertices[node]:
+                    # copy the path
+                    copy_path = path[:]
+                    copy_path.append(connection)
+                    # enqueue the path copy
+                    queue.enqueue(copy_path)
+            
+        
 
         
     def dfs(self, starting_vertex, destination_vertex):
