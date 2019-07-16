@@ -90,12 +90,49 @@ class Graph:
 
 
         pass  # TODO
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
+
+        # fdjksalf
+        # make a queue
+        # 
+        # fdjksalf
+
+        q = Queue()
+
+        visited = set()
+
+        q.enqueue([starting_vertex])
+
+        while q.size() > 0:
+            path = q.dequeue()
+        
+        node = path[-1]
+
+        if node not in visited:
+            if node == destination_vertex:
+                return path
+            for neighbor in self.vertices[node]:
+                copy_path = path[:]k
+                copy_path.append(neighbor)
+                q.enqueue(copy_path)
+
+        # take the node were given
+        #  if this node has not been visited:
+        #   mark is as visited
+            if node not in visited:
+        #   for each of this notes neighbors
+                print(node)
+                visited.add(node)
+                for neighbor in self.vertices[node]:
+                    self.dft_recursive(neighbor, visited)
+        #    call dft_recursive()
+
+
         pass  # TODO
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -103,6 +140,27 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
+
+        q = Quene()
+
+        visited = set()
+
+        q.enqueue(starting_vertex)
+
+        while q.size():
+            path = q.dequeue()
+
+            node = [-1]
+
+            if node not in visited:
+                if node == destination_vertex:
+                    return path
+            # node is the lat thing in our path
+            # mark as visited
+            #  if it has not been visited
+            #  make a copy of that path
+            #  add the firend to that path
+            #   put the path to hat node in the queue
         pass  # TODO
     def dfs(self, starting_vertex, destination_vertex):
         """
