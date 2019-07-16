@@ -11,13 +11,13 @@ def dfs(starting_vertex, relative):
     stack.push([starting_vertex])
 # While the stack isn't empty
     while stack.size() > 0:
-         # Let pop off the path
+        # Let pop off the path
         path = stack.pop()
         # Get the last node or vertex from the path
         node = path[-1]
         # If that node has not been visited
         if node not in visited:
-             # Mark the node as visited
+        # Mark the node as visited
             visited.append(node)
             # for each each family member of the relative node
             for family in relative[node]:
@@ -47,5 +47,5 @@ def earliest_ancestor(ancestors, member):
 
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6),
-                  (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+                  (5, 7), (4, 5), (4, 8), (8, 9), (11, 8)]
 print(earliest_ancestor(test_ancestors, 6))

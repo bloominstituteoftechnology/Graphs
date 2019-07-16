@@ -46,7 +46,7 @@ class Graph:
         # while q isn't empty
         while queue.size():
                 # dequeue
-            nyea
+            node = queue.dequeue()
             # mark current as visted
 
             visited.add(node)
