@@ -60,15 +60,23 @@ class Graph:
         print(visited)
       
 
-
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, node, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        #take the node we're given
+        #if node hasnt been visited 
+        ##mark as visited
+        ##foreach of this nodes neighbors
+        ###call dft_recursive
+        if node not in visited:
+            visited.add(node)
+            for neighbor in self.vertices[node]:
+                self.dft_recursive(neighbor, visited)
+    
+        
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -76,16 +84,20 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        queue = Queue()
-        visited = []
-        queue.enqueue(starting_vertex)
-        while queue.size():
-            node = queue.dequeue()
+        queue= Queue()
+        visited = set()
+        queue.enqueue([starting_vertex])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            node = path[-1]
             if node not in visited:
-                visited.append(node)
-            for edge in self.vertices[node]:
-                if edge not in visited:
-                    queue.enqueue(edge)
+                if node == destination_vertex:
+                    return path
+                for neighbor in self.vertices[node]:
+                    copy_path = path.copy()
+                    copy_path.append(neighbor)
+                    queue.enqueue(copy_path)
+
                
                 
         print(visited)
@@ -97,7 +109,20 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack= Stack()
+        visited = set()
+        stack.push([starting_vertex])
+        while stack.size() > 0:
+            path = stack.pop()
+            node = path[-1]
+            if node not in visited:
+                if node == destination_vertex:
+                    return path
+                for neighbor in self.vertices[node]:
+                    copy_path = path.copy()
+                    copy_path.append(neighbor)
+                    stack.push(copy_path)
+        print(visited)
 
 
 
@@ -163,7 +188,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft_recursive(1)
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
@@ -176,4 +201,4 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
