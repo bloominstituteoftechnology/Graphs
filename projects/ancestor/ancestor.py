@@ -37,27 +37,33 @@ def earliest_ancestor(ancestors, starting_node):
    path = []
    highest = []
    visited = set()
+
    q.append(starting_node)
+   highest.append(starting_node)
    visited.add(starting_node)
 
+   index = len(highest)
+   count = len(highest)
+
    #travese using bft to check nodes by level
-   while len(q):
+   while True:
       node = q.pop(0)
       path.append(node)
    
    #find highest parent
-   # if the node has parents replace the highest node with the nodes parents
-      if graph.vertices[node]:
-         del highest
-         highest = list(graph.vertices[node])
-      # if no parents found
-      # add to highest if not already in highest
-      # else make node the highest
-      elif node in highest:
-         del highest
-         highest = [node]
-      else:
-         highest.append(node)
+   # add parents to highest
+      highest += list(graph.vertices[node])
+   #if q is empty and the node has no parents break
+      if not len(q) and not graph.vertices[node]:
+         break
+   #subtract 1 from count
+      count -= 1
+   #if count is 0
+      if not count:
+         highest = highest[index:]
+         count = len(highest)
+         index = len(highest)
+      
    #loop through graph vertices and add parents
       for parent in graph.vertices[node]:
          if parent not in visited:
