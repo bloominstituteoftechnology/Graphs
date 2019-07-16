@@ -99,32 +99,59 @@ class Graph:
         # While the queue isn't empty:
         while queue.size() > 0:
             ## dequeue and this is our current item
-            path = queue.dequeue()
+            path = queue.dequeue()   # --> [starting_vertex]  [2]
             ## the last item in the path is our current item            
-            node = path[-1]
+            node = path[-1]    # --> Starting_vertex 2
             # if the node not visited
             if node not in visited:
                 # Check if it is the target item - if yes --> return path
                 if node == destination_vertex:
                     return path
                 # For each node connections
-                for connection in self.vertices[node]:
-                    # copy the path
-                    copy_path = path[:]
-                    copy_path.append(connection)
-                    # enqueue the path copy
-                    queue.enqueue(copy_path)
-            
-        
-
-        
+                else:
+                    visited.add(node)
+                    for connection in self.vertices[node]:
+                        # copy the path
+                        copy_path = path[:]
+                        copy_path.append(connection)
+                        # enqueue the path copy
+                        queue.enqueue(copy_path)    
+                
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # Make a stack
+        stack = Stack()
+        # Make a visited 
+        visited = set()
+        # Add starting_vertex to the stack
+        stack.push([starting_vertex])
+        # while stack is not empty
+        while stack.size():
+            # pop the top item in the stack
+            path = stack.pop()
+            # grab the item not the array/list
+            node = path[-1]
+            # As long as node is not in the visited
+            if node is not visited:
+                # check it the node is our ending_vertex then return path
+                if node == destination_vertex:
+                    return path
+                else:
+                    visited.add(node)
+                    # for every connection in the node
+                    for connection in self.vertices[node]:
+                        # copy the path
+                        copy_path = path[:]
+                        # push new connection to the copied path
+                        copy_path.append(connection)
+                        # add this new copied path the stack
+                        stack.push(copy_path)
+
+       
 
 
 
