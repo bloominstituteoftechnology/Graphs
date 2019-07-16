@@ -7,18 +7,12 @@ class Queue():
   
   def dequeue(self):
     if self.size() > 0:
-      return self.queue.pop(0)['value']
+      return self.queue.pop(0)
     else:
       return None
   
   def size(self):
     return len(self.queue)
-  
-  def get(self, index = None):
-    if index is None:
-      return self.queue
-    else:
-      return self.queue[index]
 
 class Stack():
   def __init__(self):
@@ -35,9 +29,3 @@ class Stack():
   
   def size(self):
     return len(self.stack)
-  
-  def get(self, index = None): 
-    if index is None:
-      return self.stack
-    else:
-      return self.stack[index]
