@@ -54,6 +54,14 @@ def earliest_ancestor(ancestors, starting_node):
             count -= 1
             if not count:
                 highest_nodes = highest_nodes[index:]
+                count = len(highest_nodes)
+                index = len(highest_nodes)
+            for parent in graph.verices[node]:
+                if parent not in visited:
+                    queue.append(parent)
+                    visited.add(parent)
+             
+
 
     # Create Count
 
