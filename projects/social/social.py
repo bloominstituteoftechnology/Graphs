@@ -59,9 +59,11 @@ class SocialGraph:
                 if userID == friend:
                     continue
                 fs_combo.append((userID, friendID))
-        print(fs_combo)
+        # print(fs_combo)
         random.shuffle(fs_combo)
-        made_friends = fs_combo[:(all_friendships)/ 2]
+        to_make = int(all_friendships / 2)
+        # print('to make:', to_make)
+        made_friends = fs_combo[:to_make]
         # Create friendships
             # make combinations
             # shuffle combinations
