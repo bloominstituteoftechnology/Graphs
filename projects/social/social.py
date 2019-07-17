@@ -1,4 +1,6 @@
 import random, itertools
+from util import Stack, Queue
+
 
 class User:
     def __init__(self, name):
@@ -55,6 +57,25 @@ class SocialGraph:
 
         for i in random_connections:
             self.addFriendship(i[0], i[1])
+
+        def bfs(self, starting_vertex, destination_vertex):
+            q = Queue()
+            q.enqueue([starting_vertex])
+            visited = set()
+
+            while q.size() > 0:
+                path = q.dequeue()
+                v = path[-1]
+                if v not in visited:
+                    if v == destination_vertex:
+                        return path
+                    else:
+                        visited.add(v)
+                    for next_vert in self.friendships[v]:
+                        new_path = list(path)
+                        new_path.append(next_vert)
+                        q.enqueue(new_path)
+            return None
 
     def getAllSocialPaths(self, userID):
         """
