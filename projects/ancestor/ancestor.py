@@ -1,4 +1,4 @@
-from util import Stack, Queue  # These may come in handy
+
 
 class Graph:
     def __int__(self):
@@ -6,13 +6,14 @@ class Graph:
 
     #Add a vertex to the graph 
     def add_vertices(self, vertex):
-        self.vertices[vertex] = set()
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
     # Add  a directed edge to the
     def add_edge(self, v1, v2):
         if v1 not in self.vertices:
-            self.add_vertices(v1);
+            self.add_vertex(v1);
         if v2 not in self.vertices:
-            self.add_vertices(v2);
+            self.add_vertex(v2);
         self.vertices[v1].add(v2)
 
 
@@ -21,26 +22,27 @@ def earliest_ancestor(ancestors, starting_node):
     # Build graph
     graph = Graph()
 
-    1 = list(group)
-    graph.add_edge(1[1], 1[0])
+    for group in ancestors:
+        l = list(group)
+        graph.add_edge(l[1], l[0])
     # BFT
     #make a queue
     queue = []
     #make a visited set
     visited = set()
     # make path
-    dft_path = []
+    bft_path = []
     #store highest node
     highest_nodes = []
     # put starting vertex in he queue
-    queue.apend(starting_node)
-    highest_node.append(starting_node)
+    queue.append(starting_node)
+    highest_nodes.append(starting_node)
     visited.add(starting_node)
 
     index = len(highest_nodes)
     count = len(highest_nodes)
     #while q isn\t empty
-    while TRUE:
+    while True:
     # dequeue the item, it is our current item
         node = queue.pop()
         print(node)
@@ -56,7 +58,7 @@ def earliest_ancestor(ancestors, starting_node):
             highest_nodes = highest_nodes[index:]
             count = len(highest_nodes)
             index = len(highest_nodes)
-        for parent in graph.verices[node]:
+        for parent in graph.vertices[node]:
             if parent not in visited:
                 queue.append(parent)
                 visited.add(parent)
