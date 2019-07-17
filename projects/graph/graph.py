@@ -105,10 +105,25 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
-
-
-
+        s = Stack()
+        visited = set()
+        
+        s.push([starting_vertex])
+        while s.size():
+            path = s.pop()
+            vertex = path[-1]
+            if vertex == destination_vertex:
+                return path
+            elif vertex not in visited:
+                for next in self.vertices[vertex]:
+                    new_path = list(path)
+                    new_path.append(next)
+                    s.push(new_path)
+                visited.add(vertex)
+        if vertex != destination_vertex:
+            return f"path from {starting_vertex} to {destination_vertex} not found"
+        return path
+        
 
 
 if __name__ == '__main__':
