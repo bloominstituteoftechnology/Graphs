@@ -11,7 +11,9 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        self.vertices[vertex] = set()
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+            
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
@@ -36,7 +38,7 @@ class Graph:
 
         while queue.size():
             node = queue.dequeue()
-            print(node)
+            
             if node not in visited:
                 visited.add(queue)
                 for edge in self.vertices[node]:
@@ -165,7 +167,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    #graph.bft(1)
+    graph.bft(1)
 
     '''
     Valid DFT recursive paths:
