@@ -1,3 +1,5 @@
+from util import Stack, Queue  # These may come in handy
+
 class Graph:
     def __int__(self):
         self.vertices = {}
@@ -26,6 +28,10 @@ def earliest_ancestor(ancestors, starting_node):
         queue = Queue()
         #make a visited set
         visited = set()
+        # make path
+        dft_path = []
+        #store highest node
+        highest_node = []
         # put starting vertex in he queue
         queue.enqueue(starting_vertex)
         #while q isn\t empty
