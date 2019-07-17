@@ -46,6 +46,7 @@ class SocialGraph:
         self.friendships = {}
         lastID = self.lastID
         users = self.users
+        all_friendships = avgFriendships * numUsers
         # !!!! IMPLEMENT ME
 
         # Add users
@@ -54,12 +55,13 @@ class SocialGraph:
             self.addUser(user)
 
         for userID in users:
-            for friend in range(userID + 1, lastID - 1):
-                if user == friend:
+            for friend in range(userID + 1, lastID + 1):
+                if userID == friend:
                     continue
-                fs_combo.append((user, friend))
+                fs_combo.append((userID, friendID))
         print(fs_combo)
         random.shuffle(fs_combo)
+        made_friends = fs_combo[:(all_friendships)/ 2]
         # Create friendships
             # make combinations
             # shuffle combinations
@@ -82,7 +84,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(5, 2)
+    sg.populateGraph(10, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
