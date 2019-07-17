@@ -84,6 +84,8 @@ class SocialGraph:
         q.append(userID)
 
         while len(q):
+            current_user = q.pop(0)
+            path = graph.bfs(userID, current_user)
         return visited
 
 
