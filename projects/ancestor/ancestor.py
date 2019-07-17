@@ -31,20 +31,29 @@ def earliest_ancestor(ancestors, starting_node):
         # make path
         dft_path = []
         #store highest node
-        highest_node = []
+        highest_nodes = []
         # put starting vertex in he queue
-        queue.enqueue(starting_vertex)
+        queue.apend(starting_node)
+        highest_node.append(starting_node)
+        visited.add(starting_node)
+
+        index = len(highest_nodes)
+        count = len(highest_nodes)
         #while q isn\t empty
-        while queue.size():
+        while TRUE:
         # dequeue the item, it is our current item
-            node = queue.dequeue()
+            node = queue.pop()
             print(node)
         # mark current as visited
-            visited.add(node)
+            bft_path.append(node)
         # for each of the dequeued item's edge
-            for edge in self.vertices[node]:
+            highest_nodes += list(graph.vertices[node])
         # put them in the queue
-                queue.enqueue(edge)
+            if not len(queue) and not graph.vertices[node]:
+                break
+            count -= 1
+            if not count:
+                highest_nodes = highest_nodes[index:]
 
     # Create Count
 
