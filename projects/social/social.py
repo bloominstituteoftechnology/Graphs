@@ -1,5 +1,6 @@
 
 
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -47,8 +48,18 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        fs_combo = []
+        for user in range(numUsers):
+            self.addUser(user)
 
+        for user in range(numUsers - 1):
+            for friend in range(1, numUsers):
+                fs_combo.append((user, friend))
         # Create friendships
+            # make combinations
+            # shuffle combinations
+            # take n friendships
+            # avgFriendships = totalFriendships/numUsers
 
     def getAllSocialPaths(self, userID):
         """
