@@ -1,4 +1,4 @@
-
+import random
 
 class User:
     def __init__(self, name):
@@ -47,8 +47,23 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-
+        for user in range(numUsers):
+            self.addUser(user)
         # Create friendships
+        friendship_combos = []
+
+
+        for userID in self.users:
+            for friendID in range(userID +1, self.lastID + 1):
+                if userID != friendID:
+                    friendship_combos.append((userID, friendID))
+        random.shuffle(friendship_combos)
+        friends_to_make = friendship_combos[:(avgFriendships * numUsers / 2)]
+
+        for friendship in friends_to_make:
+            first_friend = friendship[0]
+            second_friend = friendship[2]
+            self.addFriendship(first_friend, second_friend)
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,6 +76,8 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        ###use BFS
+        #visited: {FriendID: [userid, somebodyelse, friendID]}
         return visited
 
 
