@@ -77,6 +77,13 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        q = []
+        path = []
+        current_user = []
+
+        q.append(userID)
+
+        while len(q):
         return visited
 
 

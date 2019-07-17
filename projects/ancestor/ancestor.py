@@ -5,17 +5,18 @@ class Graph:
         self.vertices = {}
 
     #Add a vertex to the graph 
-    def add_vertices(self, vertex):
+    def add_vertex(self, vertex):
         if vertex not in self.vertices:
             self.vertices[vertex] = set()
     # Add  a directed edge to the
     def add_edge(self, v1, v2):
         if v1 not in self.vertices:
-            self.add_vertex(v1);
+            self.add_vertex(v1)
+    
         if v2 not in self.vertices:
-            self.add_vertex(v2);
-        self.vertices[v1].add(v2)
+            self.add_vertex(v2)
 
+        self.vertices[v1].add(v2)
 
 def earliest_ancestor(ancestors, starting_node):
     
