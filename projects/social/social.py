@@ -50,6 +50,11 @@ class SocialGraph:
             self.addUser(user)
 
         # Create friendships
+        friendship_combinations = []
+        ## make all possible friendship combinations 
+        ## shuffle the friendship combinations
+        ## take the N number of friendships
+        # averageFriendShips = totalFriendShips / numUsers
 
     def getAllSocialPaths(self, userID):
         """
