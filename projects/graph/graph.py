@@ -114,14 +114,59 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # make a queue
+        q = Queue()
+        # make a visited set
+        visited = set()
+        #enqueue the PATH to that node
+        q.enqueue([starting_vertex])
+        # while the queue isn't empty:
+        while q.size() > 0:
+            # dequeue the PATH
+            path = q.dequeue()
+            # last thing in the path is current item
+            node = path[-1]
+            # if it's not visited:
+            if node not in visited:
+                #check if it's the target
+                if node == destination_vertex:
+                    #return the path
+                    return path
+                # for each of the node's neighbors
+                for neighbor in self.vertices[node]:
+                    #copy the path
+                    copy_path = path.copy()
+                    # add neighbor to the path
+                    copy_path.append(neighbor)
+                    # enqueue the path_copy
+                    q.enqueue(copy_path)
+                    
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = Stack()
+        visited = set()
+
+        # add a path
+        stack.push([starting_vertex])
+
+        while stack.size() > 0:
+            path = stack.pop()
+
+            # we want the last thing in the path as the current item
+            node = path[-1]
+
+            if node not in visited:
+                if node == destination_vertex:
+                    return path
+
+                for neighbor in self.vertices[node]:
+                    copy_path = path[:]
+                    copy_path.append(neighbor)
+                    stack.push(copy_path)
 
 
 
@@ -188,7 +233,7 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     
-    print(graph.dft_recursive(1))
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
