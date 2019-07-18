@@ -64,28 +64,63 @@ class Graph:
                 if edge not in visited:
                     stack.push(edge)
                 
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+        
+    def dft_recursive(self, node, visited = set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        if node not in visited:
+            visited.add(node)
+            for edge in self.vertices[node]:
+                dft_recursive(edge, visited)
+        
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        queue = Queue()
+        visited = set()
+        queue.enqueue([starting_vertex])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            node = path[-1]
+            if node == destination_vertex:
+                return path
+            for neighbor in self.vertices[node]:
+                copy_path = path.copy()
+                copy_path.append(neighbor)   
+                queue.enqueue(copy_path)
+
+
+        
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        #create stack
+        stack = Stack()
+        #create empty set for visited nodes
+        visited = set()
+        #add starting point
+        stack.push(starting_vertex)
+        #loop condition
+        while stack.size > 0:
+            #get path
+            path = stack.pop()
+            #last index in path is current item
+            node = path[-1]
+            if node == destination_vertex:
+                return path
+            for neighbor in self.vertices[node]:
+                copy_path = path.copy()
+                copy_path.append(neighbor)
+                stack.push(copy_path)  
 
 
 
