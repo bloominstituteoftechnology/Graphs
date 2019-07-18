@@ -1,12 +1,3 @@
-# I'm still getting errors. Code needs more work, I think I'm on the right track. What my terminal is returning:
-
-# Traceback (most recent call last):
-#   File "social.py", line 157, in <module>
-#     connections = sg.getAllSocialPaths(1)
-#   File "social.py", line 138, in getAllSocialPaths
-#     if vertex == destination_vertex:
-# NameError: name 'destination_vertex' is not defined
-
 import random
 
 
@@ -27,32 +18,9 @@ class Queue():
         return len(self.queue)
 
 
-class Stack():
-    def __init__(self):
-        self.stack = []
-
-    def push(self, value):
-        self.stack.append(value)
-
-    def pop(self):
-        if self.size() > 0:
-            return self.stack.pop()
-        else:
-            return None
-
-    def size(self):
-        return len(self.stack)
-
-
 class User:
     def __init__(self, name):
         self.name = name
-
-
-def fisher_yates_shuffle(l):
-    for i in range(0, len(l) - 2):
-        random_index = random.randint(i, len(l) - 1)
-        l[random_index], l[i] = l[i], l[random_index]
 
 
 class SocialGraph:
@@ -93,27 +61,25 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
-        # ---------
-        # Generate 1 user per number between 1 and numUsers
-        for i in range(numUsers):
-            self.addUser(self.lastID + 1)
-
-        # Create friendships
-        # ------------------
-        # Create while loop that goes while count < numUsers * avgFriendships
-        count = 0
-        while count < (numUsers * avgFriendships) // 2:
-            # add a random friend to a random user, checking first to see if they are already friends or if the user is trying to befriend himself
-            friend_key = random.randint(1, numUsers)
-            user_key = random.randint(1, numUsers)
-            while friend_key == user_key or friend_key in self.friendships[user_key] or user_key in self.friendships[friend_key]:
-                friend_key = random.randint(1, numUsers)
-
-            count += 1
-            self.addFriendship(user_key, friend_key)
+        for i in range(0, numUsers):
+            self.addUser(f"User {i + 1}")
+        # Generate all possible friendship combinations
+        possibleFriendships = []
+        # Avoid duplicates by ensuring the first number is always smaller than the second number
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID + 1):
+                possibleFriendships.append((userID, friendID))
+        # Shuffle the possible frienships (use Fisher-Yates)
+        random.shuffle(possibleFriendships)
+        # Create friendships for the first X pairs of the list
+        # X = Friendships_needed
+        # Friendships_needed = numusers * (avgFriendships // 2)
+        # Need to divide by 2 since each addFriendship() creates 2 friendships
+        for i in range(numUsers * (avgFriendships // 2)):
+            friendships = possibleFriendships[i]
+            self.addFriendship(friendships[0], friendships[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -122,46 +88,30 @@ class SocialGraph:
         extended network with the shortest friendship path between them.
         The key is the friend's ID and the value is the path.
         """
-
-        # Store userID pointer in starting_vertex property for sake of using graph terminology
-        starting_vertex = userID
-        # Create an empty set to store visited nodes
-        visited = {}
-        # Create an empty connections dictionary
-        connections = {}
-        # Create an empty Queue and enqueue A PATH TO the starting vertex
+        visited = {}  # Note that this is a dictionary, not a set
+        # !!!! IMPLEMENT ME OR SHOOT ME. FINE WITH BOTH
         queue = Queue()
-        queue.enqueue([starting_vertex])
-        # While the queue is not empty...
+        queue.enqueue([userID])
+
         while queue.size() > 0:
-            # Dequeue the first PATH
             path = queue.dequeue()
-            # GRAB THE VERTEX FROM THE END OF THE PATH
-            vertex = path[-1]
-            # If that vertex has not been visited...
-            if vertex not in visited:
-                # Mark it as visited
-                visited[userID] = path
+            friendID = path[-1]
 
-                # IF VERTEX = TARGET, RETURN PATH
-                if vertex == destination_vertex:
-                    return path
+            if friendID not in visited:
+                visited[friendID] = path
 
-                # Then add A PATH TO all of its neighbors to the back of the queue
-                for friend in self.vertices[vertex]:
-                    if friend not in visited:
-                        # Copy the path
-                        path_copy = path.copy()
-                        # Append neighbor to the back of the copy
-                        path_copy.append(neighbor)
+                for next_friendID in self.friendships[friendID]:
+                    new_path = path + [next_friendID]
+                    queue.enqueue(new_path)
 
-                        # Enqueue copy
-                        queue.enqueue(path_copy)
+        return visited
+
+        return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 4)
-    # print(sg.friendships)
+    sg.populateGraph(10, 2)
+    print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
