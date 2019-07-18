@@ -1,3 +1,5 @@
+from random import randint
+
 class User:
   def __init__(self, name):
     self.name = name
@@ -26,7 +28,7 @@ class SocialGraph:
     Create a new user with a sequential integer ID
     """
 
-    # Automatically increment the ID to assign the new user
+    # Automatically increment the ID to assign the new user.
     self.lastID += 1
 
     self.users[self.lastID] = User(name)
@@ -51,9 +53,23 @@ class SocialGraph:
       # !!!! IMPLEMENT ME
 
       # Add users
+      while numUsers:
+        self.addUser(None)
+        numUsers -= 1
 
       # Create friendships
+      for user in self.users:
+        friend_count = randint(0, avgFriendships*2)
+        users_list = [key for key, val in self.users.items() if key != user and key not in self.friendships[user]]
 
+        while friend_count and len(users_list):
+          rand_index = randint(0, len(users_list) - 1)
+          friend = users_list[rand_index]
+          self.friendships[user].add(friend)
+          self.friendships[friend].add(user)
+          users_list.pop(rand_index)
+          friend_count -= 1
+          
   def getAllSocialPaths(self, userID):
     """
     Takes a user's userID as an argument
@@ -73,6 +89,7 @@ class SocialGraph:
 if __name__ == '__main__':
   sg = SocialGraph()
   sg.populateGraph(10, 2)
+  print(sg.users)
   print(sg.friendships)
-  connections = sg.getAllSocialPaths(1)
-  print(connections)
+  # connections = sg.getAllSocialPaths(1)
+  # print(connections)
