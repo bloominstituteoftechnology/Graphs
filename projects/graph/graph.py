@@ -20,8 +20,24 @@ class Graph:
         """
         if v1 not in self.vertices:
             self.add_vertex(v1)
-        else:
+        elif v1 in self.vertices:
             self.vertices[v1].add(v2)
+
+        # ****** Undirected
+    def add_bi_edge(self, v1, v2):
+        vertices = self.vertices
+        if v1 and v2 in vertices:
+            self.add_edge(v1, v2)
+            self.add_edge(v2, v1)
+        elif v1 and v2 not in vertices:
+            self.add_vertex(v1)
+            self.add_vertex(v2)
+            self.add_bi_edge(v1, v2)
+        # self.add_vertex(v1)
+        # self.add_vertex(v2)
+        # self.vertices[v1].add(v2)
+        # self.vertices[v2].add(v1)
+
 
     def bft(self, starting_vertex):
         """
