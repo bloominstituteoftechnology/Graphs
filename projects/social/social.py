@@ -44,32 +44,32 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        lastID = self.lastID
-        users = self.users
         all_friendships = avgFriendships * numUsers
+        fs_combo = []
         # !!!! IMPLEMENT ME
 
         # Add users
-        fs_combo = []
         for user in range(numUsers):
             self.addUser(user)
 
-        for userID in users:
-            for friend in range(userID + 1, lastID + 1):
-                if userID == friend:
-                    continue
-                fs_combo.append((userID, friendID))
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID + 1):
+                if userID != friendID:
+                    fs_combo.append((userID, friendID))
         # print(fs_combo)
         random.shuffle(fs_combo)
         to_make = int(all_friendships / 2)
         # print('to make:', to_make)
-        made_friends = fs_combo[:to_make]
+        made_friends = fs_combo[0:to_make]
         # Create friendships
             # make combinations
             # shuffle combinations
             # take n friendships
             # avgFriendships = totalFriendships/numUsers
-
+        for fs in made_friends:
+            first_friend = fs[0]
+            second_friend = fs[1]
+            self.addFriendship(first_friend, second_friend)
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
