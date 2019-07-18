@@ -1,5 +1,5 @@
 import random
-
+from util import Queue
 class User:
     def __init__(self, name):
         self.name = name
@@ -82,11 +82,47 @@ class SocialGraph:
 
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        q = Queue()
 
-        self.friendships[userID]
+        path = [userID]
+        q.enqueue(path)
+
+        while q.size():
+            path = q.dequeue()
+            node = path[-1]
+            if node not in visited:
+                visited[node] = path
+                for friend in self.friendships[node]:
+                    path_copy = path[:]
+                    path_copy.append(friend)
+                    q.enqueue(path_copy)
+                    # copy the path
+                    # add the firned to the path
+                    # put the path to the fridn in the queue
+
+        # self.friendships[userID]
 
         return visited
 
+    # def populateGraphLinear(self, numUsers, avgFriendships):
+    #     self.lastID
+    #     self.users
+    #     self.friendships = {}
+
+    #     for user in range(numUsers):
+    #         self.addUser(user)
+
+
+    #     totalFriendships = avgFriendships * numUsers
+    #     friendships_created = 0
+    #     while friendships_created < totalFriendships:
+    #         first_friend = random.randint(0, numUsers)
+    #         second_friend = random.randint(0, numUsers)
+    #         maybe_friendship = self.addFriendship(first_friend, second_friend)
+    #         if maybe_friendship = true:
+                
+    
+    #     friendships_created += 1
 
 if __name__ == '__main__':
     sg = SocialGraph()
