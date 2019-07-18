@@ -1,4 +1,5 @@
 import random
+from graph.util import Stack, Queue
 
 class User:
     def __init__(self, name):
@@ -79,6 +80,8 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+
+        # self.friendships[userID]
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
         return visited
