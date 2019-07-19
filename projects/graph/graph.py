@@ -102,6 +102,22 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
+
+        visited = {}
+        path = [starting_vertex]
+        s = Stack()
+        s.push(path)
+        while s.size():
+            path = s.pop()
+            node = path[-1]
+            if node == destination_vertex:
+                return path
+            elif node not in visited:
+                visited[node] = path
+                for neighbor in self.vertices[node]:
+                    path_copy = path[:]
+                    path_copy.append(neighbor)
+                    s.push(path_copy)
         pass  # TODO
 
 
