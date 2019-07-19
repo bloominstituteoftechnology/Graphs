@@ -24,11 +24,18 @@ player = Player("Name", world.startingRoom)
 
 # Fill this out
 traversalPath = []
+
+# Populate the graph with every room id in roomGraph
 checkPaths = {}
 checkPaths[player.currentRoom.id] = {'n': '?', 's': '?', 'w': '?', 'e': '?'}
-queue = deque()
+# Breadth first search when we reach a deadend
+queueUncheckedRooms = deque()
+# Depth first search for everything else.
+stackRooms = []
 while True:
+    # I will want to send these exits to the graph's edges instead of hardcoding it like above.
     exits = player.currentRoom.getExits()
+    # After I get every room ID with every available exit (as an unknown '?' value) I can start traversing through the graph 
     
     for path in exits:
         returnPath = ''
