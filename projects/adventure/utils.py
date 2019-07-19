@@ -1,3 +1,24 @@
+class Stack:
+	def __init__(self):
+		self.stack = []
+
+	def length(self):
+		return len(self.stack)
+
+	def push(self):
+
+	def pop(self):
+
+class Queue:
+	def __init__(self):
+		self.queue = []
+
+	def length(self):
+		return len(self.queue)
+
+	def enqueue(self):
+
+	def dequeue(self):
 class Graph:
 	def __init__(self, mode: str):
 		self.vertices = {}
@@ -10,10 +31,13 @@ class Graph:
 			self.mode = mode
 
 		def checkMode(mode: str):
-			if self.mode is str:
+			if self.mode is mode:
 				return True
 			else:
-				print("This is an operation for an {}")
+				f'''This operation is for a {self.mode} Graph,
+						but currently, this Graph is in {mode} mode,
+						to change modes, use the setMode function
+				'''
 				return False
 
 		def addVert(self, vert):
