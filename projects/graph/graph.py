@@ -26,7 +26,6 @@ class Graph:
             self.add_vertex(v2)
 
         self.vertices[v1].add(v2)
-        #self.vertices[v2].add(v1)
 
 
     def bft(self, starting_vertex):

@@ -53,5 +53,15 @@ def getNeighbors(x,y, matrix):
         if node == 1:
             neighbors.append(node)
 
+    if stepWest is not False:
+        node = matrix[][]
+        if node == 1:
+            neighbors.append(node)
+
+    if stepEast is not False:
+        node = matrix[stepEast][y]
+        if node == 1:
+            neighbors.append(node)
+
 count_islands(islands)
 print(f"Len of islands: {len(islands)}")
