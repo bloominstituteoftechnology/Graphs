@@ -126,12 +126,12 @@ class SocialGraph:
         vert = [userID]
         queue.enqueue(vert)
         while queue.size():
-            vert = queue.enqueue()
-            node = path[-1]
+            vert = queue.dequeue()
+            node = vert[-1]
             if node not in visited:
-                visited[node] = path
+                visited[node] = vert
                 for friend in self.friendships[node]:
-                    path_copy = path[:]
+                    path_copy = vert[:]
                     path_copy.append(friend)
                     queue.enqueue(path_copy)
         # !!!! IMPLEMENT ME
@@ -141,7 +141,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(100, 2)
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
