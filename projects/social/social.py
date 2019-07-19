@@ -1,5 +1,31 @@
 import random
-from graph.util import Stack, Queue
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
 
 class User:
     def __init__(self, name):
@@ -10,6 +36,7 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
+        self.queue = Queue()
 
     def addFriendship(self, userID, friendID):
         """
@@ -17,11 +44,14 @@ class SocialGraph:
         """
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return True
 
     def addUser(self, name):
         """
@@ -50,27 +80,36 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        created = 0
+        collisions = 0
         for user in range(numUsers):
             self.addUser(user)
-
-        for userID in self.users:
-            for friendID in range(userID + 1, self.lastID + 1):
-                if userID != friendID:
-                    fs_combo.append((userID, friendID))
+        # use random.randint(1, numUsers)
+        while created < all_friendships:
+            first_friend = random.randint(1, numUsers)
+            second_friend = random.randint(1, numUsers)
+            attempt = self.addFriendship(first_friend, second_friend)
+            if attempt == True:
+                created += 1
+            else: collisions += 1
+        # for userID in self.users:
+        #     for friendID in range(userID + 1, self.lastID + 1):
+        #         if userID != friendID:
+        #             fs_combo.append((userID, friendID))
         # print(fs_combo)
-        random.shuffle(fs_combo)
-        to_make = int(all_friendships / 2)
+        # random.shuffle(fs_combo)
+        # to_make = int(all_friendships / 2)
         # print('to make:', to_make)
-        made_friends = fs_combo[0:to_make]
+        # made_friends = fs_combo[0:to_make]
         # Create friendships
             # make combinations
             # shuffle combinations
             # take n friendships
             # avgFriendships = totalFriendships/numUsers
-        for fs in made_friends:
-            first_friend = fs[0]
-            second_friend = fs[1]
-            self.addFriendship(first_friend, second_friend)
+        # for fs in made_friends:
+        #     first_friend = fs[0]
+        #     second_friend = fs[1]
+        #     self.addFriendship(first_friend, second_friend)
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -83,7 +122,20 @@ class SocialGraph:
 
         # self.friendships[userID]
         visited = {}  # Note that this is a dictionary, not a set
+        queue = self.queue
+        vert = [userID]
+        queue.enqueue(vert)
+        while queue.size():
+            vert = queue.enqueue()
+            node = path[-1]
+            if node not in visited:
+                visited[node] = path
+                for friend in self.friendships[node]:
+                    path_copy = path[:]
+                    path_copy.append(friend)
+                    queue.enqueue(path_copy)
         # !!!! IMPLEMENT ME
+        self.queue = Queue()
         return visited
 
 
