@@ -22,7 +22,7 @@ world.printRooms()
 player = Player("Name", world.startingRoom)
 
 # Fill this out
-traversalPath = []
+traversalPath = ['n', 'n']
 
 
 

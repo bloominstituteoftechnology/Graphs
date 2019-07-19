@@ -1,4 +1,6 @@
+from util import Queue
 import random
+
 
 class User:
     def __init__(self, name):
@@ -67,6 +69,7 @@ class SocialGraph:
             second_friend = friendship[1]
             self.addFriendship(first_friend,second_friend)
 
+
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -78,6 +81,17 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        q = Queue()
+        path = [userID]
+        q.enqueue(path)
+        while q.size():
+            path = q.dequeue()
+            node = path[-1]
+            if node not in visited:
+                visited[node] = path
+                for friend in self.friendships[node]:
+                    path_copy = path[:]
+
         return visited
 
 
