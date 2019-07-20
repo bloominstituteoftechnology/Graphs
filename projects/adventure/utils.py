@@ -35,6 +35,7 @@ class Graph:
 		self.stack = Stack()
 		self.queue = Queue()
 		self.mode = 'Undirected'
+		self.path = []
 
 	def set_mode(mode: str):
 		self.mode = mode
