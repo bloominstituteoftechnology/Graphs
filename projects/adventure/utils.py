@@ -95,11 +95,11 @@ class Graph:
 		return visited
 
 
-	def bfs(self, starting_vert):
-		visited = []
-		vertices = self.vertices
-		queue = self.queue
-		queue.enqueue(starting_vert)
-		while queue.length():
-			vert = queue.dequeue()
-			if vert not in visited
+	# def bfs(self, starting_vert):
+	# 	visited = []
+	# 	vertices = self.vertices
+	# 	queue = self.queue
+	# 	queue.enqueue(starting_vert)
+	# 	while queue.length():
+	# 		vert = queue.dequeue()
+	# 		if vert not in visited

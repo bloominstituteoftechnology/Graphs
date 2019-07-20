@@ -18,18 +18,26 @@ roomGraph={0: [(3, 5), {'n': 1}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s
 world.loadGraph(roomGraph)
 
 # UNCOMMENT TO VIEW MAP
-world.printRooms()
+# world.printRooms()
 
 player = Player("Name", world.startingRoom)
 
 # Fill this out
 traversalPath = []
 
+def find_unexplored(cur_room):
+	rooms = player.currentRoom.getExits()
+	for r in rooms:
+		print(type(r))
+	# print('rooms exits: ',rooms)
+
+
 traversalGraph = Graph('Undirected')
 traversalGraph.add_vert(9)
-print(traversalGraph.show_verts())
+# print(traversalGraph.show_verts())
 
-print('Exits: ',player.currentRoom.getExits())
+print('Current room: ',player.currentRoom.id)
+find_unexplored(player.currentRoom)
 #
 # # TRAVERSAL TEST
 # visited_rooms = set()
