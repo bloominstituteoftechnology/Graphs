@@ -5,9 +5,14 @@ class Stack:
 	def length(self):
 		return len(self.stack)
 
-	def push(self):
-
-	def pop(self):
+	def push(self, item):
+		self.stack.append(item)
+	def pop(self, item):
+		if self.length() > 0:
+			self.stack.pop(item)
+		else:
+			f"Stack is currently empty."
+			return None
 
 class Queue:
 	def __init__(self):
@@ -16,9 +21,13 @@ class Queue:
 	def length(self):
 		return len(self.queue)
 
-	def enqueue(self):
+	def enqueue(self, item):
+		self.queue.append(item)
+	def dequeue(self, item):
+		if self.length() > 0:
+			self.queue.pop(0)
 
-	def dequeue(self):
+
 class Graph:
 	def __init__(self, mode: str):
 		self.vertices = {}
