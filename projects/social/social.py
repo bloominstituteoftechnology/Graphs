@@ -1,4 +1,19 @@
 
+import random
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 
 class User:
     def __init__(self, name):
@@ -46,7 +61,30 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
+        combos = []
         # Add users
+
+        for user in range(numUsers):
+            self.addUser(user)
+    
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID+1):
+                if userID != friendID:
+                    combos.append((userID, friendID))
+        
+
+        random.shuffle(combos)
+
+        total = avgFriendships * numUsers
+
+        make_friends = combos[:int(total / 2)]
+
+
+
+        for friendship in make_friends:
+            f1 = friendship[0]
+            f2 = friendship[1]
+            self.addFriendship(f1,f2)
 
         # Create friendships
 
@@ -59,14 +97,49 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
+        friend_network = {}
+
+        def shortest_connection(start, stop):
+            breadth = Queue()
+            visited = [ ]
+            breadth.enqueue([start])
+            while breadth.size():
+                path = breadth.dequeue()
+                node = path[-1]
+                if node not in visited:
+                    visited.append(node)
+                    if node == stop:
+                        friend_network[node] = path[::-1]
+                    for neighbor in self.friendships[node]:
+                        new_path = path[:]
+                        new_path.append(neighbor)
+                        breadth.enqueue(new_path)
+
+
+
+
+
+        for friend in self.friendships:
+            if friend == userID:
+                continue
+            
+            else:
+                shortest_connection(userID, friend)
+                
+        
+        print(f"All of {userID}'s connections")
+        return friend_network
+
+
+        
+          # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        return visited
+        # return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
-    print(sg.friendships)
-    connections = sg.getAllSocialPaths(1)
+    sg.populateGraph(44, 4)
+    # print(sg.friendships)
+    connections = sg.getAllSocialPaths(4)
     print(connections)
