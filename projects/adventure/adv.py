@@ -29,7 +29,7 @@ traversalGraph = Graph('Undirected')
 traversalGraph.add_vert(9)
 print(traversalGraph.show_verts())
 
-# print(player.currentRoom.getExits())
+print('Exits: ',player.currentRoom.getExits())
 #
 # # TRAVERSAL TEST
 # visited_rooms = set()

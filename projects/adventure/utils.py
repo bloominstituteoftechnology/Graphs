@@ -80,3 +80,11 @@ class Graph:
 
 	def show_verts(self):
 			return self.vertices
+
+	def dft(self, starting_vert):
+
+	def bft(self, starting_vert):
+
+	def dfs(self, starting_vert):
+
+	def bfs(self, starting_vert):
