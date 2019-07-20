@@ -24,18 +24,22 @@ player = Player("Name", world.startingRoom)
 # Fill this out
 traversalPath = []
 traversalGraph = Graph('Undirected')
-path = traversalGraph.path
-path.append(9)
-for x in path:
-	print('x is: ',x)
+
+
 def find_unexplored(cur_room):
 	path = traversalGraph.path
-	traversalPath.append(world.startingRoom.id)
+	# path.append(world.startingRoom.id)
 	r_int = random.randint
-	# use the getRoomInDirection method from the room obj.
+	rooms = []
+	dir = ''
+	while len(path) is not len(roomGraph) - 1:
+		rooms = player.currentRoom.getExits()
+		dir = rooms[r_int(1, len(rooms) - 1)]
+		player.travel(dir)
+
+# use the getRoomInDirection method from the room obj.
 	# maybe extract line 33 into mini function to reset current room?
 	# how do we take advantage of numeric ID? to track rooms checked, preview adjacent rooms, etc.
-	rooms = player.currentRoom.getExits()
 	# for r in rooms:
 	# print('rooms exit choices: ',r)
 	# Use base case from test, exit recursive loop when len(traversal-path) == num of rooms
@@ -52,14 +56,12 @@ def find_unexplored(cur_room):
 
 	# honestly we should put the traversal path IN the graph.
 
-	player.travel(rooms[r_int(1, len(rooms) - 1)])
 	traversalPath.append(player.currentRoom.id)
 	print(player.currentRoom.getExitsString())
 # print(rooms[r_int(1, len(rooms) - 1)])
 
 print(traversalPath)
-
-traversalGraph = Graph('Undirected')
+print('Room graph length: ', len(roomGraph))
 # print(traversalGraph.show_verts())
 
 # print('Current room: ',player.currentRoom.id)
