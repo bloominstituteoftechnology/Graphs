@@ -33,9 +33,9 @@ class Graph:
 		self.vertices = {}
 		self.edges = {}
 		self.stack = Stack()
-		self.queue = Queue()
+		# self.queue = Queue()
 		self.mode = 'Undirected'
-		self.path = []
+		self.path = Queue()
 
 	def set_mode(mode: str):
 		self.mode = mode
