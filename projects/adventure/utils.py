@@ -81,10 +81,25 @@ class Graph:
 	def show_verts(self):
 			return self.vertices
 
-	def dft(self, starting_vert):
-
 	def bft(self, starting_vert):
+		visited = []
+		vertices = self.vertices
+		queue = self.queue
+		queue.enqueue(starting_vert)
+		while queue.length():
+			vert = queue.dequeue()
+			if vert not in visited:
+				visited.append(vert)
+				for v in vertices[vert]:
+					queue.enqueue(v)
+		return visited
 
-	def dfs(self, starting_vert):
 
 	def bfs(self, starting_vert):
+		visited = []
+		vertices = self.vertices
+		queue = self.queue
+		queue.enqueue(starting_vert)
+		while queue.length():
+			vert = queue.dequeue()
+			if vert not in visited
