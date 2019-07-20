@@ -1,7 +1,7 @@
 from room import Room
 from player import Player
 from world import World
-
+from utils import Stack, Queue, Graph
 import random
 
 # Load world
@@ -24,6 +24,8 @@ player = Player("Name", world.startingRoom)
 
 # Fill this out
 traversalPath = []
+
+traversalGraph = Graph('Undirected')
 
 print(player.currentRoom.getExits())
 
