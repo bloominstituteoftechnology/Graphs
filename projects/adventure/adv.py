@@ -23,16 +23,36 @@ player = Player("Name", world.startingRoom)
 
 # Fill this out
 traversalPath = []
+traversalPath.append(world.startingRoom.id)
 
 def find_unexplored(cur_room):
 	r_int = random.randint
+
+	# maybe extract line 33 into mini function to reset current room?
+	# how do we take advantage of numeric ID? to track rooms checked, preview adjacent rooms, etc.
 	rooms = player.currentRoom.getExits()
 	# for r in rooms:
-		# print('rooms exit choices: ',r)
-	player.travel(rooms[r_int(1, len(rooms) - 1)])
-	print(player.currentRoom.getExitsString())
-		# print(rooms[r_int(1, len(rooms) - 1)])
+	# print('rooms exit choices: ',r)
+	# Use base case from test, exit recursive loop when len(traversal-path) == num of rooms
+	# Instead of randomness, I could use an iter var to control iteration through nsew.
+	# 1. travel in first (or random) dir
+		# 1a. if room, add room to path
+			# a. recur find-unexplored here (let rooms reset recursively or do it "manually"?
+				# b. Once dead end found, go back to nearest unexplored room
+				# If prev room fully explored (how to check this?) don't go in the direction that is
+				# the opposite of the direction just traveled (i.e room 0, go n, room 1, don't go s).
+				# Q: if I use logic to remove that from set of dirs, how do I add it back if necessary?
+	# 2. travel in next available (but random) direction
+		# recur from 1a above.
 
+	# honestly we should put the traversal path IN the graph.
+
+	player.travel(rooms[r_int(1, len(rooms) - 1)])
+	traversalPath.append(player.currentRoom.id)
+	print(player.currentRoom.getExitsString())
+# print(rooms[r_int(1, len(rooms) - 1)])
+
+print(traversalPath)
 
 traversalGraph = Graph('Undirected')
 traversalGraph.add_vert(9)
