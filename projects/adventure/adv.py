@@ -30,7 +30,8 @@ def find_unexplored(cur_room):
 	rooms = player.currentRoom.getExits()
 	for r in rooms:
 		# print('rooms exit choices: ',r)
-		rooms[r_int(1, len(rooms))]
+		player.travel(rooms[r_int(1, len(rooms) - 1)])
+	print(rooms[r_int(1, len(rooms) - 1)])
 
 
 traversalGraph = Graph('Undirected')
