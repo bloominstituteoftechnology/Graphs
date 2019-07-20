@@ -132,9 +132,6 @@ class Graph:
         self.queue = Queue()
 
 
-
-
-
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
