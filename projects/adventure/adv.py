@@ -3,6 +3,7 @@ from player import Player
 from world import World
 from utils import Stack, Queue, Graph
 import random
+from typing import Dict
 # You may uncomment the smaller graphs for development and testing purposes.
 # roomGraph={0: [(3, 5), {'n': 1}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}]}
 # roomGraph={0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}], 3: [(4, 5), {'w': 0, 'e': 4}], 4: [(5, 5), {'w': 3}], 5: [(3, 4), {'n': 0, 's': 6}], 6: [(3, 3), {'n': 5}], 7: [(2, 5), {'w': 8, 'e': 0}], 8: [(1, 5), {'e': 7}]}
@@ -23,19 +24,26 @@ traversalGraph = Graph('Undirected')
 # print('test gird method:', Room.getRoomInDirection(None, "n"))
 def find_unexplored(cur_room):
 	path = traversalGraph.path
+	vertices = traversalGraph.vertices
 	# path.append(world.startingRoom.id)
 	r_int = random.randint
 	rooms = []
 	dir = ''
 	pcr = player.currentRoom
 	to_room = Room.getRoomInDirection
-	while len(path) is not len(roomGraph) - 1:
-		rooms = player.currentRoom.getExits()
+	last_room = ''
+	vertices[pcr.id] = Dict
+	print(vertices)
+	while path.length() is not len(roomGraph) - 1:
+	# Use base case from test, exit recursive loop when len(traversal-path) == num of rooms
+		rooms = pcr.getExits()
 		_dir = rooms[r_int(1, len(rooms) - 1)]
 		if to_room(pcr, dir):
 			path.enqueue(dir)
 			# print('dir is: ',type(dir))
+			# last_room = pcr
 			player.travel(dir)
+
 		elif not to_room(pcr, dir):
 			print('Placeholder')
 
@@ -44,7 +52,6 @@ def find_unexplored(cur_room):
 	# how do we take advantage of numeric ID? to track rooms checked, preview adjacent rooms, etc.
 	# for r in rooms:
 	# print('rooms exit choices: ',r)
-	# Use base case from test, exit recursive loop when len(traversal-path) == num of rooms
 	# Instead of randomness, I could use an iter var to control iteration through nsew.
 	# 1. travel in first (or random) dir
 		# 1a. if room, add room to path
@@ -62,7 +69,7 @@ def find_unexplored(cur_room):
 	print(player.currentRoom.getExitsString())
 # print(rooms[r_int(1, len(rooms) - 1)])
 
-print(traversalPath)
+# print(traversalPath)
 print('Room graph length: ', len(roomGraph))
 # print(traversalGraph.show_verts())
 
