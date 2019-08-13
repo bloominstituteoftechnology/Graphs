@@ -18,10 +18,12 @@ class Graph:
 
     def add_edge(self, v1, v2):
         """
-        Add a directed edge to the graph.
+        Add a directed edge to the graph. Check that vertices are present in graph.
         """
         # TODO
-        self.vertices[v1].add(v2)
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+            # self.vertices[v2].add(v1) # bi-directional, necessary for this project?
 
     def bft(self, starting_vertex):
         """
