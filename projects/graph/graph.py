@@ -12,6 +12,7 @@ class Graph:
         Add a vertex to the graph.
         """
         pass  # TODO
+    
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
