@@ -48,11 +48,20 @@ If all paths have been explored, you're done!
 ## Minimum Viable Product
 
 * __1__: Tests do not pass
-* __2__: Tests pass with `len(traversalPath) < 2000`
-* __3__: Tests pass with `len(traversalPath) < 1000`
+* __2__: Tests pass with `len(traversalPath) <= 2000`
+* __3__: Tests pass with `len(traversalPath) < 960`
 
 ## Stretch Problems
 
 It is very difficult to calculate the shortest possible path that traverses the entire graph. Why?
 
-My best path is 990 moves. Can you find a shorter path?
+My best path is 957 moves. Can you find a shorter path?
+
+
+## Rubric
+| OBJECTIVE | TASK | 1 - DOES NOT MEET Expectations | 2 - MEETS Expectations | 3 - EXCEEDS Expectations | SCORE |
+| ---------- | ----- | ------- | ------- | ------- | -- |
+| _Student can demonstrate applied knowledge of Graph Theory by traversing a large map_ | Complete traversal of a large Graph | Student unable to produce a valid traversal path of 2000 moves or less | Student is able to produce a valid traversal path between 960 and 2000 | Student produces a valid traversal path of 959 moves or less |  |
+| **FINAL SCORE** | | **0-1** | **2** | **3** |  |
+
+
