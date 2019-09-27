@@ -6,3 +6,6 @@ A: Graphs can be directed or undirected, cyclic or acyclic, weighted or unweight
 
 Q: What is the time complexity (big-O) to add/remove/get a vertex/edge for a graph?
 A: It depends on the implementation. ([Graph Representations](https://github.com/LambdaSchool/Graphs/tree/master/objectives/graph-representations)). Before choosing an implementation, it is wise to consider the tradeoffs and complexities of the most commonly used operations.
+
+Q: Why is it important to learn Graphs?
+A: Graphs represent relationships between data. Anytime you can identify a relationship pattern, you can build a graph and often gain insights through a traversal. These insights can be very powerful, allowing you to find new relationships, like users who have a similar taste in music or purchasing.
