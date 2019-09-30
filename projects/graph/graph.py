@@ -2,7 +2,8 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
-from typing import Optional, NoReturn
+from typing import Optional, NoReturn, List
+from collections import defaultdict
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -35,12 +36,14 @@ class Graph:
         for row in self.adj_matrix:
             row.append(0)
         self.adj_matrix.append([0] * len(self.adj_matrix)+1)
+        pass
 
     def add_vertex(self, vertex: int):
         """
         Add a vertex to the graph.
         """
         self.vertices[vertex] = set()
+        pass
 
     def add_edge(self, v1: int, v2: int):
         """
@@ -50,16 +53,31 @@ class Graph:
         self.vert_not_exists_error(v2)
 
         self.vertices[v1].add(v2)
+        pass
 
-    def bft(self, starting_vertex):
+    def add_undirected_edge(self, v1: int, v2: int):
+        """
+        add an undirected edge
+        """
+        self.vert_not_exists_error(v1)
+        self.vert_not_exists_error(v2)
+
+        self.vertices[v1].add(v2)
+        self.vertices[v2].add(v1)
+        pass
+
+    def bft(self, starting_vertex: int) -> List[int]:
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
+
         """
         # initialize all to "unvisited"
-        colors = dict()
-        for v in self.vertices:
-            colors[v] = 'white'
+        #colors = dict()
+        #for v in self.vertices:
+        #    colors[v] = 'white'
+        colors = defaultdict(lambda: 'white')
+
         # mark starting vertex as "visited"
         colors[starting_vertex] = 'blue'
 
@@ -80,12 +98,33 @@ class Graph:
 
         return order
 
-    def dft(self, starting_vertex):
+    def dft(self, starting_vertex: int) -> List[int]:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
+
+        implemented from this https://github.com/quinn-dougherty/Graphs/tree/master/objectives/depth-first-search#pseudocode-for-dfs
         """
-        pass  # TODO
+        order = list()
+        colors = defaultdict(lambda: 'white')
+        parents = defaultdict()
+
+        def dft_visit(v: int) -> None:
+            colors[v] = 'blue'
+            order.append(v)
+            for neighbor in self.vertices[v]:
+                if colors[neighbor]=='white':
+                    parents[neighbor] = v
+
+                    dft_visit(neighbor)
+            pass
+
+        for v in self.vertices:
+            if colors[v]=='white':
+                dft_visit(v)
+
+        return order
+
 
     def dft_recursive(self, starting_vertex):
         """
