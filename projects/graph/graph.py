@@ -2,36 +2,91 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+from typing import Optional, NoReturn
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        self.adj_matrix = [[0 for _ in self.vertices]
+                           for _ in self.vertices]
 
-    def add_vertex(self, vertex):
+    def vert_not_exists_error(self, v: int) -> Optional[NoReturn]:
+        """
+        show an error to the screen if vertex does not exist
+        """
+        try:
+            assert v in self.vertices.keys()
+        except AssertionError:
+            raise Exception(f"Vertex {v} does not exist")
+        else:
+            return None
+
+    @property
+    def adj_matrix_(self):
+        """
+
+        """
+        return self.adj_matrix
+
+    @adj_matrix_.setter
+    def adj_matrix_(self):
+        """ should run every time a new vert is added"""
+        for row in self.adj_matrix:
+            row.append(0)
+        self.adj_matrix.append([0] * len(self.adj_matrix)+1)
+
+    def add_vertex(self, vertex: int):
         """
         Add a vertex to the graph.
         """
         self.vertices[vertex] = set()
 
-    def add_edge(self, v1, v2):
+    def add_edge(self, v1: int, v2: int):
         """
         Add a directed edge to the graph.
         """
-        self.vertices[v1] = v2
-    #
+        self.vert_not_exists_error(v1)
+        self.vert_not_exists_error(v2)
+
+        self.vertices[v1].add(v2)
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # initialize all to "unvisited"
+        colors = dict()
+        for v in self.vertices:
+            colors[v] = 'white'
+        # mark starting vertex as "visited"
+        colors[starting_vertex] = 'blue'
+
+        q = Queue()
+        q.enqueue(starting_vertex)
+
+        order = [starting_vertex]
+        while q.queue:
+            u = q.queue[0]
+            for v in self.vertices[u]:
+                if colors[v] == 'white':
+                    colors[v] = 'blue'
+                    order.append(v)
+                    q.enqueue(v)
+
+            q.dequeue()
+            colors[u] = 'black'
+
+        return order
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
         pass  # TODO
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -39,12 +94,16 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
+
+
+
         pass  # TODO
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -92,7 +151,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft(1)
+    print(graph.dft(1))
 
     '''
     Valid BFT paths:
@@ -109,7 +168,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT recursive paths:
