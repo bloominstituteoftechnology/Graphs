@@ -71,11 +71,9 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
 
+        implemented from this https://github.com/quinn-dougherty/Graphs/tree/master/objectives/breadth-first-search
         """
         # initialize all to "unvisited"
-        #colors = dict()
-        #for v in self.vertices:
-        #    colors[v] = 'white'
         colors = defaultdict(lambda: 'white')
 
         # mark starting vertex as "visited"
@@ -101,15 +99,27 @@ class Graph:
     def dft(self, starting_vertex: int) -> List[int]:
         """
         Print each vertex in depth-first order
+        beginning from starting_vertex, nonrecursively.
+        """
+        pass # TODO
+
+    def dft_recursive(self, starting_vertex):
+        """
+        Print each vertex in depth-first order
         beginning from starting_vertex.
+        This should be done using recursion.
 
         implemented from this https://github.com/quinn-dougherty/Graphs/tree/master/objectives/depth-first-search#pseudocode-for-dfs
         """
         order = list()
+
+        # initialize all to "unvisited"
         colors = defaultdict(lambda: 'white')
         parents = defaultdict()
 
         def dft_visit(v: int) -> None:
+            """ recursion """
+            # mark that v is now "visitied"
             colors[v] = 'blue'
             order.append(v)
             for neighbor in self.vertices[v]:
@@ -119,38 +129,33 @@ class Graph:
                     dft_visit(neighbor)
             pass
 
-        for v in self.vertices:
-            if colors[v]=='white':
-                dft_visit(v)
+        dft_visit(starting_vertex)
 
         return order
 
-
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        This should be done using recursion.
-        """
-        pass  # TODO
-
-    def bfs(self, starting_vertex, destination_vertex):
+    def bfs(self, starting_vertex: int, destination_vertex: int) -> Optional[List[int]]:
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-
-
-
-        pass  # TODO
+        traversal = self.bft(starting_vertex)
+        if destination_vertex in traversal:
+            return traversal[:traversal.index(destination_vertex)+1]
+        else:
+            return None
+    #
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        traversal = self.dft_recursive(starting_vertex)
+        if destination_vertex in traversal:
+            return traversal[:traversal.index(destination_vertex)+1]
+        else:
+            return None
 
 
 
@@ -207,7 +212,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    print(graph.bft(1))
+    print("bft output: ", graph.bft(1))
 
     '''
     Valid DFT recursive paths:
@@ -216,17 +221,17 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    print("dft recursive output: ", graph.dft_recursive(1))
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    print("bfs path from 1 to 6", graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
+    print("dfs path from 1 to 6: ", graph.dfs(1, 6))
