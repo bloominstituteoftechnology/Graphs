@@ -61,7 +61,6 @@ def bfs_distances(ancestors: Dict[int, Set[int]],
 
 def earliest_ancestor(ancestors, starting_node):
     levels = bfs_distances(ancestors, starting_node)
-    print(levels)
     curr_earliest = None
     curr_max = -99
 
