@@ -66,7 +66,34 @@ class Graph:
         self.vertices[v2].add(v1)
         pass
 
-    def bft(self, starting_vertex: int) -> List[int]:
+    def bft(self, starting_vertex: str):
+        """
+        Print each vertex in breadth-first order
+        beginning from starting_vertex.
+        """
+        ## BFT Psueodcode
+        ## create a queue
+        qq = Queue()
+        # create a list of visited nodes
+        visited = set()
+        # put starting node in queue
+        qq.enqueue(starting_vertex)
+        # while queeu not empty
+        while qq.size() > 0:
+            # pop first node out of queue
+            vertex = qq.dequeue()
+            # if not visited:
+            if not vertex in visited:
+                # mark as visited
+                visited.add(vertex)
+                print(vertex)
+                # get adjacent edges...
+                for next_vert in self.vertices:
+                    # ...and add to list
+                    qq.enqueue(next_vert)
+
+        
+    def bft_(self, starting_vertex: int) -> List[int]:
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
@@ -139,7 +166,7 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        traversal = self.bft(starting_vertex)
+        traversal = self.bft_(starting_vertex)
         if destination_vertex in traversal:
             return traversal[:traversal.index(destination_vertex)+1]
         else:
