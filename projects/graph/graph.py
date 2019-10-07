@@ -2,7 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
-from typing import Optional, NoReturn, List
+from typing import Optional, NoReturn, List, Dict
 from collections import defaultdict
 
 class Graph:
@@ -90,7 +90,7 @@ class Graph:
                 visited.add(vertex)
                 order.append(vertex)
                 # get adjacent edges...
-                for next_vert in self.vertices:
+                for next_vert in self.vertices[vertex]:
                     # ...and add to list
                     qq.enqueue(next_vert)
         return order
@@ -186,6 +186,7 @@ class Graph:
             order.append(v)
             for neighbor in self.vertices[v]:
                 if colors[neighbor]=='white':
+                    #order.append(neighbor)
                     parents[neighbor] = v
 
                     dft_visit(neighbor)
@@ -206,15 +207,50 @@ class Graph:
             return traversal[:traversal.index(destination_vertex)+1]
         else:
             return None
-    #
+
+    def bfs2(self, starting_vertex: int, destination_vertex: int):
+        """ step 1: do bft.
+            step 2: get path from bft.
+
+            https://www.eecs.yorku.ca/course_archive/2006-07/W/2011/Notes/BFS_part2.pdf
+        """
+        def get_pred_bft(starting_vertex: int) -> Dict[int, int]:
+            flag = defaultdict(bool)
+            pred = defaultdict(lambda: None)
+            qq = Queue()
+            flag[starting_vertex] = True
+            qq.enqueue(starting_vertex)
+            while qq.queue:
+                v = qq.dequeue()
+                for w in self.vertices[v]:
+                    if not flag[w]:
+                        flag[w] = True
+                        pred[w] = v
+                        qq.enqueue(w)
+
+            return pred
+
+        predecessors = get_pred_bft(starting_vertex)
+
+        path = [destination_vertex]
+        key = destination_vertex
+        while key in predecessors.keys():
+            nxt = predecessors[key]
+            path.append(nxt)
+            key = nxt
+
+        return path[::-1]
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        #traversal = self.dft_recursive(starting_vertex)
         traversal = self.dft(starting_vertex)
+        # recursive version gives incorrect output
+        #traversal = self.dft_recursive(starting_vertex)
+        #
         if destination_vertex in traversal:
             return traversal[:traversal.index(destination_vertex)+1]
         else:
@@ -252,15 +288,6 @@ if __name__ == '__main__':
     print(graph.vertices)
 
     '''
-    Valid DFT paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    '''
-    print("dft traversal order: ", graph.dft(1))
-
-    '''
     Valid BFT paths:
         1, 2, 3, 4, 5, 6, 7
         1, 2, 3, 4, 5, 7, 6
@@ -278,6 +305,15 @@ if __name__ == '__main__':
     print("bft traversal order: ", graph.bft(1))
 
     '''
+    Valid DFT paths:
+        1, 2, 3, 5, 4, 6, 7
+        1, 2, 3, 5, 4, 7, 6
+        1, 2, 4, 7, 6, 3, 5
+        1, 2, 4, 6, 3, 5, 7
+    '''
+    print("dft traversal order: ", graph.dft(1))
+
+    '''
     Valid DFT recursive paths:
         1, 2, 3, 5, 4, 6, 7
         1, 2, 3, 5, 4, 7, 6
@@ -290,7 +326,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print("bfs path from 1 to 6", graph.bfs(1, 6))
+    print("bfs path from 1 to 6", graph.bfs2(1, 6))
 
     '''
     Valid DFS paths:
@@ -298,3 +334,6 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print("dfs path from 1 to 6: ", graph.dfs(1, 6))
+
+    #print(f"bfs2: {graph.bfs2(1,6)}")
+    #graph.bfs2(1,6)
