@@ -11,24 +11,57 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = set()
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError('The vertex does not exist')
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # BFT Pseudocode
+        # Create a queue
+        qq = Queue()
+        visited = set()
+        qq.enqueue(starting_vertex)
+        while qq.size() > 0:
+            vertex = qq.dequeue()  
+        # If not visited
+        #     Mark as visited
+        #     Get adjacent edges and add to list
+            if vertex not in visited:
+                visited.add(vertex)
+                print(vertex) #add more functions if wanted here
+                for next_vert in self.vertices[vertex]:
+                    qq.enqueue(next_vert)
+
+
+        
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stack = Stack()
+        visited = set()
+        stack.push(starting_vertex)
+        while stack.size() > 0:
+            vertex = stack.pop()  
+        # If not visited
+        #     Mark as visited
+        #     Get adjacent edges and add to list
+            if vertex not in visited:
+                visited.add(vertex)
+                print(vertex) #add more functions if wanted here
+                for next_vert in self.vertices[vertex]:
+                    stack.push(next_vert)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -89,6 +122,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print("starting DFT")
     graph.dft(1)
 
     '''
@@ -106,7 +140,9 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print('starting BFT')
     graph.bft(1)
+
 
     '''
     Valid DFT recursive paths:
