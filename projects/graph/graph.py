@@ -30,13 +30,13 @@ class Graph:
         """
         return self.adj_matrix
 
-    @adj_matrix_.setter
-    def adj_matrix_(self):
-        """ should run every time a new vert is added"""
-        for row in self.adj_matrix:
-            row.append(0)
-        self.adj_matrix.append([0] * len(self.adj_matrix)+1)
-        pass
+    #@adj_matrix_.setter
+    #def adj_matrix_(self):
+    #    """ should run every time a new vert is added"""
+    #    for row in self.adj_matrix:
+    #        row.append(0)
+    #    self.adj_matrix.append([0] * len(self.adj_matrix)+1)
+    #    pass
 
     def add_vertex(self, vertex: int):
         """
@@ -76,6 +76,8 @@ class Graph:
         qq = Queue()
         # create a list of visited nodes
         visited = set()
+        # init order
+        order = list()
         # put starting node in queue
         qq.enqueue(starting_vertex)
         # while queeu not empty
@@ -86,11 +88,12 @@ class Graph:
             if not vertex in visited:
                 # mark as visited
                 visited.add(vertex)
-                print(vertex)
+                order.append(vertex)
                 # get adjacent edges...
                 for next_vert in self.vertices:
                     # ...and add to list
                     qq.enqueue(next_vert)
+        return order
 
         
     def bft_(self, starting_vertex: int) -> List[int]:
@@ -98,18 +101,20 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
 
-        implemented from this https://github.com/quinn-dougherty/Graphs/tree/master/objectives/breadth-first-search
+        implemented from this https://youtu.be/s-CYnVz-uh4?t=2197
         """
         # initialize all to "unvisited"
         colors = defaultdict(lambda: 'white')
-
         # mark starting vertex as "visited"
         colors[starting_vertex] = 'blue'
+        # init return list
+        order = [starting_vertex]
 
+        # init queue
         q = Queue()
+        # enqueue starting vertex
         q.enqueue(starting_vertex)
 
-        order = [starting_vertex]
         while q.queue:
             u = q.queue[0]
             for v in self.vertices[u]:
@@ -123,7 +128,36 @@ class Graph:
 
         return order
 
-    def dft(self, starting_vertex: int) -> List[int]:
+    def dft(self, starting_vertex):
+        """
+        Print each vertex in breadth-first order
+        beginning from starting_vertex.
+        """
+        ## create a queue
+        stack = Stack()
+        # create a list of visited nodes
+        visited = set()
+        # init list of visit order
+        order = list()
+        # put starting node in queue
+        stack.push(starting_vertex)
+        # while queeu not empty
+        while stack.size() > 0:
+            # pop first node out of queue
+            vertex = stack.pop()
+            # if not visited:
+            if not vertex in visited:
+                # mark as visited
+                visited.add(vertex)
+                order.append(vertex)
+                # get adjacent edges...
+                for next_vert in self.vertices[vertex]:
+                    # ...and add to list
+                    stack.push(next_vert)
+
+        return order
+
+    def dft_(self, starting_vertex: int) -> List[int]:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex, nonrecursively.
@@ -146,6 +180,7 @@ class Graph:
 
         def dft_visit(v: int) -> None:
             """ recursion """
+            nonlocal order
             # mark that v is now "visitied"
             colors[v] = 'blue'
             order.append(v)
@@ -166,7 +201,7 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        traversal = self.bft_(starting_vertex)
+        traversal = self.bft(starting_vertex)
         if destination_vertex in traversal:
             return traversal[:traversal.index(destination_vertex)+1]
         else:
@@ -178,7 +213,8 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        traversal = self.dft_recursive(starting_vertex)
+        #traversal = self.dft_recursive(starting_vertex)
+        traversal = self.dft(starting_vertex)
         if destination_vertex in traversal:
             return traversal[:traversal.index(destination_vertex)+1]
         else:
@@ -222,7 +258,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    print(graph.dft(1))
+    print("dft traversal order: ", graph.dft(1))
 
     '''
     Valid BFT paths:
@@ -239,7 +275,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    print("bft output: ", graph.bft(1))
+    print("bft traversal order: ", graph.bft(1))
 
     '''
     Valid DFT recursive paths:
@@ -248,7 +284,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    print("dft recursive output: ", graph.dft_recursive(1))
+    print("dft recursive traversal order: ", graph.dft_recursive(1))
 
     '''
     Valid BFS path:
