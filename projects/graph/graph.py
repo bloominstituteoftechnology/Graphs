@@ -208,7 +208,7 @@ class Graph:
         else:
             return None
 
-    def bfs2(self, starting_vertex: int, destination_vertex: int):
+    def bfs2(self, starting_vertex: int, destination_vertex: int) -> List[int]:
         """ step 1: do bft.
             step 2: get path from bft.
 
