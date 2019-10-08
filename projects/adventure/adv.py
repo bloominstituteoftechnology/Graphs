@@ -2,13 +2,14 @@ from room import Room
 from player import Player
 from world import World
 
+from collections import deque
 import random
 
 # Load world
 world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
-# roomGraph={0: [(3, 5), {'n': 1}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}]}
+#roomGraph={0: [(3, 5), {'n': 1}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}]}
 # roomGraph={0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}], 3: [(4, 5), {'w': 0, 'e': 4}], 4: [(5, 5), {'w': 3}], 5: [(3, 4), {'n': 0, 's': 6}], 6: [(3, 3), {'n': 5}], 7: [(2, 5), {'w': 8, 'e': 0}], 8: [(1, 5), {'e': 7}]}
 # roomGraph={0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}], 1: [(3, 6), {'s': 0, 'n': 2}], 2: [(3, 7), {'s': 1}], 3: [(4, 5), {'w': 0, 'e': 4}], 4: [(5, 5), {'w': 3}], 5: [(3, 4), {'n': 0, 's': 6}], 6: [(3, 3), {'n': 5, 'w': 11}], 7: [(2, 5), {'w': 8, 'e': 0}], 8: [(1, 5), {'e': 7}], 9: [(1, 4), {'n': 8, 's': 10}], 10: [(1, 3), {'n': 9, 'e': 11}], 11: [(2, 3), {'w': 10, 'e': 6}]}
 # roomGraph={0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}], 1: [(3, 6), {'s': 0, 'n': 2, 'e': 12, 'w': 15}], 2: [(3, 7), {'s': 1}], 3: [(4, 5), {'w': 0, 'e': 4}], 4: [(5, 5), {'w': 3}], 5: [(3, 4), {'n': 0, 's': 6}], 6: [(3, 3), {'n': 5, 'w': 11}], 7: [(2, 5), {'w': 8, 'e': 0}], 8: [(1, 5), {'e': 7}], 9: [(1, 4), {'n': 8, 's': 10}], 10: [(1, 3), {'n': 9, 'e': 11}], 11: [(2, 3), {'w': 10, 'e': 6}], 12: [(4, 6), {'w': 1, 'e': 13}], 13: [(5, 6), {'w': 12, 'n': 14}], 14: [(5, 7), {'s': 13}], 15: [(2, 6), {'e': 1, 'w': 16}], 16: [(1, 6), {'n': 17, 'e': 15}], 17: [(1, 7), {'s': 16}]}
@@ -24,7 +25,138 @@ player = Player("Name", world.startingRoom)
 # Fill this out
 traversalPath = []
 
+class MapGraph:
+    def __init__(self):
+        self.rooms = {}
+        self.roomSearchQueue = deque()
 
+    def addRoom(self, roomID):
+        # Just add a roomID to the list. We shouldn't need to call this directly.
+        self.rooms[roomID] = {}
+    
+    def addRoomExits(self, r1):
+        if r1 in self.rooms:
+            # We've already added this room so exit.
+            return
+
+        if r1 not in self.rooms:
+            self.addRoom(r1)
+
+        exits = player.currentRoom.getExits()
+        for exit in exits:
+            self.rooms[player.currentRoom.id].update({exit:'?'})
+
+    def updateExit(self, roomID, exit): #Exit should be in the form of {'n':connectedRoomID} ie {'n':1}
+        self.rooms[roomID].update(exit)
+
+    # We don't need a roomID because we can just use the currentRoom the player is in to start this off.
+    def dftRooms(self):
+        # Shorthand the current room we're in.
+        roomID = player.currentRoom.id
+        # Keep track of the room ID that we came from
+        lastRoomID = player.currentRoom.id
+        # Track which direction we need to go 
+        returnExit = None
+        # Should I keep track of the path? Maybe... Thinking about this
+        self.addRoomExits(roomID)
+        roomSearchStack = []
+        roomSearchStack.append(roomID)
+
+        # Pop the room off
+        # Check through the exits on that room
+        # The first exit that is unknown we choose that as our path
+        # ->>>>
+        # We found an unexplored node. Since we found an unexplored node we assume this node is still not fully explored
+        # We append this node back onto our list
+        # Travel in the chosen direction
+        # Update the room graph as well as all related exits
+        # Append the room we're now in to the list
+        # ->>>>
+        # If we get through all the exits without a single unknown, this node is entirely explored
+        # I'm going to add it to an explored rooms list.. I have a thought to use it
+        # We need to now breadth first traverse out from here...
+        # We're looking for a node that isn't fully explored yet.
+
+        # If I keep track of the path we're travelling to get to the current node, when I reach a deadend I have a route back out...
+        
+        while len(roomSearchStack) > 0:
+            print(self.rooms)
+            chosenExit = None
+            roomID = roomSearchStack.pop()
+
+            #instead of this... i could make a list of the current unknown directions on the current room
+            # This is breaking because I'm changing the roomID in the middle of for eaching the previous rooms exits
+            for exit in self.rooms[roomID]:
+                # If we found an unknown exit...
+                if (self.rooms[roomID][exit] == '?'):
+                    chosenExit = exit
+                    # Setup the returnExit to the opposite of the direction we're travelling in.
+                    if exit == 'n':
+                        returnExit = 's'
+                    elif exit == 's':
+                        returnExit = 'n'
+                    elif exit == 'e':
+                        returnExit = 'w'
+                    elif exit == 'w':
+                        returnExit = 'e'
+                    # We have a chosen exit and we've set the exit to return to the previous node
+                    # Let's get out of here
+                    break
+            # Get ready to move the player.
+            if chosenExit is not None:
+                lastRoomID = roomID
+                player.travel(chosenExit)
+                roomID = player.currentRoom.id
+                # Add the current room to the list if it isn't already.
+                self.addRoomExits(roomID)
+                # Update the current room's exits with the direction and id of the room we just came from.
+                self.updateExit(roomID, {returnExit:lastRoomID})
+                # Update the old room with the path we went and the current room's ID
+                self.updateExit(lastRoomID, {exit:roomID})
+                
+    def bftRooms(self):
+        pass
+
+testGraph = MapGraph()
+testGraph.dftRooms()
+print(testGraph.rooms)
+'''
+# Populate the graph with every room id in roomGraph
+checkPaths = {}
+checkPaths[player.currentRoom.id] = {'n': '?', 's': '?', 'w': '?', 'e': '?'}
+# Breadth first search when we reach a deadend
+queueUncheckedRooms = deque()
+# Depth first search for everything else.
+stackRooms = []
+while True:
+    # I will want to send these exits to the graph's edges instead of hardcoding it like above.
+    exits = player.currentRoom.getExits()
+    # After I get every room ID with every available exit (as an unknown '?' value) I can start traversing through the graph 
+    
+    for path in exits:
+        returnPath = ''
+        if path == 'n':
+            returnPath = 's'
+        elif path == 's':
+            returnPath = 'n'
+        elif path == 'e':
+            returnPath = 'w'
+        elif path == 'w':
+            returnPath = 'e'
+
+        lastRoomID = player.currentRoom.id
+        player.travel(path)
+        currentRoomID = player.currentRoom.id
+        checkPaths[lastRoomID][path] = currentRoomID
+        if currentRoomID not in checkPaths:
+            checkPaths[currentRoomID] = {'n': '?', 's': '?', 'w': '?', 'e': '?'}
+            checkPaths[currentRoomID][returnPath] = lastRoomID
+        else:
+            checkPaths[currentRoomID][returnPath] = lastRoomID
+        
+    print(checkPaths)
+    break
+'''
 
 # TRAVERSAL TEST
 visited_rooms = set()
