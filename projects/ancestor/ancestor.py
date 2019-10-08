@@ -45,7 +45,6 @@ def earliest_ancestor(ancestors: List[Tuple[int, int]],
         if level==curr_max:
             # If there is more than one ancestor tied for "earliest",
             # return the one with the lowest numeric ID.
-            curr_max = level
             curr_earliest = min(node, curr_earliest)
         elif level > curr_max:
             # the main "get max" logic
