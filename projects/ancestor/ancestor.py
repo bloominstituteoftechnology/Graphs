@@ -27,7 +27,7 @@ def earliest_ancestor(ancestors: List[Tuple[int, int]],
             next = []
             for u in frontier:
                 for v in ancestors[u]:
-                    if v not in level:
+                    if v not in level.keys():
                         level[v] = i
                         parent[v] = u
                         next.append(v)
@@ -43,13 +43,16 @@ def earliest_ancestor(ancestors: List[Tuple[int, int]],
 
     for node, level in levels.items():
         if level==curr_max:
+            # If there is more than one ancestor tied for "earliest",
+            # return the one with the lowest numeric ID.
             curr_max = level
             curr_earliest = min(node, curr_earliest)
         elif level > curr_max:
+            # the main "get max" logic
             curr_max = level
             curr_earliest = node
 
     if curr_earliest==starting_node:
-        return -1
+        return -1 # -1 is the identifier for when yourself is your earliest ancestor.
     else:
         return curr_earliest
