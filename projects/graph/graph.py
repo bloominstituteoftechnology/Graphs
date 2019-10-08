@@ -80,15 +80,38 @@ class Graph:
 
         self.dft_recursive_helper(stack,visited)
 
-
-    # verticies   
+    # add starting vertex to queue
+    # dequeue add to path and add all connecting vertices to queue
+    # if vertices == destinations return path 
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass
+        qq = Queue()
+        qq.enqueue(starting_vertex)
+        all_paths = []
+
+        def recursive_helper(qq, visited=set(), path=[]):
+            vertex = qq.dequeue()
+            path.append(vertex)
+            if vertex not in visited:
+                visited.add(vertex)
+                for next_vert in self.vertices[vertex]:
+                    qq.enqueue(next_vert)
+
+            if vertex == destination_vertex:
+                all_paths.append(path)
+            elif qq.size() <= 0:
+                return
+            else:
+                recursive_helper(qq, visited, path)
+
+        recursive_helper(qq)
+        print(all_paths)
+
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -96,7 +119,24 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass
+        stack = Stack()
+        stack.push(starting_vertex)
+        visited = set()
+        path = []
+        vertex = None
+
+        while stack.size() > 0:
+            vertex = stack.pop()
+            path.append(vertex)
+            print(self.vertices[vertex])
+            if vertex not in visited:
+                visited.add(vertex)
+                for next_vert in self.vertices[vertex]:
+                    stack.push(next_vert)
+                    if next_vert == destination_vertex:
+                        path.append(next_vert)
+                        return path
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -107,7 +147,7 @@ if __name__ == '__main__':
     graph.add_vertex(4)
     graph.add_vertex(5)
     graph.add_vertex(6)
-    graph.add_vertex(7)
+    graph.add_vertex(7) 
     graph.add_edge(5, 3)
     graph.add_edge(6, 3)
     graph.add_edge(7, 1)
