@@ -164,7 +164,7 @@ class Graph:
         """
         pass # TODO
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex: int) -> List[int]:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -241,6 +241,25 @@ class Graph:
 
         return path[::-1]
 
+    def bfs3(self, starting_vertex: int, destination_vertex: int) -> Optional[List[int]]:
+        """ """
+        qq = Queue()
+        visited = set()
+        qq.enqueue([starting_vertex])
+        while qq.size() > 0:
+            path = qq.dequeue()
+            vertex = path[-1]
+            if vertex not in visited:
+                if vertex == destination_vertex:
+                    return path
+                else:
+                    visited.add(vertex)
+                    for next_vert in self.vertices[vertex]:
+                        new_path = list(path)
+                        new_path.append(next_vert)
+                        qq.enqueue(new_path)
+        return None
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -256,9 +275,25 @@ class Graph:
         else:
             return None
 
+    def dfs2(self, starting_vertex: int, destination_vertex: int) -> List[int]:
+        """ """
+        stack = Stack()
+        visited = set()
+        stack.push([starting_vertex])
+        while stack.size() > 0:
+            path = stack.pop()
+            vertex = path[-1]
+            if vertex not in visited:
+                if vertex == destination_vertex:
+                    return path
+                else:
+                    visited.add(vertex)
+                    for next_vert in self.vertices[vertex]:
+                        new_path = list(path)
+                        new_path.append(next_vert)
+                        stack.push(new_path)
 
-
-
+        return None
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -336,4 +371,5 @@ if __name__ == '__main__':
     print("dfs path from 1 to 6: ", graph.dfs(1, 6))
 
     #print(f"bfs2: {graph.bfs2(1,6)}")
-    #graph.bfs2(1,6)
+    print(graph.bfs3(1,6))
+    print(graph.dfs2(1,6))
