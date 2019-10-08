@@ -11,45 +11,133 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if self.vertices.get(vertex, None) is None:
+            self.vertices[vertex] = set()
+        else:
+            print("Vertex already exists")
+
+
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That Vertex does not exist!")
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create an empty set to store visited nodes
+        visited = set()
+        res = []
+        q = Queue()
+        q.enqueue(starting_vertex)
+        # While the queue is not empty...
+        while q.size() > 0:
+            # Dequeue the first vertex
+            vertex = q.dequeue()
+            # If vertex not visited
+            if vertex not in visited:
+                # Mark as visited
+                visited.add(vertex)
+                res.append(vertex)
+                # Add all of its neighbors to the back of the queue
+                for neighbor in self.vertices[vertex]:
+                    q.enqueue(neighbor)
+        print(res)
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        res = []
+        # Create an empty stack and push the starting vertex
+        s = Stack()
+        s.push(starting_vertex)
+
+        while s.size() > 0:
+            vertex = s.pop()
+            #
+            if vertex not in visited:
+                visited.add(vertex)
+                res.append(vertex)
+                for neighbor in self.vertices[vertex]:
+                    s.push(neighbor)
+
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        res = []
+
+        def visit(vertex, visited=set()):
+            nonlocal res
+            if vertex not in visited:
+                res.append(vertex)
+                visited.add(vertex)
+                for neighbor in self.vertices[vertex]:
+                    visit(neighbor, visited)
+
+        visit(starting_vertex)
+        print(res)
+
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        visited = set()
+        # Queue will hold a tuple (currentVertex, path)
+        q = Queue()
+        q.enqueue([starting_vertex])
+
+        while q.size() > 0:
+            # Split queue into vertex and path
+            path = q.dequeue()
+            vertex = path[-1]
+            if vertex not in visited:
+                visited.add(vertex)
+                if vertex == destination_vertex:
+                    return path
+                for neighbor in self.vertices[vertex]:
+                    q.enqueue(path + [neighbor])
+
+        return None
+
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        visited = set()
+        s = Stack()
+        s.push([starting_vertex])
+
+        while s.size() > 0:
+            path = s.pop()
+            vertex = path[-1]
+
+            if vertex not in visited:
+                if vertex == destination_vertex:
+                    return path
+
+                visited.add(vertex)
+
+                for neighbor in self.vertices[vertex]:
+                    s.push(path + [neighbor])
 
 
 
