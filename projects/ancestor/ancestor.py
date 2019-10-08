@@ -42,7 +42,10 @@ def earliest_ancestor(ancestors: List[Tuple[int, int]],
     curr_max = -99
 
     for node, level in levels.items():
-        if level >= curr_max:
+        if level==curr_max:
+            curr_max = level
+            curr_earliest = min(node, curr_earliest)
+        elif level > curr_max:
             curr_max = level
             curr_earliest = node
 
