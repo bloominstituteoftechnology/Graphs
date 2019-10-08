@@ -3,9 +3,10 @@ from collections import defaultdict
 
 
 def earliest_ancestor(ancestors: List[Tuple[int, int]],
-                      starting_node: int):
+                      starting_node: int) -> int:
     """ solve earliest ancestor """
-    def list_edge_tuples_to_adjacency_set(
+
+    def get_adjacency_set_from_edge_tuples(
             edges: List[Tuple[int, int]]) -> Dict[int, Set[int]]:
         """ take a list of edges and return an adjacency set"""
         vertices = defaultdict(set)
@@ -35,7 +36,7 @@ def earliest_ancestor(ancestors: List[Tuple[int, int]],
 
         return level
 
-    levels = bfs_distances(list_edge_tuples_to_adjacency_set(ancestors),
+    levels = bfs_distances(get_adjacency_set_from_edge_tuples(ancestors),
                            starting_node)
     curr_earliest = None
     curr_max = -99
