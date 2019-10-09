@@ -134,6 +134,7 @@ class Graph:
                 if vertex == destination_vertex:
                     return path
                 visited.add(vertex)
+                print(f'visited: {visited}')
                 for next_vert in self.vertices[vertex]:
                     new_path = list(path) #creates a deepcopy
                     new_path.append(next_vert)
