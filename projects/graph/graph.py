@@ -10,46 +10,117 @@ class Graph:
     def add_vertex(self, vertex):
         """
         Add a vertex to the graph.
+
         """
-        pass  # TODO
+        self.vertices[vertex] = set()
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 not in self.vertices:
+            self.add_vertex(v1)
+        if v2 not in self.vertices:
+            self.add_vertex(v2)    
+        self.vertices[v1].add(v2)
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        #Instantiate q
+        queue = Queue()
+        #set for visited numbers
+        visited = set()
+        #adds starting vertyex to queue
+        queue.enqueue(starting_vertex)
+        #clause for loop- while there are still items in the queue
+        while queue.size():
+            #node is dequeud current item
+            node = queue.dequeue()
+            # print(node)
+            #node gets marked in visited set
+            visited.add(node)
+            #grabs edges(connections) from current node
+            for edge in self.vertices[node]:
+                if edge not in visited:
+
+                #queues edges
+                    queue.enqueue(edge)
+        
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+        stack = Stack()
+        visited = set()
+        stack.push(starting_vertex)
+        while stack.size():
+            node = stack.pop()
+            print(node)
+            visited.add(node)
+            for edge in self.vertices[node]:
+                if edge not in visited:
+                    stack.push(edge)
+                
+        
+    def dft_recursive(self, node, visited = set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        if node not in visited:
+            visited.add(node)
+            for edge in self.vertices[node]:
+                dft_recursive(edge, visited)
+        
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        queue = Queue()
+        visited = set()
+        queue.enqueue([starting_vertex])
+        while queue.size() > 0:
+            path = queue.dequeue()
+            node = path[-1]
+            if node == destination_vertex:
+                return path
+            for neighbor in self.vertices[node]:
+                copy_path = path.copy()
+                copy_path.append(neighbor)   
+                queue.enqueue(copy_path)
+
+
+        
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        #create stack
+        stack = Stack()
+        #create empty set for visited nodes
+        visited = set()
+        #add starting point
+        stack.push(starting_vertex)
+        #loop condition
+        while stack.size > 0:
+            #get path
+            path = stack.pop()
+            #last index in path is current item
+            node = path[-1]
+            if node == destination_vertex:
+                return path
+            for neighbor in self.vertices[node]:
+                copy_path = path.copy()
+                copy_path.append(neighbor)
+                stack.push(copy_path)  
 
 
 
@@ -106,7 +177,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT recursive paths:
