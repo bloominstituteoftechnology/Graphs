@@ -11,24 +11,47 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = set()
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 not in self.vertices:
+            raise Exception('Vertex not found')
+        self.vertices[v1] = {*self.vertices[v1], v2}
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        qq = Queue()
+        visited = set()
+        qq.enqueue(starting_vertex)
+        while qq.size() > 0:
+            vertex = qq.dequeue()
+            visited.add(vertex)
+            print(vertex)
+            for edge in self.vertices[vertex]:
+                if edge not in visited:
+                    qq.enqueue(edge)
+            
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stk = Stack()
+        visited = {starting_vertex}
+        stk.push(starting_vertex)
+        while stk.size() > 0:
+            vertex = stk.pop()
+            print(vertex)
+            for edge in self.vertices[vertex]:
+                if edge not in visited:
+                    stk.push(edge)
+                    visited.add(edge)
+
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
