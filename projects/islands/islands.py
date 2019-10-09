@@ -10,7 +10,6 @@ class Graph:
 
     def add_edge(self, tail: int, head: int):
 
-
         self.vertices[tail].add(head)
         self.vertices[head].add(tail)
         pass
@@ -40,7 +39,8 @@ if __name__=='__main__':
             if xor(A, B):
                 graph.add_edge((i,j), (k,l))
 
-    print(graph.vertices)
+    for vertex, vertices in graph.vertices.items():
+        print(vertex, vertices)
 
     #print(len(graph.vertices))
     #print(len(graph.vertices[(0,1)]))
