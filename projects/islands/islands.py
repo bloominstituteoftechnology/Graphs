@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-from operator import xor
 from typing import Tuple, Set, Dict
 
 class Queue():
