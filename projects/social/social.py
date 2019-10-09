@@ -57,14 +57,28 @@ class SocialGraph:
         The number of users must be greater than the average number of friendships.
         """
         # Reset graph
-        self.lastID = 0
+        self.lastID = -1
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f'User #{i}')
 
+        spread = int(numUsers/10) # users are friends with 20% of network
+        numOfFriends = random.randint(avgFriendships-1, avgFriendships+1)
+        print(numOfFriends)
         # Create friendships
+        # for every user
+        for i in range(numUsers):
+            userID = i
+            # for every friendship
+            for j in range(2):
+                friendID = -1
+                while friendID == -1 or friendID == userID or friendID in self.friendships[userID]:
+                    friendID = random.randint(0, numUsers-1)
+                self.addFriendship(userID,friendID)
 
     def getAllSocialPaths(self, userID):
         """
