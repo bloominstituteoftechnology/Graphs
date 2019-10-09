@@ -66,17 +66,16 @@ class SocialGraph:
         for i in range(numUsers):
             self.addUser(f'User #{i}')
 
-        spread = int(numUsers/10) # users are friends with 20% of network
-        numOfFriends = random.randint(avgFriendships-1, avgFriendships+1)
-        print(numOfFriends)
+        spread = int(numUsers*.2) # users are friends with 10% of network
+        numOfFriends = random.randint(avgFriendships-int(spread/2), avgFriendships+int(spread/2))
         # Create friendships
         # for every user
         for i in range(numUsers):
             userID = i
             # for every friendship
-            for j in range(2):
-                friendID = -1
-                while friendID == -1 or friendID == userID or friendID in self.friendships[userID]:
+            while len(self.friendships[userID]) < numOfFriends:
+                friendID = None
+                while not friendID or friendID == userID or friendID in self.friendships[userID] or len(self.friendships[friendID]) >= numOfFriends:
                     friendID = random.randint(0, numUsers-1)
                 self.addFriendship(userID,friendID)
 
