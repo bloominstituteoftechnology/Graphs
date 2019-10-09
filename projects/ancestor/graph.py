@@ -11,7 +11,9 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        self.vertices[vertex] = set()
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+        
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
@@ -85,6 +87,30 @@ class Graph:
                     return path
                 if edge not in visited:
                     qq.enqueue(list([*path, edge]))
+
+
+    def bfs_longest_route(self, starting_vertex):
+        """
+        Returns the vertex furthest from the starting vertex
+        """
+
+        qq = Queue()
+        path = []
+        greatest_distance = [0,0]
+        qq.enqueue([starting_vertex])
+        while qq.size() > 0:
+            path = qq.dequeue()
+            for edge in self.vertices[path[-1]]:
+                qq.enqueue(list([*path, edge]))
+            if self.vertices[path[-1]] == set():
+                if len(path) ==  greatest_distance[0]: 
+                    if path[-1] < greatest_distance[1]: #this check will allow us to return the lowest value node on a tie
+                        greatest_distance[1] = path[-1]
+                if len(path) > greatest_distance[0]:
+                    greatest_distance[0] = len(path)
+                    greatest_distance[1] = path[-1]
+        return greatest_distance[1]
+
 
 
     def dfs(self, starting_vertex, destination_vertex):
