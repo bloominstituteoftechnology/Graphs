@@ -1,14 +1,22 @@
 from util import Queue
+from random import randint, choice
+from typing import List, Dict, Set
 
 class User:
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
+
+    def __repr__(self) -> str:
+        return f"User({self.name})"
+
+    def __str__(self) -> str:
+        return self.name
 
 class SocialGraph:
     def __init__(self):
-        self.lastID = 0
-        self.users = {}
-        self.friendships = {}
+        self.lastID: int = 0
+        self.users = dict()
+        self.friendships = dict()
 
     def addFriendship(self, userID, friendID):
         """
@@ -42,13 +50,24 @@ class SocialGraph:
         """
         # Reset graph
         self.lastID = 0
-        self.users = {}
-        self.friendships = {}
-        # !!!! IMPLEMENT ME
+        self.users = dict()
+        self.friendships = dict()
+
+        NAME_LENGTH = numUsers // avgFriendships
 
         # Add users
+        for x in range(numUsers):
+            self.addUser(self.random_string(NAME_LENGTH))
+
 
         # Create friendships
+        for x in range(1, numUsers + 1):
+            for j in range(avgFriendships):
+                self.addFriendship(x, randint(1, numUsers))
+
+        pass
+
+
 
     def getAllSocialPaths(self, userID):
         """
@@ -75,6 +94,10 @@ class SocialGraph:
 
         return visited
         
+    @staticmethod
+    def random_string(length: int) -> str:
+        alphabet = "abcdefghijklmnopqrstuvwxyz"
+        return ''.join(choice(alphabet) for _ in range(length))
 
 
 if __name__ == '__main__':
