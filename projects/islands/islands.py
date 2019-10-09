@@ -1,32 +1,19 @@
 #!/usr/bin/env python
-from typing import Tuple, Set, Dict
-
-class Queue():
-    def __init__(self):
-        self.queue = []
-
-    def enqueue(self, value):
-        self.queue.append(value)
-
-    def dequeue(self):
-        if self.size > 0:
-            return self.queue.pop(0)
-        else:
-            return None
-
-    @property
-    def size(self):
-        return len(self.queue)
+from typing import Tuple, Set, List
 
 class Graph:
+    """ undirected graph with counter of its connected components. """
     def __init__(self):
         self.vertices = dict()
 
-    def add_vertex(self, v: int):
+    def add_vertex(self, v: Tuple[int, int]):
+        """ add vertex. """
         self.vertices[v] = set()
 
-    def add_edge(self, tail: int, head: int):
-
+    def add_edge(self, tail: Tuple[int, int], head: Tuple[int, int]):
+        """ bidirectional add edge for undirected graph. """
+        assert tail in self.vertices.keys(), "passed in tail is not a vertex yet"
+        assert head in self.vertices.keys(), "passed in head is not a vertex yet"
 
         if tail==head:
             print("do not add edge to yourself")
@@ -56,9 +43,9 @@ class Graph:
             else:
                 return visited
 
-        components = list()
+        components: List[Set[Tuple[int, int]]] = list()
         for vertex in graph.vertices.keys():
-            visited = set()
+            visited: Set[Tuple[int, int]] = set()
             component = get_component(vertex)
             if component not in components:
                 components.append(component)
@@ -69,12 +56,12 @@ class Graph:
 
 if __name__=='__main__':
 
-    islands = [[0, 1, 0, 1, 0],
-               [1, 1, 0, 1, 1],
-               [0, 0, 1, 0, 0],
-               [1, 0, 1, 0, 0],
-               [1, 1, 0, 0, 0]]
-
+#   islands = [[0, 1, 0, 1, 0],
+#              [1, 1, 0, 1, 1],
+#              [0, 0, 1, 0, 0],
+#              [1, 0, 1, 0, 0],
+#              [1, 1, 0, 0, 0]]
+#
     islands = [
         [1, 0, 0, 1, 1, 0, 1, 1, 0, 1],
         [0, 0, 1, 1, 0, 1, 0, 0, 0, 0],
@@ -108,10 +95,10 @@ if __name__=='__main__':
 
     # num of connected cmponetns
 
-    for vertex, vertices in graph.vertices.items():
-        print(vertex, vertices)
+#   for vertex, vertices in graph.vertices.items():
+#       print(vertex, vertices)
 
-    print(f"number of connected components: {graph.connected_components}")
+    print(f"number of connected components: {graph.connected_components}") # should be 13
 
 
 
