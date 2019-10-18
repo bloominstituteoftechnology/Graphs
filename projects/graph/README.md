@@ -5,7 +5,9 @@ This is a multi-stage project to implement a basic graph class and traversals.
 
 ## Part 1: Graph Class
 
-In the file `graph.py`, implement a `Graph` class that supports the API in the example below. In particular, this means there should be a field `vertices` that
+In the file `graph.py`, implement a `Graph` class that supports the 
+API in the example below. In particular, this means there should be a 
+ field `vertices` that
 contains a dictionary mapping vertex labels to edges. For example:
 
 ```python
@@ -59,7 +61,11 @@ Write a function within your Graph class that takes takes a starting node as an 
 
 ## Part 4: Implement Breadth-First Search
 
-Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs BFS. Your function should return the shortest path from the start node to the destination node. Note that there are multiple valid paths.
+Write a function within your Graph class that takes takes a 
+starting node and a destination node as an argument,
+ then performs BFS. Your function should return the shortest path 
+ from the start node to the destination node. Note that there 
+ are multiple valid paths.
 
 ## Part 5: Implement Depth-First Search
 
