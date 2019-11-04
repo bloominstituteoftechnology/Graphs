@@ -115,17 +115,26 @@ class Graph:
         # TODO
         q = Queue()
         q.enqueue(starting_vertex)
-        path = []
+        parent = {}
         visited = set()
         while q.size() > 0:
             v = q.dequeue()
             if v not in visited:
                 visited.add(v)
-                path.append(v)
                 if v == destination_vertex:
                     break
                 for neighbor in self.vertices[v]:
+                    try:
+                        parent[neighbor].append(v)
+                    except KeyError:
+                        parent[neighbor] = [v]
                     q.enqueue(neighbor)
+
+        path = [destination_vertex]
+        while path[-1] != starting_vertex:
+            path.append(parent[path[-1]][0])
+
+        path.reverse()
 
         return path
 
