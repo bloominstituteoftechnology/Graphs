@@ -23,24 +23,25 @@ class Graph:
             return
         self.vertices[v1].add(v2)
 
+    def hash(vertex):
+        hashed_vertex = 5381
+        # 33 is (2 ** 5 + 1)
+        for letter in key:
+            hashed_vertex = hashed_vertex * 33 + ord(letter)
+        return hashed_vertex            
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        # create queue
-        # vertex = starting_vertex
-        # append vertex to queue
-        # append all edges of vertex to queue
-        # loop through edges so they become base vertex
-        # repeat via recursion
 
         q = Queue()
-        already_explored = []
+        already_explored = {}
         q.enqueue(starting_vertex)
         while q.size():
             current_vertex = q.dequeue()
-            already_explored.append(current_vertex)
+            already_explored[current_vertex] = True
             print(current_vertex)
 
             for edge in self.vertices[current_vertex]:
