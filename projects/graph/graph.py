@@ -89,21 +89,68 @@ class Graph:
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        # TODO
+        visited = set()
+        path = []
+
+        def recurse(vertex, storage):
+            path.append(vertex)
+            storage.add(vertex)
+            for neighbor in self.vertices[vertex]:
+                if neighbor not in visited:
+                    storage.add(neighbor)
+                    recurse(neighbor, storage)
+                else:
+                    break
+
+        recurse(starting_vertex, visited)
+        print(path)
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # TODO
+        q = Queue()
+        q.enqueue(starting_vertex)
+        path = []
+        visited = set()
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                visited.add(v)
+                path.append(v)
+                if v == destination_vertex:
+                    break
+                for neighbor in self.vertices[v]:
+                    q.enqueue(neighbor)
+
+        return path
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # TODO
+        s = Stack()
+        s.push(starting_vertex)
+        path = []
+        visited = set()
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                visited.add(v)
+                path.append(v)
+                if v == destination_vertex:
+                    break
+                for neighbor in self.vertices[v]:
+                    s.push(neighbor)
+
+        return path
 
 
 
