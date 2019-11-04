@@ -133,7 +133,6 @@ class Graph:
         path = [destination_vertex]
         while path[-1] != starting_vertex:
             path.append(parent[path[-1]][0])
-
         path.reverse()
 
         return path
@@ -147,17 +146,25 @@ class Graph:
         # TODO
         s = Stack()
         s.push(starting_vertex)
-        path = []
+        parent = {}
         visited = set()
         while s.size() > 0:
             v = s.pop()
             if v not in visited:
                 visited.add(v)
-                path.append(v)
                 if v == destination_vertex:
                     break
                 for neighbor in self.vertices[v]:
+                    try:
+                        parent[neighbor].append(v)
+                    except KeyError:
+                        parent[neighbor] = [v]
                     s.push(neighbor)
+
+        path = [destination_vertex]
+        while path[-1] != starting_vertex:
+            path.append(parent[path[-1]][0])
+        path.reverse()
 
         return path
 
