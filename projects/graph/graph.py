@@ -31,14 +31,15 @@ class Graph:
 
         while q.size() > 0:
             v = q.dequeue()
-            print(v, end=" ")
             if v not in visited:
+                print(v, end=": ")
                 visited.add(v)
                 for neighbor in self.vertices[v]:
+                    print(neighbor, end=" ")
                     q.enqueue(neighbor)
 
             
-        print("")
+            print("")
 
 
     def dft(self, starting_vertex):
