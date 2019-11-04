@@ -21,14 +21,7 @@ class Graph:
         if v1 not in self.vertices:
             print(f'vertice {v1} does not exist')
             return
-        self.vertices[v1].add(v2)
-
-    def hash(vertex):
-        hashed_vertex = 5381
-        # 33 is (2 ** 5 + 1)
-        for letter in key:
-            hashed_vertex = hashed_vertex * 33 + ord(letter)
-        return hashed_vertex            
+        self.vertices[v1].add(v2)          
 
     def bft(self, starting_vertex):
         """
