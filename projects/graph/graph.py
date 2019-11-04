@@ -17,18 +17,55 @@ class Graph:
         Add a directed edge to the graph.
         """
         self.vertices[v1].add(v2) #adds a value to the set
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create an empty queue and enqueue the starting vertex ID
+        queue = Queue()
+        queue.enqueue(starting_vertex)
+
+        # Create a Set to store visited vertices
+        visited = set()
+
+        # While the queue is not empty...
+        while queue.size() is > 0:
+        # Dequeue the first vertex
+            v = queue.dequeue() #grab and pop item
+        # If that vertex has not been visited...
+            if v not in visited:
+                # Mark it as visited...
+                visited.append(v)
+                print(v)
+                # Then add all of its neighbors to the back of the queue
+                for i in self.vertices[v]
+                    queue.enqueue(i)
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create an empty stack and push the starting vertex ID
+        stack = Stack()
+        stack.push(starting_vertex)
+        # Create a Set to store visited vertices
+        visited = set()
+        # While the stack is not empty...
+        while stack.size() > 0:
+        # pop the first vertex
+            v = stack.pop()
+        # If that vertex has not been visited...
+            if v not in visited:
+            # Mark it as visited...
+                visited.append(v)
+                print(v)
+            # Then add all of its neighbors to the back of the queue
+                for i in self.vertices[v]:
+                    stack.push(i)
+                    
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
