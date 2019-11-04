@@ -18,10 +18,11 @@ class Graph:
         Add a directed edge to the graph.
         """
         # rejects if vertice does not exist
-        if v1 not in self.vertices:
+        if v1 not in self.vertices or v2 not in self.vertices:
             print(f'vertice {v1} does not exist')
-            return
-        self.vertices[v1].add(v2)          
+            # raise KeyError("That vertex does not exist")
+        else:
+            self.vertices[v1].add(v2)          
 
     def bft(self, starting_vertex):
         """
