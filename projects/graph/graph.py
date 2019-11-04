@@ -11,24 +11,47 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
-    def add_edge(self, v1, v2):
+        self.vertices[vertex] = set()
+    def add_edge(self, v1, v2): 
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex does not exist.")
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        visited = set()
+
+        while q.size() > 0:
+            v = q.dequeue()
+            print(v)
+            visited.add(v)
+            for neighbor in self.vertices[v]:
+                q.enqueue(neighbor)
+
+
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        s = Stack()
+        visited = set()
+
+        while s.size() > 0:
+            v = s.pop()
+            print(v)
+            visited.add(v)
+            for neighbor in self.vertices[v]:
+                s.push(neighbor)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -129,3 +152,14 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print(graph.dfs(1, 6))
+
+
+
+# def bft(self, starting_vertex_id):
+    # Create an empty queue and enqueue the starting vertex ID
+    # Create a Set to store visited vertices
+    # While the queue is not empty...
+        # Dequeue the first vertex
+        # If that vertex has not been visited...
+            # Mark it as visited...
+            # Then add all of its neighbors to the back of the queue
