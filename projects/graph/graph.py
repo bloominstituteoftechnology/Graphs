@@ -36,17 +36,22 @@ class Graph:
         beginning from starting_vertex.
         """
 
-        q = Queue()
+        queue = Queue()
         already_explored = {}
-        q.enqueue(starting_vertex)
-        while q.size():
-            current_vertex = q.dequeue()
-            already_explored[current_vertex] = True
-            print(current_vertex)
+        queue.enqueue(starting_vertex)
+        already_explored[starting_vertex] = True
+
+        print('printing btf')
+        while queue.size():
+            current_vertex = queue.dequeue()            
+            print(f'{current_vertex} ', end='')
 
             for edge in self.vertices[current_vertex]:
                 if edge not in already_explored:
-                    q.enqueue(edge)
+                    queue.enqueue(edge)
+                    already_explored[edge] = True
+
+        print()                
         
 
     def dft(self, starting_vertex):
@@ -54,7 +59,22 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stack = Stack()
+        already_explored = {}
+        stack.push(starting_vertex)
+        already_explored[starting_vertex] = True
+
+        print('printing dtf stack')
+        while stack.size():
+            current_vertex = stack.pop()
+            print(f'{current_vertex} ', end='') 
+
+            for edge in self.vertices[current_vertex]:
+                if edge not in already_explored:
+                    stack.push(edge)
+                    already_explored[edge] = True
+
+        print()                       
 
     def dft_recursive(self, starting_vertex):
         """
