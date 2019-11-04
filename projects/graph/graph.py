@@ -11,12 +11,12 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex] = set() # <-- set() -- creates a new set -> { }
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        self.vertices[v1].add(v2) #adds a value to the set
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
