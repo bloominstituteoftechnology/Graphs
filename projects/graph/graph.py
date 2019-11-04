@@ -28,7 +28,25 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create queue
+        # vertex = starting_vertex
+        # append vertex to queue
+        # append all edges of vertex to queue
+        # loop through edges so they become base vertex
+        # repeat via recursion
+
+        q = Queue()
+        already_explored = []
+        q.enqueue(starting_vertex)
+        while q.size():
+            current_vertex = q.dequeue()
+            already_explored.append(current_vertex)
+            print(current_vertex)
+
+            for edge in self.vertices[current_vertex]:
+                if edge not in already_explored:
+                    q.enqueue(edge)
+        
 
     def dft(self, starting_vertex):
         """
@@ -132,11 +150,11 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
+    # print(graph.dfs(1, 6))
