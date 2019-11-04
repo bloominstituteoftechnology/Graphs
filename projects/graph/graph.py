@@ -35,7 +35,6 @@ class Graph:
         queue.enqueue(starting_vertex)
         already_explored[starting_vertex] = True
 
-        print('printing btf')
         while queue.size():
             current_vertex = queue.dequeue()            
             print(f'{current_vertex} ', end='')
@@ -58,7 +57,6 @@ class Graph:
         stack.push(starting_vertex)
         already_explored[starting_vertex] = True
 
-        print('printing dtf stack')
         while stack.size():
             current_vertex = stack.pop()
             print(f'{current_vertex} ', end='') 
@@ -92,7 +90,23 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        queue = Queue()
+        already_explored = {}
+        queue.enqueue(starting_vertex)
+        already_explored[starting_vertex] = True
+
+        while queue.size():
+            current_vertex = queue.dequeue()            
+            if current_vertex == destination_vertex:
+                return 6
+
+            for edge in self.vertices[current_vertex]:
+                if edge not in already_explored:
+                    queue.enqueue(edge)
+                    already_explored[edge] = True
+
+
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -133,6 +147,7 @@ if __name__ == '__main__':
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
     print(graph.vertices)
+    print()
 
     '''
     Valid BFT paths:
@@ -149,7 +164,9 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print('printing btf')    
     graph.bft(1)
+    print()
 
     '''
     Valid DFT paths:
@@ -158,7 +175,9 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('printing dtf stack')
     graph.dft(1)
+    print()
 
     '''
     Valid DFT recursive paths:
@@ -167,17 +186,23 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('printing dtf recursive')
     graph.dft_recursive(1)
+    print()
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print('printing graph bfs')
+    print(graph.bfs(1, 6))
+    print()
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print('printing graph dfs')
+    print(graph.dfs(1, 6))
+    print()
