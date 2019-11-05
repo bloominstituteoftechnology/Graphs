@@ -31,15 +31,16 @@ class Graph:
 
         while q.size() > 0:
             v = q.dequeue()
+            # print(v, end=" ")
             if v not in visited:
-                print(v, end=": ")
+                # print(v, end=": ")
                 visited.add(v)
                 for neighbor in self.vertices[v]:
                     print(neighbor, end=" ")
                     q.enqueue(neighbor)
 
             
-            print("")
+        # print(visited)
 
 
     def dft(self, starting_vertex):
@@ -48,14 +49,16 @@ class Graph:
         beginning from starting_vertex.
         """
         s = Stack()
+        s.push(starting_vertex)
         visited = set()
 
         while s.size() > 0:
             v = s.pop()
-            print(v)
-            visited.add(v)
-            for neighbor in self.vertices[v]:
-                s.push(neighbor)
+            if v not in visited:
+                print(v)
+                visited.add(v)
+                for neighbor in self.vertices[v]:
+                    s.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -137,7 +140,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    graph.bft(7)
 
     '''
     Valid DFT recursive paths:
