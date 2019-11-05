@@ -27,11 +27,10 @@ class Graph:
         """
         q = Queue()
         q.enqueue(starting_vertex)
-        visited = set()
+        visited = set() # cyclic graph 
 
         while q.size() > 0:
             v = q.dequeue()
-            # print(v, end=" ")
             if v not in visited:
                 print(v, end=" ")
                 visited.add(v)
@@ -59,20 +58,31 @@ class Graph:
                     s.push(neighbor)
         print("\n\n")
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+
+        if not visited:
+            visited = set()
+        if starting_vertex not in visited:
+            print(starting_vertex)
+            visited.add(starting_vertex)
+            for neighbor in self.vertices[starting_vertex]:
+                self.dft_recursive(neighbor,visited)
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        
+
+
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -122,7 +132,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft(1)
+    #graph.dft(1)
 
     '''
     Valid BFT paths:
@@ -148,7 +158,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft_recursive(1)
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
