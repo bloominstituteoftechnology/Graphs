@@ -26,7 +26,7 @@ class Graph:
         # Create an empty queue and enqueue the starting vertex ID
         queue = Queue()
         queue.enqueue(starting_vertex)
-
+        
         # Create a Set to store visited vertices
         visited = set()
        
