@@ -12,6 +12,9 @@ class Graph:
         Add a vertex to the graph.
         """
         self.vertices[vertex] = set()
+
+    def get_neighbor(self, vertex_id):
+        return self.vertices[vertex_id]
     def add_edge(self, v1, v2): 
         """
         Add a directed edge to the graph.
@@ -79,7 +82,24 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        
+
+        q = Queue()
+        q.enqueue([starting_vertex])
+        visited = set()
+
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+
+            if v not in visited:
+                if v == destination_vertex:
+                    return path
+                visited.add(v)
+
+                for neighbor in self.vertices[v]:
+                    path_copy = path.copy()
+                    path_copy.append(neighbor)
+                    q.enqueue(path_copy)
 
 
 
@@ -158,13 +178,13 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
