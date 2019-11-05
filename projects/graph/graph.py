@@ -6,7 +6,7 @@ from util import Stack, Queue  # These may come in handy
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
-        self.vertices = {}
+        self.vertices = []
     def add_vertex(self, vertex):
         self.vertices[vertex_id] = set()
         
@@ -49,28 +49,60 @@ class Graph:
             visited.add(v)
         for next_vertex in self.vertices[v]:
             s.push(next_vertex)
-            
-    def dft_recursive(self, starting_vertex):
+
+    def dft_recursive(self, starting_vertex , visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+            visited = set()
+
+        visited.add(starting_vertex)
+        for child_vert not in visited:
+            self.dft_recursive(child_vert , visited)
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
-    def dfs(self, starting_vertex, destination_vertex):
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited = set()
+        while q.size()> 0:
+            vert = q.dequeue()
+            if vert == destination_vertex:
+                return True
+            visited.add(vert)
+            for next_vert in self.vertices[vert]:
+                q.enqueue(next_vert)
+        return False
+
+    def dfs(self, starting_vertex, destination_vertex ,visited=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        if visited is None:
+            visited = set()
+        visited.add(start_vert)
+
+        if start_vert == target_value:
+            return True
+        for child_vert in self.vertices[starting_vertex]:
+            if child_vert not in visited:
+                if self.dfs(child_vert, target_value , visited):
+                    return True
+        return False
+    def earliest_ancestor(self , ancestors, starting_node):
+
+
+
+
 
 
 
