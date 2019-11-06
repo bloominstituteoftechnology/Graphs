@@ -25,15 +25,58 @@ def earliest_ancestor(ancestors, starting_node):
     sample = graph.vertices[5]
     # print(sample)
     check_number = ''
+    # print(graph.vertices)
+    # removed = ''
+    # print(graph.vertices)
+    print(f'STARTING NODE  {starting_node}')
+    check_array = []
+    # print(graph.vertices[2])
+    parents = []
+    children = []
     for d in graph.vertices:
         if graph.vertices[d] != set():
             
-            print(f'{d}: {graph.vertices[d]}')   
-            check_number = graph.vertices[d].pop()
-            print(check_number)
-            if check_number == starting_node:
-                return d
+            # print(f'{d}: {graph.vertices[d]}')
+            
+            while len(graph.vertices[d]) > 0:
+                check_number = graph.vertices[d].pop()
+                # print(f'popped of {check_number}')
+                check_array.append((check_number, d))
+                children.append(check_number)
+                parents.append(d)
+            #    checked[check_number] = d
+            # print(check_array)
+            # print(parents)
+            # print(check_array)
+    print(check_array)
+    for x in check_array:
+        if x[0] == starting_node:
+            print(f'true, it is here at {x[1]} and does equal {starting_node}')
+            if x[1] in children:
+                # new_pass = x[1]
+                print(f'passing in {x[1]}')
+                return earliest_ancestor(ancestors,x[1])
+            else:
+                return x[1]
     return -1
+                
+                
+                    
+                    # print(x)
+            # if starting_node in check_array:
+            #     for x in check_array:
+                    # if x == starting_node:
+                    #     print(x)
+            #     print(d)
+            #     if check_number == starting_node:
+            #         break
+                
+            # # print(f'current is {starting_node}')
+            # if check_number == starting_node:
+            #     # print(f'passing in {d}')
+            #     earliest_ancestor(ancestors, d)
+            
+    # return -1
             
 
         
