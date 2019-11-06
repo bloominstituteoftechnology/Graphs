@@ -34,9 +34,9 @@ class Graph:
                 earliestnode = v
             for next_vertex in self.vertices[v]:
                 s.push(next_vertex)
-            if earliestnode == starting_node:
-                return -1
-        return lastnode
+        if earliestnode == starting_node:
+            return -1
+        return earliestnode
     
             
         
