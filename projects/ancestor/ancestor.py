@@ -187,3 +187,4 @@ def earliest_ancestor(ancestors, starting_node):
         for v in visited:
             return v
     return visited[len(visited) - 1]
+
