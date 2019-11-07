@@ -4,6 +4,7 @@ class User:
     def __init__(self, name):
         self.name = name
 
+
 class SocialGraph:
     def __init__(self):
         self.lastID = 0
@@ -46,6 +47,19 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
+        # add users
+        # call addUser() until our number of users is numUsers
+        for i in range(numUsers):
+            self.addUser(f"user: {i}")
+
+
+        
+
+        # create random friendships
+
+        # avgFriendships = totalFriendships / nusUsers
+        # totalFriendships = avgFriendships * / numUsers
+
         # Add users
 
         # Create friendships
@@ -67,6 +81,9 @@ class SocialGraph:
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(10, 2)
+    print("USERS: ")
+    print("Friendships: ")
+    print("social: ")
     print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
