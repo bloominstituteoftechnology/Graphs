@@ -64,6 +64,7 @@ class SocialGraph:
         return visited
 
 
+
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(10, 2)
