@@ -11,24 +11,52 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+
+        if v1 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            self.vertices[v1] = set(v2)
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft(self, starting_vertex):
+        visited = [False] * (len(self.vertices) + 1)
+        queue = []
+        queue.append(starting_vertex)
+        visited[starting_vertex] = True
+        # print("BFT visited", starting_vertex)
+
+        while queue:
+            starting_vertex = queue.pop(0)
+            for i in self.vertices[starting_vertex]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
+
+    def dft(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        if visited is None:
+            visited = [False]*(len(self.vertices) + 1)
+
+        visited[starting_vertex] = True
+        # print("DFT visited", starting_vertex)
+
+        for i in self.vertices[starting_vertex]:
+            if visited[i] is False:
+                self.dft(i, visited)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -42,7 +70,24 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        visited = [False] * (len(self.vertices) + 1)
+        queue = []
+        queue.append(starting_vertex)
+        visited[starting_vertex] = True
+
+        match = None
+
+        while queue and match is None:
+            starting_vertex = queue.pop(0)
+            if starting_vertex == destination_vertex:
+                match = starting_vertex
+            for i in self.vertices[starting_vertex]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
+
+        return match
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
