@@ -92,7 +92,7 @@ class SocialGraph:
         """
         graph = Graph()
         connections = []
-        
+        q = Queue()
         
         for i in range(1, len(sg.friendships) + 1):
             if sg.friendships[i] != set():
@@ -100,9 +100,7 @@ class SocialGraph:
                 while len(sg.friendships[i]) > 0:
                     friend = sg.friendships[i].pop()
                     connections.append((i, friend))
-                
-        print(connections)
-
+        
         #building graph
         for d in range(1,11):
             graph.add_vertex(d)
@@ -110,11 +108,57 @@ class SocialGraph:
         #making connections
         for pair in connections:
             graph.add_edge(pair[0],pair[1])
+        print(graph.vertices)
 
-        print(f'Graph Vertices {graph.vertices}')
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        visited = {}
+ 
+        for i in range(1,11):
+            visited[i] = graph.bfs(userID,i)
+        print(f'visited: {visited}')
+  
+
+        # for x in check_array: # for every instance in check array
+        #     if x[1] == userID: #if the first item (the child) exists, then you will want to grab the parent and call recursion to climb up the tree
+        #         visited[x[0]] = [x[1], x[0]]
+        # print(visited)
+        #     if x[1] in children: #if the parent node is a child (not a top node)
+        #         print(f'passing in {x[1]}')
+        #         return earliest_ancestor(ancestors,x[1]) #call recursion on that node
+        #     else:
+        #         return x[1] #if it is not a child, you have reached the top
+        # return visited
+       
+        
+        # print(q.size())
+        # print(graph.vertices)
+        # for i in range(1,11):
+        #     print(i)
+  
+        # def recall(i=userID):
+        #     print(i)
+        #     if i < 11:
+        #         q.enqueue([userID])
+        #         visited = set()
+        #         while q.size() > 0:
+        #             path = q.dequeue()
+        #             v = path[-1]
+        #             # print(v)
+                    
+        #             if v == i:
+        #                 set_visited[i] = path
+        #                 print(set_visited)
+        #                 i += 1
+        #                 return recall(i)
+                        
+        #             visited.add(v)
+
+        #             for neighbor in graph.vertices[v]:
+        #                 path_copy = path.copy()
+        #                 path_copy.append(neighbor)
+        #                 q.enqueue(path_copy)
+        #     else:
+        #         return
+        # recall()
 
 
 if __name__ == '__main__':
