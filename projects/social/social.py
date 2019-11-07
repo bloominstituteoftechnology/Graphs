@@ -94,28 +94,28 @@ class SocialGraph:
         connections = []
         q = Queue()
         
-        for i in range(1, len(sg.friendships) + 1): # get every instance of friendships
-            if sg.friendships[i] != set():
-                #popping off each item and getting ALL connections
-                while len(sg.friendships[i]) > 0: #while the length is of each set > 0
-                    friend = sg.friendships[i].pop() #pop of number
-                    #place that number as the second value making a connection each instance of i...
-                    # ...i.e. --> i=1 { 1: {2,5,6} }  --> (1,2), (1,5), (1,6)
-                    connections.append((i, friend))  
-        
-        #building graph
-        for d in range(1,11): #range of friends set below
-            graph.add_vertex(d)
-
-        #making connections
-        for pair in connections:
-            graph.add_edge(pair[0],pair[1]) #connect each pair of friends
-
+        q = Queue()
+        q.enqueue([userID])
+       
+        # Create a Set to store visited vertices
         visited = {}
- 
-        for i in range(1,11):
-            visited[i] = graph.bfs(userID,i) #simply call the bfs search on each instance of friend and save that path in the visited dict
-        print(f'visited: {visited}')
+         # While the queue is not empty...
+        while q.size() > 0:
+            # Dequeue the first PATH
+            path = q.dequeue()
+            # Mark it as visited...
+            v = path[-1]
+            
+            if v not in visited:
+                visited[v] = path
+                #for every value in the vertices from the last item in the list
+                for friendID in self.friendships[v]:
+                    # CHECK IF IT'S THE TARGET
+                    path_copy = path.copy()
+                    path_copy.append(friendID)
+                    q.enqueue(path_copy)
+        return visited
+        
   
 
      
@@ -124,9 +124,9 @@ class SocialGraph:
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(10, 2)
-    print("USERS:")
-    print(sg.users)
-    print("FRIENDSHIPS:")
-    print(sg.friendships)
+    # print("USERS:")
+    # print(sg.users)
+    # print("FRIENDSHIPS:")
+    # print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
