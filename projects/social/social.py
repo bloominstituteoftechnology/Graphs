@@ -90,10 +90,6 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        graph = Graph()
-        connections = []
-        q = Queue()
-        
         q = Queue()
         q.enqueue([userID])
        
