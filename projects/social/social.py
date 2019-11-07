@@ -34,11 +34,14 @@ class SocialGraph:
         """
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return True
 
     def addUser(self, name):
         """
@@ -68,15 +71,21 @@ class SocialGraph:
         # call addUser() until our number of users is numUsers
         for i in range(numUsers):
             self.addUser(f"User {i+1}")
+        
+        # totalFriendships = avgFriendships * numUsers // 2
+        # friendshipsCreated = 0
 
-        # Create random friendships
-        # totalFriendships = avgFriendships * numUsers
-        # Generate a list of all possible friendships
-        possibleFriendships = []
+        # while friendshipsCreated < totalFriendships:
+        #     userID = random.randint(1, self.lastID)
+        #     friendID = random.randint(1, self.lastID)
+        #     if self.addFriendship(userID, friendID):
+        #         friendshipsCreated += 2
+
         # Avoid dups by ensuring the first ID is smaller than the second
+        possibleFriendships = []
         for userID in self.users:
             for friendID in range(userID + 1, self.lastID + 1):
-                possibleFriendships.append( (userID, friendID) )
+                possibleFriendships.append((userID, friendID))
 
         # Shuffle the list
         random.shuffle(possibleFriendships)
@@ -120,7 +129,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(5, 2)
+    sg.populateGraph(100, 4)
     print("USERS:")
     print(sg.users)
     print("FRIENDSHIPS:")
