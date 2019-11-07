@@ -94,79 +94,39 @@ class SocialGraph:
         connections = []
         q = Queue()
         
-        for i in range(1, len(sg.friendships) + 1):
+        for i in range(1, len(sg.friendships) + 1): # get every instance of friendships
             if sg.friendships[i] != set():
                 #popping off each item and getting ALL connections
-                while len(sg.friendships[i]) > 0:
-                    friend = sg.friendships[i].pop()
-                    connections.append((i, friend))
+                while len(sg.friendships[i]) > 0: #while the length is of each set > 0
+                    friend = sg.friendships[i].pop() #pop of number
+                    #place that number as the second value making a connection each instance of i...
+                    # ...i.e. --> i=1 { 1: {2,5,6} }  --> (1,2), (1,5), (1,6)
+                    connections.append((i, friend))  
         
         #building graph
-        for d in range(1,11):
+        for d in range(1,11): #range of friends set below
             graph.add_vertex(d)
 
         #making connections
         for pair in connections:
-            graph.add_edge(pair[0],pair[1])
-        print(graph.vertices)
+            graph.add_edge(pair[0],pair[1]) #connect each pair of friends
 
         visited = {}
  
         for i in range(1,11):
-            visited[i] = graph.bfs(userID,i)
+            visited[i] = graph.bfs(userID,i) #simply call the bfs search on each instance of friend and save that path in the visited dict
         print(f'visited: {visited}')
   
 
-        # for x in check_array: # for every instance in check array
-        #     if x[1] == userID: #if the first item (the child) exists, then you will want to grab the parent and call recursion to climb up the tree
-        #         visited[x[0]] = [x[1], x[0]]
-        # print(visited)
-        #     if x[1] in children: #if the parent node is a child (not a top node)
-        #         print(f'passing in {x[1]}')
-        #         return earliest_ancestor(ancestors,x[1]) #call recursion on that node
-        #     else:
-        #         return x[1] #if it is not a child, you have reached the top
-        # return visited
-       
-        
-        # print(q.size())
-        # print(graph.vertices)
-        # for i in range(1,11):
-        #     print(i)
-  
-        # def recall(i=userID):
-        #     print(i)
-        #     if i < 11:
-        #         q.enqueue([userID])
-        #         visited = set()
-        #         while q.size() > 0:
-        #             path = q.dequeue()
-        #             v = path[-1]
-        #             # print(v)
-                    
-        #             if v == i:
-        #                 set_visited[i] = path
-        #                 print(set_visited)
-        #                 i += 1
-        #                 return recall(i)
-                        
-        #             visited.add(v)
-
-        #             for neighbor in graph.vertices[v]:
-        #                 path_copy = path.copy()
-        #                 path_copy.append(neighbor)
-        #                 q.enqueue(path_copy)
-        #     else:
-        #         return
-        # recall()
+     
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populateGraph(10, 2)
-    # print("USERS:")
-    # print(sg.users)
-    # print("FRIENDSHIPS:")
-    # print(sg.friendships)
+    print("USERS:")
+    print(sg.users)
+    print("FRIENDSHIPS:")
+    print(sg.friendships)
     connections = sg.getAllSocialPaths(1)
     print(connections)
