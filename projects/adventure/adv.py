@@ -81,35 +81,45 @@ path = []
 # visited = {starting_vertex}
 stack.push(player.currentRoom.id)
 # While the queue is not empty...
+counter = 0
 def check_east(current=player.currentRoom.id):
     checkpoint = current
-    while 'e' in traversalGraph[current]:
-        if traversalGraph[current]['e'] == '?' :
-            traversalGraph[current]['e'] = roomGraph[current][1]['e']
-            player.travel('e')
-            traversalPath.append('e')
-            current = player.currentRoom.id
-            traversalGraph[current]['w'] = roomGraph[current][1]['w']
-            # print(traversalGraph)
-            visited_rooms.add(player.currentRoom.id)
-        if 'e' not in traversalGraph[current]:
-            while player.currentRoom.id != checkpoint:
-                player.travel('w')
-                traversalPath.append('w')
-                print(player.currentRoom.id)
-            check_west()
+    if 'e' in traversalGraph[current]:
+        while 'e' in traversalGraph[current]:
+            if traversalGraph[current]['e'] == '?' :
+                traversalGraph[current]['e'] = roomGraph[current][1]['e']
+                player.travel('e')
+                traversalPath.append('e')
+                current = player.currentRoom.id
+                traversalGraph[current]['w'] = roomGraph[current][1]['w']
+                # print(traversalGraph)
+                visited_rooms.add(player.currentRoom.id)
+            if 'e' not in traversalGraph[current]:
+                while player.currentRoom.id != checkpoint:
+                    player.travel('w')
+                    traversalPath.append('w')
+                    print(player.currentRoom.id)
+                check_west()
             
 def check_north(current=player.currentRoom.id):
     checkpoint = current
-    while 'n' in traversalGraph[current]:
-        if traversalGraph[current]['n'] == '?' :
-            traversalGraph[current]['n'] = roomGraph[current][1]['n']
-            player.travel('n')
-            traversalPath.append('n')
-            current = player.currentRoom.id
-            traversalGraph[current]['s'] = roomGraph[current][1]['s']
-            # print(traversalGraph)
-            visited_rooms.add(current)
+    if 'n' in traversalGraph[current]:
+        while 'n' in traversalGraph[current]:
+            if traversalGraph[current]['n'] == '?' : #if not visited
+                traversalGraph[current]['n'] = roomGraph[current][1]['n'] #set that ? to the number about to be visited
+                player.travel('n') #visit that number
+                traversalPath.append('n') #add that number to path
+                current = player.currentRoom.id #change the current room variable
+                traversalGraph[current]['s'] = roomGraph[current][1]['s'] #change the ? variable names in the new room 
+                # print(traversalGraph)
+                visited_rooms.add(current) #add rooms to visited
+            else:
+                counter += 1
+                if counter == 4:
+                    pass
+                else:
+                    check_south()
+
         if 'n' not in traversalGraph[current]:
             while player.currentRoom.id != checkpoint:
                 player.travel('s')
@@ -120,45 +130,46 @@ def check_north(current=player.currentRoom.id):
 def check_south(current=player.currentRoom.id):   
     checkpoint = current
     # print(checkpoint)
-    while 's' in traversalGraph[current]:
-        if traversalGraph[current]['s'] == '?' :
-            # print(current)
-            traversalGraph[current]['s'] = roomGraph[current][1]['s']
-            # print(f'current before moving is {current}')
-            player.travel('s')
-            traversalPath.append('s')
-            current = player.currentRoom.id
-            # print(f'current after moving is {player.currentRoom.id}')
-            traversalGraph[current]['n'] = roomGraph[current][1]['n']
-            # print('you traveled')
-            visited_rooms.add(current)
-        if 's' not in traversalGraph[current]:
-            while player.currentRoom.id != checkpoint:
-                player.travel('n')
-                traversalPath.append('n')
-                # print(player.currentRoom.id)
-            check_east()
+    if 's' in traversalGraph[current]:
+        while 's' in traversalGraph[current]:
+            if traversalGraph[current]['s'] == '?' :
+                # print(current)
+                traversalGraph[current]['s'] = roomGraph[current][1]['s']
+                # print(f'current before moving is {current}')
+                player.travel('s')
+                traversalPath.append('s')
+                current = player.currentRoom.id
+                # print(f'current after moving is {player.currentRoom.id}')
+                traversalGraph[current]['n'] = roomGraph[current][1]['n']
+                # print('you traveled')
+                visited_rooms.add(current)
+            if 's' not in traversalGraph[current]:
+                while player.currentRoom.id != checkpoint:
+                    player.travel('n')
+                    traversalPath.append('n')
+                    # print(player.currentRoom.id)
+                check_east()
 # current = checkpoint
 
 # current = checkpoint
 def check_west(current=player.currentRoom.id):
     checkpoint = current
-    while 'w' in traversalGraph[current]:
-        if traversalGraph[current]['w'] == '?' :
-            traversalGraph[current]['w'] = roomGraph[current][1]['w']
-            player.travel('w')
-            traversalPath.append('w')
-            current = player.currentRoom.id
-            traversalGraph[current]['e'] = roomGraph[current][1]['e']
-            # print(traversalGraph)
-            visited_rooms.add(player.currentRoom.id)
-        if 'w' not in traversalGraph[current]:
-            while player.currentRoom.id != checkpoint:
-                player.travel('e')
-                traversalPath.append('e')
-                print(player.currentRoom.id)
+    if 'w' in traversalGraph[current]:
+        while 'w' in traversalGraph[current]:
+            if traversalGraph[current]['w'] == '?' :
+                traversalGraph[current]['w'] = roomGraph[current][1]['w']
+                player.travel('w')
+                traversalPath.append('w')
+                current = player.currentRoom.id
+                traversalGraph[current]['e'] = roomGraph[current][1]['e']
+                # print(traversalGraph)
+                visited_rooms.add(player.currentRoom.id)
+            if 'w' not in traversalGraph[current]:
+                while player.currentRoom.id != checkpoint:
+                    player.travel('e')
+                    traversalPath.append('e')
+                    print(player.currentRoom.id)
     
-
 check_north()
         
             
