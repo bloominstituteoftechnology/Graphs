@@ -1,7 +1,7 @@
 from room import Room
 import random
 import math
-
+# 494: [(1, 8), {'e': 457}]
 class World:
     def __init__(self):
         self.startingRoom = None
@@ -13,9 +13,12 @@ class World:
         rooms = [None] * numRooms
         gridSize = 1
         for i in range(0, numRooms):
-            x = roomGraph[i][0][0]
+            x = roomGraph[i][0][0] #          1                 8
             gridSize = max(gridSize, roomGraph[i][0][0], roomGraph[i][0][1])
+            #   def __init__(self, name, description, id=0, x=None, y=None):
             self.rooms[i] = Room(f"Room {i}", f"({roomGraph[i][0][0]},{roomGraph[i][0][1]})",i, roomGraph[i][0][0], roomGraph[i][0][1])
+            #                        name             "(1 8)"                                            1                8  
+            #                                       description                              id            x                y
         self.roomGrid = []
         gridSize += 1
         self.gridSize = gridSize
