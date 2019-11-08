@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from world import World
+from graph import Graph
 
 import random
 
@@ -17,9 +18,11 @@ roomGraph={494: [(1, 8), {'e': 457}], 492: [(1, 20), {'e': 400}], 493: [(2, 5), 
 world.loadGraph(roomGraph)
 
 # UNCOMMENT TO VIEW MAP
-world.printRooms()
+# world.printRooms()
 
 player = Player("Name", world.startingRoom)
+
+
 
 # Fill this out
 traversalPath = []
@@ -29,11 +32,109 @@ traversalPath = []
 # TRAVERSAL TEST
 visited_rooms = set()
 player.currentRoom = world.startingRoom
-visited_rooms.add(player.currentRoom)
+visited_rooms.add(player.currentRoom.id)
+# print(player.currentRoom.getExits())
+
+
+def find_path(visited_rooms, player):
+    '''
+    Finds a path through the maze to reach everyroom in less than 2000
+    steps. 
+    '''
+    # instantiate a graph
+    graph = Graph()
+    while len(visited_rooms) < len(roomGraph):
+        room_id = player.currentRoom.id # This is an int 
+        poss_dir = room.getExits() # This is a list ex: [n,e,s,w]
+        room_connections = {}
+        graph.add_vertex(room_id) # Add currentRoom to graph
+        # Get connections for currentRoom and their directions
+        for d in poss_dir:
+            room_in_direction = room.getRoomInDirection(d).id
+            room_connections.update({room_in_direction : d})
+        # Add all rooms in connections to graph
+        for k in room_connections:
+            graph.add_vertex(k)
+        
+        for k in room_connections:
+            graph.add_edge(room_id, k, room_connections[k])
+        
+
+def test_find_path(visited_rooms, player):
+    '''
+    Finds a path through the maze to reach everyroom in less than 2000
+    steps. 
+    '''
+    # instantiate a graph
+    graph = Graph()
+    traversal_path = []
+    # count = 10
+    while len(visited_rooms) < len(roomGraph):
+        room = player.currentRoom
+        room_id = room.id # This is an int 
+        poss_dir = room.getExits() # This is a list ex: [n,e,s,w]
+        room_connections = {}
+        graph.add_vertex(room_id) # Add currentRoom to graph
+        # Get connections for currentRoom and their directions
+        # print(f'Current Room: {room_id}, visited rooms: {visited_rooms}')
+        for d in poss_dir:
+            room_in_direction = room.getRoomInDirection(d).id
+            room_connections.update({room_in_direction : d})
+        # print(f'room_connections: {room_connections}')
+        # Add all rooms in connections to graph
+        for k in room_connections:
+            if k not in visited_rooms:
+                graph.add_vertex(k)
+        # Add connections to all the rooms 
+        # print(graph.vertices)
+        for k in room_connections:
+            # print(f'k in room_connections: {k}')
+            graph.add_edge(room_id, k, room_connections[k])
+        # print(graph.vertices,'\n')
+        # count -= 1
+        # travel to a room not yet visited
+        for k in graph.vertices[room_id]:
+            do_trace_back = 0
+            # print(f'k: {k}')
+            if k not in visited_rooms:
+                # print(f'Not in visited_rooms: {k}')
+                direction = room_connections[k]
+                player.travel(direction)
+                visited_rooms.add(k)
+                # print(player.currentRoom.id)
+                traversal_path.append(direction)
+                break
+            do_trace_back += 1
+        
+        # print(f'In visited_rooms: {k}')
+        if do_trace_back >= 1:
+            trace_back = graph.bfs(room_id, visited_rooms)
+            # print(f'Trace back list{trace_back}')
+            for t in trace_back:
+                # print(graph.vertices)
+                current_room = player.currentRoom.id
+                direction = graph.vertices[current_room][t]
+                player.travel(direction)
+                traversal_path.append(direction)
+                visited_rooms.add(t)
+                # print(f'Trace back: {player.currentRoom.id}')
+        
+
+        # print(room_id)
+    # print(graph.vertices)
+    # print(traversal_path)
+    return traversal_path
+    # populate the graph with the first room and the connections of that room
+        # Depth first traverse the first possible path
+        # Once a room with no more new paths is reached, breadth first to the nearest room with paths not visited yet
+        # log the n, s, w, e directions and save it to traversalPath
+
+traversalPath = test_find_path(visited_rooms, player)
+
 
 for move in traversalPath:
     player.travel(move)
-    visited_rooms.add(player.currentRoom)
+    visited_rooms.add(player.currentRoom.id)
 
 if len(visited_rooms) == len(roomGraph):
     print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
