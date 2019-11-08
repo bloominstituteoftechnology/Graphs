@@ -96,8 +96,18 @@ no way to go back and form a repeating loop in the git commit hierarchy.
 ## Exercises
 
 Draw examples of the following:
+<br /><br />
 
 * Undirected graph of 4 verts.
+<br />![Undirected Graph 4 Verts](img/Undirected_Graph_4_Verts.jpg)
+<br /><br/>
+
 * Directed graph of 5 verts.
+<br />![Directed graph 5 Verts](img/Directed_Graph_5_Verts.jpg)
+<br /><br />
+
 * Cyclic directed graph of 6 verts.
+<br />![Cyclic Directed Graph 6 Verts](img/Cyclic_Directed_Graph_6_Verts.jpg)
+<br /><br />
 * DAG of 7 verts.
+<br />![Directed Acyclic Graph 7 Verts](img/Directed_Acyclic_Graph_7_Verts.jpg)

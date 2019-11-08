@@ -1,4 +1,18 @@
+import random
+import math
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size():
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 
 class User:
     def __init__(self, name):
@@ -47,8 +61,27 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for user in range(numUsers):
+            self.addUser(user)
 
         # Create friendships
+        friendship_combinations = []
+        # avg Friendships = totalFriendships / numUsers
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID + 1):
+                if userID != friendID:
+                    friendship_combinations.append((userID, friendID))
+        # shuffle friendship combinations
+        random.shuffle(friendship_combinations)
+        totalFriendships = avgFriendships * numUsers
+        # take the N Number of friendships
+        friends_to_make = friendship_combinations[:math.floor( totalFriendships / 2) ]
+
+        # make all possible friendship combinations
+        for friendship in friends_to_make:
+            first_friend = friendship[0]
+            second_friend = friendship[1]
+            self.addFriendship(first_friend, second_friend)
 
     def getAllSocialPaths(self, userID):
         """
@@ -60,7 +93,30 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        
+        #implement bfs
+        # make a queue
+        queue = Queue()
+        # enqueue userID
+        queue.enqueue([userID])
+        # while queue isn't empty
+        while queue.size():
+            # dequeue the path
+            path = queue.dequeue()
+            # last thing on path is the new current item
+            newUserID = path[-1]
+            # if newUserID isn't visited
+            if newUserID not in visited:
+                visited[newUserID] = path
+                # for each of friendID's neighbor's
+                for friendID in self.friendships[newUserID]:
+                    if friendID not in visited:
+                        # copy path
+                        new_path = path.copy()
+                        # append friendID to path
+                        new_path.append(friendID)
+                        # enqueue new_path
+                        queue.enqueue(new_path)
         return visited
 
 
