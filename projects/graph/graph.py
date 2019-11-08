@@ -7,7 +7,7 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
-    def add_vertex(self, vertex):
+    def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
@@ -15,6 +15,11 @@ class Graph:
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
+        """
+        pass  # TODO
+    def get_neighbors(self, vertex_id):
+        """
+        Get all neighbors (edges) of a vertex.
         """
         pass  # TODO
     def bft(self, starting_vertex):
