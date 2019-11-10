@@ -9,7 +9,7 @@ import sys
 sys.path.append('../graph')
 from graph import Graph
 from util import Queue, Stack
-sys.setrecursionlimit(3000)
+sys.setrecursionlimit(5000)
 # Load world
 world = World()
 
@@ -117,35 +117,33 @@ def check_east(current=player.currentRoom.id):
             # return check_south(current)
             # print(print(len(roomGraph)))
     # counter += 1
-    elif 'w' in traversalGraph[current]:
-        return check_west(current)
+    if 'w' in traversalGraph[current]:
         print('checking opposite direction of West -- it has been visited')
+        return check_west(current)
+    elif 'w' not in traversalGraph[current]:
         counter += 1
         if counter == 4:
-            print('youve checked every direction')
-            return counter_check_east(current)        
-        
-        else:
-            return check_west(current)
-    else:
-        print('there is no East')
-        counter += 1
-        print(f'counter: {counter}')
-        if counter == 4:
-            print('youve checked every direction')
             return counter_check_east(current)
-        if player.currentRoom.id == checkpoint:
-            # print(f'counter: {counter}')
-            print('calling South')
-            return check_south(current)
-        else:
-            while player.currentRoom.id != checkpoint:
-                print('EVERYTHING IS HUNKY DORY')
-                player.travel('s')
-                traversalPath.append('s')
-                print(player.currentRoom.id)
-            return check_east(current)
-            
+    
+        
+        # counter += 1
+        # if counter == 4:
+        #     print('youve checked every direction')
+        #     return counter_check_east(current)        
+        
+        # else:
+        #     return check_west(current)
+    
+    print('there is no East')
+    counter += 1
+    print(f'counter: {counter}')
+    if counter == 4:
+        print('youve checked every direction')
+        return counter_check_east(current)
+    else:
+        print('calling north')
+        return check_north(current)
+
 def check_north(current=player.currentRoom.id):
     global counter
     checkpoint = current
@@ -173,44 +171,38 @@ def check_north(current=player.currentRoom.id):
             if counter == 4:
                 print('youve checked every direction')
                 return counter_check_north(current)
-            else:
-                print('calling east')
-                return check_east(current)
-            return check_east(current)
+            # else:
+            #     print('calling east')
+            #     return check_east(current)
+            # return check_east(current)
             # print(print(len(roomGraph)))
     # counter += 1
-    elif 's' in traversalGraph[current]:
-        # print('checking opposite direction of South -- it has been visited')
-        counter += 1
-        print(f'count: {counter}')
-        if counter == 4:
-            print('youve checked every direction')
-            return counter_check_north(current)
+    print('hello')
+    if 's' in traversalGraph[current]:
+         print('checking opposite direction of South -- it has been visited')     
+         return check_south(current)
             # print('hello darking')
             # return check_east(current)
-
-
-        else:
-            print('checking if opposite directions of South is available')
-            return check_south(current)
-    else:
-        print('there is no North')
-        counter += 1
-        print(f'counter: {counter}')
+    elif 's' not in traversalGraph[current]:
+        print('not here')
+        counter +=1
         if counter == 4:
-            print('youve checked every direction')
             return counter_check_north(current)
-        if player.currentRoom.id == checkpoint:
-            # counter += 1
-            print('calling east')
-            return check_east(current)
-        else:
-            while player.currentRoom.id != checkpoint:
-                print('EVERYTHING IS HUNKY DORY')
-                player.travel('e')
-                traversalPath.append('e')
-                print(player.currentRoom.id)
-            return check_east(current)
+
+
+        # else:
+        #     print('checking if opposite directions of South is available')
+        #     return check_south(current)
+    
+    print('there is no North')
+    counter += 1
+    print(f'counter: {counter}')
+    if counter == 4:
+        print('youve checked every direction')
+        return counter_check_north(current)
+    else:
+        return check_west(current)
+        
     
 
     
@@ -251,43 +243,26 @@ def check_south(current=player.currentRoom.id):
             if counter == 4:
                 print('youve checked every direction')
                 return counter_check_south(current)
-            else:
-                print('calling west')
-                return check_west(current)
-            return check_west(current)
+       
             # print(print(len(roomGraph)))
     # counter += 1
-    elif 'n' in traversalGraph[current]:
+    if 'n' in traversalGraph[current]:
         print('checking opposite direction of North -- it has been visited')
+        return check_north(current)
+    elif 'n' not in traversalGraph[current]:
         counter += 1
-        print(f'counter: {counter}')
         if counter == 4:
-            print('youve checked every direction')
-            return counter_check_south(current)        
-        
-    
-        else:
-            return check_south(current)
-    else:
-        print('there is no South')
-        counter += 1
-        print(f'counter: {counter}')
-        if counter == 4:
-            print('youve checked every direction')
             return counter_check_south(current)
-
-        
-        if player.currentRoom.id == checkpoint:
-            # counter += 1
-            print('calling west')
-            return check_west(current)
-        else:
-            while player.currentRoom.id != checkpoint:
-                print('EVERYTHING IS HUNKY DORY')
-                player.travel('w')
-                traversalPath.append('w')
-                print(player.currentRoom.id)
-            return check_west(current)
+    
+    
+    print('there is no South')
+    counter += 1
+    print(f'counter: {counter}')
+    if counter == 4:
+        print('youve checked every direction')
+        return counter_check_south(current)
+    else:
+        return check_east(current)
 
 # current = checkpoint
 def check_west(current=player.currentRoom.id):
@@ -310,44 +285,34 @@ def check_west(current=player.currentRoom.id):
             print('calling north')
             return check_north(current)
         else:
+            print('North has been visited')
             counter += 1
             print(f'counter: {counter}')
             if counter == 4:
                 print('youve checked every direction')
                 return counter_check_west(current)
             
-            else:
-                print('checking west but youve already gone that way -- calling north')
-                return check_north(current)
-            return check_north(current)
+        
             # print(print(len(roomGraph)))
     # counter += 1
-    elif 'e' in traversalGraph[current]:
-        print('checking opposite direction of East -- it has been visited')
-        counter += 1
-        if counter == 4:
-            print('youve checked every direction')
-            return counter_check_west(current)          
-         
-        else:
-            return check_south(current)
-    else:
-        print('there is no West')
-        counter += 1
-        print(f'counter: {counter}')
-        if counter == 4:
-            print('youve checked every direction')
-            return counter_check_west(current)
-        if player.currentRoom.id == checkpoint:
-            print('calling north')
-            return check_north(current)
-        else:
-            while player.currentRoom.id != checkpoint:
-                print('EVERYTHING IS HUNKY DORY')
-                player.travel('n')
-                traversalPath.append('n')
-                print(player.currentRoom.id)
-            return check_north(current)
+    if 'e' in traversalGraph[current]:
+        print('checking opposite direction of east')
+        return check_east(current)
+    elif 'e' not in traversalGraph[current]:
+       counter += 1
+       if counter == 4:
+        return counter_check_west(current)
+
+    
+    
+    print('there is no West')
+    counter += 1
+    print(f'counter: {counter}')
+    if counter == 4:
+        print('youve checked every direction')
+        return counter_check_west(current)
+    else: 
+        return check_south(current)
             
 def counter_check_north(current):
     return go_back(current)
@@ -615,7 +580,6 @@ def go_back(current):
             if '?' in small_string:
                 if x == 's':
                     print(current)
-                    
                     return check_west(current)
                 elif x == 'n':
                     print(current)
@@ -628,6 +592,12 @@ def go_back(current):
                     
                     print(copy)
                     return check_south(current)
+    count = 0
+    for i in range(0,500):
+        if i not in visited_rooms:
+            count += 1
+            print(count)
+        
     
        
 
