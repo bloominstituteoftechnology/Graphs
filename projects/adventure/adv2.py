@@ -99,9 +99,11 @@ def check_east(current):
     else:
         #check South
         print("S available - calling south")
+        traversalGraph[current]['s'] = roomGraph[current][1]['s']
         player.travel('s')
         traversalPath.append('s')
         current = player.currentRoom.id
+        traversalGraph[current]['n'] = roomGraph[current][1]['n']
         print(f'player traveled south to {current}')
         return check_south(current)
         
@@ -134,9 +136,11 @@ def check_south(current):
     else:
         #check West
         print("W available - calling West")
+        traversalGraph[current]['w'] = roomGraph[current][1]['w']
         player.travel('w')
         traversalPath.append('w')
         current = player.currentRoom.id
+        traversalGraph[current]['e'] = roomGraph[current][1]['e']
         print(f'player traveled west to {current}')
         return check_west(current)
 
@@ -167,9 +171,11 @@ def check_west(current):
     else:
         #check Check North
         print("N available - calling North")
+        traversalGraph[current]['n'] = roomGraph[current][1]['n']
         player.travel('n')
         traversalPath.append('n')
         current = player.currentRoom.id
+        traversalGraph[current]['s'] = roomGraph[current][1]['s']
         print(f'player traveled north to {current}')
         return check_north(current)
 
@@ -201,9 +207,11 @@ def check_north(current):
     else:
         #check east
         print("E available - calling East")
+        traversalGraph[current]['e'] = roomGraph[current][1]['e']
         player.travel('e')
         traversalPath.append('e')
         current = player.currentRoom.id
+        traversalGraph[current]['w'] = roomGraph[current][1]['w']
         print(f'player traveled east to {current}')
         return check_east(current)
         
