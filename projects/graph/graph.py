@@ -43,6 +43,7 @@ class Graph:
                 #Markt it as vissited, then add all of its 
                 # # neighbors to the back of the queue
         q = Queue()
+        q.enqueue(starting_vertex)
         visited = set()
         while q.size() > 0:
             v = q.dequeue()
@@ -58,6 +59,7 @@ class Graph:
         beginning from starting_vertex.
         """
         s = Stack()
+        s.push(starting_vertex)
         visited = set()
         while s.size() > 0:
             v = s.pop()
