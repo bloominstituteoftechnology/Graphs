@@ -3,9 +3,11 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
 
@@ -44,15 +46,14 @@ class Graph:
         while q.size() > 0:
             # Dequeue the first vertex
             v = q.dequeue()
-            #If that vertex has not been visited...
+            # If that vertex has not been visited...
             if v not in visited:
-                #Mark it as visited
+                # Mark it as visited
                 print(v)
                 visited.add(v)
-                #Then add all of it's neighbors to the back of the queue
+                # Then add all of it's neighbors to the back of the queue
                 for neighbor in self.vertices[v]:
                     q.enqueue(neighbor)
-
 
     def dft(self, starting_vertex):
         """
@@ -68,12 +69,12 @@ class Graph:
         while s.size() > 0:
             # Pop the first vertex
             v = s.pop()
-            #If that vertex has not been visited...
+            # If that vertex has not been visited...
             if v not in visited:
-                #Mark it as visited
+                # Mark it as visited
                 print(v)
                 visited.add(v)
-                #Then add all of it's neighbors to the top of the stack
+                # Then add all of it's neighbors to the top of the stack
                 for neighbor in self.vertices[v]:
                     s.push(neighbor)
 
@@ -107,7 +108,7 @@ class Graph:
             if vertex not in visited:
                 # Did we find the target vertex
                 if vertex == destination_vertex:
-                    return path 
+                    return path
                 visited.add(vertex)
                 for next_vert in self.vertices[vertex]:
                     # create a new list and not just a reference or shallow copy
@@ -132,7 +133,7 @@ class Graph:
             if vertex not in visited:
                 # Did we find the target vertex
                 if vertex == destination_vertex:
-                    return path 
+                    return path
                 visited.add(vertex)
                 for next_vert in self.vertices[vertex]:
                     # create a new list and not just a reference or shallow copy
@@ -148,7 +149,8 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+    
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -219,4 +221,5 @@ if __name__ == '__main__':
     '''
     print("starting DFS")
     print(graph.dfs(1, 6))
+    # print("starting dfs_recursive")
     # print(graph.dfs_recursive(1, 6))
