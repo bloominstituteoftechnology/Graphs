@@ -32,6 +32,7 @@ player = Player("Name", world.startingRoom)
 
 # Fill this out
 traversalPath = []
+
 current = player.currentRoom.id
 reversePath = []
 visited_rooms = set()
@@ -53,246 +54,93 @@ for i in range(len(roomGraph)):
     traversalGraph[i] = copy
 
 current = player.currentRoom.id
-copy = roomGraph[current].copy()
+copy = traversalGraph[current].copy()
 string = json.dumps(copy)
-# print('n' in string)
-# print(traversalGraph)
+
 
 copy_full = traversalGraph.copy()
 full_string = json.dumps(copy_full)
-# print(traversalGraph[current]['e'] == '?')
-roomsTraveled = []
-def check_east(current):
-    print('east running')
-    copy_full = traversalGraph.copy()
-    full_string = json.dumps(copy_full)
-    print(f'you have visited {len(visited_rooms)} rooms, last room visited was {current}')
-    if "?" not in full_string:
-        return traversalGraph
-    copy = roomGraph[current].copy()
-    string = json.dumps(copy)
-    copy2 = traversalGraph[current].copy()
-    visited = json.dumps(copy)
-    #travel east until you come across a South or dead end
-    
-    if len(traversalPath) == 0 and 'e' in string:
-        traversalGraph[current]['e'] = roomGraph[current][1]['e']
-        player.travel('e')
-        traversalPath.append('e')
+# roomsTraveled = set()
+# print(string)
+
+unexplored = []
+for i in traversalGraph[current]: 
+    if traversalGraph[current][i] == '?':
+        unexplored.append(i)
+        print(f'added {i}')
+
+# Create an empty stack and push the starting vertex ID
+stack = Stack()
+
+direction = random.choice(unexplored)
+print(direction)
+stack.push(direction)
+
+# Create a Set to store visited vertices
+roomsTraveled = set()
+# While the stack is not empty...
+while stack.size() > 0:
+# pop the first vertex
+    v = stack.pop()
+    print(v)
+#If that vertex has not been visited..
+    if traversalGraph[current][v] == '?':
+    # Mark it as visited...
+        traversalGraph[current][v] = roomGraph[current][1][v] 
+        player.travel(v)
         current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # print(f'player traveled east to {current}')
-        traversalGraph[current]['w'] = roomGraph[current][1]['w']
-        # print('going east again')
-        return check_east(current)
-    if 's' not in string and 'e' in string:
-        traversalGraph[current]['e'] = roomGraph[current][1]['e']
-        player.travel('e')
-        traversalPath.append('e')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # print(f'player traveled east to {current}')
-        traversalGraph[current]['w'] = roomGraph[current][1]['w']
-        # print('going east again')
-        return check_east(current)
-    #if no South
-    if 's' not in string:
-        #check North
-        # print('No S - calling north')
-        return check_north(current)
-    else:
-        #check South
-        # print("S available - calling south")
-        # traversalGraph[current]['s'] = roomGraph[current][1]['s']
-        player.travel('s')
-        traversalPath.append('s')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # traversalGraph[current]['n'] = roomGraph[current][1]['n']
-        # print(f'player traveled south to {current}')
-        return check_south(current)
+        unexplored = []
+        if v == 'e':
+            reversePath.append('w')
+            traversalGraph[current]['w'] = roomGraph[current][1]['w'] 
+        elif v == 'w':
+            reversePath.append('e')
+            traversalGraph[current]['e'] = roomGraph[current][1]['e'] 
+        elif v == 'n':
+            reversePath.append('s')
+            traversalGraph[current]['s'] = roomGraph[current][1]['s'] 
+        elif v == 's':
+            reversePath.append('n')
+            traversalGraph[current]['n'] = roomGraph[current][1]['n'] 
+
+        print(f'traveled {v} to {current}')
+        print(traversalGraph[current])
         
-
-
-def check_south(current):
-    print('south running')
-    copy_full = traversalGraph.copy()
-    full_string = json.dumps(copy_full)
-    print(f'you have visited {len(visited_rooms)} rooms, last room visited was {current}')
-    copy = roomGraph[current].copy()
-    string = json.dumps(copy)
-    if len(traversalPath) == 0 and 's' in string:
-        traversalGraph[current]['s'] = roomGraph[current][1]['s']
-        player.travel('s')
-        traversalPath.append('s')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # print(f'player traveled east to {current}')
-        traversalGraph[current]['n'] = roomGraph[current][1]['n']
-        # print('going east again')
-        return check_east(current)
-    if "?" not in full_string:
-        return traversalGraph
-    copy = roomGraph[current].copy()
-    string = json.dumps(copy)
-    #travel south until you come across a West or dead end
-    if 'w' not in string and 's' in string:
-        traversalGraph[current]['s'] = roomGraph[current][1]['s']
-        player.travel('s')
-        traversalPath.append('s')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # print(f'player traveled south to {current}')
-        traversalGraph[current]['n'] = roomGraph[current][1]['n']
-        # print("going south again")
-        return check_south(current)
-    #if no west
-    if 'w' not in string:
-        #check East
-        # print("W not  available - calling east")
-        return check_east(current)
-    #else
-    else:
-        #check West
-        # print("W available - calling West")
-        # traversalGraph[current]['w'] = roomGraph[current][1]['w']
-        player.travel('w')
-        traversalPath.append('w')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # traversalGraph[current]['e'] = roomGraph[current][1]['e']
-        # print(f'player traveled west to {current}')
-        return check_west(current)
-
-def check_west(current):
-    print('west running')
-    copy_full = traversalGraph.copy()
-    full_string = json.dumps(copy_full)
-    print(f'you have visited {len(visited_rooms)} rooms, last room visited was {current}')
-
-    copy = roomGraph[current].copy()
-    string = json.dumps(copy)
-    if len(traversalPath) == 0 and 'w' in string:
-        traversalGraph[current]['w'] = roomGraph[current][1]['w']
-        player.travel('w')
-        traversalPath.append('w')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # print(f'player traveled east to {current}')
-        traversalGraph[current]['e'] = roomGraph[current][1]['e']
-        # print('going east again')
-        return check_east(current)
-    if "?" not in full_string:
-        return traversalGraph
-    copy = roomGraph[current].copy()
-    string = json.dumps(copy)
-    #travel  west until you come across a North or dead end
-    if 'n' not in string and 'w' in string:
-        traversalGraph[current]['w'] = roomGraph[current][1]['w']
-        player.travel('w')
-        traversalPath.append('w')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # print(f'player traveled west to {current}')
-        traversalGraph[current]['e'] = roomGraph[current][1]['e']
-        # print("Calling West Again")
-        return check_west(current)
-    #if no north
-    if 'n' not in string:
-        #check South
-        # print("N not available - calling south")
-        return check_south(current)
-    #else
-    else:
-        print('whay ain this wrunnning')
-        #check Check North
-        # print("N available - calling North")
-        # traversalGraph[current]['n'] = roomGraph[current][1]['n']
-        player.travel('n')
-        traversalPath.append('n')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        # traversalGraph[current]['s'] = roomGraph[current][1]['s']
-        # print(f'player traveled north to {current}')
-        return check_north(current)
-
-def check_north(current):
-    print('north running')
-    copy_full = traversalGraph.copy()
-    full_string = json.dumps(copy_full)
-    # print(visited_rooms)
-    # print(visited_rooms)
-
-    print(f'you have visited {len(visited_rooms)} rooms, last room visited was {current}')
-    
-    print(roomsTraveled)
-    # print(visited_rooms)
-    copy = roomGraph[current].copy()
-    string = json.dumps(copy)
-    if len(traversalPath) == 0 and 'n' in string:
-        traversalGraph[current]['n'] = roomGraph[current][1]['n']
-        player.travel('n')
-        traversalPath.append('n')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-        traversalGraph[current]['s'] = roomGraph[current][1]['s']
-        # print('going east again')
-        return check_east(current)
-    if "?" not in full_string:
-        return traversalGraph
-
-    copy = roomGraph[current].copy()
-    string = json.dumps(copy)
-    #travel north until you come across a east or dead end
-    if 'e' not in string and 'n' in string:
-        traversalGraph[current]['n'] = roomGraph[current][1]['n']
-        player.travel('n')
-        traversalPath.append('n')
-        current = player.currentRoom.id
-        roomsTraveled.append(current)
-        visited_rooms.add(current)
-        # print(f'player traveled north to {current}')
-        traversalGraph[current]['s'] = roomGraph[current][1]['s']
-        # print(traversalGraph)
-        # print("Calling north again")
-        return check_north(current)
-    #if no east
-    if 'e' not in string:
-        #check west
-        # print("E not available - calling west")
-        return check_west(current)
-    else:
-        #check east
-        # print("E available - calling East")
-        # traversalGraph[current]['e'] = roomGraph[current][1]['e']
-        player.travel('e')
-        traversalPath.append('e')
-        current = player.currentRoom.id
-        visited_rooms.add(current)
-        roomsTraveled.append(current)
-
-        # traversalGraph[current]['w'] = roomGraph[current][1]['w']
-        # print(f'player traveled east to {current}')
-        return check_east(current)
+    # # Then add all of its neighbors to the back of the queue
         
+        string = json.dumps(traversalGraph[current])
+        print(string)
+        if '?' in string:
+            for i in traversalGraph[current]:
+                if traversalGraph[current][i] == '?':
+                    print(f'true, {i} is empty')
+                    unexplored.append(i)
+                    print(f'unexplored {unexplored}')
+                    stack.push(i)
+                    print(f'added {i}')
+        else:
+            print('youre done')
+            copy = reversePath.copy()
+            copy.reverse()
+            while '?' not in string:
+                for i in copy:
+                    print(f'path is {copy}')
+                    print(f'player trying to travel {i} from {current} ')
+                    print(string)
+                    player.travel(i)
+                    reversePath.pop()
+                    current = player.currentRoom.id
+                    string = json.dumps(traversalGraph[current])
+                    print(f'player in room {current}')
+                    # if '?' in string:
+                    #     print('true')
+                    #     print(string)
+                    # else:
+                    #     continue
 
 
 
 
-
-print('checking north')
-
-check_west(current)
 
 # TRAVERSAL TEST
 visited_rooms = set()
