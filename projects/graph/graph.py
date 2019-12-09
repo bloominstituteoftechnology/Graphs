@@ -13,13 +13,16 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex does not exist")
 
     def get_neighbors(self, vertex_id):
         """
@@ -32,14 +35,31 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create empty queue and enque the starting vertex ID
+        # Create empty set to store visited Vertices
+        # while queue is not empty, 
+            # Dequeue first vertex
+            # if that vertex has not been visited
+                #Markt it as vissited, then add all of its 
+                # # neighbors to the back of the queue
+        q = Queue()
+        visited = set()
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                print(v)
+                visited.add(v)
+                for neighbors in self.vertices[v]:
+                    q.enqueue(neighbors )
+
+
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        
 
     def dft_recursive(self, starting_vertex):
         """

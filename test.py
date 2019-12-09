@@ -1,0 +1,5 @@
+gabba = set()
+gabba.add("A": {"D"})
+print(gabba)
+#gabba.add("A")
+print("A" in gabba)
