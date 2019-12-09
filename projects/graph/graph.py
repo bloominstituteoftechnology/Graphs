@@ -39,6 +39,7 @@ class Graph:
         """
         # create empty queue and enqueue starting vertex Id
         q = Queue()
+        q.enqueue(starting_vertex)
         # create set to store for visited vertices
         visited = set()
         # while queue not empty 
@@ -63,14 +64,24 @@ class Graph:
         beginning from starting_vertex.
         """
         # create empty stack and push starting vertex Id
+        s = Stack()
+        s.push(starting_vertex)
         # create set to store for visited vertices
+        visited = set()
         # while stack not empty 
+        while s.size() > 0:
             # pop first vertex
+            v = s.pop()
             # if vertex has not been visited
+            if v not in visited:
                 # mark as visited
+                print(v)
+                visited.add(v)
                 # add all neighbors to top of stack
+                for neighbor in self.verticecs[v]:
+                    s.push(neighbor)
 
-        pass  # TODO
+        
 
     def dft_recursive(self, starting_vertex):
         """
