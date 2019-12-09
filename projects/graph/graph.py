@@ -13,32 +13,63 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        self.vertices[vertex] = set()
+        self.vertices[vertex_id] = set()
         
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
-        """
-        pass  # TODO
+        """ 
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex does not exist")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        print(vertex_id)
+        #for neighbor in self.vertices[vertex_id]:
+            #print(neighbor)
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create empty queue and enqueue starting vertex Id
+        q = Queue()
+        # create set to store for visited vertices
+        visited = set()
+        # while queue not empty 
+        while q.size() > 0:
+            # deque first vertex
+            v = q.dequeue()
+            # if vertex has not been visited
+            if v not in visited:
+                # mark as visited
+                print(v)
+                visited.add(v)
+                # add all neighbors to back of queue
+                for neighbor in self.vertices[v]:
+                    q.enqueue(neighbor)
+
+        
+        
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        # create empty stack and push starting vertex Id
+        # create set to store for visited vertices
+        # while stack not empty 
+            # pop first vertex
+            # if vertex has not been visited
+                # mark as visited
+                # add all neighbors to top of stack
+
         pass  # TODO
 
     def dft_recursive(self, starting_vertex):
