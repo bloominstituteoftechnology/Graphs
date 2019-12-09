@@ -49,16 +49,23 @@ class Graph:
             if v not in visited:
                 print(v)
                 visited.add(v)
-                for neighbors in self.vertices[v]:
-                    q.enqueue(neighbors )
-
-
+                for i in self.vertices[v]:
+                    q.enqueue(i)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        s = Stack()
+        visited = set()
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                print(v)
+                visited.add(v)
+                for i in self.vertices[v]:
+                    s.push(i)
         
 
     def dft_recursive(self, starting_vertex):
