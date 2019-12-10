@@ -21,9 +21,22 @@ def earliest_ancestor(ancestors, starting_node):
     #print(graph.vertices)
     for i in ancestors:
         graph.add_edge(i[1], i[0])
+    # for i in graph.vertices:
+    #     if i is set():
+    #         print("none")
         #print("tuple: ", i)
         #print("neighbor: ", i[0])
-    #print("Nodes + neighbors: ")
+    print("Nodes + neighbors: ")
     print(graph.vertices)
+    # for i in graph.vertices:
+    #     print("vertices: ")
+    #     print(i)
+    print("DFT solution")
+    #test = list(graph.dft(starting_node))
+    # print("neighbors")
+    # print(graph.get_neighbors(10))
+    print(graph.dft_recursive(starting_node))
+    print("end of solution")
+
 
     
