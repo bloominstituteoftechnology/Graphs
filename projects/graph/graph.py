@@ -28,7 +28,7 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        print(vertex_id)
+        return self.vertices[vertex_id]
         #for neighbor in self.vertices[vertex_id]:
             #print(neighbor)
 
@@ -78,19 +78,28 @@ class Graph:
                 print(v)
                 visited.add(v)
                 # add all neighbors to top of stack
-                for neighbor in self.verticecs[v]:
+                for neighbor in self.vertices[v]:
                     s.push(neighbor)
 
         
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        #check if visited initilized
+        #mark node as visited
+        #call dft recursive on each unvisited neighbor
+        
+        if visited = None:
+            visited = set() 
+        visited.add(starting_vertex)
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                self.dft_recursive(neighbor) 
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -116,7 +125,9 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+       
+
+       
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
