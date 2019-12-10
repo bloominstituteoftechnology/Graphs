@@ -93,7 +93,7 @@ class Graph:
         #check if visited initilized
         #mark node as visited
         #call dft recursive on each unvisited neighbor
-        
+
         if visited = None:
             visited = set() 
         visited.add(starting_vertex)
@@ -107,7 +107,20 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue([starting_vertex]
+        visited = set()
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+            if v not in visited :
+                if v == destination_vertex:
+                    return path
+                visited.add(v)
+                for neighbor in self.get_neighbors(v):
+                    path_copy = path.copy()
+                    path_copy.append(neighbor)
+                    q.enqueue(path_copy)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -115,7 +128,20 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        s = Stack()
+        s.push([starting_vertex]
+        visited = set()
+        while q.size() > 0:
+            path = s.pop()
+            v = path[-1]
+            if v not in visited :
+                if v == destination_vertex:
+                    return path
+                visited.add(v)
+                for neighbor in self.get_neighbors(v):
+                    path_copy = path.copy()
+                    path_copy.append(neighbor)
+                    s.push(path_copy)
 
     def dfs_recursive(self, starting_vertex):
         """
