@@ -10,7 +10,7 @@ class Graph:
         self.vertices = {}
         self.recursiveVisited = set()
         self.recursiveVisited2 = set()
-        
+        self.path = list()
 
     def add_vertex(self, vertex_id):
         """
@@ -131,6 +131,7 @@ class Graph:
             lastNode = nextPath[-1]
             if lastNode not in visited:
                 if lastNode == destination_vertex:
+                    #print("dfs path found")
                     return nextPath
                 visited.add(lastNode)
                 
@@ -147,26 +148,32 @@ class Graph:
 
         This should be done using recursion.
         """
-        
-        # while s.size() > 0:
-        #     nextPath = s.pop()
-        #     lastNode = nextPath[-1]
-        #     if lastNode not in visited:
-        #         if lastNode == destination_vertex:
-        #             return nextPath
-        #         visited.add(lastNode)
-                
-        #         for i in self.vertices[lastNode]:
-        #             newPath = list(nextPath)
-        #             newPath.append(i)
-        #             s.push(newPath)
 
-        if starting_vertex not in self.recursiveVisited2:
-            print(starting_vertex)
-            self.recursiveVisited2.add(starting_vertex)
-            for i in self.vertices[starting_vertex]:
+        self.recursiveVisited2.add(starting_vertex)
+        #print("Visited: ", self.recursiveVisited2)
+        self.path.append(starting_vertex)
+        if starting_vertex == destination_vertex:
+            return
+        
+        for i in self.vertices[starting_vertex]:
+            if i not in self.recursiveVisited2:
                 self.dfs_recursive(i, destination_vertex)
-        return
+                #print("path is: ", self.path)
+                #print("i is ", i)
+        return self.path
+    
+    # def DFS(g, v, goal, explored, path_so_far):
+    # """ Returns path from v to goal in g as a string (Hack) """
+    # explored.add(v)
+    # if v == goal: 
+    #     return path_so_far + v
+    # for w in g[v]:
+    #     if w not in explored:
+    #         p = DFS(g, w, goal, explored, path_so_far + v)
+    #         if p: 
+    #             return p
+    # return ""
+                
 
 
 if __name__ == '__main__':
@@ -238,5 +245,7 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print("Normal dfs solution: ")
     print(graph.dfs(1, 6))
+    print("dfs recursive solution: ")
     print(graph.dfs_recursive(1, 6))
