@@ -94,12 +94,12 @@ class Graph:
         #mark node as visited
         #call dft recursive on each unvisited neighbor
 
-        if visited = None:
+        if visited is None:
             visited = set() 
         visited.add(starting_vertex)
         for neighbor in self.get_neighbors(starting_vertex):
             if neighbor not in visited:
-                self.dft_recursive(neighbor) 
+                self.dft_recursive(neighbor, visited) 
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -108,7 +108,7 @@ class Graph:
         breath-first order.
         """
         q = Queue()
-        q.enqueue([starting_vertex]
+        q.enqueue([starting_vertex])
         visited = set()
         while q.size() > 0:
             path = q.dequeue()
@@ -129,9 +129,9 @@ class Graph:
         depth-first order.
         """
         s = Stack()
-        s.push([starting_vertex]
+        s.push([starting_vertex])
         visited = set()
-        while q.size() > 0:
+        while s.size() > 0:
             path = s.pop()
             v = path[-1]
             if v not in visited :
@@ -143,7 +143,7 @@ class Graph:
                     path_copy.append(neighbor)
                     s.push(path_copy)
 
-    def dfs_recursive(self, starting_vertex):
+    def dfs_recursive(self, starting_vertex, target_vertex, visited=None, path=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -151,7 +151,21 @@ class Graph:
 
         This should be done using recursion.
         """
-       
+        if visited is None:
+            visited = set()
+        if path is None:
+            path = []
+        visited.add(starting_vertex)
+        path = path + [starting_vertex]
+        if starting_vertex == target_vertex:
+            return path
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                new_path = self.dfs_recursive(neighbor, target_vertex, visited, path)
+                if new_path is not None:
+                    return new_path
+        return None
+
 
        
 
