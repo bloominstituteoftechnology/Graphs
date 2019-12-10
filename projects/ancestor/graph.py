@@ -88,22 +88,22 @@ class Graph:
             path = []
         test = 0
         if starting_vertex not in self.recursiveVisited:
-            print("starting vertex is: ", starting_vertex)
             path.append(starting_vertex)
-            print("path is ", path)
             self.recursiveVisited.add(starting_vertex)
             if self.get_neighbors(starting_vertex) == set():
-                #self.recursiveVisited2.add(path)
-                print("End of route found")
+                # Final solution will be taking first solution found, and
+                # doing a depth search on each of the nodes
+                
+                print("End of route found, final vertex is: ", starting_vertex)
                 copy = path.copy()
-                print("copy is", copy)
-                test = copy[-1]
-                print("test is", test)
-                return test
+                print("path is: ", path)
+                print("copy path is", copy)
+                print("visited is", self.recursiveVisited)
+                return copy
             else:
                 for i in self.get_neighbors(starting_vertex):
-                #path.append(i)
-                #print("path appended with i is ", path)
+                    #path.append(i)
+                    #print("path appended with i is ", path)
                     self.dft_recursive(i, path)
             return test
         return test

@@ -35,7 +35,7 @@ def earliest_ancestor(ancestors, starting_node):
     #test = list(graph.dft(starting_node))
     # print("neighbors")
     # print(graph.get_neighbors(10))
-    print(graph.dft_recursive(starting_node))
+    print(graph.dft_recursive(6))
     print("end of solution")
 
 
