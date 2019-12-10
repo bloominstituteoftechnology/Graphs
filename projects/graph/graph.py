@@ -141,26 +141,22 @@ class Graph:
                     s.push(newPath)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-
-        This should be done using recursion.
-        """
 
         self.recursiveVisited2.add(starting_vertex)
         #print("Visited: ", self.recursiveVisited2)
         self.path.append(starting_vertex)
+
         if starting_vertex == destination_vertex:
-            return
-        
-        for i in self.vertices[starting_vertex]:
-            if i not in self.recursiveVisited2:
-                self.dfs_recursive(i, destination_vertex)
+            return self.path
+        for neighbor in self.vertices[starting_vertex]:
+            if neighbor not in self.recursiveVisited2:
+                result = self.dfs_recursive(neighbor, destination_vertex)
+                if result is not None:
+                    return result
                 #print("path is: ", self.path)
                 #print("i is ", i)
-        return self.path
+
+        #return self.path
     
     # def DFS(g, v, goal, explored, path_so_far):
     # """ Returns path from v to goal in g as a string (Hack) """
@@ -197,55 +193,55 @@ if __name__ == '__main__':
     graph.add_edge(2, 3)
     graph.add_edge(4, 6)
 
-    '''
-    Should print:
-        {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
-    '''
-    print(graph.vertices)
+    # '''
+    # Should print:
+    #     {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
+    # '''
+    # print(graph.vertices)
 
-    '''
-    Valid BFT paths:
-        1, 2, 3, 4, 5, 6, 7
-        1, 2, 3, 4, 5, 7, 6
-        1, 2, 3, 4, 6, 7, 5
-        1, 2, 3, 4, 6, 5, 7
-        1, 2, 3, 4, 7, 6, 5
-        1, 2, 3, 4, 7, 5, 6
-        1, 2, 4, 3, 5, 6, 7
-        1, 2, 4, 3, 5, 7, 6
-        1, 2, 4, 3, 6, 7, 5
-        1, 2, 4, 3, 6, 5, 7
-        1, 2, 4, 3, 7, 6, 5
-        1, 2, 4, 3, 7, 5, 6
-    '''
-    print("bft solution: ")
-    graph.bft(1)
+    # '''
+    # Valid BFT paths:
+    #     1, 2, 3, 4, 5, 6, 7
+    #     1, 2, 3, 4, 5, 7, 6
+    #     1, 2, 3, 4, 6, 7, 5
+    #     1, 2, 3, 4, 6, 5, 7
+    #     1, 2, 3, 4, 7, 6, 5
+    #     1, 2, 3, 4, 7, 5, 6
+    #     1, 2, 4, 3, 5, 6, 7
+    #     1, 2, 4, 3, 5, 7, 6
+    #     1, 2, 4, 3, 6, 7, 5
+    #     1, 2, 4, 3, 6, 5, 7
+    #     1, 2, 4, 3, 7, 6, 5
+    #     1, 2, 4, 3, 7, 5, 6
+    # '''
+    # print("bft solution: ")
+    # graph.bft(1)
 
-    '''
-    Valid DFT paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    '''
-    print("dft solution: ")
-    graph.dft(1)
-    print("dft recursive solution: ")
-    graph.dft_recursive(1)
+    # '''
+    # Valid DFT paths:
+    #     1, 2, 3, 5, 4, 6, 7
+    #     1, 2, 3, 5, 4, 7, 6
+    #     1, 2, 4, 7, 6, 3, 5
+    #     1, 2, 4, 6, 3, 5, 7
+    # '''
+    # print("dft solution: ")
+    # graph.dft(1)
+    # print("dft recursive solution: ")
+    # graph.dft_recursive(1)
 
-    '''
-    Valid BFS path:
-        [1, 2, 4, 6]
-    '''
-    print("bfs path is: ")
-    print(graph.bfs(1, 6))
+    # '''
+    # Valid BFS path:
+    #     [1, 2, 4, 6]
+    # '''
+    # print("bfs path is: ")
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print("Normal dfs solution: ")
-    print(graph.dfs(1, 6))
+    # print("Normal dfs solution: ")
+    # print(graph.dfs(1, 6))
     print("dfs recursive solution: ")
     print(graph.dfs_recursive(1, 6))
