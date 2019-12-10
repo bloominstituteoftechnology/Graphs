@@ -35,6 +35,7 @@ visited_rooms = set()
 player.currentRoom = world.startingRoom
 visited_rooms.add(player.currentRoom.id)
 fastPath = []
+
 #building traversal graph and replacing directions with '?'s
 traversalGraph = {}
 for i in range(len(roomGraph)):

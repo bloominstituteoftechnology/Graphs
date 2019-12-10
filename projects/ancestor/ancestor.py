@@ -19,17 +19,17 @@ def earliest_ancestor(ancestors, starting_node):
 
     check_number = ''   #variable to check against
 
- 
+    print(graph.vertices)
     print(f'STARTING NODE  {starting_node}')
     check_array = [] #check array to check against
     children = [] #children array to check against
     for d in graph.vertices: #for every instance in the graph
-        if graph.vertices[d] != set():  # if that value != set()   aka if it has nodes pointing to it, if it has parents
+        # if graph.vertices[d] != set():  # if that value != set()   aka if it has nodes pointing to it, if it has parents
             while len(graph.vertices[d]) > 0: #while the length of each set is >0
                 check_number = graph.vertices[d].pop() #pop of each set item (each child it points to)
   
                 check_array.append((check_number, d)) #add that number to the checkarray and append it's parent as the second argument
-                children.append(check_number) #just append that popped of item into the chldren array -- used to check if an item is NOT in it, ergo it is a top node
+                children.append(check_number) #just append that popped off item into the children array -- used to check if an item is NOT in it, ergo it is a top node
          
       
     print(check_array)
