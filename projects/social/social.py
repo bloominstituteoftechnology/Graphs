@@ -93,6 +93,11 @@ class SocialGraph:
             self.graph.bfs(user_id, known_node, self.friendships, visited)
         print("Finished: ")
         return visited
+    
+    """
+        Better ancestor - get starter, find all possible endpoitns, then
+        use traversal algo to find all paths, and return the longest
+    """
 
 
 if __name__ == '__main__':
