@@ -36,6 +36,7 @@ player.currentRoom = world.startingRoom
 visited_rooms.add(player.currentRoom.id)
 fastPath = []
 
+
 #building traversal graph and replacing directions with '?'s
 traversalGraph = {}
 for i in range(len(roomGraph)):
@@ -52,6 +53,17 @@ for i in range(len(roomGraph)):
 
 print(f'ROOM GRAPH {roomGraph}')
 print(f'TRAVERSAL GRAPH {traversalGraph}')
+''''
+Swapping key <-> values in graph to create a new graph for constant lookup to get back to unsearched path.
+
+'''
+goBack = {}
+for i in range(len(roomGraph)):
+    copy = roomGraph[i][1].copy()
+    goBack[i] = {value:key for key, value in copy.items()}
+ 
+print(f'goBack GRAPH {goBack}')
+
 
 
 # Create an empty queue and enqueue the starting vertex ID
@@ -67,63 +79,69 @@ stack.push(player.currentRoom.id)
 #     string = json.dumps(traversalGraph[v])
 
     # If that vertex has any unvisited rooms...
-current = player.currentRoom.id
-string = json.dumps(traversalGraph[current])
-while '?' in string:
-    direction = []
-    # Mark it as visited...
-    for d in traversalGraph[current]:
-        if traversalGraph[current][d] == '?':
-            direction.append(d)
-        
-        
-        
-    print(direction)
-    print(traversalGraph)
-    move = random.choice(direction)
-    print(f'move is set to {move}')
-    if move == 'n':
-        traversalGraph[current]['n'] = roomGraph[current][1]['n']
-        player.travel('n')
-        traversalPath.append(move)
-        current = player.currentRoom.id
-        print(f'player traveled north to {current}')
-        traversalGraph[current]['s'] = roomGraph[current][1]['s']
-        string = json.dumps(traversalGraph[current])
-    elif move == 's':
-        traversalGraph[current]['s'] = roomGraph[current][1]['s']
-        player.travel('s')
-        traversalPath.append(move)
-        current = player.currentRoom.id
-        print(f'player traveled south to {current}')
-        traversalGraph[current]['n'] = roomGraph[current][1]['n']
-        string = json.dumps(traversalGraph[current])
-    elif move == 'e':
-        traversalGraph[current]['e'] = roomGraph[current][1]['e']
-        player.travel('e')
-        traversalPath.append(move)
-        current = player.currentRoom.id
-        print(f'player traveled east to {current}')
-        traversalGraph[current]['w'] = roomGraph[current][1]['w']
-        string = json.dumps(traversalGraph[current])
-    elif move == 'w':
-        traversalGraph[current]['w'] = roomGraph[current][1]['w']
-        player.travel('w')
-        traversalPath.append(move)
-        current = player.currentRoom.id
-        print(f'player traveled west to {current}')
-        traversalGraph[current]['e'] = roomGraph[current][1]['e']
-        string = json.dumps(traversalGraph[current])
+def dft(current=player.currentRoom.id):
+    # current = player.currentRoom.id
+    print(f'current is {current}')
+    # print(roomGraph[0][1][1])
+    string = json.dumps(traversalGraph[current])
+    while '?' in string:
+        direction = []
+        # Mark it as visited...
+        for d in traversalGraph[current]:
+            if traversalGraph[current][d] == '?':
+                direction.append(d)
+            
+            
+            
+        print(direction)
+        print(traversalGraph)
+        move = random.choice(direction)
+        print(f'move is set to {move}')
+        if move == 'n':
+            traversalGraph[current]['n'] = roomGraph[current][1]['n']
+            player.travel('n')
+            traversalPath.append(move)
+            current = player.currentRoom.id
+            print(f'player traveled north to {current}')
+            traversalGraph[current]['s'] = roomGraph[current][1]['s']
+            string = json.dumps(traversalGraph[current])
+        elif move == 's':
+            traversalGraph[current]['s'] = roomGraph[current][1]['s']
+            player.travel('s')
+            traversalPath.append(move)
+            current = player.currentRoom.id
+            print(f'player traveled south to {current}')
+            traversalGraph[current]['n'] = roomGraph[current][1]['n']
+            string = json.dumps(traversalGraph[current])
+        elif move == 'e':
+            traversalGraph[current]['e'] = roomGraph[current][1]['e']
+            player.travel('e')
+            traversalPath.append(move)
+            current = player.currentRoom.id
+            print(f'player traveled east to {current}')
+            traversalGraph[current]['w'] = roomGraph[current][1]['w']
+            string = json.dumps(traversalGraph[current])
+        elif move == 'w':
+            traversalGraph[current]['w'] = roomGraph[current][1]['w']
+            player.travel('w')
+            traversalPath.append(move)
+            current = player.currentRoom.id
+            print(f'player traveled west to {current}')
+            traversalGraph[current]['e'] = roomGraph[current][1]['e']
+            string = json.dumps(traversalGraph[current])
     # print(traversalGraph[v])
     # Then add all of its neighbors to the back of the queue
     # for i in roomGraph[current][1]:
     #     print(f' it is adding {roomGraph[current][1][i]}')
     #     stack.push(roomGraph[current][1][i])
     #     print(traversalGraph)
-else:
+    
+    print('hello')
+    return bfs(current)
+def bfs(current=player.currentRoom.id):
 
     queue = Queue()
-    queue.enqueue([player.currentRoom.id])
+    queue.enqueue([current])
     # Create a Set to store visited vertices
     visited = set()
 
@@ -136,7 +154,14 @@ else:
 
         if v not in visited:
             if '?' in string:
-                print('found available path')
+                print(f'found available path in {v} with path {path}')
+                print(path)
+                for d in range(len(path) - 1):
+                   print(goBack[path[d]][path[d+1]])
+                #     print(traversalGraph[d]['n'])
+                    # if traversalGraph[path[d]]['n'] == path[d + 1]:
+                    #     print('true')
+                return dft(v)
             visited.add(v)
             print(visited)
             for neighbor in roomGraph[v][1]:
@@ -156,7 +181,7 @@ else:
 
 
 
-
+dft(player.currentRoom.id)
 # TRAVERSAL TEST
 visited_rooms = set()
 player.currentRoom = world.startingRoom
