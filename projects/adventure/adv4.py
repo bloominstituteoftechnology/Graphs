@@ -157,11 +157,13 @@ def bfs(current=player.currentRoom.id):
                 print(f'found available path in {v} with path {path}')
                 print(path)
                 for d in range(len(path) - 1):
-                   print(goBack[path[d]][path[d+1]])
-                #     print(traversalGraph[d]['n'])
-                    # if traversalGraph[path[d]]['n'] == path[d + 1]:
-                    #     print('true')
-                return dft(v)
+                    print(goBack[path[d]][path[d+1]])
+                    rewind = goBack[path[d]][path[d+1]]
+                    player.travel(rewind)
+                    traversalPath.append(rewind)
+                    current = player.currentRoom.id
+
+                return dft(current)
             visited.add(v)
             print(visited)
             for neighbor in roomGraph[v][1]:
