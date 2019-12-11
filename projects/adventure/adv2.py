@@ -33,12 +33,16 @@ player = Player("Name", world.startingRoom)
 # Fill this out
 traversalPath = []
 current = player.currentRoom.id
-reversePath = []
-visited_rooms = set()
+
 player.currentRoom = world.startingRoom
 visited_rooms.add(player.currentRoom.id)
-fastPath = []
+
 #building traversal graph and replacing directions with '?'s
+
+''''
+Making traversal graph and setting all destinations to '?' -- this is to check if a room has any unvisited 
+destinations
+'''
 traversalGraph = {}
 for i in range(len(roomGraph)):
     copy = roomGraph[i][1].copy()
@@ -52,7 +56,7 @@ for i in range(len(roomGraph)):
         copy['w'] = '?'
     traversalGraph[i] = copy
 
-current = player.currentRoom.id
+
 copy = roomGraph[current].copy()
 string = json.dumps(copy)
 # print('n' in string)

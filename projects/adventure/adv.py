@@ -38,6 +38,10 @@ fastPath = []
 
 
 #building traversal graph and replacing directions with '?'s
+'''
+Copying graph and switching all directions to '?'
+This is to check if room has any unvisited directions
+'''
 traversalGraph = {}
 for i in range(len(roomGraph)):
     copy = roomGraph[i][1].copy()
@@ -54,7 +58,9 @@ for i in range(len(roomGraph)):
 # print(f'ROOM GRAPH {roomGraph}')
 # print(f'TRAVERSAL GRAPH {traversalGraph}')
 ''''
-Swapping key <-> values in graph to create a new graph for constant lookup to get back to unsearched path.
+Swapping key <-> values in graph to create a new graph for constant lookup
+i.e {'n': 1} gets changed to {1 : 'n}
+This is for getting the directions from the path returned from bfs when searhing for a room with a '?'
 
 '''
 goBack = {}
@@ -70,21 +76,25 @@ for i in range(len(roomGraph)):
 stack = Stack()
 stack.push(player.currentRoom.id)
 
+
+#Start with depth first search
 def dft(current=player.currentRoom.id):
 
+    #must convert graph to string to check if '?' is in it
     string = json.dumps(traversalGraph[current])
-    while '?' in string:
-        direction = []
-        # Mark it as visited...
+    while '?' in string: #while a room has destinations that haven't been visited
+        direction = [] 
+        # get all directions and append them to array
         for d in traversalGraph[current]:
             if traversalGraph[current][d] == '?':
                 direction.append(d)
             
             
             
- 
+        #pick a random unsearched room
         move = random.choice(direction)
        
+       # move in specifed directions chosen from random and added it to traversalPath
         if move == 'n':
             traversalGraph[current]['n'] = roomGraph[current][1]['n']
             player.travel('n')
@@ -114,8 +124,9 @@ def dft(current=player.currentRoom.id):
             traversalGraph[current]['e'] = roomGraph[current][1]['e']
             string = json.dumps(traversalGraph[current])
 
-
+    # when reaching a dead end and a room with no '?', do a bfs to find nearest room with a '?'
     return bfs(current)
+
 def bfs(current=player.currentRoom.id):
 
     queue = Queue()
@@ -127,22 +138,23 @@ def bfs(current=player.currentRoom.id):
         # print('hello')
         path = queue.dequeue()
         v = path[-1]
- 
+
+        #convert to string to check for ?
         string = json.dumps(traversalGraph[v])
 
         if v not in visited:
             if '?' in string:
 
-                for d in range(len(path) - 1):
-                    rewind = goBack[path[d]][path[d+1]]
-                    player.travel(rewind)
-                    traversalPath.append(rewind)
-                    current = player.currentRoom.id
+                for d in range(len(path) - 1): # set to -1 for off by one error
+                    rewind = goBack[path[d]][path[d+1]] #this will grab the direction from the goBack graph 
+                    player.travel(rewind) #travel in that direction
+                    traversalPath.append(rewind) #append it to path
+                    current = player.currentRoom.id 
 
-                return dft(current)
+                return dft(current) #go back to dft
             visited.add(v)
             for neighbor in roomGraph[v][1]:
-                    # CHECK IF IT'S THE TARGET
+                    # copy path and append it to bak
        
                     path_copy = path.copy()
                     path_copy.append(roomGraph[v][1][neighbor])
