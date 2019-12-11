@@ -72,8 +72,10 @@ class SocialGraph:
         for i in range(num_users * avg_friendships // 2):
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
-
-    friendships2 = {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
+    
+    #friendships2 = {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
+    #print("Full on friendship: ")
+    #print(friendships2)
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -83,29 +85,19 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # Take given user ID
-        # grab neighbors
-        # Map out all routes from user_id to friends of friends of friends until network is exhausted
-        
-        # ie - print a route, in nodes, that expresses how to get from
-        # user id ast starting vertex to every possible node in the graph
-        
-        # Visited dictionary - 
-        # key = node, value = route from user_id to that key/node
-        # 1) Find all nodes
+        visited = {}
+        # 1) Find all nodes, enter into dictionary
+        self.graph.bft(user_id, self.friendships, visited)
         # 2) Find shortest path from users_id to all nodes
-        node = self.graph.bft(user_id, self.friendships2)
-        test = self.graph.bfs(user_id, node, self.friendships2)
-        print(test)
-
-        
+        for known_node in visited:
+            self.graph.bfs(user_id, known_node, self.friendships, visited)
+        print("Finished: ")
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
-    print(sg.friendships2)
+    print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)

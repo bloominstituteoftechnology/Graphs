@@ -33,7 +33,7 @@ class Graph:
         """
         return self.vertices[vertex_id]
 
-    def bft(self, starting_vertex, vertices):
+    def bft(self, starting_vertex, vertices, book):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
@@ -51,7 +51,7 @@ class Graph:
         while q.size() > 0:
             v = q.dequeue()
             if v not in visited:
-                print(v)
+                book[v] = 0
                 visited.add(v)
                 # changed from self.vertices to vertices
                 for i in vertices[v]:
@@ -103,59 +103,66 @@ class Graph:
                     self.dft_recursive(i, path)
             return test
         return test
-        
-        
-        
     
-
-
-    def bfs(self, starting_vertex, destination_vertex, vertices):
+    def bfs(self, starting_vertex, destination_vertex, vertices, book):
         """ 
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # q = Queue()
-        # path = [starting_vertex]
-        # q.enqueue(path)
-        # visited = set()
-        # while q.size() > 0:
-        #     nextPath = q.dequeue()
-        #     lastNode = nextPath[-1]
-        #     if lastNode not in visited:
-        #         if lastNode == destination_vertex:
-        #             return nextPath
-        #         visited.add(lastNode)
-        #         for i in self.vertices[lastNode]:
-        #             newPath = list(nextPath)
-        #             newPath.append(i)
-        #             q.enqueue(newPath)
-
         q = Queue()
-        q.enqueue( [starting_vertex] )
-        # Create a Set to store visited vertices
+        path = [starting_vertex]
+        q.enqueue(path)
         visited = set()
-        # While the queue is not empty...
         while q.size() > 0:
-            # Dequeue the first PATH
-            path = q.dequeue()
-            # Grab the last vertex from the PATH
-            v = path[-1]
-            # If that vertex has not been visited...
-            if v not in visited:
-                # CHECK IF IT'S THE TARGET
-                if v == destination_vertex:
-                    # IF SO, RETURN PATH
-                    return path
-                # Mark it as visited...
-                visited.add(v)
-                # Then add A PATH TO its neighbors to the back of the queue
-                # old line: for neighbor in self.get_neighbors(v):
-                for neighbor in vertices(v):
-                    # COPY THE PATH
-                    path_copy = path.copy()
-                    # APPEND THE NEIGHOR TO THE BACK
-                    path_copy.append(neighbor)
+            nextPath = q.dequeue()
+            lastNode = nextPath[-1]
+            if lastNode not in visited:
+                if lastNode == destination_vertex:
+                    #print("path found", nextPath)
+                    book[destination_vertex] = nextPath
+                    #print("Book is: ", book)
+                    return nextPath
+                visited.add(lastNode)
+                for i in vertices[lastNode]:
+                    newPath = list(nextPath)
+                    newPath.append(i)
+                    q.enqueue(newPath)
+        # print("starting vertex given: ", starting_vertex)
+        # print("Destination vertex given: ", destination_vertex)
+        # print("Vertices being fed to path-finding algo ", vertices)
+        # #print("vertice tests: ", vertices[1])
+        # q = Queue()
+        # q.enqueue( [starting_vertex] )
+        # # Create a Set to store visited vertices
+        # visited = set()
+        # # While the queue is not empty...
+        # while q.size() > 0:
+        #     # Dequeue the first PATH
+        #     path = q.dequeue()
+        #     # Grab the last vertex from the PATH
+        #     v = path[-1]
+            
+        #     # If that vertex has not been visited...
+        #     if v not in visited:
+        #         # CHECK IF IT'S THE TARGET
+        #         if v == destination_vertex:
+        #             # IF SO, RETURN PATH
+        #             print("path found!", path)
+        #             return path
+        #         # Mark it as visited...
+        #         visited.add(v)
+        #         # Then add A PATH TO its neighbors to the back of the queue
+        #         # old line: for neighbor in self.get_neighbors(v):
+        #         # verbose: for neighbor in self.vertices[vertex_id]
+        #         # Given a key from vertices, fetch all neighbors
+        #         for neighbor in vertices[v]:
+        #             print("neigbor variable: ", neighbor)
+        #             print("current path: ", path)
+        #             # COPY THE PATH
+        #             path_copy = path.copy()
+        #             # APPEND THE NEIGHOR TO THE BACK
+        #             path_copy.append(neighbor)
 
         
 
@@ -278,8 +285,8 @@ class Graph:
                 self.dft_recursive(i)
         return path, 200
         
-# if __name__ == '__main__':
-#     graph = Graph()  # Instantiate your graph
+if __name__ == '__main__':
+    graph = Graph()  # Instantiate your graph
 #     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
 #     graph.add_vertex(1)
 #     graph.add_vertex(2)
@@ -320,8 +327,8 @@ class Graph:
 #     #     1, 2, 4, 3, 7, 6, 5
 #     #     1, 2, 4, 3, 7, 5, 6
 #     # '''
-#     # print("bft solution: ")
-#     # graph.bft(1)
+    # print("bft solution: ")
+    # graph.bft(1)
 
 #     # '''
 #     # Valid DFT paths:
@@ -339,8 +346,9 @@ class Graph:
 #     # Valid BFS path:
 #     #     [1, 2, 4, 6]
 #     # '''
-#     # print("bfs path is: ")
-#     # print(graph.bfs(1, 6))
+    # test = {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
+    # print("bfs path is: ")
+    # print(graph.bfs(1, 6, test))
 
 #     '''
 #     Valid DFS paths:
