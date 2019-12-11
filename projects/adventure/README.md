@@ -2,6 +2,11 @@
 
 You are provided with a pre-generated graph consisting of 500 rooms. You are responsible for filling `traversalPath` with directions that, when walked in order, will visit every room on the map at least once.
 
+HINT - 
+1) Find the end points depth-first
+  Note - there's no such thing as breadth-first recursive
+2) Recursively traverse to each end point, splitting the function anytime there's more than one exit/neighbor
+
 Open `adv.py`. There are four parts to the provided code:
 
 * World generation code. Do not modify this!
