@@ -128,10 +128,8 @@ class Graph:
                     newPath = list(nextPath)
                     newPath.append(i)
                     q.enqueue(newPath)
-        # print("starting vertex given: ", starting_vertex)
-        # print("Destination vertex given: ", destination_vertex)
-        # print("Vertices being fed to path-finding algo ", vertices)
-        # #print("vertice tests: ", vertices[1])
+
+
         # q = Queue()
         # q.enqueue( [starting_vertex] )
         # # Create a Set to store visited vertices
