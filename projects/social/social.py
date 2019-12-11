@@ -1,4 +1,5 @@
 import random
+from graph import Graph
 
 class User:
     def __init__(self, name):
@@ -11,6 +12,7 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
+    graph = Graph()
 
     def add_friendship(self, user_id, friend_id):
         """
@@ -46,31 +48,32 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
         for i in range(num_users):
             self.add_user(f"User {i+1}")
 
-        # Create friendships
+        # Create list of all possible friendship combinations
 
-        # Creat list of all possible friendship combinations
         possible_friendships = []
         for user_id in self.users:
             for friend_id in range(user_id + 1, self.last_id + 1):
                 possible_friendships.append((user_id, friend_id))
         
         # Shuffle list
+
         random.shuffle(possible_friendships)
+
         #print(possible_friendships)
 
         #Grab first N elements from the list
         # // = whole number returned, no floats
+
         for i in range(num_users * avg_friendships // 2):
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
 
-
+    friendships2 = {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -81,13 +84,28 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # Take given user ID
+        # grab neighbors
+        # Map out all routes from user_id to friends of friends of friends until network is exhausted
+        
+        # ie - print a route, in nodes, that expresses how to get from
+        # user id ast starting vertex to every possible node in the graph
+        
+        # Visited dictionary - 
+        # key = node, value = route from user_id to that key/node
+        # 1) Find all nodes
+        # 2) Find shortest path from users_id to all nodes
+        node = self.graph.bft(user_id, self.friendships2)
+        test = self.graph.bfs(user_id, node, self.friendships2)
+        print(test)
+
+        
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
-    print(sg.friendships)
+    print(sg.friendships2)
     connections = sg.get_all_social_paths(1)
     print(connections)
