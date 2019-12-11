@@ -51,8 +51,8 @@ for i in range(len(roomGraph)):
         copy['w'] = '?'
     traversalGraph[i] = copy
 
-print(f'ROOM GRAPH {roomGraph}')
-print(f'TRAVERSAL GRAPH {traversalGraph}')
+# print(f'ROOM GRAPH {roomGraph}')
+# print(f'TRAVERSAL GRAPH {traversalGraph}')
 ''''
 Swapping key <-> values in graph to create a new graph for constant lookup to get back to unsearched path.
 
@@ -62,27 +62,16 @@ for i in range(len(roomGraph)):
     copy = roomGraph[i][1].copy()
     goBack[i] = {value:key for key, value in copy.items()}
  
-print(f'goBack GRAPH {goBack}')
+# print(f'goBack GRAPH {goBack}')
 
 
 
 # Create an empty queue and enqueue the starting vertex ID
 stack = Stack()
 stack.push(player.currentRoom.id)
-# Create a Set to store visited vertices
 
-# While the queue is not empty...
-# while stack.size() > 0:
-#     # Dequeue the first vertex
-#     v = stack.pop()
-#     print(f'stack is at {v}')
-#     string = json.dumps(traversalGraph[v])
-
-    # If that vertex has any unvisited rooms...
 def dft(current=player.currentRoom.id):
-    # current = player.currentRoom.id
-    print(f'current is {current}')
-    # print(roomGraph[0][1][1])
+
     string = json.dumps(traversalGraph[current])
     while '?' in string:
         direction = []
@@ -93,16 +82,14 @@ def dft(current=player.currentRoom.id):
             
             
             
-        print(direction)
-        print(traversalGraph)
+ 
         move = random.choice(direction)
-        print(f'move is set to {move}')
+       
         if move == 'n':
             traversalGraph[current]['n'] = roomGraph[current][1]['n']
             player.travel('n')
             traversalPath.append(move)
             current = player.currentRoom.id
-            print(f'player traveled north to {current}')
             traversalGraph[current]['s'] = roomGraph[current][1]['s']
             string = json.dumps(traversalGraph[current])
         elif move == 's':
@@ -110,7 +97,6 @@ def dft(current=player.currentRoom.id):
             player.travel('s')
             traversalPath.append(move)
             current = player.currentRoom.id
-            print(f'player traveled south to {current}')
             traversalGraph[current]['n'] = roomGraph[current][1]['n']
             string = json.dumps(traversalGraph[current])
         elif move == 'e':
@@ -118,7 +104,6 @@ def dft(current=player.currentRoom.id):
             player.travel('e')
             traversalPath.append(move)
             current = player.currentRoom.id
-            print(f'player traveled east to {current}')
             traversalGraph[current]['w'] = roomGraph[current][1]['w']
             string = json.dumps(traversalGraph[current])
         elif move == 'w':
@@ -126,17 +111,10 @@ def dft(current=player.currentRoom.id):
             player.travel('w')
             traversalPath.append(move)
             current = player.currentRoom.id
-            print(f'player traveled west to {current}')
             traversalGraph[current]['e'] = roomGraph[current][1]['e']
             string = json.dumps(traversalGraph[current])
-    # print(traversalGraph[v])
-    # Then add all of its neighbors to the back of the queue
-    # for i in roomGraph[current][1]:
-    #     print(f' it is adding {roomGraph[current][1][i]}')
-    #     stack.push(roomGraph[current][1][i])
-    #     print(traversalGraph)
-    
-    print('hello')
+
+
     return bfs(current)
 def bfs(current=player.currentRoom.id):
 
@@ -149,15 +127,13 @@ def bfs(current=player.currentRoom.id):
         # print('hello')
         path = queue.dequeue()
         v = path[-1]
-        print(f'queue is at {v}')
+ 
         string = json.dumps(traversalGraph[v])
 
         if v not in visited:
             if '?' in string:
-                print(f'found available path in {v} with path {path}')
-                print(path)
+
                 for d in range(len(path) - 1):
-                    print(goBack[path[d]][path[d+1]])
                     rewind = goBack[path[d]][path[d+1]]
                     player.travel(rewind)
                     traversalPath.append(rewind)
@@ -165,11 +141,9 @@ def bfs(current=player.currentRoom.id):
 
                 return dft(current)
             visited.add(v)
-            print(visited)
             for neighbor in roomGraph[v][1]:
                     # CHECK IF IT'S THE TARGET
-                    print(f' it is adding {roomGraph[v][1][neighbor]}')
-                    
+       
                     path_copy = path.copy()
                     path_copy.append(roomGraph[v][1][neighbor])
                     queue.enqueue(path_copy)
@@ -200,14 +174,3 @@ else:
     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
 
 
-
-#######
-# UNCOMMENT TO WALK AROUND
-#######
-# player.currentRoom.printRoomDescription(player)
-# while True:
-#     cmds = input("-> ").lower().split(" ")
-#     if cmds[0] in ["n", "s", "e", "w"]:
-#         player.travel(cmds[0], True)
-#     else:
-#         print("I did not understand that command.")
