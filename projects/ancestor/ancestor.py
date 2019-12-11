@@ -16,27 +16,42 @@ def earliest_ancestor(ancestors, starting_node):
     for i in ancestors:
         graph.add_vertex(i[1])
         graph.add_vertex(i[0])
-        #print("node: ", i[1])
-    #print("Nodes only: ")
-    #print(graph.vertices)
     for i in ancestors:
         graph.add_edge(i[1], i[0])
-    # for i in graph.vertices:
-    #     if i is set():
-    #         print("none")
-        #print("tuple: ", i)
-        #print("neighbor: ", i[0])
-    print("Nodes + neighbors: ")
-    print(graph.vertices)
-    # for i in graph.vertices:
-    #     print("vertices: ")
-    #     print(i)
-    print("DFT solution")
-    #test = list(graph.dft(starting_node))
-    # print("neighbors")
-    # print(graph.get_neighbors(10))
-    print(graph.dft_recursive(6))
-    print("end of solution")
+    # print("Nodes + neighbors: ")
+    # print(graph.vertices)
+    # print("DFT solution")
+    # print(graph.dft_recursive(6))
+    # print("end of solution")
+
+    # def earliest_ancestor(ancestors, starting_node):
+    # path = []
+    
+    ####  ---- Works------  ####
+
+    # # Building the Graph
+    # for e in ancestors:
+    #     g.add_edge(e[1], e[0])        
+    
+    # # Get set of visted nodes from Traversal
+
+    # Visited = returns each and every node that's possible from starting node
+    # visted = g.dft(starting_node)
+
+    # # Doing a search from starting_node to each vertices that is traversed to get longest path
+    # Run a search on each node returned from visited, 
+    # check its path length
+
+    # for v in visted:
+    #     path_to_each = g.dfs(starting_node, v)
+    #     if len(path_to_each) > len(path):
+    #         path = path_to_each
+    #     if len(path_to_each) == len(path) and path_to_each[-1] < path[-1]:
+    #         path = path_to_each
+    # if len(path) == 1:
+    #     return -1
+    
+    # return path[-1]
 
 
     

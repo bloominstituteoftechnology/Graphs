@@ -93,42 +93,20 @@ class Graph:
             if self.get_neighbors(starting_vertex) == set():
                 # Final solution will be taking first solution found, and
                 # doing a depth search on each of the nodes
-
-                print("End of route found, final vertex is: ", starting_vertex)
                 copy = path.copy()
-                print("Current copy: ", copy)
-                #print("current path is: ", path)
                 path = []
-                #print("current path is: ", path)
-                nextNode = copy[1]
-                print("next node is", nextNode)
-                print("visited is: ", self.recursiveVisited)
-                # self.recursiveVisited2 = set()
-                # print("reset visited: ")
                 self.dft_recursive(nextNode, path)
-                # print("path is: ", path)
-                # print("copy path is", copy)
-                # print("visited is", self.recursiveVisited)
                 return copy
             else:
                 for i in self.get_neighbors(starting_vertex):
-                    #path.append(i)
-                    #print("path appended with i is ", path)
                     self.dft_recursive(i, path)
             return test
         return test
         
         
         
-        # if visited is None:
-        #     # If not, initialize to an empty set
-        #     visited = set()
-        # # Mark the node as visited
-        # print(starting_vertex)
-        # visited.add(starting_vertex)
-        # # Call DFT recursive on each neighbor that has not been visited
-        # for neighbor in self.get_neighbors(starting_vertex):
-        #     if neighbor not in visited:
+    
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """ 
