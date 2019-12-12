@@ -21,6 +21,12 @@ class Graph:
         else:
             raise IndexError("That vertex does not exist")
 
+    def get_neighbors(self, vertex_id):
+        """
+        Get all neighbors (edges) of a vertex.
+        """
+        return self.vertices[vertex_id]
+
 
 def earliest_ancestor(ancestors, starting_node):
 

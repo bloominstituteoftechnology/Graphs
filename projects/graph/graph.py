@@ -29,8 +29,7 @@ class Graph:
         Get all neighbors (edges) of a vertex.
         """
         return self.vertices[vertex_id]
-        #for neighbor in self.vertices[vertex_id]:
-            #print(neighbor)
+       
 
     def bft(self, starting_vertex):
         """
