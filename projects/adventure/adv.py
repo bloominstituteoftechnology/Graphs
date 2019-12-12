@@ -29,55 +29,100 @@ print("EXITS", player.currentRoom.getExits())
 copy={} #Copy of the roomGraph
 #-----------
 #Chicken scratch stuff
-curRoom=player.currentRoom.id
-print(curRoom, "CurRoom")
-copy[curRoom]=curRoom
-print(copy, "Copy")
-copy[curRoom]=player.currentRoom.getExits()
-print("COPY EXITS", copy[curRoom])
-print(len(copy), "COPY LENGTH")
-if 'n' in copy[curRoom]:
-  print("nnn")
-  # copy[curRoom[0]]='*'
-  print(copy[curRoom] + ["n_visited"], "HERE IS NEW CURROOM")
+# curRoom=player.currentRoom.id
+# print(curRoom, "CurRoom")
+# copy[curRoom]=curRoom
+# print(copy, "Copy")
+# copy[curRoom]=player.currentRoom.getExits()
+# print("COPY EXITS", copy[curRoom])
+# print(len(copy), "COPY LENGTH")
+# if 'n' in copy[curRoom]:
+#   print("nnn")
+#   # copy[curRoom[0]]='*'
+#   print(copy[curRoom] + ["n_visited"], "HERE IS NEW CURROOM")
 #-----------
-while len(copy) < 3:
-  curRoom=player.currentRoom
+while len(copy) < 9:
+# while len(traversalPath) < 3:
+  curRoom=player.currentRoom.id
   if curRoom not in copy:
     copy[curRoom]=curRoom 
   
   exits=player.currentRoom.getExits()
   copy[curRoom]=exits
+  print("LET'S SEE THIS", copy[curRoom])
 
   if 'n' in copy[curRoom]:
-    if 'n_visited' not in copy[curRoom]:
-      copy[curRoom] + ["n_visited"]
+    print(copy[curRoom], "Currently")
+    if "n_visited" not in copy[curRoom]:
+      copy[curRoom]=copy[curRoom] + ["n_visisted"]
       player.travel("n")
       traversalPath.append("n")
-      
-  if 's' in copy[curRoom]:
-    if 's_visited' not in copy[curRoom]:
-      copy[curRoom] + ["s_visited"]
+      print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
+      print("*****HERE IS THE COPY*****", copy)
+      print("*****HERE IS COPY LENGTH*****", len(copy))
+    # copy[curRoom][0]="v"
+    # player.travel("n")
+    # traversalPath.append("n")
+    # print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
+    # print("*****HERE IS THE COPY*****", copy)
+    # print("*****HERE IS COPY LENGTH*****", len(copy))
+
+  elif 's' in copy[curRoom]:
+    print(copy[curRoom], "Currently")
+    if "s_visited" not in copy[curRoom]:
+      copy[curRoom]=copy[curRoom] + ["s_visisted"]
       player.travel("s")
       traversalPath.append("s")
       print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
       print("*****HERE IS THE COPY*****", copy)
+      print("*****HERE IS COPY LENGTH*****", len(copy))
+    # copy[curRoom][1]="v"
+    # player.travel("s")
+    # traversalPath.append("s")
+    # print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
+    # print("*****HERE IS THE COPY*****", copy)
 
-  if 'e' in copy[curRoom]:
-    if 'e_visited' not in copy[curRoom]:
-      copy[curRoom] + ["e_visited"]
+  elif 'e' in copy[curRoom]:
+    print(copy[curRoom], "Currently")
+    if "n_visited" not in copy[curRoom]:
+      copy[curRoom]=copy[curRoom] + ["e_visisted"]
       player.travel("e")
       traversalPath.append("e")
       print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
       print("*****HERE IS THE COPY*****", copy)
+      print("*****HERE IS COPY LENGTH*****", len(copy))
+    # copy[curRoom][3]="v"
+    # player.travel("e")
+    # traversalPath.append("e")
+    # print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
+    # print("*****HERE IS THE COPY*****", copy)
 
-  if 'w' in copy[curRoom]:
-    if 'w_visited' not in copy[curRoom]:
-      copy[curRoom] + ["w_visited"]
+  elif 'w' in copy[curRoom]:
+    print(copy[curRoom], "Currently")
+    if "w_visited" not in copy[curRoom]:
+      copy[curRoom]=copy[curRoom] + ["w_visisted"]
       player.travel("w")
       traversalPath.append("w")
       print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
       print("*****HERE IS THE COPY*****", copy)
+      print("*****HERE IS COPY LENGTH*****", len(copy))
+
+  else: 
+    print("error")
+    break
+    copy[curRoom][2]="v"
+    player.travel("w")
+    traversalPath.append("w")
+    print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
+    print("*****HERE IS THE COPY*****", copy)
+
+
+
+
+
+
+    
+    
 
 
 # TRAVERSAL TEST
