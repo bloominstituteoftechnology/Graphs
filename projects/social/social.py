@@ -73,9 +73,12 @@ class SocialGraph:
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
     
-    #friendships2 = {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
+    friendships2 = {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
     #print("Full on friendship: ")
-    #print(friendships2)
+    print(type(friendships2))
+    print(type(friendships2[1]))
+    for i in friendships2[1]:
+        print("i", i)
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument

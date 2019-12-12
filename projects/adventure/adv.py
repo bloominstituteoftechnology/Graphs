@@ -48,6 +48,7 @@ print("RoomGraph3 is: ", roomGraph[0][0][0])
 print("Keys: ", roomGraph.keys())
 print("Values: ", roomGraph.values())
 print("items: ", roomGraph.items())
+test = set()
 for i in roomGraph.items():
     #print("Dictionary entry is: ", i)
     print("I-outer-Room is: ", i[0])
@@ -55,16 +56,22 @@ for i in roomGraph.items():
     print("i[1][1] is: ", i[1][1])
     roomList[i[0]] = i[1][1]
     #print("i[1][1] values is: ", i[1][1].values())
-    # for j in i[1][1].values():
-    #     print("I-inner is: ", i)
-    #     print("j-inner is: ", j)
-    #     roomList[i[0]] = j
+    test = set()
+    for j in i[1][1].values():
+        #print("I-outer is: ", i)
+        print("Room inside inner is: ", i[0])
+        print("j-inner is: ", j)
+        test.add(j)
+        roomList[i[0]] = test
     #print("test: ", i[1][1].items())
 
 print("roomList: ", roomList)
+# for i in roomList.items():
+#     print("i is: ", i)
+#     print("i[1] is: ", i[1])
 
 visited = set()
-graph.dft_recursive(0, roomGraph, visited)
+#graph.dft_recursive(0, roomGraph, visited)
 
 
 
