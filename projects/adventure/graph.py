@@ -76,7 +76,7 @@ class Graph:
                     s.push(i)
         
 
-    def dft_recursive(self, starting_vertex, path = None):
+    def dft_recursive(self, starting_vertex, vertice, visited):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -84,25 +84,32 @@ class Graph:
         This should be done using recursion.
         """
         # Visited needs to be outside the function, else it'll be brand new every time its invoked
-        test = 0
-        if path == None:
-            path = []
-        test = 0
-        if starting_vertex not in self.recursiveVisited:
-            path.append(starting_vertex)
-            self.recursiveVisited.add(starting_vertex)
-            if self.get_neighbors(starting_vertex) == set():
-                # Final solution will be taking first solution found, and
-                # doing a depth search on each of the nodes
-                copy = path.copy()
-                path = []
-                self.dft_recursive(nextNode, path)
-                return copy
-            else:
-                for i in self.get_neighbors(starting_vertex):
-                    self.dft_recursive(i, path)
-            return test
-        return test
+        
+        if starting_vertex not in visited:
+            print(starting_vertex)
+            visited.add(starting_vertex)
+            for i in self.vertices[starting_vertex]:
+                print("i in dftrecur is: ", i)
+                self.dft_recursive(i, vertice, visited)
+        # test = 0
+        # if path == None:
+        #     path = []
+        # test = 0
+        # if starting_vertex not in self.recursiveVisited:
+        #     path.append(starting_vertex)
+        #     self.recursiveVisited.add(starting_vertex)
+        #     if self.get_neighbors(starting_vertex) == set():
+        #         # Final solution will be taking first solution found, and
+        #         # doing a depth search on each of the nodes
+        #         copy = path.copy()
+        #         path = []
+        #         self.dft_recursive(nextNode, path)
+        #         return copy
+        #     else:
+        #         for i in self.get_neighbors(starting_vertex):
+        #             self.dft_recursive(i, path)
+        #     return test
+        # return test
     
     def bfs(self, starting_vertex, destination_vertex, vertices, book):
         """ 
