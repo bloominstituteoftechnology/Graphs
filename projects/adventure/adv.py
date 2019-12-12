@@ -54,7 +54,30 @@ while len(copy) < 3:
       copy[curRoom] + ["n_visited"]
       player.travel("n")
       traversalPath.append("n")
+      
+  if 's' in copy[curRoom]:
+    if 's_visited' not in copy[curRoom]:
+      copy[curRoom] + ["s_visited"]
+      player.travel("s")
+      traversalPath.append("s")
+      print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
+      print("*****HERE IS THE COPY*****", copy)
 
+  if 'e' in copy[curRoom]:
+    if 'e_visited' not in copy[curRoom]:
+      copy[curRoom] + ["e_visited"]
+      player.travel("e")
+      traversalPath.append("e")
+      print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
+      print("*****HERE IS THE COPY*****", copy)
+
+  if 'w' in copy[curRoom]:
+    if 'w_visited' not in copy[curRoom]:
+      copy[curRoom] + ["w_visited"]
+      player.travel("w")
+      traversalPath.append("w")
+      print("*****HERE IS THE TRAVERSAL PATHS*****", traversalPath)
+      print("*****HERE IS THE COPY*****", copy)
 
 
 # TRAVERSAL TEST
