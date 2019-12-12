@@ -23,6 +23,37 @@ player = Player("Name", world.startingRoom)
 
 # Fill this out
 traversalPath = []
+print(len(roomGraph), "Length")
+print("EXITS", player.currentRoom.getExits())
+#-----------
+copy={} #Copy of the roomGraph
+#-----------
+#Chicken scratch stuff
+curRoom=player.currentRoom.id
+print(curRoom, "CurRoom")
+copy[curRoom]=curRoom
+print(copy, "Copy")
+copy[curRoom]=player.currentRoom.getExits()
+print("COPY EXITS", copy[curRoom])
+print(len(copy), "COPY LENGTH")
+if 'n' in copy[curRoom]:
+  print("nnn")
+  # copy[curRoom[0]]='*'
+  print(copy[curRoom] + ["n_visited"], "HERE IS NEW CURROOM")
+#-----------
+while len(copy) < 3:
+  curRoom=player.currentRoom
+  if curRoom not in copy:
+    copy[curRoom]=curRoom 
+  
+  exits=player.currentRoom.getExits()
+  copy[curRoom]=exits
+
+  if 'n' in copy[curRoom]:
+    if 'n_visited' not in copy[curRoom]:
+      copy[curRoom] + ["n_visited"]
+      player.travel("n")
+      traversalPath.append("n")
 
 
 
