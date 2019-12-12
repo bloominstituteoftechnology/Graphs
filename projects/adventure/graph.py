@@ -2,6 +2,8 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+from room import Room as room
+
 
 class Graph:
 
@@ -86,11 +88,17 @@ class Graph:
         # Visited needs to be outside the function, else it'll be brand new every time its invoked
         
         if starting_vertex not in visited:
-            print(starting_vertex)
+
+            print("Room being looked at: ", starting_vertex)
             visited.add(starting_vertex)
-            for i in self.vertices[starting_vertex]:
-                print("i in dftrecur is: ", i)
+            #print("exits are: ", room.getExits(starting_vertex))
+            for i in vertice[starting_vertex]:
+                print("neighbor is: ", i)
+                if i in visited:
+                    print("deadend found, room: ", starting_vertex)
                 self.dft_recursive(i, vertice, visited)
+        # for direction in player.currentRoom.getExits():
+
         # test = 0
         # if path == None:
         #     path = []
