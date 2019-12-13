@@ -23,6 +23,38 @@ player = Player("Name", world.startingRoom)
 
 # Fill this out
 traversalPath = []
+directions = {'n':'s', 's':'n', 'e':'w', 'w':'e'}
+# create path to know where we're at, and a dictionary of visited rooms
+path = []
+rooms_visited = {}
+
+rooms_visited[0] = player.currentRoom.getExits()
+# print(rooms_visited[0])
+# adds each current room to the visited rooms then exits
+rooms_visited[player.currentRoom.id] = player.currentRoom.getExits()
+
+# if rooms visited is less than all the rooms, all of them haven't been visited yet
+while len(rooms_visited) < len(roomGraph) - 1:
+    # if player room isn't in rooms visited, add it to the visited rooms and remove the last direction
+    if player.currentRoom.id not in rooms_visited:
+        rooms_visited[player.currentRoom.id] = player.currentRoom.getExits()
+        last_direction = path[-1]
+        rooms_visited[player.currentRoom.id].remove(last_direction)
+
+    # if we've ppossibly reached all the rooms, remove last getExits(), add it to the traversal path, then travel
+    while len(rooms_visited[player.currentRoom.id]) < 1:
+        last_direction = path.pop()
+        traversalPath.append(last_direction)
+        player.travel(last_direction)
+
+    # get the exits for the current room visited and find last value
+    move_direction = rooms_visited[player.currentRoom.id].pop(0)
+    # go that direction with the append
+    traversalPath.append(move_direction)
+    # append to the path
+    path.append(directions[move_direction])
+    # travel with the direction of the move
+    player.travel(move_direction)
 
 
 
