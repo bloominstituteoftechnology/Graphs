@@ -136,27 +136,26 @@ firstDestination = endPoints.pop()
 # Visited = all rooms, equal to len(roomNeighbors)
 # VisitedMasterList = traversals
 
-
-
 #print("length is: ", len(roomNeighbors))
 
 #print("i is: ", roomNeighbors[0].values())
-graph.dfs_recursive(0, 10, pathFinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList)
+graph.dfs_recursive(0, firstDestination, pathFinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList, visited)
 #print("visited paths: ", pathFindingVisited)
 #print("length of visited is: ", len(pathFindingVisited))
 
 print("returned path: ", traversalPath)
 traversalPath.pop(0)
 for i in range(1, len(traversalPath)-1):
-    print("index is ", i)
-    print("value is: ", traversalPath[i])
+    # print("index is ", i)
+    # print("value is: ", traversalPath[i])
     # print("i + 1 is ", i+1)
-    print("length is ", len(traversalPath))
+    #print("length is ", len(traversalPath))
     if traversalPath[i] == traversalPath[i-1]:
         traversalPath.pop(i)
-
 print("Cleaned path: ", traversalPath)
-print(roomNeighbors[5])
+# for i in range(1, len(traversalPath)-1):
+#     print(traversalPath[i])
+# print(roomNeighbors[5])
 
 
 #print("test of neighbors2: ", roomNeighbors[0][0])
