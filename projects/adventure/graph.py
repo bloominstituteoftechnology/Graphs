@@ -142,6 +142,14 @@ class Graph:
         #print("Starting vertex is: ", starting_vertex)
         # Path - path to target, what's appended into traversal
         path = path + [starting_vertex]
+        #print("starting vertex is: ", starting_vertex)
+        #print("test of previousPath: ", roomNeighbors[previousPath])
+            # print("starting vertex is: ", starting_vertex)
+            # print("i is: ", i)
+            # print("i[1] is: ", i[1])
+            # for j in i[1]:
+            #     print("Room is ", i[0], "Direction of neighbor is: ", j, "Number is: ", i[1][j], "Number of exits is: ", len(i[1]))
+
         # for i in roomNeighbors[starting_vertex]:
         #     print("i is: ", i)
         #print("Current room: ", starting_vertex)
@@ -172,7 +180,14 @@ class Graph:
             # Locate next endpoint
                 #print("Endpoints not yet depleted")
                 nextDestination = endPoints.pop()
-                #print("head to: ", nextDestination)
+                # print("starting vertex is: ", starting_vertex)
+                # for i in roomNeighbors[starting_vertex]:
+                #     print("i is: ", i)
+
+                #     print("test2", roomNeighbors[starting_vertex][i])
+                #     # for j in i:
+                #     #     print("test is ", roomNeighbors[i][j])
+                # print("head to: ", nextDestination)
                 #print("remaining endpoints: ", endPoints)
                 # Copy over current path into traversal
                 # print("traversal path start: ", traversalPath)
@@ -184,11 +199,11 @@ class Graph:
                 #     print("i is: ", i)
                 # print("traversal path now: ", traversalPath)
                 current = traversalPath[-1]
-                print("TEST")
-                print(traversalPath)
+                #print("TEST")
+                #print(traversalPath)
                 #traversalPath = traversalPath[:-1]
                 #print("last snipped")
-                print("test", roomNeighbors[current])
+                #print("test", roomNeighbors[current])
                 #print("test2", roomNeighbors[current][0])
                 #print("visited master list: ", visitedMasterList)
                 pathfinder = set()
