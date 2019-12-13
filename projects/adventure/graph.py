@@ -148,6 +148,7 @@ class Graph:
         # If destination found and all nodes visitedMasterList
         #if starting_vertex == destination_vertex and traversalPath has len(roomNeighbors) == len(visitedMasterList):
         if starting_vertex == destination_vertex and len(visited) == 0:    
+            path = path + [starting_vertex]
             print("Destination reached, all nodes visitedMasterList")
             print("Length of room: ", len(roomNeighbors))
             print("lenght of visited: ", len(visited))
@@ -189,23 +190,25 @@ class Graph:
                 print("endpoints exhausted")
                 print("Room list to date: ", traversalPath)
                 print("length of visited: ", len(visited))
-                current = traversalPath[-1]
+                
                 print("path up to exhaustion: ", path)
                 for i in path:
                     traversalPath.append(i)
                 print("Traversal up to exhaustion: ", traversalPath)
                 # Update visited list
                 for i in traversalPath:
-                    print("currently trodden: ", i)
+                    print("to be deleted from masterlist ", i)
                     visited.discard(i)
-                for j in visited:
-                    print("cleaned masterlist: ", visited)
+                
+                print("cleaned masterlist: ", visited)
                 #print("visited rooms to date: ", visitedMasterList)
                 # Reset pathfinder
                 pathfinder = set()
                 path = []
+                current = traversalPath[-1]
                 backupDestination = visited.pop()
-                traversalPath.append(backupDestination)
+                #traversalPath.append(backupDestination)
+                #print("traversal path, appended backup: ", traversalPath)
                 # Need a starting location, current room
                 print("current room: ", current)
                 print("Next backup: ", backupDestination)
