@@ -127,7 +127,7 @@ endPoints = set()
 visited = set()
 visitedMasterList = set()
 path = []
-pathFinder = set()
+pathfinder = set()
 graph.dft_recursive(0, roomNeighbors, visited, endPoints)
 print("Visited: ", visited)
 print("Endpoints found: ", endPoints)
@@ -139,7 +139,7 @@ firstDestination = endPoints.pop()
 #print("length is: ", len(roomNeighbors))
 
 #print("i is: ", roomNeighbors[0].values())
-graph.dfs_recursive(0, firstDestination, pathFinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList, visited)
+graph.dfs_recursive(0, firstDestination, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList, visited)
 #print("visited paths: ", pathFindingVisited)
 #print("length of visited is: ", len(pathFindingVisited))
 
