@@ -142,7 +142,7 @@ class Graph:
         #print("Starting vertex is: ", starting_vertex)
         # Path - path to target, what's appended into traversal
         path = path + [starting_vertex]
-        print("test: ", roomNeighbors[starting_vertex])
+        #print("test: ", roomNeighbors[starting_vertex])
         
         # If destination found and all nodes visitedMasterList
         if starting_vertex == destination_vertex and len(roomNeighbors) == len(visitedMasterList):
@@ -161,11 +161,13 @@ class Graph:
             pathfinder = set()
             path = []
             self.dfs_recursive(destination_vertex, nextDestination, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList)
+        
         for i in roomNeighbors[starting_vertex]:
             neighbors = roomNeighbors[starting_vertex][i]
             print("Neighbors from for-loop: ", neighbors)
             if neighbors not in pathfinder:
-
+                # for j in i:
+                #     print("TEst 2: ", j)
                 newPath = self.dfs_recursive(neighbors, destination_vertex, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList)
                 print("newPath is: ", newPath)
                 if newPath is not None:
