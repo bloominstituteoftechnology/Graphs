@@ -96,7 +96,8 @@ class Graph:
                     # print("neighbor direction: ", neighborDirection)
                     # print("neighbor number: ", neighborNumber)
                     if numberOfExits == 1:
-                        print("dead end found", starting_vertex)
+                        print("dead end found", currentRoom)
+                        print("data looking at: ", i[1])
                         endPoints.add(currentRoom)
                     self.dft_recursive(neighborNumber, roomNeighbors, visited, endPoints)
         
