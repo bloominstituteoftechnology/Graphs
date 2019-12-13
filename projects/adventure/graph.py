@@ -80,11 +80,11 @@ class Graph:
 
     def dft_recursive(self, starting_vertex, roomNeighbors, visited, endPoints):
         # Check if visited
-        print("room now in: ", starting_vertex)
+        #print("room now in: ", starting_vertex)
         #print("exits: ", roomNeighbors[1])
         if starting_vertex not in visited: 
             visited.add(starting_vertex)
-            print("Currently in room", starting_vertex)
+            #print("Currently in room", starting_vertex)
             # Drill through the dictionary to necessary information
             for i in roomNeighbors.items():
                 for j in i[1]:
@@ -92,34 +92,77 @@ class Graph:
                     neighborDirection = j
                     neighborNumber = i[1][j]
                     numberOfExits = len(i[1])
-                    # print("current room: ", currentRoom)
                     # print("neighbor direction: ", neighborDirection)
                     # print("neighbor number: ", neighborNumber)
                     if numberOfExits == 1:
-                        print("dead end found", currentRoom)
-                        print("data looking at: ", i[1])
+                        #print("dead end found", currentRoom)
+                        #print("data looking at: ", i[1])
                         endPoints.add(currentRoom)
                     if numberOfExits > 1 and neighborNumber not in visited:
+                        #print("Heading to: ", neighborNumber)
                         self.dft_recursive(neighborNumber, roomNeighbors, visited, endPoints)
+
+    def dfs_test(self, starting_vertex, destination_vertex, pathfindingVisited, roomNeighbors, path, endPoints):
         
-        # if len(roomNeighbors) == 1:
-        #     print("deadend found, room: ", starting_vertex)
-        #     print("Number of exits comp thinks exist: ", len(roomNeighbors))
-        #     endPoints.add(starting_vertex)
-        
-        # if len(roomNeighbors) < 1:
-        #     print("test")
-    
-        #if len(roomNeighbors) > 1 and starting_vertex not in visited:
-            #print("long enough")
-        
-        # if starting_vertex not in self.recursiveVisited:
-        #     print(starting_vertex)
-        #     self.recursiveVisited.add(starting_vertex)
-        #     for i in self.vertices[starting_vertex]:
-        #         self.dft_recursive(i)
-        #       i = neighbors/nodeNumber of neighbor
-    
+        print("path at top: ", path)
+        pathfindingVisited.add(starting_vertex)
+        path = path + [starting_vertex]
+        if starting_vertex == destination_vertex:
+            print("path found")
+            print(path)
+            return path
+        for i in roomNeighbors.items():
+            for j in i[1]:
+                currentRoom = i[0]
+                neighborDirection = j
+                neighborNumber = i[1][j]
+                numberOfExits = len(i[1])
+        # print("neighbor direction: ", neighborDirection)
+        # print("neighbor number: ", neighborNumber)
+                if neighborNumber not in pathfindingVisited:
+                    print("first if")
+                    newPath = self.dfs_test(neighborNumber, destination_vertex, pathfindingVisited, roomNeighbors, path, endPoints)
+                    if newPath not in endPoints:
+                        print("second if")
+                        return newPath
+        # for i in self.get_neighbors(starting_vertex):
+        #     if i not in visited:
+        #         new_path = self.dfs_recursive(i, destination_vertex, visited, path)
+        #         if new_path is not None:
+        #             return new_path
+        print("No path found")
+        return None
+        # Catchall if there's no path, return none
+
+    def dfs_recursive(self, starting_vertex, destination_vertex, pathFindingVisited, path, roomNeighbors):
+
+        # if visited is None:
+        #     visited = set()
+       
+        pathFindingVisited.add(starting_vertex)
+        #print("Starting vertex is: ", starting_vertex)
+        path = path + [starting_vertex]
+        #print("Path at beginning: ", path)
+        if starting_vertex == destination_vertex:
+            # If destination found, head to the next
+            print("Destination reached")
+            return path
+            #nextDestination = endPoints.pop()
+            #self.dfs_recursive(destination_vertex, nextDestination, visited, 
+            # roomNeighbors, traversalPath, endpoints)
+        for i in roomNeighbors[starting_vertex]:
+            neighbors = roomNeighbors[starting_vertex][i]
+            print(neighbors)
+            if neighbors not in pathFindingVisited:
+                
+                newPath = self.dfs_recursive(neighbors, destination_vertex, pathFindingVisited, path, roomNeighbors)
+                print("newPath is: ", newPath)
+                if newPath is not None:
+                    return newPath
+        print("No path")
+        return None
+        # Catchall if there's no path, return none
+
     def bfs(self, starting_vertex, destination_vertex, vertices, book):
         """ 
         Return a list containing the shortest path from
@@ -144,39 +187,6 @@ class Graph:
                     newPath = list(nextPath)
                     newPath.append(i)
                     q.enqueue(newPath)
-
-
-        # q = Queue()
-        # q.enqueue( [starting_vertex] )
-        # # Create a Set to store visited vertices
-        # visited = set()
-        # # While the queue is not empty...
-        # while q.size() > 0:
-        #     # Dequeue the first PATH
-        #     path = q.dequeue()
-        #     # Grab the last vertex from the PATH
-        #     v = path[-1]
-            
-        #     # If that vertex has not been visited...
-        #     if v not in visited:
-        #         # CHECK IF IT'S THE TARGET
-        #         if v == destination_vertex:
-        #             # IF SO, RETURN PATH
-        #             print("path found!", path)
-        #             return path
-        #         # Mark it as visited...
-        #         visited.add(v)
-        #         # Then add A PATH TO its neighbors to the back of the queue
-        #         # old line: for neighbor in self.get_neighbors(v):
-        #         # verbose: for neighbor in self.vertices[vertex_id]
-        #         # Given a key from vertices, fetch all neighbors
-        #         for neighbor in vertices[v]:
-        #             print("neigbor variable: ", neighbor)
-        #             print("current path: ", path)
-        #             # COPY THE PATH
-        #             path_copy = path.copy()
-        #             # APPEND THE NEIGHOR TO THE BACK
-        #             path_copy.append(neighbor)
 
         
 
@@ -217,42 +227,7 @@ class Graph:
                     path_copy = path.copy()
                     path_copy.append(neighbor)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, visited = None, path = None):
-        
-        # self.recursiveVisited2.add(starting_vertex)
-        # #print("Visited: ", self.recursiveVisited2)
-        # self.path.append(starting_vertex)
 
-        # if starting_vertex == destination_vertex:
-        #     return self.path
-        # for neighbor in self.vertices[starting_vertex]:
-        #     if neighbor not in self.recursiveVisited2:
-        #         result = self.dfs_recursive(neighbor, destination_vertex)
-        #         if result is not None:
-        #             return result
-        
-        #Init visited
-        # Init path
-        #Add vertex to path
-        # If we are at the destination, return the path
-        # Otherwise, call DFS recursive on each unvisited neighbor
-
-        if visited is None:
-            visited = set()
-        if path is None:
-            # array = ordered
-            path = []
-        visited.add(starting_vertex)
-        path = path + [starting_vertex]
-        if starting_vertex == destination_vertex:
-            return path
-        for i in self.get_neighbors(starting_vertex):
-            if i not in visited:
-                new_path = self.dfs_recursive(i, destination_vertex, visited, path)
-                if new_path is not None:
-                    return new_path
-        return None
-        # Catchall if there's no path, return none
     
     def dfs_recursive2(self, starting_vertex, visited = None, path = None):
 
@@ -273,7 +248,7 @@ class Graph:
                 if new_path is not None:
                     print("Path found")
                     return new_path
-        print("No path")
+        
         return None
 
     def dft_recursive2(self, starting_vertex, path = None):

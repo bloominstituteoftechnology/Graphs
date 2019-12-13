@@ -109,16 +109,58 @@ print("Room graph transmogrified: ", roomNeighbors)
 #     for j in i[1]:
 #         print("Room is ", i[0], "Direction of neighbor is: ", j, "Number is: ", i[1][j], "Number of exits is: ", len(i[1]))
 
+# --- For finding neighbors in a given room:
+# start = 0
+# print("test of neighbors: ", roomNeighbors[start])
+# for i in roomNeighbors[0]:
+#     #print(" i1 is ", i)
+#     print("For Room Number", start, 
+#     "room directions are: ", roomNeighbors[0][i])
+
 #print("roomNeighbors: ", roomNeighbors[7])
 #print("roomNeighbors2: ", len(roomNeighbors[8]))
     # Return from roomNeighbors[#] = i[1] in function
 traversalPath = []
 endPoints = set()
 visited = set()
+path = []
+pathFindingVisited = set()
 graph.dft_recursive(0, roomNeighbors, visited, endPoints)
 print("Visited: ", visited)
 print("Endpoints found: ", endPoints)
+#firstDestination = endPoints.pop()
+# print("First endpoint: ", q)
+# print("path now: ", endPoints)
+# q = endPoints.pop()
+# print("First endpoint: ", q)
+# print("path now: ", endPoints)
 #print("count is: ", len(traversalPath))
+
+
+
+    # for j in i:
+    #     print("II is: ", i)
+    #     print("j is: ", j)
+    #     print("test5: ", i[j])
+#print("test of neighbors2: ", roomNeighbors[0][0])
+#print("roomNeighbors is: ", roomNeighbors)
+# for i in roomNeighbors.items():
+#     print("i is: ", i)
+#     for j in i[1]:
+#         print("j is: ", j)
+#         currentRoom = i[0]
+#         neighborDirection = j
+#         neighborNumber = i[1][j]
+#         numberOfExits = len(i[1])
+#         print("neighbor direction: ", neighborDirection)
+#         print("neighbor number: ", neighborNumber)
+
+# for i in roomNeighbors.values():
+#     print("I222 is: ", i)
+    
+#print("i is: ", roomNeighbors[0].values())
+graph.dfs_recursive(0, 4, pathFindingVisited, path, roomNeighbors)
+print("returned path: ", path)
 
 
 
@@ -132,6 +174,7 @@ print("Endpoints found: ", endPoints)
     # Done - formatted given roomGraph data into a useable vertice
 
 # 2) Find all possible end points
+    # Done
 
 # 3) Navigate to the endpoints, one by one.  Add each endpoint to "visited" to mark them off and make sure you don't revisit - other nodes traveled DON'T MATTER
 
@@ -144,6 +187,7 @@ print("Endpoints found: ", endPoints)
     # Set first endpoint as starting point for next endpoint?
     # YES! Pick an endpoint, navigate there.  That endpoint is now starting pt, destination is next endpoint, until all endpoints exhausted
     # Problem - loops - no endpoint, but will remain unvisited
+        # Solution: Do a search for unvisited nodes, path there, then keep going to next unvisited node
 
 
 
