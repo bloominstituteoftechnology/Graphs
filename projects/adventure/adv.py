@@ -32,16 +32,18 @@ lookedSouth = set()
 lookedEast = set()
 lookedWest = set()
 breadcrumb = {}
+visited_rooms = set()
 
 player.currentRoom = world.startingRoom
-visited_rooms.add(player.currentRoom)
+
 
 q = Queue()
 start = player.currentRoom
+visited_rooms.add(start)
 q.enqueue(start)
 breadcrumb[start] = None
 
-while q.size() > 0:
+while q.size() > 0 and len(visited_rooms) != len(roomGraph):
 
     current = q.dequeue()
 
@@ -56,6 +58,7 @@ while q.size() > 0:
             player.travel('n')
             traversalPath.extend('n')
             current = player.currentRoom
+            visited_rooms.add(current)
             breadcrumb[current] = 's'
             q.enqueue(current)
 
@@ -68,6 +71,7 @@ while q.size() > 0:
             player.travel('s')
             traversalPath.extend('s')
             current = player.currentRoom
+            visited_rooms.add(current)
             breadcrumb[current] = 'n'
             q.enqueue(current)
 
@@ -80,6 +84,7 @@ while q.size() > 0:
             player.travel('e')
             traversalPath.extend('e')
             current = player.currentRoom
+            visited_rooms.add(current)
             breadcrumb[current] = 'w'
             q.enqueue(current)
     
@@ -92,6 +97,7 @@ while q.size() > 0:
             player.travel('w')
             traversalPath.extend('w')
             current = player.currentRoom
+            visited_rooms.add(current)
             breadcrumb[current] = 'e'
             q.enqueue(current)
 
@@ -125,6 +131,8 @@ while q.size() > 0:
         
     else:
         print(traversalPath)
+        print(len(traversalPath))
+        #print(visited_rooms)
          
 
 
