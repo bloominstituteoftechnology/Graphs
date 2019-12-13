@@ -134,7 +134,7 @@ class Graph:
     #     return None
     #     # Catchall if there's no path, return none
     
-    def dfs_recursive(self, starting_vertex, destination_vertex, pathFindingVisited, path, roomNeighbors):
+    def dfs_recursive(self, starting_vertex, destination_vertex, pathFindingVisited, path, roomNeighbors, endPoints, traversalPath, visited):
 
         # if visited is None:
         #     visited = set()
@@ -142,20 +142,25 @@ class Graph:
         pathFindingVisited.add(starting_vertex)
         #print("Starting vertex is: ", starting_vertex)
         path = path + [starting_vertex]
-        #print("Path at beginning: ", path)
-        if starting_vertex == destination_vertex:
-            # If destination found, head to the next
-            print("Destination reached")
-            return path
-            #nextDestination = endPoints.pop()
-            #self.dfs_recursive(destination_vertex, nextDestination, visited, 
-            # roomNeighbors, traversalPath, endpoints)
+        # If destination found and all nodes visited
+        if starting_vertex == destination_vertex and len(roomNeighbors) == len(visited):
+            print("Destination reached, all nodes visited")
+            for i in path:
+                traversalPath.append(i)
+            return traversalPath
+        # If destination found but nodes unvisited
+        if starting_vertex == destination_vertex and len(roomNeighbors) != len(visited):
+            # Locate next endpoint
+            nextDestination = endPoints.pop()
+            # Reset pathfinder so it will retread if needed
+            pathFindingVisited = set()
+            self.dfs_recursive(destination_vertex, nextDestination, pathFindingVisited, path, roomNeighbors, endPoints, traversalPath, visited)
         for i in roomNeighbors[starting_vertex]:
             neighbors = roomNeighbors[starting_vertex][i]
             print(neighbors)
             if neighbors not in pathFindingVisited:
 
-                newPath = self.dfs_recursive(neighbors, destination_vertex, pathFindingVisited, path, roomNeighbors)
+                newPath = self.dfs_recursive(neighbors, destination_vertex, pathFindingVisited, path, roomNeighbors, endPoints, traversalPath, visited)
                 print("newPath is: ", newPath)
                 if newPath is not None:
                     return newPath
