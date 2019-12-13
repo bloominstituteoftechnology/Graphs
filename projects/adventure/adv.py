@@ -159,6 +159,7 @@ for i in traversalPath:
             print("j[1] is: ", j[1])
             for k in j[1]:
                 print("k is: ", k)
+                
             #print("Room is ", j[0], "Direction of neighbor is: ", k, "Number of neighbor is: ", j[1][k])
 
 # traversalPath.pop(0)
