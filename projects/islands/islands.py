@@ -27,6 +27,15 @@ big_islands = [[1, 0, 0, 1, 1, 0, 1, 1, 0, 1],
                [1, 0, 1, 1, 0, 1, 0, 0, 1, 0],
                [1, 0, 1, 1, 0, 1, 0, 0, 1, 0]]
 
+class LinkedListNode:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+class LindedList:
+    def __init__(self, head)
+        self.head = head
+        self.tail = head
 
 def get_neighbors(vertex, graph_matrix):
     x = vertex[0]

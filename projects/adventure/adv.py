@@ -1,8 +1,12 @@
 from room import Room
 from player import Player
 from world import World
-
 import random
+import json
+import sys
+sys.path.append('../graph')
+from util import Queue, Stack
+
 
 # Load world
 world = World()
@@ -24,6 +28,82 @@ player = Player("Name", world.startingRoom)
 # Fill this out
 traversalPath = []
 
+
+# building traversal graph and replacing directions with '?'
+traversalGraph = {}
+
+for i in roomGraph:
+    room = roomGraph[i][1].copy()
+    for direction in ['n', 's', 'w', 'e']:
+        if direction in room:
+            room[direction] = '?'
+    traversalGraph[i] = room
+
+
+# Switching 'key, values == value, key' in graph to create a new graph
+returnBack = {}
+for i in roomGraph:
+    room = roomGraph[i][1].copy()
+    returnBack[i] = {value: key for key, value in room.items()}
+
+
+def dft(current):
+    stack = Stack()
+    stack.push(current)
+    # convert graph to string to find '?'
+    string = json.dumps(traversalGraph[current])
+    while '?' in string:
+        direction = []
+        for directionus in traversalGraph[current]:
+            if traversalGraph[current][directionus] == '?':
+                direction.append(directionus)
+
+        go = random.choice(direction)
+        if go == 'n':
+            move = 's'
+        elif go == 's':
+            move = 'n'
+        elif go == 'e':
+            move = 'w'
+        else:
+            move = 'e'
+        traversalGraph[current][go] = roomGraph[current][1][go]
+        player.travel(go)
+        traversalPath.append(go)
+        current = player.currentRoom.id
+        traversalGraph[current][move] = roomGraph[current][1][move]
+        string = json.dumps(traversalGraph[current])
+    return bfs(current)
+
+
+def bfs(current):
+    q = Queue()
+    q.enqueue([current])
+    visited = set()
+
+    while q.size() > 0:
+        path = q.dequeue()
+        v = path[-1]
+        # convert dict to string and find '?'
+        string = json.dumps(traversalGraph[v])
+
+        if v not in visited:
+            if '?' in string:
+                for direction in range(len(path) - 1):
+                    back = returnBack[path[direction]][path[direction + 1]]
+                    player.travel(back)
+                    traversalPath.append(back)
+                    current = player.currentRoom.id
+                return dft(current)
+
+            visited.add(v)
+            for neighbor in roomGraph[v][1]:
+                path_copy = path.copy()
+                path_copy.append(roomGraph[v][1][neighbor])
+                q.enqueue(path_copy)
+
+
+bfs(player.currentRoom.id)
 
 
 # TRAVERSAL TEST
