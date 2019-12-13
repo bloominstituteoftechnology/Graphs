@@ -132,7 +132,6 @@ class Graph:
         path = path + [starting_vertex]
         if starting_vertex == destination_vertex and len(visited) == 0:    
             path = path + [starting_vertex]
-            print(starting_vertex)
             for i in path:
                 traversalPath.append(i)
             return traversalPath
@@ -146,13 +145,11 @@ class Graph:
                 path = []
                 self.dfs_recursive(current, nextDestination, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList, visited)
             if endPoints == set():
-                # print("visited is111: ", visited)
                 for i in path:
                     traversalPath.append(i)
                 for i in traversalPath:
                     visited.discard(i)
                 if visited == set():
-                    print("visited is: ", visited)
                     return traversalPath
                 pathfinder = set()
                 path = []
@@ -227,14 +224,12 @@ class Graph:
         visited.add(starting_vertex)
         path = path + [starting_vertex]
         if starting_vertex == None:
-            print("None found")
             return path
         for i in self.get_neighbors(starting_vertex):
             if i not in visited:
                 new_path = self.dfs_recursive2(i, visited, path)
                 print(new_path)
                 if new_path is not None:
-                    print("Path found")
                     return new_path
         
         return None
@@ -244,21 +239,10 @@ class Graph:
             # array = ordered
             path = []
         if starting_vertex not in self.recursiveVisited:
-            print("Starting vertext: ", starting_vertex)
-            print("Visited: ", self.recursiveVisited)
-            # print("last one: ", self.recursiveVisited[-1])
-            #solution = starting_vertex
-            #print("solution is: ", solution)
             path.append(starting_vertex)
-            print("path is: ", path)
             self.recursiveVisited.add(starting_vertex)
             for i in self.vertices[starting_vertex]:
-                # if i is None:
-                #     print("None found!")
-                #solution = i
-                print("i is: ", i)
                 path.append(i)
-                print("path is updated to: ", path)
                 self.dft_recursive(i)
         return path, 200
         
