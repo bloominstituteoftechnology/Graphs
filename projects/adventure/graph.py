@@ -134,33 +134,39 @@ class Graph:
     #     return None
     #     # Catchall if there's no path, return none
     
-    def dfs_recursive(self, starting_vertex, destination_vertex, pathFindingVisited, path, roomNeighbors, endPoints, traversalPath, visited):
+    def dfs_recursive(self, starting_vertex, destination_vertex, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList):
 
-        # if visited is None:
-        #     visited = set()
-
-        pathFindingVisited.add(starting_vertex)
+        # pathfinder - lists of visited nodes from one target to the next
+        pathfinder.add(starting_vertex)
+        visitedMasterList.add(starting_vertex)
         #print("Starting vertex is: ", starting_vertex)
+        # Path - path to target, what's appended into traversal
         path = path + [starting_vertex]
-        # If destination found and all nodes visited
-        if starting_vertex == destination_vertex and len(roomNeighbors) == len(visited):
-            print("Destination reached, all nodes visited")
+        print("test: ", roomNeighbors[starting_vertex])
+        
+        # If destination found and all nodes visitedMasterList
+        if starting_vertex == destination_vertex and len(roomNeighbors) == len(visitedMasterList):
+            print("Destination reached, all nodes visitedMasterList")
             for i in path:
                 traversalPath.append(i)
             return traversalPath
-        # If destination found but nodes unvisited
-        if starting_vertex == destination_vertex and len(roomNeighbors) != len(visited):
+        # If destination found but nodes unvisitedMasterList
+        if starting_vertex == destination_vertex and len(roomNeighbors) != len(visitedMasterList):
+            # Copy over current path into traversal
+            for i in path:
+                traversalPath.append(i)
             # Locate next endpoint
             nextDestination = endPoints.pop()
             # Reset pathfinder so it will retread if needed
-            pathFindingVisited = set()
-            self.dfs_recursive(destination_vertex, nextDestination, pathFindingVisited, path, roomNeighbors, endPoints, traversalPath, visited)
+            pathfinder = set()
+            path = []
+            self.dfs_recursive(destination_vertex, nextDestination, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList)
         for i in roomNeighbors[starting_vertex]:
             neighbors = roomNeighbors[starting_vertex][i]
-            print(neighbors)
-            if neighbors not in pathFindingVisited:
+            print("Neighbors from for-loop: ", neighbors)
+            if neighbors not in pathfinder:
 
-                newPath = self.dfs_recursive(neighbors, destination_vertex, pathFindingVisited, path, roomNeighbors, endPoints, traversalPath, visited)
+                newPath = self.dfs_recursive(neighbors, destination_vertex, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList)
                 print("newPath is: ", newPath)
                 if newPath is not None:
                     return newPath
