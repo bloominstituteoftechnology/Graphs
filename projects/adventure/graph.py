@@ -144,7 +144,7 @@ class Graph:
         path = path + [starting_vertex]
         print("Current room: ", starting_vertex)
         #print("test: ", roomNeighbors[starting_vertex])
-        
+        print("length of visit: ", len(visited))
         # If destination found and all nodes visitedMasterList
         #if starting_vertex == destination_vertex and traversalPath has len(roomNeighbors) == len(visitedMasterList):
         if starting_vertex == destination_vertex and len(visited) == 0:    
@@ -201,6 +201,8 @@ class Graph:
                     visited.discard(i)
                 
                 print("cleaned masterlist: ", visited)
+                if visited == set():
+                    return traversalPath
                 #print("visited rooms to date: ", visitedMasterList)
                 # Reset pathfinder
                 pathfinder = set()
