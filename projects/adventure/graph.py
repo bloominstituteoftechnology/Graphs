@@ -142,6 +142,8 @@ class Graph:
         #print("Starting vertex is: ", starting_vertex)
         # Path - path to target, what's appended into traversal
         path = path + [starting_vertex]
+        # for i in roomNeighbors[starting_vertex]:
+        #     print("i is: ", i)
         #print("Current room: ", starting_vertex)
         #print("test: ", roomNeighbors[starting_vertex])
         #print("length of visit: ", len(visited))
@@ -172,12 +174,14 @@ class Graph:
                 nextDestination = endPoints.pop()
                 #print("head to: ", nextDestination)
                 #print("remaining endpoints: ", endPoints)
-            # Copy over current path into traversal
+                # Copy over current path into traversal
                 # print("traversal path start: ", traversalPath)
                 # print("path current: ", path)
                 # print("pathfinder: ", pathfinder)
                 for i in path:
                     traversalPath.append(i)
+                # for i in roomNeighbors[starting_vertex]:
+                #     print("i is: ", i)
                 # print("traversal path now: ", traversalPath)
                 current = traversalPath[-1]
                 #print("visited master list: ", visitedMasterList)
