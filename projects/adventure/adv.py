@@ -189,6 +189,34 @@ for prev,item,next in neighborhood(traversalPath):
     #     print("prev", prev, " is ", roomNeighbors[prev])
     # print (prev, item, next)
 print("traversal after cleaning: ", traversalPath)
+newTraverse = []
+def traverse(traversalPath, roomNeighbors, newTraverse):
+    currentPath = traversalPath.pop(0)
+    while len(traversalPath) > 0:
+        print("currentPath", currentPath)
+        nextNode = traversalPath.pop(0)
+        print("next Node", nextNode)
+        for i in roomNeighbors.items():
+            for j in i[1]:
+                currentRoom = i[0]
+                neighborDirection = j
+                neighborNumber = i[1][j]
+                numberOfExits = len(i[1])
+                if currentRoom == currentPath and neighborNumber is nextNode:
+                    print("match foudn, entering", neighborDirection)
+                    newTraverse.append(neighborDirection)
+                    currentPath = nextNode
+                    print("traversal is: ", traversalPath)
+                
+                print("Room is ", i[0], "Direction of neighbor is: ", j, "Number is: ", i[1][j], "Number of exits is: ", len(i[1]))
+        if currentRoom == currentPath:
+            newTraverse.append(neighborDirection)
+    print("testing: ", newTraverse)
+    return newTraverse
+newPathingRoutine = traverse(traversalPath, roomNeighbors, newTraverse)
+print(newPathingRoutine)
+
+
 
 # for i in traversalPath:
 #     print("i is ", i)

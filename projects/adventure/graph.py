@@ -295,36 +295,36 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        # s = Stack()
-        # path = [starting_vertex]
-        # s.push(path)
-        # visited = set()
-        # while s.size() > 0:
-        #     nextPath = s.pop()
-        #     lastNode = nextPath[-1]
-        #     if lastNode not in visited:
-        #         if lastNode == destination_vertex:
-        #             #print("dfs path found")
-        #             return nextPath
-        #         visited.add(lastNode)
-        #         for i in self.vertices[lastNode]:
-        #             newPath = list(nextPath)
-        #             newPath.append(i)
-        #             s.push(newPath)
-        
         s = Stack()
-        s.push( [starting_vertex] )
+        path = [starting_vertex]
+        s.push(path)
         visited = set()
         while s.size() > 0:
-            path = s.pop()
-            v = path[-1]
-            if v not in visited:
-                if v == destination_vertex:
-                    return path
-                visited.add(v)
-                for neighbor in self.get_neighbors(v):
-                    path_copy = path.copy()
-                    path_copy.append(neighbor)
+            nextPath = s.pop()
+            lastNode = nextPath[-1]
+            if lastNode not in visited:
+                if lastNode == destination_vertex:
+                    #print("dfs path found")
+                    return nextPath
+                visited.add(lastNode)
+                for i in self.vertices[lastNode]:
+                    newPath = list(nextPath)
+                    newPath.append(i)
+                    s.push(newPath)
+        
+        # s = Stack()
+        # s.push( [starting_vertex] )
+        # visited = set()
+        # while s.size() > 0:
+        #     path = s.pop()
+        #     v = path[-1]
+        #     if v not in visited:
+        #         if v == destination_vertex:
+        #             return path
+        #         visited.add(v)
+        #         for neighbor in self.get_neighbors(v):
+        #             path_copy = path.copy()
+        #             path_copy.append(neighbor)
 
 
     
