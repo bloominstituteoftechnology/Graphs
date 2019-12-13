@@ -142,43 +142,43 @@ class Graph:
         #print("Starting vertex is: ", starting_vertex)
         # Path - path to target, what's appended into traversal
         path = path + [starting_vertex]
-        print("Current room: ", starting_vertex)
+        #print("Current room: ", starting_vertex)
         #print("test: ", roomNeighbors[starting_vertex])
-        print("length of visit: ", len(visited))
+        #print("length of visit: ", len(visited))
         # If destination found and all nodes visitedMasterList
         #if starting_vertex == destination_vertex and traversalPath has len(roomNeighbors) == len(visitedMasterList):
         if starting_vertex == destination_vertex and len(visited) == 0:    
             path = path + [starting_vertex]
-            print("Destination reached, all nodes visitedMasterList")
-            print("Length of room: ", len(roomNeighbors))
-            print("lenght of visited: ", len(visited))
-            #print(visitedMasterList)
-            print("Path as of now is: ", path)
-            print("Traversal as of now is: ", traversalPath)
+            # print("Destination reached, all nodes visitedMasterList")
+            # print("Length of room: ", len(roomNeighbors))
+            # print("lenght of visited: ", len(visited))
+            # #print(visitedMasterList)
+            # print("Path as of now is: ", path)
+            # print("Traversal as of now is: ", traversalPath)
             #traversalPath = traversalPath[:-1]
             #print("traversal after slicing: ", traversalPath)
             for i in path:
                 traversalPath.append(i)
-            print("Traversal after appendate of path: ", traversalPath)
+            #print("Traversal after appendate of path: ", traversalPath)
             return traversalPath
         # If destination found but nodes unvisitedMasterList
         #if starting_vertex == destination_vertex and len(roomNeighbors) != len(traversalPath):
         if starting_vertex == destination_vertex and len(visited) > 0:
-            print("length of visited: ", len(visited))
+            #print("length of visited: ", len(visited))
             # Endpoints not yet exhausted
             if endPoints != set():
             # Locate next endpoint
-                print("Endpoints not yet depleted")
+                #print("Endpoints not yet depleted")
                 nextDestination = endPoints.pop()
-                print("head to: ", nextDestination)
+                #print("head to: ", nextDestination)
                 #print("remaining endpoints: ", endPoints)
             # Copy over current path into traversal
-                print("traversal path start: ", traversalPath)
-                print("path current: ", path)
-                print("pathfinder: ", pathfinder)
+                # print("traversal path start: ", traversalPath)
+                # print("path current: ", path)
+                # print("pathfinder: ", pathfinder)
                 for i in path:
                     traversalPath.append(i)
-                print("traversal path now: ", traversalPath)
+                # print("traversal path now: ", traversalPath)
                 current = traversalPath[-1]
                 #print("visited master list: ", visitedMasterList)
                 pathfinder = set()
@@ -187,33 +187,30 @@ class Graph:
             
             # Endpoints exhausted, time to find a random node
             if endPoints == set():
-                print("endpoints exhausted")
-                print("Room list to date: ", traversalPath)
-                print("length of visited: ", len(visited))
+                # print("endpoints exhausted")
+                # print("Room list to date: ", traversalPath)
+                # print("length of visited: ", len(visited))
                 
-                print("path up to exhaustion: ", path)
+                #print("path up to exhaustion: ", path)
                 for i in path:
                     traversalPath.append(i)
-                print("Traversal up to exhaustion: ", traversalPath)
+                #print("Traversal up to exhaustion: ", traversalPath)
                 # Update visited list
                 for i in traversalPath:
-                    print("to be deleted from masterlist ", i)
+                    #print("to be deleted from masterlist ", i)
                     visited.discard(i)
                 
-                print("cleaned masterlist: ", visited)
+                #print("cleaned masterlist: ", visited)
                 if visited == set():
                     return traversalPath
-                #print("visited rooms to date: ", visitedMasterList)
                 # Reset pathfinder
                 pathfinder = set()
                 path = []
                 current = traversalPath[-1]
                 backupDestination = visited.pop()
-                #traversalPath.append(backupDestination)
-                #print("traversal path, appended backup: ", traversalPath)
                 # Need a starting location, current room
-                print("current room: ", current)
-                print("Next backup: ", backupDestination)
+                #print("current room: ", current)
+                #print("Next backup: ", backupDestination)
                 self.dfs_recursive(current, backupDestination, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList, visited)
             # for i in path:
             #     # print("sending Path to traversal, resetting")
@@ -234,7 +231,7 @@ class Graph:
                 #print("newPath is: ", newPath)
                 if newPath is not None:
                     return newPath
-        print("No path")
+        #print("No path")
         return None
         # Catchall if there's no path, return none
 
