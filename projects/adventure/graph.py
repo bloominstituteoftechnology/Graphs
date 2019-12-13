@@ -184,6 +184,12 @@ class Graph:
                 #     print("i is: ", i)
                 # print("traversal path now: ", traversalPath)
                 current = traversalPath[-1]
+                print("TEST")
+                print(traversalPath)
+                #traversalPath = traversalPath[:-1]
+                #print("last snipped")
+                print("test", roomNeighbors[current])
+                #print("test2", roomNeighbors[current][0])
                 #print("visited master list: ", visitedMasterList)
                 pathfinder = set()
                 path = []
@@ -211,6 +217,8 @@ class Graph:
                 pathfinder = set()
                 path = []
                 current = traversalPath[-1]
+                print("TEST")
+                print("test", roomNeighbors[current])
                 backupDestination = visited.pop()
                 # Need a starting location, current room
                 #print("current room: ", current)
