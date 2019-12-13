@@ -60,7 +60,7 @@ for prev,item,next in neighborhood(traversalPath):
         traversalPath.remove(item)
 
 newTraverse = []
-def traverse(traversalPath, roomNeighbors, newTraverse):
+def customRecursion(traversalPath, roomNeighbors, newTraverse):
     currentPath = traversalPath.pop(0)
     while len(traversalPath) > 0:
         nextNode = traversalPath.pop(0)
@@ -76,7 +76,7 @@ def traverse(traversalPath, roomNeighbors, newTraverse):
         if currentRoom == currentPath:
             newTraverse.append(neighborDirection)
     return newTraverse
-newPathingRoutine = traverse(traversalPath, roomNeighbors, newTraverse)
+newPathingRoutine = customRecursion(traversalPath, roomNeighbors, newTraverse)
 
 traversalPath = newPathingRoutine
 
