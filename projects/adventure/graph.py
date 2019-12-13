@@ -78,39 +78,38 @@ class Graph:
                     s.push(i)
         
 
-    def dft_recursive(self, starting_vertex, roomNeighbors, visited, traversalPath):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-
-        This should be done using recursion.
-        """
+    def dft_recursive(self, starting_vertex, roomNeighbors, visited, endPoints):
         # Check if visited
+        print("room now in: ", starting_vertex)
+        #print("exits: ", roomNeighbors[1])
         if starting_vertex not in visited: 
             visited.add(starting_vertex)
+            print("Currently in room", starting_vertex)
             # Drill through the dictionary to necessary information
             for i in roomNeighbors.items():
                 for j in i[1]:
-                    roomNumber = i[0]
+                    currentRoom = i[0]
                     neighborDirection = j
                     neighborNumber = i[1][j]
-                    exits = len(i[1])
-                    #print("i1 is: ", i[1])
-                    # print("Room is ", i[0], 
-                    # "Direction of neighbor is: ", j, 
-                    # "Number is: ", i[1][j], "the number of exits from this room are: ", 
-                    # len(i[1]))
-
-                    #print("Room: ", roomNumber, ". Next direction: ", 
-                    #neighborDirection, ". Next room number: ", neighborNumber, 
-                    #". Number of exits: ", exits)
-
-                    if exits == 1:
-                        print("deadend found, room: ", starting_vertex)
-                    #self.dft_recursive(neighborNumber, roomNeighbors, visited)
-                    traversalPath.append(neighborDirection)
-                    #for i in self.vertices[starting_vertex]:
-                    self.dft_recursive(neighborNumber, roomNeighbors, visited, traversalPath)
+                    numberOfExits = len(i[1])
+                    # print("current room: ", currentRoom)
+                    # print("neighbor direction: ", neighborDirection)
+                    # print("neighbor number: ", neighborNumber)
+                    if numberOfExits == 1:
+                        print("dead end found", starting_vertex)
+                        endPoints.add(currentRoom)
+                    self.dft_recursive(neighborNumber, roomNeighbors, visited, endPoints)
+        
+        # if len(roomNeighbors) == 1:
+        #     print("deadend found, room: ", starting_vertex)
+        #     print("Number of exits comp thinks exist: ", len(roomNeighbors))
+        #     endPoints.add(starting_vertex)
+        
+        # if len(roomNeighbors) < 1:
+        #     print("test")
+    
+        #if len(roomNeighbors) > 1 and starting_vertex not in visited:
+            #print("long enough")
         
         # if starting_vertex not in self.recursiveVisited:
         #     print(starting_vertex)
