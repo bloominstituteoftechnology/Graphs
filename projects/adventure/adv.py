@@ -50,7 +50,7 @@ while q.size() > 0 and len(visited_rooms) != len(roomGraph):
     # need current[0] to be room nad current[1] to be breadcrumb
 
     if current not in lookedNorth and breadcrumb[current] != 'n':
-        if current.n_to is None:
+        if current.n_to is None or current.n_to in visited_rooms:
             lookedNorth.add(current)
             q.enqueue(current)
         else:
@@ -63,7 +63,7 @@ while q.size() > 0 and len(visited_rooms) != len(roomGraph):
             q.enqueue(current)
 
     elif current not in lookedSouth and breadcrumb[current] != 's':
-        if current.s_to is None:
+        if current.s_to is None or current.s_to in visited_rooms:
             lookedSouth.add(current)
             q.enqueue(current)
         else:
@@ -76,7 +76,7 @@ while q.size() > 0 and len(visited_rooms) != len(roomGraph):
             q.enqueue(current)
 
     elif current not in lookedEast and breadcrumb[current] != 'e':
-        if current.e_to is None:
+        if current.e_to is None or current.e_to in visited_rooms:
             lookedEast.add(current)
             q.enqueue(current)
         else:
@@ -89,7 +89,7 @@ while q.size() > 0 and len(visited_rooms) != len(roomGraph):
             q.enqueue(current)
     
     elif current not in lookedWest and breadcrumb[current] != 'w':
-        if current.w_to is None:
+        if current.w_to is None or current.w_to in visited_rooms:
             lookedWest.add(current)
             q.enqueue(current)
         else:
@@ -132,7 +132,7 @@ while q.size() > 0 and len(visited_rooms) != len(roomGraph):
     else:
         print(traversalPath)
         print(len(traversalPath))
-        #print(visited_rooms)
+        #print(current.n_to)
          
 
 
