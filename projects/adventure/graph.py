@@ -99,7 +99,8 @@ class Graph:
                         print("dead end found", currentRoom)
                         print("data looking at: ", i[1])
                         endPoints.add(currentRoom)
-                    self.dft_recursive(neighborNumber, roomNeighbors, visited, endPoints)
+                    if numberOfExits > 1 and neighborNumber not in visited:
+                        self.dft_recursive(neighborNumber, roomNeighbors, visited, endPoints)
         
         # if len(roomNeighbors) == 1:
         #     print("deadend found, room: ", starting_vertex)
