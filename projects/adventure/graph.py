@@ -132,6 +132,7 @@ class Graph:
         path = path + [starting_vertex]
         if starting_vertex == destination_vertex and len(visited) == 0:    
             path = path + [starting_vertex]
+            print(starting_vertex)
             for i in path:
                 traversalPath.append(i)
             return traversalPath
@@ -145,11 +146,13 @@ class Graph:
                 path = []
                 self.dfs_recursive(current, nextDestination, pathfinder, path, roomNeighbors, endPoints, traversalPath, visitedMasterList, visited)
             if endPoints == set():
+                # print("visited is111: ", visited)
                 for i in path:
                     traversalPath.append(i)
                 for i in traversalPath:
                     visited.discard(i)
                 if visited == set():
+                    print("visited is: ", visited)
                     return traversalPath
                 pathfinder = set()
                 path = []
