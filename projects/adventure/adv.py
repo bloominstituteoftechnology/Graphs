@@ -116,9 +116,9 @@ for i in roomGraph.items():
 #         print("Room is ", i[0], "Direction of neighbor is: ", j, "Number is: ", i[1][j])
 # print("roomNeighbors: ", roomNeighbors[7])
     # Return from roomNeighbors[#] = i[1] in function
-
+traversalPath = []
 visited = set()
-graph.dft_recursive(0, roomNeighbors, visited)
+graph.dft_recursive(0, roomNeighbors, visited, traversalPath)
 print("Visited: ", visited)
 
 
@@ -126,10 +126,11 @@ print("Visited: ", visited)
 
 
 # Fill this out
-traversalPath = []
+#traversalPath = []
 
 # 1) Find all possible paths
     # Done - formatted given roomGraph data into a useable vertice
+
 # 2) Find all possible end points
 
 # 3) Navigate to the endpoints, one by one.  Add each endpoint to "visited" to mark them off and make sure you don't revisit - other nodes traveled DON'T MATTER
