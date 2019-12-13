@@ -109,13 +109,13 @@ print("Room graph transmogrified: ", roomNeighbors)
 #     for j in i[1]:
 #         print("Room is ", i[0], "Direction of neighbor is: ", j, "Number is: ", i[1][j], "Number of exits is: ", len(i[1]))
 
-# --- For finding neighbors in a given room:
+#For finding neighbors in a given room:
 # start = 0
 # print("test of neighbors: ", roomNeighbors[start])
-# for i in roomNeighbors[0]:
+# for i in roomNeighbors[start]:
 #     #print(" i1 is ", i)
 #     print("For Room Number", start, 
-#     "room directions are: ", roomNeighbors[0][i])
+#     "room directions are: ", roomNeighbors[start][i])
 
 #print("roomNeighbors: ", roomNeighbors[7])
 #print("roomNeighbors2: ", len(roomNeighbors[8]))
@@ -136,12 +136,6 @@ print("Endpoints found: ", endPoints)
 # print("path now: ", endPoints)
 #print("count is: ", len(traversalPath))
 
-
-
-    # for j in i:
-    #     print("II is: ", i)
-    #     print("j is: ", j)
-    #     print("test5: ", i[j])
 #print("test of neighbors2: ", roomNeighbors[0][0])
 #print("roomNeighbors is: ", roomNeighbors)
 # for i in roomNeighbors.items():
@@ -155,11 +149,10 @@ print("Endpoints found: ", endPoints)
 #         print("neighbor direction: ", neighborDirection)
 #         print("neighbor number: ", neighborNumber)
 
-# for i in roomNeighbors.values():
-#     print("I222 is: ", i)
-    
+
 #print("i is: ", roomNeighbors[0].values())
-graph.dfs_recursive(0, 4, pathFindingVisited, path, roomNeighbors)
+graph.dfs_recursive(10, 4, pathFindingVisited, path, roomNeighbors)
+print("visited paths: ", pathFindingVisited)
 print("returned path: ", path)
 
 

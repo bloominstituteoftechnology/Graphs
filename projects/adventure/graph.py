@@ -102,43 +102,43 @@ class Graph:
                         #print("Heading to: ", neighborNumber)
                         self.dft_recursive(neighborNumber, roomNeighbors, visited, endPoints)
 
-    def dfs_test(self, starting_vertex, destination_vertex, pathfindingVisited, roomNeighbors, path, endPoints):
+    # def dfs_test(self, starting_vertex, destination_vertex, pathfindingVisited, roomNeighbors, path, endPoints):
         
-        print("path at top: ", path)
-        pathfindingVisited.add(starting_vertex)
-        path = path + [starting_vertex]
-        if starting_vertex == destination_vertex:
-            print("path found")
-            print(path)
-            return path
-        for i in roomNeighbors.items():
-            for j in i[1]:
-                currentRoom = i[0]
-                neighborDirection = j
-                neighborNumber = i[1][j]
-                numberOfExits = len(i[1])
-        # print("neighbor direction: ", neighborDirection)
-        # print("neighbor number: ", neighborNumber)
-                if neighborNumber not in pathfindingVisited:
-                    print("first if")
-                    newPath = self.dfs_test(neighborNumber, destination_vertex, pathfindingVisited, roomNeighbors, path, endPoints)
-                    if newPath not in endPoints:
-                        print("second if")
-                        return newPath
-        # for i in self.get_neighbors(starting_vertex):
-        #     if i not in visited:
-        #         new_path = self.dfs_recursive(i, destination_vertex, visited, path)
-        #         if new_path is not None:
-        #             return new_path
-        print("No path found")
-        return None
-        # Catchall if there's no path, return none
-
+    #     print("path at top: ", path)
+    #     pathfindingVisited.add(starting_vertex)
+    #     path = path + [starting_vertex]
+    #     if starting_vertex == destination_vertex:
+    #         print("path found")
+    #         print(path)
+    #         return path
+    #     for i in roomNeighbors.items():
+    #         for j in i[1]:
+    #             currentRoom = i[0]
+    #             neighborDirection = j
+    #             neighborNumber = i[1][j]
+    #             numberOfExits = len(i[1])
+    #     # print("neighbor direction: ", neighborDirection)
+    #     # print("neighbor number: ", neighborNumber)
+    #             if neighborNumber not in pathfindingVisited:
+    #                 print("first if")
+    #                 newPath = self.dfs_test(neighborNumber, destination_vertex, pathfindingVisited, roomNeighbors, path, endPoints)
+    #                 if newPath not in endPoints:
+    #                     print("second if")
+    #                     return newPath
+    #     # for i in self.get_neighbors(starting_vertex):
+    #     #     if i not in visited:
+    #     #         new_path = self.dfs_recursive(i, destination_vertex, visited, path)
+    #     #         if new_path is not None:
+    #     #             return new_path
+    #     print("No path found")
+    #     return None
+    #     # Catchall if there's no path, return none
+    
     def dfs_recursive(self, starting_vertex, destination_vertex, pathFindingVisited, path, roomNeighbors):
 
         # if visited is None:
         #     visited = set()
-       
+
         pathFindingVisited.add(starting_vertex)
         #print("Starting vertex is: ", starting_vertex)
         path = path + [starting_vertex]
@@ -154,7 +154,7 @@ class Graph:
             neighbors = roomNeighbors[starting_vertex][i]
             print(neighbors)
             if neighbors not in pathFindingVisited:
-                
+
                 newPath = self.dfs_recursive(neighbors, destination_vertex, pathFindingVisited, path, roomNeighbors)
                 print("newPath is: ", newPath)
                 if newPath is not None:
