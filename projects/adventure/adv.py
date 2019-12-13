@@ -22,6 +22,7 @@ roomGraph={0: [(3, 5), {'n': 1, 's': 5, 'e': 3, 'w': 7}], 1: [(3, 6), {'s': 0, '
 # roomGraph changed from dictionary to set that algos can understand
 roomList = {}
 roomDirections = {}
+roomNeighbors = {}
 world.loadGraph(roomGraph)
 
 # UNCOMMENT TO VIEW MAP
@@ -31,11 +32,15 @@ player = Player("Name", world.startingRoom)
 
 roomNeighborsNumbers = set()
 roomNeighborsDirections = set()
+
     # print("Dictionary entry is: ", i)
     # print("Room Number: ", i[0])
     # print("Inner dictionary: ", i[1][1])
+    
 for i in roomGraph.items():
+    
     # Reset roomNeighbors/Numbers for each key/Room
+    roomNeighbors[i[0]] = i[1][1]
     roomNeighborsNumbers = set()
     roomNeighborsDirections = set()
     # Adding neighbors as numbers
@@ -47,15 +52,73 @@ for i in roomGraph.items():
         roomNeighborsDirections.add(k)
         roomDirections[i[0]] = roomNeighborsDirections
 
-print("roomList: ", roomList)
-print("roomDirections: ", roomDirections)
+# def getKeys(vertice, array = None):
+#     array = []
+#     for i in vertice.items():
+#         #print("test is: ", i)
+#         for j in i[1].keys():
+#             #print ("test", j)
+#             array.append(j)
+#     return array
+
+# def getDirections(vertice, array = None):
+#     array = []
+#     for i in vertice.items():
+#         #print("test is: ", i)
+#         for j in i[1].values():
+#             #print ("test", j)
+#             array.append(j)
+#     return array
+
+
+
+
+### ---- Can't use roomList (returns neighbors as numbers) or roomDirections (returns neighbors as directions) because they're ordered.  The original plan was to feed roomList into the algorithm, and feed roomDirections into the traversal path - but roomList might return west as room 8, east as room 10, (8 less than 10) but roomDirections might return east and west (e comes before w) - so the algo might get roomList[0], but the traversal would get roomDirection[0] when it should've gotten roomDirection[1].
+
+# TLDR: Need to keep neighbors as directions/numbers together, sending both down the rabbit hole together
+
+# print("roomList: ", roomList[7])
+
+# print("roomDirections: ", roomDirections[7])
+
+# print("roomNeighbors: ", roomNeighbors[7])
+
+#print("TEST", getKeys(roomNeighbors))
+#print("TEST2", getDirections(roomNeighbors))
+
 # for i in roomList:
 #     print("Room is: ", i)
 #     print("Neighbors are:", roomList[i])
 
 
+# Function above broken into parts
+
+
+
+### --- Retrieves keys and values ---- ####
+# My golden goose:
+
+# for i in roomNeighbors.items():
+#     print("i is: ", i)
+#     print("i[1] is: ", i[1])
+#     print("For Room Number: ", i[0])
+#     print("The number of exits is: ", len(i[1]))
+#     for j in i[1].keys():
+#         print("Direction of neighbor is: ", j)
+#     for k in i[1].values():
+#         print("Number of neighbor is: ", k)
+
+# Golden goose from above, but fires off neighbors direction and room number at the same time, instead of sequentially
+# for i in roomNeighbors.items():
+#     print("i is: ", i)
+#     print("i[1] is: ", i[1])
+#     for j in i[1]:
+#         print("Room is ", i[0], "Direction of neighbor is: ", j, "Number is: ", i[1][j])
+# print("roomNeighbors: ", roomNeighbors[7])
+    # Return from roomNeighbors[#] = i[1] in function
+
 visited = set()
-graph.dft_recursive(0, roomList, visited)
+graph.dft_recursive(0, roomNeighbors, visited)
 print("Visited: ", visited)
 
 
@@ -67,6 +130,9 @@ traversalPath = []
 
 # 1) Find all possible paths
     # Done - formatted given roomGraph data into a useable vertice
+# 2) Find all possible end points
+
+# 3) Navigate to the endpoints, one by one.  Add each endpoint to "visited" to mark them off and make sure you don't revisit - other nodes traveled DON'T MATTER
 
 # 2) Find a path that, when walked, will visit every room at least once
     # a) Find path to end points - depth first recursively - find all endpoints

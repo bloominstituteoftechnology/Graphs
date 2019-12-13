@@ -78,46 +78,43 @@ class Graph:
                     s.push(i)
         
 
-    def dft_recursive(self, starting_vertex, vertice, visited):
+    def dft_recursive(self, starting_vertex, roomNeighbors, visited):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        # Visited needs to be outside the function, else it'll be brand new every time its invoked
-        
-        if starting_vertex not in visited:
-
-            print("Room being looked at: ", starting_vertex)
+        # Check if visited
+        if starting_vertex not in visited: 
             visited.add(starting_vertex)
-            #print("exits are: ", room.getExits(starting_vertex))
-            for i in vertice[starting_vertex]:
-                print("neighbor is: ", i)
-                if i in visited:
+        # Drill through the dictionary to necessary information
+        for i in roomNeighbors.items():
+            for j in i[1]:
+                roomNumber = i[0]
+                neighborDirection = j
+                neighborNumber = i[1][j]
+                exits = len(i[1])
+                #print("i1 is: ", i[1])
+                # print("Room is ", i[0], 
+                # "Direction of neighbor is: ", j, 
+                # "Number is: ", i[1][j], "the number of exits from this room are: ", 
+                # len(i[1]))
+                print("Room: ", roomNumber, ". Next direction: ", 
+                neighborDirection, ". Next room number: ", neighborNumber, 
+                ". Number of exits: ", exits)
+                if exits == 1:
                     print("deadend found, room: ", starting_vertex)
-                self.dft_recursive(i, vertice, visited)
-        # for direction in player.currentRoom.getExits():
+                #self.dft_recursive(neighborNumber, roomNeighbors, visited)
 
-        # test = 0
-        # if path == None:
-        #     path = []
-        # test = 0
+                for i in self.vertices[starting_vertex]:
+                    self.dft_recursive(i)
+        
         # if starting_vertex not in self.recursiveVisited:
-        #     path.append(starting_vertex)
+        #     print(starting_vertex)
         #     self.recursiveVisited.add(starting_vertex)
-        #     if self.get_neighbors(starting_vertex) == set():
-        #         # Final solution will be taking first solution found, and
-        #         # doing a depth search on each of the nodes
-        #         copy = path.copy()
-        #         path = []
-        #         self.dft_recursive(nextNode, path)
-        #         return copy
-        #     else:
-        #         for i in self.get_neighbors(starting_vertex):
-        #             self.dft_recursive(i, path)
-        #     return test
-        # return test
+        #     for i in self.vertices[starting_vertex]:
+        #         self.dft_recursive(i)
     
     def bfs(self, starting_vertex, destination_vertex, vertices, book):
         """ 
