@@ -16,44 +16,46 @@ world = World()
 # map_file = "maps/test_loop_fork.txt"
 map_file = "maps/main_maze.txt"
 
-roomGraph=literal_eval(open(map_file, "r").read())
-world.loadGraph(roomGraph)
+room_graph=literal_eval(open(map_file, "r").read())
+world.load_graph(room_graph)
 
 # VIEW MAP
-world.printRooms()
+world.print_rooms()
 
-player = Player("Name", world.startingRoom)
+player = Player("Name", world.starting_room)
 
 # Fill this out with directions to walk
-# traversalPath = ['n', 'n']
-traversalPath = []
+# traversal_path = ['n', 'n']
+traversal_path = []
 
 
 
 # TRAVERSAL TEST
 visited_rooms = set()
-player.currentRoom = world.startingRoom
-visited_rooms.add(player.currentRoom)
+player.current_room = world.starting_room
+visited_rooms.add(player.current_room)
 
-for move in traversalPath:
+for move in traversal_path:
     player.travel(move)
-    visited_rooms.add(player.currentRoom)
+    visited_rooms.add(player.current_room)
 
-if len(visited_rooms) == len(roomGraph):
-    print(f"TESTS PASSED: {len(traversalPath)} moves, {len(visited_rooms)} rooms visited")
+if len(visited_rooms) == len(room_graph):
+    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-    print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
+    print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
 
 
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.currentRoom.printRoomDescription(player)
+player.current_room.print_room_description(player)
 while True:
     cmds = input("-> ").lower().split(" ")
     if cmds[0] in ["n", "s", "e", "w"]:
         player.travel(cmds[0], True)
+    elif cmds[0] == "q":
+        break
     else:
         print("I did not understand that command.")
