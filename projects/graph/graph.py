@@ -21,7 +21,10 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # check to see that v1 is in our dictionary
+        if v1 not in self.vertices:
+            return None
+        self.vertices[v1] = v2
 
     def get_neighbors(self, vertex_id):
         """
