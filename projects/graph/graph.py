@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+import random
 
 
 class Graph:
@@ -162,7 +163,23 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+        valid_paths = []
+
+        def dfs_helper(path):
+            if path[-1] == destination_vertex:
+                valid_paths.append(path)
+                return
+            elif path[-1] not in visited:
+                visited.add(path[-1])
+                for neighbor in self.vertices[path[-1]]:
+                    new_path = path[:]
+                    new_path.append(neighbor)
+                    dfs_helper(new_path)
+            else:
+                return
+        dfs_helper([starting_vertex])
+        return random.choice(valid_paths)
 
 
 if __name__ == '__main__':
