@@ -22,9 +22,10 @@ class Graph:
         Add a directed edge to the graph.
         """
         # check to see that v1 is in our dictionary
-        if v1 not in self.vertices:
-            return None
-        self.vertices[v1] = v2
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex doesn't exist")
 
     def get_neighbors(self, vertex_id):
         """
@@ -39,7 +40,15 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited = set()
+        while q.size() > 0:
+            curr_vertex = q.dequeue()
+            if curr_vertex not in visited:
+                visited.add(curr_vertex)
+                print(curr_vertex)
+                q.enqueue(self.vertices[curr_vertex])
 
     def dft(self, starting_vertex):
         """
