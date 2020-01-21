@@ -107,7 +107,33 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # Create queue
+        queue = Queue()
+        # Put the starting point in it
+        queue.enqueue(starting_vertex)
+        # Make a set to keep track of where we've been
+        visited = set()
+        # While there is stuff in q
+        while queue.size() > 0:
+            # Pop first item
+            vertex.queue.dequeue()
+            # ALTERNATE for queue ONLY: check first
+            # queue[0]  
+            # If not visited
+            if vertex not in visited:
+                # Do the thing! (e.g. stop searching)
+                print(vertex)
+                # # ALTERNATE for queue ONLY: print(queue[0])
+                # Add to visited
+                visited.add(vertex)
+                # ALTERNATE for queue ONLY: visited.add(queue[0])
+                # For each edge in item
+                for next_vert in self.get_neighbors(vertex):
+                    ## ALTERNATE for queue ONLY: for next_vert in self.get_neighbors(queue[0])
+                    # Add edge to q
+                    queue.enqueue(next_vert)
+                    # ALTERNATE for queue ONLY: queue.dequeue  # Get rid of it here
+        
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -115,7 +141,32 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # Create stack 
+        stack = Stack()  # Stack imported above
+        # Put the starting point in it
+        # 'enstack' a list to use as our path
+        stack.push([starting_vertex])
+        # Make a set to keep track of where we've been
+        visited = set()
+        # While there is stuff in stack
+        while stack.size() > 0:
+            # Pop first item
+            path = stack.pop()  # Path is first item in stack
+            vertex = path[-1]  # Vertex is last item in path
+            # If not visited
+            if vertex not in visited:
+                if vertex == destination_vertex:
+                    # DO THE THING! 
+                    return path  
+                # Add to visited
+                visited.add(vertex)
+                # Get neighbors for each edge in item
+                for next_vert in self.get_neighbors(vertex):
+                    # Copy path to avoid 'pass by reference' bug
+                    new_path = list(path)  # Makes copy rather than reference
+                    new_path.append(next_vert)  # Add new vertex to copy
+                    stack.push(new_path) 
+
 
     def dfs_recursive(self, starting_vertex):
         """
