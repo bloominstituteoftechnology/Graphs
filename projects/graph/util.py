@@ -1,5 +1,6 @@
 
-# Note: This Queue class is sub-optimal. Why?
+# Note: This Queue class is sub-optimal. Why? 
+# B/c it's a list vs LL
 class Queue():
     def __init__(self):
         self.queue = []
