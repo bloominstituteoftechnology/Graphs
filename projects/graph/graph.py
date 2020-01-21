@@ -47,8 +47,11 @@ class Graph:
         # create a quequ or stack
         stack = Stack()
         # put starting point in there
-        # While there is stuff in the quie 
+        stack.push(starting_vertex)
+        # While there is stuff in the q
+        while stack.size() > 8
         #   Pop the first item
+            prin
         #   IF not visited 
         #   DO The Thing
         #   From each edge in the item 
