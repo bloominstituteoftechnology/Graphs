@@ -65,18 +65,20 @@ class Graph:
                 if v not in already:
                     s.push(v)
 
-    def dft_recursive(self, starting_vertex, cache=set()):
+    def dft_recursive(self, starting_vertex, cache=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
+        if cache is None:
+            cache = set()
         print(starting_vertex)
         cache.add(starting_vertex)
         for v in self.vertices[starting_vertex]:
             if v not in cache:
-                self.dft_recursive(v)
+                self.dft_recursive(v, cache)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -114,7 +116,7 @@ class Graph:
                     s.push(list(path) + [v])
                     already.add(v)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, cache=set(), s=Stack()):
+    def dfs_recursive(self, starting_vertex, destination_vertex, cache=None, path=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -122,7 +124,21 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass
+        if cache is None:
+            cache = set()
+        if path is None:
+            path = []
+        cache.add(starting_vertex)
+        path = path + [starting_vertex]
+        if starting_vertex == destination_vertex:
+            return path
+        for v in self.vertices[starting_vertex]:
+            if v not in cache:
+                new_path = self.dfs_recursive(
+                    v, destination_vertex, cache, path)
+                if new_path:
+                    return new_path
+        return None
 
 
 if __name__ == '__main__':
