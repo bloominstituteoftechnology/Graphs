@@ -110,30 +110,26 @@ class Graph:
         # Create queue
         queue = Queue()
         # Put the starting point in it
-        queue.enqueue(starting_vertex)
+        queue.enqueue([starting_vertex])
         # Make a set to keep track of where we've been
         visited = set()
         # While there is stuff in q
         while queue.size() > 0:
             # Pop first item
-            vertex.queue.dequeue()
-            # ALTERNATE for queue ONLY: check first
-            # queue[0]  
+            path = queue.dequeue()
+            vertex = path[-1]
             # If not visited
             if vertex not in visited:
-                # Do the thing! (e.g. stop searching)
-                print(vertex)
-                # # ALTERNATE for queue ONLY: print(queue[0])
+                # Do the thing! 
+                if vertex == destination_vertex:
+                    return path
                 # Add to visited
                 visited.add(vertex)
-                # ALTERNATE for queue ONLY: visited.add(queue[0])
                 # For each edge in item
                 for next_vert in self.get_neighbors(vertex):
-                    ## ALTERNATE for queue ONLY: for next_vert in self.get_neighbors(queue[0])
-                    # Add edge to q
-                    queue.enqueue(next_vert)
-                    # ALTERNATE for queue ONLY: queue.dequeue  # Get rid of it here
-        
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    queue.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
