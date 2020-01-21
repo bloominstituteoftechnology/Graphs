@@ -20,14 +20,13 @@ class Graph:
         Add a directed edge to the graph.
         """
         # Checking if the to two vertices exist
-        if v1 in self.vertices:
-            # if true then add them
-            self.vertices[v1].add(v2)
-        else:
-            self.vertices[v1] = set([v2])
-        if v2 not in self.vertices:
-            self.vertices[v2] = set()
+        if v1 not in self.vertices:
+            self.vertices[v1] = set()
 
+        if v2 not in self.vertices:
+            self.vertices[v2] = set([v1])
+        else:
+            self.vertices[v2].add(v1)
 
     def get_neighbors(self, vertex_id):
         """
@@ -72,12 +71,15 @@ class Graph:
             # if that vertex has not been visited...
             if v not in visited:
                 # do the thing
-                print(v)
+                print("visited", visited)
+                print("v", v)
+                print("Get neighbor", self.vertices[v])
                 # mark it as visited
                 visited.add(v)
 
                 # then add a Path to its neighbors to the back if the qeueue
                 for neighbor in self.get_neighbors(v):
+                    print("Why does this step stop", neighbor)
                     # Copy path to avoid pass by reference bug
                     path_copy = path.copy()
                     # append the neighbor to the back of the copy
@@ -90,33 +92,38 @@ class Graph:
                         if longest_path[-1] > path_copy[-1]:
                             longest_path = path_copy
 
-
+                    print(path_copy)
                     q.enqueue(path_copy)
+        print("Longest Path", longest_path)
+        return longest_path[-1]
 
-    def earliest_ancestor(ancestors, starting_node):
-        pass
+def earliest_ancestor(ancestors, starting_node):
+    graph = Graph()
+    for a in ancestors:
+        graph.add_edge(a[0],a[1])
+    return graph.bfs(starting_node)
 
 
-if __name__ == '__main__':
-    graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
-    graph.add_vertex(1)
-    graph.add_vertex(2)
-    graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    graph.add_edge(5, 3)
-    graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
-    graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
-    graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
-
-    print(graph.vertices)
-    print(graph.bfs(1))
+# if __name__ == '__main__':
+#     graph = Graph()  # Instantiate your graph
+#     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
+#     graph.add_vertex(1)
+#     graph.add_vertex(2)
+#     graph.add_vertex(3)
+#     graph.add_vertex(4)
+#     graph.add_vertex(5)
+#     graph.add_vertex(6)
+#     graph.add_vertex(7)
+#     graph.add_edge(5, 3)
+#     graph.add_edge(6, 3)
+#     graph.add_edge(7, 1)
+#     graph.add_edge(4, 7)
+#     graph.add_edge(1, 2)
+#     graph.add_edge(7, 6)
+#     graph.add_edge(2, 4)
+#     graph.add_edge(3, 5)
+#     graph.add_edge(2, 3)
+#     graph.add_edge(4, 6)
+#
+#     print(graph.vertices)
+#     print(graph.bfs(1))
