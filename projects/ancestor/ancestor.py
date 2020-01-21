@@ -19,7 +19,7 @@ def earliest_ancestor(ancestors, starting_node):
             # Add node to visited
             visited.add(node)
             # Get ancestors for each edge in item
-            for next_node in self.get_neighbors(node):
+            for next_node in Graph.get_neighbors(node):
                 new_path = list(path)  # Make a copy of path
                 new_path.append(next_node)  # Add new node to copy
                 stack.push(new_path)  # Add new path to stack
