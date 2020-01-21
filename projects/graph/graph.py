@@ -13,19 +13,24 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
+
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add[v2]
+        else:
+            raise IndexError("vertex does not exist")
+
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
@@ -39,7 +44,15 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create a quequ or stack
+        stack = Stack()
+        # put starting point in there
+        # While there is stuff in the quie 
+        #   Pop the first item
+        #   IF not visited 
+        #   DO The Thing
+        #   From each edge in the item 
+        #       Add that edge to the queue/stack
 
     def dft_recursive(self, starting_vertex):
         """
