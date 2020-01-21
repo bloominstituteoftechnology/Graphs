@@ -46,21 +46,23 @@ class Graph:
         #       for each edge in the item
         #           add that edge to the queue/stack
 
-    def bfs(self, starting_vertex, destination_vertex):
+    def bfs(self, starting_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        if starting_vertex == destination_vertex:
-            return [starting_vertex]
+        if (starting_vertex not in self.vertices
+        or len(self.get_neighbors(starting_vertex)) == 0):
+            return -1
+
         # #Step 1 Create an empty queue and enqueue a PATH TO the starting vertex ID
         q = Queue()
         q.enqueue( [starting_vertex])
         # #Create an empty Set to store visited vertices
         visited = set()
         # going to need something to keep track of the lenght
-
+        longest_path = []
         # While the queue is not empty...
         while q.size() > 0:
             # Dequeue the first Path
@@ -69,10 +71,8 @@ class Graph:
             v = path[-1]
             # if that vertex has not been visited...
             if v not in visited:
-                # check to see if It's the target
-                if v == destination_vertex:
-                # if so return the path
-                    return path
+                # do the thing
+                print(v)
                 # mark it as visited
                 visited.add(v)
 
@@ -80,8 +80,43 @@ class Graph:
                 for neighbor in self.get_neighbors(v):
                     # Copy path to avoid pass by reference bug
                     path_copy = path.copy()
+                    # append the neighbor to the back of the copy
                     path_copy.append(neighbor)
+                    # need to check the length of the new path
+                    if len(longest_path) < len(path_copy):
+                        longest_path = path_copy
+                    # have to handle if the new path length is equal
+                    if len(longest_path) == len(path_copy):
+                        if longest_path[-1] > path_copy[-1]:
+                            longest_path = path_copy
+
+
                     q.enqueue(path_copy)
 
     def earliest_ancestor(ancestors, starting_node):
         pass
+
+
+if __name__ == '__main__':
+    graph = Graph()  # Instantiate your graph
+    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
+    graph.add_vertex(1)
+    graph.add_vertex(2)
+    graph.add_vertex(3)
+    graph.add_vertex(4)
+    graph.add_vertex(5)
+    graph.add_vertex(6)
+    graph.add_vertex(7)
+    graph.add_edge(5, 3)
+    graph.add_edge(6, 3)
+    graph.add_edge(7, 1)
+    graph.add_edge(4, 7)
+    graph.add_edge(1, 2)
+    graph.add_edge(7, 6)
+    graph.add_edge(2, 4)
+    graph.add_edge(3, 5)
+    graph.add_edge(2, 3)
+    graph.add_edge(4, 6)
+
+    print(graph.vertices)
+    print(graph.bfs(1))
