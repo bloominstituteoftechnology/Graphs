@@ -71,15 +71,11 @@ class Graph:
             # if that vertex has not been visited...
             if v not in visited:
                 # do the thing
-                print("visited", visited)
-                print("v", v)
-                print("Get neighbor", self.vertices[v])
                 # mark it as visited
                 visited.add(v)
 
                 # then add a Path to its neighbors to the back if the qeueue
                 for neighbor in self.get_neighbors(v):
-                    print("Why does this step stop", neighbor)
                     # Copy path to avoid pass by reference bug
                     path_copy = path.copy()
                     # append the neighbor to the back of the copy
@@ -92,9 +88,9 @@ class Graph:
                         if longest_path[-1] > path_copy[-1]:
                             longest_path = path_copy
 
-                    print(path_copy)
+
                     q.enqueue(path_copy)
-        print("Longest Path", longest_path)
+
         return longest_path[-1]
 
 def earliest_ancestor(ancestors, starting_node):
