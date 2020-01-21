@@ -3,9 +3,11 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
 
@@ -13,42 +15,66 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
-        Add a directed edge to the graph.
+        Add a directed edge to the graph if both currently exist in verticies.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        already = set()
+        q.enqueue(starting_vertex)
+        while q.size():
+            pop = q.dequeue()
+            if pop not in already:
+                print(pop)
+                already.add(pop)
+                for v in self.vertices[pop]:
+                    q.enqueue(v)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        s = Stack()
+        already = set()
+        s.push(starting_vertex)
+        while s.size():
+            now = s.pop()
+            if now not in already:
+                print(now)
+                already.add(now)
+            for v in self.vertices[now]:
+                if v not in already:
+                    s.push(v)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, cache=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        print(starting_vertex)
+        cache.add(starting_vertex)
+        for v in self.vertices[starting_vertex]:
+            if v not in cache:
+                self.dft_recursive(v)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -56,7 +82,17 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        already = set()
+        q = Queue()
+        q.enqueue([starting_vertex])
+        while q.size():
+            path = q.dequeue()
+            if destination_vertex in path:
+                return path
+            for v in self.vertices[path[-1]]:
+                if v not in already:
+                    q.enqueue(list(path)+[v])
+                    already.add(v)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -64,9 +100,19 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        already = set()
+        s = Stack()
+        s.push([starting_vertex])
+        while s.size():
+            path = s.pop()
+            if destination_vertex in path:
+                return path
+            for v in self.vertices[path[-1]]:
+                if v not in already:
+                    s.push(list(path) + [v])
+                    already.add(v)
 
-    def dfs_recursive(self, starting_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, cache=set(), s=Stack()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -74,7 +120,8 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        pass
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
