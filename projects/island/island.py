@@ -1,6 +1,3 @@
-"""
-Simple graph implementation
-"""
 from util import Stack, Queue  # These may come in handy
 
 
@@ -194,72 +191,41 @@ class Graph:
         return None
 
 
-if __name__ == '__main__':
-    graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
-    graph.add_vertex(1)
-    graph.add_vertex(2)
-    graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    graph.add_edge(5, 3)
-    graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
-    graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
-    graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
-    '''
-    Should print:
-        {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
-    '''
-    print("Printing graph.vertices")
-    print(graph.vertices)
-    '''
-    Valid BFT paths:
-        1, 2, 3, 4, 5, 6, 7
-        1, 2, 3, 4, 5, 7, 6
-        1, 2, 3, 4, 6, 7, 5
-        1, 2, 3, 4, 6, 5, 7
-        1, 2, 3, 4, 7, 6, 5
-        1, 2, 3, 4, 7, 5, 6
-        1, 2, 4, 3, 5, 6, 7
-        1, 2, 4, 3, 5, 7, 6
-        1, 2, 4, 3, 6, 7, 5
-        1, 2, 4, 3, 6, 5, 7
-        1, 2, 4, 3, 7, 6, 5
-        1, 2, 4, 3, 7, 5, 6
-    '''
-    print("Running bft")
-    graph.bft(1)
-    '''
-    Valid DFT paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    '''
-    print("Running dft")
-    graph.dft(1)
-    print("Running dft_recursive")
-    graph.dft_recursive(1)
-    '''
-    Valid BFS path:
-        [1, 2, 4, 6]
-    '''
-    print("Running BFS")
-    print(graph.bfs(1, 6))
-    '''
-    Valid DFS paths:
-        [1, 2, 4, 6]
-        [1, 2, 4, 7, 6]
-    '''
-    print("Running DFS")
-    print(graph.dfs(1, 6))
-    print("Running dfs_recursive")
-    print(graph.dfs_recursive(1, 6))
+'''
+Write a function that takes a 2D binary array and returns the number of 1 islands.
+An island consists of 1s that are connected to the north, south, east or west. For example:
+islands = [[0, 1, 0, 1, 0],
+           [1, 1, 0, 1, 1],
+           [0, 0, 1, 0, 0],
+           [1, 0, 1, 0, 0],
+           [1, 1, 0, 0, 0]]
+island_counter(islands) # returns 4
+'''
+'''
+connected - has edges, connected components
+array/2d
+n, s, e, w - neighbors - edges
+binary - values
+island/ 1 island - connected components
+return 1 islands - number of connected components
+islands[0][4] is 0
+'''
+
+
+def island_counter(islands_array):
+    graph = Graph()
+    for i in range(len(islands_array)):
+        for j in range(len(islands_array[i])):
+            if islands_array[i][j] is 1:
+                location = (i, j)
+                graph.add_vertex(location)
+            # print(islands_array[i][j])
+    print("vertices", graph.vertices)
+
+
+islands = [[0, 1, 0, 1, 0],
+           [1, 1, 0, 1, 1],
+           [0, 0, 1, 0, 0],
+           [1, 0, 1, 0, 0],
+           [1, 1, 0, 0, 0]]
+island_counter(islands)
