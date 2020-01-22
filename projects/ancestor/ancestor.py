@@ -49,6 +49,7 @@ def earliest_ancestor(ancestors, starting_node):
 
     for el in ancestors:
         graph.add_vertex(el)
-
+        graph.add_edge(ancestors[el][0], ancestors[el][1])
     
+    return graph.bfs(starting_node)
 
