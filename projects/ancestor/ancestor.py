@@ -2,10 +2,9 @@ from util import Stack, Graph
 
 ancestors_data = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
 
-# DFS
 def earliest_ancestor(ancestors, starting_node):
     ancestor_tree = Graph()
-    # Iterate through ancestors_data
+    # Iterate through ancestors
     for (parent, child) in ancestors:  
         # Add vertices to ancestor_tree
         ancestor_tree.add_vertex(parent)
@@ -25,10 +24,10 @@ def earliest_ancestor(ancestors, starting_node):
         # Call dfs function from Graph class
         dfs_list = ancestor_tree.dfs(i, starting_node)  # i is each vertex/node in graph
         # print("ancestor dfs", ancestor_tree.dfs(starting_node, i))
-        if dfs_list:
-            if len(dfs_list) > longest_path:
-                longest_path = len(dfs_list)
-                earliest_ancestor = i
+        if dfs_list:  # If there are items in list
+            if len(dfs_list) > longest_path:  # If list length is greater than longest path
+                longest_path = len(dfs_list)  # Set longest path equal to list length
+                earliest_ancestor = i  # Set earliest_ancestor equal to current node/vertex
         
     print("earliest ancestor", earliest_ancestor)
     return earliest_ancestor
