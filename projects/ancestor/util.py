@@ -44,7 +44,7 @@ class Graph:
         If not, raise an error via Python exception.
         """
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v2].add(v1)
+            self.vertices[v1].add(v2)
         else:
             raise IndexError("That vertex does not exist!")
 
