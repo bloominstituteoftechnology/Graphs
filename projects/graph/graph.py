@@ -43,7 +43,7 @@ class Graph:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
-        """
+        """ they still hiring in boston?
         # create a quequ or stack
         stack = Stack()
         # put starting point in there

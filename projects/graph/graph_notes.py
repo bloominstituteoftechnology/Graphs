@@ -60,6 +60,12 @@ class Graph:
         stack.push(starting_vertex)
         # Make a set to keep track of where we've been
         visited = set()
+        # While there is stuff in the queue/stackk as appropriate
+        stack = Stack()
+        # Put the starting point in that
+        stack.push(starting_vertex)
+        # Make a set to keep track of where we've been
+        visited = set()
         # While there is stuff in the queue/stack
         while stack.size() > 0:
         #    Pop the first item
