@@ -1,3 +1,5 @@
+import random
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -45,6 +47,7 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+
 
         # Create friendships
 
