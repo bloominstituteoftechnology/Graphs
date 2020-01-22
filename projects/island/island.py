@@ -9,21 +9,30 @@
 #            [1, 1, 0, 0, 0]]
 
 # island_counter(islands) # returns 4
-
-# islands[0][4] - 0 refers to first list (y axis); 
-# 4 refers to 4th item in that list(x axis)
-
+# islands[0][4] - 0 refers to first row (y axis); 
+# 4 refers to index of fifth item in that list(x axis)
 # island_list = islands[0]
+# island_list[4] --> [1, 1, 0, 0, 0]
+# island_list[4][0] --> 1 
 
-# island_list[4] : [1, 1, 0, 0, 0]
+# UNDERSTAND: Translate the problem into graph terminology
+    # -each value is a node 
+    # -connected nodes are 1's 
+    # -edges are adjacent 1's
+    # -this is an UNdirected graph 
+    # -this is cyclic
+    # -island refers to connected components
+    # -count up connected nodes and return count
 
-# BREAKDOWN/CLUES:
-# connected - has edges; connected components
-# array/2D - graph
-# N, S, E, W - edges
-# binary - values
-# island/1 island - number of connected comp
+# PLAN:
+    # HIGH LEVEL:
+        # 2. Build your graph
+        # 3. Traverse your graph
+    # ALG OVERVIEW:
+        # Loop through islands,
+        # Do BFS on them and count num times BFS occurs 
 
+# EXECUTE:
 
 class Stack():
     def __init__(self):
@@ -62,19 +71,40 @@ def dfs(x, y, matrix, visited):
     return visited
 
 def island_counter(matrix):
+    # Create visited matrix filled with Falses
     visited = []
-    for i in range(len(matrix)):
+    for i in range(len(matrix)):  # len of matrix is # of rows(5)
         visited.append([False] * len(matrix[0]))
-    island_count = 0
-    for x in range(len(matrix[0])):
-        for y in range(len(matrix)):
+    # Create counter and initialize to 0
+    island_counter = 0
+    # Walk through each cell in original matrix    
+    for x in range(len(matrix[0])):  # go through columns
+        for y in range(len(matrix)):  # go through rows
+            # If it hasn't been visited:
             if not visited[y][x]:
+                # If you reach a 1
                 if matrix[y][x] == 1:
-                    visited = dfs(x, y, matrix, visited)
-                    island_count += 1
-                else:
-                    visited[y][x] = True
-    return island_count
+                    # Do BFT and mark each 1 as visited
+                    visited = bft(x, y, matrix, visited)
+                    # increment counter by 1
+                    island_counter += 1
+    return island_counter
+
+
+# def island_counter(matrix):
+#     visited = []
+#     for i in range(len(matrix)):
+#         visited.append([False] * len(matrix[0]))
+#     island_count = 0
+#     for x in range(len(matrix[0])):
+#         for y in range(len(matrix)):
+#             if not visited[y][x]:
+#                 if matrix[y][x] == 1:
+#                     visited = dfs(x, y, matrix, visited)
+#                     island_count += 1
+#                 else:
+#                     visited[y][x] = True
+#     return island_count
 
 def print_matrix(matrix):
     for row in matrix:
