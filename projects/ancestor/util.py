@@ -1,7 +1,36 @@
-"""
-Simple graph implementation
-"""
-from util import Stack, Queue  # These may come in handy
+# Note: This Queue class is sub-optimal. Why?
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
 
 
 class Graph:
@@ -21,7 +50,6 @@ class Graph:
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
-
         If both exist add a connection from v1 to v2
         """
         if v1 in self.vertices and v2 in self.vertices:
@@ -55,7 +83,7 @@ class Graph:
                 # DO NOTHING!
                 print(vertex)
                 visited.add(vertex)
-            #   for each edge in th item:
+                #   for each edge in th item:
                 for next_vert in self.get_neighbors(vertex):
                     # Add that edge to the queue/stack
                     queue.enqueue(next_vert)
@@ -184,78 +212,3 @@ class Graph:
                 if new_path:
                     return new_path
         return None
-
-
-if __name__ == '__main__':
-    graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
-    graph.add_vertex(1)
-    graph.add_vertex(2)
-    graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    graph.add_edge(5, 3)
-    graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
-    graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
-    graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
-
-    '''
-    Should print:
-        {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
-    '''
-    print('Printing graph.vertices...')
-    print(graph.vertices)
-
-    '''
-    Valid BFT paths:
-        1, 2, 3, 4, 5, 6, 7
-        1, 2, 3, 4, 5, 7, 6
-        1, 2, 3, 4, 6, 7, 5
-        1, 2, 3, 4, 6, 5, 7
-        1, 2, 3, 4, 7, 6, 5
-        1, 2, 3, 4, 7, 5, 6
-        1, 2, 4, 3, 5, 6, 7
-        1, 2, 4, 3, 5, 7, 6
-        1, 2, 4, 3, 6, 7, 5
-        1, 2, 4, 3, 6, 5, 7
-        1, 2, 4, 3, 7, 6, 5
-        1, 2, 4, 3, 7, 5, 6
-    '''
-    print('Running bft...')
-    graph.bft(1)
-
-    '''
-    Valid DFT paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    '''
-    print('Running dft...')
-    graph.dft(1)
-    graph.dft_recursive(1)
-
-    '''
-    Valid BFS path:
-        [1, 2, 4, 6]
-    '''
-    print('Running BFS...')
-    print(graph.bfs(1, 6))
-
-    '''
-    Valid DFS paths:
-        [1, 2, 4, 6]
-        [1, 2, 4, 7, 6]
-    '''
-    print('Running DFS...')
-    print(graph.dfs(1, 6))
-    print('Running dfs_recursive...')
-    print(graph.dfs_recursive(1, 6))
