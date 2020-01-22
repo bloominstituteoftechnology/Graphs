@@ -3,6 +3,9 @@ import random
 class User:
     def __init__(self, name):
         self.name = name
+    
+    def __repr__(self):
+        return self.name
 
 class SocialGraph:
     def __init__(self):
@@ -46,10 +49,28 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
-        # Add users
+        self.num_users = num_users
+        self.avg_friendships = avg_friendships
 
+        # Add users
+        for i in range(num_users):
+            self.add_user(f"User {i + 1}")
 
         # Create friendships
+        # Create list to hold all possible friendship combos
+        possible_friendships = []
+        for user_id in self.users:  # Gives you primary id of all users
+            # user_id+1 ensures you only add friends w/ id bigger than user's
+            # last_id+1 ensures you include every id
+            for friend_id in range(user_id + 1, self.last_id + 1):  
+                # Append tuple to possible_friendships list
+                possible_friendships.append((user_id, friend_id))
+        # print('unshuffled poss friendships', possible_friendships)
+
+        # shuffle list
+        random.shuffle(possible_friendships)
+        print('shuffled poss_friendships', possible_friendships)
+        # Grab first N elements from list
 
     def get_all_social_paths(self, user_id):
         """
@@ -68,6 +89,7 @@ class SocialGraph:
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
+    print(sg.users)
     print(sg.friendships)
-    connections = sg.get_all_social_paths(1)
-    print(connections)
+    # connections = sg.get_all_social_paths(1)
+    # print(connections)

@@ -90,7 +90,6 @@ def island_counter(matrix):
                     island_counter += 1
     return island_counter
 
-
 # def island_counter(matrix):
 #     visited = []
 #     for i in range(len(matrix)):
