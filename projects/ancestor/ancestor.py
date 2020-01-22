@@ -20,7 +20,7 @@ def earliest_ancestor(ancestors, starting_node):
 
     for each in ancestors:
         g.add_edge(each[1], each[0])
-    print(g.vertices)
+    # print(g.vertices)
     # init_parents = g.get_neighbors(starting_node)
     # prev_parents = -1
 
@@ -45,13 +45,14 @@ def earliest_ancestor(ancestors, starting_node):
     #         init_parents = g.get_neighbors(parent)
     #         print(init_parents)
     
-    # parents = g.bft(starting_node)
-    # print(parents)
-    # last = -1
-    # if len(parents) == 1:
-    #     return last
-    # for parent in parents:
-    #     last = parent
+    parents = g.bft(starting_node)
+    print(parents)
+    last = -1
+    if len(parents) == 1:
+        return last
+    for parent in parents:
+        last = parent
+    return last
     # print(last)
     # return last
     # parent = g.dft(starting_node)
@@ -64,4 +65,4 @@ def earliest_ancestor(ancestors, starting_node):
 
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),(4,5), (4, 8), (8, 9), (11, 8), (10, 1)]
-earliest_ancestor(test_ancestors, 8)
+earliest_ancestor(test_ancestors, 3)
