@@ -54,7 +54,7 @@ class SocialGraph:
 
         # Create friendships
         for index in self.users:
-            users = [u for u in self.users if u != index]
+            users = [u for u in self.users.keys() if u != index]
             shuffle(users)
             friendship = users[:avg_friendships]
             for friend in friendship:
@@ -85,7 +85,14 @@ class SocialGraph:
                 visited[curr_friend].append(curr_friend)
                 for fof in self.friendships[curr_friend]:
                     s.push(fof)
-                prev_user = curr_friend
+            else:
+                curr = []
+                for user in visited[prev_user]:
+                    curr.append(user)
+                curr.append(curr_friend)
+                if len(curr) < len(visited[curr_friend]):
+                    visited[curr_friend] = curr
+            prev_user = curr_friend
 
         return visited
 
