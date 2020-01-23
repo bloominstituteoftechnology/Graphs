@@ -103,16 +103,16 @@ class SocialGraph:
         # BFS to find shortest friendship paths
         while q.size() > 0:
             path = q.dequeue()
-            user = path[-1] 
+            friend = path[-1] 
             # print('PATH', path) 
 
-            if user not in visited:
-                visited[user] = path
+            if friend not in visited:
+                visited[friend] = path
                 print("VISITED: ", visited)
 
-                for friend in self.friendships[user]:
+                for v in self.friendships[friend]:
                     copy_path = path.copy()
-                    copy_path.append(friend)
+                    copy_path.append(v)
                     print("COPY PATH: ", copy_path)
                     q.enqueue(copy_path)
         return visited
