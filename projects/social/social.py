@@ -85,13 +85,6 @@ class SocialGraph:
                 visited[curr_friend].append(curr_friend)
                 for fof in self.friendships[curr_friend]:
                     s.push(fof)
-            else:
-                curr = []
-                for user in visited[prev_user]:
-                    curr.append(user)
-                curr.append(curr_friend)
-                if len(curr) < len(visited[curr_friend]):
-                    visited[curr_friend] = curr
             prev_user = curr_friend
 
         return visited
