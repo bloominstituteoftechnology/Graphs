@@ -1,5 +1,23 @@
 import random
 
+
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -48,10 +66,9 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
         # Add users
         for i in range(num_users):
-            self.add_user(f'User {i+1}')
+            self.add_user(f'User {i + 1}')
         # Create friendships
         possible_friendships = []
         for user_id in self.users:
@@ -75,17 +92,39 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        # DO BFT and store the paths along the way
+
+        # Create an empty queue
+        queue = Queue()
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # Add a path to the starting node to the queue
+        queue.enqueue([user_id])
+        # While the queue is not empty:
+        while queue.size() > 0:
+            # Dequeue the first path from the queue
+            path = queue.dequeue()
+            vertex = path[-1]
+            # Check if it's been visited
+            if vertex not in visited:
+                # if not, mark it as visited
+                visited[vertex] = path
+                # When an unvisited node is found, add the path the to visited dictionary
+            # Add a pth th each neighbor to the end of the queue
+                for friend_id in self.friendships[vertex]:
+                    path_copy = path.copy()
+                    path_copy.append(friend_id)
+                    queue.enqueue(path_copy)
+        # Return visited dictionary
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(100, 5)
+    print('-----Users-----')
     print(sg.users)
-    print('--------------')
+    print('-----Friendships-----')
     print(sg.friendships)
-    print('--------------')
+    print('----Social Paths------')
     connections = sg.get_all_social_paths(1)
     print(connections)
