@@ -13,7 +13,7 @@ def earliest_ancestor(ancestors, starting_node):
     
     for (parent, child) in ancestors:
         # Add edges
-        ancestor_tree.add_edge(parent, child)
+        ancestor_tree.add_edge(child, parent)
     # print("neighbors", ancestor_tree.get_neighbors(5))
     # print("ancestor tree", ancestor_tree.vertices)
 
@@ -48,7 +48,7 @@ def earliest_ancestor(ancestors, starting_node):
         # Build edges in reverse
         graph.add_edge(pair[1], pair[0])
     
-    # Do a BFS (storing the path)
+    # Do a BFT (storing the path)
     q = Queue()
     q.enqueue([starting_node])
     max_path_len = 1

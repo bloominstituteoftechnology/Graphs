@@ -81,8 +81,9 @@ class SocialGraph:
         # print('shuffled poss_friendships', possible_friendships)
 
         # Grab first N elements from list
-        # num_times_to_call_add_friend = avg_friend * num_users/2
-        for i in range(num_users * avg_friendships // 2):
+        # total_friendships is num times to call add friend 
+        total_friendships= avg_friend * num_users/2
+        for i in range(total_friendships):
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
 
