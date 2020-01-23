@@ -26,12 +26,12 @@ def earliest_ancestor(ancestors, starting_node):
   # bfs/bft to find lontest path to topmost row of graph
   queue = Queue()
   queue.enqueue([starting_node])
-  visited = set()
+  # visited = set()
   while queue.size() > 0:
     path = queue.dequeue()
     vertex = path[-1]
-    if vertex not in visited:
-      visited.add(vertex)
+    # if vertex not in visited:
+    #   visited.add(vertex)
     if len(path) == longest_path and vertex < earliest or len(path) > longest_path:
       earliest = vertex
       longest_path = len(path)
@@ -41,7 +41,7 @@ def earliest_ancestor(ancestors, starting_node):
       queue.enqueue(new_path)
     print(f'path: {path}')
     print(f'vertex: {vertex}')
-    print(f"visited: {visited}")
+    # print(f"visited: {visited}")
 
   return earliest
 
