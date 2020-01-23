@@ -82,7 +82,7 @@ class SocialGraph:
 
         # Grab first N elements from list
         # total_friendships is num times to call add friend 
-        total_friendships= avg_friend * num_users/2
+        total_friendships= avg_friend * num_users//2
         for i in range(total_friendships):
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
@@ -129,3 +129,44 @@ if __name__ == '__main__':
     print("---------------")
     connections = sg.get_all_social_paths(1)
     print("CONNECTIONS: ", connections)
+
+'''
+BRIAN'S SOLUTION:
+def add_friendship(self, user_id, friend_id):
+        """
+        Creates a bi-directional friendship.
+        """
+        if user_id == friend_id:
+            print("WARNING: You cannot be friends with yourself")
+            return False
+        elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
+            print("WARNING: Friendship already exists")
+            return False
+        else:
+            self.friendships[user_id].add(friend_id)
+            self.friendships[friend_id].add(user_id)
+            return True
+
+def populate_graph(self, num_users, avg_friendships):
+
+    # Reset graph
+    self.last_id = 0
+    self.users = {}
+    self.friendships = {}
+
+    # Add users
+    for i in range(num_users):
+        self.add_user(f"User {i + 1}")
+
+    # Create friendships
+    target_friendships = (num_users * avg_friendships)
+    total_friendships = 0
+    collisions = 0
+    while total_friendships < target_friendships:
+        # Create a random friendship
+        user_id = random.randint(1, self.last_id)
+        friend_id = random.randint(1, self.last_id)
+        if self.add_friendship(user_id, friend_id):
+
+
+'''
