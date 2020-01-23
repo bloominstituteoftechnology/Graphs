@@ -1,5 +1,18 @@
 import random
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -82,17 +95,36 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {}  # dictionary(key = visited user; value = path of friend_ids)
+        
+        q = Queue()  # Instantiate a queue
+        q.enqueue([user_id])  # Add a user_id to q as starting vertex
+
+        # BFS to find shortest friendship paths
+        while q.size() > 0:
+            path = q.dequeue()
+            user = path[-1] 
+            # print('PATH', path) 
+
+            if user not in visited:
+                visited[user] = path
+                print("VISITED: ", visited)
+
+                for friend in self.friendships[user]:
+                    copy_path = path.copy()
+                    copy_path.append(friend)
+                    print("COPY PATH: ", copy_path)
+                    q.enqueue(copy_path)
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
+    # print("---------------")
+    # print("USERS: ", sg.users)
     print("---------------")
-    print(sg.users)
+    print("FRIENDSHIPS: ", sg.friendships)
     print("---------------")
-    print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    connections = sg.get_all_social_paths(1)
+    print("CONNECTIONS: ", connections)
