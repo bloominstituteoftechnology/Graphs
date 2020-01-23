@@ -2,22 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c8530a5-e1d4-4eb8-acd2-452d45f6cbcd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Graphs.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/rSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/islands/islands.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/islands/util.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/ancestor/util.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/graph/words.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/graph/words.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/ancestor/ancestor.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/ancestor/ancestor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/ancestor/test_ancestor.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/ancestor/test_ancestor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/ancestor/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/ancestor/util.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/graph/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/graph/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/graph/util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/social/social.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/social/social.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +42,7 @@
       <recent name="C:\Users\SEEK\Documents\GitHub\Graphs\projects\graph" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests in test_ancestor.py">
+  <component name="RunManager" selected="Python.ancestor">
     <configuration name="ancestor" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Graphs" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -160,8 +148,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests in test_ancestor.py" />
         <item itemvalue="Python.ancestor" />
+        <item itemvalue="Python tests.Unittests in test_ancestor.py" />
         <item itemvalue="Python.social" />
         <item itemvalue="Python.islands" />
         <item itemvalue="Python.words" />
@@ -190,7 +178,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1579620769169</updated>
-      <workItem from="1579620772903" duration="43524000" />
+      <workItem from="1579620772903" duration="44867000" />
+      <workItem from="1579731321692" duration="661000" />
+      <workItem from="1579732091952" duration="594000" />
+      <workItem from="1579751525264" duration="323000" />
     </task>
     <servers />
   </component>
@@ -206,22 +197,22 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="549" y="188" key="FileChooserDialogImpl/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579709179999" />
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1579730005536">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1579751990098">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579730005536" />
-    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1579730005536">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579751990098" />
+    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1579751990097">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579730005536" />
-    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1579730005536">
+    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579751990097" />
+    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1579751990097">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579730005536" />
-    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1579730005536">
+    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579751990097" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1579751990097">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579730005536" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864/1920.0.1024.768@0.0.1536.864" timestamp="1579751990097" />
     <state x="408" y="48" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1579701824274">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -231,9 +222,9 @@
     <SUITE FILE_PATH="coverage/Graphs$graph.coverage" NAME="graph Coverage Results" MODIFIED="1579638063441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/graph" />
     <SUITE FILE_PATH="coverage/Graphs$lecture_graph.coverage" NAME="lecture_graph Coverage Results" MODIFIED="1579637791831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/graph" />
     <SUITE FILE_PATH="coverage/Graphs$words.coverage" NAME="words Coverage Results" MODIFIED="1579714385195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/graph" />
-    <SUITE FILE_PATH="coverage/Graphs$ancestor.coverage" NAME="ancestor Coverage Results" MODIFIED="1579729723270" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/ancestor" />
+    <SUITE FILE_PATH="coverage/Graphs$ancestor.coverage" NAME="ancestor Coverage Results" MODIFIED="1579751990090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/ancestor" />
     <SUITE FILE_PATH="coverage/Graphs$islands.coverage" NAME="islands Coverage Results" MODIFIED="1579720129125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/islands" />
     <SUITE FILE_PATH="coverage/Graphs$social.coverage" NAME="social Coverage Results" MODIFIED="1579727808081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/social" />
-    <SUITE FILE_PATH="coverage/Graphs$Unittests_in_test_ancestor_py.coverage" NAME="Unittests in test_ancestor.py Coverage Results" MODIFIED="1579730005529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/ancestor" />
+    <SUITE FILE_PATH="coverage/Graphs$Unittests_in_test_ancestor_py.coverage" NAME="Unittests in test_ancestor.py Coverage Results" MODIFIED="1579732153263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/ancestor" />
   </component>
 </project>
