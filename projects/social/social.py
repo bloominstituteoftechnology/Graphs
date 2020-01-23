@@ -1,5 +1,5 @@
 from random import shuffle
-from util import Stack
+from util import Stack, Queue
 
 
 class User:
@@ -71,21 +71,15 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}
-        s = Stack()
-        for friend in self.friendships[user_id]:
-            s.push(friend)
-        prev_user = None
+        s = Queue()
+        s.enqueue([user_id])
         while s.size():
-            curr_friend = s.pop()
-            if curr_friend not in visited.keys():
-                visited[curr_friend] = []
-                if curr_friend not in self.friendships[user_id]:
-                    for user in visited[prev_user]:
-                        visited[curr_friend].append(user)
-                visited[curr_friend].append(curr_friend)
-                for fof in self.friendships[curr_friend]:
-                    s.push(fof)
-            prev_user = curr_friend
+            path = s.dequeue()
+            curr_friend = path[-1]
+            if curr_friend not in visited:
+                visited[curr_friend] = path
+                for friend in self.friendships[curr_friend]:
+                    s.enqueue(list(path) + [friend])
 
         return visited
 
