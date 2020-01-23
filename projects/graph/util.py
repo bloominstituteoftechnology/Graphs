@@ -1,6 +1,7 @@
 
 # Note: This Queue class is sub-optimal. Why? 
-# B/c it's a list vs LL
+# B/c it's a list vs LL. Removing from tail is O(1)
+# while removing from head of array is O(n)
 class Queue():
     def __init__(self):
         self.queue = []
@@ -8,6 +9,7 @@ class Queue():
         self.queue.append(value)
     def dequeue(self):
         if self.size() > 0:
+            # line 13 is O(n)
             return self.queue.pop(0)
         else:
             return None

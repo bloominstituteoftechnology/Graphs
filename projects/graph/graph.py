@@ -42,11 +42,11 @@ class Graph:
         queue = Queue()
         # Put the starting point in it
         queue.enqueue(starting_vertex)
-        # Make a set to keep track of where we've been
+        # Make a set to store vertices we've visited
         visited = set()
-        # While there is stuff in q
+        # While q is not empty
         while queue.size() > 0:
-            # Pop first item
+            # dequeue first path
             vertex = queue.dequeue()
             # ALTERNATE for queue ONLY: check first
             # queue[0]  
@@ -59,6 +59,7 @@ class Graph:
                 visited.add(vertex)
                 # ALTERNATE for queue ONLY: visited.add(queue[0])
                 # For each edge in item
+                # Add each item to back of queue
                 for next_vert in self.get_neighbors(vertex):
                     ## ALTERNATE for queue ONLY: for next_vert in self.get_neighbors(queue[0])
                     # Add edge to q
@@ -114,27 +115,32 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # Create queue
+        # Create empty queue
         queue = Queue()
-        # Put the starting point in it
+        # enqueue a path to starting vertex id
         queue.enqueue([starting_vertex])
-        # Make a set to keep track of where we've been
+        # Create a set to store visited vertices
         visited = set()
-        # While there is stuff in q
+        # While q is not empty
         while queue.size() > 0:
-            # Pop first item
+            # Dequeue first path
             path = queue.dequeue()
+            # Grab last vertex from the path
             vertex = path[-1]
-            # If not visited
+            # If that vertex has not been visited
             if vertex not in visited:
-                # Do the thing! 
+                # Check if it's the target...
+                # If it is, return the path
                 if vertex == destination_vertex:
                     return path
-                # Add to visited
+                # Mark it as visited
                 visited.add(vertex)
-                # For each edge in item
+                # For each edge in item...
+                # Add a path to its neighbors to the back of queue
                 for next_vert in self.get_neighbors(vertex):
+                    # Copy path
                     new_path = list(path)
+                    # append neighbor to the back of queue
                     new_path.append(next_vert)
                     queue.enqueue(new_path)
 
@@ -144,26 +150,28 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        # Create stack 
+        # Create empty stack 
         stack = Stack()  # Stack imported above
-        # Put the starting point in it
-        # 'enstack' a list to use as our path
+        # Add starting point as first path in stack 
         stack.push([starting_vertex])
-        # Make a set to keep track of where we've been
+        # Create set to store visited vertices
         visited = set()
-        # While there is stuff in stack
+        # stack is not empty
         while stack.size() > 0:
-            # Pop first item
-            path = stack.pop()  # Path is first item in stack
-            vertex = path[-1]  # Vertex is last item in path
-            # If not visited
+            # Remove path at top of stack
+            path = stack.pop()  
+            # Grab last vertex from path
+            vertex = path[-1]  
+            # If vertex has not been visited...
             if vertex not in visited:
+                # Check if it's the target...
+                # If so, return path
                 if vertex == destination_vertex:
-                    # DO THE THING! 
                     return path  # Return path we've built so far
-                # Add to visited
+                # Mark it as visited
                 visited.add(vertex)
                 # Get neighbors for each edge in item
+                # by adding a path to neighbors to top of stack
                 for next_vert in self.get_neighbors(vertex):
                     # Copy path to avoid 'pass by reference' bug
                     new_path = list(path)  # Makes copy rather than reference
@@ -179,19 +187,31 @@ class Graph:
 
         This should be done using recursion.
         """
+        
         if visited is None:
+            # Initialize visited set
             visited = set()
         if path is None:
+            # Initialize path as array b/c needs to be ordered
             path = []
+        # Add starting_vertex to path
         visited.add(starting_vertex)
-        path = path + [starting_vertex]  # Add starting_vertex to path
+        # Add starting_vertex to path
+        path = path + [starting_vertex]  
+        # If at target, return path
         if starting_vertex == target_value:
             return path
-        for child_vert in self.vertices[starting_vertex]:
-            if child_vert not in visited:
-                new_path = self.dfs_recursive(child_vert, target_value, visited, path)
+        # Otherwise, call DFS_recursive on each neighbor
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                new_path = self.dfs_recursive(neighbor, target_value, visited, path)
                 if new_path:  # Catch if target does not exist
                     return new_path
+        # for child_vert in self.vertices[starting_vertex]:
+        #     if child_vert not in visited:
+        #         new_path = self.dfs_recursive(child_vert, target_value, visited, path)
+        #         if new_path:  # Catch if target does not exist
+        #             return new_path
         return None  # Catch if target does not exist
 
 if __name__ == '__main__':
