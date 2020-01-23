@@ -96,6 +96,8 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        # Note: every == traversal
+
         visited = {}  # dictionary(key = visited user; value = path of friend_ids)
         
         q = Queue()  # Instantiate a queue
@@ -122,20 +124,18 @@ class SocialGraph:
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
-    # print("---------------")
+    # print("---------------PRINTING USERS---------------")
     # print("USERS: ", sg.users)
-    print("---------------")
+    print("---------------PRINTING FRIENDSHIPS---------------")
     print("FRIENDSHIPS: ", sg.friendships)
-    print("---------------")
+    print("---------------PRINTING CONNECTIONS---------------")
     connections = sg.get_all_social_paths(1)
     print("CONNECTIONS: ", connections)
 
 '''
 BRIAN'S SOLUTION:
+
 def add_friendship(self, user_id, friend_id):
-        """
-        Creates a bi-directional friendship.
-        """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
             return False
@@ -148,7 +148,6 @@ def add_friendship(self, user_id, friend_id):
             return True
 
 def populate_graph(self, num_users, avg_friendships):
-
     # Reset graph
     self.last_id = 0
     self.users = {}
@@ -167,6 +166,33 @@ def populate_graph(self, num_users, avg_friendships):
         user_id = random.randint(1, self.last_id)
         friend_id = random.randint(1, self.last_id)
         if self.add_friendship(user_id, friend_id):
+            total_friendships += 2
+        else:
+            collisions += 1
+    print(f"COLLISIONS: {collisions}")
 
+def get_all_social_paths(self, user_id):      
+    visited = {}  # dictionary
+    # Create empty queue
+    q = Queue()
+    # enqueue user_id to start path
+    q.enqueue([user_id])
+    # while q not empty
+    while q.size() > 0:
+        # Dequeue first path in q
+        path = q.dequeue()
+        # Find last vertex in path
+        curr_friend = path[-1]
+        # if we haven't visited vertex...
+        if curr_friend not in visited:
+            # Mark vertex as visited
+            visited[curr_friend] = path
+            for friend_id in self.friendships[curr_friend]:
+                # Copy path (make new path) and enqueue each neighbor
+                new_path = list(path)
+                new_path = append(friend_id)
+                q.enqueue(new_path)
+
+    return visited
 
 '''
