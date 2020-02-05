@@ -12,11 +12,11 @@ It will be easier to build your extended social network if you have users to tes
 
 ```
 >>> sg = SocialGraph()
->>> sg.populateGraph(10, 2)  # Creates 10 users with an average of 2 friends each
+>>> sg.populate_graph(10, 2)  # Creates 10 users with an average of 2 friends each
 >>> print(sg.friendships)
 {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
 >>> sg = SocialGraph()
->>> sg.populateGraph(10, 2)
+>>> sg.populate_graph(10, 2)
 >>> print(sg.friendships)
 {1: {8}, 2: set(), 3: {6}, 4: {9, 5, 7}, 5: {9, 10, 4, 6}, 6: {8, 3, 5}, 7: {4}, 8: {1, 6}, 9: {10, 4, 5}, 10: {9, 5}}
 ```
@@ -32,10 +32,10 @@ Now that you have a graph full of users and friendships, you can crawl through t
 
 ```
 >>> sg = SocialGraph()
->>> sg.populateGraph(10, 2)
+>>> sg.populate_graph(10, 2)
 >>> print(sg.friendships)
 {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
->>> connections = sg.getAllSocialPaths(1)
+>>> connections = sg.get_all_social_paths(1)
 >>> print(connections)
 {1: [1], 8: [1, 8], 10: [1, 10], 5: [1, 5], 2: [1, 10, 2], 6: [1, 10, 6], 7: [1, 10, 2, 7]}
 ```
@@ -46,7 +46,7 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 ## 3. Questions
 
-1. To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
+1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
@@ -56,5 +56,5 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
 
-2. If you followed the hints for part 1, your `populateGraph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
+2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
 

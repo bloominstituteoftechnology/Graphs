@@ -1,5 +1,3 @@
-
-
 class User:
     def __init__(self, name):
         self.name = name
@@ -30,7 +28,7 @@ class SocialGraph:
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
 
-    def populate_graph(self, numUsers, avgFriendships):
+    def populate_graph(self, num_users, avg_friendships):
         """
         Takes a number of users and an average number of friendships
         as arguments

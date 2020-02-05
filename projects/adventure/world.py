@@ -4,52 +4,52 @@ import math
 
 class World:
     def __init__(self):
-        self.startingRoom = None
+        self.starting_room = None
         self.rooms = {}
-        self.roomGrid = []
-        self.gridSize = 0
-    def loadGraph(self, roomGraph):
-        numRooms = len(roomGraph)
-        rooms = [None] * numRooms
-        gridSize = 1
-        for i in range(0, numRooms):
-            x = roomGraph[i][0][0]
-            gridSize = max(gridSize, roomGraph[i][0][0], roomGraph[i][0][1])
-            self.rooms[i] = Room(f"Room {i}", f"({roomGraph[i][0][0]},{roomGraph[i][0][1]})",i, roomGraph[i][0][0], roomGraph[i][0][1])
-        self.roomGrid = []
-        gridSize += 1
-        self.gridSize = gridSize
-        for i in range(0, gridSize):
-            self.roomGrid.append([None] * gridSize)
-        for roomID in roomGraph:
-            room = self.rooms[roomID]
-            self.roomGrid[room.x][room.y] = room
-            if 'n' in roomGraph[roomID][1]:
-                self.rooms[roomID].connectRooms('n', self.rooms[roomGraph[roomID][1]['n']])
-            if 's' in roomGraph[roomID][1]:
-                self.rooms[roomID].connectRooms('s', self.rooms[roomGraph[roomID][1]['s']])
-            if 'e' in roomGraph[roomID][1]:
-                self.rooms[roomID].connectRooms('e', self.rooms[roomGraph[roomID][1]['e']])
-            if 'w' in roomGraph[roomID][1]:
-                self.rooms[roomID].connectRooms('w', self.rooms[roomGraph[roomID][1]['w']])
-        self.startingRoom = self.rooms[0]
+        self.room_grid = []
+        self.grid_size = 0
+    def load_graph(self, room_graph):
+        num_rooms = len(room_graph)
+        rooms = [None] * num_rooms
+        grid_size = 1
+        for i in range(0, num_rooms):
+            x = room_graph[i][0][0]
+            grid_size = max(grid_size, room_graph[i][0][0], room_graph[i][0][1])
+            self.rooms[i] = Room(f"Room {i}", f"({room_graph[i][0][0]},{room_graph[i][0][1]})",i, room_graph[i][0][0], room_graph[i][0][1])
+        self.room_grid = []
+        grid_size += 1
+        self.grid_size = grid_size
+        for i in range(0, grid_size):
+            self.room_grid.append([None] * grid_size)
+        for room_id in room_graph:
+            room = self.rooms[room_id]
+            self.room_grid[room.x][room.y] = room
+            if 'n' in room_graph[room_id][1]:
+                self.rooms[room_id].connect_rooms('n', self.rooms[room_graph[room_id][1]['n']])
+            if 's' in room_graph[room_id][1]:
+                self.rooms[room_id].connect_rooms('s', self.rooms[room_graph[room_id][1]['s']])
+            if 'e' in room_graph[room_id][1]:
+                self.rooms[room_id].connect_rooms('e', self.rooms[room_graph[room_id][1]['e']])
+            if 'w' in room_graph[room_id][1]:
+                self.rooms[room_id].connect_rooms('w', self.rooms[room_graph[room_id][1]['w']])
+        self.starting_room = self.rooms[0]
 
-    def printRooms(self):
-        rotatedRoomGrid = []
-        for i in range(0, len(self.roomGrid)):
-            rotatedRoomGrid.append([None] * len(self.roomGrid))
-        for i in range(len(self.roomGrid)):
-            for j in range(len(self.roomGrid[0])):
-                rotatedRoomGrid[len(self.roomGrid[0]) - j - 1][i] = self.roomGrid[i][j]
+    def print_rooms(self):
+        rotated_room_grid = []
+        for i in range(0, len(self.room_grid)):
+            rotated_room_grid.append([None] * len(self.room_grid))
+        for i in range(len(self.room_grid)):
+            for j in range(len(self.room_grid[0])):
+                rotated_room_grid[len(self.room_grid[0]) - j - 1][i] = self.room_grid[i][j]
         print("#####")
         str = ""
-        for row in rotatedRoomGrid:
-            allNull = True
+        for row in rotated_room_grid:
+            all_null = True
             for room in row:
                 if room is not None:
-                    allNull = False
+                    all_null = False
                     break
-            if allNull:
+            if all_null:
                 continue
             # PRINT NORTH CONNECTION ROW
             str += "#"
