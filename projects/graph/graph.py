@@ -107,13 +107,27 @@ class Graph:
                         path_copy.append(edge)
                         queue.enqueue(path_copy)
 
-    # def dfs(self, starting_vertex, destination_vertex):
-    #     """
-    #     Return a list containing a path from
-    #     starting_vertex to destination_vertex in
-    #     depth-first order.
-    #     """
-    #     pass  # TODO
+    def dfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing a path from
+        starting_vertex to destination_vertex in
+        depth-first order.
+        """
+        stack = Stack()
+        visited = set()
+        stack.push([starting_vertex])  
+        while stack.size() > 0:
+            path = stack.pop()
+            vertex = path[-1]  # last one in the path  is our current vertex
+            if vertex not in visited:
+                if vertex == destination_vertex:
+                    return path
+
+                visited.add(vertex)
+                for next_vert in self.vertices[vertex]:
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    stack.push(new_path)
 
     # def dfs_recursive(self, starting_vertex):
     #     """
@@ -191,10 +205,11 @@ if __name__ == '__main__':
     print('bfs')
     print(graph.bfs(1, 6))
 
-    # '''
-    # Valid DFS paths:
-    #     [1, 2, 4, 6]
-    #     [1, 2, 4, 7, 6]
-    # '''
-    # print(graph.dfs(1, 6))
+    '''
+    Valid DFS paths:
+        [1, 2, 4, 6]
+        [1, 2, 4, 7, 6]
+    '''
+    print('dfs')
+    print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
