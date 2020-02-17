@@ -60,23 +60,66 @@ class Graph:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
-        """
-        pass  # TODO
 
-    def dft_recursive(self, starting_vertex):
+        create an empty stack
+        push starting vertex id to stack
+        create empty set to store visited nodes
+        while stack is not empty
+            pop first vert
+            check if visited
+            if not
+                mark as visited
+                add all neighbors to stack
+        """
+        s = Stack()
+        s.push(starting_vertex)
+        visited = set()
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                print(v)
+                visited.add(v)
+                for neighbor in self.get_neighbors(v):
+                    s.push(neighbor)
+
+    def dft_recursive(self, starting_vertex, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
+
+        check if node is visited
+        if not
+            mark as visited
+            (print)
+            call dft recurse on each child
         """
-        pass  # TODO
+        if starting_vertex not in visited:
+            print(starting_vertex, visited)
+            visited.add(starting_vertex)
+            for neighbor in self.get_neighbors(starting_vertex):
+                self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
+
+        create an empty queue
+        add a PATH to the starting vert to the queue
+        create an empty set to store visited
+        while the queue is not empty
+            dequeue the first path
+            grab last vertex from path
+            check if it's the target
+                if so, return path
+            check if visited
+            if not visited
+                mark as visited
+                add path to all neighbors
+                    (make a copy of the path before adding)
         """
         pass  # TODO
 
@@ -123,6 +166,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
+    print("all vertices")
     print(graph.vertices)
 
     '''
@@ -140,17 +184,20 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print("breadth first traverse")
     graph.bft(1)
 
-    # '''
-    # Valid DFT paths:
-    #     1, 2, 3, 5, 4, 6, 7
-    #     1, 2, 3, 5, 4, 7, 6
-    #     1, 2, 4, 7, 6, 3, 5
-    #     1, 2, 4, 6, 3, 5, 7
-    # '''
-    # graph.dft(1)
-    # graph.dft_recursive(1)
+    '''
+    Valid DFT paths:
+        1, 2, 3, 5, 4, 6, 7
+        1, 2, 3, 5, 4, 7, 6
+        1, 2, 4, 7, 6, 3, 5
+        1, 2, 4, 6, 3, 5, 7
+    '''
+    print("depth first traverse")
+    graph.dft(1)
+    print("depth first traverse - recursive")
+    graph.dft_recursive(1)
 
     # '''
     # Valid BFS path:
