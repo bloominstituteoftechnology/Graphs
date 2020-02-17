@@ -90,13 +90,58 @@ class Graph:
 
         This should be done using recursion.
         """
-        # Check if the node is visited
+        s = Stack()
+        s.push(starting_vertex)
+        visited = set()
+
+
+
+        while s.size() > 0:
+            v = s.pop()
+            while v not in visited:
+                # Mark it as visited
+                print(v)
+                visited.add(v)
+                # Then push all neighbors to the top of the stack
+                for neighbor in self.get_neighbors(v):
+                    s.push(neighbor)
+
+
+                    x = dft_recursive(neighbor)
+                    return x
         # Hint: https://docs.python-guide.org/writing/gotchas/
         # If not...
             # Mark it as visited
             # Print
             # Call DFT_Recursive on each child
-        pass  # TODO
+
+
+
+
+        return dft_recursive()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # while starting_vertex != s.stack:
+
+
+
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """
