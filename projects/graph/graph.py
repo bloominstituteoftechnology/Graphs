@@ -121,7 +121,22 @@ class Graph:
                 add path to all neighbors
                     (make a copy of the path before adding)
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue([starting_vertex])
+        visited = set()
+
+        while q.size() > 0:
+            path = q.dequeue()
+            vert = path[-1]
+            if vert == destination_vertex:
+                return path
+            if vert not in visited:
+                visited.add(vert)
+                for neighbor in self.get_neighbors(vert):
+                    newPath = path.copy()
+                    newPath.append(neighbor)
+                    q.enqueue(newPath)
+        return None
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -199,11 +214,12 @@ if __name__ == '__main__':
     print("depth first traverse - recursive")
     graph.dft_recursive(1)
 
-    # '''
-    # Valid BFS path:
-    #     [1, 2, 4, 6]
-    # '''
-    # print(graph.bfs(1, 6))
+    '''
+    Valid BFS path:
+        [1, 2, 4, 6]
+    '''
+    print("depth first search")
+    print(graph.bfs(1, 6))
 
     # '''
     # Valid DFS paths:
