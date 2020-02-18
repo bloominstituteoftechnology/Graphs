@@ -89,7 +89,6 @@ class Graph:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
-
         This should be done using recursion.
         """
         if visited is None:
@@ -177,7 +176,6 @@ class Graph:
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
-
         This should be done using recursion.
         """
         if visited is None:
