@@ -37,16 +37,25 @@ class Graph:
     def getNode(self, value):
         return self.vertices.get(value, None)
 
-    # def ancestorPaths(self, value):
-    #     node = self.getNode(value)
-    #     if node is None:
-    #         return None
-    #     s = Stack()
-    #     stack.push([value])
+    def ancestorPaths(self, value):
+        node = self.getNode(value)
+        if node is None:
+            return None
+        s = Stack()
+        s.push([value])
 
-    #     while s.size() > 0:
-    #         path = s.pop()
+        ancestorPaths = []
 
+        while s.size() > 0:
+            path = s.pop()
+            node = self.getNode(path[-1])
+            for parentNode in node.parents:
+                newPath = path.copy()
+                newPath.append(parentNode.value)
+                s.push(newPath)
+                ancestorPaths.append(newPath)
+
+        return ancestorPaths
 
     def __repr__(self):
         for value in self.vertices:
@@ -58,5 +67,18 @@ def earliest_ancestor(ancestors, starting_node):
         parentValue = pair[0]
         childValue = pair[1]
         g.addEdge(parentValue, childValue)
-    print(g)
 
+    ancestorPaths = g.ancestorPaths(starting_node)
+
+    longestPath = []
+    for path in ancestorPaths:
+        if len(path) > len(longestPath):
+            longestPath = path
+        elif len(path) == len(longestPath):
+            if path[-1] < longestPath[-1]:
+                longestPath = path
+
+    if len(longestPath) == 0:
+        return -1
+    else:
+        return longestPath[-1]
