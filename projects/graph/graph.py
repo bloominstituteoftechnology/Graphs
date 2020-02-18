@@ -43,7 +43,6 @@ class Graph:
         # Create an empty set to store visited nodes
         visited = set()
         # While the queue is not empty...
-        print("bft:")
         while (q.size() > 0):
             # Dequeue, the first vertex
             v = q.dequeue()
@@ -70,7 +69,6 @@ class Graph:
         # Create an empty set to store visited nodes
         visited = set()
         # While the stack is not empty...
-        print("dft:")
         while (s.size() > 0):
             # pop, the first vertex
             v = s.pop()
@@ -251,14 +249,12 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     graph.dft(1)
-    print("RECURSION")
     graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print("BFS")
     print(graph.bfs(1, 6))
 
     '''
@@ -266,7 +262,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print("DFS")
     print(graph.dfs(1, 6))
-    print("RECURSION")
     print(graph.dfs_recursive(1, 6))
