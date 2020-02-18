@@ -1,5 +1,5 @@
 Breadth First Traversal:
-This is the exact algo you will write for every DFT problem.
+This is the exact algo you will write for every BFT problem.
 
 # Create an empty queue and enqueue the starting vertex ID
 # Create an empty Set to store visited vertices

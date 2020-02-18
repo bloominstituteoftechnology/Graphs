@@ -90,13 +90,13 @@ class Graph:
         if visited is None:
             # Create a Set to store visited verticies
             visited = set()
-        # Add starting vertex to visited
-        visited.add(starting_vertex)
-        print(starting_vertex)
-        # Find neighbors to starting vertex
-        for next_vert in self.vertices[starting_vertex]:
-            # If vertex has not been added to visited...
-            if next_vert not in visited:
+        # If vertex has not been added to visited...
+        if starting_vertex not in visited:
+            # Add starting vertex to visited
+            visited.add(starting_vertex)
+            print(starting_vertex)
+            # Find neighbors to starting vertex
+            for next_vert in self.get_neighbors(starting_vertex):
                 # Recursively call function on new verticies
                 self.dft_recursive(next_vert, visited)
 
@@ -167,7 +167,8 @@ class Graph:
                     # Add the neighbor to the top of the stack
                     s.push(new_path)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None, path=None):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None,
+                      path=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -175,28 +176,30 @@ class Graph:
 
         This should be done using recursion.
         """
-        # Base case...
-        if visited is None and path is None:
-            # Create a Set to store visited verticies
+        # initialize visited if it's not yet initialized
+        if visited is None:
             visited = set()
-            # Create a list to store the path
+
+        # initialize path if it's not yet initialized
+        if path is None:
             path = []
-        # Add starting vertex to visited
-        visited.add(starting_vertex)
-        # Add starting vertex to the path
-        path.append(starting_vertex)
-        # Check if starting vertex is the target
-        if starting_vertex == destination_vertex:
-            return path
-        # Find neighbors of starting vertex
-        for next_vert in self.get_neighbors(starting_vertex):
-            # If neighbor hasn't been visited...
-            if next_vert not in visited:
+        # Check if starting vertex has been visited
+        if starting_vertex not in visited:
+            # Add starting vertex to visited
+            visited.add(starting_vertex)
+            # Add starting vertex to the path
+            path_copy = path.copy()
+            path_copy.append(starting_vertex)
+            # Check if starting vertex is the target
+            if starting_vertex == destination_vertex:
+                return path_copy
+            # Find neighbors of starting vertex
+            for neighbor in self.get_neighbors(starting_vertex):
                 # Recursively call function
                 new_path = self.dfs_recursive(
-                    next_vert, destination_vertex, visited, path)
-                return new_path
-        return None
+                    neighbor, destination_vertex, visited, path_copy)
+                if new_path is not None:
+                    return new_path
 
 
 if __name__ == '__main__':
@@ -253,7 +256,7 @@ if __name__ == '__main__':
     '''
     print("\nDepth First Traversal:")
     graph.dft(1)
-    print("\nDepth First Traversal Recursively:")
+    print("\nDepth First Traversal Recursive:")
     graph.dft_recursive(1)
 
     '''
@@ -268,4 +271,4 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print('\nDepth First Search:\n', graph.dfs(1, 6))
-    # print('\nDepth First Search Recursively:\n', graph.dfs_recursive(1, 6))
+    print('\nDepth First Search Recursively:\n', graph.dfs_recursive(1, 6))
