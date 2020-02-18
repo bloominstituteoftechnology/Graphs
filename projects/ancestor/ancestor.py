@@ -6,17 +6,49 @@ from util import Queue
 #     * A parent may have any number of children.
 
 
-def get_neighbors(a):
-    '''
-    return children's parents
-    '''
-    pass
+# 1. Translate the problem into graph terminology
+# 2. Build your graph
+# 3. Traverse your graph
+
+
+class Graph:
+    def __init__(self):
+        '''
+        represents the graph
+        '''
+
+        self.vertices = {}
+
+    def add_vertex(self, vertix_id):
+        '''
+        add parents to the graph
+        '''
+        self.vertices[vertix_id] = set()
+
+    def add_edge(self, v1, v2):
+        '''
+        adds the connection between parent and child 
+        '''
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("that vertex does not exits")
+
+    def get_neighbors(self, vertex_id):
+        '''
+        return children's parents
+        '''
+        return self.vertices[vertex_id]
+
+
+g = Graph()
 
 
 def earliest_ancestor(ancestors, starting_node):
     '''
     use bfs to find the shortest path from child to ancestors
     '''
+
     q = Queue()
     # Enqueue path to starting word
     q.enqueue([starting_node])
@@ -35,8 +67,12 @@ def earliest_ancestor(ancestors, starting_node):
             # Mark it as visited
             visited.add(a)
             # Enqueue a path to each neighbor
-            for neighbor in get_neighbors(a):
+            for neighbor in g.get_neighbors(a):
                 path_copy = path.copy()
                 path_copy.append(neighbor)
                 q.enqueue(path_copy)
     return None
+
+
+test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),
+                  (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
