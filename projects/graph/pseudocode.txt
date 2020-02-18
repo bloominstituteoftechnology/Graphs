@@ -1,8 +1,9 @@
 Breadth First Traversal:
 This is the exact algo you will write for every BFT problem.
 
-# Create an empty queue and enqueue the starting vertex ID
-# Create an empty Set to store visited vertices
+# Create an empty queue
+# Add the starting vertex_id to the queue
+# Create an empty set to store visited vertices
 # While the queue is not empty...
     # Dequeue the first vertex
     # If that vertex has not been visited...
@@ -14,61 +15,70 @@ The DFT algo is almost identical to the BFT algo, except you use a stack
 instead of a queue. So, items are pushed/popped to/from the top of the
 stack (The stack is LIFO).
 
-# Create an empty stack and push the starting vertex ID
+# Create an empty stack
+# Push the starting vertex_id to the stack
 # Create an empty Set to store visited vertices
 # While the stack is not empty...
     # Pop the first vertex
-    # If that vertex has not been visited...
+    # Check if it's been visited
+    # If it has not been visited...
         # Mark it as visited
-        # Then add all of its neighbors to the top of the stack
+        # Then push all of its neighbors to the top of the stack
+
+Depth First Traversal Recursive:
+
+# Initialize visited if not initialized
+# Check if the node is visited
+# If not visited...
+    # Mark it as visited
+    # Print starting_vertex
+    # Call DFT_Recursive on each neighbor
 
 Breadth First Search:
 
-# Create an empty queue and enqueue A PATH to the starting vertex ID
+# Create an empty queue
+# Add A PATH TO the starting vertex_id to the queue
 # Create a Set to store visited verticies
 # While the queue is not empty...
     # Dequeue the first PATH
     # Grab the last vertex from the PATH
-    # If that vertex has not been visited...
-        # CHECK IF IT'S THE TARGET
-            # If so, return the path
+    # CHECK IF IT'S THE TARGET
+        # If so, return the path
+    # Check if it's been visited
+    # If it has not been visited...
         # Mark it as visited...
         # Then add A PATH to its neighbors to the back of the queue
             # COPY THE PATH
-            # Append the neighbor to the back
-
-Depth First Traversal Recursive:
-
-# Base case...
-    # Create a Set to store visited verticies
-# Add starting vertex to visited
-# Find neighbors to starting vertex
-    # If vertex has not been added to visited...
-        # Recursively call function on new verticies
+            # Append the neighbor to the new path
+            # Enqueue the new path to the back of the queue
 
 Depth First Search:
 
-# Create an empty stack and push A PATH to the starting vertex ID
+# Create an empty stack
+# Push A PATH TO the starting vertex_id to the stack
 # Create a Set to store visited verticies
-# While the queue is not empty...
+# While the stack is not empty...
     # Pop the first PATH
     # Grab the last vertex from the PATH
-    # If that vertex has not been visited...
-        # CHECK IF IT'S THE TARGET
-            # If so, return the path
-        # Mark it as visited...
+    # Check if it's the target
+        # If so, return the path
+    # Check if it's been visited
+    # If it has not been visited...
+        # Mark it as visited
         # Then add A PATH to its neighbors to the top of the stack
             # COPY THE PATH and append the new vertex
-            # Add the neighbor to the top of the stack
+            # Add the new path to the top of the stack
 
 Depth First Search Recursive:
 
-# Base case...
-    # Create a Set to store visited verticies
-    # Create a list to store the path
-# Add starting vertex to visited
-# Add starting vertex to the path
-# Check if starting vertex is the target
-# Find neighbors of starting vertex
-    # If neighbor hasn't been visited...
-        # Recursively call function
+# Initialize visited if it's not yet initialized
+# Initialize path if it's not yet initialized
+# Check if starting vertex has been visited
+# If not...
+    # Mark it as visited
+    # Copy path and add starting_vertex
+    # If starting vertex is destination...
+        # return new path
+    # Call DFS_Recursive on each neighbor
+    # Check if new path is not None...
+        # If not None, return new path
