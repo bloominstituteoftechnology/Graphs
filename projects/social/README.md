@@ -8,7 +8,7 @@ Your client is also interested in how the performance will scale as more users j
 
 ## 1. Generating Users and Friendships
 
-It will be easier to build your extended social network if you have users to test it with. `populateGraph()` takes in a number of users to create and the average number of friends each user should have and creates them.
+It will be easier to build your extended social network if you have users to test it with. `populate_graph()` takes in a number of users to create and the average number of friends each user should have and creates them.
 
 ```
 >>> sg = SocialGraph()
@@ -24,11 +24,11 @@ It will be easier to build your extended social network if you have users to tes
 Note that in the above example, the average number of friendships is exactly 2 but the actual number of friends per user ranges anywhere from 0 to 4.
 
 * Hint 1: To create N random friendships, you could create a list with all possible friendship combinations, shuffle the list, then grab the first N elements from the list. You will need to `import random` to get shuffle.
-* Hint 2: `addFriendship(1, 2)` is the same as `addFriendship(2, 1)`. You should avoid calling one after the other since it will do nothing but print a warning. You can avoid this by only creating friendships where user1 < user2.
+* Hint 2: `add_friendship(1, 2)` is the same as `add_friendship(2, 1)`. You should avoid calling one after the other since it will do nothing but print a warning. You can avoid this by only creating friendships where user1 < user2.
 
 ## 2. Degrees of Separation
 
-Now that you have a graph full of users and friendships, you can crawl through their social graphs. `getAllSocialPaths()` takes a userID and returns a dictionary containing every user in that user's extended network along with the shortest friendship path between each.
+Now that you have a graph full of users and friendships, you can crawl through their social graphs. `get_all_social_paths()` takes a userID and returns a dictionary containing every user in that user's extended network along with the shortest friendship path between each.
 
 ```
 >>> sg = SocialGraph()
