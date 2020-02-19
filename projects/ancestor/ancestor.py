@@ -42,6 +42,7 @@ def earliest_ancestor(ancestors, starting_node):
     # Iterate through all ancestors
     print(f'Ancestors: {ancestors}')
     for pair in ancestors:
+        print(f'Pair: {pair}')
         # Add both verts 
         graph.add_vertex(pair[0])
         graph.add_vertex(pair[1])
@@ -61,12 +62,13 @@ def earliest_ancestor(ancestors, starting_node):
     while q.size() > 0:
         # Initialize PATH
         path = q.dequeue()
-        print(f'path: {path}')
+        print(f'NEW path: {path}')
 
         # Get Parent Node
         current_vert = path[-1]
         print(f'current_vert: {current_vert}')
 
+        # - V1 
         # (
         #   Check 1 = current path is longer than the current max_path_length
         #   Check 2 = parent node LESS THAN earliest_ancestor 
@@ -75,13 +77,31 @@ def earliest_ancestor(ancestors, starting_node):
         # Check 3 = current path is longer than the current max_path_length
         
         # If the path is longer or equal and the value is smaller, or if the path is longer)
-        if (len(path) >= max_path_len and current_vert < earliest_ancestor) or (len(path) > max_path_len):
-            print(f'** UPDATE **')
+        # if (len(path) >= max_path_len and current_vert < earliest_ancestor) or (len(path) > max_path_len):
+        #     print(f'** UPDATE **')
             
+        #     # Update earliest_ancestor node
+        #     earliest_ancestor = current_vert
+        #     # update max_path_length
+        #     max_path_len = len(path)
+
+        # - V2 
+        if len(path) == max_path_len: 
+            if current_vert < earliest_ancestor:
+                print(f'** UPDATE: CHECK 1 & 2 **')
+                
+                # Update earliest_ancestor node
+                earliest_ancestor = current_vert
+                # # update max_path_length
+                max_path_len = len(path)
+
+        if len(path) > max_path_len:
+            print(f'** UPDATE: CHECK 3 **')
             # Update earliest_ancestor node
             earliest_ancestor = current_vert
             # update max_path_length
             max_path_len = len(path)
+            
 
         # Loop through all neighbors of the PARENT node
         for neighbor in graph.vertices[current_vert]:
@@ -97,4 +117,5 @@ def earliest_ancestor(ancestors, starting_node):
             q.enqueue(path_copy)
             print(f'current Queue: {q.print_queue()}')
 
+    print(earliest_ancestor)
     return earliest_ancestor
