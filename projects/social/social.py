@@ -66,18 +66,12 @@ class SocialGraph:
         for i in range(num_users):
             self.add_user(f"User {i + 1}")
 
-        # Create friendships
-        # for each user
-        allUserKeys = [x for x in self.users]
-        for userKey in self.users:
-            friendCount = rng.randomNumber(avg_friendships + 1)
-            count = 0
-            while count < friendCount:
-                potentialFriendKey = rng.randomChoice(allUserKeys)
-                if potentialFriendKey == userKey or potentialFriendKey in self.friendships[userKey]:
-                    continue
-                self.add_friendship(userKey, potentialFriendKey)
-                count += 1
+        while self.avgFriendshipsPerUser() < avg_friendships:
+            userID = rng.randomChoice(self.users)
+            potentialFriendKey = rng.randomChoice(self.users)
+            while potentialFriendKey == userID or potentialFriendKey in self.friendships[userID]:
+                potentialFriendKey = rng.randomChoice(self.users)
+            self.add_friendship(userID, potentialFriendKey)
 
     def get_all_social_paths(self, user_id):
         """
