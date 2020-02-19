@@ -16,16 +16,14 @@ class Graph:
         '''
         represents the graph
         '''
-
         self.vertices = {}
 
     def add_vertex(self, vertix_id):
         '''
         add parents to the graph
         '''
-        self.vertices[vertix_id] = set()
-        if vertix_id not in self.vertices[vertix_id]:
-            self.vertices[vertix_id].add(vertix_id)
+        if vertix_id not in self.vertices:
+            self.vertices[vertix_id] = set()
 
     def add_edge(self, v1, v2):
         '''
@@ -36,10 +34,11 @@ class Graph:
         else:
             raise IndexError(f"that vertex does not exits {v1}, {v2}")
 
-    def get_neighbors(self, vertex_id):
+    def get_ancestor(self, vertex_id):
         '''
         return children's parents
         '''
+        # if vertex_id in self.vertices
         return self.vertices[vertex_id]
 
 
@@ -65,7 +64,7 @@ def create_edges(ancestors):
     for i in ancestors:
         # create  edge
         a_list = list(i)
-        g.add_edge(a_list[0], a_list[1])
+        g.add_edge(a_list[1], a_list[0])
 
 
 def earliest_ancestor(ancestors, starting_node):
@@ -75,7 +74,7 @@ def earliest_ancestor(ancestors, starting_node):
     # create helper function for adding vertex and edges
     create_vertex(ancestors)
     create_edges(ancestors)
-    print(g.vertices)
+
     q = Queue()
     # Enqueue path to starting word
     q.enqueue([starting_node])
@@ -86,20 +85,22 @@ def earliest_ancestor(ancestors, starting_node):
         path = q.dequeue()
         # Grab ancestor from path
         a = path[-1]
-        # Check if it's ancestors, if so return path
-        if a == ancestors:
-            return path
         # Check if it's been visited. If not...
         if a not in visited:
             # Mark it as visited
             visited.add(a)
-            # Enqueue a path to each neighbor
-            for neighbor in g.get_neighbors(a):
+            # Enqueue a path to each ancestor
+            for neighbor in g.get_ancestor(a):
                 path_copy = path.copy()
                 path_copy.append(neighbor)
                 q.enqueue(path_copy)
+            #   if a not in ancestors return -1
+    if len(visited) == 1:
+        return -1
+    else:
+        return a
 
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),
                   (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-print(earliest_ancestor(test_ancestors, 1))
+print(earliest_ancestor(test_ancestors, 2))
