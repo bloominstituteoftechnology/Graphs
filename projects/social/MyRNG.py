@@ -12,6 +12,8 @@ class MyRandom():
         return self.seed % maxVal
 
     def randomChoice(self, fromArray):
+        if type(fromArray) is dict:
+            fromArray = [x for x in fromArray]
         maxValue = len(fromArray)
         if maxValue == 0:
             return None
