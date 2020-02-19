@@ -1,12 +1,25 @@
+from MyRNG import MyRandom
+
+
 class User:
     def __init__(self, name):
         self.name = name
+
+    def __repr__(self):
+        return self.name
 
 class SocialGraph:
     def __init__(self):
         self.last_id = 0
         self.users = {}
         self.friendships = {}
+
+    def avgFriendshipsPerUser(self):
+        allFriendships = []
+        for user in sg.friendships:
+            for friend in sg.friendships[user]:
+                allFriendships.append(friend)
+        return len(allFriendships) / len(sg.users)
 
     def add_friendship(self, user_id, friend_id):
         """
@@ -44,9 +57,25 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
+        rng = MyRandom()
+
         # Add users
+        for i in range(num_users):
+            self.add_user(f"User {i + 1}")
 
         # Create friendships
+        # for each user
+        allUserKeys = [x for x in self.users]
+        for userKey in self.users:
+            friendCount = rng.randomNumber((avg_friendships * 2) - 1)
+            count = 0
+            while count < friendCount:
+                potentialFriendKey = rng.randomChoice(allUserKeys)
+                if potentialFriendKey == userKey or potentialFriendKey in self.friendships[userKey]:
+                    continue
+                self.add_friendship(userKey, potentialFriendKey)
+                count += 1
+
 
     def get_all_social_paths(self, user_id):
         """
