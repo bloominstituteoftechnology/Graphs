@@ -1,4 +1,5 @@
 from MyRNG import MyRandom
+from util import Stack, Queue  # These may come in handy
 
 
 class User:
@@ -76,7 +77,6 @@ class SocialGraph:
                 self.add_friendship(userKey, potentialFriendKey)
                 count += 1
 
-
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -87,7 +87,21 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+
+        q = Queue()
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            path = q.dequeue()
+            otherUser = path[-1]
+
+            if otherUser not in visited:
+                visited[otherUser] = path
+                for friend in self.friendships[otherUser]:
+                    newPath = path.copy()
+                    newPath.append(friend)
+                    q.enqueue(newPath)
+
         return visited
 
 
