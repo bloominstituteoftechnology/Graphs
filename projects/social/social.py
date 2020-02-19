@@ -15,6 +15,8 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
 
+        self.addCalls = 0
+
     def avgFriendshipsPerUser(self):
         allFriendships = []
         for user in sg.friendships:
@@ -33,6 +35,7 @@ class SocialGraph:
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+            self.addCalls += 1
 
     def add_user(self, name):
         """
@@ -56,7 +59,6 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         rng = MyRandom()
 
@@ -68,7 +70,7 @@ class SocialGraph:
         # for each user
         allUserKeys = [x for x in self.users]
         for userKey in self.users:
-            friendCount = rng.randomNumber((avg_friendships * 2) - 1)
+            friendCount = rng.randomNumber(avg_friendships + 1)
             count = 0
             while count < friendCount:
                 potentialFriendKey = rng.randomChoice(allUserKeys)
