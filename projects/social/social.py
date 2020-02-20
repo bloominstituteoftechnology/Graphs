@@ -61,6 +61,7 @@ class SocialGraph:
         self.friendships = {}
 
         rng = MyRandom()
+        print("rng seed: ", rng.seed)
 
         # Add users
         for i in range(num_users):
@@ -100,6 +101,14 @@ class SocialGraph:
 
         return visited
 
+    def averageDegreeOfSeparation(self, userID):
+        allPaths = self.get_all_social_paths(userID)
+        totalDegrees = 0
+        totalPaths = len(allPaths)
+        print(f"total paths for {userID}: {totalPaths}")
+        for path in allPaths:
+            totalDegrees += len(allPaths[path])
+        return totalDegrees / totalPaths
 
 if __name__ == '__main__':
     sg = SocialGraph()
