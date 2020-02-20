@@ -1,3 +1,4 @@
+import time
 import random
 
 
@@ -37,12 +38,15 @@ class SocialGraph:
         Creates a bi-directional friendship
         """
         if user_id == friend_id:
-            print("WARNING: You cannot be friends with yourself")
+            # print("WARNING: You cannot be friends with yourself")
+            return False
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
-            print("WARNING: Friendship already exists")
+            # print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+            return True
 
     def add_user(self, name):
         """
@@ -51,6 +55,30 @@ class SocialGraph:
         self.last_id += 1  # automatically increment the ID to assign the new user
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
+
+    def populate_graph_linear(self, num_users, avg_friendships):
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+
+        # Add users
+        for i in range(num_users):
+            self.add_user(f"User {i+1}")
+
+        friendship_to_create = avg_friendships * num_users
+        friendships = 0
+        collisions = 0
+        # 2. while the result of that is < the required average
+        while friendships < friendship_to_create:
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1, self.last_id)
+            # 3. pick two users at random - if they are not already friends, make them friends
+            if self.add_friendship(user_id, friend_id):
+                friendships += 2
+            else:
+                # 4. if they are already friends, try again
+                collisions += 1
+        print(f"COLLISIONS: {collisions}")
 
     def populate_graph(self, num_users, avg_friendships):
         """
@@ -126,20 +154,23 @@ class SocialGraph:
 
 
 if __name__ == '__main__':
+    num_users = 100
+    avg_friendships = 10
     sg = SocialGraph()
-    sg.populate_graph(1000, 5)
-    print("FRIENDSHIPS:")
-    # print(sg.friendships)
-    # sg.friendships = {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {
-    #     8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
-    # print("\nExpected:")
-    # print({1: [1], 8: [1, 8], 10: [1, 10], 5: [1, 5], 2: [
-    #       1, 10, 2], 6: [1, 10, 6], 7: [1, 10, 2, 7]})
-    print("\nSocial Paths: ")
-    connections = sg.get_all_social_paths(1)
-    print(connections)
-    print(len(connections) / 1000)
-    total = 0
-    for connection in connections:
-        total += len(connections[connection])
-    print(total / len(connections) - 1)
+    start_time = time.time()
+    sg.populate_graph(num_users, avg_friendships)
+    end_time = time.time()
+    print(f"\nQuadratic runtime: {end_time - start_time} seconds")
+    sg = SocialGraph()
+    start_time = time.time()
+    sg.populate_graph_linear(num_users, avg_friendships)
+    end_time = time.time()
+    print(f"\nLinear runtime: {end_time - start_time} seconds")
+    # print(sg.users)
+    # connections = sg.get_all_social_paths(1)
+    # print(len(connections))
+    # total = 0
+    # for connection in connections:
+    #     total += len(connections[connection])
+    # print(total / len(connections) - 1)
+    # print(connections)
