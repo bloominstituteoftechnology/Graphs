@@ -1,6 +1,12 @@
+import random
+from util import Queue, Stack
+import copy
+
 class User:
     def __init__(self, name):
         self.name = name
+    def __repr__(self):
+        return self.name
 
 class SocialGraph:
     def __init__(self):
@@ -45,8 +51,33 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(num_users):
+            j = i+1
+            user_text = "User " + str(j)
+            self.add_user(user_text)
 
         # Create friendships
+        # create a list with all possible friendships
+        possible_friendships = []
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+
+
+        # Shuffle the list
+        random.shuffle(possible_friendships)
+        # print("----")
+        # print(possible_friendships)
+        # print("----")
+        # Grab the first N pairs from the list and create those friendships
+        for i in range(num_users * avg_friendships // 2):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
+
+        # avg_friendships = total_friendships / num_users
+        # total_friendships = avg_friendships * num_users
+        # N = avg_friendships * num_users // 2
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,12 +90,71 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        
+        #traversal then search
+        q = Queue()
+
+        # Add the starting vertex_id to the queue
+        q.enqueue(user_id)
+
+        # While the queue is not empty:
+        while q.size() > 0:
+
+            # Dequeue the first vertex
+            dq = q.dequeue()
+
+            # Check it its been visited
+            if dq not in visited:
+                # If it has not mark it as a friend in a key of visited
+                visited[dq] = [user_id]
+
+                # Then add all neighbors to the queue
+                for v in self.friendships[dq]:
+                    q.enqueue(v)
+
+        # we want the shortest path, so we'll do BFS
+
+        # find path to each friend
+        for key in visited:
+            # Initialize a stack
+            s = Stack()
+            destination_vertex = key
+
+            #Add path to starting vertex to the stack
+            s.push( visited[key] )
+            # create empty set 
+            visited2 = set()
+
+            # while stack not empty
+            while s.size() > 0:
+                # pop the first path
+                path = s.pop()
+                # get last vertex from path
+                v = path[-1]
+                # see if it's the destination
+                if v==destination_vertex:
+                    # if so, return the path
+                    visited[key] = path
+                    break
+                # if it hasn't been visited
+                if v not in visited2:
+                    # mark it as visited
+                    visited2.add(v)
+                    # and push a path to all neighbors to the stack 
+                    for neighbor in self.friendships[v]:
+                        path_copy = path[:] # why was .copy() not working?
+                        path_copy.append(neighbor)
+                        s.push(path_copy)
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
+    print(sg.users)
     print(sg.friendships)
+    print("---" * 10)
+    sg.get_all_social_paths(1)
     connections = sg.get_all_social_paths(1)
     print(connections)
