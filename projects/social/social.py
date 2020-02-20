@@ -77,7 +77,34 @@ class SocialGraph:
         # total_friendships = avg_friendships * num_users
         # N = avg_friendships * num_users // 2 
 
+
     def get_all_social_paths(self, user_id):
+        """
+        Takes a user's user_id as an argument
+
+        Returns a dictionary containing every user in that user's
+        extended network with the shortest friendship path between them.
+
+        The key is the friend's ID and the value is the path.
+        """    
+        q = Queue()
+        q.enqueue([user_id])
+        visited={}
+
+        while q.size() > 0:
+            path = q.dequeue()
+            last = path[-1]
+            if last not in visited:
+                visited[last] = path
+                for friends in self.friendships[last]:
+                    new_path = path + [friends]
+                    q.enqueue(new_path)
+        return visited
+
+    '''
+    A noble first attempt
+    '''
+    def get_all_social_paths_long(self, user_id):
         """
         Takes a user's user_id as an argument
 
@@ -118,7 +145,6 @@ class SocialGraph:
                             new_network = network + [friends]
                             # add new network to queue
                             q.enqueue(new_network)
-
             # Add shortest path to social if it's not empty
             if (len(extended_sn) > 0):
                 shortest = extended_sn[0]
@@ -132,8 +158,22 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(sg.users)
-    print("FRIENDSHIPS!", sg.friendships)
+    sg.populate_graph(100, 10)
+    # print(sg.users)
+    # print("FRIENDSHIPS!", sg.friendships)
     connections = sg.get_all_social_paths(1)
-    print("CONNECTIONS TO 1", connections)
+    # long_conn = sg.get_all_social_paths_long(1)
+    print("CONNECTIONS", connections)
+    # print("LONG CONN", long_conn)
+    print("Answer to question 2:")
+    print("Don't forget to change populate graph.")
+    users = 0
+    degrees_of_separation = 0
+    for i in range(1, 1001):
+        if i in connections:
+            users += 1
+            degrees_of_separation += len(connections[i])
+    avg_dos = degrees_of_separation / 100
+    percent_users = (users / 1000) * 100
+    print("Average degrees of separation", avg_dos)
+    print(f'{percent_users} %')
