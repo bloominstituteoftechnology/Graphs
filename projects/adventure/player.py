@@ -5,7 +5,7 @@ class Player:
         self.current_room = starting_room
         self.seen = {starting_room.id}
         self.num_rooms = num_rooms
-        self.traversal_path = [starting_room.id]
+        self.traversal_path = []
         # self.opposite_direction = {'n':'s','s':'n','e':'w','w':'e'}
     def travel(self, direction, show_rooms = False):
         # get next room
@@ -14,7 +14,7 @@ class Player:
         if next_room is not None:
             # move, and add to seen and path
             self.current_room = next_room
-            self.traversal_path.append(self.current_room.id)
+            self.traversal_path.append(direction)
             self.seen.add(self.current_room.id)
             if (show_rooms):
                 next_room.print_room_description(self)
@@ -69,4 +69,5 @@ class Player:
                 print('direction: ', direction)
                 self.travel(direction)
                 print(self.current_room.id)
+        print('done')
 
