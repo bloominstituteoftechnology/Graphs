@@ -1,4 +1,3 @@
-
 import random
 from util import Queue
 class User:
