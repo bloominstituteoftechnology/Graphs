@@ -34,7 +34,7 @@ def backtrack_path(graph, player):
             for key, val in graph[v].items():
                 # make a copy of the path before adding
                 path_copy = path.copy()
-                print(f"Path copy: {path_copy}")
+                # print(f"Path copy: {path_copy}")
                 path_copy.append((val, key))
                 q.enqueue(path_copy)
 
@@ -88,32 +88,32 @@ counter = 0
 while len(visited) < num_rooms:  
     # get a list of exits from the current room
     current_room = player.current_room.id
-    print(f"You are in Room {current_room}")
+    # print(f"You are in Room {current_room}")
     visited.add(current_room)
 
     exits = player.current_room.get_exits() # returns list of exits
-    print(f"The exits are {exits}")
+    # print(f"The exits are {exits}")
 
     if current_room not in graph:
-        print(f"Room {current_room} not in graph.")
+        # print(f"Room {current_room} not in graph.")
         graph[current_room] =  {}
-        print("Added!")
-        print(f"Graph length is {len(graph)}")
+        # print("Added!")
+        # print(f"Graph length is {len(graph)}")
         for e in exits:
             graph[current_room][e]= '?'
     
     if len(visited) == num_rooms:
         break
 
-    print(f"length of graph: {len(graph)}")
+    # print(f"length of graph: {len(graph)}")
     if source and no_back:
         graph[current_room][source] = old_room
     no_back = True
     
-    print(graph[current_room])
+    # print(graph[current_room])
 
     unexplored_exits_list = unexplored_exits(graph, current_room)
-    print(f"Unexplored exits: {unexplored_exits_list}")
+    # print(f"Unexplored exits: {unexplored_exits_list}")
 
     
     # record the connections
@@ -125,14 +125,14 @@ while len(visited) < num_rooms:
         source = opposite[direction]
         old_room = current_room
         # graph[player.current_room.id][opposite[direction]] = current_room
-        print(f'travelled {direction}')
+        # print(f'travelled {direction}')
         traversal_path.append(direction)
-        print(f"trav_path: {traversal_path}")
+        # print(f"trav_path: {traversal_path}")
         # print(f"Traversal path: {traversal_path}") 
     else:
-        print("Backtracking...")
+        # print("Backtracking...")
         backtrack_path_list = backtrack_path(graph, player)
-        print(f"Backtrack list: {backtrack_path_list}")
+        # print(f"Backtrack list: {backtrack_path_list}")
         for d in backtrack_path_list:
             player.travel(d)
             traversal_path.append(d)
