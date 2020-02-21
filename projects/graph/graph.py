@@ -13,33 +13,71 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # TODO
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # TODO
+        if v1 in self.vertices:
+            self.vertices[v1].add(v2)
+        
+        else:
+            print('One (or both) of these vertices are not in the graph')
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
+        q = Queue()
+        discovered = set()
+        discovered_order = []
+        q.enqueue(starting_vertex)
+        while q.size() != 0:
+            v = q.dequeue()
+            if v not in discovered:
+                discovered.add(v)
+                discovered_order.append(v)
+            for w in self.get_neighbors(v):
+                if w not in discovered:
+                    discovered.add(w)
+                    discovered_order.append(w)
+                    q.enqueue(w)
+        print("bft: ", discovered_order)
+
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
+        discovered = set()
+        discovered_order = []
+
+        s = Stack()
+        s.push(starting_vertex)
+        while s.size() !=0:
+            v = s.pop()
+            if v not in discovered:
+                discovered.add(v)
+                discovered_order.append(v)
+                for w in self.get_neighbors(v):
+                    s.push(w)
+        print("dft: ", discovered_order)
+
 
     def dft_recursive(self, starting_vertex):
         """
@@ -48,7 +86,19 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # TODO
+        discovered = set()
+        discovered_order = []
+
+        def rec(v):
+            discovered.add(v)
+            discovered_order.append(v)
+            for w in self.get_neighbors(v):
+                if w not in discovered:
+                    rec(w)
+        
+        rec(starting_vertex)
+        print("dft-rec: ", discovered_order)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -56,7 +106,9 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # TODO
+        # q = Queue()
+        pass
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -77,6 +129,7 @@ class Graph:
         pass  # TODO
 
 if __name__ == '__main__':
+
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
