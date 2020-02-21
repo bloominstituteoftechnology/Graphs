@@ -42,6 +42,7 @@ def bfs():
                     return path
                 new_path = path + [visited_rooms[room.id][exit]]
                 q.enqueue(new_path)
+    return path
 
 # Load world
 world = World()
@@ -68,27 +69,33 @@ player = Player(world.starting_room)
 traversal_path = []
 
 # TRAVERSAL TEST
-player.current_room = world.starting_room
 s = Stack()
 s.push(player.current_room)
 visited_rooms = {}
 new_entry(player.current_room)
 
 while len(visited_rooms) < len(room_graph):
-    print("Current room id", player.current_room.id)
-    unexplored = []
+    print("START---visited rooms", visited_rooms) 
     room = s.pop()
-    print("ROOM", room.id)
-
-    if (room not in visited_rooms):
-        new_entry(room)
-
+    
+    if room is None:
+        path = bfs()
+        # tranlate room id to direction
+        for id in path:
+            for exit in visited_rooms[player.current_room.id]:
+                if (visited_rooms[player.current_room.id][exit] == id and player.current_room.id != id):
+                    traversal_path.append(exit)
+                    player.travel(exit)
+                    # s.push(player.current_room)
+    
+    unexplored = []
     for exit in visited_rooms[room.id]:
-        if (visited_rooms[room.id][exit] == '?'):
-            unexplored.append(exit)
+            if (visited_rooms[room.id][exit] == '?'):
+                unexplored.append(exit)
     
     for exit in visited_rooms[room.id]:
         if (visited_rooms[room.id][exit] == '?'):
+
             traversal_path.append(exit)
 
             new_room = room.get_room_in_direction(exit)
@@ -105,24 +112,10 @@ while len(visited_rooms) < len(room_graph):
 
             unexplored.remove(exit)
 
-    if (len(unexplored) == 0 and len(visited_rooms) < len(room_graph)):
-        path = bfs()
-        # tranlate room id to direction
-        for id in path:
-            for exit in visited_rooms[player.current_room.id]:
-                if (visited_rooms[player.current_room.id][exit] == id):
-                    traversal_path.append(exit)
-                    player.travel(exit)
-
-    
-
-    print("END---visited rooms", visited_rooms)    
+print("END---visited rooms", visited_rooms)    
 
 
 print(traversal_path)
-for move in traversal_path:
-    player.travel(move)
-    # visited_rooms.add(player.current_room)
 
 if len(visited_rooms) == len(room_graph):
     print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
