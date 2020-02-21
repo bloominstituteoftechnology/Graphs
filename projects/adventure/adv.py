@@ -108,11 +108,11 @@ while len(visited_rooms) < len(room_graph):
 
             new_entry(new_room)
 
-            visited_rooms[new_room.id][reverse(exit)] = player.current_room.id
+            visited_rooms[new_room.id][reverse(exit)] = room.id
 
             player.travel(exit)
             print(player.current_room.id)
-            s.push(player.current_room)
+            s.push(new_room)
 
             unexplored.remove(exit)
 
