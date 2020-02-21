@@ -79,14 +79,18 @@ while len(visited_rooms) < len(room_graph):
     room = s.pop()
     
     if room is None:
+        print(player.current_room.id)
         path = bfs()
+        print(path)
         # tranlate room id to direction
         for id in path:
             for exit in visited_rooms[player.current_room.id]:
                 if (visited_rooms[player.current_room.id][exit] == id and player.current_room.id != id):
                     traversal_path.append(exit)
                     player.travel(exit)
+                    print("BFS Current room", player.current_room.id)
                     # s.push(player.current_room)
+                    break
     
     unexplored = []
     for exit in visited_rooms[room.id]:
@@ -100,15 +104,15 @@ while len(visited_rooms) < len(room_graph):
 
             new_room = room.get_room_in_direction(exit)
 
-            visited_rooms[player.current_room.id][exit] = new_room.id
+            visited_rooms[room.id][exit] = new_room.id
 
             new_entry(new_room)
 
-            visited_rooms[new_room.id][reverse(exit)] = player.current_room.id
+            visited_rooms[new_room.id][reverse(exit)] = room.id
 
             player.travel(exit)
-
-            s.push(player.current_room)
+            print(player.current_room.id)
+            s.push(new_room)
 
             unexplored.remove(exit)
 
