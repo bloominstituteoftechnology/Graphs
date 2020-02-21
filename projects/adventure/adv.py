@@ -42,15 +42,14 @@ def bfs():
                     return path
                 new_path = path + [visited_rooms[room.id][exit]]
                 q.enqueue(new_path)
-    return []
 
 # Load world
 world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "projects/adventure/maps/test_line.txt"
-# map_file = "projects/adventure/maps/test_cross.txt"
+# map_file = "projects/adventure/maps/test_line.txt"
+map_file = "projects/adventure/maps/test_cross.txt"
 # map_file = "projects/adventure/maps/test_loop.txt"
 # map_file = "projects/adventure/maps/test_loop_fork.txt"
 # map_file = "projects/adventure/maps/main_maze.txt"
@@ -88,16 +87,6 @@ while len(visited_rooms) < len(room_graph):
         if (visited_rooms[room.id][exit] == '?'):
             unexplored.append(exit)
     
-    if (len(unexplored) == 0 and len(visited_rooms) < len(room_graph)):
-        path = bfs()
-        # tranlate room id to direction
-        for id in path:
-            for exit in visited_rooms[player.current_room.id]:
-                if (visited_rooms[player.current_room.id][exit] == id):
-                    # print("translator", visited_rooms[player.current_room.id][exit] == id)
-                    traversal_path.append(exit)
-                    player.travel(exit)
-
     for exit in visited_rooms[room.id]:
         if (visited_rooms[room.id][exit] == '?'):
             traversal_path.append(exit)
@@ -116,6 +105,17 @@ while len(visited_rooms) < len(room_graph):
 
             unexplored.remove(exit)
 
+    if (len(unexplored) == 0 and len(visited_rooms) < len(room_graph)):
+        path = bfs()
+        # tranlate room id to direction
+        for id in path:
+            for exit in visited_rooms[player.current_room.id]:
+                if (visited_rooms[player.current_room.id][exit] == id):
+                    traversal_path.append(exit)
+                    player.travel(exit)
+
+    
+
     print("END---visited rooms", visited_rooms)    
 
 
@@ -130,7 +130,6 @@ else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
-breakpoint()
 #######
 # UNCOMMENT TO WALK AROUND
 #######
