@@ -36,6 +36,41 @@ class SocialGraph:
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
 
+    def populate_graph_linear(self, num_users, avg_friendships):
+        """
+        Takes a number of users and an average number of friendships
+        as arguments
+
+        Creates that number of users and a randomly distributed friendships
+        between those users.
+
+        The number of users must be greater than the average number of friendships.
+        """
+        # Reset graph
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+        # !!!! IMPLEMENT ME
+
+        # Add users
+        for i in range(num_users):
+            self.add_user(f"user {i+1}")
+
+        friendships_to_create = avg_friendships
+        friendships = 0
+        collisions = 0
+
+        while friendships < friendships_to_create:
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1, self.last_id)
+
+            if self.add_friendship(user_id, friend_id):
+                friendships += 2
+            else:
+                collisions += 1
+        print(f"COLLISIONS: {collisions}")
+
+
     def populate_graph(self, num_users, avg_friendships):
         """
         Takes a number of users and an average number of friendships
