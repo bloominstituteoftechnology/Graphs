@@ -28,7 +28,7 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 
-# Easily get reverse direction of direction just traveled
+# Reverse directions
 reverse_dir = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 
 # Path traveled to visit rooms
