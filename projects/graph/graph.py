@@ -91,6 +91,7 @@ class Graph:
         discovered_order = []
 
         def rec(v):
+            
             discovered.add(v)
             discovered_order.append(v)
             for w in self.get_neighbors(v):
