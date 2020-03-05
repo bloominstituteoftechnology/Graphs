@@ -4,9 +4,11 @@ Simple graph implementation
 from util import Stack, Queue  # These may come in handy
 
 class Graph:
+
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+
     def add_vertex(self, vertex):
          #Add a vertex to the graph.
         self.vertices[vertex]=set()
@@ -48,6 +50,7 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+
         # Make a stack - Make a visited set
         stack = Stack()
         visited = set()
@@ -113,6 +116,27 @@ class Graph:
                         queue.enqueue(copy_path)    
                      
                 
+
+        pass  # TODO
+
+    def dft_recursive(self, starting_vertex):
+        """
+        Print each vertex in depth-first order
+        beginning from starting_vertex.
+
+        This should be done using recursion.
+        """
+        pass  # TODO
+
+    def bfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        pass  # TODO
+
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -149,9 +173,15 @@ class Graph:
 
        
 
+    def dfs_recursive(self, starting_vertex):
+        """
+        Return a list containing a path from
+        starting_vertex to destination_vertex in
+        depth-first order.
 
-
-
+        This should be done using recursion.
+        """
+        pass  # TODO
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -181,15 +211,6 @@ if __name__ == '__main__':
     print(graph.vertices)
 
     '''
-    Valid DFT paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    '''
-    graph.dft(1)
-
-    '''
     Valid BFT paths:
         1, 2, 3, 4, 5, 6, 7
         1, 2, 3, 4, 5, 7, 6
@@ -207,14 +228,15 @@ if __name__ == '__main__':
     graph.bft(1)
 
     '''
-    Valid DFT recursive paths:
+    Valid DFT paths:
         1, 2, 3, 5, 4, 6, 7
         1, 2, 3, 5, 4, 7, 6
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft_recursive(1)
-    print("DFT Recursive", graph.dft_recursive(1))
+
+    graph.dft(1)
+    graph.dft_recursive(1
 
     '''
     Valid BFS path:
@@ -227,4 +249,7 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print("DFS", graph.dfs(1, 6))
+
+    print(graph.dfs(1, 6))
+    print(graph.dfs_recursive(1, 6))
+

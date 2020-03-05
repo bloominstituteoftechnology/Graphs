@@ -54,6 +54,10 @@ This is an __directed graph__ which could represent a social network like Twitte
 
 If a cycle can be formed (e.g. you can follow the edges and arrive again at an already-visited vert), the graph is _cyclic_. Otherwise it is _acyclic_.
 
+### Dense/Sparse Graphs
+
+A graph where most vertices are connected to each other is considered _dense_. A graph with less connections is _sparse_. There is no exact cutoff for this specification, but you could say that a [Flight map](https://news.delta.com/route-map-us-canada) is more dense than a [Subway map](http://web.mta.info/maps/submap.html).
+
 ### Weighted Graphs
 
 Graphs with values (_weights_) associated with the edges are called _weighted graphs_.

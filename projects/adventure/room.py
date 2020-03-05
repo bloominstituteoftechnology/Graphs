@@ -12,10 +12,10 @@ class Room:
         self.x = x
         self.y = y
     def __str__(self):
-        return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.getExitsString()}\n"
-    def printRoomDescription(self, player):
+        return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.get_exits_string()}\n"
+    def print_room_description(self, player):
         print(str(self))
-    def getExits(self):
+    def get_exits(self):
         exits = []
         if self.n_to is not None:
             exits.append("n")
@@ -26,25 +26,25 @@ class Room:
         if self.e_to is not None:
             exits.append("e")
         return exits
-    def getExitsString(self):
-        return f"Exits: [{', '.join(self.getExits())}]"
-    def connectRooms(self, direction, connectingRoom):
+    def get_exits_string(self):
+        return f"Exits: [{', '.join(self.get_exits())}]"
+    def connect_rooms(self, direction, connecting_room):
         if direction == "n":
-            self.n_to = connectingRoom
-            connectingRoom.s_to = self
+            self.n_to = connecting_room
+            connecting_room.s_to = self
         elif direction == "s":
-            self.s_to = connectingRoom
-            connectingRoom.n_to = self
+            self.s_to = connecting_room
+            connecting_room.n_to = self
         elif direction == "e":
-            self.e_to = connectingRoom
-            connectingRoom.w_to = self
+            self.e_to = connecting_room
+            connecting_room.w_to = self
         elif direction == "w":
-            self.w_to = connectingRoom
-            connectingRoom.e_to = self
+            self.w_to = connecting_room
+            connecting_room.e_to = self
         else:
             print("INVALID ROOM CONNECTION")
             return None
-    def getRoomInDirection(self, direction):
+    def get_room_in_direction(self, direction):
         if direction == "n":
             return self.n_to
         elif direction == "s":
@@ -55,5 +55,5 @@ class Room:
             return self.w_to
         else:
             return None
-    def getCoords(self):
+    def get_coords(self):
         return [self.x, self.y]

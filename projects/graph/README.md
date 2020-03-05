@@ -47,22 +47,25 @@ graph.add_edge('0', '4')  # No '4' vertex, should raise an Exception!
 
 Write a function within your Graph class that takes takes a starting node as an argument, then performs BFT. Your function should print the resulting nodes in the order they were visited. Note that there are multiple valid paths that may be printed.
 
-
 ## Part 3: Implement Depth-First Traversal with a Stack
 
 Write a function within your Graph class that takes takes a starting node as an argument, then performs DFT. Your function should print the resulting nodes in the order they were visited. Note that there are multiple valid paths that may be printed.
 
-
-## Part 3.5: Implement Depth-First Traversal using Recursion
+## Part 4: Implement Depth-First Traversal using Recursion
 
 Write a function within your Graph class that takes takes a starting node as an argument, then performs DFT using recursion. Your function should print the resulting nodes in the order they were visited. Note that there are multiple valid paths that may be printed.
 
-## Part 4: Implement Breadth-First Search
+## Part 5: Implement Breadth-First Search
 
 Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs BFS. Your function should return the shortest path from the start node to the destination node. Note that there are multiple valid paths.
 
-## Part 5: Implement Depth-First Search
+## Part 6: Implement Depth-First Search
 
 Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs DFS. Your function should return a valid path (not necessarily the shortest) from the start node to the destination node. Note that there are multiple valid paths.
+
+
+## Part 7: Implement Depth-First Search using Recursion
+
+Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs DFS using recursion. Your function should return a valid path (not necessarily the shortest) from the start node to the destination node. Note that there are multiple valid paths.
 
 
