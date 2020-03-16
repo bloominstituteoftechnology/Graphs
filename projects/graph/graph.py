@@ -92,12 +92,32 @@ class Graph:
 
 
     def bfs(self, starting_vertex, destination_vertex):
+        # Create an empty queue and enqueue a PATH to the starting vertex ID
+        q = Queue()
+        q.enqueue([starting_vertex])
+        # Create a set to store visited vertices
+        visited = set()
+        # While the queue is not empty
+        while q.size() > 0:
+            # Dequeue the first PATH eg: [a, b, c, r, g]
+            path = q.dequeue()
+            # Grab the last vertex from the PATH
+            last_vertex = path[-1]
+            # check if the last vertex has been visited before
+            if last_vertex not in visited:
+                # Check if it's the target
+                if last_vertex == destination_vertex:
+                    # if so, return path
+                    return path
+                # Mark it as visited...
+                visited.add(last_vertex)
+              
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+       
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -175,7 +195,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
