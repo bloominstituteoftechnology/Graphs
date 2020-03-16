@@ -30,14 +30,24 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited_vertices = set()
+        while q.size() > 0:
+            vertex = q.dequeue()
+            if not vertex in visited_vertices:
+                visited_vertices.add(vertex)
+                print(vertex)
+                for v in self.vertices[vertex]:
+                    q.enqueue(v)
+
 
     def dft(self, starting_vertex):
         """
