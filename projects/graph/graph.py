@@ -54,7 +54,16 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stack = Stack()
+        stack.push(starting_vertex)
+        visited_vertices = set()
+        while stack.size() > 0:
+            vertex = stack.pop()
+            if not vertex in visited_vertices:
+                visited_vertices.add(vertex)
+                print(vertex)
+                for v in self.vertices[vertex]:
+                    stack.push(v)
 
     def dft_recursive(self, starting_vertex):
         """
