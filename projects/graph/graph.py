@@ -45,7 +45,7 @@ class Graph:
             if not vertex in visited_vertices:
                 visited_vertices.add(vertex)
                 print(vertex)
-                for v in self.vertices[vertex]:
+                for v in self.get_neighbors(vertex):
                     q.enqueue(v)
 
 
@@ -62,7 +62,7 @@ class Graph:
             if not vertex in visited_vertices:
                 visited_vertices.add(vertex)
                 print(vertex)
-                for v in self.vertices[vertex]:
+                for v in self.get_neighbors(vertex):
                     stack.push(v)
 
     def dft_recursive(self, starting_vertex, visited_vertices=None):
@@ -81,7 +81,7 @@ class Graph:
         elif starting_vertex:
             visited_vertices.add(starting_vertex)
             print(starting_vertex)
-            for edge in self.vertices[starting_vertex]:
+            for edge in self.get_neighbors(starting_vertex):
                 if not edge in visited_vertices:
                     self.dft_recursive(edge, visited_vertices)
     
@@ -108,7 +108,7 @@ class Graph:
             # If that vertex has not been visited...
             if last_vertex not in visited_vertices:
 
-                for neighbor in self.vertices[last_vertex]:
+                for neighbor in self.get_neighbors(last_vertex):
 
                     # Create a new path of neighbors
                     new_path = list(path)
@@ -145,7 +145,7 @@ class Graph:
             # If that vertex has not been visited...
             if last_vertex not in visited_vertices:
 
-                for neighbor in self.vertices[last_vertex]:
+                for neighbor in self.get_neighbors(last_vertex):
 
                     # Create a new path of neighbors
                     new_path = list(path)
