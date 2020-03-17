@@ -1,12 +1,28 @@
+from MyRNG import MyRandom
+from util import Stack, Queue  # These may come in handy
+
+
 class User:
     def __init__(self, name):
         self.name = name
+
+    def __repr__(self):
+        return self.name
 
 class SocialGraph:
     def __init__(self):
         self.last_id = 0
         self.users = {}
         self.friendships = {}
+
+        self.addCalls = 0
+
+    def avgFriendshipsPerUser(self):
+        allFriendships = []
+        for user in sg.friendships:
+            for friend in sg.friendships[user]:
+                allFriendships.append(friend)
+        return len(allFriendships) / len(sg.users)
 
     def add_friendship(self, user_id, friend_id):
         """
@@ -19,6 +35,7 @@ class SocialGraph:
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+            self.addCalls += 1
 
     def add_user(self, name):
         """
@@ -42,11 +59,20 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
+
+        rng = MyRandom()
+        print("rng seed: ", rng.seed)
 
         # Add users
+        for i in range(num_users):
+            self.add_user(f"User {i + 1}")
 
-        # Create friendships
+        while self.avgFriendshipsPerUser() < avg_friendships:
+            userID = rng.randomChoice(self.users)
+            potentialFriendKey = rng.randomChoice(self.users)
+            while potentialFriendKey == userID or potentialFriendKey in self.friendships[userID]:
+                potentialFriendKey = rng.randomChoice(self.users)
+            self.add_friendship(userID, potentialFriendKey)
 
     def get_all_social_paths(self, user_id):
         """
@@ -58,9 +84,31 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+
+        q = Queue()
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            path = q.dequeue()
+            otherUser = path[-1]
+
+            if otherUser not in visited:
+                visited[otherUser] = path
+                for friend in self.friendships[otherUser]:
+                    newPath = path.copy()
+                    newPath.append(friend)
+                    q.enqueue(newPath)
+
         return visited
 
+    def averageDegreeOfSeparation(self, userID):
+        allPaths = self.get_all_social_paths(userID)
+        totalDegrees = 0
+        totalPaths = len(allPaths)
+        print(f"total paths for {userID}: {totalPaths}")
+        for path in allPaths:
+            totalDegrees += len(allPaths[path])
+        return totalDegrees / totalPaths
 
 if __name__ == '__main__':
     sg = SocialGraph()

@@ -47,14 +47,19 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 ## 3. Questions
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
+> It would take 500 calls. Adding a single friendship makes two connections (A->B & B->A), so if each user adds half of their total friendships, the other half will automatically be made. Then just multiply that by the number of users to get the total. That's 0.5 * 10 * 100
+
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
-
+> percentage within an extended network is about 99%, converges on 100%
+> average degree of separation is 5
 
 
 ## 4. Stretch Goal
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
+> I am aware of the "6 degrees of separation" concept, which is actually currently estimated to be closer to 5, due to globalization/internet. However, this model is definitely not reflective of the real world. In real life, groups will cluster. Most of my friends will be very similar to my friends' friends, etc. The small lack of overlap is what allows for the small degrees of separation.
+> To model this more like real life, it'd make sense to make random groups of Users that MOSTLY are friended within each other, but each individually only have a few friends reach outside their friend group.
 
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
-
+> The only tradeoff to my implementation is that, since it's rng based, there is the chance of a friendship already existing that iwas randomly coordinated an additional time. To compensate. it just generates a new random value until it's not an existing friendship. Regardless, it's much more efficient. (and easier to reason about imo)
