@@ -22,7 +22,11 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise ImportError("That vertex does not exist")
 
     def get_neighbors(self, vertex_id):
         """
