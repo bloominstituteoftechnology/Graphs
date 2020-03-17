@@ -30,7 +30,6 @@ player = Player(world.starting_room)
 traversal_path = []
 
 
-
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
@@ -45,7 +44,6 @@ if len(visited_rooms) == len(room_graph):
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
-
 
 
 #######
