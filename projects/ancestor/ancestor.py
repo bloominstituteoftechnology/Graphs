@@ -25,6 +25,7 @@ def earliest_ancestor(ancestors, starting_node):
         path = q.dequeue()
         # last item in list
         v = path[-1]
+        print('HERE:', v)
         if (len(path) >= max_path_len and v < earliest_ancestor) or (len(path) > max_path_len):
             earliest_ancestor = v
             max_path_len = len(path)
