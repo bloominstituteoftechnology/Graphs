@@ -168,17 +168,18 @@ class Graph:
             visited.add(last_value)
             if last_value == destination_vertex:
                 return path
+              
             for neighbor in self.get_neighbors(last_value):
                 copy = [node for node in path]
-                if neighbor in visited:
-                    return
                 copy.append(neighbor)
-                if self.dfs_recursive(starting_vertex, destination_vertex, visited, copy) is not None:
-                    self.dfs_recursive(starting_vertex, destination_vertex, visited, copy)
+                return_path = self.dfs_recursive(starting_vertex, destination_vertex, visited, copy)
+                if return_path is not None:
+                    return return_path
+        return None
                     
       
         
-        return None
+       
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
