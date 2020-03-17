@@ -8,7 +8,7 @@ class Test(unittest.TestCase):
      /
     1   2   4  11
      \ /   / \ /
-      3   5   8
+     3    5   8
        \ / \   \
         6   7   9
     '''
