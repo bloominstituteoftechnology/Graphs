@@ -94,7 +94,7 @@ class Graph:
                 for neighbor in self.get_neighbors(v):
                     s.push(neighbor)
 
-    def dft_recursive(self, starting_vertex, theset=set()):
+    def dft_recursive(self, starting_vertex, theset=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -105,6 +105,8 @@ class Graph:
         # if not..
             # mark it as visited
             # call dft_recursive on each neighbor
+        if theset is None:
+            theset = set()
         if starting_vertex not in theset:
             theset.add(starting_vertex)
             print(starting_vertex)
@@ -182,7 +184,11 @@ class Graph:
         This should be done using recursion.
         """
         res = []
-        def inner_dfs(starting_vertex, destination_vertex, theset = set(), carryover = []):
+        def inner_dfs(starting_vertex, destination_vertex, theset = None, carryover = None):
+            if theset is None:
+                theset = set()
+            if carryover is None:
+                carryover = []
             if starting_vertex == destination_vertex:
                 res.append(carryover)
                 
