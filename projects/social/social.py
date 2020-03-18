@@ -1,6 +1,12 @@
+import random
+from utils import Queue
+
 class User:
     def __init__(self, name):
         self.name = name
+
+    def __str__(self):
+        return self.name
 
 class SocialGraph:
     def __init__(self):
@@ -45,8 +51,25 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(num_users):
+            self.add_user(f"User {i+1}")
 
         # Create friendships
+        possible_friendships = []
+        # create list with possible friendship combinations
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+        #Shuffle the list
+        random.shuffle(possible_friendships)
+        # Grab the first total_friendships pairs from the list and create those friendships
+        for i in range(num_users * avg_friendships // 2):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
+        # N = avg_friendships * num_users //2
+        # avg_friendships = total_friendships / num_users
+        #total_friendships = avg_friendships * num_users
+        
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,12 +82,33 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        q = Queue()
+        # Add a Path to the starting vertex_id to the queue
+        q.enqueue([user_id])
+        #while queue not empty
+        while q.size() > 0:
+            #Dequeue the first path
+            path = q.dequeue()
+            # Grab last vertex from path
+            new_user = path[-1]
+            #check if visited then if not
+            if new_user not in visited:
+                #mark as visited
+                visited[new_user] = path
+                # then add A Path to its neighbors to the back of queue
+                for neighbor in self.friendships[new_user]:
+                    # Copy the path
+                    new_path = list(path)
+                    # append the neighbor to new path
+                    new_path.append(neighbor)
+                    # Enqueue the new path to the back of the queue
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(100, 5)
     print(sg.friendships)
+    print("\nSocial Paths:")
     connections = sg.get_all_social_paths(1)
     print(connections)
