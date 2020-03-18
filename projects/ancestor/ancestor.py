@@ -8,7 +8,7 @@ def earliest_ancestor(ancestors, starting_node):
     q = Queue()
     visited = set()
     most_recent = []
-
+    
     # check if the node has no ancestors
     if has_parents(ancestors,starting_node) is False:
         return -1
@@ -19,7 +19,7 @@ def earliest_ancestor(ancestors, starting_node):
     while q.size() > 0:
         # get the first in line
         v = q.dequeue()
-        #print(v)
+        print(f"Current Node {v}")
         # check if it has been visited or not
         # if so, add it to the visited set
         if v not in visited:
@@ -34,10 +34,13 @@ def earliest_ancestor(ancestors, starting_node):
                 for parent,child in ancestors:
                     if child == v:
                         q.enqueue(parent)
-                        #print(f"queue {parent}")
+                        print(f"queueing {parent} as the parents of {v}")
                         # reset the most recent parents
                         most_recent.append(parent)
-            
+                        
+                print()
+            else:
+                print(f"{v} has no parents\n")
     # return the smaller of the two parents
     return min(most_recent)
     
@@ -50,9 +53,6 @@ def has_parents(ancestors,node):
     else:
         return False      
 
-            
-print(earliest_ancestor(test_ancestors,9))
+ancestor = earliest_ancestor(test_ancestors,6)           
+print(f"The earliest ancestor to the input is {ancestor}")
 
-
-# find the parents for the starting node
-# 
