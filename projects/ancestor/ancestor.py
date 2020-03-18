@@ -28,7 +28,6 @@ def earliest_ancestor(ancestors, starting_node):
     q = deque()
     q.append([starting_node])
     longest = (None,0)
-    visited = set()
 
     if len(graph.get_edges(starting_node)) == 0:
 
@@ -50,12 +49,11 @@ def earliest_ancestor(ancestors, starting_node):
             if index < longest[0]:
                 longest = (index, lenth_of_q)
 
-        if index not in visited:
-            visited.add(starting_node)
-            for i in graph.get_edges(index):
-                temp_q = end_of_q.copy()
-                temp_q.append(i)
-                q.append(temp_q)
+
+        for i in graph.get_edges(index):
+            temp_q = end_of_q.copy()
+            temp_q.append(i)
+            q.append(temp_q)
         curs = q.__len__()
     return(longest[0])
             
