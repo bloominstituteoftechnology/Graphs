@@ -44,6 +44,8 @@ def earliest_ancestor(ancestors, starting_node):
             v = s.pop()
             if len(v) > len(paths):
                 paths = [value for value in v]
+            if len(v) == len(paths) and v[-1] < paths[-1]:
+                paths = [value for value in v]
             last_value = v[-1]
             if last_value in ancestor_dict.keys():
                 values = ancestor_dict[last_value]
