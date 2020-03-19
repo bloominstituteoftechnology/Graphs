@@ -1,3 +1,6 @@
+import random
+from util import Queue
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -7,6 +10,7 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
+        
 
     def add_friendship(self, user_id, friend_id):
         """
@@ -43,10 +47,21 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+        for i in range(num_users):
+            self.add_user(f"User {i + 1}")
         # Add users
-
+        possible_friendships = [] #start empty list
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id+1):
+                possible_friendships.append((user_id, friend_id))
         # Create friendships
+        random.shuffle(possible_friendships)
+        # Create n friendship where n = avg_friendships * num_users // 2
+        # avg_friendships = total_friendships / num_users
+        # total_friendships = avg_friendships * num_users
+        for i in range(num_users * avg_friendships // 2):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,7 +74,26 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        return visited
+          # a dictionary, keys are equal to established connections and the value is a list of how to get there
+        queue = Queue()
+
+        queue.enqueue([user_id])
+        while queue.size()>0:
+            current_path = queue.dequeue()
+            current_node = current_path[-1]
+            if current_node not in visited.keys():
+                visited[current_node] = current_path
+            for friend_id in self.friendships[current_node]:
+                new_path = [*current_path, friend_id]
+                if friend_id not in visited.keys():
+                    queue.enqueue(new_path)
+                elif len(new_path)<len(visited[friend_id]):
+                    visited[friend_id] = new_path
+
+
+
+
+        return visited 
 
 
 if __name__ == '__main__':

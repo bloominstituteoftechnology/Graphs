@@ -107,7 +107,7 @@ def earliest_ancestor(ancestors, starting_node):
             max_path_len = len(path)
 
 
-        # Loop through all neighbors of the PARENT node
+        # Loop through all neighbors of the node
         for neighbor in graph.vertices[current_vert]:
             # make a copy of the current pathj
             path_copy = list(path)
