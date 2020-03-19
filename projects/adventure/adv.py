@@ -1,7 +1,7 @@
 from room import Room
 from player import Player
 from world import World
-
+from utils import Queue, Stack
 import random
 from ast import literal_eval
 
@@ -29,12 +29,27 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+#helper function to get reverse of given direction
+def reverse_dir(dir):
+    if dir == "n":
+        return "s"
+    elif dir == "s":
+        return "n"
+    elif dir == "e":
+        return "w"
+    elif dir == "w":
+        return "e"
+
 
 
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
-visited_rooms.add(player.current_room)
+moves = Stack()
+while len(visited_rooms) < len(world.rooms):
+    exits = player.current_room.get_exits()
+    dirs = []
+
 
 for move in traversal_path:
     player.travel(move)

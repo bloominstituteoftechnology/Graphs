@@ -5,8 +5,7 @@ class User:
     def __init__(self, name):
         self.name = name
 
-    def __str__(self):
-        return self.name
+    
 
 class SocialGraph:
     def __init__(self):
@@ -80,7 +79,7 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
+        visited = {}  # Note that this is a dictionary, not a set for each node ur adding a path
         # !!!! IMPLEMENT ME
         q = Queue()
         # Add a Path to the starting vertex_id to the queue
@@ -102,12 +101,13 @@ class SocialGraph:
                     # append the neighbor to new path
                     new_path.append(neighbor)
                     # Enqueue the new path to the back of the queue
+                    q.enqueue(new_path)
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(100, 5)
+    sg.populate_graph(10, 2)
     print(sg.friendships)
     print("\nSocial Paths:")
     connections = sg.get_all_social_paths(1)
