@@ -1,3 +1,16 @@
+## Notes
+- use a while loop to check if the rooms is less than the room graph
+- something to randomly travel between rooms which I think we can do by simply reversing the direction we move so if we move up, we move down, left so we move right, etc
+
+- exits() = find valid moves 
+    * input:current room/output
+    * output: all valid directions from curr room or false if none which makes it do the reverse
+- randomint => picks randomly number for unused dir
+
+
+
+
+
 ## Description
 
 You are provided with a pre-generated graph consisting of 500 rooms. You are responsible for filling `traversal_path` with directions that, when walked in order, will visit every room on the map at least once.
