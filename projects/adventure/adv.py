@@ -49,6 +49,33 @@ moves = Stack()
 while len(visited_rooms) < len(world.rooms):
     exits = player.current_room.get_exits()
     dirs = []
+    # checks all exits in a room
+    # if the room in the direction of the exit has not been visited
+    # append to dirs
+    for exit in exits:
+        if exit is not None and player.current_room.get_room_in_direction(exit) not in visited_rooms:
+            dirs.append(exit)
+    # add room visited set
+    visited_rooms.add(player.current_room)
+    # if there are directions to move in
+    # pick a random one available
+    # push that dir onto moves stack
+    # move the player in that direction
+    # append move to travarseral path
+    if len(dirs) > 0:
+        rand_dir = random.randint(0, len(dirs) -1)
+        moves.push(dirs[rand_dir])
+        player.travel(dirs[rand_dir])
+        traversal_path.append(dirs[rand_dir])
+    # if there are no directions to move in
+    # get the last move made
+    # move the player in the reveres direction of last move
+    # append move to traversal path
+    else:
+        last_move = moves.pop()
+        player.travel(reverse_dir(last_move))
+        traversal_path.append(reverse_dir(last_move))
+
 
 
 for move in traversal_path:
