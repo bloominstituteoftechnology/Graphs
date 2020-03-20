@@ -55,5 +55,18 @@ class Room:
             return self.w_to
         else:
             return None
+    def get_exit_room_names(self,):
+        """returns the surrounding rooms in self by name in the form of a list """
+        directions = self.get_exits()
+        return [self.get_room_in_direction(direction).name for direction in directions]    
+    def rooms_visited(self, visited):
+        """Takes in the room surrounding rooms of self and compares it against a visited collections
+            if ALL surrounding rooms are in visited, then it will return True
+        """
+        rooms = self.get_exit_room_names()
+        for room in rooms:
+            if room not in visited:
+                return False
+        return True
     def get_coords(self):
         return [self.x, self.y]
