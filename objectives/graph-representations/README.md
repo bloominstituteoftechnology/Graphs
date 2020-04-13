@@ -24,16 +24,16 @@ In an adjacency list, the graph stores a list of vertices and for each vertex, a
 
 ```python
 class Graph:
-    def __init__(self):
-        self.vertices = {
-                          "A": {"B"},
-                          "B": {"C", "D"},
-                          "C": {"E"},
-                          "D": {"F", "G"},
-                          "E": {"C"},
-                          "F": {"C"},
-                          "G": {"A", "F"}
-                        }
+	def __init__(self):
+		self.vertices = {
+						  "A": {"B"},
+						  "B": {"C", "D"},
+						  "C": {"E"},
+						  "D": {"F", "G"},
+						  "E": {"C"},
+						  "F": {"C"},
+						  "G": {"A", "F"}
+						}
 ```
 
 Note that this adjacency list doesn't actually use any lists. The `vertices` collection is a `dictionary` which lets us access each collection of edges in O(1) constant time while the edges are contained in a `set` which lets us check for the existence of edges in O(1) constant time.
@@ -44,14 +44,14 @@ Now, let's see what this graph might look like as an adjacency matrix:
 
 ```python
 class Graph:
-    def __init__(self):
-        self.edges = [[0,1,0,0,0,0,0],
-                      [0,0,1,1,0,0,0],
-                      [0,0,0,0,1,0,0],
-                      [0,0,0,0,0,1,1],
-                      [0,0,1,0,0,0,0],
-                      [0,0,1,0,0,0,0],
-                      [1,0,0,0,0,1,0]]
+	def __init__(self):
+		self.edges = [[0,1,0,0,0,0,0],
+					  [0,0,1,1,0,0,0],
+					  [0,0,0,0,1,0,0],
+					  [0,0,0,0,0,1,1],
+					  [0,0,1,0,0,0,0],
+					  [0,0,1,0,0,0,0],
+					  [1,0,0,0,0,1,0]]
 ```
 
 We represent this matrix as a two-dimensional array, or a list of lists. With this implementation, we get the benefit of built-in edge weights but do not have an association between the values of our vertices and their index.
@@ -210,8 +210,8 @@ In an adjacency matrix, however, it's a bit more complicated. You would need to 
 ```Python
 v_edges = []
 for v2 in self.edges[v]:
-    if self.edges[v][v2] > 0:
-        v_edges.append(v2)
+	if self.edges[v][v2] > 0:
+		v_edges.append(v2)
 return v_edges
 ```
 

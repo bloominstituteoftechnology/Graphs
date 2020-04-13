@@ -33,7 +33,7 @@ for v in graph.vertexes:
 
 for v in graph.vertexes:
   if v.color == white:
-    component = bfs(v)
+	component = bfs(v)
 	connected_components.push(component);
 ```
 

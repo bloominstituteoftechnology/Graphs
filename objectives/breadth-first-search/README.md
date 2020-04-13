@@ -9,7 +9,7 @@
 
 When searching a graph, one of the approaches is called _breadth first
 search_. This explores the graph outward in rings of ever increasing
-distance from the starting vertex. 
+distance from the starting vertex.
 
 The algorithm never attempts to explore a vert that it either has
 explored or is exploring.
@@ -27,15 +27,15 @@ taken first and which vertex is the starting vertex.)
 
 ## Uses of BFS
 
-* Pathfinding, Routing 
-* Find neighbor nodes in a P2P network like Bittorrent 
-* Web crawlers 
-* Finding people n connections away on a social site 
-* Find neighboring locations on graph 
-* Broadcasting in a network 
-* Cycle detection in a graph 
+* Pathfinding, Routing
+* Find neighbor nodes in a P2P network like Bittorrent
+* Web crawlers
+* Finding people n connections away on a social site
+* Find neighboring locations on graph
+* Broadcasting in a network
+* Cycle detection in a graph
 * Finding [Connected Components](https://en.wikipedia.org/wiki/Connected_component_(graph_theory))
-* Solving a number of theoretical graph problems 
+* Solving a number of theoretical graph problems
 
 ## Coloring Vertexes
 
@@ -61,21 +61,21 @@ the verts in the queue.
 ```pseudocode
 BFS(graph, startVert):
   for v of graph.vertexes:
-    v.color = white
+	v.color = white
 
   startVert.color = gray
   queue.enqueue(startVert)
 
   while !queue.isEmpty():
-    u = queue[0]  // Peek at head of queue, but do not dequeue!
+	u = queue[0]  // Peek at head of queue, but do not dequeue!
 
-    for v of u.neighbors:
-      if v.color == white:
-        v.color = gray
-        queue.enqueue(v)
-    
-    queue.dequeue()
-    u.color = black
+	for v of u.neighbors:
+	  if v.color == white:
+		v.color = gray
+		queue.enqueue(v)
+
+	queue.dequeue()
+	u.color = black
 ```
 
 ## Exercises
