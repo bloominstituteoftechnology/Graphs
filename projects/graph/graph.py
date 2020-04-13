@@ -107,8 +107,20 @@ class Graph:
 			starting_vertex = Vertex(starting_vertex)
 		if not isinstance(destination_vertex, Vertex):
 			destination_vertex = Vertex(destination_vertex)
-		path = [starting_vertex]
-		pass  # TODO
+
+		visited = set()
+		to_visit = Queue()
+		to_visit.enqueue([starting_vertex])
+		while to_visit.size():
+			current_path = to_visit.dequeue()
+			if current_path[-1] == destination_vertex:
+				return [v.vid for v in current_path]
+			elif current_path[-1] in visited:
+				continue
+			else:
+				visited.add(current_path[-1])
+				for vertex in self.vertices[current_path[-1]]:
+					to_visit.enqueue(current_path + [vertex])
 
 	def dfs(self, starting_vertex, destination_vertex):
 		"""
@@ -116,9 +128,32 @@ class Graph:
 		starting_vertex to destination_vertex in
 		depth-first order.
 		"""
-		pass  # TODO
+		if not isinstance(starting_vertex, Vertex):
+			starting_vertex = Vertex(starting_vertex)
+		if not isinstance(destination_vertex, Vertex):
+			destination_vertex = Vertex(destination_vertex)
+
+		visited = set()
+		to_visit = Stack()
+		to_visit.push([starting_vertex])
+		while to_visit.size():
+			current_path = to_visit.pop()
+			if current_path[-1] == destination_vertex:
+				return [v.vid for v in current_path]
+			elif current_path[-1] in visited:
+				continue
+			else:
+				visited.add(current_path[-1])
+				for vertex in self.vertices[current_path[-1]]:
+					to_visit.push(current_path + [vertex])
 
 	def dfs_recursive(self, starting_vertex, destination_vertex):
+		return [
+			v.vid for v in
+			self._dfs_recursive_v(starting_vertex, destination_vertex)
+		]
+
+	def _dfs_recursive_v(self, starting_vertex, destination_vertex, visited=None):
 		"""
 		Return a list containing a path from
 		starting_vertex to destination_vertex in
@@ -126,7 +161,25 @@ class Graph:
 
 		This should be done using recursion.
 		"""
-		pass  # TODO
+		if visited is None:
+			visited = set()
+		if not isinstance(starting_vertex, Vertex):
+			starting_vertex = Vertex(starting_vertex)
+		if not isinstance(destination_vertex, Vertex):
+			destination_vertex = Vertex(destination_vertex)
+
+		path = [starting_vertex]
+		visited.add(starting_vertex)
+		for vertex in self.vertices[starting_vertex]:
+			if vertex == destination_vertex:
+				return path + [destination_vertex]
+			elif vertex in visited:
+				continue
+			else:
+				new_path = self._dfs_recursive_v(vertex, destination_vertex, visited=visited)
+				if new_path is not None:
+					return path + new_path
+		return None
 
 	def _vertices_ids(self):
 		return {key.vid: {v.vid for v in val} for key, val in self.vertices.items()}
