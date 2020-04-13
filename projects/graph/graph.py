@@ -19,7 +19,7 @@ class Graph:
         """
         Add a directed edge to the graph. from v1 to v2 
         """
-        if v1 in self.vertices and v2 in self.vertecies:
+        if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
         else:
             print("vertex not found")
@@ -28,8 +28,8 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        if vertex_id in self.vertecies:
-            return self.vertecies[vertex_id]
+        if vertex_id in self.vertices:
+            return self.vertices[vertex_id]
         else:
             print("Vertex not found!")
 
@@ -38,7 +38,17 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        qq = Queue()
+        qq.enqueue(starting_vertex)
+        
+        visited = set()
+        while qq.size() > 0:
+            v = qq.dequeue()
+            if v not in visited:
+                print(v)
+                visited.add(v)
+                for neighbor in self.get_neighbors(v):
+                    qq.enqueue(neighbor)
 
     def dft(self, starting_vertex):
         """
