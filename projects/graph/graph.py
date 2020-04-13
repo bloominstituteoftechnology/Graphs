@@ -66,14 +66,31 @@ class Graph:
                     new_path = list(path)
                     new_path.append(next_vert)
                     q.enqueue(new_path)
-        pass  # TODO
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # ? create stack, add starting vertex
+        s = Stack()
+        s.push(starting_vertex)
+
+        # ? Create a set of traversed vertices
+        visited = set()
+
+        while s.size() > 0:
+            # ? remove first vert
+            vert = s.pop()
+            # ? if not visited
+            if vert not in visited:
+                # ? do the thing
+                print(vert)
+                # ? mark as visited
+                visited.add(vert)
+                # ? push all neighbors
+                for next_vert in self.get_neighbors(vert):
+                    s.push(next_vert)
 
     def dft_recursive(self, starting_vertex):
         """
