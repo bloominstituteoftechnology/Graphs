@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-from projects.graph.util import Stack, Queue  # These may come in handy
+from util import Stack, Queue  # These may come in handy
 
 class Graph:
 
@@ -168,8 +168,7 @@ class Graph:
                     if v == starting_vertex:
                         return -1
                     else:
-                        return v
-                                        
+                        return v                    
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
