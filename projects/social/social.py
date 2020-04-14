@@ -113,7 +113,7 @@ class SocialGraph:
                 visited[friend] = path
                 print("VISITED: ", visited)
 
-                for v in self.friendships[friend]:
+                for friend in self.friendships[friend]:
                     copy_path = path.copy()
                     copy_path.append(v)
                     print("COPY PATH: ", copy_path)
@@ -190,7 +190,7 @@ def get_all_social_paths(self, user_id):
             for friend_id in self.friendships[curr_friend]:
                 # Copy path (make new path) and enqueue each neighbor
                 new_path = list(path)
-                new_path = append(friend_id)
+                new_path.append(friend_id)
                 q.enqueue(new_path)
 
     return visited
