@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+from projects.graph.util import Stack, Queue  # These may come in handy
 
 class Graph:
 
@@ -153,6 +153,23 @@ class Graph:
                 new_path.append(n)
                 paths.enqueue(new_path)
             return self.dfs_recursive(starting_vertex, destination_vertex, paths, visited)
+        
+    def bft_find_furthest(self, starting_vertex):
+        qq= Queue()
+        qq.enqueue(starting_vertex)
+        visited = set()
+        while qq.size() > 0:
+            v = qq.dequeue()
+            if v not in visited:
+                visited.add(v)
+                for n in self.get_neighbors(v):
+                    qq.enqueue(n)
+                    # return furthest:
+                    if v == starting_vertex:
+                        return -1
+                    else:
+                        return v
+                                        
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
