@@ -92,7 +92,14 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if starting_vertex not in visited:
+            # Add it to visited
+            visited.add(starting_vertex)
+            print(starting_vertex)
+            # For each neighbor of the vertext
+            for neighbor in self.get_neighbors(starting_vertex):
+                # Recursion passing in that neighbor and the visited set
+                self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -158,7 +165,23 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            print(starting_vertex)
+
+            # If the vertex is = to the destination vertex
+            if starting_vertex == destination_vertex:
+                return [starting_vertex]
+
+            # For each neighbor of the vertex
+            for neighbor in self.get_neighbors(starting_vertex):
+                # Set the path to recurse with the neighbor as the starting vertex)
+                path = self.dfs_recursive(neighbor, destination_vertex, visited)
+
+                # If the path is is not none, and the destination is in the path
+                if path is not None and destination_vertex in path:
+                    # return the starting vertex and the path in an array
+                    return [starting_vertex, *path]
 
 
 if __name__ == "__main__":
