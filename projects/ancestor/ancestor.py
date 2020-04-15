@@ -19,8 +19,8 @@ def earliest_ancestor(ancestors, starting_node):
         # print(graph.vertices)
 
     for vertex in graph.vertices:
-        if graph.bfs(vertex, starting_node) != None and len(graph.bfs(vertex, starting_node)) > 0:
-            paths.append(graph.bfs(vertex, starting_node))
+        if graph.dfs(vertex, starting_node) != None and len(graph.dfs(vertex, starting_node)) > 0:
+            paths.append(graph.dfs(vertex, starting_node))
         # print(paths)
 
     if len(paths) == 1:
