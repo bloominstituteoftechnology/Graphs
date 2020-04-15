@@ -43,10 +43,13 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
+        # add users
+        
+        # create friendships 
+        
+        # shuffle the list and get N from the list 
+        
 
-        # Add users
-
-        # Create friendships
 
     def get_all_social_paths(self, user_id):
         """
