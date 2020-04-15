@@ -1,10 +1,19 @@
+#!/usr/bin/env
+
+import random
+import secrets
+
+from util import Queue
+
+
 class User:
 	def __init__(self, name):
 		self.name = name
 
+
 class SocialGraph:
 	def __init__(self):
-		self.last_id = 0
+		self.last_id = -1
 		self.users = {}
 		self.friendships = {}
 
@@ -39,14 +48,27 @@ class SocialGraph:
 		The number of users must be greater than the average number of friendships.
 		"""
 		# Reset graph
-		self.last_id = 0
-		self.users = {}
-		self.friendships = {}
-		# !!!! IMPLEMENT ME
+		self.__init__()
 
-		# Add users
+		for i in range(num_users):
+			name = secrets.token_urlsafe(8)
+			self.add_user(name)
+		# print(self.users)
 
-		# Create friendships
+		for user in self.users:
+			to_add_count = random.randint(
+				0,
+				avg_friendships * 2
+			) - len(self.friendships[user])
+			for i in range(to_add_count):
+
+				# Try ten times to generate a friend before giving up
+				max_tries = 10
+				for i in range(max_tries):
+					friend = random.randint(0, self.last_id)
+					if friend not in self.friendships[user] and friend != user:
+						self.add_friendship(user, friend)
+						break
 
 	def get_all_social_paths(self, user_id):
 		"""
@@ -57,8 +79,17 @@ class SocialGraph:
 
 		The key is the friend's ID and the value is the path.
 		"""
-		visited = {}  # Note that this is a dictionary, not a set
-		# !!!! IMPLEMENT ME
+		visited = {}
+		to_visit = Queue()
+		to_visit.enqueue([user_id])
+		while to_visit.size():
+			current_path = to_visit.dequeue()
+			if current_path[-1] in visited:
+				continue
+			else:
+				visited[current_path[-1]] = current_path
+				for vertex in self.friendships[current_path[-1]]:
+					to_visit.enqueue(current_path + [vertex])
 		return visited
 
 
@@ -68,3 +99,18 @@ if __name__ == '__main__':
 	print(sg.friendships)
 	connections = sg.get_all_social_paths(1)
 	print(connections)
+	sg.populate_graph(1000, 5)
+	averages = []
+	esn_counts = []
+	for user in sg.users:
+		connections = sg.get_all_social_paths(user)
+		distances = [len(path) for path in connections.values()]
+		averages.append(sum(distances) / len(distances))
+		esn_counts.append(len(connections))
+		print(averages[-1])
+	print('Average members of extended network: ' + str(sum(esn_counts) / len(esn_counts)))
+	print('Average degrees of separation: ' + str(sum(averages) / len(averages)))
+
+
+
+
