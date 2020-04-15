@@ -1,3 +1,6 @@
+import random 
+
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -44,10 +47,24 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
         # add users
+        #generate all friend combinations
+        # avoid duplicates by making sure num1 < num2
         
         # create friendships 
-        
+
+        for i in range(0, num_users):
+            self.add_user(f'Fred {i+1}')
+        possible_friends=[]
+        for user_id in self.users:
+            for friend_id in range(user_id +1 , self.last_id +1):
+                 possible_friends.append((user_id, friend_id))
         # shuffle the list and get N from the list 
+
+        random.shuffle(possible_friends)
+        # create for X pairs (tatal // 2)
+        for i in range(num_users*avg_friendships //2):
+            friendship =possible_friends[i]
+            self.add_friendship(friendship[0], friendship[1])        
         
 
 

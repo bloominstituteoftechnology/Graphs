@@ -163,11 +163,13 @@ class Graph:
                 visited.add(v)
                 for n in self.get_neighbors(v):
                     qq.enqueue(n)
-                    # return furthest:
-                    if v == starting_vertex:
-                        return -1
-                    else:
-                        return v    
+            if qq.size() == 0:
+                # return furthest:
+                if v == starting_vertex:
+                    return -1 
+                else:
+                    return v
+                      
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
