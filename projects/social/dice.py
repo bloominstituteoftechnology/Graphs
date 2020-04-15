@@ -6,7 +6,7 @@
   
 # An entry in queue used in BFS 
 class QueueEntry(object): 
-    def __init__(self, visited = 0, distance = 0): 
+    def __init__(self, v = 0, dist = 0): 
         self.v = v 
         self.dist = dist 
   
@@ -75,3 +75,21 @@ def getMinDiceThrows(move, N):
     # We reach here when 'qe' has last vertex 
     # return the distance of vertex in 'qe 
     return qe.dist 
+# driver code 
+N = 30
+moves = [-1] * N 
+  
+# Ladders 
+moves[2] = 21
+moves[4] = 7
+moves[10] = 25
+moves[19] = 28
+  
+# Snakes 
+moves[26] = 0
+moves[20] = 8
+moves[16] = 3
+moves[18] = 6
+  
+print("Min Dice throws required is {0}". 
+       format(getMinDiceThrows(moves, N))) 
