@@ -69,16 +69,50 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create a queue and enqueue starting vertex
 
-    def dft_recursive(self, starting_vertex):
+        ss = Stack()
+        ss.push([starting_vertex])
+
+        # Create a set of traversed vertices
+        visited = set()
+
+        # While queue is not empty:
+        while ss.size() > 0:
+            # dequeue/pop the first vertex
+            path = ss.pop()
+            # if not visited
+            if path[-1] not in visited:
+                print(path[-1])
+                # mark as visited
+                visited.add(path[-1])
+                # enqueue all neighbors
+                for next_vert in self.get_neighbors(path[-1]):
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    ss.push(new_path)
+
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Initial case
+        if visited is None:
+            visited = set()
+
+        # Base case - no more neighbors
+
+        # track visited nodes
+        visited.add(starting_vertex)
+        print(starting_vertex)
+
+        # call the function recursively - on neighbors, not visited
+        for neighbor in self.vertices[starting_vertex]:
+            if neighbor not in visited:
+                self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -106,6 +140,8 @@ class Graph:
                 # enqueue all neighbors
                 for next_vert in self.get_neighbors(path[-1]):
                     new_path = list(path)
+                    new_path.append(next_vert)
+                    qq.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -143,7 +179,27 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Create a stack
+        ss = Stack()
+        ss.push([starting_vertex])
+        # Create a set of traversed vertices
+        visited = set()
+
+        # While queue is not empty
+        while ss.size() > 0:
+            # dequeue/pop the first vertex
+            path = ss.pop()
+            # if not visited
+            if path[-1] not in visited:
+                if path[-1] == destination_vertex:
+                    return path
+                # mark as visited
+                visited.add(path[-1])
+                # enqueue all neighbors
+                for next_vert in self.get_neighbors(path[-1]):
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    ss.push(new_path)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
