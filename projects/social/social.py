@@ -103,7 +103,7 @@ class SocialGraph:
         q = Queue()  # Instantiate a queue
         q.enqueue([user_id])  # Add a user_id to q as starting vertex
 
-        # BFS to find shortest friendship paths
+        # BFS/BFT to find shortest friendship paths
         while q.size() > 0:
             path = q.dequeue()
             friend = path[-1] 
@@ -135,6 +135,35 @@ if __name__ == '__main__':
 '''
 BRIAN'S SOLUTION:
 
+U:
+# shortest - tells us to use breadth-first
+# extended network - traversal, connected component
+P:
+# we built the graph already
+# start at given user_id, do BFT, return the path to each friend
+
+E:
+# create queue
+# enqueue path
+# create visited
+visited = {}  # dictionary, not a set
+# while q not empty
+while qq.size() > 0:
+    # dequeue first path
+    path = qq.dequeue()
+    vertex = path[-1]  # create vertex var to avoid retyping path[-1]
+    # if not visited
+    if vertex not in visited:
+        # Add to visited
+        visited[vertex] = path
+        # for each neighbor
+        for neighber in self.friendships[vertex]:
+            # copy path and enqueue
+            new_path = path.copy()
+            new_path.append(neighbor)
+            qq.enqueue(new_path)
+return visited
+
 def add_friendship(self, user_id, friend_id):
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
@@ -158,7 +187,7 @@ def populate_graph(self, num_users, avg_friendships):
         self.add_user(f"User {i + 1}")
 
     # Create friendships
-    target_friendships = (num_users * avg_friendships)
+    target_friendships = (num_users * avg_friendships)  # ALTERNATIVELY:(num_users * avg_friendships)//2
     total_friendships = 0
     collisions = 0
     while total_friendships < target_friendships:
@@ -166,9 +195,9 @@ def populate_graph(self, num_users, avg_friendships):
         user_id = random.randint(1, self.last_id)
         friend_id = random.randint(1, self.last_id)
         if self.add_friendship(user_id, friend_id):
-            total_friendships += 2
+            total_friendships += 2  # ALTERNATIVELY: +=1
         else:
-            collisions += 1
+            collisions += 1   
     print(f"COLLISIONS: {collisions}")
 
 def get_all_social_paths(self, user_id):      
