@@ -81,7 +81,7 @@ class SocialGraph:
         graph = Graph()
         for user in self.users:
             # Get the shortest path
-            visited[u] = graph.bfs(user_id,user)
+            visited[user] = graph.bfs(user_id,user)
 
         return visited
 
