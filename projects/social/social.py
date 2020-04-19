@@ -71,6 +71,18 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        
+        queue = [user_id]
+        visited[user_id] = [user_id]
+
+        while len(queue) > 0:
+            node = queue.pop()
+            friends= self.friendships[node]
+            for friend in friends:
+                if not friend in visited:
+                    visited[friend] = visited[node] + [friend]
+                    queue.append(friend)
+                    
         return visited
 ​
 ​
