@@ -46,34 +46,19 @@ class SocialGraph:
         self.friendships = {}
 ​
         # Add users
-        for user in range(num_users):
-            self.add_user(user)
-​
-    # create a list with all possible friendship combinations
-        friendships = []
-        for user in range(1, self.last_id + 1):
-            for friend in range(user + 1, num_users):
-                friendships.append((user, friend))
-​
-    # shuffle the list, 
-        # mutate in place with: random.shuffle(array)
-​
-        # or, Fisher-Yates shuffle!
-        for idx in range(len(friendships)):
-        # randint will give us an integer in this range, inclusive (includes last number)
-            rand_idx = random.randint(0, len(friendships) - 1)  
-            # I think this syntax for swapping items is sweet
-            friendships[idx], friendships[rand_idx] = friendships[rand_idx], friendships[idx]
-​
-    # then grab the first N elements from the list.
-        total_friendships = num_users * avg_friendships
-        pairs_needed = friendships // 2 # bc add_friendship makes 2 at a time
-        random_friendships = total_friendships[:pairs_needed]
+        for u in range(1, num_users+1):
+            self.add_user(u)
 ​
         # Create friendships
-        for friendship in random_friendships:
-            self.add_friendship(friendship[0], friendship[1])
-​
+        for user in self.users:
+            hellos = list(self.users)
+            hellos.remove(user)
+            random.shuffle(hellos)
+
+            friends = hellos[:avg_friendships]
+            for friend in friends:
+                if user < friend:
+                    self.add_friendship(user, friend)
 ​
     def get_all_social_paths(self, user_id):
         """
