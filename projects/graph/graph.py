@@ -79,7 +79,19 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # create a stack plan_to_visit
+        # create a set visited
+        plan_to_visit = Stack()
+        plan_to_visit.push(starting_vertex)
+        visited_vertices = set()
+        while plan_to_visit.size() > 0:
+            current_vertex = plan_to_visit.pop()
+            if current_vertex not in visited_vertices:
+                print(current_vertex)
+                visited_vertices.add(current_vertex)
+                for neighbor in self.get_neighbors(current_vertex):
+                    if neighbor not in visited_vertices:
+                        plan_to_visit.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -96,6 +108,20 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
+        # create an empty queue and enqueue a PATH to the starting vertex
+        # queue.enqueue([starting_vertex])
+        # create a set for visited vertices
+        # while the queue is not empty
+        # dequeue the first PATH
+        # grab the last vertex in the path
+        # if it hasn't been visited
+        # check if it is target
+        # return path
+        # mark it as visited
+        # make new versions of current path for each neighbor
+        # duplicate the path
+        # add the neighbor
+        # add new path to the queue
         pass  # TODO
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -159,6 +185,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print('BFT')
     graph.bft(1)
 
     '''
@@ -168,6 +195,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('DFT')
     graph.dft(1)
     graph.dft_recursive(1)
 
