@@ -3,36 +3,76 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
+        '''
+        {
+            A:{B},
+            B:{C},
+            C:{},
+            D:{}
+        }
+        '''
 
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError('That vertex does not exist')
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        '''
+        visited (set) - [1, 2, 3, 4, 5, 6, 7] - print
+        visited = ([])
+        plan_to_visit (queue) - when empty, we are finished
+        examine starting vertex for edges, add to [visited](print) -- remove from plan_to_visit
+        add edges to [plan_to_visit] if edge not in [visited]
+        while plan_to_visit not empty -- visit plan_to_visit[0]
+
+        '''
+        # create a plan_to_visit queue and add starting_vertex to it
+        plan_to_visit = Queue()
+        plan_to_visit.enqueue(starting_vertex)
+        # create a Set for visited
+        visited_vertices = set()
+        # while the plan_to_visit queue is not Empty:
+        while plan_to_visit.size() > 0:
+            # dequeue the first vertex on the queue
+            current_vertex = plan_to_visit.dequeue()
+            # if it has not been visited
+            if current_vertex not in visited_vertices:
+                # print vertex
+                print(current_vertex)
+                # mark it as visited, add to visited
+                visited_vertices.add(current_vertex)
+                # add all neighbors to queue
+                for neighbor in self.get_neighbors(current_vertex):
+                    if neighbor not in visited_vertices:
+                        plan_to_visit.enqueue(neighbor)
 
     def dft(self, starting_vertex):
         """
@@ -75,6 +115,7 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
