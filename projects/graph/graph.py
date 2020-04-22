@@ -104,21 +104,32 @@ class Graph:
         breath-first order.
         """
         # Create an empty queue, and enqueue a PATH to the starting vertex
-        # queue.enqueue([starting_vertext])
+        daQueue = Queue()
+        daQueue.enqueue([starting_vertex])
         # create a set for visited vertices
+        visited_vertices = set()
         # while the queue is not empty
+        while daQueue.size() > 0:
             # dequeue the first PATH
+            path = daQueue.dequeue()
             # grab the last vertex in the path
+
             # of it hasnt been visited
+            if path[-1] not in visited_vertices:
                 # check if its the target
+                if path[-1] == destination_vertex:
                     # return the path if it is
+                    return path
                 # mark it as visited
+                visited_vertices.add(path[-1])
                 # make new versions fo the current path, with each neighbor added to them
+                for next_vert in self.get_neighbors(path[-1]):
                     # duplicate the path
+                    new_path = list(path)
                     # add the neighbor
+                    new_path.append(next_vert)
                     # add the new path to the queue
-                    
-        pass  # TODO
+                    daQueue.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -126,7 +137,33 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # Create an empty queue, and enqueue a PATH to the starting vertex
+        daQueue = Stack()
+        daQueue.push([starting_vertex])
+        # create a set for visited vertices
+        visited_vertices = set()
+        # while the queue is not empty
+        while daQueue.size() > 0:
+            # dequeue the first PATH
+            path = daQueue.pop()
+            # grab the last vertex in the path
+
+            # of it hasnt been visited
+            if path[-1] not in visited_vertices:
+                # check if its the target
+                if path[-1] == destination_vertex:
+                    # return the path if it is
+                    return path
+                # mark it as visited
+                visited_vertices.add(path[-1])
+                # make new versions fo the current path, with each neighbor added to them
+                for next_vert in self.get_neighbors(path[-1]):
+                    # duplicate the path
+                    new_path = list(path)
+                    # add the neighbor
+                    new_path.append(next_vert)
+                    # add the new path to the queue
+                    daQueue.push(new_path)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
