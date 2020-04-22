@@ -118,7 +118,7 @@ class Graph:
         # check if it is target
         # return path
         # mark it as visited
-        # make new versions of current path for each neighbor
+        # make new versions of current path for each neighbor queue[[1, 2, 3], [1, 2, 4]]
         # duplicate the path
         # add the neighbor
         # add new path to the queue
