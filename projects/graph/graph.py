@@ -8,38 +8,85 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        # A: {},
+        # B: {},
+        # C: {},
+        # D: {}
 
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex does not exist!")
+        self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create a plan_to_visit queue and add starting_vertex to it
+        plan_to_visit = Queue()
+        plan_to_visit.enqueue(starting_vertex)
+        # Create a Set for visited_vertices
+        visited_vertices = set()
+
+        # While the plan_to_visit queue is not Empty:
+        while plan_to_visit.size() > 0:
+            # dequeue the first vertex on the queue
+            current_vertex = plan_to_visit.dequeue()
+            # if its not been visited
+            if current_vertex not in visited_vertices:
+            #     print the vertex 
+                print(current_vertex)
+            #     mark it as visited, (add it to visited_vertices)
+                visited_vertices.add(current_vertex)
+            #     add all neightbors to the queue
+                for neighbor in self.get_neighbors(current_vertex):
+                    if neighbor not in visited_vertices:
+                        plan_to_visit.enqueue(neighbor)
+
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Create a plan_to_visit queue and add starting_vertex to it
+        plan_to_visit = Stack()
+        plan_to_visit.push(starting_vertex)
+        # Create a Set for visited_vertices
+        visited_vertices = set()
+
+        # While the plan_to_visit stack is not Empty:
+        while plan_to_visit.size() > 0:
+            # pop the first vertex from the stack
+            current_vertex = plan_to_visit.pop()
+            # if its not been visited
+            if current_vertex not in visited_vertices:
+            #     print the vertex 
+                print(current_vertex)
+            #     mark it as visited, (add it to visited_vertices)
+                visited_vertices.add(current_vertex)
+            #     add all neightbors to the stack
+                for neighbor in self.get_neighbors(current_vertex):
+                    if neighbor not in visited_vertices:
+                        plan_to_visit.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -56,6 +103,21 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
+        # Create an empty queue, and enqueue a PATH to the starting vertex
+        # queue.enqueue([starting_vertext])
+        # create a set for visited vertices
+        # while the queue is not empty
+            # dequeue the first PATH
+            # grab the last vertex in the path
+            # of it hasnt been visited
+                # check if its the target
+                    # return the path if it is
+                # mark it as visited
+                # make new versions fo the current path, with each neighbor added to them
+                    # duplicate the path
+                    # add the neighbor
+                    # add the new path to the queue
+                    
         pass  # TODO
 
     def dfs(self, starting_vertex, destination_vertex):
