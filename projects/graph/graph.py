@@ -49,34 +49,60 @@ class Graph:
         # use v2 as the value to be added to the set that v1 key points to
         # use the set method .add() add value
         # E =>
-        self.vertices[v1].add(v2)
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("Vertex nonexistent!")
         # R =>
         # I think maybe the add_edge method should check to see if the connecting vertex (the 2nd arg)
         # is a vertex already and if not, create a new vertex in self.vertices and then continue
         # with the rest of this add_edge() invocation
-        #
-
-        pass  # TODO
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        plan_to_visit = Queue()
+        plan_to_visit.enqueue(starting_vertex)
+        visited = set()
+        while plan_to_visit.size() > 0:
+            current_vertex = plan_to_visit.dequeue()
+            if current_vertex not in visited:
+                print(current_vertex)
+                visited.add(current_vertex)
+                for n in self.get_neighbors(current_vertex):
+                    if n not in visited:
+                        plan_to_visit.enqueue(n)
+        # whilw plan_to_visit is not empty
+            # dequeue first vertex in queue
+            # if it's not been visited:
+                # print vertex
+                # mark as visited
+                # add neighbors to queue
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        plan_to_visit = Stack()
+        plan_to_visit.push(starting_vertex)
+        visited = set()
+        while plan_to_visit.size() > 0:
+            current_vertex = plan_to_visit.pop()
+            if current_vertex not in visited:
+                print(current_vertex)
+                visited.add(current_vertex)
+                for n in self.get_neighbors(current_vertex):
+                    if n not in visited:
+                        plan_to_visit.push(n)
 
     def dft_recursive(self, starting_vertex):
         """
