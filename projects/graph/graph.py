@@ -53,6 +53,23 @@ class Graph:
         add edges to [plan_to_visit] if edge not in [visited]
         while plan_to_visit not empty -- visit plan_to_visit[0]
 
+        lecture solution:
+        neighbors_to_visit = Queue()
+        neighbors_to_visit.enqueue([starting_vertex])
+        visited_vertices = set()
+
+        while neighbors_to_visit.size() > 0:
+            current_path = neighbors_to_visit.dequeue()
+            current_vertex = current_path[-1]
+            if current_vertex not in visited_vertices:
+                if current_vertex == destination_vertex:
+                    return current_path
+                visited_vertices.add(current_vertex)
+                for neighbor in self.get_neighbors():
+                    new_path = list(current_path)
+                    new_path.append(neighbor)
+                    neighbors_to_visit.enqueue(new_path)
+
         '''
         # create a plan_to_visit queue and add starting_vertex to it
         plan_to_visit = Queue()
