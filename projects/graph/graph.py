@@ -58,12 +58,12 @@ class Graph:
                         plan_to_visit.enqueue(neighbor)
 
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
+        # """
+        # Print each vertex in depth-first order
+        # beginning from starting_vertex.
+        # """
         # create a plan_to_visit stack and add starting_vertex
-        print('DFT')
+        # print('DFT')
         plan_to_visit = Stack()
         plan_to_visit.push(starting_vertex)
         # create set for visiting verticies
@@ -90,7 +90,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        print('*****dft_recursive*****')
+        # print('*****dft_recursive*****')
         # check if visited vertices is none
         if visited_vertices is None:
             # if visited vertices is none change to a set
