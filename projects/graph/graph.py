@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+from util import Stack, Queue
 
 
 class Graph:
@@ -45,8 +45,8 @@ class Graph:
             if pop not in already:
                 print(pop)
                 already.add(pop)
-                for v in self.vertices[pop]:
-                    q.enqueue(v)
+                for edge in self.vertices[pop]:
+                    q.enqueue(edge)
 
     def dft(self, starting_vertex):
         """
@@ -61,24 +61,25 @@ class Graph:
             if now not in already:
                 print(now)
                 already.add(now)
-            for v in self.vertices[now]:
-                if v not in already:
-                    s.push(v)
+            for edge in self.vertices[now]:
+                if edge not in already:
+                    s.push(edge)
 
-    def dft_recursive(self, starting_vertex, cache=None):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        if cache is None:
-            cache = set()
+        # initialize visited set
+        if visited is None:
+            visited = set()
         print(starting_vertex)
-        cache.add(starting_vertex)
-        for v in self.vertices[starting_vertex]:
-            if v not in cache:
-                self.dft_recursive(v, cache)
+        visited.add(starting_vertex)
+        for edge in self.vertices[starting_vertex]:
+            if edge not in visited:
+                self.dft_recursive(edge, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -93,10 +94,10 @@ class Graph:
             path = q.dequeue()
             if destination_vertex in path:
                 return path
-            for v in self.vertices[path[-1]]:
-                if v not in already:
-                    q.enqueue(list(path)+[v])
-                    already.add(v)
+            for edge in self.vertices[path[-1]]:
+                if edge not in already:
+                    q.enqueue(list(path)+[edge])
+                    already.add(edge)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -111,38 +112,46 @@ class Graph:
             path = s.pop()
             if destination_vertex in path:
                 return path
-            for v in self.vertices[path[-1]]:
-                if v not in already:
-                    s.push(list(path) + [v])
-                    already.add(v)
+            for edge in self.vertices[path[-1]]:
+                if edge not in already:
+                    s.push(list(path) + [edge])
+                    already.add(edge)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, cache=None, path=None):
+    def dfs_recursive(self, current_vertex, destination_vertex, visited=None, path=None):
         """
         Return a list containing a path from
-        starting_vertex to destination_vertex in
+        current_vertex to destination_vertex in
         depth-first order.
 
         This should be done using recursion.
         """
-        if cache is None:
-            cache = set()
+        if visited is None:
+            visited = set()
         if path is None:
             path = []
-        cache.add(starting_vertex)
-        path = path + [starting_vertex]
-        if starting_vertex == destination_vertex:
+        # add current vertex to visited and path
+        visited.add(current_vertex)
+        path = path + [current_vertex]
+        if current_vertex == destination_vertex:
+            # if current vertex is destination vertex, return path
             return path
-        for v in self.vertices[starting_vertex]:
-            if v not in cache:
+        # loop through current vertex's edges
+        for edge in self.vertices[current_vertex]:
+            # if edge of current vertex hasn't been visited
+            if edge not in visited:
+                # call dfs_recursive with current edge, updated visited, and updated path
                 new_path = self.dfs_recursive(
-                    v, destination_vertex, cache, path)
+                    edge, destination_vertex, visited, path)
+                # if newly made path exists
                 if new_path:
+                    # return newly made path
                     return new_path
+        # return None if no path exists
         return None
 
 
 if __name__ == '__main__':
-    graph = Graph()  # Instantiate your graph
+    graph = Graph()
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
     graph.add_vertex(2)
