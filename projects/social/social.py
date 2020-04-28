@@ -28,9 +28,9 @@ class SocialGraph:
         self.friendships = {}
 
     def add_friendship(self, user_id, friend_id):
-        """
-        Creates a bi-directional friendship
-        """
+        # """
+        # Creates a bi-directional friendship
+        # """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
@@ -40,23 +40,23 @@ class SocialGraph:
             self.friendships[friend_id].add(user_id)
 
     def add_user(self, name):
-        """
-        Create a new user with a sequential integer ID
-        """
+        # """
+        # Create a new user with a sequential integer ID
+        # """
         self.last_id += 1  # automatically increment the ID to assign the new user
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
 
     def populate_graph(self, num_users, avg_friendships):
-        """
-        Takes a number of users and an average number of friendships
-        as arguments
+        # """
+        # Takes a number of users and an average number of friendships
+        # as arguments
 
-        Creates that number of users and a randomly distributed friendships
-        between those users.
+        # Creates that number of users and a randomly distributed friendships
+        # between those users.
 
-        The number of users must be greater than the average number of friendships.
-        """
+        # The number of users must be greater than the average number of friendships.
+        # """
         # Reset graph
         self.last_id = 0
         self.users = {}
