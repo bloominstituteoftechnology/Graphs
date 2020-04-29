@@ -1,4 +1,5 @@
 import random
+from util import Stack, Queue
 
 
 class User:
@@ -77,6 +78,20 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        met = set()
+        friends = Queue()
+        friends.enqueue(user_id)
+
+        while friends.size() > 0:
+            current_friend = friends.dequeue()
+            print(current_friend)
+            for friendship in self.friendships:
+                if friendship == current_friend:
+                    for friend in self.friendships[friendship]:
+                        if friend not in met:
+                            friends.enqueue(friend)
+                            met.add(current_friend)
+                            visited[current_friend] = [current_friend, friend]
         return visited
 
 
