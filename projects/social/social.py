@@ -110,7 +110,8 @@ class SocialGraph:
                         # append to the new path
                         new_path.append(neighbor)
                         # enqueue!
-                        queue.enqueue(new_path)        
+                        queue.enqueue(new_path) 
+        print(path)       
         return visited
 
 

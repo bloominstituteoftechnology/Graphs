@@ -12,7 +12,7 @@ def spirit_medium(ancestors, starting_node, parents=None):
 				parents[child] = {parent}
 			else:
 				parents[child].add(parent)
-
+		print(parents)
 	# add a base case for when there are no parents
 	if starting_node not in parents:
 		return starting_node, -1
