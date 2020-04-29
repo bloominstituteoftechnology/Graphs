@@ -76,22 +76,39 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        met = set()
-        friends = Queue()
-        friends.enqueue(user_id)
+        # visited = {}  # Note that this is a dictionary, not a set
+        # # !!!! IMPLEMENT ME
+        # met = set()
+        # friends = Queue()
+        # friends.enqueue(user_id)
 
-        while friends.size() > 0:
-            current_friend = friends.dequeue()
-            print(current_friend)
-            for friendship in self.friendships:
-                if friendship == current_friend:
-                    for friend in self.friendships[friendship]:
-                        if friend not in met:
-                            friends.enqueue(friend)
-                            met.add(current_friend)
-                            visited[current_friend] = [current_friend, friend]
+        # while friends.size() > 0:
+        #     path = []
+        #     current_friend = friends.dequeue()
+        #     print(current_friend)
+        #     for friendship in self.friendships:
+        #         if friendship == current_friend:
+        #             for friend in self.friendships[friendship]:
+        #                 if friend not in met:
+        #                     friends.enqueue(friend)
+        #                     met.add(current_friend)
+        #                     visited[current_friend] = [current_friend, friend]
+        # return visited
+        paths = Queue()
+        paths.enqueue([user_id])
+        visited = {}
+
+        while paths.size() > 0:
+            current_path = paths.dequeue()
+            current_person = current_path[-1]
+
+            if current_person not in visited:
+                visited[current_person] = current_path
+
+                for friend in self.friendships[current_person]:
+                    new_path = current_path.copy()
+                    new_path.append(friend)
+                    paths.enqueue(new_path)
         return visited
 
 
