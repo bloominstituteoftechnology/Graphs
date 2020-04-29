@@ -99,6 +99,7 @@ def earliest_ancestor(ancestors, starting_node):
     for ancestor in ancestors:
         ancestor_graph.add_edge(ancestor[0], ancestor[1])
 
+    # add path to ancestor paths
     for vertex in ancestor_graph.vertices:
         if ancestor_graph.dfs(vertex, starting_node) is not None and len(ancestor_graph.dfs(vertex, starting_node)) > 0:
             paths.append(ancestor_graph.dfs(vertex, starting_node))
