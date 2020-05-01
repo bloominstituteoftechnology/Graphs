@@ -1,6 +1,27 @@
+import random
+
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -38,6 +59,8 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
+        if num_users < avg_friendships:
+            return
         # Reset graph
         self.last_id = 0
         self.users = {}
@@ -45,8 +68,23 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for u in range(1, num_users+1):
+            self.add_user(u)
 
         # Create friendships
+        possible_friendships = []
+
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+
+        random.shuffle(possible_friendships)
+
+        for i in range(num_users * avg_friendships // 2):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
+        # invocation_count = 0
+        # max_range = 10
 
     def get_all_social_paths(self, user_id):
         """
@@ -58,13 +96,30 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        neighbors_to_visit = Queue()
+        neighbors_to_visit.enqueue([user_id])
+
+        while neighbors_to_visit.size() > 0:
+            # deque the first path
+            current_path = neighbors_to_visit.dequeue()
+            # grab most recent vertex
+            current_vertex = current_path[-1]
+            # if the current vertex has not been visited
+            if current_vertex not in visited:
+                # add current vertex to the visited dict with
+                # path that led here
+
+                visited[current_vertex] = current_path
+
         return visited
 
 
-if __name__ == '__main__':
-    sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(sg.friendships)
-    connections = sg.get_all_social_paths(1)
-    print(connections)
+sg = SocialGraph()
+sg.populate_graph(10, 2)
+
+# if __name__ == '__main__':
+#     sg = SocialGraph()
+#     sg.populate_graph(10, 2)
+#     print(sg.friendships)
+#     connections = sg.get_all_social_paths(1)
+#     print(connections)
