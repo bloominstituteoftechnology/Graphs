@@ -1,4 +1,5 @@
 import random
+import copy
 
 
 class Queue():
@@ -103,23 +104,36 @@ class SocialGraph:
             # deque the first path
             current_path = neighbors_to_visit.dequeue()
             # grab most recent vertex
+            print("PRINTING CURRENT PATH", current_path)
+
             current_vertex = current_path[-1]
+            # if len(current_path) > 1:
+
+            # else:
+            #     current_vertex = current_path
+
             # if the current vertex has not been visited
             if current_vertex not in visited:
+                # if not visited[current_vertex] or current_path not in visited:
                 # add current vertex to the visited dict with
                 # path that led here
 
                 visited[current_vertex] = current_path
 
+                for n in self.friendships[current_vertex]:
+                    path_copy = current_path.copy()
+                    path_copy.append(n)
+                    neighbors_to_visit.enqueue(path_copy)
+
         return visited
 
 
-sg = SocialGraph()
-sg.populate_graph(10, 2)
+# sg = SocialGraph()
+# sg.populate_graph(10, 2)
 
-# if __name__ == '__main__':
-#     sg = SocialGraph()
-#     sg.populate_graph(10, 2)
-#     print(sg.friendships)
-#     connections = sg.get_all_social_paths(1)
-#     print(connections)
+if __name__ == '__main__':
+    sg = SocialGraph()
+    sg.populate_graph(10, 2)
+    print(sg.friendships)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
