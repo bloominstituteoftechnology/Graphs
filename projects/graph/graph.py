@@ -86,17 +86,16 @@ class Graph:
 
         This should be done using recursion.
         """
-        # def traverse(vertex, visited):
-        #     print(vertex, visited)
-        #     neighbors = self.get_neighbors(vertex)
-        #     if vertex not in visited:
-        #         print(vertex)
-        #         visited.append(vertex)
+        def traverse(vertex, visited):
+            neighbors = self.get_neighbors(vertex)
+            if vertex not in visited:
+                print(vertex)
+                visited.append(vertex)
             
-        #         for next_vert in neighbors:
-        #             traverse(next_vert, visited)
+                for next_vert in neighbors:
+                    traverse(next_vert, visited)
 
-        # return traverse(starting_vertex, [])
+        return traverse(starting_vertex, [])
                  
 
     def bfs(self, starting_vertex, destination_vertex):
