@@ -38,7 +38,7 @@ class Graph:
 				for next_vert in self.get_neighbors(v):
 					# print(f'Neighbors of {v}: {next_vert}')
 					q.enqueue(next_vert)
-					# print(f'Enqueuing {next_vert}')
+				# print(f'Enqueuing {next_vert}')
 
 	def dft(self, starting_vertex):
 		# print(f'Graph: {self.vertices}')
@@ -61,20 +61,43 @@ class Graph:
 		if starting_vertex in visited:
 			return visited
 		else:
-			print(f'{starting_vertex} not in {visited}')
+			# print(f'{starting_vertex} not in {visited}')
 			visited.append(starting_vertex)
-			print(f'Appended {starting_vertex} to {visited}')
+			# print(f'Appended {starting_vertex} to {visited}')
 			for neighbor in self.vertices[starting_vertex]:
-				print(f'Neighbors of {starting_vertex}: {neighbor}')
+				# print(f'Neighbors of {starting_vertex}: {neighbor}')
+				# print('WE ARE RECURISNG!')
 				self.dft_recursive(neighbor, visited)
 
 	def bfs(self, starting_vertex, destination_vertex):
-		"""
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-		pass  # TODO
+		# to be checked
+		queue = Queue()
+		# where we've been
+		visited = set()
+		# add start to queue
+		queue.enqueue([starting_vertex])
+		# if where we started is where we're going, we done
+		if starting_vertex == destination_vertex:
+			return
+		# while there are still items in the queue
+		while queue:
+			# set [path] to first item in queue
+			path = queue.dequeue()
+			# get last node from path
+			node = path[-1]
+			if node not in visited:
+				# construct new path from neighbor nodes and push to queue
+				print('node', node)
+				for neighbor in self.vertices[node]:
+					print('path', path)
+					new_path = list(path)
+					# print('new path copy', new_path)
+					new_path.append(neighbor)
+					print('new_path', new_path)
+					queue.enqueue(new_path)
+					if neighbor == destination_vertex:
+						return new_path
+				visited.add(node)
 
 	def dfs(self, starting_vertex, destination_vertex):
 		"""
