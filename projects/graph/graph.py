@@ -56,7 +56,18 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        #pass  # TODO
+        s = Stack()
+        s.push(starting_vertex) #difrent paramiter
+        visited = set() # Keep track of visited nodes
+
+        while s.size() > 0:# Repeat until queue is empty
+            v = s.pop() # Dequeue first vert
+            if v not in visited: # If it's not visited:
+                print(v)
+                visited.add(v) # Mark visited
+                for next_vert in self.get_neighbors(v): # retruned values from above
+                    s.push(next_vert)
 
     def dft_recursive(self, starting_vertex):
         """
