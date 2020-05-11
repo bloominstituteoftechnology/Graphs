@@ -68,6 +68,18 @@ class Graph:
         """
         pass  # TODO
 
+    def dft_recursive_helper(self, current_vertex, visited_verticies):
+
+        if current_vertex not in self.vertices:
+            return
+        else:
+            if visited_verticies[current_vertex] == 0:
+                print(current_vertex)
+                visited_verticies[current_vertex] = 1
+                # it's revisiting neighbos
+                for neighbor in self.vertices[current_vertex]:
+                    self.dft_recursive_helper(neighbor, visited_verticies)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -77,6 +89,18 @@ class Graph:
         """
         pass  # TODO
 
+        # I'm using a helper function so the graph doesn't need to fundamentally
+        # altered for coloring verticies
+        visited = {i: 0 for i in self.vertices}
+        self.dft_recursive_helper(starting_vertex, visited)
+    def get_path(self, destination_vertex, parents):
+        tracker = destination_vertex
+        search_path = []
+        while tracker != destination_vertex:
+            search_path = [tracker, *search_path]
+            tracker = parents[tracker]
+        # print(search_path)
+        return search_path
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
@@ -122,6 +146,24 @@ class Graph:
         depth-first order.
         """
         pass  # TODO
+    def dfs_recursive_helper(self, current_vertex, destination_vertex, visited_verticies, parents):
+        # [print(i, parents[i]) for i in parents]
+        # print()
+        if current_vertex not in self.vertices:
+            return
+        else:
+            if visited_verticies[current_vertex] == 0:
+                visited_verticies[current_vertex] = 1
+
+                # print(current_vertex)
+                if current_vertex == destination_vertex:
+                    return
+
+                for neighbor in self.vertices[current_vertex]:
+
+                    parents[neighbor] = current_vertex
+                    self.dfs_recursive_helper(neighbor, destination_vertex, visited_verticies, parents)
+
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -132,6 +174,25 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+        visited = {i: 0 for i in self.vertices}
+        parents = {i: 0 for i in self.vertices}
+        self.dfs_recursive_helper(starting_vertex, destination_vertex, visited, parents)
+        # print()
+        # print(destination_vertex)
+        already_found_path = set()
+        tracker = destination_vertex
+        search_path = []
+        # there may be cycles involving any nodes along the path
+        while tracker not in already_found_path:
+            search_path = [tracker, *search_path]
+            already_found_path.add(tracker)
+            tracker = parents[tracker]
+        # print(search_path)
+        return search_path
+
+        # [print(i, parents[i]) for i in parents]
+        # return self.get_path(destination_vertex, parents)
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
