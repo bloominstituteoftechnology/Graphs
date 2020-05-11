@@ -65,18 +65,18 @@ class Graph:
         """
         s = Stack()
         s.push(starting_vertex)
-        visited = []
+        visited = set()
 
         while s.size() > 0:
             vertex = s.pop()
             # if vertex not in visited:
             print(vertex)
-            visited.append(vertex)
+            visited.add(vertex)
 
             for next_vert in self.get_neighbors(vertex):
                 if next_vert not in visited:
                     s.push(next_vert)
-                    visited.append(next_vert)
+                    visited.add(next_vert)
      
 
     def dft_recursive(self, starting_vertex):
@@ -104,7 +104,8 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        q = Queue()
+        visited = set()
 
     def dfs(self, starting_vertex, destination_vertex):
         """
