@@ -36,7 +36,7 @@ class Graph:
         if vertex_id in self.vertices:
             return self.vertices[vertex_id]
         else:
-            return None
+            return set()
 
     def bft(self, starting_vertex):
         """
@@ -45,16 +45,18 @@ class Graph:
         """
         q = Queue()
         q.enqueue(starting_vertex)
-        visited = [] 
+        visited = set() 
 
         while q.size() > 0:
             vertex = q.dequeue()
             print(vertex)
-            visited.append(vertex)
+            visited.add(vertex)
 
             for next_vert in self.get_neighbors(vertex):
                 if next_vert not in visited:
                     q.enqueue(next_vert)
+                    # It hasn't been visited yet, but it will be in the near future.
+                    visited.add(next_vert)
 
     def dft(self, starting_vertex):
         """
@@ -67,12 +69,15 @@ class Graph:
 
         while s.size() > 0:
             vertex = s.pop()
-            if vertex not in visited:
-                print(vertex)
-                visited.append(vertex)
+            # if vertex not in visited:
+            print(vertex)
+            visited.append(vertex)
 
-                for next_vert in self.get_neighbors(vertex):
-                        s.push(next_vert)
+            for next_vert in self.get_neighbors(vertex):
+                if next_vert not in visited:
+                    s.push(next_vert)
+                    visited.append(next_vert)
+     
 
     def dft_recursive(self, starting_vertex):
         """
@@ -81,7 +86,18 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # def traverse(vertex, visited):
+        #     print(vertex, visited)
+        #     neighbors = self.get_neighbors(vertex)
+        #     if vertex not in visited:
+        #         print(vertex)
+        #         visited.append(vertex)
+            
+        #         for next_vert in neighbors:
+        #             traverse(next_vert, visited)
+
+        # return traverse(starting_vertex, [])
+                 
 
     def bfs(self, starting_vertex, destination_vertex):
         """
