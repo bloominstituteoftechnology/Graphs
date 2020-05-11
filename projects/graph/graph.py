@@ -13,7 +13,8 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        #pass  # TODO
+        self.vertices[vertex_id] = set()  # set of edges
 
     def add_edge(self, v1, v2):
         """
