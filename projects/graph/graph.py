@@ -67,6 +67,47 @@ class Graph:
         beginning from starting_vertex.
         """
         pass  # TODO
+        # we want the verticies ordered
+        # print('here')
+        graph_for_stack = {i: list(self.vertices[i]) for i in self.vertices}
+        my_stack = Stack()
+        current = {'current': starting_vertex, 'ith_neighbor': 0}
+        visited = {i: 0 for i in self.vertices}
+
+        count = 0
+        # print(not(my_stack.size() == 0) or current['current'] in graph_for_stack)
+        # (current is not none) and (we have a stck or node is in graph)
+        while (current is not None) and (not(my_stack.size() == 0) or current['current'] in graph_for_stack):
+        
+            # if count == 15:
+            #     print('loop has reached it\'s limit')
+            #     return
+            # print(my_stack.stack)
+            # print(my_stack.stack, current['current'], graph_for_stack[ current['current'] ], visited[ current['current'] ])
+
+            # the current node is in the graph and it hasn't been visited
+            if current['current'] in graph_for_stack and visited[ current['current'] ] == 0:
+  
+                    visited[ current['current'] ] = 1
+
+                    print(current['current'])
+
+                    # this is why each set of vertices needs to be an array
+                    my_stack.push({'current': current['current'], 'ith_neighbor': 0})
+                    current = { 'current': graph_for_stack[ current['current'] ][0],
+                                'ith_neighbor': 0}
+            else:
+                # node doesn't exist or we are revisiting a node
+                current = my_stack.pop()
+                if current is not None:
+                    current['ith_neighbor'] += 1
+
+                    # set current to the current's current at the current's ith neighbor
+                    if current['ith_neighbor'] < len( graph_for_stack[ current['current'] ] ):
+                        current['current'] = graph_for_stack[ current['current'] ][ current['ith_neighbor'] ]
+            count += 1
+
+
 
     def dft_recursive_helper(self, current_vertex, visited_verticies):
 
@@ -146,6 +187,75 @@ class Graph:
         depth-first order.
         """
         pass  # TODO
+        # we want the verticies ordered
+        # print('here')
+        graph_for_stack = {i: list(self.vertices[i]) for i in self.vertices}
+        my_stack = Stack()
+        current = {'current': starting_vertex, 'ith_neighbor': 0}
+        visited = {i: 0 for i in self.vertices}
+
+        parents = {i: 0 for i in self.vertices}
+
+        count = 0
+        # print(not(my_stack.size() == 0) or current['current'] in graph_for_stack)
+        # (current is not none) and (we have a stck or node is in graph)
+        while (current is not None) and (not(my_stack.size() == 0) or current['current'] in graph_for_stack):
+        
+            # if count == 15:
+            #     print('loop has reached it\'s limit')
+            #     return
+            # print(my_stack.stack)
+            # print(my_stack.stack, current['current'], graph_for_stack[ current['current'] ], visited[ current['current'] ])
+            if current['current'] == destination_vertex:
+                # print()
+                # print(destination_vertex)
+                break
+            # the current node is in the graph and it hasn't been visited
+            if current['current'] in graph_for_stack and visited[ current['current'] ] == 0:
+  
+                    visited[ current['current'] ] = 1
+
+                    # print(current['current'])
+
+                    # this is why each set of vertices needs to be an array
+                    my_stack.push({'current': current['current'], 'ith_neighbor': 0})
+
+                    # so the next node maps to the current node
+                    parents[ graph_for_stack[ current['current'] ][0] ] = current['current']
+
+                    current = { 'current': graph_for_stack[ current['current'] ][0],
+                                'ith_neighbor': 0}
+            else:
+                # node doesn't exist or we are revisiting a node
+                current = my_stack.pop()
+                if current is not None:
+                    current['ith_neighbor'] += 1
+
+                    # set current to the current's current at the current's ith neighbor
+                    if current['ith_neighbor'] < len( graph_for_stack[ current['current'] ] ):
+
+                        # so the next node maps to the current node
+                        parents[ graph_for_stack[ current['current'] ][ current['ith_neighbor'] ] ] = current['current']
+
+                        current['current'] = graph_for_stack[ current['current'] ][ current['ith_neighbor'] ]
+            count += 1
+        # [print(i, parents[i]) for i in parents]
+
+        already_found_path = set()
+        tracker = destination_vertex
+        search_path = []
+        # there may be cycles involving any nodes along the path
+        while tracker > 0 and tracker not in already_found_path:
+            # print(tracker)
+            search_path = [tracker, *search_path]
+            already_found_path.add(tracker)
+
+            tracker = parents[tracker]
+        # print(search_path)
+        return search_path
+
+        
+
     def dfs_recursive_helper(self, current_vertex, destination_vertex, visited_verticies, parents):
         # [print(i, parents[i]) for i in parents]
         # print()
@@ -245,7 +355,9 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('start looking here')
     graph.dft(1)
+    print('done')
     graph.dft_recursive(1)
 
     '''
