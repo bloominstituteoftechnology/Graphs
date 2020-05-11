@@ -21,39 +21,52 @@ class Graph:
 		return self.vertices[vertex_id]
 
 	def bft(self, starting_vertex):
-		print('starting vertex', starting_vertex)
+		# print(f'Graph: {self.vertices}')
+		# print('starting vertex', starting_vertex)
 		q = Queue()
 		q.enqueue(starting_vertex)
-		print(f'Enqueueing starting vertex: {starting_vertex}')
+		# print(f'Enqueueing starting vertex: {starting_vertex}')
 		visited = set()
 		while q.size() > 0:
 			v = q.dequeue()
 			if v not in visited:
-				print(f'Currently visiting {v}')
-				print(f'{v} is not in {visited}')
+				# print(f'Currently visiting {v}')
+				# print(f'{v} is not in {visited}')
 				visited.add(v)
-				print(f'Added {v} to visited set')
-				print(f'Visited: {visited}')
+				# print(f'Added {v} to visited set')
+				# print(f'Visited: {visited}')
 				for next_vert in self.get_neighbors(v):
-					print(f'Neighbors of {v}: {next_vert}')
+					# print(f'Neighbors of {v}: {next_vert}')
 					q.enqueue(next_vert)
-					print(f'Enqueuing {next_vert}')
+					# print(f'Enqueuing {next_vert}')
 
 	def dft(self, starting_vertex):
-		"""
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-		pass  # TODO
+		# print(f'Graph: {self.vertices}')
+		stack = Stack()
+		# print('starting vertex', starting_vertex)
+		# print(f'Pushing starting vertex: {starting_vertex}')
+		stack.push(starting_vertex)
+		visited = set()
+		while stack.size() > 0:
+			vertex = stack.pop()
+			if vertex not in visited:
+				# print(f'We are at {vertex} and it not in {visited}')
+				visited.add(vertex)
+				# print(f'Added {vertex} to {visited}')
+				for neighbor in self.vertices[vertex]:
+					# print(f'Neighbors of {vertex}: {neighbor}')
+					stack.push(neighbor)
 
-	def dft_recursive(self, starting_vertex):
-		"""
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-
-        This should be done using recursion.
-        """
-		pass  # TODO
+	def dft_recursive(self, starting_vertex, visited=[]):
+		if starting_vertex in visited:
+			return visited
+		else:
+			print(f'{starting_vertex} not in {visited}')
+			visited.append(starting_vertex)
+			print(f'Appended {starting_vertex} to {visited}')
+			for neighbor in self.vertices[starting_vertex]:
+				print(f'Neighbors of {starting_vertex}: {neighbor}')
+				self.dft_recursive(neighbor, visited)
 
 	def bfs(self, starting_vertex, destination_vertex):
 		"""
