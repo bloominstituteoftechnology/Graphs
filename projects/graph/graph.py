@@ -1,6 +1,8 @@
 """
 Simple graph implementation
 """
+from collections import defaultdict
+
 from util import Stack, Queue  # These may come in handy
 
 class Graph:
@@ -14,19 +16,25 @@ class Graph:
         Add a vertex to the graph.
         """
         pass  # TODO
-        self.vertices[vertex_id] = {}
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
         pass  # TODO
+        if v1 in self.vertices:
+            if v2 in self.vertices:
+                self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
         pass  # TODO
+        if vertex_id in self.vertices:
+
+            return list(self.vertice[vertex_id])
 
     def bft(self, starting_vertex):
         """
@@ -34,6 +42,24 @@ class Graph:
         beginning from starting_vertex.
         """
         pass  # TODO
+
+        visited = {i: 0 for i in self.vertices}
+
+        my_queue = Queue()
+        my_queue.enqueue(starting_vertex)
+        while my_queue.size() > 0:
+
+            current_node = my_queue.dequeue()
+
+            if visited[current_node] == 0:
+                print(current_node)
+
+                visited[current_node] = 1
+                for node in self.vertices[current_node]:
+                    my_queue.enqueue(node)
+
+            
+
 
     def dft(self, starting_vertex):
         """
@@ -58,6 +84,36 @@ class Graph:
         breath-first order.
         """
         pass  # TODO
+        # [print(i, self.vertices[i]) for i in self.vertices]
+        visited = {i: 0 for i in self.vertices}
+
+        my_queue = Queue()
+        my_queue.enqueue(starting_vertex)
+        current_node = -1
+
+        # this is how we remember the path from the start vertex to the
+        # destination(reversed linked list)
+        parents = {i: 0 for i in self.vertices}
+
+        while current_node != destination_vertex:
+
+            current_node = my_queue.dequeue()
+
+            if visited[current_node] == 0:
+                # print(current_node)
+
+                visited[current_node] = 1
+                for node in self.vertices[current_node]:
+                    my_queue.enqueue(node)
+                    parents[node] = current_node
+        # [print(i, parents[i]) for i in parents]
+        tracker = destination_vertex
+        search_path = []
+        while tracker > 0:
+            search_path = [tracker, *search_path]
+            tracker = parents[tracker]
+        # print(search_path)
+        return search_path
 
     def dfs(self, starting_vertex, destination_vertex):
         """
