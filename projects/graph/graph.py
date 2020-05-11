@@ -52,32 +52,27 @@ class Graph:
             print(vertex)
             visited.append(vertex)
 
-            for v in self.get_neighbors(vertex):
-                if v not in visited:
-                    q.enqueue(v)
-        # q = Queue()
-        # q.enqueue(starting_vertex)
-        # # Keep track of visited nodes
-        # visited = set()
-        # # Repeat until queue is empty
-        # while q.size() > 0:
-        #     # Dequeue first vert
-        #     v = q.dequeue()
-        #     # If it's not visited:
-        #     if v not in visited:
-        #         print(v)
-        #         # Mark visited
-        #         visited.add(v)
-        #         for next_vert in self.get_neighbors(v):
-        #             q.enqueue(next_vert)
-
+            for next_vert in self.get_neighbors(vertex):
+                if next_vert not in visited:
+                    q.enqueue(next_vert)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        s = Stack()
+        s.push(starting_vertex)
+        visited = []
+
+        while s.size() > 0:
+            vertex = s.pop()
+            if vertex not in visited:
+                print(vertex)
+                visited.append(vertex)
+
+                for next_vert in self.get_neighbors(vertex):
+                        s.push(next_vert)
 
     def dft_recursive(self, starting_vertex):
         """
