@@ -113,8 +113,8 @@ class Graph:
             if cur_path[-1] == destination_vertex:
                 return cur_path
             else:
-                for next_vert in self.get_neighbors(cur_path[-1]):
-                    q.enqueue(cur_path + [next_vert])
+                for vertex in self.get_neighbors(cur_path[-1]):
+                    q.enqueue(cur_path + [vertex])
         return [] 
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -123,16 +123,16 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        # s = Stack()
-        # s.push([starting_vertex])
-        # visited = []
+        s = Stack()
+        s.push([starting_vertex])
 
-        # while s.size() > 0:
-        #     cur_path = s.pop()
-        #     if cur_path[-1] == destination_vertex:
-        #         return cur_path
-        #     else:
-        #         pass
+        while s.size() > 0:
+            cur_path = s.pop()
+            if cur_path[-1] == destination_vertex:
+                return cur_path
+            else:
+                for vertex in self.get_neighbors(cur_path[-1]):
+                    s.push(cur_path + [vertex])
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
