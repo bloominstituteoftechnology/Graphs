@@ -142,14 +142,20 @@ class Graph:
 
         This should be done using recursion.
         """
-        def find_shortest_path(path):
+        def find_shortest_path(path=None, visited=None):
             if path[-1] == destination_vertex:
                 return path
             else:
+                visited.append(path[-1])
                 for vertex in self.get_neighbors(path[-1]):
-                    return find_shortest_path(path + [vertex])
+                    if vertex not in visited:
+                        shortest_path = find_shortest_path(path + [vertex], visited)
+                        if shortest_path is not None:
+                            return shortest_path
+                return None       
+
+        return find_shortest_path([starting_vertex], [])
         
-        return find_shortest_path([starting_vertex])
 
 
 if __name__ == '__main__':
