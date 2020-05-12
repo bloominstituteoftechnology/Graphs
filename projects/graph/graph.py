@@ -108,7 +108,6 @@ class Graph:
         q = Queue()
         q.enqueue([starting_vertex])
         visited = []
-        paths = [[starting_vertex]]
 
         while q.size() > 0:
             cur_path = q.dequeue()
@@ -119,7 +118,6 @@ class Graph:
                     visited.append(cur_path)
                     for next_vert in self.get_neighbors(cur_path[-1]):
                         q.enqueue(cur_path + [next_vert])
-                        paths.append(cur_path + [next_vert])
         return [] 
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -128,7 +126,8 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # s = Stack()
+        # s.push([starting_vertex])
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
