@@ -49,3 +49,5 @@ current node is further away from the previous node
 
 The loop will automatically break when path doesn't return anything
 """
+
+# Twitter: GCJohnston91

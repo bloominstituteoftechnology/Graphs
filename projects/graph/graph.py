@@ -115,32 +115,6 @@ class Graph:
 					new_path = list(path)
 					new_path.append(neighbor)
 					stack.push(new_path)
-		# stack = Stack()
-		# stack.push([starting_vertex])
-		# # Create a Set to store visited vertices
-		# visited = set()
-		# # While the stack is not empty...
-		# while stack.size() > 0:
-		# 	# Pop the first PATH
-		# 	path = stack.pop()
-		# 	# Grab the last vertex from the PATH
-		# 	vertex = path[-1]
-		# 	# If that vertex has not been visited...
-		# 	if vertex not in visited:
-		# 		# CHECK IF IT'S THE TARGET
-		# 		if vertex == destination_vertex:
-		# 			# IF SO, RETURN PATH
-		# 			return path
-		# 		# Mark it as visited...
-		# 		visited.add(vertex)
-		# 		# Then push A PATH TO its neighbors to the top of the stack
-		# 		for neighbor in self.vertices[vertex]:
-		# 			# COPY THE PATH
-		# 			cp = path.copy()
-		# 			# APPEND THE NEIGHBOR TO THE BACK
-		# 			cp.append(neighbor)
-		# 			# Push to stack
-		# 			stack.push(cp)
 
 	def dfs_recursive(self, starting_vertex, destination_vertex, path=None, visited=None):
 		if visited is None:
