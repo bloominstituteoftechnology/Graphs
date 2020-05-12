@@ -111,13 +111,12 @@ class Graph:
 
         while q.size() > 0:
             cur_path = q.dequeue()
-            if cur_path not in visited: 
-                if cur_path[-1] == destination_vertex:
-                    return cur_path
-                else:
-                    visited.append(cur_path)
-                    for next_vert in self.get_neighbors(cur_path[-1]):
-                        q.enqueue(cur_path + [next_vert])
+            if cur_path[-1] == destination_vertex:
+                return cur_path
+            else:
+                visited.append(cur_path)
+                for next_vert in self.get_neighbors(cur_path[-1]):
+                    q.enqueue(cur_path + [next_vert])
         return [] 
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -128,6 +127,7 @@ class Graph:
         """
         # s = Stack()
         # s.push([starting_vertex])
+        # visited = []
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
