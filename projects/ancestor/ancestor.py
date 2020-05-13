@@ -46,8 +46,9 @@ def earliest_ancestor(ancestors, starting_node):
             # longest previous path, that will be the new longest path
             # and store the node that corresponds with it
             if len(curr_path) > longest_node[0]:
-                if last_node > longest_node[1] or longest_node == -1:
-                    longest_node = [len(curr_path), last_node]
+                longest_node = [len(curr_path), last_node]
+            if len(curr_path) == longest_node[0] and last_node < longest_node[1]:
+                longest_node = (len(curr_path), last_node)
 
         # If the last node does have parents though
         else:
