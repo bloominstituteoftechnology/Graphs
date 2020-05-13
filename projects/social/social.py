@@ -105,17 +105,25 @@ class SocialGraph:
 		while queue.size():  # While there is a queue
 			path = queue.dequeue()  # Set path to queue list
 			node = path[-1]  # Grab last item
+			print('visited', visited)
+			print('Queue:', list(queue.queue))
 			if node not in visited:  # If we haven't been to where we are
 				# print('what do i do here')  # Something is missing here
-				print('path pre', path)
+				print('1 path pre', path)
 				# print('node', node)
-				# We need to update it sp that where we are is the path there
+				# We need to update it so that where we are is the path there
 				# Because we already have the node
-				print('path post', path)
+				# We are currently at the node, but we don't want the node
+				# We want how we got there
+				visited[node] = path
+				# Hot ham it worked!
 				for neighbor in self.friendships[node]:  # For each neighbor node
+					print('2 loop path', path)
 					new_path = list(path)
+					print('3 loop neighbor', neighbor)
 					new_path.append(neighbor)
 					queue.enqueue(new_path)
+					print('4 new_path', new_path)
 		return visited
 
 
