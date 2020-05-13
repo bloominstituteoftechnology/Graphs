@@ -29,7 +29,7 @@ def earliest_ancestor(ancestors, starting_node):
     # Set a default longest node to store the largest distance,
     # index 0, and the last node that corresponded with that longest
     # distance
-    longest_node = [0,-1]
+    longest_node = [1,-1]
 
     # While the queue is not empty
     while len(q) > 0:
@@ -45,8 +45,9 @@ def earliest_ancestor(ancestors, starting_node):
             # If the length of the current path is longer than the
             # longest previous path, that will be the new longest path
             # and store the node that corresponds with it
-            if len(curr_path) > longest_node[0] and last_node > longest_node[1]:
-                longest_node = [len(curr_path), last_node]
+            if len(curr_path) > longest_node[0]:
+                if last_node > longest_node[1] or longest_node == -1:
+                    longest_node = [len(curr_path), last_node]
 
         # If the last node does have parents though
         else:
@@ -55,11 +56,8 @@ def earliest_ancestor(ancestors, starting_node):
             for x in struct[last_node]:
                 q.append(curr_path + [x])
 
-    # if the longest node is still the default (starting_node)
-    # return -1, as the starting node has no parents
-    if longest_node[1] == starting_node:
-        return -1
-
-    # Else return the node farthest away (longest_node index 1)
-    else:
-        return longest_node[1]
+    # Return the longest_node
+    # If the starting_node has no parents, it will not update
+    # from the default values of longest_node and will return
+    # -1
+    return longest_node[1]
