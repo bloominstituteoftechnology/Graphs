@@ -1,4 +1,5 @@
 import random
+from util import Queue 
 
 class User:
     def __init__(self, name):
@@ -73,8 +74,36 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+
+        # Create paths for each of the user's direct friends
+        for friend in self.friendships[user_id]:
+            visited[friend] = [user_id, friend]
+        
+        # Create paths for each of the user's friends' friends
+        for friend in self.friendships[user_id]:
+            for friendsfriend in self.friendships[friend]:
+                if friendsfriend not in visited:
+                    visited[friendsfriend] = self.bfs(user_id, friendsfriend)
+        
         return visited
+
+    def bfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        q = Queue()
+        q.enqueue([starting_vertex])
+
+        while q.size() > 0:
+            cur_path = q.dequeue()
+            if cur_path[-1] == destination_vertex:
+                return cur_path
+            else:
+                for vertex in self.friendships[cur_path[-1]]:
+                    q.enqueue(cur_path + [vertex])
+        return [] 
 
 
 if __name__ == '__main__':
