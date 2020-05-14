@@ -142,7 +142,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        def find_shortest_path(path=None, visited=None):
+        def find_shortest_path(path, visited):
             if path[-1] == destination_vertex:
                 return path
             else:
