@@ -43,10 +43,9 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
         # Add users
-
-        # Create friendships
+       
+        # Create friendships but not the duplicate combinations
 
     def get_all_social_paths(self, user_id):
         """
