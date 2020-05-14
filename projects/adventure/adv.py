@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from world import World
+from graph import MazeGraph
 
 import random
 from ast import literal_eval
@@ -28,6 +29,11 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+visited_rooms = set()
+graph = MazeGraph()
+
+while len(visited_rooms) != len(room_graph):
+   pass 
 
 
 
