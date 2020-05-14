@@ -121,6 +121,8 @@ class Graph:
                 new_path.append(v)
                 q.enqueue(new_path)
 
+        return None
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -146,6 +148,8 @@ class Graph:
                     new_path = list(path)
                     new_path.append(next_vert)
                     s.push(new_path)
+
+        return None            
 
     def dfs_recursive(self, starting_vertex, destination_vertex, visited=None, path=None):
         """
@@ -175,6 +179,8 @@ class Graph:
                                                    new_path)
                 if neighbor_path:
                     return neighbor_path
+
+        return None
 
 
 if __name__ == '__main__':

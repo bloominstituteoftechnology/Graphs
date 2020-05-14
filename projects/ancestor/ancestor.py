@@ -22,8 +22,11 @@ def earliest_ancestor(ancestors, starting_node):
     if len(relations) > 1:
         oldest = relations[0]
         for path in relations:
-            if path is not None and len(path) > len(oldest):
+            if len(path) > len(oldest):
                 oldest = path
+            if len(path) == len(oldest):
+                if path[0] < oldest[0]:
+                    oldest = path
         return oldest[0]
     else:
         return -1
