@@ -125,14 +125,17 @@ class Graph:
         """
         s = Stack()
         s.push([starting_vertex])
+        visited = set()
 
         while s.size() > 0:
             cur_path = s.pop()
             if cur_path[-1] == destination_vertex:
                 return cur_path
             else:
-                for vertex in self.get_neighbors(cur_path[-1]):
-                    s.push(cur_path + [vertex])
+                for vertex in self.get_neighbors(cur_path[-1]).values():
+                    if vertex not in visited:
+                        visited.add(vertex)
+                        s.push(cur_path + [vertex])
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
