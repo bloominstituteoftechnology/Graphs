@@ -28,7 +28,34 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
-
+"""
+Traversal:
+Needs player, the world, and the room_graph
+7 8 9
+4 5 6
+1 2 3
+If player is in 5, connected rooms are 2, 4, 6, 8
+Need structures for:
+Path - list
+Each room (for connected rooms) - stack
+Visited room - stack
+We need a new structure for each room, so in each function call/iteration of loop:
+New queue for each room's connected rooms
+Loop stops when len(visited_rooms) == len(world.rooms)
+current_room goes on stack
+Add current_room to visited_rooms
+Add connecting_rooms to queue
+Get connecting rooms with graph[current_room][1]
+284: [(4, 16), {'n': 470, 's': 349, 'e': 254, 'w': 368}]
+Check if they are in visited
+If connecting_rooms are not in visited_rooms
+Add them to queue
+Set next_room to first item in queue
+Add it to the stack
+If next_room is in connecting_rooms: 
+Set to current room and add it to path
+Rerun until 44 is satisfied?
+"""
 
 
 # TRAVERSAL TEST
