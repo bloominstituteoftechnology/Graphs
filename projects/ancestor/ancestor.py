@@ -24,16 +24,16 @@ def earliest_ancestor(ancestors, starting_node):
             visited.add(v)
             if v == ancestors:
                 return path
-                for next_vert in g.get_neighbors(v):
-                    new_path = path.copy()
-                    new_path.append(next_vert)
-                    q.enqueue(new_path)
+            for next_vert in g.get_neighbors(v):
+                new_path = path.copy()
+                new_path.append(next_vert)
+                q.enqueue(new_path)
 
 
 #     10
 #  /
 # 1   2   4  11
-#  \ /   / \ /
+#  \ /   / \ / <--The edge is the relationship that connects the two vertices(nodes)
 #   3   5   8
 #    \ / \   \
 #     6   7   9
@@ -49,4 +49,15 @@ def earliest_ancestor(ancestors, starting_node):
 #4. How to implement a BFS to locate earliest ancestor 
 
 #Implementation
-#Given a data set (like visited = set())
+#When we input a child, we want to traverse what is before it not after
+#If a descendent was the input, then we would traverse downward, the input, in this case, are ancestors, which means we traverse upwards or backwards
+#How?
+#The starting node(child) has to be the last vertex from the bottom. Therefore set the first vertex to be the 
+#We'll call each vertex the parent 
+#The condition here is find to find the earliest ancestor, therefore the first question is does the parent have more parents.  If yes, queue the parents.  If no parents == earliest ancestor
+
+
+
+
+#Need to find the ancestor that is furthest away from the starting node. So everytime a node is visited, the distance +=1
+#Therefore if the path is 
