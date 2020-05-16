@@ -39,22 +39,26 @@ traversal_path = []
 #1. Move to the east
     #Is room unvisited or is there a dead end?
         #If unvisited, add to uv queue
-        #If deadend, mark room as visited and dequeue
+        #check for exits
+            #if exit is east, move east, 
+                #dequeue from uv queue
+                #add to visited list
 
-#2. Move to the west
-    #Is room unvisited or is there a dead end?
-    #If unvisited, add to uv queue
-    #If deadend, mark room as visited and dequeue
+            #if exit is west, move west
+                #Is room unvisited or is there a dead end?
+                #If unvisited, add to uv queue 
+                #If deadend, mark room as visited and dequeue from unvisited
 
-#3. Move to the south
-    #Is room unvisited or is there a dead end?
-    #If unvisited, add to uv queue
-    #If deadend, mark room as visited and dequeue
+            #if exit is south, move south
+                #Is room unvisited or is there a dead end?
+                #If unvisited, add to uv queue
+                #If deadend, mark room as visited and dequeue from unvisited
 
-#4. Move to the south
-    #Is room unvisited or is there a dead end?
-    #If unvisited, add to uv queue
-    #If deadend, mark room as visited and dequeue
+            #if exit is north, move north
+                #Is room unvisited or is there a dead end?
+                #If unvisited, add to uv queue
+                #If deadend, mark room as visited and dequeue from unvisited
+                #If deadend, mark room as visited and dequeue
 
 #5. Now does len(room_graph) == len(visited) 
     #If false, repeat process
