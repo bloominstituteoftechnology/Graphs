@@ -31,33 +31,36 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-#This traversal graph needs to have 'helper functions listed that will do the following things: 
-
-#Pseudocode
-# Make a BFS Function
-#1. Place starting room in the unvisited queue
-#2. While queue is not empty, place 
-#Conditions:
-#MOVEMENTS!!!!
-#Besides the dft process
-#If the first unvisited room is east MOVE east, if west, move west, so on and so forth
-#If the room is visited, display the exits
-#If the exit is to the east MOVE east, so on and so forth, ***Consider writing a function for this because it's becoming repetitive***
-#If len(unvisited) < len(room_graph), find unvisited 
-#If len(visited) == len(room_graph), traversal complete
-
-
-
-        
-
-#    
 #Problem:
 #The goal is to move from one room to the next in under 2000 steps (Goal is actually 950), the strategy is to only visit one room going in one direction around the map.  The problem is if we go in 1 direction, how do we backtrack if the player reaches a dead end?
 
-#Solution:
-#Move the player to a random room
-#Has room been 
-#If the player hits a dead-end (meaning no other attached rooms), mark the dead end room as `unvisited`.  This enables the player to backtrack to the previous room and explore another adjacent room which will enable the player to traverse to the other adjacent room and find another path around the map until all rooms have been visited
+#Strategy:
+#MOVEMENTS!!!!
+#1. Move to the east
+    #Is room unvisited or is there a dead end?
+        #If unvisited, add to uv queue
+        #If deadend, mark room as visited and dequeue
+
+#2. Move to the west
+    #Is room unvisited or is there a dead end?
+    #If unvisited, add to uv queue
+    #If deadend, mark room as visited and dequeue
+
+#3. Move to the south
+    #Is room unvisited or is there a dead end?
+    #If unvisited, add to uv queue
+    #If deadend, mark room as visited and dequeue
+
+#4. Move to the south
+    #Is room unvisited or is there a dead end?
+    #If unvisited, add to uv queue
+    #If deadend, mark room as visited and dequeue
+
+#5. Now does len(room_graph) == len(visited) 
+    #If false, repeat process
+    # If true, traversal path complete 
+     
+
 
 
 # TRAVERSAL TEST
