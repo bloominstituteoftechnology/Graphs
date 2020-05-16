@@ -95,7 +95,11 @@ class Graph:
         """
         pass  # TODO
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, visited=[]):
+    def dfs_recursive(self,
+                      starting_vertex,
+                      destination_vertex,
+                      visited=[],
+                      deadend=[]):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -110,11 +114,14 @@ class Graph:
         else:
             visited.append(starting_vertex)
             for edge in self.vertices[starting_vertex]:
-                if edge not in visited:
-                    path = self.dfs_recursive(edge, destination_vertex, visited)
+                if edge not in visited and edge not in deadend:
+                    path = self.dfs_recursive(edge, 
+                                              destination_vertex, 
+                                              visited)
                     if path is not None:
                         return path
             visited.remove(starting_vertex)
+            deadend.append(starting_vertex)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
