@@ -95,7 +95,7 @@ class Graph:
         """
         pass  # TODO
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=[]):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -103,7 +103,18 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+            visited = []
+        if starting_vertex == destination_vertex:
+            return visited + [starting_vertex]
+        else:
+            visited.append(starting_vertex)
+            for edge in self.vertices[starting_vertex]:
+                if edge not in visited:
+                    path = self.dfs_recursive(edge, destination_vertex, visited)
+                    if path is not None:
+                        return path
+            visited.remove(starting_vertex)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -173,5 +184,7 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print('DFS')
     print(graph.dfs(1, 6))
+    print('DFS recursive')
     print(graph.dfs_recursive(1, 6))
