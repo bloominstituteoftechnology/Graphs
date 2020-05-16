@@ -4,8 +4,10 @@ Simple graph implementation
 from util import Stack, Queue  # These may come in handy
 
 class Graph:
-
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    """
+    Represent a graph as a dictionary of vertices mapping labels to edges.
+    """
+    
     def __init__(self):
         self.vertices = {}
 
@@ -13,42 +15,69 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        printed = set()
+        to_print = Queue()
+        to_print.enqueue(starting_vertex)
+        while to_print.size() > 0:
+            vertex = to_print.dequeue()
+            if vertex not in printed:
+                print(vertex)
+                printed.add(vertex)
+            for edge in self.vertices[vertex]:
+                if edge not in printed:
+                    to_print.enqueue(edge)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        printed = set()
+        to_print = Stack()
+        to_print.push(starting_vertex)
+        while to_print.size() > 0:
+            vertex = to_print.pop()
+            if vertex not in printed:
+                print(vertex)
+                printed.add(vertex)
+            for edge in self.vertices[vertex]:
+                if edge not in printed:
+                    to_print.push(edge)
+        
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, printed=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if printed is None:
+            printed = set()
+        print(starting_vertex)
+        printed.add(starting_vertex)
+        for edge in self.vertices[starting_vertex]:
+            if edge not in printed:
+                self.dft_recursive(edge, printed)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
