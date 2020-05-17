@@ -1,4 +1,5 @@
 import random
+from queue import SimpleQueue
 
 class User:
     def __init__(self, name):
@@ -53,7 +54,6 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
         with open('first-names.txt') as file:
@@ -103,8 +103,26 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {}
+        
+        to_visit = SimpleQueue()
+        to_visit.put((user_id, None))
+        
+        while to_visit.qsize() > 0:
+            (vertex, prev) = to_visit.get()
+            
+            if vertex not in visited:
+                if vertex == user_id:
+                    visited[vertex] = [user_id]
+                elif prev == user_id:
+                    visited[vertex] = [user_id]
+                else:
+                    visited[vertex] = visited[prev] + [prev]
+                        
+            for edge in self.friendships[vertex]:
+                if edge not in visited:
+                    to_visit.put((edge, vertex))
+        
         return visited
 
 
