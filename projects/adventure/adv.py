@@ -1,20 +1,20 @@
-from room import Room
+from ast import literal_eval
+from queue import SimpleQueue
+
 from player import Player
 from world import World
 
-import random
-from ast import literal_eval
 
 # Load world
 world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
+# map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -32,14 +32,36 @@ traversal_path = []
 adv_map = {}
 prev_room = None
 
+def find_nearest_unexplored(room_id, adv_map):
+    searched = {}
+    to_search = SimpleQueue()
+    to_search.put((room_id, None))
+    while to_search.qsize() > 0:
+        (room, direction) = to_search.get()
+        if room not in searched:
+            searched[room] = direction
+            for exit_dir, next_room in adv_map[room].items():
+                if next_room == '?':
+                    path = [exit_dir]
+                    step = direction
+                    while step is not None:
+                        path.append(step)
+                        room = adv_map[room][opposite[step]]
+                        step = searched[room]
+                    return path[::-1]
+                        
+            for direction, neighboring_room in adv_map[room].items():
+                if neighboring_room != '?' and neighboring_room not in searched:
+                    to_search.put((neighboring_room, direction))
+
 def get_next_move(player, adv_map):
     for direction, room in adv_map[player.current_room.id].items():
         if room == '?':
-            return direction
+            return [direction]
     if map_complete(adv_map):
         return None
     else:
-        return random.choice(player.current_room.get_exits())
+        return find_nearest_unexplored(player.current_room.id, adv_map)
     
 def map_complete(adv_map):
     return not any (['?' in exits.values() for exits in adv_map.values()])
@@ -53,21 +75,24 @@ def add_new_room(room, prev_room, prev_dir, adv_map):
 # Seed map with starting room.
 adv_map[player.current_room.id] = {direction: '?' for direction in \
                                        player.current_room.get_exits()}
+    
 
 next_move = get_next_move(player, adv_map)
 while next_move is not None:
-    prev_room = player.current_room.id
-    traversal_path.append(next_move)        
-    player.travel(next_move)
+    traversal_path += next_move
+    for direction in next_move:
+        prev_room = player.current_room.id
+        player.travel(direction)
     
     if player.current_room.id not in adv_map:
-        if player.current_room.id not in adv_map:
-            add_new_room(player.current_room,
-                         prev_room,
-                         traversal_path[-1],
-                         adv_map)
+        add_new_room(player.current_room,
+                     prev_room,
+                     traversal_path[-1],
+                     adv_map)
     else:
         adv_map[prev_room][traversal_path[-1]] = player.current_room.id
+        adv_map[player.current_room.id][opposite[traversal_path[-1]]] = \
+            prev_room
                 
     next_move = get_next_move(player, adv_map)
                 
