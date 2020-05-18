@@ -155,6 +155,7 @@ class Graph:
         #if v is not visited, print v
             if v not in visited:
                 visited.add(v)
+                print(v)
                 if v == destination_vertex:
                     return path
                 for next_vert in self.get_neighbors(v):
@@ -175,6 +176,7 @@ class Graph:
             visited = set()
         if path is None:
             path = []
+            print(path)
         path = path + [starting_vertex]
         #If the vertex has not been visited, print vertex and add to visited
         if starting_vertex not in visited:
@@ -190,6 +192,7 @@ class Graph:
                     next_vert, destination_vertex, visited, path)
                 if new_path is not None:
                     return new_path
+                    
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
