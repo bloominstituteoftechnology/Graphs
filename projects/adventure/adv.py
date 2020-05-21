@@ -80,20 +80,19 @@ def get_next_move(player, curr_map):
             temp_player = Player(player.current_room)
             temp_player.travel(exit_dir)
             if temp_player.current_room.id not in curr_map:
-                num_exits = len(temp_player.current_room.get_exits()) 
+                num_exits = len(temp_player.current_room.get_exits())
                 if num_exits == 1:
                     return exit_dir
-                else:
-                    last_dir = exit_dir
-                    while num_exits == 2:
-                       for next_dir in [key for key in \
-                                        temp_player.current_room.get_exits() \
-                                            if key != opposite[last_dir]]:
-                            temp_player.travel(next_dir)
-                            last_dir = next_dir
-                            num_exits = len(temp_player.current_room.get_exits())
-                            if num_exits == 1:
-                                return exit_dir
+                last_dir = exit_dir
+                while num_exits == 2:
+                    for next_dir in [key for key in \
+                                     temp_player.current_room.get_exits() \
+                                         if key != opposite[last_dir]]:
+                        temp_player.travel(next_dir)
+                        last_dir = next_dir
+                        num_exits = len(temp_player.current_room.get_exits())
+                        if num_exits == 1:
+                            return exit_dir
                 options.append(exit_dir)
             else:
                 curr_map[player.current_room.id][exit_dir] = \
