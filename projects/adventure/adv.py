@@ -98,14 +98,23 @@ def map_complete(current_map):
     """
     return not any(['?' in exits.values() for exits in current_map.values()])
 
-def add_new_room(room, last_room, last_dir, current_map):
+def add_new_room(room, last_room, last_dir, curr_map):
     """
     Add previously unexplored room to map.
     """
-    current_map[room.id] = {direction: '?' for direction in room.get_exits()}
+    curr_map[room.id] = {direction: '?' for direction in room.get_exits()}
     if last_dir is not None:
-        current_map[room.id][opposite[last_dir]] = last_room
-        current_map[last_room][last_dir] = room.id
+        curr_map[room.id][opposite[last_dir]] = last_room
+        curr_map[last_room][last_dir] = room.id
+
+    for exit_dir in room.get_exits():
+        temp_player = Player(world.rooms[room.id])
+        if curr_map[room.id][exit_dir] == '?':
+            temp_player.travel(exit_dir)
+            if temp_player.current_room.id in curr_map:
+                curr_map[room.id][exit_dir] = temp_player.current_room.id
+                curr_map[temp_player.current_room.id][opposite[exit_dir]] = \
+                    room.id
 
 
 def get_traversal_path(player):
