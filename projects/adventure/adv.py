@@ -80,8 +80,20 @@ def get_next_move(player, curr_map):
             temp_player = Player(player.current_room)
             temp_player.travel(exit_dir)
             if temp_player.current_room.id not in curr_map:
-                if len(temp_player.current_room.get_exits()) == 1:
+                num_exits = len(temp_player.current_room.get_exits()) 
+                if num_exits == 1:
                     return exit_dir
+                else:
+                    last_dir = exit_dir
+                    while num_exits == 2:
+                       for next_dir in [key for key in \
+                                        temp_player.current_room.get_exits() \
+                                            if key != opposite[last_dir]]:
+                            temp_player.travel(next_dir)
+                            last_dir = next_dir
+                            num_exits = len(temp_player.current_room.get_exits())
+                            if num_exits == 1:
+                                return exit_dir
                 options.append(exit_dir)
             else:
                 curr_map[player.current_room.id][exit_dir] = \
@@ -224,11 +236,14 @@ visited_rooms = set()
 player_1.current_room = world.starting_room
 visited_rooms.add(player_1.current_room)
 
+# path = get_traversal_path(player_1)
+
 path_list = [[]] * 100
 for i in range(100):
     path_list[i] = get_traversal_path(player_1)
     player_1.current_room = world.starting_room
 path = min(path_list, key=len)
+
 # path = get_path_rec(player_1)
 
 for move in path:
