@@ -22,6 +22,9 @@ class Graph:
         """
         self.vertices[v1].add(v2) #, self.vertices[v2].add(v1)
 
+    def add_undirected_edge(self, v1, v2):
+        self.vertices[v1].add(v2), self.vertices[v2].add(v1)
+
 
     def get_neighbors(self, vertex_id):
         """
