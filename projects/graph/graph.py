@@ -1,6 +1,10 @@
 """
 Simple graph implementation
 """
+# import os
+
+# os.chdir('~/Desktop/python/week-5/Graphs/projects/graph')
+
 from util import Stack, Queue  # These may come in handy
 
 class Graph:
@@ -13,42 +17,79 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = set()
+            
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+                return print(f'{v1} not in graph')
+                
+
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        if vertex_id in self.vertices:
+            return self.vertices[vertex_id]
+        else:
+            return print(f'{vertex_id} not in graph')
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        queue = Queue()
+        last = set()
+        queue.enqueue(starting_vertex)
+        while queue.size() > 0:
+            new = queue.dequeue()
+            if new not in last:
+                print(new)
+                last.add(new)
+                for i in self.vertices:
+                    queue.enqueue(i)
+                    
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stack = Stack()
+        stack.push(starting_vertex)
+        last = set()
+        while stack.size() > 0:
+            new = stack.pop()
+            if new not in last:
+                print(new)
+                last.add(new)
+                for i in self.vertices:
+                    stack.push(i)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, last = set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        stack = Stack()
+        stack.push(starting_vertex)
+        while stack.size() is not 0:
+            current = stack.pop()
+            if current not in last:
+                print(f'recursive number: {current}')
+                last.add(current)
+                for i in self.vertices[current]:
+                    self.dft_recursive(i, last)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
