@@ -48,9 +48,11 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
 
+- you would have to call add_friendship 10 times, because the function actually creates two friendships, one for each user. So the equation to track how many friendships that are produced from the function is n^2. `10^2 = 100`
+
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
-
-
+- I believe >99% of users would be in their extended social network. 
+- 1 dos: 5, 2 dos: 25, 3 dos: 125, 4 dos: 625, 5 dos: 1000 (capped). I think the average would be 4 dos because we would subtrac the amount of people in the dos before to know how many are in the dos. So `4 dos = 500` and `5 dos = 375`
 
 ## 4. Stretch Goal
 

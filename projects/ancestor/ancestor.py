@@ -38,7 +38,7 @@ def earliest_ancestor(ancestors, starting_node):
 
     g = Graph()
 
-    # Maps the graph correctly. 
+    # Maps the graph of nodes to their immediate ancestors (unidirectional). 
     for i in ancestors:
         if i[0] not in g.vertices:
             g.add_vertex(i[0])
@@ -75,13 +75,16 @@ def earliest_ancestor(ancestors, starting_node):
     k = (0, 0)
     # len, last ancestor
     for i in potential_ancestors:
+        # iterating over, redefining k everytime there's a new longest list of potential ancestors
         if len(i) > k[0]:
             k = (len(i), i[-1])
+        # If two lists are the same len then we keep the ancestor with the lesser node value
         elif len(i) == k[0] and i[-1] < k[-1]:
             k = (len(i), i[-1])
         else:
             pass
     
+    # stopping condition, if the starting_node is the final node in the tree
     if starting_node == k[1]:
         return -1
     

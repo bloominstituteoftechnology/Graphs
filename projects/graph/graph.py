@@ -55,6 +55,8 @@ class Graph:
                 # Then add all of its neighbors to the back of the queue
                 for next_vert in self.get_neighbors(v):
                     q.enqueue(next_vert)
+        
+        return visited
 
     def dft(self, starting_vertex):
         """
@@ -201,7 +203,7 @@ if __name__ == '__main__':
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
     print(graph.vertices)
-    graph.dfs(1, 7)
+    # graph.dfs(1, 7)
     '''
     Valid BFT paths:
         1, 2, 3, 4, 5, 6, 7
@@ -217,7 +219,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    # graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT paths:

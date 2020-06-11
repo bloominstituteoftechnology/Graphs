@@ -1,5 +1,6 @@
 
 import random
+from util import Queue
 
 class User:
     def __init__(self, name):
@@ -60,7 +61,7 @@ class SocialGraph:
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
 
-    def get_all_social_paths(self, user_id):
+    def get_all_social_paths(self, user_id, social_graph):
         """
         Takes a user's user_id as an argument
 
@@ -69,18 +70,66 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
+        # do this in two sets. 
+            # Find all of friends in the network, add them to dict
+            # then find the shortest path to each one.   
+         
+        # Create an empty queue and enqueue the starting user ID
+        q = Queue()
+        q.enqueue(user_id)
 
-        for i in sg.friendships.get(user_id):
-            
+        # Create a dict to store {visited vertices: [shortest_path]}
+        visited = {}
         
+        # While the queue is not empty
+        while q.size() > 0:
+            # Dequeue the first vertex
+            node = q.dequeue()
+
+            # If that vertex has not been visited....
+            if node not in visited:
+                # Add to the visited dictionary, which will end up being our return
+                visited[node] = None
+
+                # Then add all of its neighbors to the back of the queue
+                for next_vert in social_graph[node]:
+                    q.enqueue(next_vert)
         
+        # The first part, where we add all of the friends as the key values in the dict is complete
+        # Now we need to add the shortest_path as the value on each dict entry
+
+        # i is the destination node and user_id is the starting_node
+        for destination_node in visited:
+
+            q = Queue()
+            # push the user_id into the queue as a list
+            q.enqueue([user_id])
+
+            while q.size() > 0:
+                # get the first path from the queue
+                path = q.dequeue()
+                # get the last node from the path
+                node = path[-1]
+                # as soon as we find the first instance of the destination_node
+                if node == destination_node:
+                    visited[destination_node] = path
+                    break
+                # enumerate all adjacent nodes, construct a new path and push it into
+                # the queue
+                for adjacent in social_graph[node]:
+                    new_path = list(path)
+                    new_path.append(adjacent)
+                    q.enqueue(new_path)
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
+    print('Social Network:')
     print(sg.friendships)
-    connections = sg.get_all_social_paths(1)
+    connections = sg.get_all_social_paths(1, sg.friendships)
+    print('--------------------')
+    print('Connections:')
     print(connections)
