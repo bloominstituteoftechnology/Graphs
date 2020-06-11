@@ -9,7 +9,7 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-    
+
     def add_friendship(self, user_id, friend_id):
         """
         Creates a bi-directional friendship
@@ -73,29 +73,35 @@ class SocialGraph:
 
         visited = {}  # Note that this is a dictionary, not a set
         queue = Queue()
-        # add the user_id to an array and throw it into the queue
+       
+       # add the user_id to an array and throw it into the queue
         queue.enqueue([user_id])
-        # traverse through the graph
+       
+       # traverse through the graph
         while queue.size() > 0:
             cur_path = queue.dequeue()
             node = cur_path[-1]
-            # check if we've visisted the node
+       
+       # check if we've visisted the node
             if node not in visited:
                 # mapping visisted node w/current path to dict
                 visited[node] = cur_path
-                # grabbing all the neighbors
+               
+               # grabbing all the neighbors
                 friends = self.friendships[node]
                 for friend in friends:
-                    # track the connections 
+                    # add friend to path
                     copy_path = [*cur_path, friend]
+                    # enqueue copy of current path + new node
                     queue.enqueue(copy_path)
+        
         # returns list of users
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(100, 2)
+    sg.populate_graph(10, 2)
     print("")
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
