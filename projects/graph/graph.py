@@ -139,38 +139,24 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # keep track of explored nodes
-        explored = []
-        # keep track of all the paths to be checked
-        queue = [[starting_vertex]]
-    
-        # return path if start is goal
-        if starting_vertex == destination_vertex:
-            return "That was easy! Start = goal"
-    
-        # keeps looping until all possible paths have been checked
-        while queue:
-            # pop the first path from the queue
-            path = queue.pop(0)
+        # Create an empty queue and enqueue the starting vertex ID
+        q = Queue()
+        # push the first path into the queue
+        q.enqueue([starting_vertex])
+        while q.size() > 0:
+            # get the first path from the queue
+            path = q.dequeue()
             # get the last node from the path
             node = path[-1]
-            if node not in explored:
-                neighbours = self.get_neighbors(node)
-                # go through all neighbour nodes, construct a new path and
-                # push it into the queue
-                for neighbour in neighbours:
-                    new_path = list(path)
-                    new_path.append(neighbour)
-                    queue.append(new_path)
-                    # return path if neighbour is goal
-                    if neighbour == destination_vertex:
-                        return new_path
-    
-                # mark node as explored
-                explored.append(node)
- 
-        # in case there's no path between the 2 nodes
-        return "So sorry, but a connecting path doesn't exist :("
+            # path found
+            if node == destination_vertex:
+                return path
+            # enumerate all adjacent nodes, construct a new path and push it into
+            # the queue
+            for adjacent in self.get_neighbors(node):
+                new_path = list(path)
+                new_path.append(adjacent)
+                q.enqueue(new_path)
                     
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -247,7 +233,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:

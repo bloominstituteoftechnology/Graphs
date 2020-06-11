@@ -107,14 +107,29 @@ Breadth First Search
 _____________________
 What is the shortest way to get from one path to another?
 
-
-
-
 ### Day 2
 * [Earliest Ancestor](projects/ancestor)
 
 ### Day 3
 * [Random Social Network](projects/social)
+
+connected components
+____________________
+
+Parts of the graph that are connected, but disjoint from other parts of the graph.
+
+from each node:
+    if node not visited:
+        traverse from that node
+        increment counter
+
+Graph:
+             T  T  T  T  T  T  T  T  T  T  T
+    nodes = [1, 2, 3, 4, 5, 7, A, B, C, D, E]
+                               
+    edges = [(A, B), (B, C), ... ]
+
+Counter = 3
 
 ### Day 4
 * [Adventure Map Traversal](projects/adventure)
