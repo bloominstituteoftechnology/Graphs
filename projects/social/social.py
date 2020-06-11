@@ -1,3 +1,5 @@
+import random 
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -40,13 +42,26 @@ class SocialGraph:
         """
         # Reset graph
         self.last_id = 0
-        self.users = {}
-        self.friendships = {}
+        self.users = {} #nodes
+        self.friendships = {} #edges 
         # !!!! IMPLEMENT ME
 
         # Add users
 
         # Create friendships
+        for i in range(0, num_users):# creating frienships 
+            self.add_user(i)
+            
+            possible_friendships =[]# generating all possible friendships combinations 
+            
+        for user_id in self.users:# avoiding duplicates by knowing the first number is smaller than the second 
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                    possible_friendships.append((user_id, friend_id))
+            random.shuffle(possible_friendships)# Shuffle the possible friendships/creating friendships for the X first pairs of the list/X is determined by the formula 
+            
+        for i in range(num_users * avg_friendships // 2):# need to divide by 2 since each add_friendship creates 2 friendships 
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
 
     def get_all_social_paths(self, user_id):
         """
@@ -58,9 +73,19 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        queue = [user_id]
+        visited[user_id] = [user_id]
 
+        while len(queue) > 0:
+            node = queue.pop()
+            friends= self.friendships[node]
+            for friend in friends:
+                if not friend in visited:
+                    visited[friend] = visited[node] + [friend]
+                    queue.append(friend)
+
+
+        return visited
 
 if __name__ == '__main__':
     sg = SocialGraph()
@@ -68,3 +93,4 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
+
