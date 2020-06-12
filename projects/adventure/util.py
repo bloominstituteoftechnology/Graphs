@@ -3,8 +3,7 @@ class Queue():
         self.queue = []
     def enqueue(self, value):
         self.queue.append(value)
-    def enqueue_list(self, values):
-        self.queue += values
+    
     def dequeue(self):
         if self.size() > 0:
             return self.queue.pop(0)
@@ -18,8 +17,7 @@ class Stack():
         self.stack = []
     def push(self, value):
         self.stack.append(value)
-    def push_list(self, values):
-        self.stack += values
+    
     def pop(self):
         if self.size() > 0:
             return self.stack.pop()
