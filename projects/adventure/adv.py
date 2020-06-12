@@ -111,32 +111,60 @@ adjacency_dict = {}
 
 # here i will have to make an adjacency dictionary with all possible directions
 # use for loop to iterate through all the rooms in the world
-# for room_id in world.rooms:
+for room_id in world.rooms:
+    # nested for loop to iterate through the exits in that room
+    for exit_dir in world.rooms[room_id].get_exits():
+        # conditon: if room object hasn't been created yet
+        if room_id not in adjacency_dict.keys():
+            # initiate a dictionary for that room
+            adjacency_dict[room_id] = dict()
 
-# nested for loop to iterate through the exits in that room
-    
-    # conditon: if room object hasn't been created yet
-    # initiate a dictionary for that room
         # allocote a value of '?' for each exit
-        # then i think will choose a direction from current rooms exits
-    # if no unxplored direction   if the direction == None:
-    # will do a bfs searching for exit with '?'
-       # condition: if bfs returns a path
-       # then add path to the traversal_path
+        adjacency_dict[room_id][exit_dir] = '?'
+
+while True:
+    room_id = player.current_room.id
+    direction = None
+
+
+    # then choose a direction from current rooms exits
+    for exit_dir in player.current_room.get_exits():
+        if adjacency_dict[room_id][exit_dir] == '?':
+            direction = exit_dir
+
+
+    # if no unxplored direction   
+    if direction == None:
+        # will do a bfs searching for exit with '?'
+        search = bfs(room_id)
+        # condition: if bfs returns a path
+        if search != False:
+            # then add path to the traversal_path
+            traversal_path += search
+
             # walk that path and continue
-            # condition: if bfs return fals
+            for move in search:
+                player.travel(move)
+        # condition: if bfs return fals
+        else:
             # then break it
-        # otherwise travel in selected direction and mark rooms in adjacency_dict
-        # else:
-            # player in current room id will assign to previouse room id
-            # then player travels
-            # --------- not sure
-        #assign prev room the direction to current_room_id
+            break
+    # otherwise travel in selected direction and mark rooms in adjacency_dict
+    else:
+        prev_room_id = player.current_room.id
+
+        player.travel(direction)
+
+        room_id = player.current_room.id
+
+        # allocate previouse room to present room id
+        adjacency_dict[prev_room_id][direction] = room_id
+
+        #allocate present rooms id to the direction from which we traveled
+        opposite_dir = opp_dir(direction)
+        adjacency_dict[room_id][opposite_dir] = prev_room_id
         
-
-        # here i will have to assign current rooms id to opposite direction from which we traveled
-        # 
-
+        traversal_path.append(direction)
 
 
 
