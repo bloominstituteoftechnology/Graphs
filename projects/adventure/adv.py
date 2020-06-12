@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from world import World
+from collections import deque
 
 import random
 from ast import literal_eval
@@ -10,9 +11,9 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-map_file = "maps/test_cross.txt"
+# map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
@@ -45,11 +46,12 @@ for exits in player.current_room.get_exits():
 
 while len(visited) != len(room_graph):
     checkForChange = False
+
     for direction in player.current_room.get_exits():
         if log[player.current_room.id][direction] == '?':
             checkForChange = True
             #Save our current room
-            saved_room = player.current_room
+            saved_room = player.current_room.id
 
             #Move rooms
             player.travel(direction)
@@ -60,23 +62,49 @@ while len(visited) != len(room_graph):
             traversal_path.append(reversal_dict[direction])
 
             #Update our previous room's log
-            log[saved_room.id][direction] = player.current_room.id
+            log[saved_room][direction] = player.current_room.id
 
             #Make a new log for this room
-            log[player.current_room.id] = {}
-            for e in player.current_room.get_exits():
-                log[player.current_room.id].update({e : '?'})
-            log[player.current_room.id][reversal_dict[direction]] = saved_room.id
+            if player.current_room.id not in log:
+                log[player.current_room.id] = {}
+                for e in player.current_room.get_exits():
+                    log[player.current_room.id].update({e : '?'})
+            log[player.current_room.id][reversal_dict[direction]] = saved_room
 
             break
-        
-    if checkForChange is False:
-        checkForChange = True
-        d = traversal_path.pop(-1)
-        player.travel(d)
-    print('tran',traversal_path_for_test)
 
-print(log)
+    if player.current_room.get_exits() == list(traversal_path[-1]):
+        queue = deque()
+        queue.append(player.current_room.id)
+
+        vis = []
+
+        while len(queue) > 0:
+            curr = queue.popleft()
+
+            if curr not in vis:
+                vis.append(curr)
+                
+                for adj in log[curr]:
+                    if log[curr][adj] == '?':
+                        while player.current_room.id != curr:
+                            checkForChange = True
+                            print('room', player.current_room.id)
+                            print('trav', traversal_path)
+                            print('eehh', log[player.current_room.id])
+                            print('total_path', traversal_path_for_test)
+                            backwards = traversal_path.pop(-1)
+                            player.travel(backwards)
+                            traversal_path_for_test.append(backwards)
+                        break
+
+                    queue.append(log[curr][adj])
+    if checkForChange == False:
+        break
+
+    print(log)
+    
+
 
 # TRAVERSAL TEST
 visited_rooms = set()
