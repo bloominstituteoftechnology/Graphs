@@ -4,6 +4,7 @@ from world import World
 
 import random
 from ast import literal_eval
+from util import Queue, Stack
 
 # Load world
 world = World()
@@ -24,12 +25,28 @@ world.load_graph(room_graph)
 world.print_rooms()
 
 player = Player(world.starting_room)
-
+#=====================================================
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+visited = {}
+backtrack = []
+reverse_d = {'n': 's', 's':'n', 'e': 'w', 'w': 'e'}
+# add first entry to counter error
+visited[0] = player.current_room.get_exits()
+print(visited[0])
+# stack = Stack()
+# stack.push(player.current_room.id)
 
+# Run until every room is visited
+while len(visited) != len(room_graph)-1:
 
+    if player.current_room.id not in visited:
+        # log the exit values to the key aka unvisited room directions
+        visited[player.current_room.id] = player.current_room.get_exits()
+       
+
+    
 
 # TRAVERSAL TEST
 visited_rooms = set()
@@ -48,15 +65,15 @@ else:
 
 
 
-#######
-# UNCOMMENT TO WALK AROUND
-#######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+# #######
+# # UNCOMMENT TO WALK AROUND
+# #######
+# player.current_room.print_room_description(player)
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")

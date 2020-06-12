@@ -42,7 +42,7 @@ Push starting node on stack
 whole stack isn't empty:
       pop the node off the top of the stack
       if node isn't visited:
-          visit the node (e.g print9 it out)
+          visit the node (e.g print it out)
           mark it as visited
           push all its neighbors on the stack
 
@@ -54,9 +54,9 @@ Add starting node to queue
 while queue isn't empty:
       take the node from the front of the queue
       if node isn't visited:
-          visit the node (e.g print9 it out)
+          visit the node (e.g print it out)
           mark it as visited
-          push all its neighbors on the stack
+          add all its neighbors on the queue
 
 
 
@@ -76,8 +76,8 @@ A matrix is a grid. Keep track of which nodes connect to others.
   A B C D E F G H       To
 A   T   T       T
 B     T
-C T           T 
-D 
+C   T         T 
+D T
 E 
 F 
 G     T 
@@ -106,3 +106,22 @@ H [G A]
 
   -----------------------------
   A hash table that just stores True/False values is equivalent to a Set.S
+
+
+
+
+
+
+  Connected components
+  ====================
+
+  Parts of the graph that are connected, but disjoint from other parts of the graph
+  for each node:
+  if node not visited:
+        traverse from that node 
+        increment counter
+
+  Graph:
+      nodes = [1,2,3,4,54,A,B,C,D,E]
+      Edges = [(A,B), (B,C) ...]
+  COUNTER = 
