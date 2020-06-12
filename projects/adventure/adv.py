@@ -26,41 +26,45 @@ world.print_rooms()
 player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = [] 
+traversal_path = []
+traversal_graph = {}
+# visited set 
 visited = set()
 stack = Stack()
 # Add starting room to stack
 stack.push([player.current_room])
-
+# Loop while there are rooms being passed into the stack
 while stack.size() > 0:
     cur_path = stack.pop()
-    # current room
     room = cur_path[-1]
-    # populate unvisisted neighbors
-    neighbors = [(direction, room.get_room_in_direction(direction)) for direction in room.get_exits()]
+    # print(f'current room: {room}')
     if room not in visited:
         # mark room as visisted
         visited.add(room)
-        # find the next room to go to
-        print(f'\n $$$ current room: {room} $$$ \n')
-        # print(f'visisted rooms: {visited} ')
-        # print(f'Neighbors: {[(n[0], n[1].id) for n in neighbors]}')
-        if len(neighbors) > 0:
-            # choose a neighboring room to explore
-            # This sets the cardinal direction to direction and the actual room object to next_room
-            next_room = random.choice(neighbors)
-            # print(f'direction chosen: {direction}')
-            print(f'direction chosen: {next_room[0]}')
-            # append the cardinal direction chosen
-            traversal_path.append(next_room[0])
-            stack.push([*cur_path, next_room[1]])
-            # print(f'current path: {[node[]]}')
-# Room Directions
-# self.n_to = None
-# self.s_to = None
-# self.e_to = None
-# self.w_to = None
-# Push starting node on stack
+        # print(f'current visisted: {visited}')
+        # populate known rooms into a hash table
+        traversal_graph[room.id] = {"n": "?", "s": "?", "e": "?", "w": "?",}
+        # loop through room's exists
+        for exit in room.get_exits():
+            # check if the current exit has a valid room
+            if room.get_room_in_direction(exit) == None:
+                traversal_graph[room.id][exit] = None
+            # if the exit doesn't lead to a room, mark it as None
+            else:
+                # find the next room
+                next_room = room.get_room_in_direction(exit)
+                # check if we've visisted the next_room
+                if next_room in visited:
+                    # skips this iteration since we've been here before
+                    continue
+                # add this direction to the traversal path
+                traversal_path.append(exit)
+                # add the next room at current exit to our hash table
+                traversal_graph[room.id][exit] = next_room.id
+                # copy the current path and add the next room
+                copy_path = [*cur_path, next_room]
+                # throw the new path onto stack
+                stack.push(copy_path)
 
 # 	while stack isn't empty:
 # 		pop the node off the top of the stack
@@ -71,24 +75,19 @@ while stack.size() > 0:
 
 for move in traversal_path:
     player.travel(move)
-    # print(f'Current Room:{player.current_room} \n-------------------')
+    print(f'Current Room:{player.current_room.id} \n-------------------')
 
 
-
-# TRAVERSAL TEST
-visited_rooms = set()
-player.current_room = world.starting_room
-visited_rooms.add(player.current_room)
-
+# # TRAVERSAL TEST
 for move in traversal_path:
     player.travel(move)
-    visited_rooms.add(player.current_room)
+    visited.add(player.current_room)
 
-if len(visited_rooms) == len(room_graph):
-    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
+if len(visited) == len(room_graph):
+    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited)} rooms visited")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-    print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
+    print(f"{len(room_graph) - len(visited)} unvisited rooms")
 
 
 

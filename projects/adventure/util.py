@@ -19,6 +19,8 @@ class Queue():
 class Stack():
     def __init__(self):
         self.stack = []
+    def __repr__(self):
+        return f'{[node for node in self.stack]}'
     def push(self, value):
         self.stack.append(value)
     def pop(self):
