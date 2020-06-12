@@ -11,8 +11,8 @@ class Room:
         self.w_to = None
         self.x = x
         self.y = y
-    def __str__(self):
-        return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.get_exits_string()}\n"
+    # def __str__(self):
+    #     return f"\n-------------------\n\n{self.name}\n\n   {self.description}\n\n{self.get_exits_string()}\n"
     def print_room_description(self, player):
         print(str(self))
     def get_exits(self):
