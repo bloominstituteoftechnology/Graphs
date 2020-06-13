@@ -43,6 +43,9 @@ visited = {}
 count = 0
 cur_room = player.current_room
 visited[player.current_room.id] = player.current_room.get_exits()
+print(f'starting dict: {visited}')
+print(f'length of dict: {len(visited)}')
+print(f'path: {path}')
 # Loop while there are rooms being passed into the stack
 while len(visited) < len(room_graph) -1:
     count+=1
@@ -51,8 +54,12 @@ while len(visited) < len(room_graph) -1:
         # mark room as visisted
         # populate known rooms into a hash table
         visited[player.current_room.id] = player.current_room.get_exits()
+        print(f'current room: {player.current_room.id}: \nexists {visited[player.current_room.id]}')
         # track previous
         prev = path[-1]
+        # print(f'visited: {visited[player.current_room.id]}')
+        # print(f'current room: {player.current_room.id}')
+        # print(f'previous: {prev}')
         visited[player.current_room.id].remove(prev)
         # loop through room's exists
 
@@ -63,9 +70,10 @@ while len(visited) < len(room_graph) -1:
         traversal_path.append(prev)
         player.travel(prev)
 
-    next_room = visited[player.current_room.id].pop(0)
+    next_room = visited[player.current_room.id].pop(-1)
     # add next move to our tracking path
     path.append(moves[next_room])
+    print(f'adding to path: {moves[next_room]}')
     # add to the instructions path
     traversal_path.append(next_room)
     # move the player
