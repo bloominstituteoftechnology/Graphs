@@ -140,7 +140,25 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        def find_path(graph, destination, unvisited, path):
+            vertex = path[-1]
+            if vertex == destination_vertex:
+                return path
+
+            for neighbor_id in graph.vertices[vertex]:
+                if neighbor_id in unvisited:
+                    unvisited.remove(neighbor_id)
+                    new_path = path.copy()
+                    new_path.append(neighbor_id)
+                    found_path = find_path(graph, destination, unvisited, new_path)
+                    if len(found_path) != 0:
+                        return found_path
+            return []
+
+        path = [starting_vertex]
+        unvisited = {v for v in graph.vertices.keys() if v != starting_vertex}
+        path = find_path(self, destination_vertex, unvisited, path)
+        return path
 
 
 if __name__ == '__main__':
