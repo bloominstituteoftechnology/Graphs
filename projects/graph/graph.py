@@ -6,7 +6,9 @@ from util import Stack, Queue  # These may come in handy
 
 
 class Graph:
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    """
+    Represent a graph as a dictionary of vertices mapping labels to edges.
+    """
 
     def __init__(self):
         self.vertices = {}
@@ -75,7 +77,9 @@ class Graph:
         This should be done using recursion.
         """
         if unvisited is None:
-            unvisited = {v for v in self.vertices.keys() if v != starting_vertex}
+            unvisited = {
+                v for v in self.vertices.keys() if v != starting_vertex
+            }
         print(starting_vertex)
         for neighbor_id in self.vertices[starting_vertex]:
             if neighbor_id in unvisited:
@@ -140,24 +144,24 @@ class Graph:
 
         This should be done using recursion.
         """
-        def find_path(graph, destination, unvisited, path):
+        def find_path(destination, unvisited, path):
             vertex = path[-1]
             if vertex == destination_vertex:
                 return path
 
-            for neighbor_id in graph.vertices[vertex]:
+            for neighbor_id in self.vertices[vertex]:
                 if neighbor_id in unvisited:
                     unvisited.remove(neighbor_id)
                     new_path = path.copy()
                     new_path.append(neighbor_id)
-                    found_path = find_path(graph, destination, unvisited, new_path)
+                    found_path = find_path(destination, unvisited, new_path)
                     if len(found_path) != 0:
                         return found_path
             return []
 
         path = [starting_vertex]
-        unvisited = {v for v in graph.vertices.keys() if v != starting_vertex}
-        path = find_path(self, destination_vertex, unvisited, path)
+        unvisited = {v for v in self.vertices.keys() if v != starting_vertex}
+        path = find_path(destination_vertex, unvisited, path)
         return path
 
 
