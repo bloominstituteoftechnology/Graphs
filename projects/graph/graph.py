@@ -35,19 +35,18 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        unvisited = {v for v in self.vertices if v != starting_vertex}
+        unvisited = {v for v in self.vertices.keys if v != starting_vertex}
         queue = Queue()
         queue.enqueue(starting_vertex)
 
         while queue.size != 0:
-            vertex_id = queue[0]
+            vertex_id = queue.dequeue()
             neighbors = self.vertices[vertex_id]
 
             for neighbor_id in neighbors:
                 if neighbor_id in unvisited:
                     unvisited.remove(neighbor_id)
                     queue.enqueue(neighbor_id)
-            queue.dequeue()
             print(vertex_id)
 
     def dft(self, starting_vertex):
@@ -55,16 +54,34 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        unvisited = {v for v in self.vertices.keys if v != starting_vertex}
+        stack = Stack()
+        stack.push(starting_vertex)
 
-    def dft_recursive(self, starting_vertex):
+        while stack.size != 0:
+            vertex_id = stack.pop()
+            neighbors = self.vertices[vertex_id]
+
+            for neighbor_id in neighbors:
+                if neighbor_id in unvisited:
+                    unvisited.remove(neighbor_id)
+                    stack.push(neighbor_id)
+            print(vertex_id)
+
+    def dft_recursive(self, starting_vertex, unvisited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if unvisited is None:
+            unvisited = {v for v in self.vertices.keys if v != starting_vertex}
+        print(starting_vertex)
+        for neighbor_id in self.vertices[starting_vertex]:
+            if neighbor_id in unvisited:
+                unvisited.remove(neighbor_id)
+                self.dft_recursive(neighbor_id, unvisited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
