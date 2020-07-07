@@ -47,7 +47,6 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
         for num in range(num_users):
@@ -66,7 +65,6 @@ class SocialGraph:
             i += 1
         random.shuffle(possible_friendships)
         for (user_id, friend_id) in possible_friendships[:count_to_create]:
-            print(f"{user_id}, {friend_id}")
             self.add_friendship(user_id, friend_id)
 
     def get_all_social_paths(self, user_id):
@@ -78,9 +76,50 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        paths = {user_id: [user_id]}
+        network = self.get_extended_network(user_id)
+
+        for other in network:
+            paths[other] = self.get_social_path(user_id, other)
+
+        return paths
+
+    def get_extended_network(self, user_id):
+        unvisited = {i for i in range(len(self.users))}
+        network = {user_id}
+
+        queue = Queue()
+        queue.enqueue(user_id)
+
+        while queue.size() != 0:
+            friend_id = queue.dequeue()
+            friend_friends = self.friendships[friend_id]
+
+            for fof_id in friend_friends:
+                if fof_id in unvisited:
+                    unvisited.remove(fof_id)
+                    network.add(fof_id)
+                    queue.enqueue(fof_id)
+        return network
+
+    def get_social_path(self, origin_id, dest_id):
+        unvisited = {u for u in range(len(self.users))}
+        stack = Stack()
+        stack.push([origin_id])
+
+        while stack.size() != 0:
+            path = stack.pop()
+            id = path[-1]
+            if id == dest_id:
+                return path
+
+            friends = self.friendships[id]
+            for friend in friends:
+                if friend in unvisited:
+                    unvisited.remove(friend)
+                    new_path = path.copy()
+                    new_path.append(friend)
+                    stack.push(new_path)
 
 
 if __name__ == '__main__':
