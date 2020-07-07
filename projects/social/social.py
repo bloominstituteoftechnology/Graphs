@@ -1,11 +1,12 @@
 import random
+from util import Queue, Stack
 
 
 class User:
     def __init__(self, name):
         self.name = name
 
-       
+
 class SocialGraph:
     def __init__(self):
         self.last_id = 0
