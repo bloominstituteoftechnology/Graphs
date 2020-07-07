@@ -24,9 +24,9 @@ class SocialGraph:
         """
         Create a new user with a sequential integer ID
         """
-        self.last_id += 1  # automatically increment the ID to assign the new user
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
+        self.last_id += 1  # automatically increment the ID to assign the new user
 
     def populate_graph(self, num_users, avg_friendships):
         """
