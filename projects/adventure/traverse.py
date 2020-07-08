@@ -20,6 +20,9 @@ def traverse(player, path, graph={}, breadcrumbs=Stack()):
 
         for direction in exits:
             if graph[room.id][direction] == '?':
+                new_room = room.get_room_in_direction(direction)
+                if graph.get(new_room.id) is not None:
+                    continue
                 breadcrumbs.push(direction)
                 path.append(direction)
                 player.travel(direction)
