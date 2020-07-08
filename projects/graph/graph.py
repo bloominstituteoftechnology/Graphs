@@ -80,7 +80,6 @@ class Graph:
             unvisited = {
                 v for v in self.vertices.keys() if v != starting_vertex
             }
-        print(starting_vertex)
         for neighbor_id in self.vertices[starting_vertex]:
             if neighbor_id in unvisited:
                 unvisited.remove(neighbor_id)
