@@ -4,6 +4,8 @@ from world import World
 
 import random
 from ast import literal_eval
+import traverse
+
 
 # Load world
 world = World()
@@ -28,8 +30,7 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
-
-
+traverse.traverse(player, traversal_path)
 
 # TRAVERSAL TEST
 visited_rooms = set()
@@ -45,7 +46,6 @@ if len(visited_rooms) == len(room_graph):
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
-
 
 
 #######
