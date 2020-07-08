@@ -52,11 +52,13 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
-
+    Based on crude tests, it looks like the average percentage of users in a given user's network is around 99.3%, with an average 125 degrees of separation.
 
 ## 4. Stretch Goal
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
+
+    Social dynamics like this are incredibly complicated, and I have no idea if this is a remotely accurate model of reality. It's possible that small islands of friends would pop up, or that everyone would have a path to everyone else. I don't know.
 
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
 

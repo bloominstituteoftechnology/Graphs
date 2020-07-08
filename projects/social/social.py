@@ -121,6 +121,31 @@ class SocialGraph:
                     new_path.append(friend)
                     stack.push(new_path)
 
+def percent_in_network(total, avg):
+    def friend_count(n):
+        return avg * ((total - (avg * n)) / total)
+    result = 0
+    i = 0
+    while True:
+        added_count = friend_count(i)
+        if added_count <= 0:
+            break
+        result += added_count
+        i += 1
+    return result / total
+
+
+def test_stats(total, avg):
+    print("estimated percent in network for 1000 users with avg 5 friends:")
+    print(percent_in_network(total, avg))
+    sg.populate_graph(total, avg)
+    print("actual percentage:")
+    print(sg.get_extended_network(1).__len__()/total)
+    print("avg degree of separation:")
+    paths = sg.get_all_social_paths(1)
+    total_length = sum([len(path) for path in paths.values()])
+    print(total_length / len(paths.keys()))
+
 
 if __name__ == '__main__':
     sg = SocialGraph()
@@ -128,3 +153,7 @@ if __name__ == '__main__':
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
+    print("\n\n")
+    print(test_stats(1000, 5))
+    print("\n\n")
+    print(test_stats(500, 20))
