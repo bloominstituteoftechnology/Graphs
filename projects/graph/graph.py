@@ -163,15 +163,17 @@ class Graph:
 
 
 
-    def dfs_recursive(self, starting_vertex, destination_vertex,  s= Stack(), visited = None):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited = None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
 
         This should be done using recursion.
+        
         """
-      
+        #you know the drill
+        s= Stack()
         visited = set()
 
         current_path = s.pop()
@@ -189,11 +191,11 @@ class Graph:
                 return current_path
 
             current_p_copy = [*current_path]
-            current_p_copy .append(v)
-            
+            current_p_copy.append(v)
+
             s.push(current_p_copy)
 
-        return self.dfs_recursive(starting_vertex, destination_vertex, s, visited)
+        return self.dfs_recursive(starting_vertex, destination_vertex, visited)
 
         
 
