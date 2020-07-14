@@ -8,6 +8,7 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        self.visited = set()
 
     def add_vertex(self, vertex_id):
         """
@@ -68,9 +69,6 @@ class Graph:
                     if ver not in visited:
                         stack.append(ver)
 
-
-
-
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -78,7 +76,12 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        self.visited.add(starting_vertex)
+        print(starting_vertex)
+        for ver in self.vertices[starting_vertex]:
+            if ver not in self.visited:
+                self.visited.add(ver)
+                self.dft_recursive(ver)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
