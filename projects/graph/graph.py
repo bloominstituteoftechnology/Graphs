@@ -89,7 +89,36 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        queue = [starting_vertex]
+        path = []
+        visited = set(queue)
+
+        out = queue.pop(0)
+        while out is not None:
+            path.append(out)
+            visited.add(out)
+            next = self.get_neighbors(out)
+            if destination_vertex in next:
+                path.append(destination_vertex)
+                break
+            else:
+                for child in next:
+                    queue.append(child)
+            if len(queue):
+                out = queue.pop(0)
+            else:
+                out = None
+
+        reconstructed = [path.pop()]
+        while len(path):
+            fout = path.pop()
+            if reconstructed[-1] in self.vertices[fout]:
+                reconstructed.append(fout)
+
+        reconstructed.reverse()
+        print(reconstructed)
+        return reconstructed
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
