@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+from util import Stack, Queue # These may come in handy
 
 class Graph:
 
@@ -27,14 +27,26 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        if vertex_id in self.vertices:
+            return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        if starting_vertex in self.vertices:
+            queue = [starting_vertex]
+            visited = set(queue)
+            while len(queue) > 0:
+                out = queue.pop(0)
+                visited.add(out)
+                for it in self.vertices[out]:
+                    if it not in visited:
+                        queue.append(it)
+                print(out)
+        else:
+            return None
 
     def dft(self, starting_vertex):
         """
