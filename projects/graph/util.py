@@ -6,8 +6,10 @@ class Queue():
     def enqueue(self, value):
         self.queue.append(value)
     def dequeue(self):
+        #2. time complexity should be: O(1) constant time 
+        #3. (this is a fake queue, needs to be a linked list)
         if self.size() > 0:
-            return self.queue.pop(0)
+            return self.queue.pop(0) #1. popping to the front of an array - time complex: O(n)
         else:
             return None
     def size(self):
