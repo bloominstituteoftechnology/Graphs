@@ -36,7 +36,6 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
         # 1. Make a Queue
         que = Queue()
         # 2. Enqueue our starting node
@@ -45,16 +44,16 @@ class Graph:
         visited = set()
         # 4. While our queue isn't empty, 
         while que.size() > 0:
-        #   5. Dequeue whatever's at the front of our line, this is our current_node
+        # 5. Dequeue whatever's at the front of our line, this is our current_node
             current_node = que.dequeue()
             print(current_node)
-        #   6. If we haven't visited this node yet, then
+        # 6. If we haven't visited this node yet, then
             if current_node not in visited:
-        #     7. Mark as Visited
+        # 7. Mark as Visited
                 visited.add(current_node)
-        #     8. Get it's neighbors
+        # 8. Get it's neighbors
                 neighbors = self.get_neighbors(current_node)
-        #     9. For each of the neighbors, add to the queue
+        # 9. For each of the neighbors, add to the queue
                 for neighbor in neighbors:
                     if neighbor not in visited:
                         que.enqueue(neighbor)
@@ -65,7 +64,6 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
         # 1. Make a Stack
         stack = Stack()
         # 2. Push on our starting node
@@ -74,23 +72,22 @@ class Graph:
         visited = set()
         # 4. While our stack isn't empty, 
         while stack.size() > 0:
-        #   5. Pop off whatever's on top, this is our current_node
+        # 5. Pop off whatever's on top, this is our current_node
             current_node = stack.pop()
             if current_node not in visited:
                 print(current_node)
-        #   6. If we haven't visited this vertex yet, then mark as Visited
+        # 6. If we haven't visited this vertex yet, then mark as Visited
             if current_node not in visited:
                     visited.add(current_node)
-        #     8. Get it's neighbors
+        # 8. Get it's neighbors
                     neighbors = self.get_neighbors(current_node)    
-        #     9. For each of the neighbors, add to the stack
+        # 9. For each of the neighbors, add to the stack
                     for neighbor in neighbors:
                         if neighbor not in visited:
                             stack.push(neighbor)
 
 #--------------------------------------------------------------------------------------
-
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -98,19 +95,17 @@ class Graph:
         This should be done using recursion.
         """
         # Keep track of visited outside of recursive call
-        visited = set()
+        # 1. mark this vertex as visited
+        visited.add(starting_vertex)
+        print(starting_vertex)
+        # 2. for each neighbor
+        neighbors = self.get_neighbors(starting_vertex)
+        for neighbor in neighbors:
+        ## 3. if its not visited
+            if neighbor not in visited:
+         ### 4. recurse on the neighbor
+                self.dft_recursive(neighbor, visited)
 
-        def dft_inner(vertex):
-            if vertex in visited:
-                return
-            else:
-                visited.add(vertex)
-            print(vertex)
-
-            for neighbor in self.get_neighbors(vertex):
-                dft_inner(neighbor)
-
-        dft_inner(starting_vertex)
 #-------------------------------------------------------------------------------------
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -118,21 +113,38 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        shortest_path = collections.deque([])
-        shortest_path.append([starting_vertex])
+
+        # make a queue
+        que = Queue()
+        # make a set to track nodes we've visited
         visited = set()
 
-        while shortest_path.count is not 0:
-            current = shortest_path.popleft()
-            last = current[-1]
-            if last not in visited:
-                for neighbor in self.get_neighbors(last):
-                    route = list(current)
-                    route.append(neighbor)
-                    shortest_path.append(route)
-                    if neighbor is destination_vertex:
-                        return route
-                visited.add(last)
+        path = [starting_vertex]
+        que.enqueue(path)
+
+        # 1. while queue is not empty
+        while que.size() > 0:
+        ## 2. dequeue the node at the front of the line
+            current_path = que.dequeue()
+            current_node = current_path[-1]
+        ### 3. if this node is our target node
+            if current_node == destination_vertex:
+        #### 4. return true, it is in our network
+                return current_path
+        ### 5. if not vitied
+            if current_node not in visited:
+        #### 6. mark as visited
+                visited.add(current_node)
+        #### 7. get neighbors
+                neighbors = self.get_neighbors(current_node)
+        #### 8. for each neighbor
+                for neighbor in neighbors:
+        ##### 9. Copy path so we don't mutate the original path for different nodes
+                    path_copy = current_path[:]
+                    path_copy.append(neighbor)
+        # 10. add to our queue
+                    que.enqueue(current_path + [neighbor])
+
 #-------------------------------------------------------------------------------------
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -143,9 +155,11 @@ class Graph:
         stack = Stack()
         stack.push(starting_vertex)
         visited = set()
+
         while stack.size() > 0:
             current = stack.pop()
             visited.add(current)
+
             for edge in self.get_neighbors(current):
                 if edge not in visited:
                     stack.push(edge)
@@ -165,9 +179,11 @@ class Graph:
             visited = set()
             path = collections.deque([])
             path.append([starting_vertex])
+
         visited.add(starting_vertex)
         current = path.pop()
         last = current[-1]
+        
         for last in self.get_neighbors(last):
             if last not in visited:
                 route = list(current)
