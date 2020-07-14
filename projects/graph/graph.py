@@ -21,13 +21,18 @@ class Graph:
         Add a directed edge to the graph.
         """
         # pass  # TODO
-        self.vertices[v1].add(v2)
+        if v1 is self.vertices and v2 is self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndentationError("Nonexixtent vert")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # pass  # TODO
+        return self.vertices[vertex_id]
+
 
     def bft(self, starting_vertex):
         """
