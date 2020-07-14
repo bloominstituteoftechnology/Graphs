@@ -76,6 +76,7 @@ class Graph:
 
         This should be done using recursion.
         """
+        print(starting_vertex)
         if unvisited is None:
             unvisited = {
                 v for v in self.vertices.keys() if v != starting_vertex
