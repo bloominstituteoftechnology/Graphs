@@ -8,6 +8,7 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        self.visited = set()
 
     def add_vertex(self, vertex_id):
         """
@@ -97,7 +98,16 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Depth First Traverse is visiting this node,
+        # then Depth First Traverse all its neighbors.
+
+        if starting_vertex not in self.visited:
+            self.visited.add(starting_vertex)
+            print(f"Visited {starting_vertex}")
+            for next_v in self.get_neighbors(starting_vertex):
+                self.dft_recursive(next_v)
+
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -105,7 +115,43 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # need to keep track of each path and the minimum path length
+        # create an empty queue
+        q = Queue()
+
+        # create a set to store the visited nodes
+        #visited = set()
+
+        # init enqueue the starting node
+        q.enqueue([starting_vertex])
+
+        while q.size() > 0:
+            
+            # Dequeue the first item
+            q_path = q.dequeue()
+            v = q_path[-1]
+            #print('q',q_path)
+
+            print(self.visited)         # SELF.VISITED NEEDS TO BE RESET OR INITIATED ELSEWHERE
+            # If it's not been visited:
+            if v not in self.visited:
+                print('dsfgsdg')
+                if v == destination_vertex:
+                    
+                    # IF SO, RETURN PATH
+                    return q_path
+                # Mark as visited (i.e. add to the visited set)
+                self.visited.add(v)
+                print(q_path)
+                # Add all neighbors to the queue
+                for next_vert in self.get_neighbors(v):
+                    q_path.append(next_vert)
+                    print(q_path)
+                q.enqueue(q_path)
+
+
+
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -186,6 +232,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print('bfs')
     print(graph.bfs(1, 6))
 
     '''
@@ -193,5 +240,7 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print('dfs')
     print(graph.dfs(1, 6))
+    print('bft recursive')
     print(graph.dfs_recursive(1, 6))
