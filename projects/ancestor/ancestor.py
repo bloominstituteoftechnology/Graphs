@@ -1,4 +1,4 @@
-from util import Stack, Queue
+from util import Queue
 
 def earliest_ancestor(ancestors, starting_node):
     queue = Queue()
