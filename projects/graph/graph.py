@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+import collections
 
 class Graph:
 
@@ -47,7 +48,8 @@ class Graph:
         while q.size() > 0:
         # dequeue whatever's at the front of our line, this is our current_node
             current_node = q.dequeue()
-            print(f"{current_node}")
+            print(current_node)
+            # print(f"{current_node}")
             # if we haven't visited this node yet mark as visited
             if current_node not in visited:
                 visited.add(current_node)
@@ -75,7 +77,8 @@ class Graph:
             # pop off whatever is on top, this is current_node
             current_node = s.pop()
             if current_node not in visited:
-                print(f"{current_node}")
+                print(current_node)
+                # print(f"{current_node}")
             # if we have not visited this vertex before mark as visited
             if current_node not in visited:
                 visited.add(current_node)
@@ -107,17 +110,44 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        q = collections.deque([])
+        q.append([starting_vertex])
+        visited = set()
+        
+        while q.count is not 0:
+            current = q.popleft()
+            last = current[-1]
+            if last not in visited:
+                for neighbor in self.get_neighbors(last):
+                    route = list(current)
+                    route.append(neighbor)
+                    q.append(route)
+                    if neighbor is destination_vertex:
+                        return route
+                visited.add(last)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
-        """
-        pass  # TODO
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+        """
+        s = Stack()
+        s.push(starting_vertex)
+        visited = set()
+        while s.size() > 0:
+            current = s.pop()
+            visited.add(current)
+            for edge in self.get_neighbors(current):
+                if edge not in visited:
+                    s.push(edge)
+                if edge is destination_vertex:
+                    visited.add(edge)
+                    return list(visited)
+                
+
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -125,11 +155,12 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+       
+            
+        
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
     graph.add_vertex(2)
     graph.add_vertex(3)
@@ -152,7 +183,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    # print(graph.vertices)
+    print(graph.vertices)
 
     '''
     Valid BFT paths:
@@ -169,7 +200,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    # graph.bft(1)
+    graph.bft(1)
 
     '''
     Valid DFT paths:
@@ -178,40 +209,19 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft(1)
-    # graph.dft_recursive(1)
+    graph.dft(1)
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
-    graph = Graph()
-
-    graph.add_vertex(1)
-    graph.add_vertex(2)
-    graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    
-    graph.add_edge(5, 3)
-    graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
-    graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
-    graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
-    graph.dft_recursive(1)
