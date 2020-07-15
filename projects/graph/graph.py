@@ -85,6 +85,22 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
+        """
+        other implementation:
+        path = [starting_vertex]
+        q.enqueue(path)
+        while q.size() > 0:
+            curr_path = q.dequeue()
+            curr_node = curr_path[-1]
+            if curr_node == destination_vertex:
+                return curr_path
+            if curr_node not in visited:
+                visited.add(curr_node)
+                neighbors = self.get_neighbors(curr_node)
+                for neighbor in neighbors:
+                    new_path = curr_path + [neighbor]
+                    q.enqueue(new_path)
+        """
         # stores parents of vertices
         parent = {}
         q = Queue()
