@@ -13,11 +13,7 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        # I'm using sets because that's how I did it
-        # in college, I don't know if that's wrong or it
-        # should be a list or whatever but I think it'd
-        # work the same either way. (replace set.add() with
-        # list.append() and maybe some duplicate detection)
+        
         self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
