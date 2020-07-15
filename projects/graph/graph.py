@@ -132,22 +132,26 @@ class Graph:
             v = q_path[-1]
             #print('q',q_path)
 
-            print(self.visited)         # SELF.VISITED NEEDS TO BE RESET OR INITIATED ELSEWHERE
+                     # SELF.VISITED NEEDS TO BE RESET OR INITIATED ELSEWHERE
             # If it's not been visited:
             if v not in self.visited:
-                print('dsfgsdg')
+                
                 if v == destination_vertex:
                     
                     # IF SO, RETURN PATH
                     return q_path
                 # Mark as visited (i.e. add to the visited set)
                 self.visited.add(v)
-                print(q_path)
+                
                 # Add all neighbors to the queue
                 for next_vert in self.get_neighbors(v):
-                    q_path.append(next_vert)
-                    print(q_path)
-                q.enqueue(q_path)
+                    # copy the path
+                    temp_path = list(q_path)
+                    temp_path.append(next_vert)
+                    
+                    q.enqueue(temp_path)
+
+        return None
 
 
 
@@ -232,6 +236,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    graph.visited = set()
     print('bfs')
     print(graph.bfs(1, 6))
 
