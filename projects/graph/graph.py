@@ -2,7 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
-import collections
+
 #-------------------------------------------------------------------------------------
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -113,7 +113,6 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-
         # make a queue
         que = Queue()
         # make a set to track nodes we've visited
@@ -167,7 +166,7 @@ class Graph:
                     visited.add(edge)
                     return list(visited)
 #-------------------------------------------------------------------------------------
-    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None, path=None):
+    def dfs_recursive(self, starting_vertex, destination_vertex, path = None, visited = None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -175,24 +174,30 @@ class Graph:
 
         This should be done using recursion.
         """
-        if visited is None:
+        if path:
+            path = path
+        else:
+            path = [starting_vertex]
+
+        if visited:
+            visited = visited
+        else:
             visited = set()
-            path = collections.deque([])
-            path.append([starting_vertex])
 
-        visited.add(starting_vertex)
-        current = path.pop()
-        last = current[-1]
-        
-        for last in self.get_neighbors(last):
-            if last not in visited:
-                route = list(current)
-                route.append(last)
-                path.append(route)
-                if last is destination_vertex:
-                    return route
+        current_node = path[-1]
 
-        return self.dfs_recursive(last, destination_vertex, visited, path)
+        if current_node == destination_vertex:
+            return path
+            
+        if current_node not in visited:
+            visited.add(current_node)
+            neighbors = self.get_neighbors(current_node)
+            for neighbor in neighbors:
+                next_path = path + [neighbor]
+                destination_path = self.dfs_recursive(current_node, destination_vertex, next_path, visited)
+
+                if destination_path:
+                    return destination_path
 #-------------------------------------------------------------------------------------
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
