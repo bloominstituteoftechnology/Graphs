@@ -65,12 +65,11 @@ class Graph:
         # create set for visting verticies
         visited_ver = set()
         # while to_visit is not empty
+         # pop the first vertex on to_visit
         while to_visit.size() > 0:
-            # pop the first vertex on to_visit
             current_vertex = to_visit.pop()
             # if it has not been visited
             if current_vertex not in visited_ver:
-                # print vertex
                 print(current_vertex)
                 # mark as visited by addign to visited_ver
                 visited_ver.add(current_vertex)
@@ -91,18 +90,15 @@ class Graph:
             visited_vertices = set()
         # add starting vertex to visited vertices
         visited_vertices.add(starting_vertex)
-        # print current starting vertex
         print(starting_vertex)
-        # get the neighbors from the starting vertex
+        # get the neighbors from the starting vertex check if there are neighbors in the neighbors var
         neighbors = self.get_neighbors(starting_vertex)
-        # check if there are neighbors in the neighbors var
         while len(neighbors) > 0:
             # for each of the neighbors
             for neighbor in neighbors:
                 # if the neighbor is not in the visited vertices
                 if neighbor not in visited_vertices:
-                    # run the dft_recur function again
-                    # this time with neighbor as the starting vertex, and visited_vertices as the visites
+                    # run the dft_recur function again this time with neighbor as the starting vertex, and visited_vertices as the visites
                     self.dft_recursive(neighbor, visited_vertices)
                 else:
                     return
@@ -121,9 +117,8 @@ class Graph:
         visited_vertices = set()
         # while queue is not empty
         while bft_path.size() > 0:
-            # dequeue the first Path
+            # dequeue the first Path  # grab the last vertex in the path
             curr_path = bft_path.dequeue()
-            # grab the last vertex in the path
             curr_path_last_vertex = curr_path[-1]
             # if it hasnt been visited
             if curr_path_last_vertex not in visited_vertices:
@@ -189,9 +184,8 @@ class Graph:
 
         This should be done using recursion.
         """
-        # create a set for visited_vertices
+        # create a set for visited_vertices # create a path to begin search
         visited_ver = set()
-        # create a path to begin search
         curr_path = dfs_path.pop()
         # if curr_path is None
         if curr_path == None:
