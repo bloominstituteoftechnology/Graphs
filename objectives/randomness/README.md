@@ -203,7 +203,7 @@ Notice that we needed to store l[2] in a temporary variable before swapping so i
 Let's move on to the next element:
 
 ```python
->>> random.randint(1, 5)
+>>> random.randint(1, 4)
 4
 ```
 
