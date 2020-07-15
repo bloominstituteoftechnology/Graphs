@@ -203,18 +203,20 @@ class Graph:
         #pass  # TODO
 
         if starting_vertex == destination_vertex:
-            print("Target Sighted!", starting_vertex)
+            print('target found!', starting_vertex)
             return visited + [starting_vertex]
         else:
-            visited.append[starting_vertex]
+            visited.append(starting_vertex)
             for edge in self.get_neighbors(starting_vertex):
-                print(f'{edge} is a neighbor to {starting_string}:{self.get_neighbors(starting_vertex)}' )
-                path = self.dft_recursive(edge, destination_vertex,visited)
-                if path:
-                    print("Path is: ", path)
-                    return path
+                print(f'{edge} is a neighbor to {starting_vertex}:{self.get_neighbors(starting_vertex)}')
+                if edge not in visited:
+                    print(f'{edge} not in visited, recurse, append {starting_vertex} if not in list')
+                    path = self.dfs_recursive(edge, destination_vertex, visited)
+                    if path:
+                        print('path is', path)
+                        return path
             visited.remove(starting_vertex)
-            print(f'Deleted: {starting_vertex} its edge {edge} was visited and no path to {destination_vertex} was found.')
+            print(f'Delete: {starting_vertex} its exit {edge} has been visited and no path to {destination_vertex} was found')
 
 
 if __name__ == '__main__':
