@@ -153,7 +153,24 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        path = []
+        self.visited.add(starting_vertex)
+        if starting_vertex is destination_vertex:
+            path = [starting_vertex]
+            return path
+
+        for ver in self.vertices[starting_vertex]:
+            if ver not in self.visited:
+                self.visited.add(ver)
+                path = self.dfs_recursive(ver, destination_vertex)
+                if destination_vertex in path:
+                    if ver is destination_vertex:
+                        break
+        path.insert(0, starting_vertex)
+        return path
+
+
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
