@@ -99,9 +99,9 @@ class SocialGraph:
         # while user_list_queue isn't empty
         while len(user_list) > 0:
         # visit the friends of given user
-            friend_path = visited[user_id]
-            print("F:", friend_path)
             user_id = user_list.pop(0)
+            friend_path = visited[user_id]
+
 
             # for each friend    
             for user in sg.friendships[user_id]:
@@ -111,22 +111,18 @@ class SocialGraph:
                     # for each user in user_list_queue
                     user_path = friend_path.copy()
                     user_path.append(user)
-                    print("U:", user_path)
+                    print("path:", user_path)
                     visited[user] = user_path
                     # add friends of user to user queue
                     user_list.append(user)
-                    
-
-
-
-
 
         return visited
 
-
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(1000, 20)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
+
+
