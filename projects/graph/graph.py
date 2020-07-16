@@ -10,6 +10,9 @@ class Graph:
         self.vertices = {}
         self.visited = set()
 
+    def populate_graph(self, list):
+        pass
+
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
