@@ -76,7 +76,20 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+
+        def dft_recursive_inner(vertex):
+            if vertex in visited:
+                return
+            else:
+                visited.add(vertex)
+            
+            print(vertex)
+
+            for next_vertice in self.get_neighbors(vertex):
+                dft_recursive_inner(next_vertice)
+
+        dft_recursive_inner(starting_vertex)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
