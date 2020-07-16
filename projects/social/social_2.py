@@ -33,7 +33,7 @@ class SocialGraph:
     def fisher_yates_shuffle(self, l):
         for i in range(0, len(l)):
             random_index = random.randint(i, len(l) - 1)
-
+            l[random_index], l[i] = l[i], l[random_index]
 
     def populate_graph(self, num_users, avg_friendships):
         """
@@ -50,11 +50,12 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-                
+
+        # Add users
         ## use num_users
         for user in range(num_users):
             self.add_user(user)
-            
+
         # Create friendships
         ## make a list with all POSSIBLE friendships
         ### Example:
@@ -65,22 +66,19 @@ class SocialGraph:
             for friend in range(user + 1, num_users + 1):
                 friendship = (user, friend)
                 friendships.append(friendship)
-        
+
         ## Shuffle the list
         self.fisher_yates_shuffle(friendships)
-        
+
         ## Take as many as we need
         total_friendships = num_users * avg_friendships
-        
+
         random_friendships = friendships[:total_friendships//2]
         ## add to self.friendships
         for friendship in random_friendships:
             self.add_friendship(friendship[0], friendship[1])
+        
 
-        # Add users
-
-        # Create friendships
-    
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -92,6 +90,37 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        user_list = []
+
+        # store the given user in a visited dict() & user_list_queue
+        visited[user_id] = [user_id]
+        user_list.append(user_id)
+
+        # while user_list_queue isn't empty
+        while len(user_list) > 0:
+        # visit the friends of given user
+            friend_path = visited[user_id]
+            print("F:", friend_path)
+            user_id = user_list.pop(0)
+
+            # for each friend    
+            for user in sg.friendships[user_id]:
+                # add friend/user : path to visited dict() and to user_list_queue
+                # if not in visited dict()
+                if user not in visited:
+                    # for each user in user_list_queue
+                    user_path = friend_path.copy()
+                    user_path.append(user)
+                    print("U:", user_path)
+                    visited[user] = user_path
+                    # add friends of user to user queue
+                    user_list.append(user)
+                    
+
+
+
+
+
         return visited
 
 
