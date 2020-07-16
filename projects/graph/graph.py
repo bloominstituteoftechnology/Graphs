@@ -157,7 +157,7 @@ class Graph:
         """
         visited = set()
 
-        def dft_recursive_inner(vertex_path):
+        def dft_inner(vertex_path):
             last_vertex = vertex_path[-1]
             
             if last_vertex in visited:
@@ -172,13 +172,13 @@ class Graph:
                 next_path = vertex_path.copy()
                 next_path.append(neighbor)
             
-                found = dft_recursive_inner(next_path)
+                found = dft_inner(next_path)
                 if found:
                     return found
             
             return None
 
-        return dft_recursive_inner([starting_vertex])
+        return dft_inner([starting_vertex])
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
