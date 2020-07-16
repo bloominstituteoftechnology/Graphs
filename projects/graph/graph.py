@@ -25,21 +25,49 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        queue = Queue()
+        visited = set()
+
+        queue.enqueue(starting_vertex)
+
+        while queue.size() > 0:
+            vertice = queue.dequeue()
+
+            if vertice not in visited:
+                visited.add(vertice)
+                print(vertice)
+
+                for next_vertice in self.get_neighbors(vertice):
+                    queue.enqueue(next_vertice)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stack = Stack()
+        visited = set()
+
+        stack.push(starting_vertex)
+
+        while stack.size() > 0:
+            # pop the first item 
+            vertice = stack.pop()
+
+            if vertice not in visited:
+                visited.add(vertice)
+                print(vertice)
+
+                for next_vertice in self.get_neighbors(vertice):
+                    stack.push(next_vertice)
+
 
     def dft_recursive(self, starting_vertex):
         """
