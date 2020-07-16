@@ -5,6 +5,7 @@ from world import World
 import random
 from ast import literal_eval
 from traverse import traverse
+from traverse import traverse2
 
 
 # Load world
@@ -29,7 +30,7 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = traverse(player)
+traversal_path = traverse2(player)
 
 # TRAVERSAL TEST
 visited_rooms = set()
