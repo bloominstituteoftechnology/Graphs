@@ -97,7 +97,27 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        queue = Queue() 
+        visited = set()
+
+        queue.enqueue([starting_vertex])
+
+        while queue.size() > 0:
+            path = queue.dequeue()
+            last_vertex = path[-1] # grab the last element in the array
+
+            if last_vertex in visited:
+                continue
+            else:
+                visited.add(last_vertex)
+
+            for neighbor in self.get_neighbors(last_vertex):
+                next_path = path.copy()
+                next_path.append(neighbor)
+
+                if neighbor == destination_vertex:
+                    return next_path
+                queue.enqueue(next_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -168,7 +188,9 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print("graph.dft(1)")
     graph.dft(1)
+    print("graph.dft_recursive(1)")
     graph.dft_recursive(1)
 
     '''
