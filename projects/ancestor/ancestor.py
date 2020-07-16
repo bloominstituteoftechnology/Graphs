@@ -24,7 +24,7 @@ def earliest_ancestor(ancestors, starting_node):
                     if current in stuff[key]:
                         current = key
                         count += 1
-                        break
+                        finished = False
                     else:
                         finished = True
 
