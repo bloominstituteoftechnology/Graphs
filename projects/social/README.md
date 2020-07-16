@@ -46,15 +46,22 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 ## 3. Questions
 
-1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
+1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`?
+100 * 10 / 2 = 500 
+Why?
+Friendships are bi-directional
 
-2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
-
+2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network?
+99%
+What is the average degree of separation between a user and those in his/her extended network?
+About 4.5
 
 
 ## 4. Stretch Goal
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
+I think the percentage connected seems accurate, but the degrees of separation is low because on most social media people will have way more connections
 
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
+My solution is basically O(n * a) where n is the number of users and a is the average number of friendships. However, as `a` gets closer to `n`, the collisions of trying to make connections that already exist increases, and the runtime suffers.
 
