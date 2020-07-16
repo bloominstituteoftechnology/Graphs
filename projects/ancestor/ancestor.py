@@ -8,7 +8,6 @@ def earliest_ancestor(ancestors, starting_node):
         if child not in struct:
             struct[child] = []
         struct[child].append(parent)
-
     q = deque()
     q.append([starting_node])
     l = [1,-1]
@@ -18,7 +17,7 @@ def earliest_ancestor(ancestors, starting_node):
         if last not in struct:
             if len(curr) > l[0]:
                 l = [len(curr), last]
-            if len(curr) == l[0] and last < l[1]:
+            elif len(curr) == l[0] and last < l[1]:
                 l = (len(curr), last)
         else:
             for x in struct[last]:
