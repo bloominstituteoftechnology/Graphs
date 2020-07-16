@@ -1,6 +1,17 @@
 import random
 
 
+'''
+3. Questions
+
+1. 5000 times, because the friendships are bi-directional, one call of
+add_friendship() gives friends to two people.
+
+2. I wouldn't know exactly- there's probably some math formula to
+figure it out, but from a couple runs, the average number of people
+in the person's extended list was 960, so about 96% I would guess.
+'''
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -103,7 +114,7 @@ class SocialGraph:
         queue.append(user_id)
         while len(queue) > 0:
             cur_user = queue.pop(0)
-            print(cur_user, queue)
+            # print(cur_user, queue)
             # get all connections
             for friend in self.friendships[cur_user]:
                 # don't add people we're already looking to add
@@ -122,7 +133,6 @@ class SocialGraph:
                     visited[cur_user].append(cur_user) # add current node
 
         return visited
-
 
 if __name__ == '__main__':
     sg = SocialGraph()
