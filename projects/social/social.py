@@ -70,6 +70,9 @@ class SocialGraph:
             # then we add this friendship to the friendship dictionary that defines the graph
             # with the first tuple value as the key and the second as the value
             self.add_friendship(friendship[0],friendship[1])
+            
+
+
 
     
 
@@ -194,7 +197,9 @@ class SocialGraph:
         # for x in visited:
         #     bfs(user_id, x)
         #     visited[x].add(path)
-            
+        
+        print('pct of total users in network', len(visited[1])/len(visited))
+        print('degrees of separation', len(visited[1]) - 1)
         return visited
 
 
