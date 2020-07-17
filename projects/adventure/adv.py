@@ -14,8 +14,8 @@ world = World()
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -113,7 +113,7 @@ def bfs(starting_room, destination_room, map):
     while out is not None:
         path.append(out)
         visited.add(out)
-        next = [value for value in map[out].values()]
+        next = [value for value in map[out].values() if value != "?"]
         if destination_room.id in next:
             path.append(destination_room.id)
             break
@@ -133,7 +133,7 @@ def bfs(starting_room, destination_room, map):
             reconstructed.append(fout)
 
     reconstructed.reverse()
-    print(f"Shortest path from room {starting_room.id} to {destination_room.id} is:")
+    # print(f"Shortest path from room {starting_room.id} to {destination_room.id} is:")
     print(reconstructed)
 
     translated = []
@@ -224,6 +224,7 @@ while not finished:
             test = dft_empty(current, test_map)
             pass
         # print(f"First room with empty rooms from dft {first_empty2.id}")
+        print(f"Shortest path from room {current.id} to {first_empty2.id} is:")
         backtrack = bfs(current, first_empty2, test_map)
         for direction in backtrack:
             print(f"Traveling towards: {direction}")
