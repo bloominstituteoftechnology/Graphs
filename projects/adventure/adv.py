@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from world import World
+import time
 
 import random
 from ast import literal_eval
@@ -21,15 +22,7 @@ class Stack():
         return len(self.stack)
 
 # Given a direction: n, s, e, or w; return the opposite direction.
-def backtrack(direction):
-    if direction == 'n':
-        return 's'
-    if direction == 's':
-        return 'n'
-    if direction == 'e':
-        return 'w'
-    if direction == 'w':
-        return 'e'
+backtrack = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 
 # Pass in a directon object
 # Returns whether to explore that direction or not
@@ -76,16 +69,16 @@ def traverse(player, path, trail, map):
     room = player.current_room
 
     if room.id not in map:
-        # We're in this room for the first time, get exits
-        exits = room.get_exits()
-
         # Create map entry based on current room object
         map[room.id] = {'n': room.n_to, 's': room.s_to, 'w': room.w_to, 'e': room.e_to}
+
+        # We're in this room for the first time, get exits
+        exits = room.get_exits()
 
         if trail.size() > 0:
             # Now that we know where the trail leads, update current room with prior room's ID
             prior_direction, prior_room_id = trail.peek()
-            map[room.id][backtrack(prior_direction)] = prior_room_id
+            map[room.id][backtrack[prior_direction]] = prior_room_id
 
         for direction in exits:
             if need_to_explore(map[room.id][direction]):
@@ -101,7 +94,7 @@ def traverse(player, path, trail, map):
         direction = None # This fires once when we get back to the starting room
         return 
 
-    opposite_direction = backtrack(direction)
+    opposite_direction = backtrack[direction]
 
     # Go back from whence we came
     player.travel(opposite_direction)
@@ -113,7 +106,11 @@ def traverse(player, path, trail, map):
     # Continue to unwrap
 
 
+start_time = time.time()
 traverse(player, traversal_path, trail, traversal_graph)
+end_time = time.time()
+print(f"runtime: {end_time - start_time}")
+
 # ==========================================================================
 
 # TRAVERSAL TEST
