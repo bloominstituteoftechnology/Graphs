@@ -48,33 +48,37 @@ player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
 
 
+# FOR MY FIRST EXPLORATION OF THE PROJECT, I USED THE DATA
+# AS IT WAS GIVEN TO US TO POPULATE A GRAPH
+# CAN UNCOMMENT TO SEE IT WORK, KINDA COOL
+
 # Map to be built
-built_map = {}
-
-def dft(starting_room):
-    visited_rooms.add(starting_room.id)
-    built_map[starting_room.id] = {}
-
-    for room in starting_room.get_exits():
-        built_map[starting_room.id][room] = starting_room.get_room_in_direction(room).id
-        if starting_room.get_room_in_direction(room).id not in visited_rooms:
-            dft(starting_room.get_room_in_direction(room))
-
-dft(player.current_room)
-edited = built_map.copy()
-for key in edited.keys():
-    edited[key] = set(edited[key].values())
+# built_map = {}
+#
+# def dft(starting_room):
+#     visited_rooms.add(starting_room.id)
+#     built_map[starting_room.id] = {}
+#
+#     for room in starting_room.get_exits():
+#         built_map[starting_room.id][room] = starting_room.get_room_in_direction(room).id
+#         if starting_room.get_room_in_direction(room).id not in visited_rooms:
+#             dft(starting_room.get_room_in_direction(room))
+#
+# dft(player.current_room)
+# edited = built_map.copy()
+# for key in edited.keys():
+#     edited[key] = set(edited[key].values())
 # print("THIS IS THE BUILT MAP")
 # for item in built_map.items():
 #     print(item)
 
 # Traverse the map like a headless chicken
-test_map = {}
-depth = []
+player_map = {}
 prev = None
 current = player.current_room
 finished = False
 
+# Quick method that will tell us if the room we're in has been fully explored
 def explored(current, map):
     unexplored = [direction for direction in current.get_exits() if map[current.id][direction] == "?"]
     if len(unexplored) > 0:
@@ -97,12 +101,8 @@ def dft_empty(starting_room, map):
             found = dft_empty(room, map)
             if found:
                 return found
-        # for room in rooms:
-        #     if room.id not in first_nonexplored_visited:
-        #         return dft_empty(starting_room.get_room_in_direction(room), map)
-        # if starting_room.get_room_in_direction(room).id not in first_nonexplored_visited:
-        #     return dft_empty(starting_room.get_room_in_direction(room), map)
 
+# BFS will find optimal path from current dead end, to closest unexplored room
 def bfs(starting_room, destination_room, map):
 
     queue = [starting_room.id]
@@ -113,7 +113,7 @@ def bfs(starting_room, destination_room, map):
     while out is not None:
         path.append(out)
         visited.add(out)
-        next = [value for value in map[out].values() if value != "?"]
+        next = [value for value in map[out].values() if value != "?" and value not in visited]
         if destination_room.id in next:
             path.append(destination_room.id)
             break
@@ -134,7 +134,7 @@ def bfs(starting_room, destination_room, map):
 
     reconstructed.reverse()
     # print(f"Shortest path from room {starting_room.id} to {destination_room.id} is:")
-    print(reconstructed)
+    # print(reconstructed)
 
     translated = []
     for i in range(0, len(reconstructed) - 1):
@@ -143,133 +143,123 @@ def bfs(starting_room, destination_room, map):
             if reconstructed[i+1] is map[reconstructed[i]][direction]:
                 translated.append(direction)
 
-    print("Shortest path translated to instructions")
-    print(translated)
+    # print("Shortest path translated to instructions")
+    # print(translated)
     return translated
 
+# Game loop
 while not finished:
     exits = current.get_exits()
-    if current.id not in test_map:
-        test_map[current.id] = {cardinal: "?" for cardinal in exits}
+
+    # Populate map entry if it's a new room
+    if current.id not in player_map:
+        player_map[current.id] = {cardinal: "?" for cardinal in exits}
+
     # Previous will hold a tuple
     # Index 0 holds the room
     # Index 1 holds the direction we took to get here
     if prev is not None:
-    #     # Connect room object
-    #     prev[0].connect_rooms(prev[1], current)
-    #     current.connect_rooms(returns[prev[1]], prev[0])
-    #     # Fill out our map
-    #     test_map[prev[0].id][prev[1]] = current.id
-        test_map[current.id][returns[prev[1]]] = prev[0].id
+        player_map[current.id][returns[prev[1]]] = prev[0].id
 
     # Check that we have an unexplored path
-    options = [option for option in exits if test_map[current.id][option] == "?"]
+    options = [option for option in exits if player_map[current.id][option] == "?"]
 
     # If we have an unexplored path, do your thing
     if len(options):
+
         # Pick a random direction
         direction = options[random.randint(0, len(options) - 1)]
 
         # Store current room into previous plus the direction we're going to move in as a tuple
         prev = (player.current_room, direction)
         traversal_path.append(direction)
-        print(f"Moving towards: {direction}" )
+        # print(f"Moving towards: {direction}" )
+
         # Move player into this direction
         player.travel(direction)
 
         # Store new current into current
         current = player.current_room
 
-        # Connect room object
+        # Connect room objects
         prev[0].connect_rooms(prev[1], current)
         current.connect_rooms(returns[prev[1]], prev[0])
+
         # Fill out our map
-        test_map[prev[0].id][prev[1]] = current.id
+        player_map[prev[0].id][prev[1]] = current.id
         # test_map[current.id][returns[prev[1]]] = prev[0].id
 
 
-        print(f"Current room now is: {current.id}")
+        # print(f"Current room now is: {current.id}")
     else:
-        print()
-        print("--------------------------------")
-        print(f"Hit a deadend at {current.id}")
-        print("Current map:")
-        for item in test_map.items():
-            print(item)
+        # print()
+        # print("--------------------------------")
+        # print(f"Hit a deadend at {current.id}")
+        # print("Current map:")
+        # for item in test_map.items():
+        #     print(item)
 
         # Check if we explored the entire map
         found = False
-        for item in test_map.keys():
-            if "?" in test_map[item].values():
+        for item in player_map.keys():
+            # If we find a "?" in our map, it means we're not done.
+            # Otherwise, we're finished
+            if "?" in player_map[item].values():
                 found = True
                 break
         if not found:
             print("We done")
-            print("Our map:")
-            print(test_map)
-            print("Travel path:")
-            print(traversal_path)
-            print("length of travel path:")
-            print(len(traversal_path))
-            exit()
-
+            # print("Our map:")
+            # print(test_map)
+            # print("Travel path:")
+            # print(traversal_path)
+            # print("length of travel path:")
+            # print(len(traversal_path))
+            break
 
         # Find the first room with no traversed path
-        print(f"Travel path {traversal_path}")
+        # print(f"Travel path {traversal_path}")
+
+        # Reset the visited set used by our dft function
         first_nonexplored_visited = set()
-        first_empty2 = dft_empty(current, test_map)
-        if first_empty2 is None:
-            print("Whoops")
-            first_nonexplored_visited = set()
-            test = dft_empty(current, test_map)
-            pass
-        # print(f"First room with empty rooms from dft {first_empty2.id}")
-        print(f"Shortest path from room {current.id} to {first_empty2.id} is:")
-        backtrack = bfs(current, first_empty2, test_map)
+        first_empty2 = dft_empty(current, player_map)
+
+        # print(f"Shortest path from room {current.id} to {first_empty2.id} is:")
+
+        # Get the shortest path from current dead end to closest
+        # unexplored room in an array with directions
+        backtrack = bfs(current, first_empty2, player_map)
+
+        # For each direction returned, move our player
+        # and add our movement to our path
         for direction in backtrack:
-            print(f"Traveling towards: {direction}")
+            # print(f"Traveling towards: {direction}")
             traversal_path.append(direction)
             player.travel(direction)
             current = player.current_room
-            print(f"Current room now is: {current.id}")
+            # print(f"Current room now is: {current.id}")
+
+        # Reset previous if we have backtracked.
         prev = None
-        # step = len(traversal_path) - 1
-        # backtrack = returns[traversal_path[step]]
-        # traversal_path.append(backtrack)
-        # step -= 1
-        # backtrack = returns[traversal_path[step]]
-        # player.travel(backtrack)
-        # first_empty = player.current_room
-        #
-        # while explored(first_empty, test_map):
-        #     step -= 1
-        #     backtrack = returns[traversal_path[step]]
-        #     traversal_path.append(backtrack)
-        #     step -= 1
-        #     backtrack = returns[traversal_path[step]]
-        #     player.travel(backtrack)
-        #     first_empty = player.current_room
-        #
-        # print(f"Travel path {traversal_path}")
-        # print(f"First room with empty rooms from dft {first_empty2.id}")
-        # print(f"First room with empty rooms from while loop {first_empty.id}")
-        print()
+        # print()
 
-
-# for item in test_map.items():
-#     print(item)
-
+#
 # TRAVERSAL TEST
 #
-# for move in traversal_path:`
-#     player.travel(move)
-#     visited_rooms.add(player.current_room)
-#
-# if len(visited_rooms) == len(room_graph):
-#     print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
-# else:
-#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-#     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
+
+visited_rooms = set()
+player.current_room = world.starting_room
+visited_rooms.add(player.current_room)
+
+for move in traversal_path:
+    player.travel(move)
+    visited_rooms.add(player.current_room)
+
+if len(visited_rooms) == len(room_graph):
+    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
+else:
+    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+    print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
 
 
