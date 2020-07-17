@@ -11,9 +11,9 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
+map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-map_file = "maps/test_loop_fork.txt"
+# map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
@@ -41,11 +41,34 @@ returns = {
     "e": "w"
 }
 
+
+
+
 traversal_path = []
+
 
 visited_rooms = set()
 player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
+
+
+# Map to be built
+built_map = {}
+
+def dft(starting_room):
+    visited_rooms.add(starting_room.id)
+    built_map[starting_room.id] = {}
+
+    for room in starting_room.get_exits():
+        built_map[starting_room.id][room] = starting_room.get_room_in_direction(room).id
+        if starting_room.get_room_in_direction(room).id not in visited_rooms:
+            dft(starting_room.get_room_in_direction(room))
+
+dft(player.current_room)
+
+print("THIS IS THE BUILT MAP")
+for item in built_map.items():
+    print(item)
 
 # TRAVERSAL TEST
 #
