@@ -5,6 +5,16 @@ from world import World
 import random
 from ast import literal_eval
 
+def opposite_direction(direction):
+    if direction == 'n':
+        return 's'
+    if direction == 's':
+        return 'n'
+    if direction == 'e':
+        return 'w'
+    if direction == 'w':
+        return 'e'
+    
 # Load world
 world = World()
 
@@ -40,7 +50,12 @@ traversal_path.append(direction_of_travel)
 
 traversal_graph[player.current_room.id] = {'n': player.current_room.n_to, 's': player.current_room.s_to, 'w': player.current_room.w_to, 'e': player.current_room.e_to}
 traversal_graph[prior_room_id][direction_of_travel] = player.current_room.id
-traversal_graph[player.current_room.id]['s'] = prior_room_id
+traversal_graph[player.current_room.id][opposite_direction(direction_of_travel)] = prior_room_id
+
+print(type(traversal_graph[player.current_room.id]['n'])) # <class 'room.Room'>
+print(type(traversal_graph[player.current_room.id]['s'])) # <class 'int'>
+print(type(traversal_graph[player.current_room.id]['w'])) # <class 'NoneType'>
+
 player.travel('n', False)
 traversal_path.append('n')
 
