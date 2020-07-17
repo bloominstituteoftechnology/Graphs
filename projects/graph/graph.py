@@ -2,7 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
-
+import collections
 
 class Stack():
     def __init__(self):
@@ -118,14 +118,20 @@ class Graph:
                 for next_vert in self.get_neighbors(v):
                     s.push(next_vert)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+            visited = set()
+        visited.add(starting_vertex)
+        print(starting_vertex)
+        for edge in self.vertices[starting_vertex]:
+            if edge not in visited:
+                self.dft_recursive(edge, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -173,11 +179,26 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass
+        v = Stack()
+        visited = set()
+        v.push([starting_vertex])
+        while v.size() > 0:
+            n = v.pop()
+            last_vertex = n[-1]
+            if last_vertex not in visited:
+                visited.add(last_vertex)
+            else:
+                continue
+
+            for neighbor in self.get_neighbors(last_vertex):
+                new = n.copy()
+                new.append(neighbor)
+                v.push(new)
+                if neighbor == destination_vertex:
+                    return new
 
 
-
-def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited= None, s=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -185,7 +206,25 @@ def dfs_recursive(self, starting_vertex, destination_vertex):
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+            visited = set()
+            s = collections.deque([])
+            s.append([starting_vertex])
+        visited.add(starting_vertex)
+        current = s.pop()
+        last = current[-1]
+        for last in self.get_neighbors(last):
+            if last not in visited:
+                route = list(current)
+                route.append(last)
+                s.append(route)
+                if last is destination_vertex:
+                    return route
+
+        return self.dfs_recursive(last, destination_vertex, visited, s)
+
+
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
