@@ -41,11 +41,11 @@ def earliest_ancestor(ancestors, starting_node):
     #pass
     # build graph to traverse
     g = Graph()
-    # populate w verts
+     # populate w verts
     for i in ancestors:
         g.add_vertex(i[0])
         g.add_vertex(i[1])
-        # build edges
+         # build edges
         g.add_edge(i[1], i[0])
     # init a Q and add starting vertex as a list
     q = Queue()
@@ -67,3 +67,4 @@ def earliest_ancestor(ancestors, starting_node):
             copy.append(next_item)
             q.enqueue(copy)
     return earliest
+
