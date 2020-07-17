@@ -14,7 +14,17 @@ def opposite_direction(direction):
         return 'w'
     if direction == 'w':
         return 'e'
-    
+
+def what_is_it(object):
+    if object == None:
+        print("It's a None")
+        return 
+    if isinstance(object, int):
+        print("It's an int")
+        return 
+    print("It's a Class")
+    return 
+
 # Load world
 world = World()
 
@@ -55,6 +65,10 @@ traversal_graph[player.current_room.id][opposite_direction(direction_of_travel)]
 print(type(traversal_graph[player.current_room.id]['n'])) # <class 'room.Room'>
 print(type(traversal_graph[player.current_room.id]['s'])) # <class 'int'>
 print(type(traversal_graph[player.current_room.id]['w'])) # <class 'NoneType'>
+
+what_is_it(traversal_graph[player.current_room.id]['n'])
+what_is_it(traversal_graph[player.current_room.id]['s'])
+what_is_it(traversal_graph[player.current_room.id]['w'])
 
 player.travel('n', False)
 traversal_path.append('n')
