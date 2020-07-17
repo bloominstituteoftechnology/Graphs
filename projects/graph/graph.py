@@ -16,6 +16,7 @@ class Graph:
         Add a vertex to the graph.
         """
         self.vertices[vertex_id] = set()
+        print('Here I am', type(self.vertices))
 
     def add_edge(self, v1, v2):
         """
