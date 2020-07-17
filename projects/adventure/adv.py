@@ -15,15 +15,16 @@ def opposite_direction(direction):
     if direction == 'w':
         return 'e'
 
-def what_is_it(object):
+# Pass in a directon object
+# Returns whether to explore that direction or not
+def need_to_explore(object):
     if object == None:
-        print("It's a None")
-        return 
+        return False 
     if isinstance(object, int):
-        print("It's an int")
-        return 
-    print("It's a Class")
-    return 
+        # object is an int (a room ID)
+        return False
+    # Object is a Class (an unexplored room)
+    return True
 
 # Load world
 world = World()
@@ -66,9 +67,9 @@ print(type(traversal_graph[player.current_room.id]['n'])) # <class 'room.Room'>
 print(type(traversal_graph[player.current_room.id]['s'])) # <class 'int'>
 print(type(traversal_graph[player.current_room.id]['w'])) # <class 'NoneType'>
 
-what_is_it(traversal_graph[player.current_room.id]['n'])
-what_is_it(traversal_graph[player.current_room.id]['s'])
-what_is_it(traversal_graph[player.current_room.id]['w'])
+need_to_explore(traversal_graph[player.current_room.id]['n'])
+need_to_explore(traversal_graph[player.current_room.id]['s'])
+need_to_explore(traversal_graph[player.current_room.id]['w'])
 
 player.travel('n', False)
 traversal_path.append('n')
