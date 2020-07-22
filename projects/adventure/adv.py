@@ -33,6 +33,7 @@ player_1 = Player(world.starting_room)
 
 opposite = {'n': 's', 'e': 'w', 's': 'n', 'w': 'e'}
 
+
 def find_nearest_unexplored(room_id, current_map):
     """
     Breadth-first search for nearest '?' exit to room.
@@ -54,8 +55,8 @@ def find_nearest_unexplored(room_id, current_map):
                     else:
                         current_map[room_id][exit_dir] = \
                             temp_player.current_room.id
-                        current_map[temp_player.current_room.id] \
-                            [opposite[exit_dir]] = room_id
+                        return_dir = opposite[exit_dir]
+                        current_map[temp_player.current_room.id][return_dir] = room_id
             if len(options) > 0:
                 return_path = [random.choice(options)]
                 step = prev_dir
@@ -66,9 +67,10 @@ def find_nearest_unexplored(room_id, current_map):
                 return return_path[::-1]
 
             for exit_dir, neighboring_room in current_map[room].items():
-                if neighboring_room != '?' and \
-                    neighboring_room not in searched:
+                if ((neighboring_room != '?' and
+                     neighboring_room not in searched)):
                     to_search.put((neighboring_room, exit_dir))
+
 
 def get_next_move(player, curr_map):
     """
@@ -85,9 +87,9 @@ def get_next_move(player, curr_map):
                     return exit_dir
                 last_dir = exit_dir
                 while num_exits == 2:
-                    for next_dir in [key for key in \
-                                     temp_player.current_room.get_exits() \
-                                         if key != opposite[last_dir]]:
+                    for next_dir in [key for key in
+                                     temp_player.current_room.get_exits()
+                                     if key != opposite[last_dir]]:
                         temp_player.travel(next_dir)
                         last_dir = next_dir
                         num_exits = len(temp_player.current_room.get_exits())
@@ -105,11 +107,13 @@ def get_next_move(player, curr_map):
         return None
     return find_nearest_unexplored(player.current_room.id, curr_map)
 
+
 def map_complete(current_map):
     """
     Check map for unexplored exits.
     """
     return not any(['?' in exits.values() for exits in current_map.values()])
+
 
 def add_new_room(room, last_room, last_dir, curr_map):
     """
@@ -143,8 +147,8 @@ def get_traversal_path(player):
     player = Player(player.current_room)
 
     # Seed map with starting room.
-    adv_map[player.current_room.id] = {direction: '?' for direction in \
-                                           player.current_room.get_exits()}
+    adv_map[player.current_room.id] = {direction: '?' for direction in
+                                       player.current_room.get_exits()}
 
     next_move = get_next_move(player, adv_map)
     while next_move is not None:
@@ -161,11 +165,12 @@ def get_traversal_path(player):
         else:
             adv_map[prev_room][traversal_path[-1]] = player.current_room.id
             adv_map[player.current_room.id][opposite[traversal_path[-1]]] = \
-               prev_room
+                prev_room
 
         next_move = get_next_move(player, adv_map)
 
     return traversal_path
+
 
 def get_path_rec(player, prev_room=None, adv_map=None, path_hist=None):
     """
@@ -229,7 +234,6 @@ def get_path_rec(player, prev_room=None, adv_map=None, path_hist=None):
                         path_hist.copy())
 
 
-
 # TRAVERSAL TEST
 visited_rooms = set()
 player_1.current_room = world.starting_room
@@ -250,11 +254,11 @@ for move in path:
     visited_rooms.add(player_1.current_room)
 
 if len(visited_rooms) == len(room_graph):
-    print(f"TESTS PASSED: {len(path)} moves, {len(visited_rooms)} rooms visited")
+    print(f"TESTS PASSED: {len(path)} moves, {len(visited_rooms)} "
+          "rooms visited")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
-
 
 
 #######

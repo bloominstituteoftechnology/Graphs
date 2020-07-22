@@ -3,11 +3,12 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
     """
     Represent a graph as a dictionary of vertices mapping labels to edges.
     """
-    
+
     def __init__(self):
         self.vertices = {}
 
@@ -62,7 +63,6 @@ class Graph:
             for edge in self.vertices[vertex]:
                 if edge not in printed:
                     to_print.push(edge)
-        
 
     def dft_recursive(self, starting_vertex, printed=None):
         """
@@ -99,11 +99,10 @@ class Graph:
                         path.append(step)
                         step = visited[step]
                     return path[::-1]
-                        
+
             for edge in self.vertices[vertex]:
                 if edge not in visited:
                     to_search.enqueue((edge, vertex))
-        
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -149,13 +148,14 @@ class Graph:
             visited.append(starting_vertex)
             for edge in self.vertices[starting_vertex]:
                 if edge not in visited and edge not in deadend:
-                    path = self.dfs_recursive(edge, 
-                                              destination_vertex, 
+                    path = self.dfs_recursive(edge,
+                                              destination_vertex,
                                               visited)
                     if path is not None:
                         return path
             visited.remove(starting_vertex)
             deadend.append(starting_vertex)
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph

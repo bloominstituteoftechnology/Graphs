@@ -1,15 +1,17 @@
 import random
 from queue import SimpleQueue
 
+
 class User:
     def __init__(self, name):
         self.name = name
-        
+
     def __str__(self):
         return self.name
-    
+
     def __repr__(self):
         return self.name
+
 
 class SocialGraph:
     def __init__(self):
@@ -23,9 +25,9 @@ class SocialGraph:
         """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
-        elif friend_id in self.friendships[user_id] or \
-             user_id in self.friendships[friend_id]:
-                 print("WARNING: Friendship already exists")
+        elif (friend_id in self.friendships[user_id] or
+              user_id in self.friendships[friend_id]):
+            print("WARNING: Friendship already exists")
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
@@ -58,7 +60,7 @@ class SocialGraph:
         # Add users
         with open('first-names.txt') as file:
             names = file.read().split()
-        
+
         for i in range(num_users):
             self.add_user(random.choice(names))
 
@@ -69,29 +71,29 @@ class SocialGraph:
                 user1 = random.choice(list(self.users.keys()))
                 user2 = random.choice(list(self.users.keys()))
                 if user1 != user2:
-                    if user2 not in self.friendships[user1] and \
-                       user1 not in self.friendships[user2]:
-                           self.add_friendship(user1, user2)
-                           successful = True
+                    if ((user2 not in self.friendships[user1] and
+                         user1 not in self.friendships[user2])):
+                        self.add_friendship(user1, user2)
+                        successful = True
 
     def get_total_users(self):
         return len(self.users)
-                           
+
     def get_total_friendships(self):
-        return sum([len(friend_list) for friend_list in \
+        return sum([len(friend_list) for friend_list in
                     self.friendships.values()])
-                           
+
     def get_average_friendships(self):
         num_users = self.get_total_users()
         total_friendships = self.get_total_friendships()
         return total_friendships / num_users
-    
+
     def get_min_friendships(self):
-        return min([len(friend_list) for friend_list in \
+        return min([len(friend_list) for friend_list in
                     self.friendships.values()])
-            
+
     def get_max_friendships(self):
-        return max([len(friend_list) for friend_list in \
+        return max([len(friend_list) for friend_list in
                     self.friendships.values()])
 
     def get_all_social_paths(self, user_id):
@@ -104,13 +106,13 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}
-        
+
         to_visit = SimpleQueue()
         to_visit.put((user_id, None))
-        
+
         while to_visit.qsize() > 0:
             (vertex, prev) = to_visit.get()
-            
+
             if vertex not in visited:
                 if vertex == user_id:
                     visited[vertex] = [user_id]
@@ -118,11 +120,11 @@ class SocialGraph:
                     visited[vertex] = [user_id]
                 else:
                     visited[vertex] = visited[prev] + [prev]
-                        
+
             for edge in self.friendships[vertex]:
                 if edge not in visited:
                     to_visit.put((edge, vertex))
-        
+
         return visited
 
 
