@@ -20,7 +20,7 @@ class Graph:
 
     def add_edge(self, v1, v2):
         """
-        Add a directed edge to the graph.
+        Add a directed edge v1 -> v2 to the graph.
         """
         self.vertices[v1].add(v2)
 
@@ -32,11 +32,12 @@ class Graph:
 
     def bft(self, starting_vertex):
         """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
+        Print each vertex in breadth-first order beginning from
+        starting_vertex.
         """
         printed = set()
         to_print = Queue()
+
         to_print.enqueue(starting_vertex)
         while to_print.size() > 0:
             vertex = to_print.dequeue()
@@ -49,11 +50,11 @@ class Graph:
 
     def dft(self, starting_vertex):
         """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
+        Print each vertex in depth-first order beginning from starting_vertex.
         """
         printed = set()
         to_print = Stack()
+
         to_print.push(starting_vertex)
         while to_print.size() > 0:
             vertex = to_print.pop()
@@ -66,27 +67,27 @@ class Graph:
 
     def dft_recursive(self, starting_vertex, printed=None):
         """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-
-        This should be done using recursion.
+        Print each vertex in depth-first order beginning from starting_vertex,
+        using recursion.
         """
         if printed is None:
             printed = set()
+
         print(starting_vertex)
         printed.add(starting_vertex)
+
         for edge in self.vertices[starting_vertex]:
             if edge not in printed:
                 self.dft_recursive(edge, printed)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
+        Return a list containing the shortest path from starting_vertex to
+        destination_vertex in breath-first order.
         """
         visited = {}
         to_search = Queue()
+
         to_search.enqueue((starting_vertex, None))
         while to_search.size() > 0:
             (vertex, prev) = to_search.dequeue()
@@ -106,9 +107,8 @@ class Graph:
 
     def dfs(self, starting_vertex, destination_vertex):
         """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
+        Return a list containing a path from starting_vertex to
+        destination_vertex in depth-first order.
         """
         visited = {}
         to_search = Stack()
@@ -134,14 +134,12 @@ class Graph:
                       visited=[],
                       deadend=[]):
         """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-
-        This should be done using recursion.
+        Return a list containing a path from starting_vertex to
+        destination_vertex in depth-first order, using recursion.
         """
         if visited is None:
             visited = []
+
         if starting_vertex == destination_vertex:
             return visited + [starting_vertex]
         else:
