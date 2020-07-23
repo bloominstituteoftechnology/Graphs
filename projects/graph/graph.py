@@ -199,7 +199,8 @@ class Graph:
                         return [starting_vertex] + path
 
             # If no path to destination found through any neighbor of the
-            # current node, step back to the parent function call.
+            # current node, drop back to the parent function call, returning
+            # None.
 
 
 if __name__ == '__main__':
