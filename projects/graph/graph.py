@@ -171,20 +171,18 @@ class Graph:
     def dfs_recursive(self,
                       starting_vertex,
                       destination_vertex,
-                      visited=None,
-                      deadend=None):
+                      visited=None):
         """
         Return a list containing a path from starting_vertex to
         destination_vertex in depth-first order, using recursion.
         """
         # Special case for initial function call.
         if visited is None:
-            visited = []  # The path so far.
-            deadend = []  # Nodes searched completely but unsuccessfully.
+            visited = []
 
         # Base case: destination vertex reached.
         if starting_vertex == destination_vertex:
-            return visited + [starting_vertex]
+            return [starting_vertex]
 
         # Recursive case: continue searching.
         else:
@@ -192,20 +190,16 @@ class Graph:
 
             # Recursively search each unvisited neighbor in turn.
             for edge in self.vertices[starting_vertex]:
-                if edge not in visited and edge not in deadend:
+                if edge not in visited:
                     path = self.dfs_recursive(edge,
                                               destination_vertex,
-                                              visited,
-                                              deadend)
+                                              visited)
                     # Stop and return at the first successful search, if any.
                     if path is not None:
-                        return path
+                        return [starting_vertex] + path
 
             # If no path to destination found through any neighbor of the
-            # current node, step back to the parent function call after
-            # crossing the current node off the list.
-            visited.remove(starting_vertex)
-            deadend.append(starting_vertex)
+            # current node, step back to the parent function call.
 
 
 if __name__ == '__main__':
