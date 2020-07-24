@@ -2,14 +2,14 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+import sys 
+sys.setrecursionlimit(10**6) 
 
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
-        self.distance = -1 
-        self.previous = None 
 
     def add_vertex(self, vertex_id):
         """
@@ -173,7 +173,7 @@ class Graph:
                 if path:
                     return [starting_vertex] + path
 
-        return self.dfs_recursive(starting_vertex, destination_vertex)     
+        return self.dfs_recursive(starting_vertex, destination_vertex)   
 
 
 if __name__ == '__main__':
