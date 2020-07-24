@@ -162,18 +162,17 @@ class Graph:
         This should be done using recursion.
         """
         visited = [starting_vertex]
+        path = []
+        new_path = path + visited
 
         if starting_vertex == destination_vertex:
             return [destination_vertex]
 
         for neighbor in self.get_neighbors(starting_vertex):
-            if neighbor not in visited:
-                visited.append(neighbor)
-                path = self.dfs_recursive(neighbor, destination_vertex)
-                if path:
-                    return [starting_vertex] + path
+            new_path = self.dfs_recursive(neighbor, destination_vertex)
 
-        return self.dfs_recursive(starting_vertex, destination_vertex)   
+        if new_path:    
+            return new_path
 
 
 if __name__ == '__main__':
