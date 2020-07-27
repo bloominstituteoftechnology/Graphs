@@ -59,9 +59,10 @@ def earliest_ancestor(ancestors, starting_node):
                 # corresponds to a generation.
                 candidates.append(recursive_ancestor(parent, level + 1))
 
-            # Comparison & return: sort first on level (descending), then on
-            # ancestor id (ascending). Return the first result.
-            return sorted(candidates, key=lambda x: (-x[1], x[0]))[0]
+            # Comparison & return: return the candidate ancestor with the
+            # greatest generational difference (level). Break ties, if any, by
+            # returning the candidate with the lowest numeric ID.
+            return min(candidates, key=lambda x: (-x[1], x[0]))
 
     # If we know the starting node has at least one parent, we can return just
     # the ancestor id from our helper function defined above.
