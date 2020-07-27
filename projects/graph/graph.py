@@ -125,7 +125,6 @@ class Graph:
                 curr_node = q.dequeue()
 
             if curr_node not in visited:
-
                 visited.add(curr_node)
                 shortest_path.append(curr_node)
 
@@ -178,7 +177,7 @@ class Graph:
 
         return shortest_path
 
-    def dfs_recursive(self, starting_vertex, destination_vertex,  path=[], visited=set()):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=[]):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -186,18 +185,37 @@ class Graph:
 
         This should be done using recursion.
         """
-        visited.add(starting_vertex)
-        path.append(starting_vertex)
+        # visited.add(starting_vertex)
+        # path.append(starting_vertex)
 
-        if starting_vertex not in visited and (starting_vertex != destination_vertex):
-            print("new_visited |", visited)
-            neighbors = self.get_neighbors(starting_vertex)
+        # if starting_vertex not in visited and (starting_vertex != destination_vertex):
+        #     print("new_visited |", visited)
+        #     neighbors = self.get_neighbors(starting_vertex)
 
-            for neighbor in neighbors:
-                path.append(self.dfs_recursive(
-                    neighbor, destination_vertex, path))
+        #     for neighbor in neighbors:
+        #         path.append(self.dfs_recursive(
+        #             neighbor, destination_vertex, path))
 
-        return path
+        # return path
+        if starting_vertex == destination_vertex:
+            print('target found!', starting_vertex)
+            return visited + [starting_vertex]
+        else:
+            visited.append(starting_vertex)
+            for edge in self.get_neighbors(starting_vertex):
+                print(
+                    f'{edge} is a neighbor to {starting_vertex}:{self.get_neighbors(starting_vertex)}')
+                if edge not in visited:
+                    print(
+                        f'{edge} not in visited, recurse, append {starting_vertex} if not in list')
+                    path = self.dfs_recursive(
+                        edge, destination_vertex, visited)
+                    if path:
+                        print('path is', path)
+                        return path
+            visited.remove(starting_vertex)
+            print(
+                f'Delete: {starting_vertex} its exit {edge} has been visited and no path to {destination_vertex} was found')
 
 
 if __name__ == '__main__':
