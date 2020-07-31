@@ -90,20 +90,22 @@ class Graph:
 
 
     def dft_recursive(self, starting_vertex, visited = set()):
+        
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        #mark this vertex as visited
-        visited.add(starting_vertex)
-        #for each neighbor - if not visited
-        neighbors = self.get_neighbors(starting_vertex)
-        for neighbor in neighbors:
-        # recurse on the neighbor
-            if neighbors not in visited:
-                self.dfs_recursive(neighbor, visited)    
+        if starting_vertex not in visited:
+            #mark this vertex as visited
+            visited.add(starting_vertex)     
+            #for each neighbor - if not visited
+            neighbors = self.get_neighbors(starting_vertex)
+            for neighbor in neighbors:
+                # recurse on the neighbor                
+                self.dfs_recursive(neighbor, visited) 
+        return visited   
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -133,10 +135,14 @@ class Graph:
                 neighbors = self.get_neighbors(current_node)
                 
                 for neighbor in neighbors:
+                    path_copy = current_path[:]
+                    path_copy.append(neighbor)
+                    q.enqueue(path_copy)
+                    
         #add to queue
-                path_copy = current_path[:]
-                path_copy.append(neighbor)
-                q.enqueue(path_copy)
+                    
+                    
+                    
                     
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -167,7 +173,7 @@ class Graph:
                 
 
 
-    def dfs_recursive(self, vertex, destination_vertex, path=[vertex],visited = set())):
+    def dfs_recursive(self, vertex, destination_vertex, path=[],visited = set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -178,12 +184,13 @@ class Graph:
         #mark our node as visited
         visited.add(vertex)
         #check if node is target node - if so, return HERE
-        if vertex === destination_vertex:
+        if vertex == destination_vertex:
+            path = [vertex]
             return path
         #iterate over the neighbors
         neighbors = self.get_neighbors(vertex)
         #check if visited
-        for neighbor not in visited:
+        for neighbor in visited:
             if neighbor in neighbors:
                 #if not, recurse
                 result = self.dfs_recursive(neighbor, destination_vertex, path + [neighbor], visited)

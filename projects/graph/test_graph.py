@@ -1,7 +1,8 @@
 import unittest
 import sys
 import io
-from graph import Graph
+# from graph import Graph
+from brianD_version_graphs1 import Graph
 
 class Test(unittest.TestCase):
     def setUp(self):
