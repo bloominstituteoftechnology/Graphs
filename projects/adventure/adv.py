@@ -23,24 +23,31 @@ world = World()
 MAP_FILE = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
+#   Key: room id
+#   Value: [room coordinates (tuple), exits (dictionary)]
+# Exit dictionary - key: direction (e.g., 'n')
+#                   value: neighboring room id
 room_graph = literal_eval(open(MAP_FILE, "r").read())
 world.load_graph(room_graph)
+
+# Print the room graph. (OPTIONAL)
+# print(room_graph)
 
 # Print an ASCII map
 world.print_rooms()
 
-player_1 = Player(world.starting_room)
+test_player = Player(world.starting_room)
 
 opposite = {'n': 's', 'e': 'w', 's': 'n', 'w': 'e'}
 
 
-def find_nearest_unexplored(room_id, current_map):
+def find_nearest_unexplored(start_id, current_map):
     """
     Breadth-first search for nearest '?' exit to room.
     """
     searched = {}
     to_search = SimpleQueue()
-    to_search.put((room_id, None))
+    to_search.put((start_id, None))
     while to_search.qsize() > 0:
         (room, prev_dir) = to_search.get()
         if room not in searched:
@@ -48,15 +55,15 @@ def find_nearest_unexplored(room_id, current_map):
             options = []
             for exit_dir, next_room in current_map[room].items():
                 if next_room == '?':
-                    temp_player = Player(world.rooms[room])
-                    temp_player.travel(exit_dir)
-                    if temp_player.current_room.id not in current_map:
+                    explorer = Player(world.rooms[room])
+                    explorer.travel(exit_dir)
+                    if explorer.current_room.id not in current_map:
                         options.append(exit_dir)
                     else:
-                        current_map[room_id][exit_dir] = \
-                            temp_player.current_room.id
+                        current_map[start_id][exit_dir] = \
+                            explorer.current_room.id
                         return_dir = opposite[exit_dir]
-                        current_map[temp_player.current_room.id][return_dir] = room_id
+                        current_map[explorer.current_room.id][return_dir] = start_id
             if len(options) > 0:
                 return_path = [random.choice(options)]
                 step = prev_dir
@@ -72,37 +79,52 @@ def find_nearest_unexplored(room_id, current_map):
                     to_search.put((neighboring_room, exit_dir))
 
 
+def is_dead_end(start_room, first_step):
+    searched = {}
+    to_search = SimpleQueue()
+
+    explorer = Player(world.rooms[start_room])
+    explorer.travel(first_step)
+
+    to_search.put((explorer.current_room.id, first_step))
+    while to_search.qsize() > 0:
+        (room, last_step) = to_search.get()
+        if room not in searched:
+            searched[room] = last_step
+            if room == start_room:
+                return -1
+            for exit_dir, destination in room_graph[room][1].items():
+                if exit_dir != opposite[last_step]:
+                    to_search.put((destination, exit_dir))
+    return len(searched)
+
+
 def get_next_move(player, curr_map):
     """
     Return next move or series of moves, given present location and map.
     """
+    start = player.current_room.id
     options = []
     for exit_dir, room in curr_map[player.current_room.id].items():
         if room == '?':
-            temp_player = Player(player.current_room)
-            temp_player.travel(exit_dir)
-            if temp_player.current_room.id not in curr_map:
-                num_exits = len(temp_player.current_room.get_exits())
-                if num_exits == 1:
-                    return exit_dir
-                last_dir = exit_dir
-                while num_exits == 2:
-                    for next_dir in [key for key in
-                                     temp_player.current_room.get_exits()
-                                     if key != opposite[last_dir]]:
-                        temp_player.travel(next_dir)
-                        last_dir = next_dir
-                        num_exits = len(temp_player.current_room.get_exits())
-                        if num_exits == 1:
-                            return exit_dir
-                options.append(exit_dir)
+            explorer = Player(player.current_room)
+            explorer.travel(exit_dir)
+            if explorer.current_room.id not in curr_map:
+                options.append((exit_dir, is_dead_end(start, exit_dir)))
+
+            # If an adjacent room has been previously explored, just add it to
+            # the map. No need to add this exit to the traversal path now.
             else:
                 curr_map[player.current_room.id][exit_dir] = \
-                    temp_player.current_room.id
-                curr_map[temp_player.current_room.id][opposite[exit_dir]] = \
+                    explorer.current_room.id
+                curr_map[explorer.current_room.id][opposite[exit_dir]] = \
                     player.current_room.id
     if len(options) > 0:
-        return [random.choice(options)]
+        dead_ends = [option for option in options if option[1] > 0]
+        if len(dead_ends) > 0:
+            return min(dead_ends, key=lambda x: x[1])[0]
+        else:
+            return [random.choice(options)[0]]
     if map_complete(curr_map):
         return None
     return find_nearest_unexplored(player.current_room.id, curr_map)
@@ -125,12 +147,12 @@ def add_new_room(room, last_room, last_dir, curr_map):
         curr_map[last_room][last_dir] = room.id
 
     for exit_dir in room.get_exits():
-        temp_player = Player(world.rooms[room.id])
+        explorer = Player(world.rooms[room.id])
         if curr_map[room.id][exit_dir] == '?':
-            temp_player.travel(exit_dir)
-            if temp_player.current_room.id in curr_map:
-                curr_map[room.id][exit_dir] = temp_player.current_room.id
-                curr_map[temp_player.current_room.id][opposite[exit_dir]] = \
+            explorer.travel(exit_dir)
+            if explorer.current_room.id in curr_map:
+                curr_map[room.id][exit_dir] = explorer.current_room.id
+                curr_map[explorer.current_room.id][opposite[exit_dir]] = \
                     room.id
 
 
@@ -236,30 +258,32 @@ def get_path_rec(player, prev_room=None, adv_map=None, path_hist=None):
 
 # TRAVERSAL TEST
 visited_rooms = set()
-player_1.current_room = world.starting_room
-visited_rooms.add(player_1.current_room)
+test_player.current_room = world.starting_room
+visited_rooms.add(test_player.current_room)
+path = get_traversal_path(test_player)
 
-# path = get_traversal_path(player_1)
+try:
+    with open('best.txt', 'r') as file:
+        previous_best = file.readlines()
+except FileNotFoundError:
+    previous_best = None
 
-path_list = [[]] * 100
-for i in range(100):
-    path_list[i] = get_traversal_path(player_1)
-    player_1.current_room = world.starting_room
-path = min(path_list, key=len)
-
-# path = get_path_rec(player_1)
+if previous_best is None or len(path) < len(previous_best):
+    with open('best.txt', 'w') as file:
+        file.writelines([step + '\n' for step in path])
 
 for move in path:
-    player_1.travel(move)
-    visited_rooms.add(player_1.current_room)
+    test_player.travel(move)
+    visited_rooms.add(test_player.current_room)
 
 if len(visited_rooms) == len(room_graph):
     print(f"TESTS PASSED: {len(path)} moves, {len(visited_rooms)} "
-          "rooms visited")
+          "rooms visited.\n")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
+print(f'Previous best path {len(previous_best)} moves.')
 
 #######
 # UNCOMMENT TO WALK AROUND

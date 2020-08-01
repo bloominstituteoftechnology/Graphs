@@ -171,9 +171,10 @@ class SocialGraph:
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
+    num_users = sg.get_total_users()
     print(sg.users)
     print(sg.friendships)
-    print(f'Total Users: {sg.get_total_users()}')
+    print(f'Total Users: {num_users}')
     print(f'Total friendships: {sg.get_total_friendships()}')
     print(f'Average friendships per user: {sg.get_average_friendships()}')
     print(f'Minimum friendships: {sg.get_min_friendships()}')
