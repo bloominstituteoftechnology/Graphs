@@ -44,28 +44,41 @@ opposite = {'n': 's', 'e': 'w', 's': 'n', 'w': 'e'}
 def find_nearest_unexplored(start_id, current_map):
     """
     Breadth-first search for nearest '?' exit to room.
+
+    Arguments:
+    start_id - id of room from which to start search & measure distance
+    current_map - dictionary mapping
     """
+
+    # Path trace dictionary:
+    # Maps room id -> step direction by which room was first reached in bft.
     searched = {}
+
+    # FIFO queue of rooms scheduled for search.
+    # Entries are tuples of the form (room id, step direction).
     to_search = SimpleQueue()
+
+    # Seed queue with starting room.
     to_search.put((start_id, None))
+
+    # Search!
     while to_search.qsize() > 0:
         (room, prev_dir) = to_search.get()
+
+        # Only previously unsearched rooms require any processing.
         if room not in searched:
-            searched[room] = prev_dir
-            options = []
+            searched[room] = prev_dir  # Update path trace dictionary.
+            options = []  # Initialize list for unexplored exits, if any.
+
+            # Check each candidate exit on the map.
             for exit_dir, next_room in current_map[room].items():
                 if next_room == '?':
-                    explorer = Player(world.rooms[room])
-                    explorer.travel(exit_dir)
-                    if explorer.current_room.id not in current_map:
-                        options.append(exit_dir)
-                    else:
-                        current_map[start_id][exit_dir] = \
-                            explorer.current_room.id
-                        return_dir = opposite[exit_dir]
-                        current_map[explorer.current_room.id][return_dir] = start_id
+                    options.append(exit_dir)
+
+            # If the current room has any unexplored exits, terminate the
+            # search and return the path trace.
             if len(options) > 0:
-                return_path = [random.choice(options)]
+                return_path = []
                 step = prev_dir
                 while step is not None:
                     return_path.append(step)
@@ -73,6 +86,8 @@ def find_nearest_unexplored(start_id, current_map):
                     step = searched[room]
                 return return_path[::-1]
 
+            # If there are no unexplored exits, add any neighboring unsearched
+            # rooms to the queue and continue searching.
             for exit_dir, neighboring_room in current_map[room].items():
                 if ((neighboring_room != '?' and
                      neighboring_room not in searched)):
@@ -124,7 +139,7 @@ def get_next_move(player, curr_map):
         if len(dead_ends) > 0:
             return min(dead_ends, key=lambda x: x[1])[0]
         else:
-            return [random.choice(options)[0]]
+            return random.choice(options)[0]
     if map_complete(curr_map):
         return None
     return find_nearest_unexplored(player.current_room.id, curr_map)
@@ -268,10 +283,6 @@ try:
 except FileNotFoundError:
     previous_best = None
 
-if previous_best is None or len(path) < len(previous_best):
-    with open('best.txt', 'w') as file:
-        file.writelines([step + '\n' for step in path])
-
 for move in path:
     test_player.travel(move)
     visited_rooms.add(test_player.current_room)
@@ -279,6 +290,9 @@ for move in path:
 if len(visited_rooms) == len(room_graph):
     print(f"TESTS PASSED: {len(path)} moves, {len(visited_rooms)} "
           "rooms visited.\n")
+    if previous_best is None or len(path) < len(previous_best):
+        with open('best.txt', 'w') as file:
+            file.writelines([step + '\n' for step in path])
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
