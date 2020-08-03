@@ -2,8 +2,7 @@ import unittest
 import sys
 import io
 from graph import Graph
-import sys 
-sys.setrecursionlimit(10**6) 
+
 
 class Test(unittest.TestCase):
     def setUp(self):
