@@ -68,12 +68,10 @@ class Graph:
             # Dequeue the first PATH
             p = q.dequeue()
             if p[-1] not in visited:
-                # CHECK IF IT'S THE TARGET
+                visited.add(p[-1])
                 if p[-1] == target_vertex_id:
                     # IF SO, RETURN PATH
                     print(p)
-                    # Mark it as visited...
-                    visited.add(p[-1])
                     break
 
             # Then add A PATH TO its neighbors to the back of the queue
@@ -106,4 +104,4 @@ if __name__ == "__main__":
     g.bft(3)
     print("")
 
-    g.bfs(1, 3)
+    g.bfs(1, 6)
