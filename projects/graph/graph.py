@@ -13,13 +13,26 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # Checking if already exists
+        if vertex_id in self.vertices:
+            return None
+        
+        # If doesn't already exist, create and set it's edges/points to an empty dictionary
+        self.vertices[vertex_id] = set()
+
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # Checking that both vertices exist
+        if v1 or v2 not in self.vertices:
+            # ERROR: INDEX OUT OF RANGE
+            print('INDEX OUT OF RANGE')
+
+        self.vertices[v1].add(v2)
+        
+        
 
     def get_neighbors(self, vertex_id):
         """
@@ -31,15 +44,51 @@ class Graph:
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
+
+        {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
+
+        1, 2, 3, 4, 5, 6, 7
+        1, 2, 3, 4, 6, 7, 5
         """
-        pass  # TODO
+        # enqueue, dequeue, size -> []
+        q = Queue()
+        visited = set()
+
+        # Initializing q with provided value
+        q.enqueue(starting_vertex)
+
+        # Finding the children of said value
+        while q.size() > 0:
+            vertex = q.dequeue()
+            print(vertex)
+
+            if vertex not in visited:
+                # Add the vertex to visited list
+                visited.add(vertex)
+
+                for value in self.vertices[vertex]:
+                    if value not in visited:
+                        q.enqueue(value)
 
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        q = Stack()
+        visited = set()
+
+        # Initializing q with provided value
+        q.push(starting_vertex)
+
+        # Finding the children of said value
+        while q.size() > 0:
+            vertex = q.pop()
+            print(vertex)
+
+            if vertex not in visited:
+                # Add the vertex to visited list
+                visited.add(vertex)
+
+                for value in self.vertices[vertex]:
+                    if value not in visited:
+                        q.push(value)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -101,6 +150,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
+    print('Should print: {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}')
     print(graph.vertices)
 
     '''
@@ -118,6 +168,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print('Should print: 1, 2, 3, 4, 5, 6, 7')
     graph.bft(1)
 
     '''
@@ -134,12 +185,12 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    #print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+    #print(graph.dfs(1, 6))
+    #print(graph.dfs_recursive(1, 6))
