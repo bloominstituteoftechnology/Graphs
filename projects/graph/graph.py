@@ -46,11 +46,14 @@ class Graph:
             #check if it's been visited
             #If not:
             if vert not in visit:
+                #visit
+                print(vert)
                 #Move to visited
                 visit.add(vert)
                 #Add neighbors to the queue
                 for neighbor in self.get_neighbors(vert):
                     que.enqueue(neighbor)
+        return visit
 
     def dft(self, starting_vertex):
         """
@@ -70,11 +73,14 @@ class Graph:
             #check if it's been visited
             #If not:
             if vert not in visit:
+                #visit
+                print(vert)
                 #Move to visited
                 visit.add(vert)
                 #Add neighbors to the Stack
                 for neighbor in self.get_neighbors(vert):
                     stack.push(neighbor)
+        return visit
 
     def dft_recursive(self, starting_vertex):
         """
