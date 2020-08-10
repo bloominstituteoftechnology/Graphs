@@ -181,18 +181,18 @@ class Graph:
         visited = set()
 
         def dfs(path):
-            last_path = path[-1]
+            last_vertex = path[-1]
 
-            if last_path in visited:
+            if last_vertex in visited:
                 return None
 
             else:
-                visited.add(last_path)
+                visited.add(last_vertex)
 
-            if last_path == destination_vertex:
+            if last_vertex == destination_vertex:
                 return path
 
-            for neighbor in self.get_neighbors(last_path):
+            for neighbor in self.get_neighbors(last_vertex):
                 next_path = path[:]
                 next_path.append(neighbor)
 
