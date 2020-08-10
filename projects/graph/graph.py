@@ -32,14 +32,62 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-
+        # TODO
+        # make a queue
+        q = Queue()
+        # q.size = 0
+        # enqueue our starting node
+        q.enqueue(starting_vertex)
+        # q.size = 1
+        # make a set to track if we've been here before
+        visited = set()
+        # while our queue isn't empty
+        while q.size > 0:
+        ## dequeue whatever's at the front of our line, this is our current_node
+            current_node = q.dequeue()
+            # q.size = 0
+        ## if we haven't visited thos nide yet,
+            if current_node not in visited:
+        ### mark as visited
+                visited.add(current_node)
+        ### get its neighbors
+                neighbors = self.get_neighbors(current_node)
+        ### for each of the neighbors,
+                for n in neighbors:
+        #### add to queueu
+                    q.enqueue(n)
+                    # q.size = x
+        
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
+        # make a satck
+        s = Stack()
+        # s.size = 0
+        # push our starting node
+        s.push(starting_vertex)
+        # s.size = 1
+        # make a set to track if we've been here before
+        visited = set()
+        # while our stack isn't empty
+        while s.size > 0:
+        ## pop whatever's at the top of our stack, this is our current_node
+            current_node = s.pop()
+            # s.size = 0
+        ## if we haven't visited thos nide yet,
+           if current_node not in visited:
+        ### mark as visited
+                visited.add(current_node)
+        ### get its neighbors
+                neighbors = self.get_neighbors(current_node)
+        ### for each of the neighbors,
+                for n in neighbors:
+        #### add to stack
+                    s.push(n)
+                    # s.size = x
 
     def dft_recursive(self, starting_vertex):
         """
@@ -48,7 +96,14 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # TODO
+        visited = set()
+
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            
+            for n in self.get_neighbors(starting_vertex):
+                self.dfs_recursive(n)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -56,7 +111,34 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # TODO
+        q = Queue()
+        q.enqueue(starting_vertex)
+
+        if starting_vertex == destination_vertex:
+            return "That was easy! Start = goal"
+       
+        visited = set()
+    
+        while q.size > 0:
+
+            path = q.dequeue()
+
+            current_node = path[0]
+            if current_node not in visited:
+                visited.add(current_node)
+
+                neighbors = self.get_neighbors(current_node)
+
+                for n in neighbors:
+                    new_path = list(path)
+                    new_path.append(n)
+                    q.enqueue(n)
+
+                    if n == destination_vertex:
+                        return new_path
+
+        return None
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -64,7 +146,19 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # TODO
+        s = Stack()
+        s.push(starting_vertex)
+        visited = set()
+        while s.size > 0:
+            current_node = s.pop()
+            if current_node not in visited: 
+                visited.add(current_node)
+                if current_node == end_node: 
+                    return success
+        
+                for n in self.get_neigbhors(current_node):
+                    s.push(n)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
