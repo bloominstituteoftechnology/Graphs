@@ -1,28 +1,41 @@
-
-# Note: This Queue class is sub-optimal. Why?
-class Queue():
+class Queue:
     def __init__(self):
-        self.queue = []
+        self.size = 0
+        self.storage = []
+
+    def __len__(self):
+        return self.size
+
     def enqueue(self, value):
-        self.queue.append(value)
-    def dequeue(self):
-        if self.size() > 0:
-            return self.queue.pop(0)
-        else:
-            return None
-    def size(self):
-        return len(self.queue)
+        self.storage.append(value)
+        self.size += 1
 
-class Stack():
-    def __init__(self):
-        self.stack = []
-    def push(self, value):
-        self.stack.append(value)
-    def pop(self):
-        if self.size() > 0:
-            return self.stack.pop()
-        else:
+    def dequeue(self, position=0):
+        if self.size == 0:
             return None
-    def size(self):
-        return len(self.stack)
+        else:
+            pop = self.storage.pop(position)
+            self.size -= 1
+            return pop
+
+
+class Stack:
+    def __init__(self):
+        self.size = 0
+        self.storage = []
+
+    def __len__(self):
+        return self.size
+
+    def push(self, value):
+        self.storage.append(value)
+        self.size += 1
+
+    def pop(self):
+        if self.size == 0:
+            return None
+        else:
+            pop = self.storage.pop()
+            self.size -= 1
+            return pop
 
