@@ -3,43 +3,75 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
-    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    """
+    Represent a graph as a dictionary of
+    vertices mapping labels to edges.
+    """
     def __init__(self):
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
-        """
-        Add a vertex to the graph.
-        """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError('Invalid vertex')
 
-    def get_neighbors(self, vertex_id):
+    def neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        toVisit = Queue()
+        toVisit.enqueue(starting_vertex)
+
+        while toVisit.size() > 0:
+            node = toVisit.dequeue()
+
+            if node not in visited:
+
+                print(node)
+                visited.add(node)
+
+                for neighbor in self.neighbors(node):
+                    if neighbor not in visited:
+                        toVisit.enqueue(neighbor)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        toVisit = Stack()
+        toVisit.push(starting_vertex)
+
+        while toVisit.size() > 0:
+            node = toVisit.pop()
+
+            if node not in visited:
+
+                print(node)
+                visited.add(node)
+
+                for neighbor in self.neighbors(node):
+                    if neighbor not in visited:
+                        toVisit.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -76,9 +108,9 @@ class Graph:
         """
         pass  # TODO
 
+
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
-    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
     graph.add_vertex(2)
     graph.add_vertex(3)
