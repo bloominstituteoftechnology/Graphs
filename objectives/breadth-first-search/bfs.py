@@ -60,21 +60,22 @@ class Graph:
         # Create an empty queue and enqueue A PATH TO the starting vertex ID
         q = Queue()
         q.enqueue([starting_vertex_id])
+
         # Create a Set to store visited vertices
         visited = set()
         visited.add(starting_vertex_id)
+
         # While the queue is not empty...
         while q.size() > 0:
             # Dequeue the first PATH
             p = q.dequeue()
+            print(p)
+
             if p[-1] not in visited:
                 visited.add(p[-1])
                 if p[-1] == target_vertex_id:
-                    # IF SO, RETURN PATH
-                    print(p)
                     break
-
-            # Then add A PATH TO its neighbors to the back of the queue
+                
             for vertex in self.vertices[p[-1]]:
                 path = [p[-1], vertex]
                 q.enqueue(path)                  
@@ -104,4 +105,4 @@ if __name__ == "__main__":
     g.bft(3)
     print("")
 
-    g.bfs(1, 6)
+    g.bfs(1, 5)
