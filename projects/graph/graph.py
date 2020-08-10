@@ -4,6 +4,9 @@ Simple graph implementation
 from util import Stack, Queue  # These may come in handy
 
 class Graph:
+#to keep track of visitied outside of recursive (so doesn't refresh to empty)
+visit = set()
+stack = Stack()
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
@@ -80,9 +83,6 @@ class Graph:
                     stack.push(neighbor)
         return visit
 
-    #to keep track of visitied outside of recursive (so doesn't refresh to empty)
-    visited = set()
-    stack = Stack()
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -90,10 +90,10 @@ class Graph:
 
         This should be done using recursion.
         """
-        #if starting vertex not in visited:
-        if starting_vertex not in visited:
-            #add to visited
-            visited.add(starting_vertex)
+        #if starting vertex not in visit:
+        if starting_vertex not in visit:
+            #add to visit
+            visit.add(starting_vertex)
             #add to stack so not empty
             stack.push(starting_vertex)
         #while visit not empty:
@@ -101,16 +101,16 @@ class Graph:
             #assign vert to remove from stack
             vert = stack.pop()
             #if vert not in visit:
-            if vert not in visited:
+            if vert not in visit:
                 #add to visit
                 visit.add(vert)
                 #add neighbors to visit
                 for neighbor in self.get_neighbors(vert):
                     stack.push(neighbor)
-            #recurse visited and index 0
+            #recurse visit and index 0
             dft_recursive(stack.index(0))
         #return visit
-        return visited
+        return visit
 
     def bfs(self, starting_vertex, destination_vertex):
         """
