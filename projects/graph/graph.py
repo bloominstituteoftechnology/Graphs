@@ -4,8 +4,6 @@ Simple graph implementation
 from util import Stack, Queue
 
 
-# These may come in handy
-
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
@@ -26,98 +24,62 @@ class Graph:
         return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
-        # Create an empty queue
+
         q = Queue()
 
-        # Create a set to store the visited nodes
         visited = set()
 
-        # Init: enqueue the starting node
         q.enqueue(starting_vertex)
 
-        # While the queue isn't empty
         while q.size() > 0:
 
-            # Dequeue the first item
             v = q.dequeue()
-            # If it's not been visited:
+
             if v not in visited:
-                # Mark as visited (i.e add to the visited set)
+
                 visited.add(v)
 
-                # Do something with the node
-                print(f"Visited {v}")
-                # Add all neighbors to the queue
                 for next_vert in self.get_neighbors(v):
                     q.enqueue(next_vert)
 
     def dft(self, starting_vertex):
-        # Create an empty stack
+
         s = Stack()
 
-        # Create a set to store the visited nodes
         visited = set()
 
-        # Init: push the starting node
         s.push(starting_vertex)
 
-        # While the stack isn't empty
         while s.size() > 0:
-            # pop the first item
+
             v = s.pop()
 
-            # If it's not been visited:
             if v not in visited:
-                # Mark as visited (i.e. add to the visited set)
 
                 visited.add(v)
-
-                # Do something with the node
-                print(f"Visited {v}")
-
-                # Add all neighbors to the stack
 
                 for next_vert in self.get_neighbors(v):
                     s.push(next_vert)
 
-
-
-
-
-
     def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
+        visited = set()
 
-        This should be done using recursion.
-        """
-        pass  # TODO
+        if starting_vertex not in visited:
+            print(starting_vertex)
+            visited.add(starting_vertex)
+            for neighbor in self.get_neighbors(starting_vertex):
+                self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+
+        pass
 
     def dfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
+
         pass  # TODO
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
 
-        This should be done using recursion.
-        """
         pass  # TODO
 
 
