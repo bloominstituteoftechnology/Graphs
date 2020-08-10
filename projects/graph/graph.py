@@ -24,7 +24,6 @@ class Graph:
     def bft(self, starting_vertex):
         queue = Queue()
         queue.enqueue(starting_vertex)
-
         visited = set()
 
         while queue.size:
@@ -39,7 +38,6 @@ class Graph:
     def dft(self, starting_vertex):
         stack = Stack()
         stack.push(starting_vertex)
-
         visited = set()
 
         while stack.size:
@@ -51,22 +49,39 @@ class Graph:
                 for next_vertex in self.get_neighbors(v):
                     stack.push(next_vertex)
 
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-
-        This should be done using recursion.
-        """
-        pass  # TODO
+    def dft_recursive(self, starting_vertex, visited = None):
+        if visited is None:
+            visited = set()
+        
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            
+            for neighbor in self.get_neighbors(starting_vertex):
+                self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+        # Create an empty queue and enqueue PATH to the Starting Vertex ID
+        queue = Queue()
+        queue.enqueue([starting_vertex]) # Enqueue PATH by making SV a List
+
+        # Create a set to store visited vertices
+        visited = set()
+
+        # While the queue is not empty:
+        while queue:
+            # Dequeue the first PATH
+            path = queue.dequeue()
+
+            # Grab the last vertex from the PATH
+            last_vertex = path[-1]
+            if last_vertex == destination_vertex:
+                return path
+            if last_vertex not in visited:
+                visited.add(last_vertex)
+                for neighbor in self.get_neighbors(last_vertex):
+                    newPath = path.copy()
+                    newPath.append(neighbor)
+                    queue.enqueue(newPath)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
