@@ -58,15 +58,23 @@ class Graph:
         beginning from starting_vertex.
         """
         #Create a Stack
-        
+        stack = Stack()
         #Add starting node to search
+        stack.push(starting_vertex)
         #Create set of Visited nodes
+        visit = set()
         #While Stack is not empty:
+        while stack.size() > 0:
             #remove that node
+            vert = stack.pop()
             #check if it's been visited
             #If not:
+            if vert not in visit:
                 #Move to visited
+                visit.add(vert)
                 #Add neighbors to the Stack
+                for neighbor in self.get_neighbors(vert):
+                    stack.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -145,7 +153,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT paths:
@@ -154,19 +162,19 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft(1)
-    graph.dft_recursive(1)
+    print(graph.dft(1))
+    # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+    # print(graph.dfs(1, 6))
+    # print(graph.dfs_recursive(1, 6))
