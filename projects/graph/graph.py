@@ -13,26 +13,40 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("nonexisten vertex")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited = set()
+        while q.size() > 0:
+            v = q.dequeue()
+
+            if v not in visited:
+                visited.add(v)
+                print(v)
+            for neighbor in self.get_neighbors(v):
+                q.enqueue(neighbor)
+
 
     def dft(self, starting_vertex):
         """
@@ -48,7 +62,16 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # we keep running the each next neighbour the loop 
+        if visited is None:
+            visited = set()
+
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            print(starting_vertex)
+            for neighbor in self.get_neighbors(starting_vertex):
+                self.dft_recursive(neighbor, visited)
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -56,7 +79,48 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        """
+        BFS(graph, startVert):
+        for v of graph.vertexes:
+            v.color = white
+
+        startVert.color = gray
+        queue.enqueue(startVert)
+
+        while !queue.isEmpty():
+            u = queue[0]  // Peek at head of queue, but do not dequeue!
+
+            for v of u.neighbors:
+            if v.color == white:
+                v.color = gray
+                queue.enqueue(v)
+            
+            queue.dequeue()
+            u.color = black
+        """
+        ## make a queue
+        breakpoint()
+        q = Queue()
+        q.enqueue(starting_vertex)
+        # make the set 
+        visited = set()
+        # check if the size of queue is greater than 0 
+        # if yes we will get the deque and give it a variable
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                visited.add(v)
+                print(visited)
+       #check if the dequed v in the visited set # while the v is not destination vertex keep appending 
+            for neighbor in self.get_neighbors(v):
+                if neighbor <= destination_vertex:
+                    q.enqueue(neighbor)
+                
+       
+        return visited
+            
+       # and then check the neighbors if in the self get neighbours
+       # if yes enqueue that vertex from that neighbour to the 
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -102,7 +166,7 @@ if __name__ == '__main__':
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
     print(graph.vertices)
-
+    """
     '''
     Valid BFT paths:
         1, 2, 3, 4, 5, 6, 7
@@ -129,7 +193,7 @@ if __name__ == '__main__':
     '''
     graph.dft(1)
     graph.dft_recursive(1)
-
+    """
     '''
     Valid BFS path:
         [1, 2, 4, 6]
