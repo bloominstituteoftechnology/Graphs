@@ -177,7 +177,7 @@ class Graph:
 
         return None
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, visited=set()):
+    def dfs_recursive(self, starting_vertex, destination_vertex, path=[], visited=set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -187,14 +187,20 @@ class Graph:
         """
         # mark vtx as visited
         visited.add(starting_vertex)
-        print(starting_vertex)
-        # for each neighbor
+        # check if target id found, if so return it
+        if starting_vertex == destination_vertex:
+            return path
+
+        if len(path) == 0:
+            path.append(starting_vertex)
+
         neighbors = self.get_neighbors(starting_vertex)
         for neighbor in neighbors:
-            # if not visited
             if neighbor not in visited:
-                # recurse on the neighbor
-                self.dft_recursive(neighbor, visited)
+                result = self.dfs_recursive(
+                    neighbor, destination_vertex, path + [neighbor], visited)
+                if result is not None:
+                    return result
 
 
 if __name__ == '__main__':
