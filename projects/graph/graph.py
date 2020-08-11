@@ -50,14 +50,24 @@ class Graph:
                     stack.push(next_vertex)
 
     def dft_recursive(self, starting_vertex, visited = None):
+
         if visited is None:
             visited = set()
+
+        visited.add(starting_vertex)
+
+        for neighbors in self.get_neighbors(starting_vertex):
+            if neighbors not in visited:
+                self.dft_recursive(neighbors, visited)
+
+        # if visited is None:
+        #     visited = set()
         
-        if starting_vertex not in visited:
-            visited.add(starting_vertex)
+        # if starting_vertex not in visited:
+        #     visited.add(starting_vertex)
             
-            for neighbor in self.get_neighbors(starting_vertex):
-                self.dft_recursive(neighbor, visited)
+        #     for neighbor in self.get_neighbors(starting_vertex):
+        #         self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         # Create an empty queue and enqueue PATH to the Starting Vertex ID
@@ -93,13 +103,14 @@ class Graph:
                     for neighbor in self.get_neighbors(last_vertex):
 
                         # Make a copy of the PATH
-                        newPath = path.copy()
+                        newPath = path.copy() # list(path) or [path] Many dif ways
 
                         # Append the neighbor to the back of the PATH
                         newPath.append(neighbor)
 
                         # Enqueue out new PATH
                         queue.enqueue(newPath)
+        return None
 
     def dfs(self, starting_vertex, destination_vertex):
         # Create an empty Stack and Push PATH to the Starting Vertex
@@ -142,6 +153,7 @@ class Graph:
 
                         # Push out new Path
                         stack.push(newPath)
+        return None
 
     def dfs_recursive(self, starting_vertex, destination_vertex, visited = None):
         if visited == None:
