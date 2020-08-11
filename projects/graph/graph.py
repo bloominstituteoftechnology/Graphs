@@ -109,7 +109,6 @@ class Graph:
                 for neighbor in self.neighbors(node):
                     toVisit.enqueue(current + [neighbor])
 
-
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -133,7 +132,8 @@ class Graph:
                 for neighbor in self.neighbors(node):
                     toVisit.push(current + [neighbor])
 
-    def dfs_recursive(self, vertex, destination_vertex, trail=[], visited=set()):
+    def dfs_recursive(self, vertex, destination_vertex,
+                      trail=[], visited=set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
