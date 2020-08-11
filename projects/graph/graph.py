@@ -117,9 +117,9 @@ class Graph:
         visited = set()
 
         while q.size() > 0:
-            v = q.dequeue()
+            path = q.dequeue()
 
-            last_vertex = v[-1]
+            last_vertex = path[-1]
 
             if last_vertex in visited:
                 continue
@@ -128,7 +128,7 @@ class Graph:
                 visited.add(last_vertex)
 
             for neighbor in self.get_neighbors(last_vertex):
-                next_path = v[:]
+                next_path = path[:]
                 next_path.append(neighbor)
 
                 if neighbor == destination_vertex:
@@ -150,9 +150,9 @@ class Graph:
         visited = set()
 
         while s.size() > 0:
-            v = s.pop()
+            path = s.pop()
 
-            last_vertex = v[-1]
+            last_vertex = path[-1]
 
             if last_vertex in visited:
                 continue
@@ -161,7 +161,7 @@ class Graph:
                 visited.add(last_vertex)
 
             for neighbor in self.get_neighbors(last_vertex):
-                next_path = v[:]
+                next_path = path[:]
                 next_path.append(neighbor)
 
                 if neighbor == destination_vertex:
