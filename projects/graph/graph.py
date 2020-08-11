@@ -63,6 +63,44 @@ class Graph:
                 for neighbor in self.get_neighbors(v):
                     q.enqueue(neighbor)
 
+    def bft_list(self, starting_vertex):
+        """
+        Print each vertex in breadth-first order
+        beginning from starting_vertex.
+        """
+        # Create an empty queue
+        q = Queue()
+
+        # Add starting vertex ID
+        q.enqueue(starting_vertex)
+
+        # Create set for visited verts
+        visited = set()
+
+        list_ = []
+
+        # While queue is not empty
+        while q.size() > 0:
+
+            # Dequeue a vert
+            v = q.dequeue()
+
+            # If not visited
+            if v not in visited:
+
+                # Visit it!
+                list_.append(v)
+
+                # Mark as visited
+                visited.add(v)
+
+                # Add all neighbors to the queue
+                for neighbor in self.get_neighbors(v):
+                    q.enqueue(neighbor)
+
+        return list_
+
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
