@@ -1,3 +1,18 @@
+import random
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -45,9 +60,67 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for user in range(num_users):
+            self.add_user(user)
 
-        # Create friendships
+    # Hint 1: To create N random friendships, you could create a list with all possible friendship combinations, shuffle the list, then grab the first N elements from the list. You will need to `import random` to get shuffle.
+    # Hint 2: `add_friendship(1, 2)` is the same as `add_friendship(2, 1)`. You should avoid calling one after the other since it will do nothing but print a warning. You can avoid this by only creating friendships where user1 < user2.
 
+        # Create possible friendships
+        friendships = []
+
+        for user in range(1, self.last_id + 1):
+            for friend in range(user + 1, num_users + 1):
+                friendship = (user, friend)
+                friendships.append(friendship)
+
+        # Determine number of friendships needed
+        friendships_needed = num_users * avg_friendships
+
+        random.shuffle(friendships)
+
+        shuffled_friendships = friendships[:friendships_needed//2]
+
+        for friendship in shuffled_friendships:
+            self.add_friendship(friendship[0], friendship[1])
+
+    def bfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        # make a queue
+        q = Queue()
+        # enqueue our starting a node
+
+        path = [starting_vertex]
+        q.enqueue(path)
+        # make a set to track if we've been at that node before 
+        visited = set() 
+
+        # while q is not empty
+        while q.size() > 0:
+
+        ## dequeue path at the front of our line
+            current_path = q.dequeue()
+            current_node = current_path[-1] # last item in list of nodes in our path.
+
+        ### it this is our destination_vertex (or search node), return our current path
+            if current_node == destination_vertex:
+                return current_path
+
+        ### if we haven't visited this node yet.
+            if current_node not in visited:
+        ### mark node as visited
+                visited.add(current_node)
+        ### get the node's neighbors
+                neighbors = self.friendships[current_node]
+        ### for each of the neighbors
+                for neighbor in neighbors:           
+        #### add it to queue
+                    q.enqueue(current_path + [neighbor])
+        
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -55,12 +128,22 @@ class SocialGraph:
         Returns a dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
 
+        SHORTEST PATH = BREADTH FIRST TRAVERSAL
+
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        visited = {}
+        paths = []
 
+        # loop through the users in the network.
+        for user in self.users:
+            # get the shortest path (bfs) between each of those users and the user we're evaluating
+            path = self.bfs(user_id, user)
+            # if there is a path, populate dictionary with user id as key and path as value
+            if path is not None:
+                visited[user] = path
+
+        return visited
 
 if __name__ == '__main__':
     sg = SocialGraph()

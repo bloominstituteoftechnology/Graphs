@@ -88,7 +88,7 @@ class Graph:
             #### add to the stack
                     s.push(neighbor)
 
-    def dft_recursive(self, starting_vertex, visited=set()):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -96,6 +96,9 @@ class Graph:
         This should be done using recursion.
         """
         # recursion does stack funcionality for us.  No stack needed
+
+        if visited is None:
+            visited = set()
 
         # mark start vertex as visited
         visited.add(starting_vertex)
@@ -189,7 +192,7 @@ class Graph:
                     #### add to the stack
                     s.push(neighbor)
 
-    def dfs_recursive(self, vertex, destination_vertex, path=[], visited=set()):
+    def dfs_recursive(self, vertex, destination_vertex, path=None, visited=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -197,12 +200,20 @@ class Graph:
 
         This should be done using recursion.
         """
+        if visited is None:
+            visited = set()
+
+        if path is None:
+            path = []
+
         ## mark our node as visited
         visited.add(vertex)
 
         # append our initial or starting vertex to path
-        if len(path) == 0:
-            path.append(vertex)
+        # if len(path) == 0:
+        #     path.append(vertex)
+
+        path = path + [vertex] # makes a copy of the path that persists between calls
 
         ## check if it's our target node, if so return
         if vertex == destination_vertex:
@@ -216,11 +227,13 @@ class Graph:
         ### check if visited
             if neighbor not in visited:
         #### if not, recurse with a path
-                result = self.dfs_recursive(neighbor, destination_vertex, path + [neighbor], visited)
+                result = self.dfs_recursive(neighbor, destination_vertex, path, visited)
         #### if this recrusion returns a path
                 if result is not None:
         ##### return that path
                     return result
+
+        return None
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
