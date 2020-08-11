@@ -124,7 +124,12 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(1000, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
+    total = 0
+    for user in connections:
+        total += len(connections[user])
+    average_separation = total/len(connections)
+    print('average degree of separation :', average_separation)
