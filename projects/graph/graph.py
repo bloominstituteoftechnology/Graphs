@@ -214,3 +214,46 @@ if __name__ == '__main__':
     '''
     print(graph.dfs(1, 6))
     print(graph.dfs_recursive(1, 6))
+
+# Word problem
+
+# get neighbors variation
+# letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
+# f = open('words.txt')
+# words = f.read().split("\n")
+# f.close()
+
+# word_set = set()
+# for word in words:
+#     word_set.add(word.lower())
+
+
+# def get_neighbors(word):
+#     neighbors = []
+#     list_word = list(word)
+
+#     for i in range(len(list_word)):
+#         for letter in letters:
+#             temp_word = list(list_word)
+#             temp_word[i] = letter
+#             w = "".join(temp_word)
+#             if w != word and w in word_set:
+#                 neighbors.append(w)
+#     return neighbors
+
+
+# def find_ladders(begin_word, end_word):
+#     q = Queue()
+#     q.enqueue([begin_word])
+#     visited = set()
+#     while q.size() > 0:
+#         path = q.dequeue()
+#         current = path[-1]
+#         if current not in visited:
+#             visited.add(current)
+#             if current == end_word:
+#                 return path
+#             for neighbor in get_neighbors(current):
+#                 path_copy = list(path)
+#                 path_copy.append(neighbor)
+#                 q.enqueue(path_copy)

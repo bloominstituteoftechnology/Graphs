@@ -65,12 +65,17 @@ def earliest_ancestor(ancestors, starting_node):
             parents = graph.get_neighbors(current_node)
 
             for parent in parents:
-                new_path = path+[parent]
-                s.push(new_path)
+                s.push(path+[parent])
+
     if starting_node == longest_path[-1]:
         return -1
     else:
         return longest_path[-1]
+
+
+l = make_graph([(1, 3), (2, 3), (3, 6), (5, 6),
+                (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)])
+print(l.vertices)
 # def earliest_ancestor(ancestors, starting_node):
 #
 #     famtree = dict()
