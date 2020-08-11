@@ -13,13 +13,20 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # pass  
+        self.vertices[vertex_id] = set()
+
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # pass
+        # Stretch - edges to nonexistent vertices are rejected
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)  
+        else:
+            print('Invalid vertex/vertices')
 
     def get_neighbors(self, vertex_id):
         """
@@ -96,6 +103,7 @@ if __name__ == '__main__':
     graph.add_edge(3, 5)
     graph.add_edge(2, 3)
     graph.add_edge(4, 6)
+    # graph.add_edge(4,8) # Test for stretch
 
     '''
     Should print:
