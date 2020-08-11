@@ -80,7 +80,7 @@ class Test(unittest.TestCase):
 
         sys.stdout = stdout_  # Restore stdout
 
-    def test_dft_recursive(self):
+    def test_dft_recursive(self, visited=None):
         dft = [
             "1\n2\n3\n5\n4\n6\n7\n",
             "1\n2\n3\n5\n4\n7\n6\n",
@@ -108,7 +108,7 @@ class Test(unittest.TestCase):
         ]
         self.assertIn(self.graph.dfs(1,6), dfs)
 
-    def test_dfs_recursive(self):
+    def test_dfs_recursive(self, visited=None):
         dfs = [
             [1, 2, 4, 6],
             [1, 2, 4, 7, 6]
