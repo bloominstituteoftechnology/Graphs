@@ -108,7 +108,7 @@ class Test(unittest.TestCase):
         ]
         self.assertIn(self.graph.dfs(1,6), dfs)
 
-    def test_dfs_recursive(self, visited=None):
+    def test_dfs_recursive(self, visited=None, path=None):
         dfs = [
             [1, 2, 4, 6],
             [1, 2, 4, 7, 6]
