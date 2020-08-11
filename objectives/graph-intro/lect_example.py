@@ -79,3 +79,9 @@ g.add_edge("C","D")
 g.add_edge("D","C")
 
 g.breadth_first_traversal("B")
+
+"""
+Translate
+Build
+Traverse
+"""
