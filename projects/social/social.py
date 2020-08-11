@@ -71,10 +71,10 @@ class SocialGraph:
        
         # Create possible friendships
         # for each user
-         for user in range(1, self.last_id + 1):
+        for user in range(1, self.last_id + 1):
              # for each friend after the user id up to total users
             for friend in range(user + 1, num_users + 1):
-                # add create link between user and friend
+                # create a friendship between user and friend 
                 friendship = (user, friend)
                 # save the friendship in friendships
                 friendships.append(friendship)
@@ -142,7 +142,6 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}
-        paths = []
 
         # loop through the users in the network.
         for user in self.users:
