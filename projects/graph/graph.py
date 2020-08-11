@@ -104,10 +104,15 @@ class Graph:
 
         This should be done using recursion.
         """
+        # If the vertex we visited is None
         if visited is None:
+            # We can make a set
             visited = set()
         
+        # Add it to our visited list
         visited.add(starting_vertex)
+        
+        # Print it out
         print(starting_vertex)
         for edge in self.vertices[starting_vertex]:
             if edge not in visited:
