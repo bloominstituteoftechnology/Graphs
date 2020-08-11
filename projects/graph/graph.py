@@ -1,7 +1,31 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
 
 class Graph:
 
@@ -10,53 +34,59 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
-        """
-        Add a vertex to the graph.
-        """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph.
-        """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            return None
 
     def get_neighbors(self, vertex_id):
-        """
-        Get all neighbors (edges) of a vertex.
-        """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
-        """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        queue = Queue()
+        queue.enqueue(starting_vertex)
+
+        visited = set()
+        while queue.size() > 0:
+            curr = queue.dequeue()
+            if curr not in visited:
+                visited.add(curr)
+                print(f"{curr}")
+
+                for neighbor in self.get_neighbors(curr):
+                    queue.enqueue(neighbor)
 
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        stack = Stack()
+        stack.push(starting_vertex)
+
+        visited = set()
+
+        while stack.size() > 0:
+            curr = stack.pop()
+            if curr not in visited:
+                visited.add(curr)
+                print(f"{curr}")
+
+                for neighbor in self.get_neighbors(curr):
+                    stack.push(neighbor)
+
+    def dft_recursive_helper(self, curr, visited):
+        visited.add(curr)
+        print(curr)
+        for neighbor in self.get_neighbors(curr):
+            if neighbor not in visited:
+                self.dft_recursive_helper(neighbor, visited)
 
     def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-
-        This should be done using recursion.
-        """
-        pass  # TODO
+        visited = set()
+        self.dft_recursive_helper(starting_vertex, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+        pass
 
     def dfs(self, starting_vertex, destination_vertex):
         """
