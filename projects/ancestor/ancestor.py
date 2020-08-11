@@ -64,4 +64,3 @@ def earliest_ancestor(ancestors, starting_node):
         return result
     else:
         return result[0].index
-
