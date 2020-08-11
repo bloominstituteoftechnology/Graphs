@@ -113,32 +113,19 @@ class Graph:
         breath-first order.
         """
         pass  # TODO
-        # Create an empty queue and enqueue A PATH TO the starting vertex ID
-        que = Queue()
-        # Create a Set to store visited vertices
-        visit = set()
-        # While the queue is not empty...
-        while que.size() > 0:
-            # Dequeue the first PATH
-            path = que.dequeue()
-            # Grab the last vertex from the PATH
-            vert = que[-1]
-            # If that vertex has not been visited...
-            if vert not in visit:
-                # CHECK IF IT'S THE TARGET
-                if vert == destination_vertex:
-                  # IF SO, RETURN PATH
-                  return path
-                # Mark it as visited...
-                visit.add(path)
-                # Then add A PATH TO its neighbors to the back of the queue
-                for neighbor in self.get_neighbors(vert):
-                  # COPY THE PATH
-
-                  # APPEND THE NEIGHOR TO THE BACK
-                  que.enqueue(neighbor)
-        #return
-        return visit
+        # Create an empty queue and add A PATH TO the starting vertex ID
+            # Create a Set to store visited vertices
+            # While the queue is not empty...
+                # remove the first PATH
+                # Grab the last vertex from the PATH
+                # If that vertex has not been visited...
+                    # CHECK IF IT'S THE TARGET
+                    # IF SO, RETURN PATH
+                    # Mark it as visited...
+                    # Then add A PATH TO its neighbors to the back of the queue
+                    # COPY THE PATH
+                    # APPEND THE NEIGHOR TO THE BACK
+        
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -146,21 +133,33 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # pass  # TODO
         # Create an empty stack and add A PATH TO the starting vertex ID
-            # Create a Set to store visited vertices
-            # While the stack is not empty...
-                # remove the first PATH
-                # Grab the last vertex from the PATH
-                # If that vertex has not been visited...
-                    # CHECK IF IT'S THE TARGET
+        # Create a Set to store visited vertices
+        # While the stack is not empty...
+            # remove the first PATH
+            # Grab the last vertex from the PATH
+            # If that vertex has not been visited...
+                # CHECK IF IT'S THE TARGET
                     # IF SO, RETURN PATH
-                    # Mark it as visited...
-                    # Then add A PATH TO its neighbors to the back of the stack
+                # Mark it as visited...
+                # Then add A PATH TO its neighbors to the back of the stack
                     # COPY THE PATH
                     # APPEND THE NEIGHOR TO THE BACK
-            #return
-
+        stack = Stack()
+        visit = set()
+        stack.push([starting_vertex])
+        while stack.size() > 0:
+            path = stack.pop()
+            vert = path[-1]
+            if vert not in visit:
+                if vert == destination_vertex:
+                        return path
+                visit.add(vert)
+                for neighbor in self.get_neighbors(vert):
+                    newpath = list(path) + [neighbor]
+                    stack.push(newpath)
+         
     def dfs_recursive(self, starting_vertex, destination_vertex, visit=None, path=None):
         """
         Return a list containing a path from
@@ -249,7 +248,7 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     # print(graph.dft(1))
-    print(graph.dft_recursive(1))
+    # print(graph.dft_recursive(1))
 
     '''
     Valid BFS path:
@@ -262,5 +261,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
