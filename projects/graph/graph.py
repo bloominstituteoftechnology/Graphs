@@ -115,28 +115,30 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
+        # Create a set to store visited vertices
+        visited = set()
+
         # Create an empty queue and enqueue A PATH TO the starting vertex ID
         q = Queue()
         q.enqueue([starting_vertex])
 
-        # Create a Set to store visited vertices
-        visited = set()
-        visited.add(starting_vertex)
-
         # While the queue is not empty...
         while q.size() > 0:
             # Dequeue the first PATH
-            p = q.dequeue()
-            print(p)
+            current_path = q.dequeue()
+            current_node = current_path[-1]
 
-            if p[-1] not in visited:
-                visited.add(p[-1])
-                if p[-1] == destination_vertex:
-                    break
-                
-            for vertex in self.vertices[p[-1]]:
-                path = [p[-1], vertex]
-                q.enqueue(path)   
+            if current_node == destination_vertex:
+                return current_path
+
+            if current_node not in visited:
+                visited.add(current_node)
+                for neighbor in self.get_neighbors(current_node):
+                    path_copy = current_path[:]
+                    path_copy.append(neighbor)
+
+                    q.enqueue(path_copy)
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -208,9 +210,9 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     graph.dft(1)
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
 
-    breakpoint()
+    print("")
 
     '''
     Valid BFS path:
@@ -223,5 +225,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+    # print(graph.dfs(1, 6))
+    # print(graph.dfs_recursive(1, 6))
