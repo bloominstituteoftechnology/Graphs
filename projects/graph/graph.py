@@ -112,7 +112,6 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
         # Create an empty queue and add A PATH TO the starting vertex ID
             # Create a Set to store visited vertices
             # While the queue is not empty...
@@ -120,11 +119,24 @@ class Graph:
                 # Grab the last vertex from the PATH
                 # If that vertex has not been visited...
                     # CHECK IF IT'S THE TARGET
-                    # IF SO, RETURN PATH
+                        # IF SO, RETURN PATH
                     # Mark it as visited...
                     # Then add A PATH TO its neighbors to the back of the queue
-                    # COPY THE PATH
-                    # APPEND THE NEIGHOR TO THE BACK
+                        # COPY THE PATH
+                        # APPEND THE NEIGHOR TO THE BACK
+        que = Queue()
+        visit = set()
+        que.enqueue([starting_vertex])
+        while que.size() > 0:
+            path = que.dequeue()
+            vert = path[-1]
+            if vert not in visit:
+                if vert == destination_vertex:
+                        return path
+                visit.add(vert)
+                for neighbor in self.get_neighbors(vert):
+                    newpath = list(path) + [neighbor]
+                    que.enqueue(newpath)
         
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -133,7 +145,6 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        # pass  # TODO
         # Create an empty stack and add A PATH TO the starting vertex ID
         # Create a Set to store visited vertices
         # While the stack is not empty...
@@ -254,12 +265,12 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
+    # print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
