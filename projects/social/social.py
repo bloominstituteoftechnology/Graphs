@@ -59,28 +59,36 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
-        # Add users
+        # create users
         for user in range(num_users):
             self.add_user(user)
 
     # Hint 1: To create N random friendships, you could create a list with all possible friendship combinations, shuffle the list, then grab the first N elements from the list. You will need to `import random` to get shuffle.
     # Hint 2: `add_friendship(1, 2)` is the same as `add_friendship(2, 1)`. You should avoid calling one after the other since it will do nothing but print a warning. You can avoid this by only creating friendships where user1 < user2.
 
-        # Create possible friendships
+        # create list for holding possible friendships.
         friendships = []
-
-        for user in range(1, self.last_id + 1):
+       
+        # Create possible friendships
+        # for each user
+         for user in range(1, self.last_id + 1):
+             # for each friend after the user id up to total users
             for friend in range(user + 1, num_users + 1):
+                # add create link between user and friend
                 friendship = (user, friend)
+                # save the friendship in friendships
                 friendships.append(friendship)
 
-        # Determine number of friendships needed
+        # Determine total number of friendships needed
         friendships_needed = num_users * avg_friendships
 
+        # shuffle our total possible friendships list
         random.shuffle(friendships)
 
-        shuffled_friendships = friendships[:friendships_needed//2]
+        # put subset of shuffled possible friendships in new shuffled friendships list
+        shuffled_friendships = friendships[:friendships_needed//2]   # // integer divide by 2 as frienships are bi directional
 
+        # build our graph from each friend pair in shuffled friendships
         for friendship in shuffled_friendships:
             self.add_friendship(friendship[0], friendship[1])
 
@@ -92,10 +100,11 @@ class SocialGraph:
         """
         # make a queue
         q = Queue()
-        # enqueue our starting a node
 
+        # enqueue our starting a node
         path = [starting_vertex]
         q.enqueue(path)
+
         # make a set to track if we've been at that node before 
         visited = set() 
 
