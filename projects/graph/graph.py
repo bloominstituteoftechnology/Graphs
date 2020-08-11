@@ -93,15 +93,15 @@ class Graph:
         """
         #set visit as param, default to None to doesn't change test
         #if it is None, (is at beginning), reassign to empty set
+        #add starting variable to visit
+        #print( so it prints the order)
+        #for every neightbor, check if neighbor is in visit already
+            #if not, recurse with neighbor as starting_vert and current visit
         if visit is None:
             visit = set()
-        #add starting variable to visit
         visit.add(starting_vertex)
-        #print(so it prints the order)
         print(starting_vertex)
-        #for every neightbor, check if neighbor is in visit already
         for neighbor in self.vertices[starting_vertex]:
-            #if not, recurse with neighbor as starting_vert and current visit
             if neighbor not in visit:
                 self.dft_recursive(neighbor, visit)
 
@@ -170,29 +170,29 @@ class Graph:
         This should be done using recursion.
         """
         #set visit and path to params, defualt to None, then reassign
+        #add current vertex to visit
+        #make a copy of path and reassign it with current vert at end
+        #base case
+        #if current vert is the destination, return the path
+        #if not, check every neighbor
+            #if hasn't been visited yet,
+                #visit it by recursion--new path is recursion with neighbor as starting vertex
+                #return newpath is not None (found something other than None if didn't find the first time)
+        # otherwise if can't find desination, return None
         if visit is None:
             visit = set()
         if path is None:
             path = []
-        #add current vertex to visit
         visit.add(starting_vertex)
-        #make a copy of path and reassign it with current vert at end
         path = list(path) #makes a copy
         path.append(starting_vertex) #reassigns
-        #base case
-        #if current vert is the destination, return the path
         if starting_vertex == destination_vertex:
             return path
-        #if not, check every neighbor
         for neighbor in self.get_neighbors(starting_vertex):
-            #if hasn't been visited yet,
             if neighbor not in visit:
-                #visit it by recursion--new path is recursion with neighbor as starting vertex
                 newpath = self.dfs_recursive(neighbor, destination_vertex, visit, path)
-                #return newpath is not None (found something other than None if didn't find the first time)
                 if newpath is not None:
                     return newpath
-        # otherwise if can't find desination, return None
         return None
         
 
