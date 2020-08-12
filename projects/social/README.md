@@ -53,7 +53,7 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
-**ANSWER**:
+**ANSWER**: With 1000 users having an average of ~5 friends each, the average degree of separation lies fluctuates between 5~6. Around ~90% or more of users will be in any particular user's extended social network. Since the tests were done with randomly generated users and social connections, these numbers fluctuate around the given range.
 
 ## 4. Stretch Goal
 

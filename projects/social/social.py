@@ -84,7 +84,8 @@ class SocialGraph:
             # if friend of friend already in visited, ignore
         # log the shortest path from the user to a friend
 
-        print(f"User {user_id}: {self.friendships[user_id]}\n")
+        print(f"User {user_id}: {self.friendships[user_id]}")
+        print("\n")
 
         # initialize queue with user_id using a BFS
         q = Queue()
@@ -110,6 +111,19 @@ class SocialGraph:
                     link2.append(friend)
                     # add to the queue
                     q.enqueue(link2)
+
+        # finding the degrees of separation
+        degrees = 0 # counter
+        for i in visited.values():
+            degrees += len(i)
+        # calculate the average degrees of separation
+        total_degrees = round(degrees / len(visited.keys()), 2)
+        print("Average Degrees of Separation:", total_degrees)
+        print("\n")
+
+        # calculate the number of connections in the extended social network
+        print("Number of Connections:", len(visited.keys()))
+        print("\n")
 
         return visited
 
