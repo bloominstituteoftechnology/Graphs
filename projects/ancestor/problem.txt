@@ -1,0 +1,54 @@
+Function: 
+	earliest_ancestor(ancestors, starting_node)
+
+Return: 
+	furthest distance ancestor
+	If more than one earliest ancestor, return lowest
+	If no parents, return -1
+
+
+			~ ancestors array ~
+
+	(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), 
+	(4, 5), (4, 8), (8, 9), (11, 8), (10, 1)
+
+			~ Mapped out ~
+
+		      10
+		     /
+		    1   2   4   11
+		     \ /   / \ /
+		      3   5   8
+		       \ / \   \
+		        6   7   9
+
+
+		    - input/output -
+_______________________________________________
+						|				
+	starting_node: 1	|	starting_node: 2
+	Returns: 10			|	Returns: -1
+________________________|______________________
+						|				
+	starting_node: 3	|	starting_node: 4
+	Returns: 10			|	Returns: -1
+________________________|______________________
+						|				
+	starting_node: 5	|	starting_node: 6
+	Returns: 4			|	Returns: 10
+________________________|______________________
+						|				
+	starting_node: 7	|	starting_node: 8
+	Returns: 4			|	Returns: 4
+________________________|______________________
+						|				
+	starting_node: 9	|	starting_node: 10
+	Returns: 4			|	Returns: -1
+________________________|______________________
+						|				
+	starting_node: 11	|
+	Returns: -1			|
+________________________|
+
+
+

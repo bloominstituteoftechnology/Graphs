@@ -159,6 +159,7 @@ class Graph:
 
             for neighbor in self.get_neighbors(starting_vertex):
                 result = self.dfs_recursive(neighbor, destination_vertex, visited, path + [neighbor])
+                print(result)
                 if result:
                     return result
         return None
