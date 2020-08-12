@@ -172,27 +172,6 @@ class Graph:
 
         This should be done using recursion.
         """
-        # if not visited:
-        #     visited = [False] * (len(self.vertices) + 1)
-        # if not traversal:
-        #     traversal = []
-        #
-        # if starting_vertex is destination_vertex:
-        #     traversal.append(starting_vertex)
-        #     return traversal
-        #
-        # visited[starting_vertex] = True
-        # if starting_vertex not in traversal:
-        #     traversal.append(starting_vertex)
-        #
-        # for x in self.vertices[starting_vertex]:
-        #     if x is destination_vertex:
-        #         traversal.append(x)
-        #         return traversal
-        #     if visited[x] is False:
-        #         self.dfs_recursive(starting_vertex=x,
-        #                            destination_vertex=destination_vertex,
-        #                            visited=visited, traversal=traversal)
 
         if not visited:
             visited = [False] * (len(self.vertices) + 1)
