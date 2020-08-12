@@ -29,8 +29,8 @@ def earliest_ancestor(ancestors, starting_node):
         g.add_edge(child, parent)
 
     # if element has parents:
-    # Traverse list to earliest ancestors
     if len(g.get_neighbors(starting_node)) > 0:
+        # traverse list to earliest ancestors
         return g.bft_list(starting_node)[-1]
 
     else:
