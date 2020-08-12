@@ -107,6 +107,9 @@ class SocialGraph:
 
                 visited[friend] = path_copy
 
+        for i in visited.keys():
+            visited[i] = visited[i][:visited[i].index(i) + 1]
+
         return visited
 
 
