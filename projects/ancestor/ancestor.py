@@ -1,4 +1,6 @@
 from util import Queue
+
+
 def earliest_ancestor(ancestors, starting_node):
     
     queue = Queue()
@@ -6,18 +8,18 @@ def earliest_ancestor(ancestors, starting_node):
     visited_nodes = set()
     has_parent = False
     longest_path = []
-
+        # if we still have something to do keep going
     while queue.size() > 0:
         current_path = queue.dequeue()
-        
+        # if the current is bigger than the curr longest path make the longest path the current
         if len(current_path) > len(longest_path):
             longest_path = current_path
-
+        # 
         elif len(current_path) == len(longest_path):
 
             if current_path[-1] < longest_path[-1]:
                 longest_path = current_path
-
+        # print(current_path[-1],current_path, 'hello im the cur path')
         vertex = current_path[-1]
 
         if vertex not in visited_nodes:
@@ -25,7 +27,7 @@ def earliest_ancestor(ancestors, starting_node):
 
             for i in range(0, len(ancestors)):
                 print(ancestors[i][1])
-                
+
                 if ancestors[i][1] is vertex:
                     has_parent = True
                     test_path = list(current_path)
