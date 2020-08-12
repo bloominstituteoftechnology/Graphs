@@ -59,3 +59,38 @@ class Graph():
 #             q.enqueue(path_copy)
 #     return earliest
 
+def earliest_ancestor(ancestors, starting_node):
+    graph = Graph()
+    for pair in ancestors: # tuple
+        # add vertexes into graph, then edges
+        graph.add_vertex(pair[0])
+        graph.add_vertex(pair[1])
+
+        graph.add_edge(pair[0], pair[1])
+        
+        # now we need to traverse the graph
+        # optionally BFS. DFS probably more efficient
+        q = Queue()
+        q.enqueue([starting_node])
+
+        # set some vars to compare 
+        max_path_length = 1
+        earliest_ancestor = -1
+
+        while q.size() > 0:
+            path = q.dequeue()
+            last_vertex = path[-1]
+
+            # if gone the wrong way, we want the lowest possible value
+            if (len(path) >= max_path_length and last_vertex < earliest_ancestor) or len(path) > max_path_length:
+                earliest_ancestor = last_vertex
+                max_path_length = len(path)
+
+                # get neighbors
+                for neighbor in graph.vertices[last_vertex]:
+                    path_copy = list(path)
+                    path_copy.append(neighbor)
+
+                    q.enqueue(path_copy)
+
+    return earliest_ancestor
