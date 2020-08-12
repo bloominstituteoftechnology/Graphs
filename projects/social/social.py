@@ -100,11 +100,11 @@ class SocialGraph:
             if current_user not in visited:
                 connections[current_user] = self.get_friendships(current_user)
                 for friend in connections[current_user]:
-                    path_copy = current_path[:]
-                    path_copy.append(friend)
+                    if friend not in connections:
+                        path_copy = current_path[:]
+                        path_copy.append(friend)
+                        q.enqueue(path_copy)
 
-                    q.enqueue(path_copy)
-                    
                 visited[friend] = path_copy
 
         return visited
