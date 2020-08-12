@@ -37,31 +37,47 @@ class Ancestors:
         for p in self.get_parents(node):
             new_path = list(path)
             new_path.append(p)
+            # print('calling for', new_path)
             path2 = self.extend_path(new_path)
-            # print('path2', path2, path)
-            # for item in path2:
-            #     print(item)
-            #     if isinstance(item,list):
-            #         print('nested', item)
-            #         paths.append(item)
-                # else:
-                #     print('non-nested', item)
-                #     paths.append([item])
-            paths.append(path2)
+            new_items = []
+            for item in path2:
+                if isinstance(item,list):
+                    # append nested items to the path directly
+                    paths.append(item)
+                else:
+                    # group together non-nested items
+                    new_items.append(item)
+            if len(new_items) > 0:
+                # print('new items', new_items)
+                paths.append(new_items)
+        # print('returning', paths, 'for', path)
         return paths
 
     
     def find_genealogy(self, starting_node):
         path = [starting_node]
         genealogies = self.extend_path(path)
-        for item in genealogies:
-            # print('123', item)
-            if isinstance(item,list):
-                print('here', item)
-            else:
-                print('item', item)
+        
         return genealogies
+        
+    # finds the longest path - does not work for tie
+    # def find_genealogy(self, starting_node, path=None):
+    #     if path is None:
+    #         path=[starting_node]
+    #     node = path[-1]
 
+    #     if len(self.get_parents(node)) is 0:
+    #         return path
+        
+    #     longest_path = path
+    #     for p in self.get_parents(node):
+    #         new_path = list(path)
+    #         new_path.append(p)
+    #         path2 = self.find_genealogy(starting_node, new_path)
+    #         if len(path2) > len(longest_path):
+    #             longest_path = path2
+            
+    #     return longest_path
 
 def earliest_ancestor(ancestors, starting_node):
     # create a graph of generations
@@ -72,24 +88,38 @@ def earliest_ancestor(ancestors, starting_node):
             family_tree.add_generation(generation)
         family_tree.add_relationship(pair[1], pair[0])
     
+    if len(family_tree.get_parents(starting_node)) is 0:
+        return -1
+    
     genealogy = family_tree.find_genealogy(starting_node)
 
-    print('**', genealogy)
-    print('##', family_tree.generations)
-    print('Hello', family_tree.extend_path([6,3]))
-    # if genealogy:
-    #     return genealogy[0]
+    # print('**', starting_node, genealogy)
+    # print('##', family_tree.generations)
     
-    # return -1
+    
+    longest_ancestory = 0
+    for item in genealogy:
+        if len(item) > longest_ancestory:
+            longest_ancestory = len(item)
+    
+    oldest_ancestors = []
+    for item in genealogy:
+        if len(item) == longest_ancestory:
+            oldest_ancestors.append(item[-1])
+    
+    if len(oldest_ancestors) is 1:
+        return oldest_ancestors[0]
+    
+    a = oldest_ancestors[0]
+    for i in oldest_ancestors:
+        if i < a:
+            a = i
+    return a
 
 
 
-test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+# test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
 
-print(earliest_ancestor(test_ancestors, 6))
+# print(earliest_ancestor(test_ancestors, 8))
 
-# a1 = []
-# a2 = [[10]]
-# a1.extend(a2[0])
-# print(a1)
 
