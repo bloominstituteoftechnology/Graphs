@@ -63,7 +63,7 @@ class SocialGraph:
 
         for i in range(num_users * avg_friendships // 2):
             friendships = possible_friendships[i]
-            self.add_friendship(friendships[0]. friendships[1])
+            self.add_friendship(friendships[0], friendships[1])
 
 
     def get_all_social_paths(self, user_id):
@@ -75,14 +75,21 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {}
+
+        # for friend in user_id's friends:
+        for friend in self.friendships[user_id]:
+            visited[friend] = self.friendships[friend]
+    
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
+    print("Social Network")
     sg.populate_graph(10, 2)
     print(sg.friendships)
+
+    print("\nConnections")
     connections = sg.get_all_social_paths(1)
     print(connections)
