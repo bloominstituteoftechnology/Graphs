@@ -1,4 +1,16 @@
 import random
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 
 class User:
     def __init__(self, name):
@@ -76,12 +88,32 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # BFS for shortest path
+        # First get all from extended network
+        # will need to do a BFS for every extended network
+        q = Queue()
+
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            path = q.dequeue()
+
+            last_vertex = path[-1]
+
+            if last_vertex not in visited:
+                visited[last_vertex] = path
+
+                for neighbor in self.friendships[last_vertex]:
+                    path_copy = list(path)
+                    path_copy.append(neighbor)
+                    q.enqueue(path_copy)
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(10, 3)
     print(sg.friendships)
-    connections = sg.get_all_social_paths(1)
+    connections = sg.get_all_social_paths(2)
     print(connections)
