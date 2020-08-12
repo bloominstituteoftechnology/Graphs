@@ -38,19 +38,19 @@ def earliest_ancestor(ancestors, starting_node):
             visited.add(v)                     # mark the vertex as visited
 
             for ancestor in _get_ancestors(v):  # get all ancestors of the vertex
-                if ancestor is not None:       # if there are ancestors:
+                if ancestor is not None:        # if there are ancestors:
                     p2 = p.copy()                   # create a copy of the current path
                     p2.append(ancestor)             # add an ancestor to the path
                     s.push(p2)                      # add the path to the stack
-                elif v == starting_node:       # else if there are no ancestors:
+                elif v == starting_node:        # else if there are no ancestors:
                     return -1                       # return -1
             
-            paths.append(p)                    # append the path to the list of paths
+            paths.append(p)                     # append the path to the list of paths
     
-    last = []                                  # initialize empty array to find longest path
+    last = []                                   # initialize empty array to find longest path
 
-    for i in paths:                            # iterate through paths to find the longest
+    for i in paths:                             # iterate through paths to find the longest
         if len(i) > len(last):
             last = i   
 
-    return last[-1]                            # return the last element of the longest path
+    return last[-1]                             # return the last element of the longest path

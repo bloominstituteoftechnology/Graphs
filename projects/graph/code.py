@@ -43,7 +43,7 @@ def sort_alphabetical(S):
 
 sort_alphabetical(test)
 
-# WORD LADDER PROBLEM
+# WORD LADDER
 # ------------------------------------------------------
 word_set = set()
 
@@ -51,74 +51,145 @@ with open("words.txt") as f:
     for word in f: # for each line in the file
         word_set.add(word.strip().lower())
 
-def get_neighbors(word):
-    neighbors = []
-    word_letters = list(word)
+# def get_neighbors(word):
+#     neighbors = []
+#     word_letters = list(word)
 
-    for i in range(len(word_letters)):
-        for letter in list(string.ascii_lowercase):
-            # make a copy of the word
-            temp_word = list(word_letters)
+#     for i in range(len(word_letters)):
+#         for letter in list(string.ascii_lowercase):
+#             # make a copy of the word
+#             temp_word = list(word_letters)
 
-            # substitute the letter in the copied word
-            temp_word[i] = letter
+#             # substitute the letter in the copied word
+#             temp_word[i] = letter
 
-            # make it a string
-            temp_word_str = "".join(temp_word)
+#             # make it a string
+#             temp_word_str = "".join(temp_word)
 
-            # if it's a real word, add it to the returned set
-            if temp_word_str != word and temp_word_str in word_set: # time = O(1)
-                neighbors.append(temp_word_str)
+#             # if it's a real word, add it to the returned set
+#             if temp_word_str != word and temp_word_str in word_set: # time = O(1)
+#                 neighbors.append(temp_word_str)
 
-    return neighbors
+#     return neighbors
 
-def get_neighbors_2(word):
-    def word_diff_by_1(w1, w2):
-        if len(w1) != len(w2):
-            return False
+# def get_neighbors_2(word):
+    # def word_diff_by_1(w1, w2):
+    #     if len(w1) != len(w2):
+    #         return False
 
-        diff_count = 0
+    #     diff_count = 0
 
-        for i in range(len(w1)):
-            if w1[i] != w2[i]:
-                diff_count += 1
+    #     for i in range(len(w1)):
+    #         if w1[i] != w2[i]:
+    #             diff_count += 1
 
-        return diff_count == 1
+    #     return diff_count == 1
     
-    neighbors = []
+    # neighbors = []
 
-    for word2 in word_set:
-        if word_diff_by_1(word, word2):
-            neighbors.append(word2)
+    # for word2 in word_set:
+    #     if word_diff_by_1(word, word2):
+    #         neighbors.append(word2)
 
-    return neighbors
+    # return neighbors
 
 # get_neighbors = get_neighbors_2
 
-def find_word_ladder(start_word, end_word): # BFS
-    visited = set()
+# def find_word_ladder(start_word, end_word): # BFS
+#     visited = set()
 
-    q = Queue()
+#     q = Queue()
 
-    q.enqueue([start_word])
+#     q.enqueue([start_word])
 
-    while q.size() > 0:
-        path = q.dequeue()
+#     while q.size() > 0:
+#         path = q.dequeue()
 
-        v = path[-1]
+#         v = path[-1]
 
-        if v not in visited:
-            visited.add(v)
+#         if v not in visited:
+#             visited.add(v)
 
-            if v == end_word:
-                return path
+#             if v == end_word:
+#                 return path
             
-            for neighbor in get_neighbors(v):
-                path_copy = list(path)
-                path_copy.append(neighbor)
-                q.enqueue(path_copy)
+#             for neighbor in get_neighbors(v):
+#                 path_copy = list(path)
+#                 path_copy.append(neighbor)
+#                 q.enqueue(path_copy)
 
-    # if this is reached, it means the path was not found
-    return None
+#     # if this is reached, it means the path was not found
+#     return None
 
-print(find_word_ladder("sail", "boat"))
+# print(find_word_ladder("sail", "boat"))
+
+# ISLAND COUNTER
+# ------------------------------------------------------
+# Write a function that takes a 2D binary array and returns the number of 1 islands. An island consists of 1s that are connected to the north, south, east or west. For example:
+
+islands = [[0, 1, 0, 1, 0],
+           [1, 1, 0, 1, 1],
+           [0, 0, 1, 0, 0],
+           [1, 0, 1, 0, 0],
+           [1, 1, 0, 0, 0]]
+# returns 4
+           
+def island_counter(islands):
+    # create a way to keep track of all visited nodes
+    visited = []
+
+    for _ in range(len(islands)):
+        new_row = [False] * len(islands[0])
+        visited.append(new_row)
+
+    island_count = 0
+
+    # walk through each cell in the grid
+    for row in range(len(islands)):
+        for col in range(len(islands[0])):
+            # if it's not visited:
+            if not visited[row][col]:
+                # if value is a `1`:
+                if islands[row][col] == 1:
+                    # perform a traversal
+                    dft(row, col, islands, visited)
+                    # increment the counter
+                    island_count += 1
+    
+    return island_count
+
+def dft(row, col, islands, visited):
+    s = Stack()
+    s.push((row, col))
+
+    while s.size() > 0:
+        v = s.pop()
+        row, col = v
+
+        if not visited[row][col]:
+            visited[row][col] = True
+            for neighbor in get_neighbors(row, col, islands):
+                s.push(neighbor)
+
+def get_neighbors(row, col, islands):
+    neighbors = []
+
+    # checks north
+    if row > 0 and islands[row-1][col] == 1:
+        neighbors.append((row-1, col))
+
+    # checks south
+    if row < len(islands) - 1 and islands[row+1][col] == 1:
+        neighbors.append((row+1, col))
+
+    # checks west
+    if col > 0 and islands[row][col-1] == 1:
+        neighbors.append((row, col-1))
+
+    # checks east
+    if col < len(islands[0]) - 1 and islands[row][col+1] == 1:
+        neighbors.append((row, col+1))
+    
+    return neighbors
+
+# print(island_counter(islands))
