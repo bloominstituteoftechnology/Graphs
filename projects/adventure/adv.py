@@ -2,6 +2,7 @@ from room import Room
 from player import Player
 from world import World
 
+import time
 import random
 from ast import literal_eval
 
@@ -28,8 +29,8 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_paths = []
-
 reverse_direction = {'n': 's', 's': 'n', 'w': 'e', 'e': 'w'}
+
 
 def traverse_graph(traversal_path=None, visited=None, next_room=None):
     global traversal_paths
@@ -38,12 +39,12 @@ def traverse_graph(traversal_path=None, visited=None, next_room=None):
     first_direction = start.get_exits()[0]
     visited = visited or {start.id: {x: '?' for x in start.get_exits()}}
     next_room = next_room or (start.id, first_direction,
-                start.get_room_in_direction(first_direction))
+                              start.get_room_in_direction(first_direction))
     if traversal_path is None:
         traversal_path = []
 
-
     # Helper function to find unvisited rooms upon reaching a dead-end
+
     def next_unvisited_room(starting_room):
         nonlocal visited, traversal_path
         queue = [[starting_room]]
@@ -65,15 +66,14 @@ def traverse_graph(traversal_path=None, visited=None, next_room=None):
             inner_visited.add(current_room.id)
             # Perform a BFS of all unvisited rooms reachable from the current room
             potential_rooms = [(x, current_room.get_room_in_direction(x))
-                            for x in current_room.get_exits()]
+                               for x in current_room.get_exits()]
             for direction, room in potential_rooms:
                 if room.id not in inner_visited:
                     queue.append(current_path +
-                                [(current_room.id,
-                                direction,
-                                room)]
-                                )
-
+                                 [(current_room.id,
+                                   direction,
+                                   room)]
+                                 )
 
     while len(visited) < len(room_graph):
         # Extract info and update traversal path and visited graph
@@ -83,28 +83,43 @@ def traverse_graph(traversal_path=None, visited=None, next_room=None):
 
         # If we're in a room for the first time, mark as visited
         if current_room.id not in visited:
-            visited[current_room.id] = {x: '?' for x in current_room.get_exits()}
+            visited[current_room.id] = {
+                x: '?' for x in current_room.get_exits()}
         # Add path to previous room to known paths
         visited[current_room.id][reverse_direction[direction_moved]] = prev_room
         # If this room isn't a dead-end, queue up a random unvisited room next
         unvisited_directions = [
             dir_ for dir_, val in visited[current_room.id].items() if val == '?']
         if len(unvisited_directions) > 0:
-            next_direction = unvisited_directions[-1]
+            next_direction = random.sample(unvisited_directions,1)[0]
             next_room = (
                 current_room.id,
                 next_direction,
                 current_room.get_room_in_direction(next_direction)
             )
+            ## This seems to have time complexity of O(4^n)
+            ## So it won't complete before the universe ends 
+            # If there are multiple paths, recurse
+            # if len(unvisited_directions) > 0:
+            #     for next_direction in unvisited_directions:
+            #         traverse_graph([*traversal_path], {x:y for x,y in visited.items()}, (
+            #             current_room.id,
+            #             next_direction,
+            #             current_room.get_room_in_direction(next_direction)
+            #         ))
         # If we're at a dead-end, find the path to the next room and add it to the queue
         else:
             next_room = next_unvisited_room(
                 (prev_room, direction_moved, current_room)
             )
     traversal_paths.append(traversal_path)
+    
+start_time = time.time()
+for _ in range(10000):
+    traverse_graph()
+print(f"Completed in {(time.time()-start_time):.3f}s")
+traversal_path = sorted(traversal_paths,key=len)[0]
 
-traverse_graph()
-traversal_path = traversal_paths[0]
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
