@@ -26,14 +26,10 @@ world.print_rooms()
 
 player = Player(world.starting_room)
 
-# Fill this out with directions to walk
-# traversal_path = ['n', 'n']
-traversal_paths = []
 reverse_direction = {'n': 's', 's': 'n', 'w': 'e', 'e': 'w'}
 
 
 def traverse_graph(traversal_path=None, visited=None, next_room=None):
-    global traversal_paths
     # Initialize from starting room
     start = world.starting_room
     first_direction = start.get_exits()[0]
@@ -91,14 +87,14 @@ def traverse_graph(traversal_path=None, visited=None, next_room=None):
         unvisited_directions = [
             dir_ for dir_, val in visited[current_room.id].items() if val == '?']
         if len(unvisited_directions) > 0:
-            next_direction = random.sample(unvisited_directions,1)[0]
+            next_direction = random.sample(unvisited_directions, 1)[0]
             next_room = (
                 current_room.id,
                 next_direction,
                 current_room.get_room_in_direction(next_direction)
             )
-            ## This seems to have time complexity of O(4^n)
-            ## So it won't complete before the universe ends 
+            # The "all paths" solution seems to have time complexity of O(4^n)
+            # So it won't complete before the universe ends
             # If there are multiple paths, recurse
             # if len(unvisited_directions) > 0:
             #     for next_direction in unvisited_directions:
@@ -107,18 +103,25 @@ def traverse_graph(traversal_path=None, visited=None, next_room=None):
             #             next_direction,
             #             current_room.get_room_in_direction(next_direction)
             #         ))
+
         # If we're at a dead-end, find the path to the next room and add it to the queue
         else:
             next_room = next_unvisited_room(
                 (prev_room, direction_moved, current_room)
             )
-    traversal_paths.append(traversal_path)
-    
+    # if len(traversal_path) < 1000:
+        # print(f"Traversed in {len(traversal_path)} steps")
+    return traversal_path
+
+
+# Keep trying until we get a traversal less than 960 steps long
 start_time = time.time()
-for _ in range(10000):
-    traverse_graph()
+while True:
+    traversal_path = traverse_graph()
+    if len(traversal_path) < 960:
+        break
 print(f"Completed in {(time.time()-start_time):.3f}s")
-traversal_path = sorted(traversal_paths,key=len)[0]
+# traversal_path = sorted(traversal_paths, key=len)[0]
 
 # TRAVERSAL TEST
 visited_rooms = set()
