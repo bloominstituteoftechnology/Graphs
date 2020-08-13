@@ -50,23 +50,23 @@ def next_unvisited_room(starting_room):
         # Current room is the last item in the tuple
         # for the last entry in the path
         current_room = current_path[-1][-1]
-        # If we've found a new room
-        # Add the rooms we went to the traversal path
-        # Then return this new room
+        
+        # Once we find a new room, update the traversal path and return the new room
         if current_room.id not in visited:
-            skipped_rooms = current_path[1:-1]
-            traversal_path.extend([x[1] for x in skipped_rooms])
-            return current_path[-1]
+            [_, *skipped_rooms, new_room] = current_path
+            traversal_path.extend([x[1] for x in skipped_rooms]) # Direction is the 2nd item in the tuple
+            return new_room
+
         inner_visited.add(current_room.id)
         # Perform a BFS of all unvisited rooms reachable from the current room
-        for direction in current_room.get_exits():
-            room_in_direction = current_room.get_room_in_direction(direction)
-            if room_in_direction.id not in inner_visited:
-                queue.append([*current_path,
-                              (current_room.id,
+        potential_rooms = [(x, current_room.get_room_in_direction(x)) for x in current_room.get_exits()]
+        for direction, room in potential_rooms:
+            if room.id not in inner_visited:
+                queue.append(current_path +
+                              [(current_room.id,
                                direction,
-                               room_in_direction)
-                              ])
+                               room)]
+                              )
 
 
 while len(visited) < len(room_graph):
