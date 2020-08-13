@@ -150,7 +150,7 @@ class Graph:
                 if neighbor == destination_vertex:
                     return new
 
-    def dfs_recursive(self, starting_vertex,destination_vertex ,visited=None):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -171,7 +171,6 @@ class Graph:
                 if neighborSearch is not None:
                     return [starting_vertex] + neighborSearch
             return None
-
 
 
 if __name__ == '__main__':
