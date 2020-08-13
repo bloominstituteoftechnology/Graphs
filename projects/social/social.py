@@ -25,6 +25,9 @@ class User:
 
 class SocialGraph:
     def __init__(self):
+        self.reset_graph()
+
+    def reset_graph(self):
         self.last_id = 0
         self.users = {}
         self.friendships = {}
@@ -34,12 +37,16 @@ class SocialGraph:
         Creates a bi-directional friendship
         """
         if user_id == friend_id:
-            print("WARNING: You cannot be friends with yourself")
+            # print("WARNING: You cannot be friends with yourself")
+            return False
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
-            print("WARNING: Friendship already exists")
+            # print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+
+        return True
 
     def add_user(self, name):
         """
@@ -48,6 +55,8 @@ class SocialGraph:
         self.last_id += 1  # automatically increment the ID to assign the new user
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
+
+    # Populate Graph with a o(n^2) runtime complexity
 
     def populate_graph(self, num_users, avg_friendships):
         """
@@ -91,7 +100,30 @@ class SocialGraph:
             friend_id = friendship[1]
             self.add_friendship(user_id, friend_id)
 
-        # Create friendships
+    # Populate Graph with a O(n) runtime
+    def populate_graph_2(self, num_users, avg_friendships):
+        # reset graph
+        self.reset_graph()
+
+        # Add users to the graph
+        for i in range(num_users):
+            self.add_user(f'User {i+1}')
+
+        #  Create Friendships
+        target_friendships = num_users * avg_friendships
+        total_friendships = 0
+        collisions = 0
+
+        while total_friendships < target_friendships:
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1, self.last_id)
+
+            if self.add_friendship(user_id, friend_id):
+                total_friendships += 2
+            else:
+                collisions += 1
+
+        print(f'COLLISIONS: {collisions}')
 
     def get_all_social_paths(self, user_id):
         """
@@ -129,8 +161,15 @@ class SocialGraph:
 
 
 if __name__ == '__main__':
+
+    num_users = 10
+    avg_friendships = 2
+
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(num_users, avg_friendships)
+    # sg.populate_graph_2(num_users, avg_friendships)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
+
+    print("SOCIAL PATHS: ", sg.get_all_social_paths(1))
