@@ -25,7 +25,7 @@ def earliest_ancestor(ancestors, starting_node):
     earliest = -1
 
     while queue.size() > 0:
-        print(queue.queue)
+        #print(queue.queue)
 
         path = queue.dequeue()
 
