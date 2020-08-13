@@ -27,50 +27,51 @@ class Graph:
 
 def earliest_ancestor(ancestors, starting_node):
     #implement Graph class
-    graph = Graph()
     #add verteces/nodes to Graph
+    #add edges to connect nodes -- child to parent
+    #implement Queue
+    #add starting_node to Queue
+    #create 'visited' set
+    #create empty 'results' list
+    
+    #BEGIN REPL/loop
+    #while Queue is greater than 0
+        #create variable and assign to dequeue
+        #create variable, assign for last vertex in path
+        #check if last vertex has been visited or not
+            #add that vertex to visted list
+        #for loop in get_neighbors passing in last vertex
+            #create variable for a new path -- copy path
+            #append last item of that new path to 'results'
+        #if 'results' list is empty
+            #there are no parents, return -1
+    #return last item of 'results' list
+            #add neighbor to our new path
+            #enqueue the new path to Queue
+    graph = Graph()
     for node in ancestors:
         graph.add_vertex(node[0])
         graph.add_vertex(node[1])
-    #add edges to connect nodes -- child to parent
     for node in ancestors:
         graph.add_edge(node[1], node[0])
-    #implement Queue
     que = Queue()
-    #add starting_node to Queue
     que.enqueue([starting_node])
-    #create 'visited' set
     visited = set()
-    #create empty 'results' list
     results = []
 
-    #BEGIN REPL/loop
-    #while Queue is greater than 0
     while que.size() > 0:
-        #create variable and assign to dequeue
         path = que.dequeue()
-        #create variable, assign for last vertex in path
         last_vert = path[-1]
-        #check if last vertex has been visited or not
         if last_vert not in visited:
-            #add that vertex to visted list
             visited.add(last_vert)
-        #for loop in get_neighbors passing in last vertex
         for neighbor in graph.get_neighbors(last_vert):
-            #create variable for a new path -- copy path
             new_path = list(path)
-            #add neighbor to our new path
             new_path.append(neighbor)
-            #enqueue the new path to Queue
             que.enqueue(new_path)
             print(f'new path: {new_path}')
-            #append last item of that new path to 'results'
             results.append(new_path[-1])
-        #if 'results' list is empty
         if len(results) == 0:
-            #there are no parents, return -1
             return -1
-    #return last item of 'results' list
     return results[-1]
 
 
