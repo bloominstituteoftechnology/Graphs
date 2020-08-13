@@ -3,6 +3,7 @@ from player import Player
 from world import World
 
 import random
+from random import choice
 from ast import literal_eval
 
 # Load world
