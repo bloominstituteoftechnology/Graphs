@@ -71,7 +71,7 @@ class SocialGraph:
 
         # Add users (vertices)
         for i in range(0, num_users):
-            self.add_user(i)
+            self.add_user(f"User {i}")
 
 
         # Create friendships (edges)do this first
@@ -116,15 +116,12 @@ class SocialGraph:
                 for neighbor in self.get_neighbors(vertex):
                     q.enqueue(current + [neighbor])
 
-
-
-
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(1000, 300)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
