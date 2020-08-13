@@ -33,7 +33,7 @@ def earliest_ancestor(ancestors, starting_node):
     #add starting_node to Queue
     #create 'visited' set
     #create empty 'results' list
-    
+
     #BEGIN REPL/loop
     #while Queue is greater than 0
         #create variable and assign to dequeue
@@ -42,12 +42,12 @@ def earliest_ancestor(ancestors, starting_node):
             #add that vertex to visted list
         #for loop in get_neighbors passing in last vertex
             #create variable for a new path -- copy path
+            #add neighbor to our new path
+            #enqueue the new path to Queue
             #append last item of that new path to 'results'
         #if 'results' list is empty
             #there are no parents, return -1
     #return last item of 'results' list
-            #add neighbor to our new path
-            #enqueue the new path to Queue
     graph = Graph()
     for node in ancestors:
         graph.add_vertex(node[0])
@@ -73,9 +73,3 @@ def earliest_ancestor(ancestors, starting_node):
         if len(results) == 0:
             return -1
     return results[-1]
-
-
-
-
-test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-print(earliest_ancestor(test_ancestors, 7))
