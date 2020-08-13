@@ -44,10 +44,8 @@ class SocialGraph:
         """
         Takes a number of users and an average number of friendships
         as arguments
-
         Creates that number of users and a randomly distributed friendships
         between those users.
-
         The number of users must be greater than the average number of friendships.
         """
         # Reset graph
@@ -81,16 +79,13 @@ class SocialGraph:
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
-
         Returns a dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
-
         The key is the friend's ID and the value is the path.
-        """
+        """ 
         q = Queue()
         q.enqueue([user_id])
 
-        connections = {}
         visited = {}
 
         while q.size() > 0:
@@ -98,23 +93,18 @@ class SocialGraph:
             current_user = current_path[-1]
 
             if current_user not in visited:
-                connections[current_user] = self.get_friendships(current_user)
-                for friend in connections[current_user]:
-                    if friend not in connections:
-                        path_copy = current_path[:]
-                        path_copy.append(friend)
-                        q.enqueue(path_copy)
-
-                visited[friend] = path_copy
-
-        for i in visited.keys():
-            visited[i] = visited[i][:visited[i].index(i) + 1]
+                visited[current_user] = current_path
+                
+                for friend in self.friendships[current_user]:
+                    path_copy = current_path[:]
+                    path_copy.append(friend)
+                    q.enqueue(path_copy)
 
         return visited
 
 
 if __name__ == '__main__':
-    random.seed(84)
+    # random.seed(84)
     sg = SocialGraph()
     print("Social Network")
     sg.populate_graph(10, 2)
