@@ -27,80 +27,84 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = []
+traversal_paths = []
 
 reverse_direction = {'n': 's', 's': 'n', 'w': 'e', 'e': 'w'}
 
-# Initialize from starting room
-start = world.starting_room
-first_direction = start.get_exits()[0]
-visited = {start.id: {x: '?' for x in start.get_exits()}}
-rooms_to_visit = [
-    (start.id, first_direction, start.get_room_in_direction(first_direction))
-]
+def traverse_graph(traversal_path=None, visited=None, next_room=None):
+    global traversal_paths
+    # Initialize from starting room
+    start = world.starting_room
+    first_direction = start.get_exits()[0]
+    visited = visited or {start.id: {x: '?' for x in start.get_exits()}}
+    next_room = next_room or (start.id, first_direction,
+                start.get_room_in_direction(first_direction))
+    if traversal_path is None:
+        traversal_path = []
 
-# Helper function to find unvisited rooms upon reaching a dead-end
+
+    # Helper function to find unvisited rooms upon reaching a dead-end
+    def next_unvisited_room(starting_room):
+        nonlocal visited, traversal_path
+        queue = [[starting_room]]
+        # Track rooms we've visited on this traversal to avoid infinite loops
+        inner_visited = set()
+        while len(queue) > 0:
+            current_path = queue.pop(0)
+            # Current room is the last item in the tuple
+            # for the last entry in the path
+            current_room = current_path[-1][-1]
+
+            # Once we find a new room, update the traversal path and return the new room
+            if current_room.id not in visited:
+                [_, *skipped_rooms, new_room] = current_path
+                # Direction is the 2nd item in the tuple
+                traversal_path.extend([x[1] for x in skipped_rooms])
+                return new_room
+
+            inner_visited.add(current_room.id)
+            # Perform a BFS of all unvisited rooms reachable from the current room
+            potential_rooms = [(x, current_room.get_room_in_direction(x))
+                            for x in current_room.get_exits()]
+            for direction, room in potential_rooms:
+                if room.id not in inner_visited:
+                    queue.append(current_path +
+                                [(current_room.id,
+                                direction,
+                                room)]
+                                )
 
 
-def next_unvisited_room(starting_room):
-    global visited, traversal_path
-    queue = [[starting_room]]
-    # Track rooms we've visited on this traversal to avoid infinite loops
-    inner_visited = set()
-    while len(queue) > 0:
-        current_path = queue.pop(0)
-        # Current room is the last item in the tuple
-        # for the last entry in the path
-        current_room = current_path[-1][-1]
+    while len(visited) < len(room_graph):
+        # Extract info and update traversal path and visited graph
+        prev_room, direction_moved, current_room = next_room
+        traversal_path.append(direction_moved)
+        visited[prev_room][direction_moved] = current_room.id
 
-        # Once we find a new room, update the traversal path and return the new room
+        # If we're in a room for the first time, mark as visited
         if current_room.id not in visited:
-            [_, *skipped_rooms, new_room] = current_path
-            # Direction is the 2nd item in the tuple
-            traversal_path.extend([x[1] for x in skipped_rooms])
-            return new_room
-
-        inner_visited.add(current_room.id)
-        # Perform a BFS of all unvisited rooms reachable from the current room
-        potential_rooms = [(x, current_room.get_room_in_direction(x))
-                           for x in current_room.get_exits()]
-        for direction, room in potential_rooms:
-            if room.id not in inner_visited:
-                queue.append(current_path +
-                             [(current_room.id,
-                               direction,
-                               room)]
-                             )
-
-
-while len(visited) < len(room_graph):
-    # Extract info and update traversal path and visited graph
-    prev_room, direction_moved, current_room = rooms_to_visit.pop(0)
-    traversal_path.append(direction_moved)
-    visited[prev_room][direction_moved] = current_room.id
-
-    # If we're in a room for the first time, mark as visited
-    if current_room.id not in visited:
-        visited[current_room.id] = {x: '?' for x in current_room.get_exits()}
-    # Add path to previous room to known paths
-    visited[current_room.id][reverse_direction[direction_moved]] = prev_room
-    # If this room isn't a dead-end, queue up a random unvisited room next
-    unvisited_directions = [
-        dir_ for dir_, val in visited[current_room.id].items() if val == '?']
-    if len(unvisited_directions) > 0:
-        next_direction = unvisited_directions[-1]
-        rooms_to_visit.append((
-            current_room.id,
-            next_direction,
-            current_room.get_room_in_direction(next_direction)
-        ))
-    # If we're at a dead-end, find the path to the next room and add it to the queue
-    else:
-        rooms_to_visit.append(
-            next_unvisited_room(
+            visited[current_room.id] = {x: '?' for x in current_room.get_exits()}
+        # Add path to previous room to known paths
+        visited[current_room.id][reverse_direction[direction_moved]] = prev_room
+        # If this room isn't a dead-end, queue up a random unvisited room next
+        unvisited_directions = [
+            dir_ for dir_, val in visited[current_room.id].items() if val == '?']
+        if len(unvisited_directions) > 0:
+            next_direction = unvisited_directions[-1]
+            next_room = (
+                current_room.id,
+                next_direction,
+                current_room.get_room_in_direction(next_direction)
+            )
+        # If we're at a dead-end, find the path to the next room and add it to the queue
+        else:
+            next_room = next_unvisited_room(
                 (prev_room, direction_moved, current_room)
-            ))
+            )
+    traversal_paths.append(traversal_path)
 
+traverse_graph()
+traversal_path = traversal_paths[0]
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
