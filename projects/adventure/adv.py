@@ -11,10 +11,10 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
+map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-map_file = "maps/main_maze.txt"
+# map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -62,18 +62,16 @@ def explore(room, visited = None):
         if player.current_room.id not in visited:
             # add room to visited
             visited.add(player.current_room.id)
-            # add the direction to the traversed path
+            # add the direction of the next room to the traversed path
             traversed_path.append(direction)
-            # recursively call explore for the new current_room
+            # recursively call explore for the next current_room
             traversed_path += explore(player.current_room, visited)
-            # travel in the opposite direction
-            player.travel(reverse(direction))
             # append the opposite movement to the traversed path
             traversed_path.append((reverse(direction)))
-        else:
-            # room already visited, travel in opposite direction
-            player.travel(reverse(direction))
-    
+
+        # travel in opposite direction
+        player.travel(reverse(direction))
+            
     return traversed_path
 
 traversal_path = explore(player.current_room)
