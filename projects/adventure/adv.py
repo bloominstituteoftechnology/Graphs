@@ -34,20 +34,31 @@ traversal_path = []
 
 #will need to functions: DFT and BFS
 
-#DFT(starting_room)
+#DFT(starting_room) --cahnged to player so could get methods off of player
+def dft(player):
     #create a stack
+    stack = Stack()
     #add starting room to stack to be searched
+    stack.push(player.current_room)
     #create visit as a set
+    visit = set()
     #REPL
     #while stack is not empty:
+    while len(stack) > 0:
         #remove that room
+        room = stack.pop()
         #check if it's been visited. If not:
+        if room not in visit:
             #add room to visit
+            visit.add(room)
             #for all neighrboring rooms in get exits:
+            for neighboring_room in player.current_room.get_exits():
                 #add room to stack
+                stack.push(neighboring_room)
                 #need to choose random direction??
         
 #BFs(starting room):
+def BFS(starting_room, ):
     #create empty queue
     #add starting room to the path in the queue
     #create visited set
@@ -60,6 +71,9 @@ traversal_path = []
                 #make a copy of the path
                 #add neighbor to end of path
                 #enqueue path copy
+
+
+
 
 
 
