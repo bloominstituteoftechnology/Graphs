@@ -1,5 +1,7 @@
 from util import Stack, Queue
 import string
+from os import system
+import time
 
 # MONDAY CODE CHALLENGE
 # ------------------------------------------------------
@@ -127,6 +129,8 @@ with open("words.txt") as f:
 # ------------------------------------------------------
 # Write a function that takes a 2D binary array and returns the number of 1 islands. An island consists of 1s that are connected to the north, south, east or west. For example:
 
+# FLOODFILL
+# ------------------------------------------------------
 islands = [[0, 1, 0, 1, 0],
            [1, 1, 0, 1, 1],
            [0, 0, 1, 0, 0],
@@ -193,3 +197,49 @@ def get_neighbors(row, col, islands):
     return neighbors
 
 # print(island_counter(islands))
+
+image = [list("...#######........"),
+         list("...#.....#........"),
+         list("...#.....#........"),
+         list("...#..######......"),
+         list("...#..#....#......"),
+         list("...####....######."),
+         list("....#...........#."),
+         list("....#############."),
+         list("..................")]
+
+
+def print_image():
+    for line in image:
+        print("".join(line))
+
+depth = 0
+
+def floodfill(row, col, c):
+    global depth
+
+    depth += 1
+
+    if row < 0 or row > len(image) - 1 or col < 0 or col > len(image[0]) - 1:
+        depth -= 1
+
+    if image[row][col] != '.':
+        depth -= 1
+        return
+    
+    image[row][col] = c
+
+    system('clear')
+    print_image()
+    print(">" * depth)
+    time.sleep(0.25)
+
+    floodfill(row - 1, col, c)
+    floodfill(row + 1, col, c)
+    floodfill(row, col + 1, c)
+    floodfill(row, col - 1, c)
+
+    depth -= 1
+
+floodfill(2, 5, "*")
+floodfill(5, 9, "$")
