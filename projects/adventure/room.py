@@ -51,9 +51,11 @@ class Room:
             return self.s_to
         elif direction == "e":
             return self.e_to
-        elif direction == "w":
+        elif direction == "w"
             return self.w_to
         else:
             return None
     def get_coords(self):
         return [self.x, self.y]
+    
+    

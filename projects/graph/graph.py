@@ -170,7 +170,8 @@ class Graph:
         if path is None:
             path = []
         visited.add(starting_vertex)
-        new_path = path + [starting_vertex]
+        new_path = path + [starting_vertex] # this makes the copy of the path.
+        
         print(new_path)
         
     
