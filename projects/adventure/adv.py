@@ -12,10 +12,10 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
+map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-map_file = "maps/main_maze.txt"
+# map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph = literal_eval(open(map_file, "r").read())
@@ -45,9 +45,12 @@ while len(visited) < len(room_graph) - 1:
 
     if player.current_room.id not in visited:
         visited[player.current_room.id] = player.current_room.get_exits()
+        print("ADD ROOM TO VISITED", visited)
 
         if reverse_path[-1]:
+            print("REVERSE PATH BEFORE", reverse_path)
             visited[player.current_room.id].remove(reverse_path[-1])
+            print("VISITED AFTER REMOVING PREV DIRECTION", visited)
 
         else:
             continue
@@ -57,10 +60,12 @@ while len(visited) < len(room_graph) - 1:
         traversal_path.append(previous_path)
         player.travel(previous_path)
 
-    next_room = visited[player.current_room.id].pop()
-    traversal_path.append(next_room)
-    reverse_path.append(opposite_direction[next_room])
-    player.travel(next_room)
+    next_direction = visited[player.current_room.id].pop()
+    traversal_path.append(next_direction)
+    reverse_path.append(opposite_direction[next_direction])
+    print("REVERSE PATH", reverse_path)
+    player.travel(next_direction)
+    print("TRAVERSAL PATH", traversal_path)
 
 
 # TRAVERSAL TEST
