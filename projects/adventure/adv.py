@@ -8,8 +8,8 @@ from ast import literal_eval
 import sys
 sys.path.append(r"C:\Users\Samuel\repos\Graphs\projects\graph")
 
-from graph import Graph
-from util import Stack
+# `from graph import Graph`
+from util import Queue, Stack
 import operator
 
 # Load world
@@ -36,17 +36,17 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+# TRAVERSAL TEST
+visited_rooms = set()
+player.current_room = world.starting_room
+visited_rooms.add(player.current_room)
+
 # Passed Line Test:
 
 # while player.current_room.n_to:
 #     player.current_room = player.current_room.n_to
 #     traversal_path.append('n')
 
-
-# TRAVERSAL TEST
-visited_rooms = set()
-player.current_room = world.starting_room
-visited_rooms.add(player.current_room)
 
 # Pass Cross Test:
 
@@ -74,87 +74,22 @@ adjacency_dict = {}
 # for direction in adjacency_dict[player.current_room.id]:
 #     print(direction, adjacency_dict[player.current_room.id][direction])
 
-# Use a stack to store values
-# s = Stack()
-# # push current room on to stack
-# s.push(player.current_room.id)
-# # while stack.size() > 0:
-# while s.size() > 0:
-#     # pop current room off
-#     current = s.pop()
-#     adjacency_dict[current] = {}
-#     attributes = ["n_to", "s_to", "e_to", "w_to"]
-#     for attr in attributes:
-#         if operator.attrgetter(f"current_room.{attr}")(player):
-#             adjacency_dict[current][attr[0]] = operator.attrgetter(f"current_room.{attr}.id")(player)
-#         else:
-#             adjacency_dict[current][attr[0]] = operator.attrgetter(f"current_room.{attr}")(player)
 
-#     random.seed(random.randint(0, 100))
-#     val = random.choice(attributes)
-#     if operator.attrgetter(f"current_room.{val}")(player):
-#         traversal_path.append(val[0])
-
-#     current = player.current_room
-#     s.push(current.id)
-
-
-
-# Refactoring the above code to be recursive:)
-
-def traverse_map(current_room, traversal_path, adjacency_dict, limit):
-    visited = []
-
-    if len(visited_rooms) == len(room_graph):
-        return
-
-    if len(traversal_path) > limit:
-        return
-
-    adjacency_dict[player.current_room.id] = {}
-        
-    attributes = ["n_to", "s_to", "e_to", "w_to"]
-
-    for attr in attributes:
-        print(operator.attrgetter(f"current_room.{attr}")(player))
-        if operator.attrgetter(f"current_room.{attr}")(player):
-            adjacency_dict[current_room.id][attr[0]] = operator.attrgetter(f"{attr}.id")(current_room)
+def traverse_map(current_room):
+    adjacency_dict[current_room.id] = {}
+    for direction in current_room.get_exits():
+        attr = direction + "_to"
+        if hasattr(current_room, attr):
+            adjacency_dict[current_room.id][direction] = operator.attrgetter(f"{attr}.id")(current_room)
         else:
-            adjacency_dict[current_room.id][attr[0]] = operator.attrgetter(f"{attr}")(current_room)
+            adjacency_dict[current_room.id][direction] = operator.attrgetter(f"{attr}")(current_room) 
+            
+    return adjacency_dict
 
-    print(adjacency_dict)
-
-    # current_adj = adjacency_dict
-
-    # if operator.attrgetter() and current_room.n_to.id not in visited:
-    #     current_room = current_room.n_to
-    #     traversal_path.append('n')
-
-    # # if current_room.s_to and current_room.n_to is None or current_room.n_to.id in visited:
-    # #     current_room = current_room.s_to
-    # #     traversal_path.append('s')
-    
-    # # if current_room.e_to and current_room.n_to is None and current_room.s_to is None:
-    # #     current_room = current_room.e_to
-    # #     traversal_path.append('e')
-
-    # # if current_room.w_to and current_room.n_to is None and current_room.s_to is None and current_room.e_to is None:
-    # #     current_room = current_room.e_to
-    # #     traversal_path.append('w')
-
-    # visited.append(current_room.id)
-    # print(visited)
-
-    # current_path = traversal_path
-    # print(current_path)
-    # # print(current_room.n_to.id)
-
-    
-    # traverse_map(current_room, current_path, current_adj, limit - 1)
-
-traverse_map(player.current_room, traversal_path, adjacency_dict, 14)    
+print(traverse_map(player.current_room))
 
 breakpoint()
+
 
 for move in traversal_path:
     player.travel(move)
