@@ -13,7 +13,6 @@ from ast import literal_eval
 # Load world
 world = World()
 
-
 # You may uncomment the smaller graphs for development and testing purposes.
 map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
@@ -34,8 +33,6 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-
-
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
@@ -50,8 +47,6 @@ if len(visited_rooms) == len(room_graph):
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
-
-
 
 #######
 # UNCOMMENT TO WALK AROUND
