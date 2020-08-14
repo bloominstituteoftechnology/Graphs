@@ -42,16 +42,27 @@ def traversal(graph, starting_vertex):
     visited[starting_vertex] = player.current_room.get_exits()
 
     while len(visited.keys()) != len(graph):
+        # If room is new:
+        # record all exits
+        # remove exit we entered from
         if player.current_room.id not in visited:
             visited[player.current_room.id] = player.current_room.get_exits()
             reverse = retrace[-1]
             visited[player.current_room.id].remove(reverse)
 
+        # If room is not new and has no unexplored exits:
+        # record path out of room (most recent entry)
+        # Exit room from most recent entry
         elif len(visited[player.current_room.id]) == 0:
             reverse = retrace.pop()
             path.append(reverse)
             player.travel(reverse)
 
+        # If room is not new and has unexplored exits:
+        # randomly select an unexplored exit
+        # remove exit from future choices
+        # record exit in forward path and inverse of exit in reverse path
+        # move forward down selected exit
         else:
             direction = choice(visited[player.current_room.id])
             visited[player.current_room.id].remove(direction)
