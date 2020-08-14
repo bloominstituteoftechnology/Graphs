@@ -38,6 +38,7 @@ player = Player(world.starting_room)
 traversal_path = []
 
 ### PROPERTIES ###
+backtrack = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 
 ### METHODS ###
 
