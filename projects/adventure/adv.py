@@ -1,6 +1,7 @@
 from Graphs.projects.adventure.player import Player
 from Graphs.projects.adventure.world import World
 
+from random import choice
 from ast import literal_eval
 
 # Load world
@@ -46,13 +47,14 @@ def traversal(graph, starting_vertex):
             reverse = retrace[-1]
             visited[player.current_room.id].remove(reverse)
 
-        if len(visited[player.current_room.id]) == 0:
+        elif len(visited[player.current_room.id]) == 0:
             reverse = retrace.pop()
             path.append(reverse)
             player.travel(reverse)
 
         else:
-            direction = visited[player.current_room.id].pop()
+            direction = choice(visited[player.current_room.id])
+            visited[player.current_room.id].remove(direction)
             path.append(direction)
             retrace.append(retrace_map[direction])
             player.travel(direction)
