@@ -1,3 +1,5 @@
+### IMPORT ###
+
 import sys
 sys.path.insert(1, '/Users/ShawnJames/Developer/Github/Graphs/projects/graph') #change location to wherever graph file is located locally
 from util import Stack, Queue
@@ -9,6 +11,8 @@ from world import World
 import random
 import collections
 from ast import literal_eval
+
+### SETUP ###
 
 # Load world
 world = World()
@@ -32,6 +36,12 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+
+### PROPERTIES ###
+
+### METHODS ###
+
+### TESTING ###
 
 # TRAVERSAL TEST
 visited_rooms = set()
