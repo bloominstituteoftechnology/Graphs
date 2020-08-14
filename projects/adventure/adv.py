@@ -43,7 +43,7 @@ current_room = player.current_room.id
 neighbors = player.current_room.get_exits()
 
 # First add players current room to visited, directions will be the exits (‘neighbors’)
-visit[current_room] = neighbors
+visit[player.current_room.id] = player.current_room.get_exits()
 
 # REPL — while visit is still less than the graph of rooms -1, we’ll do all the steps
 #when len of visit is the length of graph, it will end the loop
@@ -51,10 +51,10 @@ while len(visit) < len(room_graph) -1:
     # Step one, check if that current room is in visit
     # If not, 
     print(f'visit list: {visit}')
-    if current_room not in visit:
+    if player.current_room.id not in visit:
         print('not visited')
         # add to visit
-        visit[current_room] = neighbors
+        visit[player.current_room.id] = player.current_room.get_exits()
         # Create a variable for the last room/direction in the path
         last = go_back_if_needed[-1]
         # Remove the last direction from visited — this will remove direction from visited
@@ -63,19 +63,20 @@ while len(visit) < len(room_graph) -1:
 
     #Step 1/2 -- for when list is empty and need to revert back into the room you just visited
     # means we've been in that room before, now we're moving backwards until we reach a room that hasn't been visited
-    # while len(visit[current_room]) < 1:
-    #     #create a variable to remove last item from path so we can go that way
-    #     go_back = go_back_if_needed[-1]
-    #     #add direction into the traversal path
-    #     traversal_path.append(go_back)
-    #     #make the reverted move
-    #     player.travel(go_back)
+    while len(visit[player.current_room.id]) < 1:
+        #create a variable to remove last item from path so we can go that way
+        last = go_back_if_needed.pop()
+        #add direction into the traversal path
+        traversal_path.append(last)
+        #make the reverted move
+        player.travel(last)
 
 
     #Step two (after each move we need to mark it):
     #Create a variable for the first direction in current room--the move we just made
     move_made = visit[current_room].pop(0)
     print(f'move: {move_made}')
+    print(f'visited after popping: {visit}')
     #Add that variable to traversal path to track where we've gone
     traversal_path.append(move_made)
     print(f'traversal path: {traversal_path}')
@@ -84,6 +85,7 @@ while len(visit) < len(room_graph) -1:
     print(f'revert path: {go_back_if_needed}')
     #let player move through directions
     player.travel(move_made)
+
 
 
 
