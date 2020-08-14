@@ -1,8 +1,6 @@
-from room import Room
-from player import Player
-from world import World
+from Graphs.projects.adventure.player import Player
+from Graphs.projects.adventure.world import World
 
-import random
 from ast import literal_eval
 
 # Load world
@@ -28,10 +26,7 @@ player = Player(world.starting_room)
 for x in room_graph:
     room_graph[x].append(0)
 
-print(room_graph)
-
 # Fill this out with directions to walk
-# traversal_path = ['n', 'n']
 
 
 def traversal(graph, starting_vertex):
@@ -77,7 +72,8 @@ for move in traversal_path:
     visited_rooms.add(player.current_room)
 
 if len(visited_rooms) == len(room_graph):
-    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
+    print(f"TESTS PASSED: {len(traversal_path)} moves, "
+          f"{len(visited_rooms)} rooms visited")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
