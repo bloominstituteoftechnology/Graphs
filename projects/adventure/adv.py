@@ -32,7 +32,7 @@ traversal_path = []
 total_num_rooms = len(room_graph)
 
 #Left hand on wall rule
-lhow = {'n':'w', 'w':'s', 's':'e', 'e':'n'}
+lhow = {'n':'e', 'w':'n', 's':'w', 'e':'s'}
 
 # Opposing directions for future functions.
 opposing_direction = {'n':'s', 'w':'e', 's':'n', 'e':'w'}
