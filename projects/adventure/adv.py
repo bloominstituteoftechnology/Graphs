@@ -8,6 +8,7 @@ from ast import literal_eval
 import sys
 sys.path.append(r"C:\Users\Samuel\repos\Graphs\projects\graph")
 
+from graph import Graph
 from util import Stack
 import operator
 
@@ -102,6 +103,8 @@ adjacency_dict = {}
 # Refactoring the above code to be recursive:)
 
 def traverse_map(current_room, traversal_path, adjacency_dict, limit):
+    visited = []
+
     if len(visited_rooms) == len(room_graph):
         return
 
@@ -115,38 +118,43 @@ def traverse_map(current_room, traversal_path, adjacency_dict, limit):
     for attr in attributes:
         print(operator.attrgetter(f"current_room.{attr}")(player))
         if operator.attrgetter(f"current_room.{attr}")(player):
-            adjacency_dict[player.current_room.id][attr[0]] = operator.attrgetter(f"current_room.{attr}.id")(player)
+            adjacency_dict[current_room.id][attr[0]] = operator.attrgetter(f"{attr}.id")(current_room)
         else:
-            adjacency_dict[player.current_room.id][attr[0]] = operator.attrgetter(f"current_room.{attr}")(player)
+            adjacency_dict[current_room.id][attr[0]] = operator.attrgetter(f"{attr}")(current_room)
 
-    current_adj = adjacency_dict
+    print(adjacency_dict)
 
-    current_room = player.current_room
+    # current_adj = adjacency_dict
 
-    if player.current_room.n_to:
-        current_room = current_room.n_to
-        traversal_path.append('n')
+    # if operator.attrgetter() and current_room.n_to.id not in visited:
+    #     current_room = current_room.n_to
+    #     traversal_path.append('n')
 
-    if player.current_room.s_to and player.current_room.n_to is None:
-        current_room = current_room.s_to
-        traversal_path.append('s')
+    # # if current_room.s_to and current_room.n_to is None or current_room.n_to.id in visited:
+    # #     current_room = current_room.s_to
+    # #     traversal_path.append('s')
     
-    if player.current_room.e_to and player.current_room.n_to is None and player.current_room.s_to is None:
-        current_room = current_room.e_to
-        traversal_path.append('e')
+    # # if current_room.e_to and current_room.n_to is None and current_room.s_to is None:
+    # #     current_room = current_room.e_to
+    # #     traversal_path.append('e')
 
-    if player.current_room.w_to and player.current_room.n_to is None and player.current_room.s_to is None and player.current_room.e_to is None:
-        current_room = current_room.e_to
-        traversal_path.append('w')
+    # # if current_room.w_to and current_room.n_to is None and current_room.s_to is None and current_room.e_to is None:
+    # #     current_room = current_room.e_to
+    # #     traversal_path.append('w')
 
-    current_path = traversal_path
-    print(current_path)
-    print(player.current_room.n_to)
+    # visited.append(current_room.id)
+    # print(visited)
+
+    # current_path = traversal_path
+    # print(current_path)
+    # # print(current_room.n_to.id)
+
     
-    traverse_map(current_room, current_path, current_adj, limit - 1)
+    # traverse_map(current_room, current_path, current_adj, limit - 1)
 
 traverse_map(player.current_room, traversal_path, adjacency_dict, 14)    
 
+breakpoint()
 
 for move in traversal_path:
     player.travel(move)
