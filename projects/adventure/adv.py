@@ -73,9 +73,8 @@ def breadth_f_t(graph, starting_room):
                 if graph[current_room][room] == "?":
                     return path
             # get the directions you can travel and queue it up to explore back
-            for room_exit in graph[current_room]:
-                path_to_unexplored.append(room_exit)
-                next_room = graph[current_room][room_exit]
+                path_to_unexplored.append(room)
+                next_room = graph[current_room][room]
 
                 # use a copy of paths so we can explore alt routes
                 path_copy = path.copy()
@@ -95,6 +94,7 @@ while len(visited) < len(room_graph):
         for direction in player.current_room.get_exits():
             # initialize
             visited[current_room][direction] = "?"
+            
     for path in visited[current_room]:
         if path not in visited[current_room]:
             break
@@ -103,23 +103,24 @@ while len(visited) < len(room_graph):
             if exit_path is not None:
                 traversal_path.append(exit_path)
                 player.travel(exit_path)
-                new_roomID = player.current_room.id
-                if new_roomID not in visited:
-                    visited[new_roomID] = {}
+                next_room = player.current_room.id
+                if next_room not in visited:
+                    visited[next_room] = {}
                     for direction in player.current_room.get_exits():
                         visited[player.current_room.id][direction] = "?"
-            visited[current_room][exit_path] = new_roomID
+            visited[current_room][exit_path] = next_room
             # set the reverse path as known
-            visited[new_roomID][reverse_direction[exit_path]] = current_room
-            current_room = new_roomID
+            visited[next_room][reverse_direction[exit_path]] = current_room
+            current_room = next_room
+
     # Now that we explored all ?s
     paths = breadth_f_t(visited, current_room)
     if paths is not None:
-        for room_number in paths:
-            for room in visited[current_room]:
-                if visited[current_room][room] == room_number:
-                    traversal_path.append(room)
-                    player.travel(room)
+        for room_id in paths:
+            for direction in visited[current_room]:
+                if visited[current_room][direction] == room_id:
+                    traversal_path.append(direction)
+                    player.travel(direction)
     current_room = player.current_room.id
 
 # TRAVERSAL TEST
