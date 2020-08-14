@@ -19,7 +19,7 @@ def earliest_ancestor(ancestors, starting_node):
 
             if current_path[-1] < longest_path[-1]:
                 longest_path = current_path
-        # print(current_path[-1],current_path, 'hello im the cur path')
+        print(current_path[-1],current_path, 'hello im the cur path')
         vertex = current_path[-1]
 
         if vertex not in visited_nodes:
