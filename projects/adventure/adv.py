@@ -13,7 +13,7 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
+# map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
@@ -30,54 +30,29 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = []
+# traversal_path is the list of results/moves to go through the rooms
+# Reverse directions so that each room can be the equivalent the opposites direction room move
+# path is a list to keep track of where to go when we need to reverse our steps
+# visit dictionary to have rooms as key and directions as value
 
-#will need to functions: DFT and BFS
+# First add players current room to visited, directions will be the exits (‘neighbors’)
 
-#DFT(starting_room) --cahnged to player so could get methods off of player
-def dft(player):
-    #create a stack
-    stack = Stack()
-    #add starting room to stack to be searched
-    stack.push(player.current_room)
-    #create visit as a set
-    visit = set()
-    #REPL
-    #while stack is not empty:
-    while len(stack) > 0:
-        #remove that room
-        room = stack.pop()
-        #check if it's been visited. If not:
-        if room not in visit:
-            #add room to visit
-            visit.add(room)
-            #for all neighrboring rooms in get exits:
-            for neighboring_room in player.current_room.get_exits():
-                #add room to stack
-                stack.push(neighboring_room)
-                #need to choose random direction??
-        #otherwise:
-        else:
-            #go through rooms using BFS
-            # BFS(stack, )
-        
-#BFs(starting room):
-def BFS(starting_room, ):
-    #create empty queue
-    #add starting room to the path in the queue
-    #create visited set
-    #while queue is not empty:
-        #create variable for removing from queue
-        #create variable for last room in path
-        #if that room has not been visited:
-            #mark as visited
-            #for neighboring rooms in get exit:
-                #make a copy of the path
-                #add neighbor to end of path
-                #enqueue path copy
+# REPL — while visit is still less than the graph of rooms -1, we’ll do all the steps
+#when len of visit is the length of graph, it will end the loop
+
+    # Step one, check if that current room’s id is in visit
+    # If not, 
+        # add to visit
+        # Create a variable for the last room/direction in the path
+        # Remove the last direction from visited — this will remove direction from visited
+        # because we know that direction leads to the room we were just in
 
 
-
+#Step two (after each move we need to mark it):
+    #Create a variable for the first direction in current room--the move we just made
+    #Add that variable to traversal path to track where we've gone
+    #add the rooms opposite direction to path (next room to go to) -- so that we can go back if needed
+    #let player move through directions
 
 
 
