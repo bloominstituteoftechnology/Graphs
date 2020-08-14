@@ -61,14 +61,14 @@ while len(visit) < len(room_graph) -1:
 
 
 #Step two (after each move we need to mark it):
-    #Create a variable for the first direction in current room--the move we just made
-    move_made = visit[current_room].pop(0)
-    #Add that variable to traversal path to track where we've gone
-    traversal_path.append(move_made)
-    #add the rooms opposite direction to path (next room to go to) -- so that we can go back if needed
-    go_back_if_needed.append(rev_directions[move_made])
-    #let player move through directions
-    player.travel(move_made)
+#Create a variable for the first direction in current room--the move we just made
+move_made = visit[current_room].pop(0)
+#Add that variable to traversal path to track where we've gone
+traversal_path.append(move_made)
+#add the rooms opposite direction to path (next room to go to) -- so that we can go back if needed
+go_back_if_needed.append(rev_directions[move_made])
+#let player move through directions
+player.travel(move_made)
 
 
 
