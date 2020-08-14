@@ -34,6 +34,7 @@ class Graph:
 
                 for next_vertex in self.get_neighbors(v):
                     queue.enqueue(next_vertex)
+        return visited
 
     def dft(self, starting_vertex):
         stack = Stack()
@@ -48,6 +49,9 @@ class Graph:
 
                 for next_vertex in self.get_neighbors(v):
                     stack.push(next_vertex)
+        
+        # last = visited.pop()
+        # return last
 
     def dft_recursive(self, starting_vertex, visited = None):
 
@@ -59,6 +63,8 @@ class Graph:
         for neighbors in self.get_neighbors(starting_vertex):
             if neighbors not in visited:
                 self.dft_recursive(neighbors, visited)
+
+        return visited
 
         # if visited is None:
         #     visited = set()
@@ -212,7 +218,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT paths:
@@ -221,8 +227,8 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft(1)
-    graph.dft_recursive(1)
+    print(graph.dft(1))
+    print(graph.dft_recursive(1))
 
     '''
     Valid BFS path:
