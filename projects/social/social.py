@@ -28,11 +28,14 @@ class SocialGraph:
         """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+        return True
 
     def add_user(self, name):
         """
@@ -77,6 +80,36 @@ class SocialGraph:
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
 
+    def populate_graph2(self, num_users, avg_friendships):
+        """ 
+        better performance,
+        choose out of all friendships instead of shuffling for random friendships
+        """
+        # Reset graph
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+
+        # Add users
+        for i in range(num_users):
+            self.add_user(f"User {i+1}")
+
+        # Create friendships
+        target_friendships = num_users * avg_friendships
+        total_friendships = 0
+        collisions = 0
+
+        while total_friendships < target_friendships:
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1, self.last_id)
+
+            if self.add_friendship(user_id, friend_id): # make sure friend can't be self
+                total_friendships += 2
+            else:
+                collisions += 1
+        print(f"Collisions: {collisions}")
+
+
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -89,8 +122,10 @@ class SocialGraph:
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
         # BFS for shortest path
-        # First get all from extended network
+        # First get all from extended network Traversal
         # will need to do a BFS for every extended network
+
+        # Traversal 
         q = Queue()
 
         q.enqueue([user_id])
@@ -113,7 +148,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 3)
+    sg.populate_graph2(10, 3)
     print(sg.friendships)
     connections = sg.get_all_social_paths(2)
     print(connections)
