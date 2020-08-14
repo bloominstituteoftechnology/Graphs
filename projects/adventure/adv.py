@@ -5,18 +5,7 @@ from world import World
 import random
 from ast import literal_eval
 
-class Stack():
-    def __init__(self):
-        self.stack = []
-    def push(self, value):
-        self.stack.append(value)
-    def pop(self):
-        if self.size() > 0:
-            return self.stack.pop()
-        else:
-            return None
-    def size(self):
-        return len(self.stack)
+from util import Stack, Queue
 
 
 # Load world
@@ -43,28 +32,34 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-#create stack of Stack
-stack = Stack()
-#create visit dictionary
-visit = {}
-#create reverse directions so opposite room can equal eachother
-rev_direction = {"n": "s", "e": "w", "s": "n", "w": "e"}
+#will need to functions: DFT and BFS
 
-#add current room to visit, value will be get exits()
-visit[player.current_room.id] = player.current_room.get_exists()
-
-#REPL
-#while length of visited is less than len of graph
-while len(visit) < 499:
-    #create path for dequeue
-    path = stack.pop()
-    #create variable for paths last index
-    last_vert = path[-1]
-
-    #if not in visited
-        #add to visited
-        #choose random room to go into
-
+#DFT(starting_room)
+    #create a stack
+    #add starting room to stack to be searched
+    #create visit as a set
+    #REPL
+    #while stack is not empty:
+        #remove that room
+        #check if it's been visited. If not:
+            #add room to visit
+            #for all neighrboring rooms in get exits:
+                #add room to stack
+                #need to choose random direction??
+        
+#BFs(starting room):
+    #create empty queue
+    #add starting room to the path in the queue
+    #create visited set
+    #while queue is not empty:
+        #create variable for removing from queue
+        #create variable for last room in path
+        #if that room has not been visited:
+            #mark as visited
+            #for neighboring rooms in get exit:
+                #make a copy of the path
+                #add neighbor to end of path
+                #enqueue path copy
 
 
 
