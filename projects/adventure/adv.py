@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(1, '/Users/ShawnJames/Developer/Github/Graphs/projects/graph') #change location to wherever graph file is located locally
+from util import Stack, Queue
+
 from room import Room
 from player import Player
 from world import World
