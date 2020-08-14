@@ -110,7 +110,7 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        # Create an empty queue
+        # Create an empty stack
         s = Stack()
 
         # Add starting vertex ID
@@ -119,7 +119,7 @@ class Graph:
         # Create set for visited verts
         visited = set()
 
-        # While queue is not empty
+        # While stack is not empty
         while s.size() > 0:
 
             # Dequeue a vert
@@ -134,7 +134,7 @@ class Graph:
                 # Mark as visited
                 visited.add(v)
 
-                # Add all neighbors to the queue
+                # Add all neighbors to the stack
                 for neighbor in self.get_neighbors(v):
                     s.push(neighbor)
 
