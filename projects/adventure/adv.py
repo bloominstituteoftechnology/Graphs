@@ -38,9 +38,6 @@ rev_directions = {"n": "s", "e": "w", "s": "n", "w": "e"}
 go_back_if_needed = []
 # visit dictionary to have rooms as key and directions as value
 visit = {}
-#DRYing code, aka shortening my player commands
-currentID = player.current_room.id
-neighbors = player.current_room.get_exits()
 
 # First add players current room to visited, directions will be the exits (‘neighbors’)
 visit[player.current_room.id] = player.current_room.get_exits()
