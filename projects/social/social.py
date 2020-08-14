@@ -19,21 +19,23 @@ class User:
 
 class SocialGraph:
     def __init__(self):
-        self.last_id = 0
-        self.users = {}
-        self.friendships = {}
+        self.reset()
 
     def add_friendship(self, user_id, friend_id):
         """
         Creates a bi-directional friendship
         """
         if user_id == friend_id:
-            print("WARNING: You cannot be friends with yourself")
+            return False
+            # print("WARNING: You cannot be friends with yourself")
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
-            print("WARNING: Friendship already exists")
+            # print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+
+        return True
 
     def add_user(self, name):
         """
@@ -43,7 +45,40 @@ class SocialGraph:
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
 
-    def populate_graph(self, num_users, avg_friendships):
+    def reset(self):
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+
+    def populate_graph_2(self, num_users, avg_friendships): # THIS METHOD WORKS WELL WITH LOW AVG FRIENSHIPS BUT HIGH USERS.
+         # if you have high avg. users there are increased collisions and this algo doesn't work as well.
+         # this algo is essentially O(n) with LOW avg. users.
+
+        self.reset()
+
+        # create users
+        for user in range(num_users):
+            self.add_user(user)
+        
+        # total frienships needed.
+        friendships_needed = num_users * avg_friendships
+
+        total_friendships = 0
+        collisions = 0
+
+        while total_friendships < friendships_needed:
+            user = random.randint(1, self.last_id)
+            friend = random.randint(1, self.last_id)
+           
+            if self.add_friendship(user, friend):
+               total_friendships += 2
+            else:
+                collisions += 1
+
+        print(collisions)
+        
+
+    def populate_graph(self, num_users, avg_friendships):  # O(n^2)
         """
         Takes a number of users and an average number of friendships
         as arguments
@@ -54,10 +89,7 @@ class SocialGraph:
         The number of users must be greater than the average number of friendships.
         """
         # Reset graph
-        self.last_id = 0
-        self.users = {}
-        self.friendships = {}
-        # !!!! IMPLEMENT ME
+        self.reset()
 
         # create users
         for user in range(num_users):
@@ -148,14 +180,15 @@ class SocialGraph:
             # get the shortest path (bfs) between each of those users and the user we're evaluating
             path = self.bfs(user_id, user)
             # if there is a path, populate dictionary with user id as key and path as value
-            if path is not None:
+            if path is not None and user_id != user:
                 visited[user] = path
 
         return visited
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph_2(10, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
+
