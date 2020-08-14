@@ -11,6 +11,7 @@ sys.path.append(r"C:\Users\Samuel\repos\Graphs\projects\graph")
 # `from graph import Graph`
 from util import Queue, Stack
 import operator
+import time
 
 # Load world
 world = World()
@@ -75,18 +76,26 @@ adjacency_dict = {}
 #     print(direction, adjacency_dict[player.current_room.id][direction])
 
 
-def traverse_map(current_room):
-    adjacency_dict[current_room.id] = {}
-    for direction in current_room.get_exits():
-        attr = direction + "_to"
-        if hasattr(current_room, attr):
-            adjacency_dict[current_room.id][direction] = operator.attrgetter(f"{attr}.id")(current_room)
-        else:
-            adjacency_dict[current_room.id][direction] = operator.attrgetter(f"{attr}")(current_room) 
+def traverse_map(current_room, adjacency_dict):
+    visited = []
+    s = Stack()
+    s.push(current_room)
+    start = time.time()
+    while s.size() > 0:
+        if time.time() - start > 1:
+            return
+        room = s.pop()
+        adjacency_dict[room.id] = {}
+        for direction in room.get_exits():
+            attr = direction + "_to"
+            if hasattr(room, attr):
+                adjacency_dict[room.id][direction] = operator.attrgetter(f"{attr}.id")(room)
+            else:
+                adjacency_dict[room.id][direction] = operator.attrgetter(f"{attr}")(room) 
             
     return adjacency_dict
 
-print(traverse_map(player.current_room))
+print(traverse_map(player.current_room, adjacency_dict))
 
 breakpoint()
 
