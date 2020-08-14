@@ -31,6 +31,8 @@ Try moving south and you will find yourself in room `5` which contains exits `['
 
 You know you are done when you have exactly 500 entries (0-499) in your graph and no `'?'` in the adjacency dictionaries. To do this, you will need to write a traversal algorithm that logs the path into `traversal_path` as it walks.
 
+Your solution **must** generate the solution by using graph traversal algorithms. Hardcoding a solution is not acceptable.
+
 ## Hints
 
 There are a few smaller graphs in the file which you can test your traversal method on before committing to the large graph. You may find these easier to debug.
