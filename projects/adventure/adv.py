@@ -56,6 +56,10 @@ def dft(player):
                 #add room to stack
                 stack.push(neighboring_room)
                 #need to choose random direction??
+        #otherwise:
+        else:
+            #go through rooms using BFS
+            # BFS(stack, )
         
 #BFs(starting room):
 def BFS(starting_room, ):
