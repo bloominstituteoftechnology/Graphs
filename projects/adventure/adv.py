@@ -63,13 +63,13 @@ while len(visit) < len(room_graph) -1:
 
     #Step 1/2 -- for when list is empty and need to revert back into the room you just visited
     # means we've been in that room before, now we're moving backwards until we reach a room that hasn't been visited
-    while len(visit[current_room]) < 1:
-        #create a variable to remove last item from path so we can go that way
-        go_back = go_back_if_needed[-1]
-        #add direction into the traversal path
-        traversal_path.append(go_back)
-        #make the reverted move
-        player.travel(go_back)
+    # while len(visit[current_room]) < 1:
+    #     #create a variable to remove last item from path so we can go that way
+    #     go_back = go_back_if_needed[-1]
+    #     #add direction into the traversal path
+    #     traversal_path.append(go_back)
+    #     #make the reverted move
+    #     player.travel(go_back)
 
 
     #Step two (after each move we need to mark it):
