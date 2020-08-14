@@ -7,6 +7,7 @@ from player import Player
 from world import World
 
 import random
+import collections
 from ast import literal_eval
 
 # Load world
