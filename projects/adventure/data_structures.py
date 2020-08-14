@@ -16,6 +16,8 @@ class Queue():
             return None
     def size(self):
         return len(self.queue)
+    def __repr__(self):
+        return f"Queue (FIFO): {self.queue}"
 
 class Stack():
     """
@@ -32,3 +34,5 @@ class Stack():
             return None
     def size(self):
         return len(self.stack)
+    def __repr__(self):
+        return f"Stack (LIFO): {self.stack}"

@@ -17,16 +17,30 @@ class Map:
         # Initiate as empty adjacency list:
         self.rooms = {}
     
-    def add_room(self, room):
+    def add_room(self, room_id, neighbors:set = None):
         """
         Add room to our map.
         """
         # Check to make sure the provided room isn't already in the map:
-        if room not in self.rooms:
+        if room_id not in self.rooms:
             # Add it:
-            self.rooms[room] = {key:NaN for key in directions}
+            if neighbors is None:
+                self.rooms[room_id] = {key:NaN for key in directions}
+            else:
+                self.rooms[room_id] = neighbors
         else:
-            raise IndexError(f"Room {room} is already in the map!")
+            raise IndexError(f"Room {room_id} is already in the map!")
+
+    def add_neighbors(self, room_id, neighbors):
+        """
+        Add all of the room's neighbors to that room's set in the adjacency list 
+        (but do not add the other rooms as vertices yet).
+        """
+        # Make sure the room is in the map before trying to add its neighbors:
+        if room_id in self.rooms:
+            self.rooms[room_id] = neighbors
+        else:
+            raise IndexError(f"Room {room_id} does not exist in the map!")
 
     def add_edge(self, room_a, direction:str, room_b):
         """
@@ -44,6 +58,9 @@ class Map:
         Get all neighboring rooms (with connecting edges) of the given room on the map.
         """
         return self.rooms[room]
+    
+    def __repr__(self):
+        return f"Map (graph) of rooms: {self.rooms}"
 
     # def bft(self, starting_room_id):
     #     """
@@ -251,9 +268,9 @@ if __name__ == '__main__':
     # print(map.dfs_recursive(1, 6))
 
     map = Map()  # Instantiate your map
-    map.add_room(room=0)
-    map.add_room(room=1)
-    map.add_room(room=2)
+    map.add_room(room_id=0)
+    map.add_room(room_id=1)
+    map.add_room(room_id=2)
     map.add_edge(room_a=0, direction="n", room_b=1)
     map.add_edge(room_a=1, direction="n", room_b=2)
     
