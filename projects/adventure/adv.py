@@ -75,54 +75,6 @@ adjacency_dict = {}
 # for direction in adjacency_dict[player.current_room.id]:
 #     print(direction, adjacency_dict[player.current_room.id][direction])
 
-player.current_room = player.current_room.e_to
-
-def traverse_map(current_room, adjacency_dict):
-    # Keeping track of which rooms have already been visited
-    visited = []
-
-    # DFS calls for a stack
-    s = Stack()
-    s.push(current_room)
-
-    # Ensures that I don't have to restart Anaconda Prompt everytime something breaks
-    start = time.time()
-
-    while s.size() > 0:
-        if time.time() - start > 0.25:
-            return traversal_path
-        room = s.pop()
-        adjacency_dict[room.id] = {}
-        for direction in room.get_exits():
-            attr = direction + "_to"
-            adjacency_dict[room.id][direction] = operator.attrgetter(f"{attr}.id")(room)
-            adjacency_dict[room.id][direction] = operator.attrgetter(f"{attr}")(room) 
-
-        if room.n_to and room.n_to not in visited:
-            traversal_path.append("n")
-            room = room.n_to
-
-        if room.s_to and room.s_to not in visited or room.n_to in visited:
-            traversal_path.append("s")
-            room = room.s_to
-
-        s.push(room)
-
-    return traversal_path
-
-print(traverse_map(player.current_room, adjacency_dict))
-
-
-for move in traversal_path:
-    player.travel(move)
-    visited_rooms.add(player.current_room)
-
-if len(visited_rooms) == len(room_graph):
-    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
-else:
-    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-    print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
-
 
 #######
 # UNCOMMENT TO WALK AROUND
