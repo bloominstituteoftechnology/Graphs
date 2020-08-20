@@ -1,6 +1,10 @@
-
-# Note: This Queue class is sub-optimal. Why?
+"""
+Implementations of FIFO queue and LIFO stack classes (objects).
+"""
 class Queue():
+    """
+    A FIFO queue.
+    """
     def __init__(self):
         self.queue = []
     def enqueue(self, value):
@@ -12,8 +16,13 @@ class Queue():
             return None
     def size(self):
         return len(self.queue)
+    def __repr__(self):
+        return f"Queue (FIFO): {self.queue}"
 
 class Stack():
+    """
+    A LIFO stack.
+    """
     def __init__(self):
         self.stack = []
     def push(self, value):
@@ -25,4 +34,5 @@ class Stack():
             return None
     def size(self):
         return len(self.stack)
-
+    def __repr__(self):
+        return f"Stack (LIFO): {self.stack}"
