@@ -3,7 +3,6 @@ Implementation of a partial map in our adventure game as a graph.
 """
 # Import libraries, packages, modules, classes/functions:
 from data_structures import Stack, Queue
-from numpy import NaN
 
 # Fixed constants:
 directions = ["n", "s", "w", "e"]
@@ -25,7 +24,7 @@ class Map:
         if room_id not in self.rooms:
             # Add it:
             if neighbors is None:
-                self.rooms[room_id] = {key:NaN for key in directions}
+                self.rooms[room_id] = {key:"?" for key in directions}
             else:
                 self.rooms[room_id] = neighbors
         else:
@@ -42,16 +41,16 @@ class Map:
         else:
             raise IndexError(f"Room {room_id} does not exist in the map!")
 
-    def add_edge(self, room_a, direction:str, room_b):
-        """
-        Add a bidirectional edge (route between adjacent rooms) to the map, from room_a to room_b.
-        """
-        # Make sure both rooms are in the map before adding the edge that connects them:
-        if room_a in self.rooms and room_b in self.rooms:
-            self.rooms[room_a][direction] = room_b
-            self.rooms[room_b][direction] = room_a  # For bidirectional edge
-        else:
-            raise IndexError("Room does not exist in the map!")
+    # def add_edge(self, room_a, direction:str, room_b):
+    #     """
+    #     Add a bidirectional edge (route between adjacent rooms) to the map, from room_a to room_b.
+    #     """
+    #     # Make sure both rooms are in the map before adding the edge that connects them:
+    #     if room_a in self.rooms and room_b in self.rooms:
+    #         self.rooms[room_a][direction] = room_b
+    #         self.rooms[room_b][direction] = room_a  # For bidirectional edge
+    #     else:
+    #         raise IndexError("Room does not exist in the map!")
 
     def get_neighbors(self, room):
         """
@@ -120,44 +119,49 @@ class Map:
     #             # Mark current room as "visited" by adding to our set of visited rooms:
     #             visited.add(current_room)
 
-    # def bfs(self, starting_room, target_room):
-    #     """
-    #     Return a list containing the shortest path from starting_room to destination_room, 
-    #     after searching for and finding it with a breadth-first search (BFS) algorithm.
-    #     """
-    #     # Initialize empty queue and set of visited nodes:
-    #     queue = Queue()
-    #     visited = set()
+    def bfs(self, starting_room, target_room):
+        """
+        Return a list containing the shortest path from starting_room to destination_room, 
+        after searching for and finding it with a breadth-first search (BFS) algorithm.
+        """
+        # Initialize empty queue and set of BFS-"visited" rooms:
+        queue = Queue()
+        visited_bfs = set()
 
-    #     # Initialize path (we will add the rest of the path from starting room to target room below):
-    #     path = [starting_room]
+        # Initialize path (we will add the rest of the path from starting room to target room below):
+        path_rooms = [starting_room]
+        path_directions = []
 
-    #     # Check if provided starting room is in our map:
-    #     if starting_room in self.rooms.keys():
-    #         # If so, add starting room to queue:
-    #         queue.enqueue(path)
-    #     else:
-    #         return IndexError(f"Provided starting room {starting_room} does not exist in map!")
+        # Check if provided starting room is in our map:
+        if starting_room in self.rooms.keys():
+            # If so, add starting room to queue:
+            queue.enqueue((path_rooms, path_directions))
+        else:
+            return IndexError(f"Provided starting room {starting_room} does not exist in map!")
 
-    #     # Process all rooms via BFT:
-    #     while queue.size() > 0:
-    #         # Get next room to process as first item in queue:
-    #         current_path = queue.dequeue()
-    #         current_room = current_path[-1]
-    #         # If the current room has not already been visited+processed, check and process it:
-    #         if current_room not in visited:
-    #             # Check if it is the target --> if so, return its full path:
-    #             if current_room == target_room:
-    #                 return current_path
-    #             # If not, then get its neighbor rooms and add their paths to the queue for future processing:
-    #             for adjacent_room in self.get_neighbors(current_room):
-    #                 adjacent_room_path = current_path + [adjacent_room]
-    #                 queue.enqueue(adjacent_room_path)
-    #             # Mark current room as "visited" by adding to our set of visited rooms:
-    #             visited.add(current_room)
+        # Search all rooms via BFS, logging their paths (from starting_room --> room) as we go:
+        while queue.size() > 0:
+            # Get next room to process as first item in queue:
+            current_path_rooms, current_path_directions = queue.dequeue()
+            current_room = current_path_rooms[-1]
+            
+            # Check if it is the target --> if so, return its full path:
+            if current_room == target_room:
+                return current_path_directions  # Alternative: return (current_path_rooms, current_path_directions)
+            
+            # If the current room has not already been visited+processed, check and process it:
+            if current_room not in visited_bfs and current_room in self.rooms:
+                # If not, then get its neighbor rooms and add their paths to the queue for future processing:s
+                neighbors = self.get_neighbors(current_room)
+                for adjacent_room_direction in neighbors:
+                    adjacent_room_path_rooms = current_path_rooms + [neighbors[adjacent_room_direction]]
+                    adjacent_room_path_directions = current_path_directions + [adjacent_room_direction]
+                    queue.enqueue((adjacent_room_path_rooms, adjacent_room_path_directions))
+                # Mark current room as "visited" by adding to our set of visited rooms:
+                visited_bfs.add(current_room)
         
-    #     # If no path found in entire map, return None:
-    #     return None
+        # If no path found in entire map, return None:
+        return None
 
     # def dfs(self, starting_room, target_room):
     #     """
@@ -199,7 +203,7 @@ class Map:
     #     return None
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # map = Map()  # Instantiate your map
     # # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     # map.add_room(1)
@@ -267,12 +271,12 @@ if __name__ == '__main__':
     # print(map.dfs(1, 6))
     # print(map.dfs_recursive(1, 6))
 
-    map = Map()  # Instantiate your map
-    map.add_room(room_id=0)
-    map.add_room(room_id=1)
-    map.add_room(room_id=2)
-    map.add_edge(room_a=0, direction="n", room_b=1)
-    map.add_edge(room_a=1, direction="n", room_b=2)
+    # map = Map()  # Instantiate your map
+    # map.add_room(room_id=0)
+    # map.add_room(room_id=1)
+    # map.add_room(room_id=2)
+    # map.add_edge(room_a=0, direction="n", room_b=1)
+    # map.add_edge(room_a=1, direction="n", room_b=2)
     
     # map.add_room('1')
     # map.add_room('2')
@@ -281,5 +285,5 @@ if __name__ == '__main__':
     # map.add_edge('1', '0')
     # map.add_edge('0', '3')
     # map.add_edge('3', '0')
-    print(map.rooms)
+    # print(map.rooms)
     # map.add_edge('0', '4')  # Should throw IndexError.
