@@ -13,33 +13,70 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # pass  # TODO
+        
+        self.vertices[vertex_id] = set() #for holding edges
+        
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # pass  # TODO
+        
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("nonexistent vertex")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # pass  # TODO
+        
+        return self.vertices[vertex_id]
+    
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # pass  # TODO
+        
+        queue = Queue()
+        visited = set()
+
+        queue.enqueue(starting_vertex) #prime stack with starting value
+
+        while queue.size() > 0:
+            vertex = queue.dequeue()
+            if vertex not in visited:
+                visited.add(vertex)
+                print(vertex)
+                for neighbors in self.get_neighbors(vertex):
+                    queue.enqueue(neighbors)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # pass  # TODO
+        
+        stack = Stack()
+        visited = set()
+
+        stack.push(starting_vertex) #prime stack with starting value
+
+        while stack.size() > 0:
+            vertex = stack.pop()
+            if vertex not in visited:
+                visited.add(vertex)
+                print(vertex)
+                for neighbors in self.get_neighbors(vertex):
+                    stack.push(neighbors)
 
     def dft_recursive(self, starting_vertex):
         """
