@@ -159,7 +159,31 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Create a stack
+        s = Stack()
+        # push a PATH to the starting vertex
+        s.push([starting_vertex])
+        # create a set to store visited vertices
+        visited = set()
+        # while the stack is not empty
+        while s.size() > 0:
+            # pop and set it to current
+            curr = s.pop()
+            # Grab last vertex from the PATH
+            vertex = curr[-1]
+            # If that vertex has not been visited
+            if vertex not in visited:
+                # Check if it is the target
+                if vertex == destination_vertex:
+                    # Return PATH
+                    return curr
+                # Mark as visited and add to stack
+                visited.add(vertex)
+                for neighbor in self.get_neighbors(vertex):
+                    path = curr.copy()
+                    path.append(neighbor)
+                    s.push(path)
+        #pass  # TODO
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
