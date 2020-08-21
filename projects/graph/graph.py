@@ -139,8 +139,6 @@ class Graph:
                     # Append neighbor - append returns None
                     path.append(neighbor)
                     ques.enqueue(path)
-
-
         #pass  # TODO
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -148,16 +146,6 @@ class Graph:
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
-        """
-        pass  # TODO
-
-    def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-
-        This should be done using recursion.
         """
         # Create a stack
         s = Stack()
@@ -183,6 +171,17 @@ class Graph:
                     path = curr.copy()
                     path.append(neighbor)
                     s.push(path)
+        #pass  # TODO
+
+    def dfs_recursive(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing a path from
+        starting_vertex to destination_vertex in
+        depth-first order.
+
+        This should be done using recursion.
+        """
+        
         #pass  # TODO
 
 if __name__ == '__main__':
