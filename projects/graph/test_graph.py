@@ -2,7 +2,6 @@ import unittest
 import sys
 import io
 from graph import Graph
-git status
 
 class Test(unittest.TestCase):
     def setUp(self):
