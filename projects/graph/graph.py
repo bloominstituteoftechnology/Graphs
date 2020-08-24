@@ -64,6 +64,32 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        """
+        Print each vertex in breadth-first order
+        beginning from starting_vertex.
+        """
+        # create a empty queue and enqueue the stating vertex
+        stack = Stack()
+        stack.push(starting_vertex)
+        # create a empty set to track visited vertices 
+        visited = set()
+        
+            # while the stack is not empty: 
+        while stack.size() > 0:
+
+            # get current vertex (dequeue from stack)
+            current_vertex = stack.pop()
+            # check if the current vertex has been visited
+            if current_vertex not in visited:
+                # print the current vertex
+                print(current_vertex)
+                # mark the current vertex as visited
+                # add the current vertex to a visited_set
+                visited.add(current_vertex)
+                # stack up all the current vertex's neighbors (so we can visit them next)
+                for neighbor in self.get_neighbors(current_vertex):
+                    stack.push(neighbor)
+
         pass  # TODO
 
     def dft_recursive(self, starting_vertex):
@@ -189,7 +215,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft(1)
+    graph.dft(1)
     # graph.dft_recursive(1)
 
     '''
