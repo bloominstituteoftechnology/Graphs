@@ -1,6 +1,10 @@
 
 def earliest_ancestor(ancestors, starting_node):
     #pass
+    #Translate problem into graph
+    # Build graph
+    #Traverse Graph
+    #
     # Construct a table for relationships
     # The key is a child, value is array contains parrents
     geneology = {}
@@ -18,7 +22,7 @@ def earliest_ancestor(ancestors, starting_node):
         return -1
     children = set([starting_node])
     parents = set()
-
+    #Using DFS is optimal 
     # It is true when we reach the end of the line
     furthest_gen = False
     # find the node containing the child
