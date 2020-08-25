@@ -95,10 +95,10 @@ def earliest_ancestor(ancestors, starting_node):
         neighbors = g.get_neighbors(current_node)
         # print("neighbors: ", neighbors)
 
-        # for ancestor in neighbors:
-        #     path_copy = list(path)
-        #     print("path_copy: ", path_copy)
-        #     path_copy.append(ancestor)
-        #     s.push(path_copy)
+        for ancestor in neighbors:
+            path_copy = list(path)
+            print("path_copy: ", path_copy)
+            path_copy.append(ancestor)
+            s.push(path_copy)
 
     return earliest_ancestor
