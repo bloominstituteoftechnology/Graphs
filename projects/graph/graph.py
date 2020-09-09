@@ -67,20 +67,18 @@ class Graph:
                 for next_vert in self.get_neighbors(v):
                     s.push(next_vert)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=[]):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        # if starting_vertex:
-        #     self.vertices[starting_vertex] = True
-        #     print(starting_vertex)
-        #     for next_vert in self.get_neighbors(starting_vertex):
-        #         if not self.vertices[next_vert]:
-        #             self.dft_recursive(next_vert)
-        pass
+        if starting_vertex not in visited:
+            visited.append(starting_vertex)
+            print(starting_vertex)
+            for next_vert in self.get_neighbors(starting_vertex):
+                self.dft_recursive(next_vert, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -127,7 +125,7 @@ class Graph:
                     new_path.append(next_vert)
                     s.push(new_path)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=[], path=[]):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -135,7 +133,16 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        path += [starting_vertex]
+        if starting_vertex not in visited:
+            if starting_vertex == destination_vertex:
+                return path
+            visited.append(starting_vertex)
+            for next_vert in self.get_neighbors(starting_vertex):
+                new_path = list(path)
+                new_path.append(next_vert)
+                print(new_path)
+                self.dfs_recursive(next_vert, destination_vertex, visited, new_path)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
