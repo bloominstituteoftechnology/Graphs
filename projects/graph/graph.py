@@ -1,6 +1,7 @@
 """
 Simple graph implementation
 """
+
 from util import Stack, Queue  # These may come in handy
 
 class Graph:
@@ -10,45 +11,103 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
-        """
-        Add a vertex to the graph.
-        """
-        pass  # TODO
+        self.vertices[vertex_id] = []
 
     def add_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph.
-        """
-        pass  # TODO
+        self.vertices[v1].append(v2)
 
     def get_neighbors(self, vertex_id):
-        """
-        Get all neighbors (edges) of a vertex.
-        """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
-        """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        # Create an empty que and add the starting_vertex 
+        q = Queue()
+        q.enqueue([starting_vertex])
+        # Create an empty set to track visited verticies
+        seen = set()
+        # while the que is not empty: 
+        while q.size() != 0:
+            verts = q.dequeue()
+            for vert in verts:
+                if vert not in seen:
+                    seen.add(vert)
+                    q.enqueue(self.get_neighbors(vert))
+        print(seen)
+        
+
 
     def dft(self, starting_vertex):
+        # Create an empty que and add the starting_vertex 
+        s = Stack()
+        s.push([starting_vertex])
+        # Create an empty set to track visited verticies
+        seen = set()
+        # while the que is not empty: 
+        while s.size() != 0:
+            verts = s.pop()
+            for vert in verts:
+                if vert not in seen:
+                    seen.add(vert)
+                    s.push(self.get_neighbors(vert))
+        print(seen)
         """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+    def dft_recursive(self, seen):
+        if type(seen) != set:
+            seen = self.dft_recursive(set([seen]))
+        
+        if len(seen) != len(self.vertices):
+            neighbors = set( [] )
+            for el in seen:
+                return
+            unseen = seen.difference(neighbors)
+            if (unseen):
+                seen = seen.union(unseen)
+                seen.union(self.dft_recursive(seen))
 
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
 
-        This should be done using recursion.
+        return seen
         """
-        pass  # TODO
+    def dft_recursive(self, seen):
+        if type(seen) != list:
+            seen = self.dft_recursive( [set([seen]), set()] )
+            return seen[1]
+
+        seen[1] = seen[1].union(seen[0])
+        if len(seen[0]) != len(self.vertices):
+
+            for vert in seen[1]:
+                set(self.get_neighbors(vert))
+
+            return self.dft_recursive(seen)
+        """
+        if len(seen[0]) != len(self.vertices):
+            neighbors = set( [] )
+            for el in seen:
+                return
+            unseen = seen.difference(neighbors)
+            if (unseen):
+                seen = seen.union(unseen)
+                seen.union(self.dft_recursive(seen))
+        """
+        print(seen[1])
+
+        return seen
+        """
+        for neighbor in neighbors:
+            if neighbor not in vert:
+                print(f'{neighbor} is a neighbor of {last_vert_in_set}')
+                vert.add(neighbor)
+                print(vert)
+                #return vert
+                vert =
+        """
+
+                        
+        """
+        if len(vert) == len(self.vertices): 
+            print("yes")
+            return vert
+        """
 
     def bfs(self, starting_vertex, destination_vertex):
         """
