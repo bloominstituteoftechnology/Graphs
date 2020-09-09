@@ -80,40 +80,40 @@ class Test(unittest.TestCase):
 
         sys.stdout = stdout_  # Restore stdout
 
-    def test_dft_recursive(self):
-        dft = [
-            "1\n2\n3\n5\n4\n6\n7\n",
-            "1\n2\n3\n5\n4\n7\n6\n",
-            "1\n2\n4\n7\n6\n3\n5\n",
-            "1\n2\n4\n6\n3\n5\n7\n"
-        ]
+    # def test_dft_recursive(self):
+    #     dft = [
+    #         "1\n2\n3\n5\n4\n6\n7\n",
+    #         "1\n2\n3\n5\n4\n7\n6\n",
+    #         "1\n2\n4\n7\n6\n3\n5\n",
+    #         "1\n2\n4\n6\n3\n5\n7\n"
+    #     ]
 
-        stdout_ = sys.stdout
-        sys.stdout = io.StringIO()
-        self.graph.dft_recursive(1)
-        output = sys.stdout.getvalue()
+    #     stdout_ = sys.stdout
+    #     sys.stdout = io.StringIO()
+    #     self.graph.dft_recursive(1)
+    #     output = sys.stdout.getvalue()
 
-        self.assertIn(output, dft)
+    #     self.assertIn(output, dft)
 
-        sys.stdout = stdout_  # Restore stdout
+    #     sys.stdout = stdout_  # Restore stdout
 
-    def test_bfs(self):
-        bfs = [1, 2, 4, 6]
-        self.assertListEqual(self.graph.bfs(1, 6), bfs)
+    # def test_bfs(self):
+    #     bfs = [1, 2, 4, 6]
+    #     self.assertListEqual(self.graph.bfs(1, 6), bfs)
 
-    def test_dfs(self):
-        dfs = [
-            [1, 2, 4, 6],
-            [1, 2, 4, 7, 6]
-        ]
-        self.assertIn(self.graph.dfs(1,6), dfs)
+    # def test_dfs(self):
+    #     dfs = [
+    #         [1, 2, 4, 6],
+    #         [1, 2, 4, 7, 6]
+    #     ]
+    #     self.assertIn(self.graph.dfs(1,6), dfs)
 
-    def test_dfs_recursive(self):
-        dfs = [
-            [1, 2, 4, 6],
-            [1, 2, 4, 7, 6]
-        ]
-        self.assertIn(self.graph.dfs_recursive(1,6), dfs)
+    # def test_dfs_recursive(self):
+    #     dfs = [
+    #         [1, 2, 4, 6],
+    #         [1, 2, 4, 7, 6]
+    #     ]
+    #     self.assertIn(self.graph.dfs_recursive(1,6), dfs)
 
 if __name__ == '__main__':
     unittest.main()
