@@ -26,13 +26,6 @@ class Graph:
     def get_neighbors(self, vertex_id):
         return self.vertices[vertex_id]
 
-# def get_child_ancestors(ancestors):
-#     children = []
-
-#     for child in ancestors:
-#         children.append(child[-1])
-
-#     return children
 
 def earliest_ancestor(ancestors, starting_node):
     ancestors_graph = Graph()
