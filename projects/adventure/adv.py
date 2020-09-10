@@ -52,10 +52,9 @@ def master_explorer(player: Player, dungeon: World):
     # Create a current path queue
     # Create a room counter
 
-    # Add the starting room to the world_map
-
             ## MOVE METHOD ##
-
+            
+    # Add the current room to the world_map
     # Increment the room counter
     # Connect the current room to the previous room (if not the first room)
     # Check the exits in the current room
@@ -67,8 +66,11 @@ def master_explorer(player: Player, dungeon: World):
             # -- This means the room either has one door and four walls, or some combo of identified rooms and walls
     
     # Do a BFS to find the nearest ? in the current_path
-    # Log the BFS path and add it to the traversal_path
-    # Move to the nearest ? and repeat the Move Method
+    # Log the BFS path
+    # Add the BFS path to the traversal_path
+    # Move to the nearest ? 
+    # Clear the current path
+    # Repeat the Move Method
 
         ## Repeat while the counter is less than 500
     
