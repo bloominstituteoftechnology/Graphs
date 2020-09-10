@@ -49,16 +49,29 @@ world_map = {}
 def master_explorer(player: Player, dungeon: World):
 
     # Grab the starting room from the player (player.currentRoom)
+    # Create a current path queue
+    # Create a room counter
+
     # Add the starting room to the world_map
-    # Check the exits
+
+            ## MOVE METHOD ##
+
+    # Increment the room counter
+    # Connect the current room to the previous room (if not the first room)
+    # Check the exits in the current room
+    # Enqueue the current room in the current_path queue
     # Move to a random ?
     # Log the direction in traversal_path
-    # Connect the current room to the previous room
-    # Check the exits
-    # Move to a random ? until a room has no ?
-    # Log the direction in the traversal_path
-    # Find the nearest ? (BFS)
-    # Repeat the movement pattern
+
+            ## Repeat until no ?'s in the current room
+            # -- This means the room either has one door and four walls, or some combo of identified rooms and walls
+    
+    # Do a BFS to find the nearest ? in the current_path
+    # Log the BFS path and add it to the traversal_path
+    # Move to the nearest ? and repeat the Move Method
+
+        ## Repeat while the counter is less than 500
+    
 
 
 
