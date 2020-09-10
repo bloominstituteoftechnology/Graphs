@@ -13,19 +13,25 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            
+            self.vertices[v1].add(v2)
+        
+        else:
+
+            raise IndexError("non-existent vert(s)")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
@@ -102,6 +108,8 @@ if __name__ == '__main__':
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
     print(graph.vertices)
+    
+    print(f"Neighbours(2): ", graph.get_neighbors(2))
 
     '''
     Valid BFT paths:
