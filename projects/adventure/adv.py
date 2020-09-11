@@ -13,9 +13,9 @@ world = World()
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
-map_file = "maps/test_loop.txt"
+# map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -31,6 +31,8 @@ player = Player(world.starting_room)
 traversal_path = []
 
 graph = {}
+
+backwards_path = []
 
 def add_vertex(room, prev_room_id=None, dir=None):
     e = {}
@@ -76,15 +78,20 @@ def direction(room, visited):
         i = random.randrange(0, len(exits))
         next_room = room.get_room_in_direction(exits[i])
         graph[room.id][exits[i]] = next_room.id
+        player.travel(exits[i])
+        # put in traversal map
         traversal_path.append(exits[i])
-        print(traversal_path)
+        # form the backwards path
+        backwards_path.append(get_opposite_exit(exits[i]))
         if next_room not in visited:
             add_vertex(next_room, room.id, exits[i])
         else:
-            print("Already in vertex", graph[next_room.id])
+            # print("Already in vertex", graph[next_room.id])
             graph[next_room.id][get_opposite_exit(exits[i])] = room.id
-        print(graph)
+        # print(graph)
         return next_room
+
+    return None
 
 def all_paths_explored(room):
     for exit in room.get_exits():
@@ -93,82 +100,43 @@ def all_paths_explored(room):
 
     return True
 
-def backtrack(rooms, visited):
-    count = 1
-    room = None
+def backtrack_v2(room):
 
-    for i in range((len(visited) - 1) , -1, -1):
-        if all_paths_explored(visited[i]):
-            count += 1
-        else:
-            for exit in visited[i].get_exits():
-                if graph[visited[i].id][exit] == '?':
-                    room = visited[i]
-                    print("found another path", visited[i].id)
-                    break
-            break
+    while len(backwards_path) > 0:
+        path = backwards_path.pop()
+        traversal_path.append(path)
+        player.travel(path)
+        room_id = player.current_room.id
+        for exit in player.current_room.get_exits():
+            if graph[room_id][exit] == '?':
+                return player.current_room
 
-    if room:
-        backtrack = []
-        print(count)
-        global traversal_path
-        for i in range(1, count):
-            dir = traversal_path[-i]
-            if dir == 'n':
-                backtrack.append('s')
-            elif dir == 's':
-                backtrack.append('n')
-            elif dir == 'e':
-                backtrack.append('w')
-            elif dir == 'w':
-                backtrack.append('e')
-
-        traversal_path += backtrack
-        print(traversal_path)
-        return direction(room, visited)
-
-    return None
-
-def has_unexplored_rooms(room):
-    for exit in room.get_exits():
-        if graph[room.id][exit] == '?':
-            print("Still rooms to go")
-            return True
-    return False
-
-def dft_traverse_map(starting_room):
+def traverse_map(starting_room):
 
     q = Queue()
     q.enqueue([starting_room])
 
-    backtrack_rooms = [starting_room]
+    backtrack_rooms = []
     visited = set()
-    while q.size() > 0:
-        rooms = q.dequeue()
-        room = rooms[-1]
-        # choose direction in room
-        print(room.id)
-        if room not in visited or has_unexplored_rooms(room):
-            print(room.id)
-            visited.add(room)
+    print(len(world.rooms))
+    while len(visited) < len(world.rooms):
+        while q.size() > 0:
+            rooms = q.dequeue()
+            room = rooms[-1]
+
+            if room not in visited:
+                print(room.id)
+                visited.add(room)
+
+            # choose direction in room to move to
             next_room = direction(room, visited)
-            # check if path is in visited
-            # if not
-            # add to path
-            # add to traversal path
             if next_room:
-                backtrack_rooms.append(next_room)
                 q.enqueue(rooms + [next_room])
             else:
-                # backtrack on visited nodes, checking their paths
-                print("end of the road")
-                next_room = backtrack(rooms, backtrack_rooms)
-                backtrack_rooms.clear()
+                # backtrack till you find a room with exits
+                next_room = backtrack_v2(room)
                 if next_room:
-                    backtrack_rooms.append(next_room)
                     q.enqueue(rooms + [next_room])
-                else:
-                    print("We've seen all rooms")
 
 
 # TRAVERSAL TEST
@@ -178,7 +146,10 @@ visited_rooms.add(player.current_room)
 
 add_vertex(player.current_room)
 
-dft_traverse_map(player.current_room)
+traverse_map(player.current_room)
+
+# print(len(graph), graph)
+# print(traversal_path)
 
 for move in traversal_path:
     player.travel(move)
