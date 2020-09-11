@@ -20,7 +20,11 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        self.vertices[v1].add(v2)
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+
+        else:
+            raise IndexError("Vertex does not exist!")
 
     def get_neighbors(self, vertex_id):
         """
@@ -37,12 +41,15 @@ class Graph:
         q.enqueue(starting_vertex)
         visited = set()
         while q.size() > 0:
-            current_node = q.dequeue()
-            if current_node not in visited:
-                visited.add(current_node)
-                print(current_node)
+            current_vertex = q.dequeue()
 
-                for neighbor in self.get_neighbors(current_node):
+            if current_vertex not in visited:
+                visited.add(current_vertex)
+                print(current_vertex)
+
+                neighbors = self.get_neighbors(current_vertex)
+
+                for neighbor in neighbors:
                     q.enqueue(neighbor)
 
     def dft(self, starting_vertex):
@@ -54,11 +61,13 @@ class Graph:
         stack.push(starting_vertex)
         visited = set()
         while stack.size() > 0:
-            current_node = stack.pop()
-            if current_node not in visited:
-                print(current_node)
-                visited.add(current_node)
-                for neighbor in self.get_neighbors(current_node):
+            current_vertex = stack.pop()
+            if current_vertex not in visited:
+                print(current_vertex)
+                visited.add(current_vertex)
+
+                neighbors = self.get_neighbors(current_vertex)
+                for neighbor in neighbors:
                     stack.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
@@ -77,7 +86,9 @@ class Graph:
                 visited.add(vertex)
                 print(vertex)
 
-            for neighbor in self.get_neighbors(vertex):
+            neighbors = self.get_neighbors(vertex)
+
+            for neighbor in neighbors:
                 dft(neighbor)
 
         dft(starting_vertex)
@@ -95,9 +106,9 @@ class Graph:
         visited = set()
 
         while q.size() > 0:
-            v = q.dequeue()
+            path = q.dequeue()
 
-            last_vertex = v[-1]
+            last_vertex = path[-1]
 
             if last_vertex in visited:
                 continue
@@ -106,7 +117,7 @@ class Graph:
                 visited.add(last_vertex)
 
             for neighbor in self.get_neighbors(last_vertex):
-                next_path = v[:]
+                next_path = path[:]
                 next_path.append(neighbor)
 
                 if neighbor == destination_vertex:
@@ -128,9 +139,9 @@ class Graph:
         visited = set()
 
         while s.size() > 0:
-            v = s.pop()
+            path = s.pop()
 
-            last_vertex = v[-1]
+            last_vertex = path[-1]
 
             if last_vertex in visited:
                 continue
@@ -139,7 +150,7 @@ class Graph:
                 visited.add(last_vertex)
 
             for neighbor in self.get_neighbors(last_vertex):
-                next_path = v[:]
+                next_path = path[:]
                 next_path.append(neighbor)
 
                 if neighbor == destination_vertex:
@@ -159,18 +170,18 @@ class Graph:
         visited = set()
 
         def dfs(path):
-            last_path = path[-1]
+            last_vertex = path[-1]
 
-            if last_path in visited:
+            if last_vertex in visited:
                 return None
 
             else:
-                visited.add(last_path)
+                visited.add(last_vertex)
 
-            if last_path == destination_vertex:
+            if last_vertex == destination_vertex:
                 return path
 
-            for neighbor in self.get_neighbors(last_path):
+            for neighbor in self.get_neighbors(last_vertex):
                 next_path = path[:]
                 next_path.append(neighbor)
 
