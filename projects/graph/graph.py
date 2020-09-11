@@ -55,17 +55,17 @@ class Graph:
         
     def bft(self, starting_vertex):
         # Create an empty que and add the starting_vertex 
-        q = Queue()
-        q.enqueue([starting_vertex])
+        q = []
+        q.append([starting_vertex])
         # Create an empty set to track visited verticies
         seen = set()
         # while the que is not empty: 
-        while q.size():
-            verts = q.dequeue()
+        while len(q):
+            verts = q.pop(0)
             for vert in verts:
                 if vert not in seen:
                     seen.add(vert)
-                    q.enqueue(self.get_neighbors(vert))
+                    q.append(self.get_neighbors(vert))
         print(seen)
         
     def dft_recursive(self, current_vert, seen_verts=set() ):
@@ -77,8 +77,8 @@ class Graph:
 
     def dft(self, starting_vertex):
         # Create a stack with the starting vert
-        s = Stack()
-        s.push([starting_vertex])
+        s = []
+        s.append([starting_vertex])
         # Create an empty set to track visited verticies
         seen = set()
         # while the que is not empty: 
@@ -87,7 +87,7 @@ class Graph:
             for vert in verts:
                 if vert not in seen:
                     seen.add(vert)
-                    s.push(self.get_neighbors(vert))
+                    s.append(self.get_neighbors(vert))
         print(seen)
 
     def bfs(self, starting_vert, target_vert):
