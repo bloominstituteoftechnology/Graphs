@@ -1,0 +1,34 @@
+Using Graphs to Solve Problems
+------------------------------
+1. Translate the problem into graph terminology
+2. Build the graph from the problem data
+3. Traverse/Search or whatever combination you need
+Word Ladders Problem
+--------------------
+Given two words (begin_word and end_word), and a dictionary's word list, return
+the shortest transformation sequence from begin_word to end_word, such that:
+Only one letter can be changed at a time.
+Each transformed word must exist in the word list. Note that begin_word is not
+a transformed word.  Note:
+Return None if there is no such transformation sequence.
+All words contain only lowercase alphabetic characters.
+You may assume no duplicates in the word list.
+You may assume begin_word and end_word are non-empty and are not the same.
+For there to be a path, begin_word and end_word must be the same length.
+If there are multiple equal-length paths, choose any of them.
+sail -> bail
+sail -> bail -> boil -> boll -> bolt -> boat
+Option A: Try every letter combination in the word, checking to see if
+the result is in the dictionary.
+Option B: Look through all the words in the dictionary, finding those that
+only differ by one letter.
+sail
+aail
+bail <<
+cail
+dail
+eail
+fail <<
+gail <<
+zail
+sbil
