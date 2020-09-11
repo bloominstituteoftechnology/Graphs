@@ -20,7 +20,7 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        return self.vertices[v1].add(v2)
+        self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
@@ -33,6 +33,34 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
+        #create an empty queue and enqueue with current node neighbours
+        queue = Queue()
+        queue.enqueue({
+            'current_vertex' : starting_vertex,
+            'edges': [starting_vertex] #value of that vertex
+            })
+        #create a set of visited vertices
+        visited_vertices =set ()
+        #while queue is not empty
+        while queue.size() >0:
+            #get current vertex edges (dequeue from queue)
+            current_obj= queue.dequeue()
+            current_edges = current_obj['edges'] 
+            current_vertex = current_obj['current_vertex']
+            #check current vertex is not in visited vertex list
+            if current_vertex not in visited_vertices:
+                # Mark as visited vertices
+                visited_vertices.add(current_vertex)
+                for neighbour_vertex in self.get_neighbors(current_vertex):
+                    new_edges = list(current_edges)
+                    new_edges.append(neighbour_vertex)
+                    queue.enqueue({
+                        'current_vertex' : neighbour_vertex,
+                        'edges' : new_edges
+                    })
+        return visited_vertices
+
+
         
 
     def dft(self, starting_vertex):
@@ -57,7 +85,38 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        #create an empty queue and enqueue with current node neighbour
+        queue = Queue()
+        queue.enqueue({
+            'current_vertex': starting_vertex,
+            'path' : [starting_vertex]
+        })
+        # create a list of visited vetex
+        visited_vertex = set()
+        #while queue is not empty
+        while queue.size() >0:
+            #get a current obj path(dequeue it from queue)
+            current_obj = queue.dequeue()
+            current_vertex = current_obj['current_vertex']
+            current_path = current_obj['path']
+            #compare the current vertex with destination vertex
+            if current_vertex  == destination_vertex:
+                return current_path
+            #check if the vertex in the visited_vetex list
+            if current_vertex  not in visited_vertex:
+                #add th vertex in the visted vertex list
+                visited_vertex.add(current_vertex)
+                #get all the neighbours of the current_vertex
+                for neighbour in self.get_neighbors(current_vertex):
+                    new_path = list(current_path)
+                    new_path.append(neighbour)
+                    # enqueu the neighbour in the queue
+                    queue.enqueue({
+                        'current_vertex': neighbour,
+                        'path': new_path
+                    })
+
+                
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -119,7 +178,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT paths:
