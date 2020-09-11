@@ -14,8 +14,10 @@ class SocialGraph:
         """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
+              return False
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
             print("WARNING: Friendship already exists")
+              return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
@@ -43,11 +45,47 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
-        # Add users
+        self.reset()
+         # Add users
+        for i in range(num_users):
+            self.add_user(f"User {i}")
 
         # Create friendships
+        possible_friendships = []
+        
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
 
+        random.shuffle(possible_friendships)
+
+        for i in range(num_users * avg_friendships // 2):
+            friendships = possible_friendships[i]
+            self.add_friendship(friendships[0], friendships[1])
+
+    def populate_graph2(self, num_users, avg_friendships):
+        # Reset graph
+        self.reset()
+        # we want to change the O(N^2) and make it better
+        #add users
+        for i in range(num_users):
+            self.add_user(f"User {i}")
+
+        target_friendships = num_users * avg_friendships
+        total_friendships = 0
+        collisions = 0
+        while total_friendships < target_friendships:
+            # we will choose persons to give id's to the user and friends.
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1, self.last_id)
+            # return true if add friendship call was sucessful 
+            if self.add_friendship(user_id, friend_id):
+                total_friendships += 2 # because we are increasing user id and friend id
+            else:
+                collisions += 1 # collisions can happen in the same way with graph if we have 10000 people including the same will be high
+                print(collisions)
+
+                
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
