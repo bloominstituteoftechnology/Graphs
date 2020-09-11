@@ -101,14 +101,15 @@ class master_explorer:
     # Check if the map is filled
     def map_filled(self):
         # Check if the room_count is 500 (all the rooms)
-        if self.room_count == 500:
+        if self.room_count == len(world.rooms):
             # Check if there are any ?'s in the direction values for each room
             for key, value in world_map.items():
                 # If there is a ? return false
                 if value == '?':
                     return False
-            # If there are no ?'s in any rooms, return false
-            return True
+                else:
+                    # If there are no ?'s in any rooms, return false
+                    return True
         # If the count is not 500, return false
         return False
 
@@ -150,6 +151,8 @@ class master_explorer:
             ## MOVE METHOD ##
 
     def move(self):
+        # print(f'{self.current_room.get_exits()}')
+        # print(f'{self.current_room.n_to}')
         # Check the exits in the current room
         current_exits = self.current_room.get_exits() # ['n', 'w']
         # Grab the ID for the current room
@@ -159,6 +162,9 @@ class master_explorer:
         for direction in current_exits:
             # Grab the value for the room id and direction
             explored_value = world_map[room_id][direction]
+            # print(f'room: {world_map[room_id]}')
+            # print(f'value: {explored_value}')
+            # print(f'{direction}')
             if explored_value == '?':
                 # Create a temp current room
                 temp_room = self.current_room
@@ -231,97 +237,97 @@ class master_explorer:
         while not self.map_filled():
             self.add_room_to_world_map()
             if self.room_has_unexplored_exits(self.current_room):
-                self.move()
+                self.move(()
             else:
                 self.find_nearest_mystery_room()
-        print(f'{self.mapping}')
+        # print(f'{self.mapping}')
         return self.mapping
 
-# explorer = Master_Explorer(player, player.current_room)
-# explorer.fill_map()
-# print(f'{explorer.mapping}')
-# traversal_path = explorer.mapping
+explorer = master_explorer(player, player.current_room)
+explorer.map()
+print(f'{explorer.mapping}')
+traversal_path = explorer.mapping
 
-class Master_Explorer:
-    def __init__(self, starting_room):
-        self.mapping = []
-        self.current_direction_stack = Stack()
-        self.visited = set()
-        self.starting_room = starting_room
-        self.player = Player(starting_room)
-        self.current_room = self.starting_room
+# class Master_Explorer:
+#     def __init__(self, starting_room):
+#         self.mapping = []
+#         self.current_direction_stack = Stack()
+#         self.visited = set()
+#         self.starting_room = starting_room
+#         self.player = Player(starting_room)
+#         self.current_room = self.starting_room
 
-    def get_complete_map(self):
-        return self.mapping
+#     def get_complete_map(self):
+#         return self.mapping
 
-    def move(self, direction):
-        new_room = self.current_room.get_room_in_direction(direction)
-        self.current_room = new_room
-        player.travel(direction)
-        self.mapping.append(direction)
+#     def move(self, direction):
+#         new_room = self.current_room.get_room_in_direction(direction)
+#         self.current_room = new_room
+#         player.travel(direction)
+#         self.mapping.append(direction)
 
-    def build_path(self):
-        exits = self.starting_room.get_exits()
+#     def build_path(self):
+#         exits = self.starting_room.get_exits()
         
-        for current_exit in exits:
-            self.current_direction_stack.push((current_exit, "Forward"))
-        self.visited.add(self.current_room)
+#         for current_exit in exits:
+#             self.current_direction_stack.push((current_exit, "Forward"))
+#         self.visited.add(self.current_room)
 
-        while self.current_direction_stack.size() > 0:
-            if len(self.visited) == len(world.rooms):
-                return
-            direction_info = self.current_direction_stack.pop()
-            last_move = direction_info[1]
-            last_direction = direction_info[0]
+#         while self.current_direction_stack.size() > 0:
+#             if len(self.visited) == len(world.rooms):
+#                 return
+#             direction_info = self.current_direction_stack.pop()
+#             last_move = direction_info[1]
+#             last_direction = direction_info[0]
 
-            if last_move is "Forward":
-                if self.current_room.get_room_in_direction(direction_info[0]) not in self.visited:
-                    self.move(last_direction)
-                    self.visited.add(self.current_room)
-                    self.add_directions(last_direction)
-            elif last_move is "Back":
-                self.move(last_direction)
+#             if last_move is "Forward":
+#                 if self.current_room.get_room_in_direction(direction_info[0]) not in self.visited:
+#                     self.move(last_direction)
+#                     self.visited.add(self.current_room)
+#                     self.add_directions(last_direction)
+#             elif last_move is "Back":
+#                 self.move(last_direction)
 
-    def add_directions(self, last_direction):
-        reversed_direction = self.reverse(last_direction)
-        self.current_direction_stack.push((reversed_direction, "Back"))
-        available_directions = self.current_room.get_exits()
+#     def add_directions(self, last_direction):
+#         reversed_direction = self.reverse(last_direction)
+#         self.current_direction_stack.push((reversed_direction, "Back"))
+#         available_directions = self.current_room.get_exits()
 
-        for available_direction in available_directions:
-            room = self.current_room.get_room_in_direction(available_direction)
-            if room not in self.visited:
-                self.current_direction_stack.push((available_direction, "Forward"))
+#         for available_direction in available_directions:
+#             room = self.current_room.get_room_in_direction(available_direction)
+#             if room not in self.visited:
+#                 self.current_direction_stack.push((available_direction, "Forward"))
 
-    def reverse(self, direction):
-        if direction == "n":
-            return "s"
-        elif direction == "s":
-            return "n"
-        elif direction == "e":
-            return "w"
-        elif direction == "w":
-            return "e"
-        else:
-            return None
+#     def reverse(self, direction):
+#         if direction == "n":
+#             return "s"
+#         elif direction == "s":
+#             return "n"
+#         elif direction == "e":
+#             return "w"
+#         elif direction == "w":
+#             return "e"
+#         else:
+#             return None
 
-explorer = Master_Explorer(world.starting_room)
-explorer.build_path()
-traversal_path = explorer.get_complete_map()
+# explorer = Master_Explorer(world.starting_room)
+# explorer.build_path()
+# traversal_path = explorer.get_complete_map()
 
 # TRAVERSAL TEST
-visited_rooms = set()
-player.current_room = world.starting_room
-visited_rooms.add(player.current_room)
+# visited_rooms = set()
+# player.current_room = world.starting_room
+# visited_rooms.add(player.current_room)
 
-for move in traversal_path:
-    player.travel(move)
-    visited_rooms.add(player.current_room)
+# for move in traversal_path:
+#     player.travel(move)
+#     visited_rooms.add(player.current_room)
 
-if len(visited_rooms) == len(room_graph):
-    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
-else:
-    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-    print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
+# if len(visited_rooms) == len(room_graph):
+#     print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
+# else:
+#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+#     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
 
 
