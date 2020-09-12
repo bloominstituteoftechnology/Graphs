@@ -7,13 +7,11 @@ def earliest_ancestor(ancestors, starting_node):
     children = set()
     s = Stack()
     for pair in ancestors:
-        # children.add(pair[1])
-        # if pair[1] not in pairings:
-        #     pairings[pair[1]] = [pair[0]]
-        # else:
-        #     pairings[pair[1]].append(pair[0])
-        pairings[pair] = pair
-    print(pairings)
+        children.add(pair[1])
+        if pair[1] not in pairings:
+            pairings[pair[1]] = [pair[0]]
+        else:
+            pairings[pair[1]].append(pair[0])
 
     def get_parent(node):
         if node in pairings:
