@@ -65,19 +65,17 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        # Create empty stack and add starting vertex
         stack = Stack()
-
-        # Create an empty set to track visited vertices
         visited = set()
-        # while the stack is not empty
-
-            # get the current vertex(pop)
-            # check if current vertex has not been visited
-                # print current vertex
-                # Mark current vertex as visited
-                    # Add the current vertex to a visited set
-            # push up all the current vertex's neighbors
+        stack.push(starting_vertex)
+        visited = set()
+        while stack.size() > 0:
+            node = stack.pop()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for neighbor in self.get_neighbors(node):
+                    stack.push(neighbor)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -179,7 +177,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft(1)
+    graph.dft(1)
     # graph.dft_recursive(1)
 
     '''
