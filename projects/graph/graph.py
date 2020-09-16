@@ -138,7 +138,45 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # Create empty queue and enque path to starting vertex
+        queue = Stack()
+        queue.push([starting_vertex])
+        # [1]
+        # Create an empty set to track visited vertices
+        visited = set()
+        # while the queue is not empty
+        while queue.size() > 0:
+            # get the current vertex path (deque)
+            currrent_path = queue.pop()
+            # [1, 2]
+            print(f'\nthe currrent_path is {currrent_path}')
+            # set the current vertex to the last element of the path
+            current_node = currrent_path[- 1]
+            print(f'\nthe current_node is {current_node}')
+            # [2]
+            # check if current vertex is destination
+            if current_node == destination_vertex:
+                return currrent_path
+            # check if current vertex has not been visited
+            if current_node not in visited:
+                # Mark current vertex as visited
+                    # Add the current vertex to a visited set
+                    visited.add(current_node)
+                    # {1, 2}
+                    print(f'visted: {visited}')
+                    # queue up new paths with each neighbor
+                    for neighbor in self.get_neighbors(current_node):
+                        newPath = list(currrent_path)
+                        # [1,2, 4]
+                        newPath.append(neighbor)
+                        # [4]
+                        print(f'the new path is: {newPath}')
+                        # take current path 
+                        queue.push(newPath)
+                        # [1, 2, 3, 4]
+
+                        # append neighbor to it's path
+                        # queue up new path
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -215,5 +253,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
