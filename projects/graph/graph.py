@@ -37,6 +37,7 @@ class Graph:
         """
         # Create empty queue and enque starting vertex
         queue = Queue()
+        # 
         queue.enqueue(starting_vertex)
         # Create an empty set to track visited vertices
         visited = set()
@@ -44,7 +45,7 @@ class Graph:
         while queue.size() > 0:
             # get the current vertex(deque)
             node = queue.dequeue()
-            # print(f'node: {node}')
+            # 1
             # check if current vertex has not been visited
             if node not in visited:
                 # print current vertex
@@ -52,12 +53,11 @@ class Graph:
                 print(node)
                 # Add the current vertex to a visited set
                 visited.add(node)
+                # {1}
             # queue up all the current vertex's neighbors
-            # WHY CANT WE DO THE BELOW CODE INSTEAD OF THE FOR LOOP
-            # THIS BRINGS BACK UNHASHABLE TYE: SET ERROR
+            # I CANT DO THIS BECAUSE IT RETURN THE NUMBERS, BUT IN A SET AND I CAN'T STORE A SET WITHIN A SET
             # queue.enqueue(self.get_neighbors(node))
                 for neighbor in self.get_neighbors(node):
-                    # print(f'neighbors are {neighbor}')
                     queue.enqueue(neighbor)
 
     def dft(self, starting_vertex):
@@ -93,20 +93,44 @@ class Graph:
         breath-first order.
         """
         # Create empty queue and enque path to starting vertex
-
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        # [1]
         # Create an empty set to track visited vertices
+        visited = set()
         # while the queue is not empty
+        while queue.size() > 0:
             # get the current vertex path (deque)
+            currrent_path = queue.dequeue()
+            # [1, 2]
+            print(f'\nthe currrent_path is {currrent_path}')
             # set the current vertex to the last element of the path
+            current_node = currrent_path[- 1]
+            print(f'\nthe current_node is {current_node}')
+            # [2]
+            # check if current vertex is destination
+            if current_node == destination_vertex:
+                return currrent_path
             # check if current vertex has not been visited
-                # check if current vertex is destination
-                # if it is stop and return
+            if current_node not in visited:
                 # Mark current vertex as visited
                     # Add the current vertex to a visited set
-            # queue up new paths with each neighbor
-                # take current path 
-                # append neighbor to it's path
-                # queue up new path
+                    visited.add(current_node)
+                    # {1, 2}
+                    print(f'visted: {visited}')
+                    # queue up new paths with each neighbor
+                    for neighbor in self.get_neighbors(current_node):
+                        newPath = list(currrent_path)
+                        # [1,2, 4]
+                        newPath.append(neighbor)
+                        # [4]
+                        print(f'the new path is: {newPath}')
+                        # take current path 
+                        queue.enqueue(newPath)
+                        # [1, 2, 3, 4]
+
+                        # append neighbor to it's path
+                        # queue up new path
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -168,7 +192,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    # graph.bft(1)
 
     '''
     Valid DFT paths:
@@ -177,14 +201,14 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft(1)
+    # graph.dft(1)
     # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
