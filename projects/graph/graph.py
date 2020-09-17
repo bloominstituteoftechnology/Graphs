@@ -71,12 +71,21 @@ class Graph:
                                    'path': new_path})
 
     def dfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
-        pass  # TODO
+        stack = Stack()
+        # Each element in the stack is the current path e.g. [1, 2, 3...]
+        stack.push([starting_vertex])
+        visited = set()
+        while stack.size() > 0:
+            currPath = stack.pop() # [1, 2, 3]
+            currNode = currPath[-1] # 3
+            if currNode == destination_vertex:
+                return currPath
+            if currNode not in visited:
+                visited.add(currNode)
+                for neighbor in self.get_neighbors(currNode):
+                    newPath = list(currPath)
+                    newPath.append(neighbor)
+                    stack.push(newPath)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
