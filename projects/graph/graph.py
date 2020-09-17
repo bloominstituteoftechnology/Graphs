@@ -63,7 +63,7 @@ class Graph:
             neighbors = self.vertices[vertex_id]
 
             for neighbor_id in neighbors:
-                if neighbor_id havntVisited:
+                if neighbor_id in havntVisited:
                     havntVisited.remove(neighbor_id)
                     stack.push(neighbor_id)
             print(vertex_id)
@@ -89,7 +89,25 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        q = Queue()
+        visited = set()
+        q.enqueue([starting_vetex])
+
+        while q.size() > 0:
+            path = q.dequeue()
+
+            v = path[-1]
+
+            if v is not visited:
+                if v == destination_vertex:
+                    return path
+                
+                visited.add(v)
+
+                for neighbor in self.vertices[v]:
+                    new = path.copy()
+                    new.append(neighbor)
+                    q.enqueue(new)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
