@@ -50,7 +50,7 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        print("Dong bft")
+        
         # This will implement a queue (like a line)
         # will first put the starting vertex into the queue
         myQueue = Queue()
@@ -80,7 +80,7 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        print("doing dft")
+        
         # this means that we will go down the depth of the 
         # graph 
         # will implement a stack instead of a queue
@@ -133,7 +133,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        print("doing dft_recursive")
+        
         # will cause this to call an inner function called dft_recur_inner 
         # setting up the set 
         visited = set()
@@ -147,7 +147,7 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        print("ding bfs")
+        #print("ding bfs") just used to show when the method was called
         # will have the elements in the stack be the current path ie a list
 
         myQueue = Queue()
@@ -189,7 +189,7 @@ class Graph:
         depth-first order.
         """
 
-        print("doing dfs")
+        #print("doing dfs") # used to show when the method was called
         # doing te dfs means that we will keep going down a path till we hit the end of the path
         if starting_vertex not in self.vertices or destination_vertex not in self.vertices:
             raise Exception("One of the verices is not in the graph")
@@ -252,7 +252,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        print("doing dfs_recurs")
+        #print("doing dfs_recurs")
         # checking to see if the starting vertex or the destination vertex are in the graph
         if starting_vertex not in self.vertices or destination_vertex not in self.vertices:
             raise Exception("One of the vertices is not in the graph")
