@@ -54,15 +54,6 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-
-        This should be done using recursion.
-        """
         havntVisited = {v for v in self.vertices.keys()if v != starting_vertex}
         stack = Stack()
         stack.push(starting_vertex)
@@ -76,6 +67,21 @@ class Graph:
                     havntVisited.remove(neighbor_id)
                     stack.push(neighbor_id)
             print(vertex_id)
+
+    def dft_recursive(self, starting_vertex, visited=None):
+        """
+        Print each vertex in depth-first order
+        beginning from starting_vertex.
+
+        This should be done using recursion.
+        """
+        if visited is None:
+            visited = set()
+        visited.add(starting_vertex)
+        for edge in self.vertices[starting_vertex]:
+            if edge not in visited:
+                self.dft_recursive(edge, visited)
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """
