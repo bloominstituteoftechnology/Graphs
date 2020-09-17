@@ -134,15 +134,15 @@ class Graph:
         depth-first order.
         """
         # Create empty queue and enque path to starting vertex
-        queue = Stack()
-        queue.push([starting_vertex])
+        stack = Stack()
+        stack.push([starting_vertex])
         # [1]
         # Create an empty set to track visited vertices
         visited = set()
         # while the queue is not empty
-        while queue.size() > 0:
+        while stack.size() > 0:
             # get the current vertex path (deque)
-            currrent_path = queue.pop()
+            currrent_path = stack.pop()
             # [1, 2]
             print(f'\nthe currrent_path is {currrent_path}')
             # set the current vertex to the last element of the path
@@ -167,11 +167,12 @@ class Graph:
                         # [4]
                         print(f'the new path is: {newPath}')
                         # take current path 
-                        queue.push(newPath)
+                        stack.push(newPath)
                         # [1, 2, 3, 4]
 
                         # append neighbor to it's path
                         # queue up new path
+
 
     def dfs_recursive(self, starting_vertex, destination_vertex, visited=set(), path=[]):
         """
@@ -182,31 +183,18 @@ class Graph:
         This should be done using recursion.
         """
 
-        # # check if you reached the target
-        # if starting_vertex == destination_vertex:
-            # print(newPath)
+        # check if you reached the target
+        visited.add(starting_vertex)
         
-        path += [starting_vertex]
-        print(f'The current path is {path}')
-        current_path = path.pop()
-        node = current_path[-1]
-        print(node)
-        print(f'Current path is {current_path}')
-        visited.add(node)
-        print(f'visited is {visited}')
+        path = path + [starting_vertex]
+        if starting_vertex == destination_vertex:
+            return path
+        
         for neighbor in self.get_neighbors(starting_vertex):
             if neighbor not in visited:
-                newPath = current_path
-                newPath.append(neighbor)
-                print(f'the new path is {newPath}')
-                self.dfs_recursive(neighbor, destination_vertex, visited)
-        # path += [starting_vertex]
-        # print(f'The current path is {path}')
-        # for neighbor in self.vertices[starting_vertex]:
-        #     if neighbor not in path:
-        #         path = self.dfs_recursive(self.vertices, destination_vertex, path)
-        # return path
-
+                newPath = self.dfs_recursive(neighbor, destination_vertex, visited, path)
+                if newPath is not None:
+                    return newPath
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
