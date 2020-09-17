@@ -13,33 +13,151 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # Does the vertex already exist?
+        if vertex_id in self.vertices:
+            # passed vertex already exists?
+            print("vertex {vtx} already exists".format(vtx=vertex_id))
+            return False
+
+        # New vertex, add to the vertices dict
+        self.vertices[vertex_id] = {}
+        return vertex_id
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # Do the passed vertices exist in the graph?
+        if v1 not in self.vertices or v2 not in self.vertices:
+            # one or both vertices do not exist in the graph
+            print("vertex {vtx1} or {vtx1} do not exist in the graph".format(
+                vtx1=v1,
+                vtx2=v2))
+            return False
+
+        # Both vertices exist.  Add an edge from v1 to v2
+
+        # Does this vertex have any existing edges (or this the new one)
+        if len(self.vertices[v1]) == 0:
+            # No existing edges for v1, add the first one
+            self.vertices[v1] = {v2}
+            return v2
+        
+        # Does the edge already exist?
+        if v2 in self.vertices[v1]:
+            # edge already exists, nothing to do
+            print("Edge: {vtx1} to {vtx2} already exists".format(vtx1=v1, vtx2=v2))
+            return False
+
+        # Add v2 as an edge connection to v1
+        self.vertices[v1].add(v2)
+        return v2
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # Does the vertex exist in the graph
+        if vertex_id not in self.vertices:
+            # vertex not found, return None
+            print("vertex {vtx} not found".format(vtx=vertex_id))
+            return None
+
+        # Return neighbors of the vertex
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Validate parameter: is the passed vertex valid?
+        if starting_vertex not in self.vertices:
+            # vertex not found, nothing to do
+            print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
+            return False
 
+        # Define a vertex search queue - "vertexes to search"
+        vert_queue = Queue()
+        # Define a vertex search status map - "status of the vertex's search"
+        vert_status = {}
+
+        # Set the search status for each vertex as "not_started"
+        for vtx in self.vertices:
+            vert_status[vtx] = "search_not_started"
+
+        # Start the breadth search with the passed vertex
+        vert_status[starting_vertex] = "search_started"
+        # Place the start vertex in our queue
+        vert_queue.enqueue(starting_vertex)
+
+        # Process while there are vertices in the queue
+        while vert_queue.size() != 0:
+            tmp_vtx = vert_queue.peek(0)
+            if tmp_vtx == None:
+                print("error taking a peek at the queue")
+                quit()
+
+            # Iterate through the current vertex's neighbors
+            #    and initate the search process on those vertices
+            for vrtx in self.get_neighbors(tmp_vtx):
+                if vert_status[vrtx] == "search_not_started":
+                    vert_status[vrtx] = "search_started"
+                    vert_queue.enqueue(vrtx)
+
+            # Dequeue the current vertex
+            vert_queue.dequeue()
+            print(tmp_vtx)
+            vert_status[tmp_vtx] = "search_completed"
+            
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # Validate parameter: is the passed vertex valid?
+        if starting_vertex not in self.vertices:
+            # vertex not found, nothing to do
+            print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
+            return False
+
+        # Define a vertex search queue - "vertexes to search"
+        vert_stack = Stack()
+        # Define a vertex search status map - "status of the vertex's search"
+        vert_status = {}
+
+        # Set the search status for each vertex as "not_started"
+        for vtx in self.vertices:
+            vert_status[vtx] = "search_not_started"
+
+        # Place the start vertex in our stack
+        vert_stack.push(starting_vertex)
+
+        # Process while there are vertices in the stack
+        while not vert_stack.is_empty():
+            # Pop the vertex at the top of the stack
+            tmp_vtx = vert_stack.pop()
+            # Indicate we have started the search on the popped vertex
+            vert_status[tmp_vtx] = "search_started"
+
+            # Print out the vertex
+            print(tmp_vtx)
+            # Indicate we have completed the search on the popped vertex
+            vert_status[tmp_vtx] = "search_completed"
+
+            # Push the current vertex's child vertices
+            if len(self.vertices[tmp_vtx]) != 0:
+                # Push this vertex's children on the stack
+                lst_set = list(self.vertices[tmp_vtx])
+                lst_set.reverse()
+                for v_elm in lst_set:
+                    # Has this vertex been processed?
+                    if vert_status[v_elm] != "search_not_started":
+                        # This vertex has already been processed - skip
+                        continue
+
+                    # Vertex to be processed, push on the stack
+                    vert_stack.push(v_elm)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -48,7 +166,34 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Define a vertex search status map - "status of the vertex's search"
+        vert_status = {}
+
+        # proc_vtx prints a graph vertex and it's children in a DFT sequence
+        def proc_vtx(vtx):
+            # print the vertex
+            print(vtx)
+            # indicate that the vertex has been printed/processed
+            vert_status[vtx] = "search_completed"
+
+            # Iterate through the vertex's children
+            tmp_lst = list(self.vertices[vtx])
+            for v in tmp_lst:
+                # has the vertex been processed?
+                if vert_status[v] != "search_not_started":
+                    # vertex already in process, skip
+                    continue
+
+                # process/print the vertex
+                proc_vtx(v)
+
+        # Set the search status for each vertex as "not_started"
+        for vtx in self.vertices:
+            vert_status[vtx] = "search_not_started"
+
+        # Process the passed in vertex
+        proc_vtx(starting_vertex)
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -56,7 +201,119 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # vtx_parent stores a vertex's parent in an object
+        def vtx_parent(chld, par):
+            if chld not in vertex_parents:
+                tmp_set = set()
+                tmp_set.add(par)  # Set 'par' as 'chld's parent
+                return
+
+            vertex_parents[chld].add(par)  # Set 'par' as 'chld's parent
+            return
+
+        # vtx_path constructs the path from a end vertex 
+        #    to a start vertex
+        def vtx_path(vtx_end, vtx_start):
+            ret_lst  = []
+            sch_list = {}
+            flg_fnd  = False
+            vtx_cur  = None
+
+            # Traverse up the vertex tree (parents) from the vtx_end (child)
+            vtx_cur = vtx_end
+            ret_lst.append(vtx_cur)
+            while not flg_fnd:
+                # Does the current vertex have any parents
+                if len(vertex_parents[vtx_cur]) == 0:
+                    # current vertex has no parents - breakdown
+                    print("current vertex has no parents - breakdown")
+                    return None
+
+                # Grab a parent for the current vertex
+                vtx_cur = vertex_parents[vtx_cur].pop()
+                ret_lst.append(vtx_cur)
+                
+                # Have we found the start of the lineage?
+                if vtx_cur == vtx_start:
+                    flg_fnd  = True
+                    break
+
+            # Found the start of the lineage?
+            if not flg_fnd:
+                # not found
+                return None
+
+            # Found the lineage
+            return ret_lst
+
+        # Validate parameters: are the passed vertices valid?
+        if starting_vertex not in self.vertices or destination_vertex not in self.vertices:
+            # vertex not found, nothing to do
+            print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
+            return False
+
+        # Set up working objects
+        vertex_parents = {}
+        path_strt2dest = []
+        flg_vtx_found  = False
+        found_vtx      = None
+
+        # Define a vertex search queue - "vertexes to search"
+        vert_queue = Queue()
+        # Define a vertex search status map - "status of the vertex's search"
+        vert_status = {}
+
+        # Set the search status for each vertex as "not_started"
+        for vtx in self.vertices:
+            vert_status[vtx] = "search_not_started"
+
+        # Start the breadth search with the passed vertex
+        vert_status[starting_vertex] = "search_started"
+        # Place the start vertex in our queue
+        vert_queue.enqueue(starting_vertex)
+        # Store the parent of the queued vertex
+        vtx_parent(starting_vertex, None)
+
+        # Process while there are vertices in the queue
+        while vert_queue.size() != 0:
+            tmp_vtx = vert_queue.peek(0)
+            if tmp_vtx == None:
+                print("error taking a peek at the queue")
+                quit()
+
+            # Iterate through the current vertex's neighbors
+            #    and initate the search process on those vertices
+            for vrtx in self.get_neighbors(tmp_vtx):
+                if vert_status[vrtx] == "search_not_started":
+                    vert_status[vrtx] = "search_started"
+                    vert_queue.enqueue(vrtx)
+                    # Store 'tmp_vtx' as a parent of 'vrtx'
+                    vtx_parent(vrtx, tmp_vtx) 
+
+                # Have we found the destination vertex?
+                if vrtx == destination_vertex:
+                    # Found our destination vertex; break out
+                    flg_vtx_found  = False
+                    found_vtx      = vrtx
+
+            # Have we found the destination
+            if flg_vtx_found:
+                # Found our destination vertex; break out
+                break
+            
+            # Dequeue the current vertex
+            vert_queue.dequeue()
+            print(tmp_vtx)
+            vert_status[tmp_vtx] = "search_completed"
+
+        # Have we found the destination vertex?
+        if not flg_vtx_found:
+            # Vertex not found - return None
+            return None
+
+        # Found destination vertex - construct path
+        return vtx_path(destination_vertex, starting_vertex)
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -118,7 +375,8 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    # TODO
+    # graph.bft(1)
 
     '''
     Valid DFT paths:
@@ -127,14 +385,18 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft(1)
-    graph.dft_recursive(1)
+    # TODO
+    # graph.dft(1)
+    # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    # TODO: LEFT OFF HERE
+    print("path from 1 to 6")
     print(graph.bfs(1, 6))
+    quit()
 
     '''
     Valid DFS paths:

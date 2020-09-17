@@ -12,6 +12,14 @@ class Queue():
             return None
     def size(self):
         return len(self.queue)
+    def peek(self, idx):
+        # idx out of bounds?
+        if idx > len(self.queue)-1:
+            # index value does not refer to a valid queue element
+            print("index value: {i} does not refer to a valid queue element".format(i=idx))
+            return None
+
+        return self.queue[idx]
 
 class Stack():
     def __init__(self):
@@ -25,4 +33,9 @@ class Stack():
             return None
     def size(self):
         return len(self.stack)
+    # peek returns the next element to be popped (e.g. for inspection)
+    def is_empty(self):
+        if len(self.stack) == 0:
+            return True
 
+        return False
