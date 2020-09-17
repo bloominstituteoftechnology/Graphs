@@ -59,6 +59,7 @@ class Graph:
             # queue.enqueue(self.get_neighbors(node))
                 for neighbor in self.get_neighbors(node):
                     queue.enqueue(neighbor)
+            print(queue)
 
     def dft(self, starting_vertex):
         """
@@ -68,7 +69,6 @@ class Graph:
         stack = Stack()
         visited = set()
         stack.push(starting_vertex)
-        visited = set()
         while stack.size() > 0:
             node = stack.pop()
             if node not in visited:
@@ -84,8 +84,24 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
-
+        stack = Stack()
+        stack.push(starting_vertex)
+        print("stack is", stack)
+        visited = set()
+        if stack.size() == 0:
+            print('here')
+            return
+        while stack.size() > 0:
+            node = stack.pop()
+            if node not in visited:
+                print(node)
+                visited.add(node)
+                for neighbor in self.get_neighbors(node):
+                    print(f'The vertices is {node} and the neighbors are {neighbor}')
+                    stack.push(neighbor)
+        self.dft_recursive(neighbor)
+                    
+            # self.dft_recursive(neighbor)
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
@@ -100,37 +116,28 @@ class Graph:
         visited = set()
         # while the queue is not empty
         while queue.size() > 0:
-            # get the current vertex path (deque)
+            print(queue)
+            #  queue = [ [1, 2,3, 5], [1, 2, 4,6] [1,2,4,7]]]
             currrent_path = queue.dequeue()
-            # [1, 2]
+            # [1, 2, 4]
             print(f'\nthe currrent_path is {currrent_path}')
-            # set the current vertex to the last element of the path
             current_node = currrent_path[- 1]
             print(f'\nthe current_node is {current_node}')
-            # [2]
-            # check if current vertex is destination
+            # [4]
             if current_node == destination_vertex:
                 return currrent_path
-            # check if current vertex has not been visited
             if current_node not in visited:
-                # Mark current vertex as visited
-                    # Add the current vertex to a visited set
                     visited.add(current_node)
-                    # {1, 2}
+                    # {1, 2, 3,4}
                     print(f'visted: {visited}')
-                    # queue up new paths with each neighbor
                     for neighbor in self.get_neighbors(current_node):
                         newPath = list(currrent_path)
-                        # [1,2, 4]
+                        # [1, 2, 4,6]
                         newPath.append(neighbor)
-                        # [4]
+                        # [6]
                         print(f'the new path is: {newPath}')
-                        # take current path 
                         queue.enqueue(newPath)
-                        # [1, 2, 3, 4]
-
-                        # append neighbor to it's path
-                        # queue up new path
+                        # [[1, 2, 4,6] [1,2,4,7]]
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -213,7 +220,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    print(graph.vertices)
+    # print(graph.vertices)
 
     '''
     Valid BFT paths:
@@ -240,18 +247,18 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     # graph.dft(1)
-    # graph.dft_recursive(1)
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
+    # print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
