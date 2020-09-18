@@ -16,6 +16,7 @@ class Stack():
     def size(self):
         return len(self.stack)
 
+#  if key == value there is a generation conection 
 vertices = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
 def dfs(starting_vertex, destination_vertex):
     """
@@ -55,9 +56,14 @@ def earliest_ancestor(vertices, starting_node):
     # loop through all vertices
     print(vertices)
     for vert in vertices:
-        print(vert)
+        # print(vert)
+        #   There is a generation conection if key == value, parent is child of earlier generation
+        # vertices = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
         print(f'the parent is {vert[0]}')
         print(f'the child is {vert[1]}')
+        if vert[1] == vert[0]:
+            print('here')
+            print(vert)
 
     # use DFS to get the fartherst distance
     # return ancestor that is the farthest distance away and lowest ID, 9's furthest ancester is 4
