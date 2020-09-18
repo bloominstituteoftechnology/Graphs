@@ -22,7 +22,8 @@ class Graph:
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add[v2]
         else:
-            raise IndexError("vertieces does not exist")
+            raise IndexError("nonexistent vert")
+            # pass
 
     def get_neighbors(self, vertex_id):
         """
@@ -144,19 +145,40 @@ class Graph:
 
         This should be done using recursion.
         """
-        if visited is None:
-            visited = set()
-        if starting_vertex is visited:
-            return None
-        elif starting_vertex == destination_vertex:
-            return [destination_vertex]
-        else:
-            visited.add(starting_vertex)
-            for neighbor in self.get_neighbors(starting_vertex):
-                neighborSearch = self.dfs_recursive(neighbor, destination_vertex, visited)
-                if neighborSearch is not None:
-                    return [starting_vertex] + neighborSearch
-            return None
+        
+        # if visited is None:
+        #     visited = set()
+        # if starting_vertex is visited:
+        #     return None
+        # elif starting_vertex == destination_vertex:
+        #     return [destination_vertex]
+        # else:
+        #     visited.add(starting_vertex)
+        #     for neighbor in self.get_neighbors(starting_vertex):
+        #         neighborSearch = self.dfs_recursive(neighbor, destination_vertex, visited)
+        #         if neighborSearch is not None:
+        #             return [starting_vertex] + neighborSearch
+        #     return None
+
+        visited = set()
+        return self.dft_recursive_helper([starting_vertex], destination_vertex, visited)
+
+    def dfs_recursive_helper(self, curr_path, destination_vertex, visited):
+        curr_vertex = curr_path[-1]
+        if curr_vertex == destination_vertex:
+            return curr_path
+
+        visited.add(curr_vertex)
+
+        for neighbor in self.get_neighbors(curr_vertex):
+            if neighbor not in visited:
+                newPath = list(curr_path)
+                newPath.append(neighbor)
+                res = self.dfs_recursive_helper(newPath, destination_vertex, visited)
+                if len(res) > 0:
+                    return res
+        return []
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
