@@ -110,7 +110,7 @@ class Graph:
         visited = set()
         while stack:
             curr_path = stack.pop() # [1,2,3]
-            curr_node = curr_path[-1] # 3
+            curr_node = curr_path[-1] #
             if curr_node == end:
                 return curr_path
             if curr_node not in visited:

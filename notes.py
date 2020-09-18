@@ -129,6 +129,51 @@ class Graph:
                 print(curr_node)
                 for edge in self.get_neighbors(curr_node):
                     queue.append(edge)
+    
+    def bfs(self, start, end):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        queue = []
+        visited = set()
+        queue.append([start])
+        while queue:
+            curr_path = queue.pop(0)
+            curr_node = curr_path[-1]
+            if curr_node == end:
+                return curr_path
+            if curr_node not in visited:
+                visited.add(curr_node)
+                for edge in self.get_neighbors(curr_node):
+                    new_path = list(curr_path)
+                    new_path.append(edge)
+                    queue.append(new_path)
+
+    def dfs_recursive(self, start, end):
+        """
+        Return a list containing a path from
+        starting_vertex to destination_vertex in
+        depth-first order.
+
+        This should be done using recursion.
+        """
+        
+        def recurse(vertex, end, visited=set()):
+            curr_node = vertex[-1]
+            if curr_node in visited:
+                return 
+            if curr_node == end:
+                return vertex
+            visited.add(curr_node)
+            for edge in self.get_neighbors(curr_node):
+                new_path = list(vertex)
+                new_path.append(edge)
+                res = recurse(new_path, end, visited)
+                if len(res) >= 1:
+                    return res
+        return recurse([start], end)
 
 g = Graph()
 g.add_vertex(0)
@@ -142,9 +187,79 @@ g.add_edge(2,3)
 g.add_edge(3,0)
 
 
-print(g.dfs(0,1))
+# print(g.dfs(0,1))
+# print(g.dfs_recursive(0, 3))
 # g.bft(0)
 print()
 # g.recursive_dft(0)
 
 
+# Graph II
+
+# leetcode - destination city
+
+paths = [['la', 'sd'], ['sd', 'ny'], ['ny', 'mi']]
+
+def dest(paths):
+
+    if len(paths) == 0:
+        return ''
+
+    graph = {}
+
+    for start, end in paths:
+        if start not in graph:
+            graph[start] = set()
+        graph[start].add(end)
+
+    # dictionary solution
+    # for start in graph:
+    #     for city in graph[start]:
+    #         if city not in graph:
+    #             return city
+
+    #  dfs solution
+    stack = [paths[0][0]]
+    visited = set()
+    while stack:
+        curr = stack.pop()
+        if curr in visited:
+            continue
+        visited.add(curr)
+        for city in graph[curr]:
+            if city not in graph:
+                return city
+            stack.append(city)
+
+print(dest(paths))
+
+from collections import deque
+
+alphabet = 'abcdefghijklmnoqrstuvwxyz'
+
+def findLadders(begin, end, wordList):
+    words = set(wordList)
+    visited = set()
+    q = deque()
+    q.append([begin])
+    while q:
+        curr_path = q.popleft() # an array of the current transformations
+        curr_word = curr_path[-1]
+        if curr_word in visited:
+            continue
+        visited.add(curr_word)
+        if curr_word == end:
+            return curr_path
+        # Determine which vertices to traverse next
+        for i in range(len(curr_word)):
+            for letter in alphabet:
+                transformedWord = curr_word[:i] + letter + curr_word[i+1:]
+                if transformedWord in words and transformedWord not in visited:
+                    new_path = list(curr_path)
+                    new_path.append(transformedWord)
+                    q.append(new_path)
+
+            
+    return []
+
+print(findLadders('hit', 'zot', ['hot', 'zot']))

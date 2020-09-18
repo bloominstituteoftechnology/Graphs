@@ -1,3 +1,5 @@
+from random import random
+from math import ceil
 class User:
     def __init__(self, name):
         self.name = name
@@ -43,9 +45,16 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+        if num_users < avg_friendships:
+            return
         # Add users
-
+        for i in range(1,num_users + 1):
+            if i not in self.users:
+                self.users[i] = set()
+            n_friends = ceil(random() * (avg_friendships + 1))
+            while n_friends:
+                random_friend = ceil(random() * (num_users))
+                print(random_friend)
         # Create friendships
 
     def get_all_social_paths(self, user_id):
