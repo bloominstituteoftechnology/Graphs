@@ -194,7 +194,6 @@ class Graph:
         # Process the passed in vertex
         proc_vtx(starting_vertex)
 
-
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
@@ -206,6 +205,7 @@ class Graph:
             if chld not in vertex_parents:
                 tmp_set = set()
                 tmp_set.add(par)  # Set 'par' as 'chld's parent
+                vertex_parents[chld] = tmp_set
                 return
 
             vertex_parents[chld].add(par)  # Set 'par' as 'chld's parent
