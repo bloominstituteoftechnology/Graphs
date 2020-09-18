@@ -82,10 +82,11 @@ class SocialGraph:
             if self.add_friendship(user_id, friend_id):
                 total_friendships += 2 # because we are increasing user id and friend id
             else:
+    
                 collisions += 1 # collisions can happen in the same way with graph if we have 10000 people including the same will be high
                 print(collisions)
 
-                
+
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
