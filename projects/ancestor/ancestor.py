@@ -1,101 +1,69 @@
-# parent child relationship
+from collections import deque
+#Write a function that, given the dataset and the ID of an individual in the dataset, returns their earliest known ancestor – the one at the farthest distance from the input individual. If there is more than one ancestor tied for "earliest", return the one with the lowest numeric ID.
 
-class Stack():
-    def __init__(self):
-        self.stack = []
-    def __repr__(self):
-        return str(self.stack)
-
-    def push(self, value):
-        self.stack.append(value)
-    def pop(self):
-        if self.size() > 0:
-            return self.stack.pop()
-        else:
-            return None
-    def size(self):
-        return len(self.stack)
-
-#  if key == value there is a generation conection 
-vertices = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-def dfs(starting_vertex, destination_vertex):
-    """
-    Return a list containing a path from
-    starting_vertex to destination_vertex in
-    depth-first order.
-    """
-    stack = Stack()
-    stack.push([starting_vertex])
-    visited = set()
-    while stack.size() > 0:
-        currrent_path = stack.pop()
-        print(f'\nthe currrent_path is {currrent_path}')
-        current_node = currrent_path[- 1]
-        print(f'\nthe current_node is {current_node}')
-        if current_node == destination_vertex:
-            return currrent_path
-        if current_node not in visited:
-                visited.add(current_node)
-                print(f'visted: {visited}')
-                for neighbor in vertices[current_node]:
-                    newPath = list(currrent_path)
-                    newPath.append(neighbor)
-                    print(f'the new path is: {newPath}')
-                    stack.push(newPath)
-'''
-    10
-    /
-    1   2   4  11
-    \ /   / \ /
-    3   5   8
-    \ / \   \
-    6   7   9
-'''
-    #Write a function that, given the dataset and the ID of an individual in the dataset, returns their earliest known ancestor – the one at the farthest distance from the input individual. If there is more than one ancestor tied for "earliest", return the one with the lowest numeric ID. If the input individual has no parents, the function should return -1
 def earliest_ancestor(vertices, starting_node):
+    # the destination is always the 0 index
+    graph = buildGraph(vertices)
+    # print(graph)
+
+    # if the input has no parents
+    if starting_node not in graph: #-> 10, 2, 4, 11
+        print('node is not key in graph')
+        return -1 #highest ancestor
+    # if parent[0] == destination:
+    #         print(parent[0])
+        # if v == starting_node:
+        #     print(v)
     # loop through all vertices
-    print(vertices)
-    for vert in vertices:
-        # print(vert)
-        #   There is a generation conection if key == value, parent is child of earlier generation
-        # vertices = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-        print(f'the parent is {vert[0]}')
-        print(f'the child is {vert[1]}')
-        if vert[1] == vert[0]:
-            print('here')
-            print(vert)
+    # queue = deque()
+    # queue.append(starting_node)
+    # print(f'The queue has {queue}')
+    # visited = set()
+    # while len(queue) > 0:
+    #     node = queue.pop()
+    #     if node not in visited:
+    #         # print(f'the node is {node}')
+    #         visited.add(node)
+    #         # If the input individual has no parents, the function returns -1
+    #         if node not in vertices:
+    #             # we want to find parent which is the key, the child is the value
+    #             return -1
+    #         for neighbor in vertices[node]:
+    #             # print(f'The neighbor is {neighbor}')
+    #             queue.append(neighbor)
+    # # return ancestor that is the farthest distance away and lowest ID, 9's furthest ancester is 4
+    
+    # return queue
 
-    # use DFS to get the fartherst distance
-    # return ancestor that is the farthest distance away and lowest ID, 9's furthest ancester is 4
-    # if starting_node has no ancestors
-        #  return -1
+# def findAncestor(self, node, destination):
+#     for i in range(len(vertices)):
+#         if vertices[i][1] == node:
+#             return vertices[i]
+#         else:
+#             if vertices[0] == vertices[1]:
+#                 print(vertices[0])
 
-    search = dfs(starting_node, 1)
-    return search
+def buildGraph(test_ancestors):
+    graph = {}
+    for edge in test_ancestors:
+        child, parent = edge[1], edge[0]
+        # if there is a deplicate key
+        if child in graph:
+            graph[child].add(parent)
+        else:
+            graph[child] = { parent }
+    return graph
 
-print(earliest_ancestor(vertices, 1))
-# graph = Graph()
 
-# graph.add_vertex(1)
-# graph.add_vertex(2)
-# graph.add_vertex(3)
-# graph.add_vertex(4)
-# graph.add_vertex(5)
-# graph.add_vertex(6)
-# graph.add_vertex(7)
-# graph.add_vertex(8)
-# graph.add_vertex(9)
-# graph.add_vertex(10)
-# graph.add_vertex(11)
-# graph.add_edge(1, 3)
-# graph.add_edge(2, 3)
-# graph.add_edge(3, 6)
-# graph.add_edge(4, 5)
-# graph.add_edge(4, 8)
-# graph.add_edge(5, 6)
-# graph.add_edge(5, 7)
-# graph.add_edge(1, 2)
-# graph.add_edge(2, 4)
-# graph.add_edge(8, 9)
-# graph.add_edge(10, 1)
-# graph.add_edge(11, 8)
+test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+print(earliest_ancestor(test_ancestors, 4)) # 10)
+# print(earliest_ancestor(vertices, 2)) # -1)
+# print(earliest_ancestor(vertices, 3)) # 10)
+# print(earliest_ancestor(vertices, 4)) # -1)
+# print(earliest_ancestor(vertices, 5)) # 4)
+# print(earliest_ancestor(test_ancestors, 6)) # 10)
+# print(earliest_ancestor(vertices, 7)) # 4)
+# print(earliest_ancestor(vertices, 8)) # 4)
+# print(earliest_ancestor(vertices, 9)) # 4)
+# print(earliest_ancestor(vertices, 10)) # -1)
+# print(earliest_ancestor(vertices, 11)) # -1)
