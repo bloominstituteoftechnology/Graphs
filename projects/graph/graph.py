@@ -43,10 +43,10 @@ class Graph:
 
     # default function to use in traversals 
     def print_path(self, vertex):
-        print(str(vertex) + '\n' + ' |' + '\n' + '\/')
+        print(str(vertex))
 
     # adding func to allow for variation in operation application
-    def bft(self, starting_vertex, func = self.print_path):
+    def bft(self, starting_vertex, func = print_path):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
@@ -60,7 +60,7 @@ class Graph:
         else:
             return 'Starting vertex not found!'
 
-        while queue:
+        while queue.size() > 0:
             vertex = queue.dequeue()
             
             # check if current vertex has been visited
@@ -79,7 +79,7 @@ class Graph:
 
     
     # adding func to allow for variation in operation application
-    def dft(self, starting_vertex, func = self.print_path):
+    def dft(self, starting_vertex, func = print_path):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -93,7 +93,7 @@ class Graph:
         else:
             return 'Starting vertex not found!'
 
-        while stack:
+        while stack.size() > 0:
             vertex = stack.pop()
             
             # check if current vertex has been visited
@@ -111,7 +111,7 @@ class Graph:
         
 
     # adding func to allow for variation in operation application
-    def dft_recursive(self, starting_vertex, func = self.print_path):
+    def dft_recursive(self, starting_vertex, func = print_path):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -140,14 +140,31 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-
+        visited = set()
         queue = Queue()
-        
-        # add current vertex to queue
-        queue.enqueue([starting_vertex])
+        route = []
 
-        while queue:
-            vertex = queue.dequeue
+        # add current vertex to queue
+        if starting_vertex in self.vertices:
+            queue.enqueue(starting_vertex)
+
+        while queue.size() > 0:
+            vertex = queue.dequeue()
+            # builde a route based on travered vertecies
+            route.append(vertex)
+
+            # check if found
+            if vertex == destination_vertex:
+                return route
+
+            # traverse unvisited neighbors
+            for neighbor in self.get_neighbors(vertex):
+                if neighbor not in visited:
+                    queue.enqueue(neighbor)
+
+            visited.add(vertex)
+
+        return None
 
 
 
@@ -157,7 +174,32 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        visited = set()
+        stack = Stack()
+        route = []
+
+        # add current vertex to stack
+        if starting_vertex in self.vertices:
+            stack.push(starting_vertex)
+
+        while stack.size() > 0:
+            vertex = stack.pop()
+            # builde a route based on travered vertecies
+            route.append(vertex)
+
+            # check if found
+            if vertex == destination_vertex:
+                return route
+
+            # traverse unvisited neighbors
+            for neighbor in self.get_neighbors(vertex):
+                if neighbor not in visited:
+                    stack.push(neighbor)
+
+            visited.add(vertex)
+
+        return None
+        
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -167,7 +209,26 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        route = []
+        # check if in graph
+        if starting_vertex not in self.vertices:
+            return None
+
+        # base case is vertex found:
+        if starting_vertex == destination_vertex:
+            route.append(starting_vertex)
+            return route
+
+        neighbors = self.get_neighbors(starting_vertex)
+
+        if neighbors:
+            for neighbor in neighbors:
+                route.append(neighbor)
+                route.extend(self.dfs_recursive(neighbor, destination_vertex))
+
+        return route
+
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
