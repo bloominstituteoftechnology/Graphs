@@ -15,6 +15,17 @@ class Graph:
         """
         self.vertices[vertex_id] = set()
 
+    def delete_vertex(self, vertex_id):
+        ## delete the key-value pair
+        ## find all references to this vertex
+        for node in self.vertices:
+            node[vertex_id].remove()
+
+    def delete_edge(self, v1, v2):
+        ## access v1, remove v2
+        ## access v2, remove v1
+        pass
+
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
