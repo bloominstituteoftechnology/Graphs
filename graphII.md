@@ -10,4 +10,7 @@ build your graph
 
 traverse graph
 
-BFS or DFS?
+- BFS or DFS?
+
+## Leetcode - destination city
+
