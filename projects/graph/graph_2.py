@@ -9,7 +9,7 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
-
+    
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
@@ -201,12 +201,6 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # Validate parameter: is the passed vertex valid?
-        if starting_vertex not in self.vertices or destination_vertex not in self.vertices:
-            # one or both vertices not found, nothing to do
-            print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
-            return False
-        
         # Set up working objects
         set_vrtx_inspected = set()  # set of vertices already inspected/visited
 
@@ -242,54 +236,14 @@ class Graph:
 
         # Destination not found - return empty list
         return []
-        
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        # Validate parameter: is the passed vertex valid?
-        if starting_vertex not in self.vertices or destination_vertex not in self.vertices:
-            # one or both vertices not found, nothing to do
-            print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
-            return False
-
-        # Set up working objects
-        set_vrtx_inspected = set()  # set of vertices already inspected/visited
-
-        # Define a vertex search queue
-        stk_vert = Stack()  # queue of path lists
-
-        # Place the start vertex in our queue
-        stk_vert.push(list([starting_vertex]))
-
-        # Process while there are vertex paths in the queue
-        while stk_vert.size() != 0:
-            iter_path = stk_vert.pop()  # pop the next path to be processed
-            curVtx = iter_path[-1]
-
-            # Have we found the destination node?
-            if curVtx == destination_vertex:
-                # Yes. Found destination, return path
-                return iter_path
-
-            # Have we inspected the current vertex before
-            if curVtx not in set_vrtx_inspected:
-                set_vrtx_inspected.add(curVtx)        # flag the current vertex as inspected
-
-                # Process the current vertex's neighbors
-                for v_nbr in self.vertices[curVtx]:
-                    # enqueue a new potential search path
-                    lst_poss_path = copy.deepcopy(iter_path)
-                    # add the current neighbor to the this potential path
-                    lst_poss_path.append(v_nbr)
-
-                    # add this new potential path to the queue
-                    stk_vert.push(lst_poss_path)      
-
-        # Destination not found - return empty list
-        return []
+        pass  # TODO
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -300,6 +254,9 @@ class Graph:
         This should be done using recursion.
         """
         # TODO -> add comment
+        def foo():
+            return
+
         def proc_path(pth):
             # have we found the destination vertex?
             curVtx = pth[-1]
@@ -319,22 +276,22 @@ class Graph:
                     # add the current neighbor to the this potential path
                     lst_poss_path.append(v_nbr)
 
-                    # add this new potential path to the queue
-                    proc_path.push(lst_poss_path)
-
-            return []
+                    # recursively call proc_path with the potential path
+                    return proc_path(lst_poss_path)
         
         # Validate parameter: is the passed vertex valid?
         if starting_vertex not in self.vertices or destination_vertex not in self.vertices:
             # one or both vertices not found, nothing to do
-            print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
+            print("vertex {vtx1} or {vtx2} not found, nothing to do".format(
+                vtx1=starting_vertex,
+                vtx2=destination_vertex))
             return False
 
         # Set up working objects
         set_vrtx_inspected = set()  # set of vertices already inspected/visited
 
-        # Trigger the search with the starting vertex path
-        proc_path(list([starting_vertex]))
+        # Trigger the search with the starting vertex path and return the results
+        return proc_path(list([starting_vertex]))
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -342,20 +299,8 @@ if __name__ == '__main__':
     graph.add_vertex(1)
     graph.add_vertex(2)
     graph.add_vertex(3)
-    graph.add_vertex(4)
-    graph.add_vertex(5)
-    graph.add_vertex(6)
-    graph.add_vertex(7)
-    graph.add_edge(5, 3)
-    graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
     graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
     graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
 
     '''
     Should print:
@@ -397,14 +342,12 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
     '''
     # TODO: LEFT OFF HERE
-    # print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 888))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print("path from 1 to 6")
-    print(graph.dfs(1, 6))
-    quit()
-    # print(graph.dfs_recursive(1, 6))
+    # print(graph.dfs(1, 6))
+    print(graph.dfs_recursive(1, 3))
