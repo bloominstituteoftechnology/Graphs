@@ -2,8 +2,7 @@
 """
 Graph
 """
-from util import Stack, Queue
-
+from utility import Stack, Queue
 
 class Graph:
 

@@ -16,3 +16,20 @@ def earliest_ancestor(ancestors, starting_node):
 
         # find longest path
         longest_path = 1
+
+        for vertex in graph.vertices:
+
+            #starting vertex and node are destination
+            #import DFS from graph helper
+            path = graph.dfs(vertex, starting_node)
+
+            if path:
+                print(path)
+
+                if len(path) > longest_path:
+                    longest_path = len(path)
+                    target_vertex = vertex
+            elif not path and longest_path == 1:
+                target_vertex = -1
+
+        return target_vertex
