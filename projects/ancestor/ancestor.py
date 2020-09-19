@@ -1,47 +1,46 @@
-from collections import deque
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def __repr__(self):
+        return str(self.queue)
+
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 #Write a function that, given the dataset and the ID of an individual in the dataset, returns their earliest known ancestor – the one at the farthest distance from the input individual. If there is more than one ancestor tied for "earliest", return the one with the lowest numeric ID.
 
 def earliest_ancestor(vertices, starting_node):
-    # the destination is always the 0 index
     graph = buildGraph(vertices)
-    # print(graph)
-
     # if the input has no parents
     if starting_node not in graph: #-> 10, 2, 4, 11
-        print('node is not key in graph')
-        return -1 #highest ancestor
-    # if parent[0] == destination:
-    #         print(parent[0])
-        # if v == starting_node:
-        #     print(v)
+        return -1
     # loop through all vertices
-    # queue = deque()
-    # queue.append(starting_node)
-    # print(f'The queue has {queue}')
-    # visited = set()
-    # while len(queue) > 0:
-    #     node = queue.pop()
-    #     if node not in visited:
-    #         # print(f'the node is {node}')
-    #         visited.add(node)
-    #         # If the input individual has no parents, the function returns -1
-    #         if node not in vertices:
-    #             # we want to find parent which is the key, the child is the value
-    #             return -1
-    #         for neighbor in vertices[node]:
-    #             # print(f'The neighbor is {neighbor}')
-    #             queue.append(neighbor)
-    # # return ancestor that is the farthest distance away and lowest ID, 9's furthest ancester is 4
-    
-    # return queue
+    queue = Queue()
+    queue.enqueue([starting_node])
+    visited = set()
+    while queue.size() > 0:
+        current_path = queue.dequeue()
+        current_node = current_path[-1]
+        if current_node not in visited:
+            visited.add(current_node)
+            # If the input individual is highest ancestor, return node
+            if current_node not in graph:
+                continue
 
-# def findAncestor(self, node, destination):
-#     for i in range(len(vertices)):
-#         if vertices[i][1] == node:
-#             return vertices[i]
-#         else:
-#             if vertices[0] == vertices[1]:
-#                 print(vertices[0])
+            for neighbor in graph[current_node]:
+                newPath = list(current_path)
+                newPath.append(neighbor)
+                queue.enqueue(newPath) 
+    return current_node
 
 def buildGraph(test_ancestors):
     graph = {}
@@ -56,14 +55,14 @@ def buildGraph(test_ancestors):
 
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-print(earliest_ancestor(test_ancestors, 4)) # 10)
-# print(earliest_ancestor(vertices, 2)) # -1)
-# print(earliest_ancestor(vertices, 3)) # 10)
-# print(earliest_ancestor(vertices, 4)) # -1)
-# print(earliest_ancestor(vertices, 5)) # 4)
-# print(earliest_ancestor(test_ancestors, 6)) # 10)
-# print(earliest_ancestor(vertices, 7)) # 4)
-# print(earliest_ancestor(vertices, 8)) # 4)
-# print(earliest_ancestor(vertices, 9)) # 4)
-# print(earliest_ancestor(vertices, 10)) # -1)
-# print(earliest_ancestor(vertices, 11)) # -1)
+print(earliest_ancestor(test_ancestors, 6)) # 10)
+print(earliest_ancestor(test_ancestors, 2)) # -1)
+print(earliest_ancestor(test_ancestors, 3)) # 10)
+print(earliest_ancestor(test_ancestors, 4)) # -1)
+print(earliest_ancestor(test_ancestors, 5)) # 4)
+print(earliest_ancestor(test_ancestors, 6)) # 10)
+print(earliest_ancestor(test_ancestors, 7)) # 4)
+print(earliest_ancestor(test_ancestors, 8)) # 4)
+print(earliest_ancestor(test_ancestors, 9)) # 4)
+print(earliest_ancestor(test_ancestors, 10)) # -1)
+print(earliest_ancestor(test_ancestors, 11)) # -1)
