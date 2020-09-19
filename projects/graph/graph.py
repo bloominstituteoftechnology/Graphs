@@ -300,6 +300,9 @@ class Graph:
         This should be done using recursion.
         """
         # TODO -> add comment
+        def foo():
+            return
+
         def proc_path(pth):
             # have we found the destination vertex?
             curVtx = pth[-1]
@@ -319,22 +322,22 @@ class Graph:
                     # add the current neighbor to the this potential path
                     lst_poss_path.append(v_nbr)
 
-                    # add this new potential path to the queue
-                    proc_path.push(lst_poss_path)
-
-            return []
+                    # recursively call proc_path with the potential path
+                    return proc_path(lst_poss_path)
         
         # Validate parameter: is the passed vertex valid?
         if starting_vertex not in self.vertices or destination_vertex not in self.vertices:
             # one or both vertices not found, nothing to do
-            print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
+            print("vertex {vtx1} or {vtx2} not found, nothing to do".format(
+                vtx1=starting_vertex,
+                vtx2=destination_vertex))
             return False
 
         # Set up working objects
         set_vrtx_inspected = set()  # set of vertices already inspected/visited
 
-        # Trigger the search with the starting vertex path
-        proc_path(list([starting_vertex]))
+        # Trigger the search with the starting vertex path and return the results
+        return proc_path(list([starting_vertex]))
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -378,8 +381,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    # TODO
-    # graph.bft(1)
+    graph.bft(1)
 
     '''
     Valid DFT paths:
@@ -388,23 +390,20 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # TODO
-    # graph.dft(1)
-    # graph.dft_recursive(1)
+    graph.dft(1)
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
     # TODO: LEFT OFF HERE
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print("path from 1 to 6")
-    print(graph.dfs(1, 6))
-    quit()
-    # print(graph.dfs_recursive(1, 6))
+    graph.dfs(1, 6)
+    graph.dfs_recursive(1, 6)
