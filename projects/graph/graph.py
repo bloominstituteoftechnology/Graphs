@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+from collections import deque
 
 class Graph:
 
@@ -13,33 +14,59 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        if vertex_id in self.vertices:
+            return self.vertices[vertex_id]
+        else:
+            return set() #return empty set, vertex_id isn't in graph
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        # use a deque like a queue, append to end (enqueue), 
+        # pop from front (dequeue)
+        queue = deque()
+        queue.append(starting_vertex)
+        while len(queue) > 0:
+            curr_vertex = queue.popleft() # dequeue from front
+            if curr_vertex not in visited:
+                visited.add(curr_vertex)
+                print(curr_vertex)
+                for neighbor in self.get_neighbors(curr_vertex):
+                    queue.append(neighbor) # enqueue to end
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        #use a deque like a stack, append to end (push), pop from end (pop)
+        stack = deque()
+        stack.append(starting_vertex)
+        while len(stack) > 0:
+            curr_vertex = stack.pop() # pop from end
+            if curr_vertex not in visited:
+                visited.add(curr_vertex)
+                print(curr_vertex)
+                for neighbor in self.get_neighbors(curr_vertex):
+                    stack.append(neighbor) # push to end
 
     def dft_recursive(self, starting_vertex):
         """
@@ -48,7 +75,16 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+        self.dft_recursive_helper(starting_vertex, visited)
+
+    def dft_recursive_helper(self, starting_vertex, visited):
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            print(starting_vertex)
+            for neighbor in self.get_neighbors(starting_vertex):
+                if neighbor not in visited:
+                    self.dft_recursive_helper(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
