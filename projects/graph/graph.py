@@ -122,6 +122,10 @@ class Graph:
         if starting_vertex not in self.vertices:
             return f'Staring vertex {starting_vertex} not found!'
 
+        # perform func on starting vertex if first pass
+        if len(visited) < 1:
+            func(starting_vertex)
+            
         # add current vetex to visited each recursion
         visited.add(starting_vertex)
 
@@ -216,28 +220,24 @@ class Graph:
         # if first run, add starting vertex to path
         if len(curr_path) < 1: 
             curr_path.append(starting_vertex)
-        
-        print(curr_path)   
-        print(starting_vertex)
-        base = starting_vertex == destination_vertex
-        
-        # base case is vertex found:
-        if starting_vertex == destination_vertex:
-            print(base)
-            return curr_path 
 
         # add current vert to visited
         visited.add(starting_vertex)
+        
+        # base case is vertex found:
+        if starting_vertex == destination_vertex:
+            return curr_path 
 
         # use recusrive stack to traverse
         for neighbor in self.get_neighbors(starting_vertex):
             if neighbor not in visited:
                 new_path = list(curr_path)
                 new_path.append(neighbor)
-                return self.dfs_recursive(neighbor, destination_vertex, new_path, visited)
-
-        return curr_path
-
+                res = self.dfs_recursive(neighbor, destination_vertex,
+                                        new_path, visited)
+                if len(res) > 0:
+                    return res
+        return []
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
