@@ -3,9 +3,6 @@ from collections import deque
 import copy
 from util import Stack, Queue  # These may come in handy
 
-def foo():
-    return
-
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -39,8 +36,7 @@ class Graph:
             return False
 
         # Both vertices exist.  Add an edge from v1 to v2
-
-        # Does this vertex have any existing edges (or this the new one)
+        # Does this vertex have any existing edges (or is this the first edge for this vertex)
         if len(self.vertices[v1]) == 0:
             # No existing edges for v1, add the first one
             self.vertices[v1] = {v2}
@@ -137,11 +133,16 @@ class Graph:
     #    a list of ancestors where the line ends (no known parents)
     def get_lineage_ends(self, starting_vertex):
         """
+        Returns the ancestors that represent the end of the starting 
+        vertex's lineage (ancestors with no known parents) 
         """
         ret_ending_ancestors = []
 
-        # proc_vtx prints a graph vertex and it's children in a DFT sequence
+        # proc_vtx finds a vertex's parent until the end of the line
         def proc_vtx(vtx):
+            """
+            Recursively find a vertex's parent until the end of the line
+            """
             # Are we at the end of the line (person with no known parents)?
             if len(self.vertices[vtx]) == 0:
                 # Yes, add this to our list of line ending ancestors
@@ -161,6 +162,9 @@ class Graph:
         return ret_ending_ancestors
 
 def earliest_ancestor(ancestors, starting_node):
+    """
+    Returns the furthest ancestor of the passed vertex
+    """
     # Instantiate a graph object
     my_graph = Graph()
     # Instantiate a stack object
@@ -192,7 +196,7 @@ def earliest_ancestor(ancestors, starting_node):
     # Determine the person's lineage ending vertices
     end_rents = my_graph.get_lineage_ends(starting_node)
 
-    # Iterate through each line and determine which one ancestral line is longer
+    # Iterate through each lineage and determine which ancestral line is longer
     ret_lineage  = []
     for i, vtx in enumerate(end_rents):
         # Return the path from the starting person to the end of the line
