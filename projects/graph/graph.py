@@ -16,7 +16,7 @@ class Graph:
         """
         # Does the vertex already exist?
         if vertex_id in self.vertices:
-            # passed vertex already exists?
+            # passed vertex already exists
             print("vertex {vtx} already exists".format(vtx=vertex_id))
             return False
 
@@ -37,8 +37,7 @@ class Graph:
             return False
 
         # Both vertices exist.  Add an edge from v1 to v2
-
-        # Does this vertex have any existing edges (or this the new one)
+        # Does this vertex have any existing edges (or is this to be added)?
         if len(self.vertices[v1]) == 0:
             # No existing edges for v1, add the first one
             self.vertices[v1] = {v2}
@@ -58,7 +57,7 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        # Does the vertex exist in the graph
+        # Does the vertex exist in the graph?
         if vertex_id not in self.vertices:
             # vertex not found, return None
             print("vertex {vtx} not found".format(vtx=vertex_id))
@@ -72,18 +71,18 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        # Validate parameter: is the passed vertex valid?
+        # Validate the passed parameter: is the passed vertex valid?
         if starting_vertex not in self.vertices:
             # vertex not found, nothing to do
             print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
             return False
 
-        # Define a vertex search queue - "vertexes to search"
+        # Define a vertex search queue - "vertexes to traverse"
         vert_queue = Queue()
-        # Define a vertex search status map - "status of the vertex's search"
+        # Define a vertex status map - "status of the vertex's traversal"
         vert_status = {}
 
-        # Set the search status for each vertex as "not_started"
+        # Set the initial status for each vertex as "not_started"
         for vtx in self.vertices:
             vert_status[vtx] = "search_not_started"
 
@@ -94,7 +93,7 @@ class Graph:
 
         # Process while there are vertices in the queue
         while vert_queue.size() != 0:
-            tmp_vtx = vert_queue.peek(0)
+            tmp_vtx = vert_queue.peek(0)  # access the top of the queue (but don't dequeue)
             if tmp_vtx == None:
                 print("error taking a peek at the queue")
                 quit()
@@ -249,7 +248,7 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        # Validate parameter: is the passed vertex valid?
+        # Validate the passed parameter: is the passed vertex valid?
         if starting_vertex not in self.vertices or destination_vertex not in self.vertices:
             # one or both vertices not found, nothing to do
             print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
@@ -261,13 +260,13 @@ class Graph:
         # Define a vertex search queue
         stk_vert = Stack()  # queue of path lists
 
-        # Place the start vertex in our queue
+        # Place the initial path in the queue - path that includes includes on the starting vertex
         stk_vert.push(list([starting_vertex]))
 
         # Process while there are vertex paths in the queue
         while stk_vert.size() != 0:
             iter_path = stk_vert.pop()  # pop the next path to be processed
-            curVtx = iter_path[-1]
+            curVtx    = iter_path[-1]   # grab the last vertex in the current path 
 
             # Have we found the destination node?
             if curVtx == destination_vertex:
@@ -299,9 +298,6 @@ class Graph:
 
         This should be done using recursion.
         """
-        # TODO -> add comment
-        def foo():
-            return
 
         def proc_path(pth):
             # have we found the destination vertex?
