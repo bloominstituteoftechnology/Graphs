@@ -25,9 +25,7 @@ class Graph:
         """
         # check if v1 in graph
         if v1 in self.vertices:
-            # check if v2 in graph
-            if v2 in self.vertices:
-                self.vertices[v1].add(v2)      
+            self.vertices[v1].add(v2)      
         else:
             return 'One or more vertices not found!'       
         
