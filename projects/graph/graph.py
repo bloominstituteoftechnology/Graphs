@@ -96,14 +96,14 @@ class Graph:
         queue = deque()
         queue.append([starting_vertex])
         while len(queue) > 0:
-            currPath = queue.popleft()
-            currNode = currPath[-1]
-            if currNode == destination_vertex:
-                return currPath
-            if currNode not in visited:
-                visited.add(currNode)
-                for neighbor in self.get_neighbors(currNode):
-                    newPath = list(currPath)
+            curr_path = queue.popleft()
+            curr_vertex = curr_path[-1]
+            if curr_vertex == destination_vertex:
+                return curr_path
+            if curr_vertex not in visited:
+                visited.add(curr_vertex)
+                for neighbor in self.get_neighbors(curr_vertex):
+                    newPath = list(curr_path)
                     newPath.append(neighbor)
                     queue.append(newPath)
 
@@ -118,14 +118,14 @@ class Graph:
         stack = deque()
         stack.append([starting_vertex])
         while len(stack) > 0:
-            currPath = stack.pop()
-            currNode = currPath[-1]
-            if currNode == destination_vertex:
-                return currPath
-            if currNode not in visited:
-                visited.add(currNode)
-                for neighbor in self.get_neighbors(currNode):
-                    newPath = list(currPath)
+            curr_path = stack.pop()
+            curr_vertex = curr_path[-1]
+            if curr_vertex == destination_vertex:
+                return curr_path
+            if curr_vertex not in visited:
+                visited.add(curr_vertex)
+                for neighbor in self.get_neighbors(curr_vertex):
+                    newPath = list(curr_path)
                     newPath.append(neighbor)
                     stack.append(newPath)
 
