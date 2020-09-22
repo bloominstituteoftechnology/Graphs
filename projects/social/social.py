@@ -1,5 +1,25 @@
 import random
 import math
+
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def __repr__(self):
+        return str(self.queue)
+
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -73,8 +93,29 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        # build a graph based on the friends of the current user as keys and their friends as keys without duplicates and the shortest path from the current user to that key
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # crawl using a queue 
+        queue = Queue()
+        # start with the staring id in the queue 
+        queue.enqueue([user_id])
+        # keep track of what friends and friends of friends we visited
+        visited = dict()
+        while queue.size() > 0:
+            current_path = queue.dequeue()
+            # print(f'Current path: {current_path}')
+            # pop off the last element in queue and declare that the path
+            current_user_id = current_path[-1]
+            if current_user_id not in visited:
+                # mark current user visited key is current user and value is path
+                # we use a dictionary to store the key of the user_id we are searching and the value is the path of how we get to that friend
+                visited[current_user_id] = current_path
+                # print(f'visited: {visited}')
+                for friend in self.friendships[current_user_id]:
+                    newPath = list(current_path)
+                    newPath.append(friend)
+                    queue.enqueue(newPath) 
+            # get neighbors of the user_id, and those neigbors exp: 1 {}
         return visited
 
 
