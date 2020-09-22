@@ -263,3 +263,40 @@ def findLadders(begin, end, wordList):
     return []
 
 print(findLadders('hit', 'zot', ['hot', 'zot']))
+
+# Graphs III Notes
+
+# Number of Islands
+
+def numIslands(grid):
+    n = 0
+    if len(grid) == 0:
+        return 0
+    width, height = len(grid[0]), len(grid)
+    visited = [[[False]] * width for x in range(height)]
+    for y in range(height):
+        for x in range(width):
+            if grid[y][x] == '1' and not visited[y][x]:
+                n += 1
+                markVisited(grid, visited, x, y)
+    return n
+
+def markVisited(grid, visited, x, y):
+    w, h = len(grid[0]), len(grid)
+    stack = deque()
+    stack.append((x, y))
+    while stack:
+        x, y = stack.pop()
+        if visited[y][x]:
+            continue
+        visited[y][x] = True
+
+        # check left node
+        if x - 1 >= 0 and grid[y][x-1] == '1':
+            stack.append((x - 1, y))
+        if x + 1 < w and grid[y][x+1] == '1':
+            stack.append((x + 1, y))
+        if y - 1 >= 0 and grid[y-1][x] == '1':
+            stack.append((x, y- 1))
+        if y + 1 < h and grid[y+1][x] == '1':
+            stack.append((x, y+1))
