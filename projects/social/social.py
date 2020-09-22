@@ -1,6 +1,12 @@
+import random
+
+
 class User:
     def __init__(self, name):
         self.name = name
+
+    def __repr__(self):
+        return f"User({repr(self.name)})"
 
 class SocialGraph:
     def __init__(self):
@@ -8,7 +14,9 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
 
-    def add_friendship(self, user_id, friend_id):
+   
+
+    def add_friendship(self, user_id, friend_id): # this is the edge
         """
         Creates a bi-directional friendship
         """
@@ -20,13 +28,13 @@ class SocialGraph:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
 
-    def add_user(self, name):
+    def add_user(self, name): # this is the node
         """
         Create a new user with a sequential integer ID
         """
         self.last_id += 1  # automatically increment the ID to assign the new user
-        self.users[self.last_id] = User(name)
-        self.friendships[self.last_id] = set()
+        self.users[self.last_id] = User(name) #dict of key--id, and val--userName
+        self.friendships[self.last_id] = set() # dict of key--id, and val--set to hold other users
 
     def populate_graph(self, num_users, avg_friendships):
         """
@@ -44,9 +52,30 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
-        # Add users
+        # Add users -- doing a loop through the number of users
+        for i in range(num_users):
+            self.add_user(f"User {i}")
 
-        # Create friendships
+
+        # # Create friendships
+        possibleFriendships = []
+
+        # for user_id in self.users:
+        for user_id in self.users:
+            # looping through the other users to make friends will
+            # start at the id just above the current id so that
+            # we are not friends with ourselves
+            for friend_id in range(user_id +1, self.last_id + 1):
+                possibleFriendships.append((friend_id, user_id)) 
+        # will now use the random shuffle to shuffle some of the names
+        random.shuffle(possibleFriendships)
+        
+
+        for i in range(num_users * avg_friendships // 2):
+            # adding the friendships
+            self.add_friendship(possibleFriendships[i][0], possibleFriendships[i][1])
+        
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -64,7 +93,9 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
+    print(sg.users)
     sg.populate_graph(10, 2)
+    print(sg.users)
     print(sg.friendships)
-    connections = sg.get_all_social_paths(1)
-    print(connections)
+    #connections = sg.get_all_social_paths(1)
+    #print(connections)

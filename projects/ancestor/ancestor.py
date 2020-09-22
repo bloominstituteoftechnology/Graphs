@@ -21,7 +21,9 @@ def earliest_ancestor(ancestors, starting_node):
     # will now go through by bft
     path = [starting_node]
     my_queue = Queue()
-    generation = {}
+    generation = {} # this is a dictionary that will hold the 
+                    # generation of the earliest anscestor as the key and 
+                    # the val is the earlies anscestor 
     gen_count = 0
      # putting the path with the starting node in the queue
     my_queue.put(path)
@@ -36,7 +38,7 @@ def earliest_ancestor(ancestors, starting_node):
         gen_count = len(curPath)-1 # this to keep track of the generation count that we are on for each 
                                    # of the paths
         # need to check if there are any neighbors
-        if curPath[-1] not in graph:
+        if curPath[-1] not in graph: # this means that there are no neighbors
             # will put the end of the path in dictionary
             if gen_count not in generation:
                 generation[gen_count] = set()
@@ -50,7 +52,8 @@ def earliest_ancestor(ancestors, starting_node):
             my_queue.put(newPath)
     # now we need to find out what the last gen count was
     returnVal = 11111111111111111110
-    for val in generation[gen_count]:
+    for val in generation[gen_count]: # giving it the last generation count
+                                      # so that we are looking at the earliest generation
         if returnVal > val:
             returnVal = val
     return val
