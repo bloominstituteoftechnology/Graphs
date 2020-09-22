@@ -13,14 +13,27 @@ class Graph:
         self.vertices = {
             
         }
+        
+         
 
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        if vertex_id not in self.vertices:
-           self.vertices[vertex_id]=set()
-           
+        # if vertex_id not in self.vertices:
+        #    self.vertices[vertex_id]=set()
+        # new_node_row = [0] *(len(self.vertices)+1) 
+        
+        #Matrix way
+        
+        # for node in self.vertices:
+        #     node.append(0)
+        # new_node_row = [0]*(len(self.vertices) +1)
+        # self.vertices.add(new_node_row)
+    # def delete_edge(self, vertex_id):
+        # access the v1 remove v2
+        # access v2 remove v1
+              
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
@@ -77,16 +90,18 @@ class Graph:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
-
         This should be done using recursion.
         """
         visited = set()
-        
-        if starting_vertex not in visited:
-            visited.add(starting_vertex)
-            print(starting_vertex)
-            for n in self.vertices[starting_vertex]:
-                self.dft_recursive(n)
+        def dft(vertex):
+            if vertex in visited:
+                return
+            else:
+                visited.add(vertex)
+                print(vertex)
+            for neighbor in self.get_neighbors(vertex):
+                dft(neighbor)
+        dft(starting_vertex)
             
         
         
