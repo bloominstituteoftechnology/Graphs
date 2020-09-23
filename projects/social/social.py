@@ -1,6 +1,5 @@
 import random
 from collections import deque
-import math
 
 ORCNAME = ['Sugbu', 'Yambul', 'Zalthu', 'Snaglak', 'Noogugh', 'Varbu',\
 'Podagog', 'Cukgilug', 'Xarpug', 'Jughragh', 'Murbol', 'Bashuk', 'Ugor', 'Mog',\
@@ -66,7 +65,7 @@ class SocialGraph:
         # shuffle all possible friendships
         random.shuffle(combos)
 
-        for i in range(math.floor(num_users * avg_friendships / 2)):
+        for i in range(int(num_users * avg_friendships // 2)):
             friendship = combos[i]
             self.add_friendship(friendship[0], friendship[1])
 
