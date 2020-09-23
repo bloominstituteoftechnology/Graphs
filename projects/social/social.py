@@ -61,7 +61,7 @@ class SocialGraph:
                 rand_friends(arr, num_users, avg_friends, res, i)
                 arr.pop()
             return res
-        res = rand_friends([],num_users, avg_friendships, [], 0)
+        res = rand_friends([], num_users, avg_friendships, [], 0)
         shuffle(res)
         for user, friend in res[:num_users]:
             self.add_friendship(user, friend)

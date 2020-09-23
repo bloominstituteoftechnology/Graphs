@@ -5,14 +5,16 @@ from world import World
 import random
 from ast import literal_eval
 
+from collections import deque
+
 # Load world
 world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
+# map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
-# map_file = "maps/test_loop.txt"
+map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
 
@@ -21,31 +23,63 @@ room_graph=literal_eval(open(map_file, "r").read())
 world.load_graph(room_graph)
 
 # Print an ASCII map
-# world.print_rooms()
+world.print_rooms()
 
 player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-print(player.current_room)
-traversal_path = []
 
-player.travel('n', True)
+traversal_path = []
+visited = set()
+
+opposite_dir = { 'w': 'e', 'e': 'w', 'n': 's', 's': 'n' }
+
+# dfs, backtrack, but will take long loop arounds. 1st iteration. 998 moves
+def dfs(visited, room, path, d):
+    if room.name not in visited:
+        if d:
+            path.append(d)
+        visited.add(room.name)
+        for exit in room.get_exits():
+            room_in_dir = room.get_room_in_direction(exit)
+            if room_in_dir.name not in visited:
+                dfs(visited, room_in_dir, path, exit)
+                path.append(opposite_dir[exit])
+
+# dfs(visited, player.current_room, traversal_path, "")
+
+visited2 = {}
+
+def dfs2(visited, room, path, d):
+    if d:
+        path.append(d)
+    if room.name not in visited:
+        visited[room.name] = set()
+    for exit in room.get_exits():
+        room_in_dir = room.get_room_in_direction(exit)
+        if room_in_dir.name not in visited:
+            dfs2(visited, room_in_dir, path, exit)
+            path.append(opposite_dir[exit])
+
+
+
+# player.travel('n', True)
 
 # TRAVERSAL TEST
-# visited_rooms = set()
-# player.current_room = world.starting_room
-# visited_rooms.add(player.current_room)
+visited_rooms = set()
+player.current_room = world.starting_room
+visited_rooms.add(player.current_room)
 
-# for move in traversal_path:
-#     player.travel(move)
-#     visited_rooms.add(player.current_room)
+for move in traversal_path:
+    player.travel(move)
+    visited_rooms.add(player.current_room)
 
-# if len(visited_rooms) == len(room_graph):
-#     print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
-# else:
-#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-#     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
+if len(visited_rooms) == len(room_graph):
+    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
+else:
+    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+    print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
 
 
