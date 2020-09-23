@@ -1,5 +1,5 @@
-import random
-
+import random 
+from queue import  Queue
 
 class User:
     def __init__(self, name):
@@ -76,6 +76,7 @@ class SocialGraph:
             self.add_friendship(possibleFriendships[i][0], possibleFriendships[i][1])
         
 
+    
 
     def get_all_social_paths(self, user_id):
         """
@@ -88,14 +89,48 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # to find the shortest path we need to to a breadth first search
+        # We will loop through doing the bft and then add the path to the 
+        # dictionary visited if is not in the dictionary already.
+        # 
+        
+        myQueue = Queue()
+        if user_id not in self.users: # looking in the keys
+            
+            raise("That user id is not part of the social network")
+
+        path = [user_id]
+        # add to the Queue
+        myQueue.put(path)
+
+        # doing the while loop
+        while myQueue.qsize() > 0:
+            # dequeue
+            curPath = myQueue.get()
+            if curPath[-1] not in visited:
+                # added to the visited
+                visited[curPath[-1]] = curPath
+                # will now get the neighbors of the curPath[-1]
+                for friend in self.friendships[curPath[-1]]:
+                    newPath = curPath[:]
+                    newPath.append(friend)
+                    # putting it in the queue
+                    myQueue.put(newPath) 
+
+
         return visited
 
 
 if __name__ == '__main__':
+
+    theUsr = 1
     sg = SocialGraph()
-    print(sg.users)
+
     sg.populate_graph(10, 2)
+    print("Printing the users in the social network")
     print(sg.users)
+    print("\nPrinting the friendships that are in the social network")
     print(sg.friendships)
-    #connections = sg.get_all_social_paths(1)
-    #print(connections)
+    connections = sg.get_all_social_paths(theUsr)
+    print("\nPrinting the connection ")
+    print(connections)
