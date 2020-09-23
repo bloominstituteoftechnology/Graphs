@@ -127,25 +127,46 @@ class Graph:
 
         This should be done using recursion.
         """
+
         visited = set()
+        return self.dfs_recursive_helper([starting_vertex], destination_vertex, visited)
 
-        def dfs(path):
-            currPath = path[-1]
+    def dfs_recursive_helper(self, curr_path, destination_vertex, visited):
+        curr_vertex = curr_path[-1]
+        if curr_vertex == destination_vertex:
+            return curr_path
 
-            if currPath not in visited:
-                visited.add(currPath)
-            if currPath == destination_vertex:
-                return path
-            for neighbor in self.get_neighbors(currPath):
-                newPath = path[:]
+        visited.add(curr_vertex)
+
+        for neighbor in self.get_neighbors(curr_vertex):
+            if neighbor not in visited:
+                newPath = list(curr_path)
                 newPath.append(neighbor)
-            foundPath = dfs(newPath)
-            if foundPath:
-                return foundPath
+                res = self.dfs_recursive_helper(
+                    newPath, destination_vertex, visited)
+                if len(res) > 0:
+                    return res
 
-            return None
+        return []
 
-        return dfs([starting_vertex])
+        # visited = set()
+
+        # def dfs(path):
+        #     currPath = path[-1]
+
+        #     if currPath not in visited:
+        #         visited.add(currPath)
+        #     if currPath == destination_vertex:
+        #         return path
+        #     for neighbor in self.get_neighbors(currPath):
+        #         newPath = path[:]
+        #         newPath.append(neighbor)
+        #     foundPath = dfs(newPath)
+        #     if foundPath:
+        #         return foundPath
+
+        #     return None
+        # return dfs([starting_vertex])
 
 
 if __name__ == '__main__':
