@@ -1,3 +1,17 @@
+import copy
+import random
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -38,6 +52,10 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
+
+        if num_users < avg_friendships:
+            return
+
         # Reset graph
         self.last_id = 0
         self.users = {}
@@ -45,8 +63,27 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(num_users):
+            self.add_user(i)
 
         # Create friendships
+        # you could create a list with all possible friendship combinations
+        ## [(1, 2), (1,3), (1,4), (2,3), (2,4), (3,4)]
+        # shuffle the list
+        # grab the first N elements from the list
+
+        possible_friendships = []
+
+        for user in self.users:
+            for friend in range(user + 1, self.last_id + 1):
+                possible_friendships.append((user, friend))
+
+        random.shuffle(possible_friendships)
+
+        for i in range(num_users * avg_friendships // 2):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -58,13 +95,27 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        queue = Queue()
+        queue.enqueue([user_id])
+
+        while queue.size() > 0:
+            current_path = queue.dequeue()
+            current_vertext = current_path[-1]
+            
+            if current_vertext not in visited:
+                visited[current_vertext] = current_path
+
+            for n in self.friendships[current_vertext]:
+                copy_path = current_path.copy()
+                copy_path.append(n)
+                queue.enqueue(copy_path)
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(20, 5)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
