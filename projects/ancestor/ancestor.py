@@ -22,7 +22,35 @@ class Graph:
         return self.vertices[vertex_id]
  
 
+# 1. Describe the problem in graph terminology
+## What are our nodes? -> numbers/people
+## What are our edges? -> if a descendant/parent
+## Directed graph
+
+# 2. Build your graph or write getNeighbors()
+## Can do either
+
+# 3. Choose your fighter
+## Which algorithm would you use in this situation?
+### BFS, DFS, BFT, DFT
+
+## Search or a traversal?
+### more like a traversal: visit every node possible from your starting node
+
+## Depth vs Breadth
+## BF --> shortest path
+## DF --> heads to leaves first
+
+## DF can be recursive, but not BF
+
 def earliest_ancestor(ancestors, starting_node):
+    ## iterate over all ancestors,
+    ## add each node to the graph
+    ## add each edge to the graph
+
+    ## run a traversal
+    ## modify it so as you go, you keep track of the node that's farthest away
+
     g = Graph()
     q = Queue()
     
@@ -42,11 +70,10 @@ def earliest_ancestor(ancestors, starting_node):
         if len(path) > max_length:
             max_length = len(path)
             earliest = curr
-        elif len(path) == max_length:
-            if curr < earliest:
-                earliest = curr
+        elif len(path) == max_length and curr < earliest:
+            earliest = curr
 
         for neighbor in g.get_neighbors(curr):
             q.enqueue(path + [neighbor])
 
-    return earliest 
+    return earliest
