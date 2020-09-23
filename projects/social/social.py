@@ -72,14 +72,12 @@ class SocialGraph:
         for i in range(0, num_users):
             self.add_user(f'User {i}')
 
-        for user_id in self.users:
+        for user_id in self.users:     
         # Create friendships
-        # HOW DOES THIS LINE WORK?
             for friend_id in range(user_id + 1, self.last_id + 1):
                 posible_friendships.append((user_id, friend_id))
         
         random.shuffle(posible_friendships)
-        # print(posible_friendships)
         for i in range(0, math.floor(num_users * avg_friendships / 2)):
             friendship = posible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
@@ -93,8 +91,6 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        # build a graph based on the friends of the current user as keys and their friends as keys without duplicates and the shortest path from the current user to that key
-        visited = {}  # Note that this is a dictionary, not a set
         # crawl using a queue 
         queue = Queue()
         # start with the staring id in the queue 
@@ -110,18 +106,16 @@ class SocialGraph:
                 # mark current user visited key is current user and value is path
                 # we use a dictionary to store the key of the user_id we are searching and the value is the path of how we get to that friend
                 visited[current_user_id] = current_path
-                # print(f'visited: {visited}')
                 for friend in self.friendships[current_user_id]:
                     newPath = list(current_path)
                     newPath.append(friend)
                     queue.enqueue(newPath) 
-            # get neighbors of the user_id, and those neigbors exp: 1 {}
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(3, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
