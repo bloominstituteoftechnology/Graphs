@@ -99,3 +99,11 @@ def find_components(matrix):
 
 
 print(f"The number of components is: {find_components(matrix)}")
+
+
+# doing the path
+import os
+
+path = os.path.join(os.path.realpath(__file__), "..", "test_line.txt")
+
+print(f"This is the path: {path}")

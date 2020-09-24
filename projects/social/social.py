@@ -21,12 +21,16 @@ class SocialGraph:
         Creates a bi-directional friendship
         """
         if user_id == friend_id:
-            print("WARNING: You cannot be friends with yourself")
+            #print("WARNING: You cannot be friends with yourself")
+            return -1
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
-            print("WARNING: Friendship already exists")
+
+            #print("WARNING: Friendship already exists")
+            return -1
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
+            return 1 # this means the function was succesfull
 
     def add_user(self, name): # this is the node
         """
@@ -76,7 +80,30 @@ class SocialGraph:
             self.add_friendship(possibleFriendships[i][0], possibleFriendships[i][1])
         
 
-    
+    # This is the second version of the populate graph which will hopefully
+    # have a better time complexity
+    def populate_graph_2(self, num_users, avg_friendships):
+        # will make it to reset the graph
+        # Reset graph
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+
+        # what are the total number of friendships that we want
+        totalFriendshipsNeeded = num_users * avg_friendships
+        totalFrienships = 0
+        # Add users -- doing a loop through the number of users
+        for i in range(num_users):
+            self.add_user(f"User {i}")
+        # doing second loop that will choose two random
+        while totalFrienships < totalFriendshipsNeeded:
+            user1_id = random.randint(1, self.last_id)
+            user2_id = random.randint(1, self.last_id)
+
+            result = self.add_friendship(user1_id, user2_id)
+            if result == 1:
+                totalFrienships+=2 # adding another friendship eventually causing the exit of the loop
+        
 
     def get_all_social_paths(self, user_id):
         """
@@ -126,7 +153,8 @@ if __name__ == '__main__':
     theUsr = 1
     sg = SocialGraph()
 
-    sg.populate_graph(10, 2)
+    #sg.populate_graph(100, 2)
+    sg.populate_graph_2(100, 2)
     print("Printing the users in the social network")
     print(sg.users)
     print("\nPrinting the friendships that are in the social network")
