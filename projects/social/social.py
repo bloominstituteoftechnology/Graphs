@@ -12,16 +12,23 @@ class SocialGraph:
         self.users          = {}
         self.friendships    = {}
         self.visited        = {}      # visited nodes (via traversal)
+        self.friend_iters   = 0
+        self.friend_colls   = 0
 
     def add_friendship(self, user_id, friend_id):
         """
         Creates a bi-directional friendship
         """
+        # Tally how many times this method is called
+        self.friend_iters = self.friend_iters + 1 
+
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
             return False   # Dan: added this line
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
             print("WARNING: Friendship already exists")
+            # Tally how many times there was a friend collision (friendship that already existed)
+            self.friend_colls = self.friend_colls + 1 
             return False   # Dan: added this line
         else:
             self.friendships[user_id].add(friend_id)
@@ -142,7 +149,9 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(100, 10)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
+    print(sg.friend_iters)
+    print(sg.friend_colls)
