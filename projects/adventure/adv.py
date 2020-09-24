@@ -41,14 +41,6 @@ world.load_graph(room_graph)
 # Print an ASCII map
 world.print_rooms()
 
-# TODO: HOW ARE WE SUPPOSED TO BUILD THE GRAPH
-def buildGraph(starting_room, current_room, directions):
-    dict = {},
-    if starting_room not in dict:
-        dict[starting_room] = starting_room
-    
-    return dict
-
 # Fill this out with directions to walk
 directions = ['n','s', 'e', 'w']
 traversal_path = []
@@ -57,84 +49,37 @@ traversal_path = []
 
 player = Player(world.starting_room)
 
-# When traveling update the direction in room traveled from with the room traveled to 
-def update_graph(room):
-    for k, v in room_graph.items():
-        print(k, v)
-        for k, v in v.items():
-            if k == 'n':
-                print('here')
-                print(k, v)
-                v = player.current_room.id
-                print(k, v)
+# def transverse(starting_room):
+#     queue = Queue()
 
-queue = Queue()
-# put current room in the queue
-# set starting_room
-starting_room = player.current_room.id
-queue.enqueue([starting_room])
+#     visted = set()
+#     # put current room in the queue
+#     queue.enqueue([starting_room])
+#     # set starting_room
+#     while queue.size() > 0:
+#         path = queue.dequeue()
+#         room = path[-1]
+#         if room not in visted:
+#             visted.add(room)
+#             print(visted)
+#             # if room is unexplored
 
-visited = set()
-# get the exits of the current room
-room_exits = player.current_room.get_exits()
-while queue.size() > 0:
-    print(queue)
-    current_path = queue.dequeue()
-    print(f'\nthe currrent_path is {current_path}')
-    current_node = current_path[- 1]
-    print(f'\nthe current_node is {current_node}')
-    # loop through room's exits
-    for exit in room_exits:
-        # go to the exits that exists in the current room
-        print(f'{exit}')
-        print(f'current room is {player.current_room.id}')
-        player.travel(exit, True)
-        # when you travel update the room that you traveled from direction
+#             # get neighbors of the rooms
 
+possible_exits = player.current_room.get_exits()
 
-        room_graph = buildGraph(starting_room, player.current_room.id, directions)
-        print(f'{room_graph}')
+room_graph = {}
 
+player.travel(directions[0])
 
-# def transverse():
+def buildGraph(possible_exits, room):
+    for exits in possible_exits:
+        if player.current_room.id not in room_graph:
+            room_graph[player.current_room.id] = {exits : '?'}
 
-#         if current_node not in visited:
-#             visited.add(current_node)
-#             print(f'visited: {visited}')
-#             for neighbor in room_graph[player.current_room]:
-#                 newPath = list(current_path)
-#                 # [1, 2, 4,6]
-#                 newPath.append(neighbor)
-#                 # [6]
-#                 print(f'the new path is: {newPath}')
-#                 queue.enqueue(newPath)
-
-
-#     print(f'\ncurrent room graph is {room_graph}\n')
-
-#     player.travel('n')
-#     print('player is in room,', player.current_room.id)
-    # if there is a room n, s, e, w change corresponding value from ? to room ID 
-    # update graph at previous room, change direction value to room traveled to
-    # print(room_graph)
-    # add new room to graph
-    # room_graph[player.current_room.id] = 
-
-# loop through rooms:
-    # if there is a room in that direction:
-        # BFT 
-    # if there is no room in that direction:
-        # DFT - find the ? than transverse again
-    # travel to each direction:
-
-
-    # if the room has exits transverse
-
-    # Tranverse rooms with BFT
-    # if player.current_room.get_exits() is false:
-        # use DFT to search for question marks
-
-# transverse()
+buildGraph(possible_exits, player.current_room.id)
+print(f'The room graph is', room_graph)
+# transverse(room)
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
