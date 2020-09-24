@@ -1,4 +1,6 @@
 import random
+from collections import deque
+import copy
 
 class User:
     def __init__(self, name):
@@ -6,9 +8,10 @@ class User:
 
 class SocialGraph:
     def __init__(self):
-        self.last_id = 0
-        self.users = {}
-        self.friendships = {}
+        self.last_id        = 0
+        self.users          = {}
+        self.friendships    = {}
+        self.visited        = {}      # visited nodes (via traversal)
 
     def add_friendship(self, user_id, friend_id):
         """
@@ -70,6 +73,59 @@ class SocialGraph:
                 # success
                 ctr = ctr + 1
 
+    # bft traverses the graph in a breadth first manner
+    def bft(self, starting_vertex):
+        """
+        Print each vertex in breadth-first order
+        beginning from starting_vertex.
+        """
+        # Reset the visited object
+        self.visited = {}
+
+        # Validate the passed parameter: is the passed vertex valid?
+        if starting_vertex not in self.users:
+            # vertex not found, nothing to do
+            print("vertex {vtx} not found, nothing to do".format(vtx=starting_vertex))
+            return False
+
+        # Define a vertex search queue - "vertexes to traverse"
+        vert_queue = deque()
+        # Define a vertex status map - "status of the vertex's traversal"
+        vert_status = {}
+
+        # Set the initial status for each vertex as "not_started"
+        for vtx in self.users:
+            vert_status[vtx] = "search_not_started"
+
+        # Start the breadth search with the passed vertex
+        vert_status[starting_vertex]  = "search_started"
+        # Construct the path from starting_vertex -> starting_vertex
+        #    which is: [starting_vertex]
+        self.visited[starting_vertex] = list([starting_vertex])
+        # Place the start vertex in our queue
+        vert_queue.append(starting_vertex)
+
+        # Process while there are vertices in the queue
+        while len(vert_queue) != 0:
+            # Dequeue the vertex at the top of the queue
+            tmp_vtx = vert_queue.pop()
+            vert_status[tmp_vtx] = "search_started"
+
+            # Iterate through the current vertex's neighbors
+            #    and initate the search process on those vertices
+            for vrtx in self.friendships[tmp_vtx]:
+                if vert_status[vrtx] == "search_not_started":
+                    vert_status[vrtx] = "search_started"
+
+                    # Construct the path from starting_vertex to vrtx which is:
+                    #   1. path from starting_vertex to tmp_vtx 
+                    #   2. + vrtx
+                    self.visited[vrtx] = copy.deepcopy(self.visited[tmp_vtx]) # Step 1
+                    self.visited[vrtx].append(vrtx)                           # Step 2
+
+                    # Add the current vertex to the queue to be inspected
+                    vert_queue.append(vrtx)
+
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -79,14 +135,14 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
-
+        # Traverse the graph starting with passed user id
+        self.bft(user_id)
+        # Return the generated visited graph
+        return self.visited
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
     print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
