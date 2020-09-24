@@ -14,7 +14,11 @@ world = World()
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
+import os.path
 map_file = "maps/main_maze.txt"
+map_file = os.path.join(os.path.dirname(__file__), map_file)
+
+# Read in all the words in one go
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
