@@ -81,21 +81,16 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         queue = deque()
-        visited[user_id] = [user_id]
-        for friend_id in self.friendships[user_id]:
-            queue.append((friend_id, [friend_id]))
-        
+        queue.append([user_id])
         while len(queue) > 0:
-            currNode = queue.popleft()
-            curr_friend_id = currNode[0]
-            curr_path = currNode[1]
-            if curr_friend_id not in visited:
-                visited[curr_friend_id] = curr_path
-                for new_friend_id in self.friendships[curr_friend_id]:
-                    if new_friend_id not in visited:
-                        new_path = list(curr_path) + [new_friend_id]
-                        queue.append((new_friend_id, new_path))
-
+            currPath = queue.popleft()
+            currNode = currPath[-1]
+            visited[currNode] = currPath
+            for friend in self.friendships[currNode]:
+                if friend not in visited:
+                    new_path = list(currPath)
+                    new_path.append(friend)
+                    queue.append(new_path)
         return visited
 
     def count_direct_friends(self, friend_id):
