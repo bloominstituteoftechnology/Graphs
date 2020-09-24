@@ -43,7 +43,37 @@ class Graph:
 
 ## DF can be recursive, but not BF
 
-def earliest_ancestor(ancestors, starting_node):
+# build dictionary of child: [parents]
+# loaded up into graph class
+# iterate through all ancestors
+# (parent, child)
+
+def getParents(ancestors, node):
+    parents = []
+    for pair in ancestors:
+        if pair[1] == node:
+            parents.append(pair[0])
+    return parents
+
+def dft_recursive(ancestors, node, distance):
+    parents = getParents(ancestors, node)
+
+    aged_one = (node, distance)
+
+    for parent in parents:
+        pair = dft_recursive(ancestors, parent, distance + 1)
+        if pair[1] > aged_one[1]:
+            aged_one = pair
+
+    return aged_one
+
+def earliest_ancestor(ancestors, starting_node, distance=0):
+    aged_one = dft_recursive(ancestors, starting_node, distance)
+
+    if aged_one[0] == starting_node:
+        return -1
+
+    return aged_one[0]
     ## iterate over all ancestors,
     ## add each node to the graph
     ## add each edge to the graph
@@ -51,30 +81,29 @@ def earliest_ancestor(ancestors, starting_node):
     ## run a traversal
     ## modify it so as you go, you keep track of the node that's farthest away
 
-    g = Graph()
-    q = Queue()
+    # g = Graph()
+    # q = Queue()
     
-    
-    q.enqueue([starting_node])
-    max_length = 1
-    earliest = -1
+    # q.enqueue([starting_node])
+    # max_length = 1
+    # earliest = -1
 
-    for pair in ancestors:
-        g.add_vertex(pair[0])
-        g.add_vertex(pair[1])
-        g.add_edge(pair[1], pair[0])
+    # for pair in ancestors:
+    #     g.add_vertex(pair[0])
+    #     g.add_vertex(pair[1])
+    #     g.add_edge(pair[1], pair[0])
 
-    while q.size() > 0:
-        path = q.dequeue()
-        curr = path[-1]
+    # while q.size() > 0:
+    #     path = q.dequeue()
+    #     curr = path[-1]
 
-        if len(path) > max_length:
-            max_length = len(path)
-            earliest = curr
-        elif len(path) == max_length and curr < earliest:
-            earliest = curr
+    #     if len(path) > max_length:
+    #         max_length = len(path)
+    #         earliest = curr
+    #     elif len(path) == max_length and curr < earliest:
+    #         earliest = curr
 
-        for neighbor in g.get_neighbors(curr):
-            q.enqueue(path + [neighbor])
+    #     for neighbor in g.get_neighbors(curr):
+    #         q.enqueue(path + [neighbor])
 
-    return earliest
+    # return earliest
