@@ -42,12 +42,14 @@ traversal_path = []
         # each recursive call will return the lenght of moves and the path
         # will go build the steps from this curNode where go to the shortest
         # paths fisrt and then the longes second.
-def get_traversal_path(visited=None):
+def get_traversal_path(path=None, visited=None, current_Position=0):
     if not visited:
         visited = set() # making the set that will keep track of the where visited
-
+    if not path: # getting the path that will be sent to the method
+        path = []
     go_back = None # This is the the direction that should go back
     num_dirs = 0
+     
     # These are a place holder for the dominant path 
     theTuple_n = theTuple_e = theTuple_s = theTuple_w = (None, None, None)
     s_dom_path = n_dom_path = e_dom_path = w_dom_path = None
@@ -55,32 +57,41 @@ def get_traversal_path(visited=None):
     # base case will be when there are do more directions to go or 
     # that all the directions to go have been visited
     if player.current_room.id in visited:
-        return 
+        return 0
     
 
     # Add to the visited
     visited.add(player.current_room.id)
 
-    if len(player.current_room.get_exits()) < 1:
-        return 
+    curRoom = player.current_room.id
+    theDist = 1 # counting the room that they are in as the distance
+    path.append(curRoom)
+
+    if len(player.current_room.get_exits()) < 1: # returns a tuple (dist, path, dom_path)
+        return 1
     # doing the movement in each of the four directions
     # north
     if player.travel("n"):
         go_back= "s"
         num_dirs += 1
-        theTuple_n = get_traversal_path(visited)    
+        theTuple_n = get_traversal_path(path, visited, current_Position+1, )
+        theDist_n +=dist_val
+            
     if player.travel("s"):
         go_back="n"
         num_dirs += 1
-        theTuple_s = get_traversal_path(visited)
+        theTuple_s = get_traversal_path(path, visited, current_Position+1)
+        
     if player.travel("e"):
         go_back="w"
         num_dirs += 1
-        theTuple_e = get_traversal_path(visited)
+        theTuple_e = get_traversal_path(path, visited, current_Position+1)
+        
     if player.travel("w"):
         go_back = "e"
         num_dirs += 1
-        theTuple_w = get_traversal_path(visited)
+        theTuple_w = get_traversal_path(path, visited, current_Position+1)
+        
     # will now inrement the depth of the paths down one of
     # the directions
     # going back from the direction the player came down
@@ -91,18 +102,42 @@ def get_traversal_path(visited=None):
     # will do the loop if there are at least two directions
     if num_dirs >=2:
         # finding the longest path or the dominant path
+        # each tuple will contain 
+        # (dist_from_whence_returning, path_down_to_where_return, dominant_path)
+        # The dominant path will not have branches on it
         theList =  [theTuple_n, theTuple_s, theTuple_e, theTuple_w]
-        longest = -1, longest_path_num = 
-        for i, tup,  in enumerate(theList):
+        longest = -1
+        longest_path_num = None
+        dom_path = None # this will hold the dominant path from n, s, e, or w
+        # this is finding which of the n, s, e, w paths is the longest
+        for i, tup[0],  in enumerate(theList):
             if tup[0] is not None:
                 if tup[0] > longest:
                     longest = tup[0]
                     longest_path_num = i
         # Will now loop through again and will build the path and also 
         # will make the distance
-        for i tup in enumerate(theList):
+        newPath = path[:]
+        # all the things appended here are on the same cut point
+        for i, tup in enumerate(theList):
             if tup[0]: # checking to see if it is None or not
-                if i !=  #TODO need to add the path and then the reverse of the path
+                if i !=  longest_path_num:  # this is for the non dominant paths
+                    endOfCurPath = newPath[-1]
+                    newPath += tup[1]
+                    # now walking back from the tup path
+                    for theIndex in range(len(tup[1])-1, 0, -1):
+                        newPath.append(tup[1][theIndex])
+                else:
+                    # getting the dominant path
+                    dom_path = tup[1]
+        # now doing the appending of the dominant path
+        newPath += dom_path
+        # making the new dominant path to return to the next layer
+        
+
+
+                
+                #TODO need to add the path and then the reverse of the path
 
 
 
