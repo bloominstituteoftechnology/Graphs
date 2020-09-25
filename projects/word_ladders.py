@@ -1,3 +1,7 @@
+import string
+
+
+
 class Queue():
     def __init__(self):
         self.queue = []
@@ -9,8 +13,9 @@ class Queue():
         else:
             return None
     def size(self):
-
-import string
+        return len(self.queue)
+    def print_list(self):
+        return print(self.queue)
 f = open('words.txt', 'r')
 words = f.read().split("\n")
 f.close()
@@ -18,16 +23,24 @@ word_set = set()
 
 for word in words:
     word_set.add(word.lower())
+    
+    
 def bfs(start_word, end_word):
     q = Queue()
     visited = set()
     
-    q.enqueue(start_word)
+    q.enqueue([start_word])
     
     while q.size()>0:
-        current_path = q.dequeue
-        curr_word = current_path[-1]
+        current_path = q.dequeue()
+        print("DQ",current_path)
         
+        curr_word = current_path[-1]
+        print("CW", curr_word)
+        
+        if curr_word == end_word:
+            return current_path
+         
         if curr_word not in visited:
             visited.add(curr_word)
             
@@ -36,9 +49,10 @@ def bfs(start_word, end_word):
             for n in neighbors:
                 path_copy = list(current_path)
                 path_copy.append(n)
-                q.queue(path_copy)
+                q.enqueue(path_copy)
         
 def find_neighbors(word):
+    print(word)
     neighbors = []
     for i in range(len(word)):
         for alpha in string.ascii_lowercase:
@@ -54,3 +68,5 @@ def find_neighbors(word):
             
             
 print(bfs("goat", "boat"))            
+print(bfs('hit', 'cog'))
+print(bfs('sail', 'boat'))

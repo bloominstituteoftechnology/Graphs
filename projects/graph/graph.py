@@ -20,9 +20,9 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        # if vertex_id not in self.vertices:
-        #    self.vertices[vertex_id]=set()
-        # new_node_row = [0] *(len(self.vertices)+1) 
+        if vertex_id not in self.vertices:
+           self.vertices[vertex_id]=set()
+        new_node_row = [0] *(len(self.vertices)+1) 
         
         #Matrix way
         
@@ -86,22 +86,26 @@ class Graph:
         
          
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        visited = set()
-        def dft(vertex):
-            if vertex in visited:
-                return
-            else:
-                visited.add(vertex)
-                print(vertex)
-            for neighbor in self.get_neighbors(vertex):
-                dft(neighbor)
-        dft(starting_vertex)
+        if starting_vertex in visited:
+            return
+        else:
+            visited.add(starting_vertex)
+            print(starting_vertex)
+            neighbors = self.get_neighbors(starting_vertex)
+            
+            if len(neighbors)==0:
+                return None
+            for n in neighbors:
+                self.dft_recursive(n, visited)
+         
+         
+          
             
         
         
@@ -133,6 +137,7 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
+        
         s = Stack()
         visited = set()
         
@@ -149,24 +154,37 @@ class Graph:
                       s.push(n)
          
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, checked = set()):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=set(),path = []):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         This should be done using recursion.
         """
-        if destination_vertex in self.vertices[starting_vertex]:
-            return [starting_vertex, destination_vertex]
-        elif len(self.vertices[starting_vertex]):
-            if starting_vertex not in checked:
-                checked.add(starting_vertex)
-                for node in self.vertices[starting_vertex]:
-                    return [starting_vertex] + self.dfs_recursive(node, destination_vertex, checked)
-            else:
-                return []
-        else:
-            return [starting_vertex]      
+        ##base case
+        
+        if len(path) == 0:
+            path.append(starting_vertex)
+            
+        if starting_vertex == destination_vertex:
+            # path.append(destination_vertex)
+            return path
+        
+        visited.add(starting_vertex)
+        
+        neighbors = self.get_neighbors(starting_vertex)
+        
+        if len(neighbors) == 0:
+            return None
+        
+        for n in neighbors:
+            if n not in visited:
+               new_path = path + [n]
+               result = self.dfs_recursive(n, destination_vertex, visited, new_path)
+            
+               if result is not None:
+                  return result
+            
             
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
