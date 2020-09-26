@@ -1,13 +1,13 @@
 from collections import deque, defaultdict
 from random import randint
 
+FLIP_DIRECTION = {
+    'n' : 's',
+    's' : 'n',
+    'e' : 'w',
+    'w' : 'e'
+}
 class Graph:
-    FLIP_DIRECTION = {
-        'n' : 's'
-        's' : 'n'
-        'e' : 'w'
-        'w' : 'e'
-    }
     def __init__(self, starting_room, exits):
         self.rooms = {}
         self.rooms[starting_room] = {ex:'?' for ex in exits}
@@ -40,19 +40,20 @@ class Graph:
         return len(self.rooms)
 
     def check_doors(self, room):
+        # checks if all doors in room have been visited
         if '?' not in self.rooms[room].values():
             self.rooms[room]['check'] = True
         
     def check_complete(self):
         # check all rooms doors have been checked
         for room in self.rooms:
-            if not room['check']:
+            if not self.rooms[room]['check']:
                 return False
         
-        return True if len(self.rooms) == 500
-
-    def go_back(self):
-        return previous
+        if len(self.rooms) == 500:
+            return True
+        else:
+            False
 
                 
 
@@ -62,29 +63,48 @@ def path_finder(player):
     exits =  player.current_room.get_exits()
     graph = Graph(starting_room, exits)
 
-    queue = deque()
+    stack = deque()
+    stack.append(starting_room)
 
-    # we can start with first exit in list
-    queue.append([exits[0]])
+    path = []
 
-    while len(queue) > 0:
-        curr_path = queue.popleft()
-        direction = curr_path[-1]
+    while len(stack) > 0:
+        if graph.check_complete():
+            return path
 
-        # send player in that direction and get room info
-        player.travel(direction)
-        curr_room = player.current_room.id
-        curr_exits = player.current_room.get_exits
+        curr_room = stack.pop()
 
-        #update graph with new room info
-        graph.next_room(curr_room, direction, curr_exits)
-        
+        next_step = []
         # get current available list of exits to traverse next from graph
-        for ex, visited in graph.get_room().items():
-            if ex != 'check' and visited == '?':
-                new_path = curr_path.copy
-                new_path.append(ex)
-                queue.append(new_path)
+        for door, visited in graph.get_room(curr_room).items():
+            print(graph.get_room(curr_room).items())
+            if door != 'check' and visited == '?':
+                next_step.append(door)
+        
+        
+        # choose a random direction if possible
+        if next_step:
+            door = randint(0, len(next_step)-1)
+            path.append(next_step[door])
+        # if no possible direction, dead-end, go back to previous room
+        else:
+            go_back = FLIP_DIRECTION[path[-1]]
+            path.append(go_back)
+
+        # update player position
+        player.travel(path[-1])
+        new_room = player.current_room.id
+        exits = player.current_room.get_exits()
+
+        # update graph with new room info
+        graph.next_room(new_room, path[-1] , exits)
+
+        # update stack with new room
+        stack.append(new_room)
+        
+
+
+        
         
 
 
