@@ -7,32 +7,12 @@ from ast import literal_eval
 
 # Load world
 world = World()
-
-class Queue():
-    def __init__(self):
-        self.queue = []
-
-    def __repr__(self):
-        return str(self.queue)
-
-    def enqueue(self, value):
-        self.queue.append(value)
-    def dequeue(self):
-        if self.size() > 0:
-            return self.queue.pop(0)
-        else:
-            return None
-    def size(self):
-        return len(self.queue)
-
-
-
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
+# map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -42,44 +22,41 @@ world.load_graph(room_graph)
 world.print_rooms()
 
 # Fill this out with directions to walk
-directions = ['n','s', 'e', 'w']
 traversal_path = []
-
 # build a graph with room id as key and dic of directions with what rooms are those directions
-
 player = Player(world.starting_room)
+reverse_direction = { 'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
+# print(dir[0])
+# add current room to visited
 
-# def transverse(starting_room):
-#     queue = Queue()
+# get all directions of the current room:
+def traverse(starting_room, visited = set()):
+    newPath = []
+    # move player in that direction
+    for direction in player.current_room.get_exits():
+        player.travel(direction)
+        # if the room has been visited:
+        if player.current_room.id in visited:
+            # reverse directions
+            player.travel(reverse_direction[direction])
+            # go untill we are not in a visted room
+        # else not visited:
+        else:
+            # add room to visited
+            visited.add(player.current_room.id)
+            # keep track of the path
+            newPath.append(direction)
+            # recurse with a new room
+            newPath = newPath + traverse(player.current_room.id, visited)
+            # move player back
+            player.travel(reverse_direction[direction])
+            # add the reverse_direction to the path
+            newPath.append(reverse_direction[direction])
+        
+    return newPath
 
-#     visted = set()
-#     # put current room in the queue
-#     queue.enqueue([starting_room])
-#     # set starting_room
-#     while queue.size() > 0:
-#         path = queue.dequeue()
-#         room = path[-1]
-#         if room not in visted:
-#             visted.add(room)
-#             print(visted)
-#             # if room is unexplored
+traversal_path = traverse(player.current_room.id)
 
-#             # get neighbors of the rooms
-
-possible_exits = player.current_room.get_exits()
-
-room_graph = {}
-
-player.travel(directions[0])
-
-def buildGraph(possible_exits, room):
-    for exits in possible_exits:
-        if player.current_room.id not in room_graph:
-            room_graph[player.current_room.id] = {exits : '?'}
-
-buildGraph(possible_exits, player.current_room.id)
-print(f'The room graph is', room_graph)
-# transverse(room)
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
