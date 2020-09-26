@@ -17,9 +17,9 @@ world = World()
 # map_file = "maps/test_cross.txt"
 #map_file = os.path.join(os.path.realpath(__file__),  "..", "maps", "test_cross.txt")
 # map_file = "maps/test_loop.txt"
-map_file = os.path.join(os.path.realpath(__file__),  "..", "maps", "test_loop_fork.txt")
+#map_file = os.path.join(os.path.realpath(__file__),  "..", "maps", "test_loop_fork.txt")
 # map_file = "maps/test_loop_fork.txt"
-#map_file = os.path.join(os.path.realpath(__file__),  "..", "maps", "main_maze.txt")
+map_file = os.path.join(os.path.realpath(__file__),  "..", "maps", "main_maze.txt")
 #map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
@@ -35,9 +35,6 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-# in here will do the algorithm that will construct the a 
-# path that will traverse all the roooms in the map
-# will fill out the traversal_path
 
  # go through each path with depth traversal.
         # call recursively 
@@ -66,14 +63,14 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
     # key is the point already in visited
     # val is the point on the path that found the key
     theTuple_n = theTuple_e = theTuple_s = theTuple_w = (0, None, None, None)
-    #s_dom_path = n_dom_path = e_dom_path = w_dom_path = None
-    #n_dist = n_path = e_path = e_dist = s_dist = s_path = w_path = w_dist = None
+    
     # base case will be when there are do more directions to go or 
     # that all the directions to go have been visited
     if player.current_room.id in visited:
+       
         # a tupel is returned that has the following
         # (dist, path, dominantPath, cycle)  The dominantPath is a double linked list
-        if prevRoom:
+        if prevRoom != None:
             if not cycle:
                 # making the dictionary to contain the cycle
                 cycle = dict()
@@ -89,7 +86,7 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
     path.append((curRoom, theDir))
     dom_path.append((curRoom, theDir)) # this is the deque double linked list
     
-    if len(player.current_room.get_exits()) == 1: # returns a tuple (dist, path, dom_path)
+    if len(player.current_room.get_exits()) == 1 and startingPoint != curRoom: # returns a tuple (dist, path, dom_path)
         # on each return a tuple will be returned which has
         # (dist, path, dominant_path)
         return (1, path, dom_path, cycle)
@@ -101,6 +98,7 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
         newDeque = deque()
         theTuple_n = get_traversal_path(newPath, visited, newDeque,
                                          startingPoint, curRoom, cycle, "n")
+        
         if theTuple_n[0] != 0:
             num_dirs += 1
         # bringing the player back to the same room
@@ -132,18 +130,12 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
         newPath = []
         theTuple_w = get_traversal_path(newPath, visited, newDeque, 
                                          startingPoint, curRoom,  cycle, "w")
+        
         if theTuple_w[0] != 0:
             num_dirs += 1   
         player.travel(go_back)
 
-    # will now inrement the depth of the paths down one of
-    # the directions
-    # going back from the direction the player came down
-    # if player.current_room.id != 0:
-    #     player.travel(go_back)
-    #     distance +=1
-    #     path += [player.current_room]
-
+    
     theList =  [theTuple_n, theTuple_s, theTuple_e, theTuple_w]
     # will do the loop if there are at least two directions
     if num_dirs >=2:
@@ -158,7 +150,7 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
         dom_path_list = None
         distance = 1
         doing_cycle = False
-        cycleNum = None
+        theCycle = None
         opp_directions = {"n":"s",  "s":"n", "e":"w", "w":"e"}
         the_dom_path = None # this will hold the dominant path from n, s, e, or w
         # this is finding which of the n, s, e, w paths is the longest
@@ -170,24 +162,16 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
                     longest = tup[0]
                     longest_path_num = i
 
-        if cycle:
-            if curRoom in cycle:
-                # will try to build the cycle
-                # make dom_path = just the current room
-                
-                
-                # finding out if the longest is the cycle
-                if cycle[curRoom] == theList[longest_path_num][2][-1][0]:
-                    doing_cycle = True
-                    
-                    # need to find a new longest path
-                    # longest = 0
-                    # cycleNum = longest_path_num
-                    # for i , tup in enumerate(theList):
-                    #     if tup[0] != 0 and i != cycleNum:
-                    #         if tup[0] > longest:
-                    #             longest = tup[0]
-                    #             longest_path_num = i
+        # looping through to find if the dominant path has a cycle
+        for tup in theList:
+            theCycle = tup[3]
+            if theCycle:
+                if curRoom in theCycle: 
+                    # finding out if the longest is the cycle
+                    if theCycle[curRoom][0] == theList[longest_path_num][2][-1][0]:
+                        doing_cycle = True
+                        break
+            
         # Will now loop through again and will build the path and also 
         # will make the distance
         newPath = path[:] # this is a tuple of the path and the direction
@@ -195,7 +179,6 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
         for i, tup in enumerate(theList):
             if tup[0] != 0: # checking to see if it is None or not
                 if i !=  longest_path_num:  # this is for the non dominant paths
-                    endOfCurPath = newPath[-1]
                     newPath += tup[1]
                     # making the distance right
                     #distance += len(tup[1]) * 2 
@@ -206,10 +189,9 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
                             toAppend = (tup[2][i+1][0], opp_directions[tup[2][i][1]])
                             newPath.append(toAppend)
                         else:
-                            toAppend = (curRoom, tup[2][i][1])
+                            toAppend = (curRoom, opp_directions[tup[2][i][1]])
                             newPath.append(toAppend)
-                    # appending again the current room
-                    #newPath.append(curRoom)
+                    
                 else:
                     # getting the dominant path
                     the_dom_path = tup[2] # this is a doubly linked list
@@ -220,22 +202,23 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
             for elem in dom_path_list:
                 newPath.append(elem)
 
-            # if doing_cycle:
-            #     # putting the cycle into the the 
-            #     distance = 1
-            #     dom_path = curRoom
-            #else:    
-            # building the domPath 
-            dom_path.extend(the_dom_path)
-            distance = len(dom_path)
+            if doing_cycle:
+                # putting the cycle into the the 
+                distance = 1
+                dom_path = (curRoom, theCycle[curRoom][1])
+            else:    
+                # building the domPath 
+                dom_path.extend(the_dom_path)
+                distance = len(dom_path)
+                theCycle = theList[longest_path_num][3]
 
             # theTuple being build again
-            theTuple = (distance, newPath, dom_path, cycle)        
+            theTuple = (distance, newPath, dom_path, theCycle)        
 
     
     else: # This is where there is just a straight line--no splits
         # in here is where we will increment the distance
-        for dist, thePath, the_dom_path, cycle in theList:
+        for dist, thePath, the_dom_path, theCycle in theList:
             if dist != 0: # Not None
                 # need to increment the distance, and the dom_path
                 dist +=1
@@ -262,34 +245,26 @@ def get_traversal_path(path=None, visited=None, dom_path=None, startingPoint=Non
         #     newList.append(t[1])
         # return newList # this will return the directions
         theTuple = newList    
-               
+                  
     return theTuple
 
 
        
-    # print("This is the current room")
-    # print(player.current_room.get_exits_string())
-    # print("this is the just the exits or the current room")
-    # print(player.current_room.get_exits())
-    # print("This is the what is the direction north")
-    # print(player.current_room.get_room_in_direction("n"))
-    # print(player.current_room)
-    # print(f"this is the current room id  {player.current_room.id}")
 
 
 
 #trying to run the function
 
-thePath = get_traversal_path()
-print(f"My path length is: {len(thePath)}")
-print(thePath)
+traversal_path = get_traversal_path()
+print(f"My path length is: {len(traversal_path)}")
+print(traversal_path)
 
 
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
-print(f"The starting room is: {player.current_room.id}")
+
 for move in traversal_path:
     player.travel(move)
     visited_rooms.add(player.current_room)
