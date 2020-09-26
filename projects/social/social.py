@@ -203,18 +203,18 @@ if __name__ == '__main__':
     sg = SocialGraph()
 
     start_time = time.time()
-    sg.populate_graph(1000, 5)
+    sg.populate_graph(100, 5)
     end_time = time.time()
     print(end_time - start_time)
 
     start_time = time.time()
-    sg.linear_populate_graph(1000, 5)
+    sg.linear_populate_graph(100, 5)
     end_time = time.time()
     print(end_time - start_time)
 
-    # print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    print(sg.friendships)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
     ## connection dict holds everyone in 1's extended social network
 
     # print(f'Percent of users in extended social network: {len(connections) / 1000 * 100}%')

@@ -1,3 +1,13 @@
+- Pick a direction, go as deep as you can (DFT)
+- When you hit a dead end, find the nearest room with an unexplored exit (BFT)
+
+Describe as a graph
+- nodes and edges
+
+- Build your graph
+
+- Choose your algorithms
+
 ## Description
 
 You are provided with a pre-generated graph consisting of 500 rooms. You are responsible for filling `traversal_path` with directions that, when walked in order, will visit every room on the map at least once.
