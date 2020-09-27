@@ -28,9 +28,8 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-#traversal_path = path_finder(player)
+traversal_path = path_finder(player)
 
-'''
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
@@ -45,9 +44,9 @@ if len(visited_rooms) == len(room_graph):
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
+
+
 '''
-
-
 #######
 # UNCOMMENT TO WALK AROUND
 #######
@@ -61,4 +60,4 @@ while True:
         break
     else:
         print("I did not understand that command.")
-
+'''
