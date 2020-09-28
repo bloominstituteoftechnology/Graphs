@@ -58,15 +58,13 @@ def path_finder(player):
     graph = Graph(starting_room, exits)
 
     stack = deque()
-    start = exits[randint(0,len(exits)-1)]
+    start = exits[2]
     stack.append(start)
 
     while len(stack) > 0:        
         direction = stack.pop()
         PATH.append(direction)
-        
-        #print(f'Path -- {PATH}')
-        
+
         # send player in new direction and get room info
         player.travel(direction)
         curr_room = player.current_room.id
@@ -75,20 +73,15 @@ def path_finder(player):
         # update graph with new room info
         graph.next_room(curr_room, direction , exits)
         
-        debug(curr_room, graph)
-
         # check if graph completed with last addition
-        if graph.check_complete():
-            
-            #print(f'---------\nPath in checkout\n--------\n{PATH} ')
-            
+        if graph.check_complete():          
             return PATH
 
         # find next step to take and add to stack
         step = next_step(curr_room, graph, player)
 
-        if step:
-            stack.append(step)
+        if len(step) > 0:
+            stack.extend(step)
 
 
 def next_step(room, graph, player):
@@ -101,18 +94,22 @@ def next_step(room, graph, player):
     room_data = graph.get_room(room)
 
     # check for unexplored doors in current room
+    steps = []
     for direction, door in room_data.items():
         if door == "?":   
-            return direction
+            steps.append(direction)
+    if len(steps) > 0:
+        return steps
 
     # if all doors explored, search for a room with unexplored doors
-    return unexplored_path(room, graph, player)
+    return [unexplored_path(room, graph, player)]
 
 def unexplored(room, graph):
     '''
     If there are no exits that have been unexplored, perform
     bfs to find next available room to traverse to
     '''
+    
     queue = deque()
     queue.append([room])
     visited = set()
@@ -123,7 +120,7 @@ def unexplored(room, graph):
         visited.add(curr_room)
 
         # check if we found an unexplored room
-        if curr_room == "?":
+        if curr_room == '?':
             return curr_path[:-1]
 
         room_data = graph.get_room(curr_room)
@@ -133,6 +130,7 @@ def unexplored(room, graph):
                 new_path = curr_path.copy()
                 new_path.append(neighbor)
                 queue.append(new_path)
+        path = curr_path
 
     return []
 
@@ -144,6 +142,7 @@ def unexplored_path(start, graph, player):
     to stack in main function
     '''
     rooms = unexplored(start, graph)
+
     path = []
 
     for i in range(len(rooms) -1):
@@ -151,6 +150,7 @@ def unexplored_path(start, graph, player):
             # check if a neighbor is the next room in path and add direction
             if i+1 < len(rooms) and neighbor == rooms[i+1]:
                 path.append(direction)
+
 
     # if path is none then no unexplored rooms
     if len(path) > 0:
@@ -166,13 +166,4 @@ def unexplored_path(start, graph, player):
 
         return next_step
     
-    return []
-    
-def debug (curr_room, graph):
-    size = graph.size()
-
-    if size > 485:
-        print(f'Room:{curr_room} -- {graph.get_room(curr_room)}')
-    
-    if size > 490:
-        print(graph)
+    return None
