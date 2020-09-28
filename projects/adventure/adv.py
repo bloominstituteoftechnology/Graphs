@@ -47,12 +47,20 @@ def find_path(player, world):
             backtrackStack.append(opposite(newDirection))
             path.append(newDirection)
             player.travel(newDirection)
+            nextRoom = player.current_room
+            graph[currRoom.id][newDirection] = nextRoom.id
+            if nextRoom.id not in graph:
+                add_room_to_graph(nextRoom, graph)
+            graph[nextRoom.id][opposite(newDirection)] = currRoom.id
         else:
             if len(backtrackStack) <= 0:
                 return path
             backtrackDirection = backtrackStack.pop()
             path.append(backtrackDirection)
             player.travel(backtrackDirection)
+            nextRoom = player.current_room
+            graph[currRoom.id][backtrackDirection] = nextRoom.id
+    path.append(opposite(path[-1]))
     return path
 
 def add_room_to_graph(room, graph):
@@ -83,38 +91,6 @@ def unexplored_directions(room, graph):
     return unexploredDirections
 
 traversal_path = find_path(player, world)
-
-# def find_path_bfs(player, world):
-#     graph = {}
-#     currPath = []
-#     queue = deque()
-#     queue.append([player.current_room.id])
-#     while len(queue) > 0:
-#         currPath = queue.popleft()
-#         currRoomID = currPath[-1]
-#         currRoom = world.rooms[currRoomID]
-#         if currRoomID not in graph:
-#             add_room_to_graph(currRoom, graph)
-#         for exitDirection in currRoom.get_exits():
-#             if graph[currRoomID][exitDirection] == '?':
-#                 nextRoom = currRoom.get_room_in_direction(exitDirection)
-#                 graph[currRoomID][exitDirection] = nextRoom.id
-#                 newPath = list(currPath)
-#                 newPath.append(nextRoom.id)
-#                 queue.append(newPath)
-#     return path_directions_from_room_ids(currPath, graph)
-# 
-# def path_directions_from_room_ids(pathIDs, graph):
-#     pathDirections = []
-#     currRoomID = pathIDs[0]
-#     for nextRoomID in pathIDs[1:]:
-#         for (direction, roomID) in graph[currRoomID].items():
-#             if roomID == nextRoomID:
-#                 pathDirections.append(direction)
-#                 continue
-#             else:
-#                 print("ERROR: Could not find an exit in the current room that leads to the nextRoomID")
-#     return pathDirections
 
 # TRAVERSAL TEST
 visited_rooms = set()
