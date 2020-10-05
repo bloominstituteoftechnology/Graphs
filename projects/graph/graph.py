@@ -62,13 +62,21 @@ class Graph:
                     stacked.add(subKey)
             
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, cache = None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
+        if not cache:
+            cache = set()
+        if starting_vertex not in cache:
+            cache.add(starting_vertex)
+            print(starting_vertex)
+        for key in self.vertices[starting_vertex]:
+            if key not in cache:
+                self.dft_recursive(key, cache)
         
 
     def bfs(self, starting_vertex, destination_vertex):
