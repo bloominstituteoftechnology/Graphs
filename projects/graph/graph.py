@@ -13,26 +13,38 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise ValueError("The second Vertices you provided is not in the graph. You can't link to a vertices that isn't in the graph.")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        queue = [starting_vertex]
+        isQueued = {starting_vertex}
+        for key in queue:
+            print(key)
+            for subKey in self.vertices[key]:
+                if subKey not in queue:
+                    queue.append(subKey)
+                    isQueued.add(subKey)
+
+
 
     def dft(self, starting_vertex):
         """
@@ -101,7 +113,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    print(graph.vertices)
+    print("graph.vertices", graph.vertices)
 
     '''
     Valid BFT paths:
