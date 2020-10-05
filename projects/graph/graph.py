@@ -51,7 +51,16 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stack = [starting_vertex]
+        stacked = {starting_vertex}
+        while len(stack) > 0:
+            currentVertex = stack.pop(-1)
+            print(currentVertex)
+            for subKey in self.vertices[currentVertex]:
+                if subKey not in stacked:
+                    stack.append(subKey)
+                    stacked.add(subKey)
+            
 
     def dft_recursive(self, starting_vertex):
         """
@@ -60,7 +69,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -130,6 +139,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print("\nBFT Path")
     graph.bft(1)
 
     '''
@@ -139,13 +149,16 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print("\nDFT Path")
     graph.dft(1)
+    print("\nDFT Recursive Path")
     graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print("\nBFS Path")
     print(graph.bfs(1, 6))
 
     '''
