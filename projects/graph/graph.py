@@ -22,7 +22,7 @@ class Graph:
         if v2 in self.vertices:
             self.vertices[v1].add(v2)
         else:
-            raise ValueError("The second Vertices you provided is not in the graph. You can't link to a vertices that isn't in the graph.")
+            raise ValueError(f"The second Vertices you provided: {v2} is not in the graph. You can't link to a vertices that isn't in the graph.")
 
     def get_neighbors(self, vertex_id):
         """
@@ -35,14 +35,19 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
+        """
+        Loop over every vertex in the queue. Print each vertex
+        as we come to it. Find all the edges of the current vertex
+        and add them to the queue and the cache.
+        """ 
         queue = [starting_vertex]
         isQueued = {starting_vertex}
-        for key in queue:
-            print(key)
-            for subKey in self.vertices[key]:
-                if subKey not in queue:
-                    queue.append(subKey)
-                    isQueued.add(subKey)
+        for vertex in queue:
+            print(vertex)
+            for edge in self.vertices[vertex]:
+                if edge not in queue:
+                    queue.append(edge)
+                    isQueued.add(edge)
 
 
 
@@ -51,15 +56,21 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        """
+        Loop until the stack is empty. Remove the last added
+        vertex and store it's value as the current vertex. 
+        Print the current vertex then loop over all it's edges.
+        Add them to the stack and the cache.
+        """ 
         stack = [starting_vertex]
         stacked = {starting_vertex}
         while len(stack) > 0:
             currentVertex = stack.pop(-1)
             print(currentVertex)
-            for subKey in self.vertices[currentVertex]:
-                if subKey not in stacked:
-                    stack.append(subKey)
-                    stacked.add(subKey)
+            for edge in self.vertices[currentVertex]:
+                if edge not in stacked:
+                    stack.append(edge)
+                    stacked.add(edge)
             
 
     def dft_recursive(self, starting_vertex, cache = None):
@@ -68,6 +79,11 @@ class Graph:
         beginning from starting_vertex.
 
         This should be done using recursion.
+        """
+        """
+        If this is the first repetition create a cache. If the current
+        vertex is not in the cache add it and print the vertex. For
+        every edge the vertex has run another repetition.
         """
         if not cache:
             cache = set()
@@ -85,7 +101,25 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        visited = set()
+        paths = [[starting_vertex]]
+        """
+        For every list in paths. If the last item in the list is 
+        the destination return the list. If the last item is not 
+        in the visited cache add it and make a new path for all 
+        of it's edges. If the last item has been visited remove 
+        it from the paths list.
+        """
+        for path in paths:
+            if path[-1] == destination_vertex:
+                return path
+            if path[-1] not in visited:
+                visited.add(path[-1])
+                for key in self.vertices[path[-1]]:
+                    newPath = path.copy()
+                    newPath.append(key)
+                    paths.append(newPath)
+        
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -93,9 +127,28 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        visited = set()
+        paths = [[starting_vertex]]
+        """
+        While the length of possible paths is not zero. 
+        Store the current path and remove it from possible 
+        paths. Return the last path if it's the destination. 
+        If the path hasn't been visited yet add it to the 
+        visited list and loop over it's edges creating paths 
+        to check later. 
+        """
+        while len(paths) > 0:
+            path = paths.pop(-1)
+            if path[-1] == destination_vertex:
+                return path
+            if path[-1] not in visited:
+                visited.add(path[-1])
+                for key in self.vertices[path[-1]]:
+                    newPath = path.copy()
+                    newPath.append(key)
+                    paths.append(newPath)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, cache = None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -103,7 +156,32 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        """
+        Make starting_vertex a list if it isn't one already. Check if 
+        the last element in starting vertex is the destination. Check
+        if the last element in the path is in the cache. If it's not 
+        add all of that vertex's edges to new lists to run new 
+        recursions.
+        """
+        if not type(starting_vertex) is list:
+            starting_vertex = [starting_vertex]
+        if not cache:
+            cache = set()
+        currentVertex = starting_vertex[-1]
+        if currentVertex == destination_vertex:
+            return starting_vertex
+        if currentVertex not in cache:
+            cache.add(currentVertex)
+            for edge in self.vertices[currentVertex]:
+                newPath = starting_vertex.copy()
+                newPath.append(edge)
+                result = self.dfs_recursive(newPath, destination_vertex, cache)
+                if result:
+                    return result
+        else:
+            return None
+
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -174,5 +252,7 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print("\nDFS Path")
     print(graph.dfs(1, 6))
+    print("\nDFS Recursive Path")
     print(graph.dfs_recursive(1, 6))
