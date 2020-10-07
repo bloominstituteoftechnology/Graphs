@@ -7,15 +7,15 @@ def earliest_ancestor(ancestors, starting_node):
     # and "edges" between nodes to connect them        
     graph = Graph()
 
-    # Add vertices
+    # traverse input list
     for i in ancestors:
-        if i[0] not in graph.vertices:
-            graph.add_vertex(i[0])
-        if i[1] not in graph.vertices:
-            graph.add_vertex(i[1])
+        # add elements in sets to graph
+        graph.add_vertex(i[0])
+        graph.add_vertex(i[1])
 
-    # Add edges
+    # traverse again
     for i in ancestors:
+        # connect vertices with edges
         graph.add_edge(i[1], i[0])
 
     # bft returns list of all connected ancestors
