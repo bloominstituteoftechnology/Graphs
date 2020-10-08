@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from world import World
+from util import Stack, Queue
 
 import random
 from ast import literal_eval
@@ -29,6 +30,68 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+def make_traversal_path():
+    # result array
+    path = []
+    # dict holding visited rooms info
+    # key is room.id, value is available exits
+    visited = {}
+    # current room player is in
+    current_room = player.current_room
+
+    # function that takes current room to go to next room
+    def going_to(current_id):
+        # initialize Queue
+        q = Queue()
+        q.enqueue(([current_id],[]))
+        # track of what room has already been already done
+        already_done = set()
+
+        while q.size() > 0:
+            current = q.dequeue()
+            room = current[0][-1]
+            # available exits in room
+            exits = room_graph[room][1]
+
+            # check room not counted for
+            if room not in already_done:
+                # check room not visited yet
+                if room not in visited:
+                    # that is the next room
+                    return [room, current[1]]
+                already_done.add(room)
+                # randomize find exits
+                shuffled_exits = list(exits.keys())
+                random.shuffle(shuffled_exits)
+                # if exit is in available exits
+                for e in shuffled_exits:
+                    # add exit to queue
+                    q.enqueue((current[0] + [exits[e]], current[1] + [e]))
+
+    # Do algorithm until all rooms visited
+    while len(visited) < len(world.rooms): #changes based on map selection
+        # get current_room id for the key
+        room_id = current_room.id
+        # get available exits for the value
+        exits = room_graph[room_id][1]
+        # check room has not been visited
+        if room_id not in visited:
+            # add info to visited dict
+            visited[room_id] = exits
+            # use helper function to go from current room to the next room
+        next_room = going_to(room_id)
+        # check there if there's a room
+        if next_room is not None:
+            # add room to path
+            path += next_room[1] # [0] or [1] depending on what is returned from going_to
+            # update current room
+            current_room = world.rooms[next_room[0]] # i think
+    print("dict:", visited)
+    print("path:", path)
+    return path
+
+traversal_path = make_traversal_path()
+
 
 
 # TRAVERSAL TEST
@@ -51,12 +114,12 @@ else:
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+# player.current_room.print_room_description(player)
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")
