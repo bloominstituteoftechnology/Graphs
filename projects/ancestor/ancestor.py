@@ -42,13 +42,10 @@ def earliest_ancestor(ancestors, starting_node):
     # add A PATH TO the starting vertex ID
     path = [starting_node]
     s.push(path)
-
     # Create a set to store visited vertices
     visited = set()
-
     # Create a list to store the path to earliest ancestor
     longest_path = []
-
     # While the stack is not empty...
     while s.size() > 0:
 
