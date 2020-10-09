@@ -12,10 +12,10 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
+map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-map_file = "maps/main_maze.txt"
+# map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -59,13 +59,16 @@ def make_traversal_path():
                 if room not in visited:
                     # that is the next room
                     return [room, current[1]]
+                # add room to set of already done rooms
                 already_done.add(room)
                 # randomize find exits
                 shuffled_exits = list(exits.keys())
                 random.shuffle(shuffled_exits)
-                # if exit is in available exits
+                # take all exits is in available exits
                 for e in shuffled_exits:
-                    # add exit to queue
+                    # current[0] + exits[e]: adds current room id plus all exits ids
+                    # current[1] + [e]: adds current room exits plus avaiable exits
+                    # add exits info to queue
                     q.enqueue((current[0] + [exits[e]], current[1] + [e]))
 
     # Do algorithm until all rooms visited
@@ -82,12 +85,11 @@ def make_traversal_path():
         next_room = going_to(room_id)
         # check there if there's a room
         if next_room is not None:
-            # add room to path
-            path += next_room[1] # [0] or [1] depending on what is returned from going_to
+            # add room to path. When dead end, adds path back
+            path += next_room[1]
             # update current room
-            current_room = world.rooms[next_room[0]] # i think
-    print("dict:", visited)
-    print("path:", path)
+            current_room = world.rooms[next_room[0]]
+
     return path
 
 traversal_path = make_traversal_path()
