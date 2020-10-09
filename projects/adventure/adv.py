@@ -35,7 +35,7 @@ while len(visitedrooms) != len(world.rooms):
     # we made roomstacks inital value to be the starting location, but wrote it outside the function
     currentroom = roomstack[-1]
     visitedrooms.add(currentroom)
-    # we're going to need a list, essentiall itll act as a queue
+    # we're going to need a l ist, essentiall itll act as a queue
     queue = []
     # with the way the literal thing works, the second index, is the direction we KNOW another room is in
 
