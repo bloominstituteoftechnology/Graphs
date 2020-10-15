@@ -86,7 +86,21 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        visited = set()
+        queue = Queue()
+        queue.enqueue({'current_vertex': starting_vertex, 'path': [starting_vertex]})
+
+        while queue.size() > 0:
+            currNode = queue.dequeue()
+            curr_path = currNode['path']
+            curr_vertex = currNode['current_vertex']
+            if curr_vertex not in visited:
+                return curr_path
+            visited.add(curr_vertex)
+            for neighbor in self.get_neighbors(curr_vertex):
+                new_path = list(curr_path)
+                new_path.append(neighbor)
+                queue.enqueue({'current_vertex': neighbor, 'path': new_path})
 
     def dfs(self, starting_vertex, destination_vertex):
         """
