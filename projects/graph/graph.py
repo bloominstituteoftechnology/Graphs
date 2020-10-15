@@ -48,7 +48,7 @@ class Graph:
                 for neighbor in self.get_neighbors(currNode):
                     stack.push(neighbor)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, path=[]):
         path += [starting_vertex]
         print(starting_vertex)
         for neighbor in self.get_neighbors(starting_vertex):
@@ -89,16 +89,26 @@ class Graph:
                     newPath.append(neighbor)
                     stack.push(newPath)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
-        path += [starting_vertex]
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None, path=None):
+        if visited is None:
+            visited = set()
+        if path is None:
+            path = []
+        
+
+        visited.add(starting_vertex)
+        path = path + [starting_vertex]
+
         if starting_vertex == destination_vertex:
             return path
-
+        
         for neighbor in self.get_neighbors(starting_vertex):
-            if neighbor not in path:
-                path = self.dfs_recursive(neighbor, destination_vertex, path)
-        return path
+            if neighbor not in visited:
+                new_path = self.dfs_recursive(neighbor, destination_vertex, visited, path)
+                if new_path is not None:
+                    return new_path
 
+        return None
 
 
 if __name__ == '__main__':
