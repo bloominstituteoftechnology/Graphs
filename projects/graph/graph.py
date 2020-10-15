@@ -90,14 +90,16 @@ class Graph:
                     stack.push(newPath)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
+        path += [starting_vertex]
+        if starting_vertex == destination_vertex:
+            return path
 
-        This should be done using recursion.
-        """
-        pass  # TODO
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in path:
+                path = self.dfs_recursive(neighbor, destination_vertex, path)
+        return path
+
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
