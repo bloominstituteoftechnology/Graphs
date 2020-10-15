@@ -2,7 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
-
+from collections import deque
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -35,14 +35,34 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        queue = []
+        queue.append(starting_vertex)
+        while len(queue) > 0:
+            current_node = queue.pop(0)
+            if current_node not in visited:
+                # print(current_node)
+                visited.add(current_node)
+                for neighbor in self.get_neighbors(current_node):
+                    queue.append(neighbor)
+
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        stack = Stack()
+        stack.push(starting_vertex)
+        while stack.size() > 0:
+            current_vertex = stack.pop()
+            if current_vertex not in visited:
+                visited.add(current_vertex)
+                print(current_vertex)
+                for neighbor in self.get_neighbors(current_vertex):
+                    stack.push(neighbor)
+
 
     def dft_recursive(self, starting_vertex):
         """
