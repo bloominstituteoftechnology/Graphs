@@ -45,11 +45,29 @@ class Graph:
                     queue.enqueue(neighbor)
 
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        """Print each vertex in depth-first orderbeginning from starting_vertex."""
+        # Create an empty stack
+        stack = Stack()
+        # Add the starting_vertex to the stack
+        # so that we can track the next_to_visit_vertices
+        stack.push(starting_vertex)
+        # Create an empty stack to track visited vertices
+        visited = set()
+        # while stack is not empty:
+        while stack.size():
+            # Remove vertex off of the stack
+            current_vertex = stack.pop()
+            # If the current vertex is not in 
+            if current_vertex not in visited:
+                #print the current_vertex
+                print(current_vertex)
+                # Add current_vertex to the visited
+                visited.add(current_vertex)
+                # for every neighbor of the current vertex
+                for neighbor in self.vertices[current_vertex]:
+                    # Add neighbor to the stack
+                    stack.push(neighbor)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -110,7 +128,8 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft(1)
+    print("Executing Depth First Traverse>>>>>>>>>")
+    graph.dft(1)
 
     '''
     Valid BFT paths:
@@ -127,6 +146,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print("Executing BFirst Traverse>>>>>>>>>")
     graph.bft(1)
 
     '''
