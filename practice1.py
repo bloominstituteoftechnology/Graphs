@@ -40,7 +40,29 @@ class Graph:
         for neighbor in self.get_neighbors(current_vertex):
           # Add all the neighbor to the queue so that you can..
           queue.append(neighbor)
-          
+
+  def dft(self, starting_vertex_id):    
+    # Create an empty stack and add starting vertex to it
+    stack = [] # LIFO
+    # This will keep track of all next_to_visit_vertices
+    stack.append(starting_vertex_id)
+    # Create an empty set to keep track of visited vertices
+    visited = set()
+    # While the stack is not empty
+    while len(stack) > 0:
+      # remove stack a vertex off the stack
+      current_vertex = stack.pop()
+      # if vertex not in visited vertices
+      if current_vertex not in visited:      
+        # Print it
+        print(current_vertex)
+        # Add the vertex to our visited set
+        visited.add(current_vertex)
+        # ***Add all neighbors to the stack ****
+        for neighbor in self.get_neighbors(current_vertex):
+          # Add all the neighbor to the stack so that you can..
+          stack.append(neighbor)        
+
 
 
 
@@ -66,6 +88,6 @@ our_graph.add_edge(5,3)
 our_graph.add_edge(7,1)
 our_graph.add_edge(7,6)
 our_graph.add_edge(6,3)
-
+our_graph.dft(1)
 print(our_graph.vertices)
 
