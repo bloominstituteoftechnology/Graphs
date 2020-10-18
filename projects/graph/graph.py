@@ -76,12 +76,37 @@ class Graph:
         """
         pass  # TODO
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+        """Return a list containing the shortest path fromstarting_vertex to destination_vertex in
+        breath-first order."""
+        # Create an empty queue
+        # Add a path to the empty queue i.e., add [starting_vertex] to the queue
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        # Create an empty visited set to track of visited vertices
+        visited = set()
+        # while queue is not empty
+        while queue.size():
+            # Dequeue the queue to get the current_path
+            current_path = queue.dequeue()
+            # Get the current_vertex from the current_path(last vertex in path array)
+            current_vertex = current_path[-1]
+            # if current_vertex not in visited:
+            if current_vertex not in visited:
+                #Add current_vertex to the visited
+                visited.add(current_vertex)
+                #if current_vertex == destination_vertex
+                # return current_path
+                if current_vertex == destination_vertex:
+                    return current_path
+                # for each neighbor of the current_vertex
+                for neighbor in self.vertices[current_vertex]:
+                    # get the copy of the current path
+                    current_path_copy = list(current_path)    
+                    # add neighbor to the current path
+                    current_path_copy.append(neighbor)
+                    # now add this current path copy to the queue
+                    queue.enqueue(current_path_copy)
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -162,7 +187,8 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print("Executing BFirst Search>>>>>>>>>")
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
