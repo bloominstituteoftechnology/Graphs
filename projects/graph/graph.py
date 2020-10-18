@@ -216,5 +216,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print("Executing Depth First Traverse>>>>>>>>>")
+    print("Executing Depth First Search>>>>>>>>>")
     print(graph.dfs(1, 6))
