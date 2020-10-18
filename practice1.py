@@ -62,6 +62,43 @@ class Graph:
         for neighbor in self.get_neighbors(current_vertex):
           # Add all the neighbor to the stack so that you can..
           stack.append(neighbor)        
+  # This algorithm does BFT until we find the goal vertex, and returns
+  # an array of vertex ID's that are part of the path.
+  def bfs(self, starting_vertex_id, target_vertex_id):
+    # Create an empty queue and add a PATH TO starting vertex
+    queue = [ [starting_vertex_id]]
+    # i.e., add array [1] to the queue
+    # Create visited set (its empty for now)
+    visited = set()
+    # While queue is not empty:
+    while len(queue) > 0:
+      # dequeue the current PATH from the queue
+      current_path = queue.pop(0)
+      # get the current vertex to analyze from the path
+      # use the vertex at the END of the path array
+      current_vertex = current_path[-1]
+      # if vertex not visited:
+      if current_vertex not in visited:
+        # add vertex to visited list
+        visited.add(current_vertex)
+
+        # CHECK IF CURRENT VERTEX IS THE TARGET VERTEX
+        if current_vertex == target_vertex_id:
+          # we found our vertex, and the path to it
+          # return the PATH
+          return current_path
+        #for each neighbor of current vertex
+        for neighbor in self.get_neighbors(current_vertex):
+          # Add the path to that neighbor, to the queue
+            # COPY THE CURRENT PATH
+            current_path_copy = list(current_path)
+            # add neighbor to new path
+            current_path_copy.append(neighbor)
+            # add the whole path to the Queue  
+            queue.append(current_path_copy)
+    return None        
+
+
 
 
 
