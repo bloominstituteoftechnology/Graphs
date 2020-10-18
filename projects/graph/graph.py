@@ -108,15 +108,36 @@ class Graph:
                     queue.enqueue(current_path_copy)
 
     def dfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
-        pass  # TODO
-
-
-
+        """Return a list containing a path fromstarting_vertex to destination_vertex in
+        depth-first order."""
+        # Create an empty stack and add current_path to it
+        # i.e., Add [starting_vertex] to the stack
+        stack = Stack()
+        stack.push([starting_vertex])
+        # Create an empty visited set to track the vertices if they are visited or not
+        visited = set()
+        # while stack is not empty
+        while stack.size():
+            # Get the path from stack by deleting it
+            current_path = stack.pop()
+            # Get the current_vertex from current_path array(last item in the array)
+            current_vertex = current_path[-1]
+            # if current_vertex is not in the visited set
+            if current_vertex not in visited:
+                #Add it to the visited set
+                visited.add(current_vertex)
+                # if current vertex == destination_vertex
+                if current_vertex == destination_vertex:
+                    return current_path  # return the current path 
+                else:
+                    #for every neighbor of the current vertex
+                    for neighbor in self.vertices[current_vertex]:
+                        # get the copy of the current path
+                        current_path_copy = list(current_path)    
+                        # add neighbor to current path copy
+                        current_path_copy.append(neighbor)
+                        # add the whole current path copy to the stack
+                        stack.push(current_path_copy)
 
 
 if __name__ == '__main__':
@@ -195,4 +216,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print("Executing Depth First Traverse>>>>>>>>>")
+    print(graph.dfs(1, 6))
