@@ -75,20 +75,30 @@ class Graph:
             if neighbor not in path:
                 self.dft_recursive(neighbor, path)
 
-    # def bfs(self, starting_vertex, destination_vertex):
-    #     """
-    #     Return a list containing the shortest path from
-    #     starting_vertex to destination_vertex in
-    #     breath-first order.
-    #     """
-    #     visited = set()
-    #     queue = Queue()
-    #     queue.enqueue({'current_vertex': starting_vertex,
-    #                    "path": [starting_vertex]})
-    #     while queue.size() > 0:
-    #         current_vertex = queue.deque()
-    #         current_path = current_vertex['path']
-          
+    def bfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        queue = [[starting_vertex]]
+        visited = set()
+
+        while len(queue) > 0 :
+            current_path = queue.pop(0)
+
+            current_vertex = current_path[-1]
+
+            if current_vertex not in visited:
+                visited.add(current_vertex)
+                if current_vertex == destination_vertex:
+                    return current_path
+
+                for neighbor in self.get_neighbors(current_vertex):
+                    new_path = list(current_path)
+                    new_path.append(neighbor)
+                    queue.append(new_path)
+        return None   
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -111,6 +121,7 @@ class Graph:
                     new_path = list(current_path)
                     new_path.append(neighbor)
                     stack.push(new_path)
+        return None
 
     def dfs_recursive(self, starting_vertex, destination_vertex, visited = set(), path = []):
         """
@@ -193,12 +204,12 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6), "bfs")
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6), "dfs")
     print(graph.dfs_recursive(1, 6), "dfs recursive")
+    print(graph.dfs(1, 6), "dfs")
