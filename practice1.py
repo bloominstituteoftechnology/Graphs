@@ -19,7 +19,32 @@ class Graph:
   def get_neighbors(self, vertex_id):
     return self.vertices[vertex_id]
 
-    
+  def bft(self, starting_vertex_id):
+    # Create an empty Queue and add starting vertex to it
+    queue = [] # FIFO
+    # This will keep track of all next_to_visit_vertices
+    queue.append(starting_vertex_id)
+    # Create an empty set to keep track of visited vertices
+    visited = set()
+    # While the queue is not empty
+    while len(queue) > 0:
+      #dequeue a vertex off the queue
+      current_vertex = queue.pop(0)
+      # if vertex not in visited vertices
+      if current_vertex not in visited:      
+        # Print it
+        print(current_vertex)
+        # Add the vertex to our visited set
+        visited.add(current_vertex)
+        # ***Add all neighbors to the queue ****
+        for neighbor in self.get_neighbors(current_vertex):
+          # Add all the neighbor to the queue so that you can..
+          queue.append(neighbor)
+          
+
+
+
+
 
 
 
