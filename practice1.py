@@ -31,9 +31,9 @@ class Graph:
       #dequeue a vertex off the queue
       current_vertex = queue.pop(0)
       # if vertex not in visited vertices
+      # Print it
+      print(current_vertex)
       if current_vertex not in visited:      
-        # Print it
-        print(current_vertex)
         # Add the vertex to our visited set
         visited.add(current_vertex)
         # ***Add all neighbors to the queue ****
