@@ -23,3 +23,41 @@ beginWord = "hungry"
 endWord = "happy"
 None
 """
+f = open('words.txt', 'r')
+words = f.read().split("\n")  
+
+
+all_words = set()
+for word in words:
+  all_words.add(word.lower())
+
+def get_neighbors(current_word):
+  # Should return a list of neighbors
+  pass
+
+  # Generate all possible "words" by replacing one letter at a time
+    # check if any of those words are valid
+    #  if they are valid append to a neighbors list
+
+
+def find_path_bfs(start_word, end_word):
+  queue = [ [start_word]]
+  visited = set()
+
+  while len(queue) > 0:
+    # pop the latest word
+    current_path = queue.pop()
+    current_word = current_path[-1]
+
+    if current_word not in visited:
+      #compare if the current word is the end_word
+      # return current path
+      if current_word == end_word:
+        return current_path
+      visited.add(current_word)  
+
+      for neighbor in get_neighbors(current_word):
+        current_path.copy = list(current_path)
+        current_path.copy.append(neighbor)  
+        queue.append(current_path.copy)
+  return None      
