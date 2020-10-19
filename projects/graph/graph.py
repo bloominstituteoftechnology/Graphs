@@ -18,6 +18,8 @@ class Graph:
             self.vertices[v1].add(v2)
         else:
             print('Error: Vertices were not found')  
+    def get_neighbors(self, starting_vertex):
+        return self.vertices[starting_vertex]        
 
     def bft(self, starting_vertex):
         """Print each vertex in breadth-first order
@@ -43,6 +45,7 @@ class Graph:
                 for neighbor in self.vertices[current_vertex]:
                     # Add all the neighbors of the current_list to the queue
                     queue.enqueue(neighbor)
+        return None
 
     def dft(self, starting_vertex):
         """Print each vertex in depth-first orderbeginning from starting_vertex."""
@@ -67,14 +70,28 @@ class Graph:
                 for neighbor in self.vertices[current_vertex]:
                     # Add neighbor to the stack
                     stack.push(neighbor)
+        return None
 
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        This should be done using recursion.
-        """
-        pass  # TODO
+    def dft_recursive(self, starting_vertex, stack=None):
+        """Print each vertex in depth-first orderbeginning from starting_vertex.
+        This should be done using recursion."""
+        # Write a base case for dft_recursive 
+        if not starting_vertex:
+            return None
+
+        # Create an empty stack list using set
+        if stack == None:
+            stack = set()
+        # check if the starting_vertex is in the stack or not
+        # Add the starting_vertex to the stack to track the next_to_visit vertices
+        if starting_vertex not in stack:
+            stack.add(starting_vertex)
+            for neighbor in self.get_neighbors(starting_vertex):
+                self.dft_recursive(neighbor,  stack)    # Make sure not to pass self here
+
+        return None
+
+
     def bfs(self, starting_vertex, destination_vertex):
         """Return a list containing the shortest path fromstarting_vertex to destination_vertex in
         breath-first order."""
@@ -106,6 +123,7 @@ class Graph:
                     current_path_copy.append(neighbor)
                     # now add this current path copy to the queue
                     queue.enqueue(current_path_copy)
+        return None            
 
     def dfs(self, starting_vertex, destination_vertex):
         """Return a list containing a path fromstarting_vertex to destination_vertex in
@@ -138,7 +156,7 @@ class Graph:
                         current_path_copy.append(neighbor)
                         # add the whole current path copy to the stack
                         stack.push(current_path_copy)
-
+        return None 
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -202,7 +220,8 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft_recursive(1)
+    print("Executing Depth First Recursive>>>>>>>>>")
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
