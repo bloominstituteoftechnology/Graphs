@@ -96,7 +96,11 @@ class Graph:
             current_path_copy.append(neighbor)
             # add the whole path to the Queue  
             queue.append(current_path_copy)
-    return None        
+    return None         
+
+  def DFS(self, starting_vertex, destination):
+    pass          
+           
 
 
 
