@@ -30,15 +30,24 @@ words = f.read().split("\n")
 all_words = set()
 for word in words:
   all_words.add(word.lower())
-
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+"q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 def get_neighbors(current_word):
   # Should return a list of neighbors
-  pass
-
   # Generate all possible "words" by replacing one letter at a time
-    # check if any of those words are valid
-    #  if they are valid append to a neighbors list
+  neighbors = []
+  for i in range(len(current_word)):
+    for letter in alphabet:
+      temp_word = list(current_word)
+      temp_word[i] = letter
+      # check if any of those words are valid
+      word = "".join(temp_word)
+      # if they are valid append to a neighbors list
+      if current_word != word and (word in all_words):
+        neighbors.append(word)
+  return neighbors
 
+# print(get_neighbors('hit'))
 
 def find_path_bfs(start_word, end_word):
   queue = [ [start_word]]
@@ -46,7 +55,7 @@ def find_path_bfs(start_word, end_word):
 
   while len(queue) > 0:
     # pop the latest word
-    current_path = queue.pop()
+    current_path = queue.pop(0)
     current_word = current_path[-1]
 
     if current_word not in visited:
@@ -55,9 +64,13 @@ def find_path_bfs(start_word, end_word):
       if current_word == end_word:
         return current_path
       visited.add(current_word)  
+      # print(f'All neighbors for {current_word}')
+      for neighbor_word in get_neighbors(current_word):
+        current_path_copy = list(current_path)
+        current_path_copy.append(neighbor_word)
+        queue.append(current_path_copy)
 
-      for neighbor in get_neighbors(current_word):
-        current_path.copy = list(current_path)
-        current_path.copy.append(neighbor)  
-        queue.append(current_path.copy)
+    
   return None      
+
+print(find_path_bfs('hit', 'cog'))
