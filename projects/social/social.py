@@ -32,10 +32,8 @@ class SocialGraph:
         """
         Takes a number of users and an average number of friendships
         as arguments
-
         Creates that number of users and a randomly distributed friendships
         between those users.
-
         The number of users must be greater than the average number of friendships.
         """
         # Reset graph
@@ -51,10 +49,8 @@ class SocialGraph:
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
-
         Returns a dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
-
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
