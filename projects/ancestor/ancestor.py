@@ -45,8 +45,6 @@ def earliest_ancestor(ancestors, starting_node):
  
 
             if current_ancestor not in ancestors:
-                # visited.add(current_ancestor)
-                print(current_ancestor)
                 return current_ancestor
             #push new neighbors
             else:
