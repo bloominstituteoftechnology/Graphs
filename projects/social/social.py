@@ -1,4 +1,5 @@
 import random
+from collections import deque
 class User:
     def __init__(self, name):
         self.name = name
@@ -73,7 +74,21 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        
+        queue = deque()
+        visited[user_id] = [user_id]
+        for friend_id in self.friendships[user_id]:
+            queue.append((friend_id, [friend_id]))
+
+        while len(queue) > 0:
+            current_node = queue.popleft()
+            current_friend_id = current_node[0]
+            current_path = current_node[1]
+            if current_friend_id not in visited:
+                visited[current_friend_id] = current_path
+                for new_friend_id in self.friendships[current_friend_id]:
+                    if new_friend_id not in visited:
+                        new_path = list(current_path) + [new_friend_id]
+                        queue.append((new_friend_id, new_path))
         return visited
 
 
@@ -82,5 +97,5 @@ if __name__ == '__main__':
     sg.populate_graph(10, 2)
     print(sg.friendships)
     print(sg.users)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
