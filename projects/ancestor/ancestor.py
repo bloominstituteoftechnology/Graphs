@@ -24,12 +24,14 @@ def earliest_ancestor(ancestors, starting_node):
         current_vertex = current_path[-1]
         print(f'Now exploring vertex {current_vertex} from start vertex {starting_node}')
         print(current_path)
+       
         # If current_vertex is not in visited
         if current_vertex not in visited:
             # Add the vertex to the visited
             visited.add(current_vertex)
-            if (len(current_path) > max_path_length or len(current_path) >= max_path_length) and current_vertex < current_earliest_ancestor:
-                max_path_length = len(current_path)
+            print(f'current vertex is line 32 {current_vertex}')
+            if len(current_path) > max_path_length or len(current_path) == max_path_length and current_vertex < current_earliest_ancestor:
+                max_path_length = len(current_path)                
                 current_earliest_ancestor = current_vertex
             # Explore the neighbors of the current_vertex - add it to queue
             for neighbor in adjacency_list[current_vertex]:
