@@ -107,7 +107,7 @@ class Graph:
         # and return an array of vertex IDs that are part of the PATH
         # create an empty queue AND add a "PATH" to starting_vertex
         # add arr[1] to the queue 
-        
+
         # create visited set ....its empty for now 
         # while queue is not empty:
             # pop off the current path from the queue 
@@ -126,6 +126,22 @@ class Graph:
                     # copy the current PATH 
                     # add neighbor to new PATH
                     # add the whole PATH to the --> queue 
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        visited = set()
+        while queue.size() > 0:
+            cur_path = queue.dequeue()
+            last_vertex = cur_path[-1]
+        if last_vertex not in visited:
+            visited.add(last_vertex)
+        for neighbor in self.get_neighbors(last_vertex):
+            next_path = cur_path
+            next_path.append(neighbor)
+        if neighbor == destination_vertex:
+            return next_path
+        else:
+            queue.enqueue(next_path)
+            
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -133,7 +149,21 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = Stack()
+        stack.push([starting_vertex])
+        visited = set()
+        while stack.size() > 0:
+            cur_path = stack.pop()
+            last_vertex = cur_path[-1]
+        if last_vertex not in visited:
+            visited.add(last_vertex)
+        for neighbor in self.get_neighbors(last_vertex):
+            next_path = cur_path
+            next_path.append(neighbor)
+        if neighbor == destination_vertex:
+            return next_path
+        else:
+            stack.push(next_path)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
