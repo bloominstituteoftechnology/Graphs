@@ -3,6 +3,7 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -62,36 +63,39 @@ class Graph:
         beginning from starting_vertex.
         """
         # visited = [False for i in range(self.vertices)]  
-  
+        # initialize empty list
         stack = []  
+        # immediately add the value passed to function to stack
         stack.append(starting_vertex)  
         visited = set()
   
         while len(stack) > 0:
+            # pop value from stack, this pops the last value 
             cur_vertex = stack.pop()
 
             if cur_vertex not in visited:
-                print(cur_vertex)
+                # add current value to visited if not visited
                 visited.add(cur_vertex)
+                # grabbing the values of the visited vertice or current vertex and adding them to the stack
                 for n in self.get_neighbors(cur_vertex):
                     stack.append(n)
 
 
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
+    # def dft_recursive(self, starting_vertex):
+    #     """
+    #     Print each vertex in depth-first order
+    #     beginning from starting_vertex.
 
-        This should be done using recursion.
-        """
-        visited = None
-        if visited is None:
-            visited = set()
-        visited.add(starting_vertex)
+    #     This should be done using recursion.
+    #     """
+    #     visited = None
+    #     if visited is None:
+    #         visited = set()
+    #     visited.add(starting_vertex)
 
-        for next in self.vertices[starting_vertex] - visited:
-            self.dft_recursive(next)
-        return visited
+    #     for i in self.vertices[starting_vertex] - visited:
+    #         self.dft_recursive(i)
+    #     return visited
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -141,25 +145,25 @@ class Graph:
                         current_path_copy.append(neighbor)
                         stack.append(current_path_copy)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
+    # def dfs_recursive(self, starting_vertex, destination_vertex):
+    #     """
+    #     Return a list containing a path from
+    #     starting_vertex to destination_vertex in
+    #     depth-first order.
 
-        This should be done using recursion.
-        """
-        visited = set()
-        found = False
-        if starting_vertex == destination_vertex:
-            return True
-        if visited is None:
-            visited.add(starting_vertex)
-        for neighbour in (set(self.vertices[starting_vertex]) - visited):
-            if destination_vertex == neighbour:
-                return True
-            found = self.dfs_recursive(neighbour, destination_vertex)
-        return found
+    #     This should be done using recursion.
+    #     """
+    #     visited = set()
+    #     found = False
+    #     if starting_vertex == destination_vertex:
+    #         return True
+    #     if visited is None:
+    #         visited.add(starting_vertex)
+    #     for neighbour in (set(self.vertices[starting_vertex]) - visited):
+    #         if destination_vertex == neighbour:
+    #             return True
+    #         found = self.dfs_recursive(neighbour, destination_vertex)
+    #     return found
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -213,7 +217,7 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     graph.dft(1)
-    graph.dft_recursive(1)
+    # graph.dft_recursive(1)
 
     '''
     Valid BFS path:
@@ -227,4 +231,4 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+    # print(graph.dfs_recursive(1, 6))
