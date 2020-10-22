@@ -1,17 +1,18 @@
 
-class Queue():
-    def __init__(self):
-        self.queue = []
-    def enqueue(self, value):
-        self.queue.append(value)
-    def dequeue(self):
-        if self.size() > 0:
-            return self.queue.pop(0)
-        else:
-            return None
-    def size(self):
-        return len(self.queue)
+#class Queue():
+ #   def __init__(self):
+  #      self.queue = []
+   # def enqueue(self, value):
+    #    self.queue.append(value)
+    #def dequeue(self):
+     #   if self.size() > 0:
+      #      return self.queue.pop(0)
+       # else:
+        #    return None
+    #def size(self):
+     #   return len(self.queue)
 
+from collections import deque
 
 def earliest_ancestor(ancestors, starting_node):
     parents_for_child = {}
@@ -27,10 +28,15 @@ def earliest_ancestor(ancestors, starting_node):
     earliest_ancestor = -1
 
     # Perform a Breadth-First Search on the graph and return the last ancestor found
-    queue = Queue()
-    queue.enqueue(starting_node)
-    while queue.size() > 0:
-        curr_vertex = queue.dequeue()
+    #queue = Queue()
+    #queue.enqueue(starting_node)
+    #while queue.size() > 0:
+        #curr_vertex = queue.dequeue()
+
+    queue = deque()
+    queue.append(starting_node)
+    while len(queue) > 0:
+        curr_vertex = queue.popleft()
         if curr_vertex in parents_for_child:
             parent_with_lowest_ID = None
             for parent in parents_for_child[curr_vertex]:
@@ -38,7 +44,8 @@ def earliest_ancestor(ancestors, starting_node):
                     parent_with_lowest_ID = parent
                 elif parent < parent_with_lowest_ID:
                     parent_with_lowest_ID = parent
-                queue.enqueue(parent)
+                #queue.enqueue(parent)
+                queue.append(parent)
             if parent_with_lowest_ID is not None:
                 earliest_ancestor = parent_with_lowest_ID
 
