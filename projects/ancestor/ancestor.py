@@ -30,7 +30,7 @@ def earliest_ancestor(ancestors, starting_node):
             # Add the vertex to the visited
             visited.add(current_vertex)
             print(f'current vertex is line 32 {current_vertex}')
-            if len(current_path) > max_path_length or len(current_path) == max_path_length and current_vertex < current_earliest_ancestor:
+            if len(current_path) > max_path_length or len(current_path) >= max_path_length and current_vertex < current_earliest_ancestor:
                 max_path_length = len(current_path)                
                 current_earliest_ancestor = current_vertex
             # Explore the neighbors of the current_vertex - add it to queue
