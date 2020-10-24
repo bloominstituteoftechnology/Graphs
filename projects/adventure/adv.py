@@ -65,24 +65,32 @@ reverse = {
 
 # create function to track paths
 def traverse(current_room, visited = None):
+    # path for moves while movingr rooms
     path = []
     
+    # 1st loop to init a visited set
     if visited == None:
         visited = set()
     
+    # find all exits for the current room 
     for move in player.current_room.get_exits():
+        # move in selected direction
         player.travel(move)
     
+        # if room is visisted already, move to previous room and find unvisited path
         if player.current_room in visited:
             player.travel(reverse[move])
+        # if room is unvisited, add to visite
         else:
             visited.add(player.current_room)
+            # add the move to the path
             path.append(move)
-
+            # recursive call to repeat the loop above and add to path
             path = path + \
                 traverse(player.current_room, visited)
-
+            # move to the previous room
             player.travel(reverse[move])
+            # adds reversing to the path
             path.append(reverse[move])
     return path
 
