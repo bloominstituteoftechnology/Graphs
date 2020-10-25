@@ -14,7 +14,9 @@ world = World()
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
+import os.path
 map_file = "maps/main_maze.txt"
+map_file = os.path.join(os.path.dirname(__file__), map_file) #reads all words in one execution
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -27,7 +29,35 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = []
+# traversal_path = []
+
+from collections import deque
+
+def find_path(player, world):
+    graph =[]
+    path = []
+    backtrackStack = deque()
+    while len(graph) < len(world.rooms):
+        currRoom = player.current_room
+        if currRoom.id not in graph:
+            add_room_to_graph(currRoom, graph)
+        unexploredDirections = unexplored_directions(currRoom, graph)
+
+        if len(unexploredDirections) > 0:
+            newDirection = random.choice(unexploredDirections)
+            backtrackStack.append(opposite(newDirection))
+            path.append(newDirection)
+            player.travel(newDirection)
+        
+        else:
+            if len(backtrackStack) <= 0:
+                return path
+            backtrackDirection = backtrackStack.pop()
+            path.append(backtrackDirection)
+            player.travel(backtrackDirection)
+
+    return path
+
 
 
 
