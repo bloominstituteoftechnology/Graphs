@@ -58,7 +58,38 @@ def find_path(player, world):
 
     return path
 
+def add_room_to_graph(room, graph):
+    if room.id in graph:
+        return
+    exits = {}
+    for exit_direction in room.get_exits():
+        exits[exit_direction] = '?'
+    graph[room.id] = exits
 
+def opposite(direction):
+    if direction == "n":
+        return "s"
+    
+    elif direction == "s":
+        return "n"
+
+    elif direction == "e":
+        return "w"
+
+    elif direction == "w":
+        return "e"
+
+    else:
+        return None
+
+def unexplored_directions(room, graph):
+    unexploredDirections = []
+    for (direction, roomID) in graph[room.id].items():
+        if roomID == '?':
+            unexploredDirections.append(direction)
+        return unexploredDirections
+
+traversal_path = find_path(player, world)
 
 
 # TRAVERSAL TEST
