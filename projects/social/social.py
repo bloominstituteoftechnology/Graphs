@@ -63,14 +63,32 @@ class SocialGraph:
         Returns a dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
         The key is the friend's ID and the value is the path."""
+        queue = [ [userID]]
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        while len(queue) > 0:
+            # check if queue still have vertices to visit
+            path = queue.pop(0)
+            current_vertex = path[-1]
+            # have we seen this vertex before?
+            if current_vertex not in visited:
+                # Add the vertex to the visited set
+                visited[current_vertex] = path
+                # find the neighbors and add them to the queue
+                for neighbor in self.friendships[current_vertex]:
+                    # copy the path list
+                    path_copy = path.copy()
+                    path_copy.append(neighbor)
+                    queue.append(path_copy)
+
+
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(5, 2)
     print(f"Social Graph Friendships>>>>>>{sg.friendships}")
     connections = sg.getAllSocialPaths(1)
-    print(connections)
+    print(f"All social connections(paths)>>>>>>>>{connections}")
