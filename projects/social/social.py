@@ -14,11 +14,15 @@ class SocialGraph:
         """Creates a bi-directional friendship"""
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return True
+
 
     def addUser(self, name):
         """Create a new user with a sequential integer ID"""
@@ -56,7 +60,37 @@ class SocialGraph:
             friendship = possible_friendships[i]
             self.addFriendship(friendship[0], friendship[1])
 
+    def populateGraphLinear(self, numUsers, avgFriendships):
+        """Takes a number of users and an average number of friendships as arguments
+        Creates that number of users and a randomly distributed friendships
+        between those users.
+        The number of users must be greater than the average number of friendships. """
+        # Reset graph
+        self.lastID = 0
+        self.users = {}
+        self.friendships = {}
+        # !!!! IMPLEMENT ME
 
+        # Add users
+        for i in range(0, numUsers):
+            self.addUser(f"User {i}")
+        # Actually add friendsships
+        # Randomly sample possible friendships until we have met total friendships
+        total_friendships = numUsers * avgFriendships
+
+        generated_friendships = 0
+        collisions = 0
+        while generated_friendships < total_friendships:
+            # Choose two random users
+            userID = random.randintrandint(1, self.lastID)
+            friendID = random.randint(1,self.lastID)
+
+            if self.addUser(userID,friendID):
+                generated_friendships += 2
+            else:
+                collisions += 1
+            print(f"Collisions>>>>>{collisions}")    
+        
 
     def getAllSocialPaths(self, userID):
         """Takes a user's userID as an argument
