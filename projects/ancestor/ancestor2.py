@@ -32,7 +32,7 @@ def earliest_ancestor(ancestors, starting_node):
     if parent not in ancestors_list:
       ancestors_list[parent] = set()
     ancestors_list[child].add(parent)
-  print('Ancestors_list {ancestors_list}')
+  print(f'Ancestors_list {ancestors_list}')
   s = Stack()
   s.push([starting_node])
   print(f"Starting_node {starting_node}")
@@ -46,9 +46,14 @@ def earliest_ancestor(ancestors, starting_node):
     print(f"currentPath: {current_path} current_vertex: {current_vertex}")
     if current_vertex not in visited:
       visited.add(current_vertex)
+      print(f"current_path:{current_path} current_path_length:{len(current_path)}")
+      print(f"longest_path_length:{longest_path_length}")
+      print('Next iteration')
+
       if len(current_path) > longest_path_length:
         longest_path_length = len(current_path)
         earliest_ancestor = current_vertex
+
       for neighbor in ancestors_list[current_vertex]:          
           new_path = list(current_path)
           new_path.append(neighbor)
