@@ -44,10 +44,12 @@ class SocialGraph:
         # Generate all possible friendship combinations
         possible_friendships = [] # [(friend_id_1, friend_id-2)]
         for user_id in self.users:
-            for friend_id in range(user_id + 1, self.lastID):
+            for friend_id in range(user_id + 1, self.lastID+1):
                 possible_friendships.append( (user_id, friend_id) )
         # randomize the above array
-        random.shuffle(possible_friendships)        
+        print(f'possible_friendships before random>>>>{possible_friendships}')
+        random.shuffle(possible_friendships)       
+        print(f'possible_friendships after random>>>>>{possible_friendships}') 
 
         # pick out num_users * avg_friendships number of friend combos from possible_friendships
         for i in range(numUsers * avgFriendships //2):
@@ -68,7 +70,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(5, 2)
-    print(sg.friendships)
+    sg.populateGraph(10, 2)
+    print(f"Social Graph Friendships>>>>>>{sg.friendships}")
     connections = sg.getAllSocialPaths(1)
     print(connections)
