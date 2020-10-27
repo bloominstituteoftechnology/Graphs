@@ -103,13 +103,14 @@ class SocialGraph:
         
         while queue.size() > 0:
             path = queue.dequeue()
-            next_node = path[-1]
+            cur_vertex = path[-1]
             
-            if next_node not in visited:
-                visited[next_node] = path 
-                friends = self.friendships[next_node]
+            if cur_vertex not in visited:
+                visited[cur_vertex] = path 
                 
-                for friend in friends:
+                friendships = self.friendships[cur_vertex]         
+                for friend in friendships:
+                    # copy the path array 
                     new_path = path.copy()
                     new_path.append(friend)
                     queue.enqueue(new_path)
