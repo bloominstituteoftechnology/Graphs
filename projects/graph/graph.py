@@ -3,29 +3,57 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
+        # vertex ID --> set of neighbors
         self.vertices = {}
+
+    # def __repr__(self):
+    #     return str(self.vertices)
 
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
-
-    def add_edge(self, v1, v2):
+        self.vertices[vertex_id] = set()
+        
+    # adds directed edge from "from_vertex" to "to_vertex"
+    def add_edge(self, from_vertex_id, to_vertex_id):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if from_vertex_id not in self.vertices or to_vertex_id not in self.vertices:
+            print ("Attempting to add edge to non existing node")
+            return
+        self.vertices[from_vertex_id].add(to_vertex_id) #.add is method for set
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
+
+    #remove vertex from graph and any incoming edges to it
+    def remove_vertex(self,vertex_id):
+        if vertex_id not in self.vertices:
+            print("Attempting to remove non existant vertices")
+            return
+
+        self.vertices.pop(vertex_id)
+        for remaining_vertex in self.vertices:
+            self.vertices[remaining_vertex].discard(vertex_id)
+
+    def remove_edge(self,from_vertex_id,to_vertex_id):
+        if from_vertex_id not in self.vertices or to_vertex_id not in self.vertices:
+            print("Attempting to remove edges non existant vertex")
+            return
+        self.vertices[from_vertex_id].discard(to_vertex_id)
+        
+        
 
     def bft(self, starting_vertex):
         """
@@ -103,6 +131,10 @@ if __name__ == '__main__':
     '''
     print(graph.vertices)
 
+    graph.remove_edge(8,1)
+
+    print(graph.vertices)
+
     '''
     Valid BFT paths:
         1, 2, 3, 4, 5, 6, 7
@@ -131,15 +163,15 @@ if __name__ == '__main__':
     graph.dft_recursive(1)
 
     '''
-    Valid BFS path:
-        [1, 2, 4, 6]
-    '''
-    print(graph.bfs(1, 6))
+    # Valid BFS path:
+    #     [1, 2, 4, 6]
+    # '''
+    # print(graph.bfs(1, 6))
 
-    '''
-    Valid DFS paths:
-        [1, 2, 4, 6]
-        [1, 2, 4, 7, 6]
-    '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+    # '''
+    # Valid DFS paths:
+    #     [1, 2, 4, 6]
+    #     [1, 2, 4, 7, 6]
+    # '''
+    # print(graph.dfs(1, 6))
+    # print(graph.dfs_recursive(1, 6))
