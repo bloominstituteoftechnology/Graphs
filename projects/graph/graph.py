@@ -68,12 +68,22 @@ class Graph:
         pass  # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+        queue = deque()
+        visited = set()
+        # push the current path you're on onto the stack, instead of just a single vertex
+        queue.append([starting_vertex])
+
+        while len(queue) > 0:
+            currPath = queue.popleft()
+            currNode = currPath[-1] # the current node you're on is the last node in the path
+            if currNode == destination_vertex:
+                return currPath
+            if currNode not in visited:
+                visited.add(currNode)
+                for neighbor in self.vertices[currNode]:
+                    newPath = list(currPath) # make copy of current path
+                    newPath.append(neighbor)
+                    queue.append(newPath)
 
     def dfs(self, starting_vertex, goal_vertex):
         stack = []
