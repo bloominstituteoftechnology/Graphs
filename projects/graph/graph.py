@@ -41,7 +41,6 @@ class Graph:
                     queue.append(neighbor)
 
 
-
     def dft(self, starting_vertex):
         if starting_vertex not in self.vertices:
             print(f"Error: {starting_vertex} not found")
@@ -59,13 +58,17 @@ class Graph:
                     stack.append(neighbor)
         
 
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        This should be done using recursion.
-        """
-        pass  # TODO
+    def dft_recursive(self, selected_vertex, discovered=set()):
+        if selected_vertex not in self.vertices:
+            print(f"Error: {selected_vertex} not found")
+            return
+        print(selected_vertex)
+        discovered.add(selected_vertex)
+
+        for neighbor in self.vertices[selected_vertex]:
+            if neighbor not in discovered:
+                self.dft_recursive(neighbor, discovered)
+
 
     def bfs(self, starting_vertex, destination_vertex):
         queue = deque()
