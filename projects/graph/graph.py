@@ -9,23 +9,47 @@ class Graph:
     def __init__(self):
         self.vertices = {}
 
+    def __repr__(self):
+        return str(self.vertices)
+
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = set()
+    
+    def remove_vertex(self, vertex_id):
+        if vertex_id not in self.vertices:
+            print("WARNING: Attempting to remove non-existing vertex")
+            return
+        self.vertices.pop(vertex_id)
+        for remaining_vertex in self.vertices:
+            self.vertices[remaining_vertex].discard(vertex_id)
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 not in self.vertices or v2 not in self.vertices:
+            print("Attempting to add edge to non-existing nodes")
+            return
+        self.vertices[v1].add(v2)
+    
+    def remove_edge(self, from_vertex_id, to_vertex_id):
+        """
+        Remove vertex from graph and any incoming edges to it
+        """
+        if from_vertex_id not in self.vertices or to_vertex_id not in self.vertices:
+            print("Attempting to remove edges from non-existent vertex")
+            return
+        self.vertices[from_vertex_id].discard(to_vertex_id)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
