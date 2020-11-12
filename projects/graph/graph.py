@@ -82,23 +82,19 @@ class Graph:
                 for neighbor in self.vertices[currNode]:
                     stack.append(neighbor)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited = set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        visited = set()
-        stack = deque()
-        stack.append(starting_vertex)
-        while len(stack)>0:
-            currNode = stack.pop()
-            if currNode not in visited:
-                visited.add(currNode)
-                print(currNode)
-                for neighbor in self.vertices[currNode]:
-                    stack.append(neighbor)
+
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            print(starting_vertex)
+            for neighbor in self.vertices[starting_vertex]:
+                self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -144,29 +140,26 @@ class Graph:
                     newPath.append(neighbor)
                     stack.append(newPath)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited = set(), path = []):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
 
         This should be done using recursion.
+        # https://www.koderdojo.com/blog/depth-first-search-in-python-recursive-and-non-recursive-programming
         """
-        visited = set()
-        stack = deque()
-        # push current path you're on onto the stack instead of just a single vertex
-        stack.append([starting_vertex])
-        while len(stack) > 0:
-            currPath = stack.pop()
-            currNode = currPath[-1] # the current node you're in is the last node in the path
-            if currNode == destination_vertex:
-                return currPath
-            if currNode not in visited:
-                visited.add(currNode)
-                for neighbor in self.vertices[currNode]:
-                    newPath = list(currPath)
-                    newPath.append(neighbor)
-                    stack.append(newPath)
+        # visited = set()
+        visited.add(starting_vertex)
+        # path = []
+        path = path + [starting_vertex]
+        if starting_vertex == destination_vertex:
+            return path
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                newPath = self.dfs_recursive(neighbor, destination_vertex, visited, path)
+                if newPath is not None:
+                    return newPath
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -234,4 +227,4 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print(graph.dfs(1, 6))
-    # print(graph.dfs_recursive(1, 6))
+    print(graph.dfs_recursive(1, 6))
