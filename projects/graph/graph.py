@@ -4,7 +4,7 @@ Simple graph implementation
 from util import Stack, Queue  # These may come in handy
 
 
-
+from collections import deque
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -60,16 +60,35 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        queue = deque()
+        visited = set()
+        queue.append(starting_vertex)
+        while len(queue)>0:
+            currNode = queue.popleft()
+            if currNode not in visited:
+                visited.add(currNode)
+                print (currNode)
+                for neigbor in self.vertices[currNode]:
+                    queue.append(neigbor)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        stack = deque()
+        visited = set()
+        stack.append(starting_vertex)
+        while len(stack)>0:
+            currNode = stack.pop()
+            if currNode not in visited:
+                visited.add(currNode)
+                print (currNode)
+                for neigbor in self.vertices[currNode]:
+                    stack.append(neigbor)
 
-    def dft_recursive(self, starting_vertex):
+
+    def dft_recursive(self, starting_vertex,visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -85,14 +104,29 @@ class Graph:
         breath-first order.
         """
         pass  # TODO
-
+       
+        
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = deque()
+        visited = set()
+        #push the current path you are onto stack, instwead of single vertex
+        stack.append([starting_vertex])
+        while len(stack)>0:
+            currPath = stack.pop()
+            currNode = currPath[-1] # current node you are on is the last node in the path
+            if currNode == destination_vertex:
+                return currPath
+            if currNode not in visited:
+                visited.add(currNode)
+                for neigbor in self.vertices[currNode]:
+                    newPath = list(currPath) # make copy of curr path
+                    newPath.append(neigbor)
+                    stack.append(newPath)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -131,9 +165,7 @@ if __name__ == '__main__':
     '''
     print(graph.vertices)
 
-    graph.remove_edge(8,1)
-
-    print(graph.vertices)
+    # graph.remove_edge(8,1)
 
     '''
     Valid BFT paths:
@@ -159,8 +191,8 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    graph.dft(1)
-    graph.dft_recursive(1)
+    # graph.dft(1)
+    # graph.dft_recursive(1)
 
     '''
     # Valid BFS path:
@@ -173,5 +205,6 @@ if __name__ == '__main__':
     #     [1, 2, 4, 6]
     #     [1, 2, 4, 7, 6]
     # '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
+
