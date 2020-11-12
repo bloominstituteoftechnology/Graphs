@@ -98,7 +98,15 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+        def helper(vertex, visited):
+            if vertex not in visited:
+                visited.add(vertex)
+                print(vertex)
+                for neighbor in self.vertices[vertex]:
+                    helper(neighbor, visited)
+
+        helper(starting_vertex, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -168,6 +176,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print("BFT:")
     graph.bft(1)
 
     '''
@@ -177,7 +186,9 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print("DFT:")
     graph.dft(1)
+    print("DFT recursive:")
     graph.dft_recursive(1)
 
     '''
