@@ -16,12 +16,17 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        if vertex_id not in self.vertices:
-            self.vertices[vertex_id] = set()
+        if vertex_id in self.vertices:
+            print(f"WARNING: Graph already contains `{vertex_id}`")
+            return
+        self.vertices[vertex_id] = set()
     
     def remove_vertex(self, vertex_id):
+        """
+        Removes a vertex from the graph, as well as its edges.
+        """
         if vertex_id not in self.vertices:
-            print("WARNING: Attempting to remove non-existing vertex")
+            print(f"WARNING: Attempting to remove non-existing vertex `{vertex_id}")
             return
         self.vertices.pop(vertex_id)
         for remaining_vertex in self.vertices:
@@ -29,21 +34,21 @@ class Graph:
 
     def add_edge(self, v1, v2):
         """
-        Add a directed edge to the graph.
+        Add a directed edge from v1 to v2.
         """
         if v1 not in self.vertices or v2 not in self.vertices:
-            print("Attempting to add edge to non-existing nodes")
+            print(f"WARNING: Attempting to add edge to non-existing nodes `{v1}` and `{v2}`")
             return
         self.vertices[v1].add(v2)
     
-    def remove_edge(self, from_vertex_id, to_vertex_id):
+    def remove_edge(self, v1, v2):
         """
-        Remove vertex from graph and any incoming edges to it
+        Remove a directed edge from v1 to v2.
         """
-        if from_vertex_id not in self.vertices or to_vertex_id not in self.vertices:
-            print("Attempting to remove edges from non-existent vertex")
+        if v1 not in self.vertices or v2 not in self.vertices:
+            print("WARNING: Attempting to remove edges from non-existent vertex")
             return
-        self.vertices[from_vertex_id].discard(to_vertex_id)
+        self.vertices[v1].discard(v2)
 
     def get_neighbors(self, vertex_id):
         """
