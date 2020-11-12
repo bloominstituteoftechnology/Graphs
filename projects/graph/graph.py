@@ -9,17 +9,24 @@ class Graph:
     def __init__(self):
         self.vertices = {}
 
+
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # inserting vertex_id into our vertices
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # assuming the edges are ordered pairs
+        if v1 in self.vertices:
+            # add connection
+            self.vertices[v1].add(v2)
+        else:
+            raise Exception(f'{v1} not found')
 
     def get_neighbors(self, vertex_id):
         """
@@ -32,7 +39,29 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # make a queue
+        q = Queue()
+        # make a set to track which nodes we have visited
+        visited = set()
+        # enqueue the starting ndoe
+        q.enqueue(starting_vertex)
+        # loop while the queue isn't empty
+        while q.size() > 0:
+            # dequeue, this is our current node
+            # check if we've visited yet
+            current_node = q.dequeue()
+            # check if we've visited yet
+            if current_node not in visited:
+                print(current_node)
+                ## if not, we go to the node
+                ### mark as visited == add to visited set
+                visited.add(current_node)
+            ### get the neighbors
+            neighbors = self.get_neighbors()
+            ### iterate over the neighbors, enqueue them
+            for neighbor in neighbors:
+                q.enqueue(neighbor)
+
 
     def dft(self, starting_vertex):
         """
@@ -55,6 +84,9 @@ class Graph:
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
+
+        ENQUEUE A PATH TO THE STARTING NODE
+
         """
         pass  # TODO
 
@@ -103,6 +135,18 @@ if __name__ == '__main__':
     '''
     print(graph.vertices)
 
+    graph = Graph()  # Instantiate your graph
+    graph.add_vertex('0')
+    graph.add_vertex('1')
+    graph.add_vertex('2')
+    graph.add_vertex('3')
+    graph.add_edge('0', '1')
+    graph.add_edge('1', '0')
+    graph.add_edge('0', '3')
+    graph.add_edge('3', '0')
+    # the exception isn't working, not sure why
+    graph.add_edge('0', '4')
+    print(graph.vertices)
     '''
     Valid BFT paths:
         1, 2, 3, 4, 5, 6, 7
