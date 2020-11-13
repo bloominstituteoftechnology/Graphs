@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+from collections import deque
 
 class Graph:
 
@@ -13,33 +14,55 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 not in self.vertices or v2 not in self.vertices:
+            print('Attempting to add edge to non-existing nodes')
+            return
+        self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visted = set()
+        queue = deque()
+        queue.append(starting_vertex)
+        while len(queue) > 0:
+            curr_node = queue.popleft()
+            if curr_node not in visted:
+                visted.add(curr_node)
+                print(curr_node)
+                for neighbor in self.vertices[curr_node]:
+                    queue.append(neighbor)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = set()
+        stack = deque()
+        stack.append(starting_vertex)
+        while len(stack) > 0:
+            currNode = stack.pop()
+            if currNode not in visited:
+                visited.add(currNode)
+                print(currNode)
+                for neighbor in self.vertices[currNode]:
+                    stack.append(neighbor)
+
 
     def dft_recursive(self, starting_vertex):
         """
@@ -48,7 +71,16 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+        
+        def helper(v):
+            if v in visited:
+                return
+            visited.add(v)
+            print(v)
+            for vt in self.vertices[v]:
+                helper(vt)
+        return helper(starting_vertex)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -56,7 +88,20 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        visited = set()
+        queue = deque()
+        queue.append([starting_vertex])
+        while len(queue) > 0:
+            curr_path = queue.popleft()
+            curr_node = curr_path[-1] 
+            if curr_node == destination_vertex:
+                return curr_path
+            if curr_node not in visited:
+                visited.add(curr_node)
+                for neighbor in self.vertices[curr_node]:
+                    new_path = list(curr_path) 
+                    new_path.append(neighbor)
+                    queue.append(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -64,7 +109,20 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        visited = set()
+        stack = deque()
+        stack.append([starting_vertex])
+        while len(stack) > 0:
+            currPath = stack.pop()
+            currNode = currPath[-1] 
+            if currNode == destination_vertex:
+                return currPath
+            if currNode not in visited:
+                visited.add(currNode)
+                for neighbor in self.vertices[currNode]:
+                    newPath = list(currPath) 
+                    newPath.append(neighbor)
+                    stack.append(newPath)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -74,7 +132,20 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+
+        def helper_dfs(sv, dv):
+            if sv in visited:
+                return []
+            visited.add(sv)
+            if sv == dv:
+                return [sv]
+            for v in self.vertices[sv]:
+                res = helper_dfs(v, dv)
+                if res:
+                    return [sv] + res
+
+        return helper_dfs(starting_vertex, destination_vertex)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
