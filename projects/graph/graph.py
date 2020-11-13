@@ -47,12 +47,14 @@ class Graph:
         # if we haven't visited this node yet,
             if current_node not in visited:
                 # mark as visited
+                print(current_node)
                 visited.add(current_node)
         # get its neighbors
                 neighbors = self.get_neighbors(current_node)
         # foreach neighbor enqueue
                 for neighbor in neighbors:
                     q.enqueue(neighbor)
+        return q
 
     def dft(self, starting_vertex):
         """
@@ -73,6 +75,7 @@ class Graph:
         # if we haven't visited this vertex before
             if current not in visited:
                 # mark as visited
+                print(current)
                 visited.add(current)
         # get its neighbors
                 neighbors = self.get_neighbors(current)
@@ -136,9 +139,22 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        s = [starting_vertex]
+        visited = {}
+        result = []
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+        while len(s) > 0:
+            vertex = s.pop()
+            result.append(vertex)
+
+            neighbors = self.get_neighbors(vertex)
+            for neighbor in neighbors:
+                if neighbor not in visited:
+                    visited[neighbor] = True
+                    s.append(neighbor)
+        return result
+
+    def dfs_recursive(self, starting_vertex, destination_vertex, path=[], visited=set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -146,7 +162,23 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+
+        visited.add(starting_vertex)
+
+        if starting_vertex == destination_vertex:
+            return path
+
+        if len(path) == 0:
+            path.append(starting_vertex)
+
+        neighbors = self.get_neighbors(starting_vertex)
+
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                result = self.dfs_recursive(
+                    neighbor, destination_vertex, path + [neighbor], visited)
+                if result is not None:
+                    return result
 
 
 if __name__ == '__main__':
