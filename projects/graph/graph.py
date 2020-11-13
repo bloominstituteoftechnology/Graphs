@@ -62,8 +62,9 @@ class Graph:
         if selected_vertex not in self.vertices:
             print(f"Error: {selected_vertex} not found")
             return
-        print(selected_vertex)
+        
         discovered.add(selected_vertex)
+        print(selected_vertex)
 
         for neighbor in self.vertices[selected_vertex]:
             if neighbor not in discovered:
@@ -106,14 +107,27 @@ class Graph:
                     newPath.append(neighbor)
                     stack.append(newPath)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        This should be done using recursion.
-        """
-        pass  # TODO
+    def dfs_recursive(self, starting_vertex, goal_vertex):
+        visited = set()
+        return self.dfs_recursive_helper([starting_vertex], visited, goal_vertex)
+
+    def dfs_recursive_helper(self, curr_path, visited, goal_vertex):
+        curr_vertex = curr_path[-1]
+        # base case if curr_vertex is goal_vertex, return path
+        if curr_vertex == goal_vertex:
+            return curr_path
+
+        visited.add(curr_vertex)
+        for neighbor in self.vertices[curr_vertex]:
+            if neighbor not in visited:
+                new_path = list(curr_path)
+                new_path.append(neighbor)
+                # recursive case - keep traversing the graph and visit the neighbor next
+                res = self.dfs_recursive_helper(new_path, visited, goal_vertex)
+                if len(res) > 0:
+                    return res
+        # base case, return empty array if goal vertex not found
+        return []
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
