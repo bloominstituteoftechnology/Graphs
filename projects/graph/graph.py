@@ -114,7 +114,22 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        visited = set()
+        queue = deque()
+        # Push the current path onto the stack, instead of just a single vertex
+        queue.append([starting_vertex])
+        while len(queue) > 0:
+            currPath = queue.popleft()
+            currNode = currPath[-1] # current node is the last node in the path
+            if currNode == destination_vertex:
+                return currPath
+            if currNode not in visited:
+                visited.add(currNode)
+                # push all neighbors onto stack
+                for neighbor in self.vertices[currNode]:
+                    newPath = list(currPath)
+                    newPath.append(neighbor)
+                    queue.append(newPath)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -195,6 +210,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print("BFS: 1 to 6")
     print(graph.bfs(1, 6))
 
     '''
