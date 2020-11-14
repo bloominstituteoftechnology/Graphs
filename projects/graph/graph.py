@@ -99,14 +99,14 @@ class Graph:
         This should be done using recursion.
         """
         visited = set()
-        def helper(vertex, visited):
+        def recursive_helper(vertex, visited):
             if vertex not in visited:
                 visited.add(vertex)
                 print(vertex)
                 for neighbor in self.vertices[vertex]:
-                    helper(neighbor, visited)
+                    recursive_helper(neighbor, visited)
 
-        helper(starting_vertex, visited)
+        recursive_helper(starting_vertex, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
