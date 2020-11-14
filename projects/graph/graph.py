@@ -72,7 +72,16 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass
+        visited = set()
+        self.dft_recursive_helper(starting_vertex, visited)
+
+    def dft_recursive_helper(self, curr_vertex, visited):
+        visited.add(curr_vertex)
+        print(curr_vertex)
+
+        for neighbor in self.vertices[curr_vertex]:
+            if neighbor not in visited:
+                self.dft_recursive_helper(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -80,7 +89,22 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        visited = set()
+        queue = deque()
+        queue.append ([starting_vertex])
+
+        while len(queue) > 0:
+            currPath = queue.popleft()
+            currNode = currPath[-1]
+            if currNode == destination_vertex:
+                return currPath
+            if currNode not in visited:
+                visited.add(currNode)
+                for neighbor in self.vertices[currNode]:
+                    newPath = list(currPath)
+                    newPath.append(neighbor)
+                    queue.append(newPath)
+        return []
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -112,7 +136,24 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = set()
+        return self.dfs_recursive_helper([starting_vertex], destination_vertex, visited)
+
+    def dfs_recursive_helper(self, curr_path, destination_vertex, visited):
+        curr_vertex = curr_path[-1]
+
+        if curr_vertex == destination_vertex:
+            return curr_path
+        visited.add(curr_vertex)
+
+        for neighbor in self.vertices[curr_vertex]:
+            if neighbor not in visited:
+                newPath = list(curr_path)
+                newPath.append(neighbor)
+                res = self.dfs_recursive_helper(newPath, destination_vertex, visited)
+                if len(res) > 0:
+                    return res
+        return []
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
