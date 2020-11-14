@@ -58,7 +58,12 @@ class Graph:
         stack.append(starting_vertex)
 
         while len(stack) > 0:
-            
+            currNode = stack.pop()
+            if currNode not in visited:
+                visited.add(currNode)
+                print(currNode)
+                for neighbor in self.vertices[currNode]:
+                    stack.append(neighbor)            
 
     def dft_recursive(self, starting_vertex):
         """
@@ -67,7 +72,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        pass
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -83,7 +88,21 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        visited = set()
+        stack = deque()
+        stack.append([starting_vertex])
+
+        while len(stack) > 0:
+            currPath = stack.pop()
+            currNode = currPath[-1]
+            if currNode == destination_vertex:
+                return currPath
+            if currNode not in visited:
+                visited.add(currNode)
+                for neighbor in self.vertices[currNode]:
+                    newPath = list(currPath)
+                    newPath.append(neighbor)
+                    stack.append(newPath)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
