@@ -162,7 +162,25 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        def recursive_helper(curr_path, visited, goal_vertex):
+            curr_vertex = curr_path[-1]
+            # base case
+            if curr_vertex == goal_vertex:
+                return curr_path
+            visited.add(curr_vertex)
+            for neighbor in self.vertices[curr_vertex]:
+                if neighbor not in visited:
+                    newPath = list(curr_path)
+                    newPath.append(neighbor)
+                    # recursive case: keep traversing the graph, visit neighbor next
+                    res = recursive_helper(newPath, visited, goal_vertex)
+                    if len(res) > 0:
+                        return res
+            # another base case: if goal vertex not found
+            return []
+
+        visited = set()
+        return recursive_helper([starting_vertex], visited, destination_vertex)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -235,4 +253,5 @@ if __name__ == '__main__':
     '''
     print("DFS: 1 to 6")
     print(graph.dfs(1, 6))
+    print("DFS recursive: 1 to 6")
     print(graph.dfs_recursive(1, 6))
