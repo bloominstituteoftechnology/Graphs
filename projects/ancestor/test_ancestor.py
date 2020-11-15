@@ -21,7 +21,8 @@ class Test(unittest.TestCase):
         self.assertEqual(earliest_ancestor(test_ancestors, 5), 4)
         self.assertEqual(earliest_ancestor(test_ancestors, 6), 10)
         self.assertEqual(earliest_ancestor(test_ancestors, 7), 4)
-        self.assertEqual(earliest_ancestor(test_ancestors, 8), 4)
+        self.assertEqual(earliest_ancestor(test_ancestors, 8), 4) # fails here
+        
         self.assertEqual(earliest_ancestor(test_ancestors, 9), 4)
         self.assertEqual(earliest_ancestor(test_ancestors, 10), -1)
         self.assertEqual(earliest_ancestor(test_ancestors, 11), -1)
