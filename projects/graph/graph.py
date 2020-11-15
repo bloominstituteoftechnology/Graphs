@@ -95,7 +95,6 @@ class Graph:
 
         This should be done using recursion.
         """
-        
         if starting_vertex not in visited:
             print(starting_vertex)
             visited.add(starting_vertex)
@@ -154,7 +153,40 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited=set()
+        return self.dfs_recursive_helper([starting_vertex],destination_vertex,visited)
+
+    # return path to goal vertex if it exists , if not it will return empty array.
+    def dfs_recursive_helper(self,curr_path,destination_vertex,visited):
+        curr_vertex = curr_path[-1]
+        #Base-Case
+        if curr_vertex == destination_vertex:
+            return curr_path
+
+        visited.add(curr_vertex)   
+
+        # find neighbors of current vertex and make a copy of current path. 
+        # If neighbor is not in visited then append it to copy of curr path
+        # recurse over copy of curr path , until goal vertex is reached. 
+        for neighbor in self.vertices[curr_vertex]:
+            if neighbor not in visited:
+                new_path = list(curr_path)
+                new_path.append(neighbor)
+                res = self.dfs_recursive_helper(new_path,destination_vertex,visited)
+                if len(res)>0:
+                    return res
+
+        return []
+
+
+
+        
+
+
+        
+
+        
+        
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -216,7 +248,7 @@ if __name__ == '__main__':
     # Valid BFS path:
     #     [1, 2, 4, 6]
     # '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     # '''
     # Valid DFS paths:
@@ -224,5 +256,5 @@ if __name__ == '__main__':
     #     [1, 2, 4, 7, 6]
     # '''
     # print(graph.dfs(1, 6))
-    # print(graph.dfs_recursive(1, 6))
+    print(graph.dfs_recursive(1, 6))
 
