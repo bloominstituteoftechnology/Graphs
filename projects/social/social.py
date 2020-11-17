@@ -73,7 +73,18 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        queue = deque()
+        # Push current path you're on onto the stack instead of just a single vertex
+        queue.append([user_id])
+        while len(queue) > 0:
+            currPath = queue.popleft()
+            currNode = currPath[-1] # the current node you're on is the last node in the path
+            if friend not in visited:
+                visited.add(currNode)
+                for friend in self.friendships[currNode]:
+                    newPath = list(currPath)
+                    newPath.append(friend)
+                    queue.append(newPath)
         return visited
 
 
