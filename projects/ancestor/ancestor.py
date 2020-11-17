@@ -4,9 +4,11 @@ def earliest_ancestor(ancestors, starting_node):
     # set up our graph
     graphy = {}
     for tup in ancestors:
-        if tup[0] not in graphy:
-            graphy[tup[0]] = set()
-        graphy[tup[0]].add(tup[1])
+        if tup[1] not in graphy:
+            graphy[tup[1]] = set()
+        graphy[tup[1]].add(tup[0])
+
+    print(graphy)
 
     path = [starting_node]
     q = [path]
@@ -39,10 +41,10 @@ def earliest_ancestor(ancestors, starting_node):
 
 
 def get_parents(node, graph):
-    parents = []
-    for i in graph:
-        if node in graph[i]:
-            parents.append(i)
+    if node in graph:
+        parents = list(graph[node])
+    else:
+        parents = []
     return parents
 
 
