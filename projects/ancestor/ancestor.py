@@ -50,7 +50,7 @@ def earliest_ancestor(ancestors, starting_node):
 
 
 def createGraph(edges):
-        graph = defaultdict()
+        graph = defaultdict(set)
         for edge in edges:
             ancestors, child = edge[0], edge[1]
             graph[child].add(ancestor)
