@@ -43,67 +43,26 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
-        # Reset graph
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
-
-        # Add users
-        for i in range(num_users):
-            self.add_user(f"User {i}"
-
-        # Create friendships
-        # Generate all the possible friendships and put them into an array
-        #possible_friends = []
+        for i in range(0, num_users):
+            self.add_user(f"User {i}")
         possible_friendships = []
+        # Generate all possible friendships possible
         for user_id in self.users:
-            # To prevent duplicate friendship, create from user_id + 1
+            # To avoid duplicating friendships, create friendships from user_id + 1
             for friend_id in range(user_id + 1, self.last_id + 1):
                 possible_friendships.append((user_id, friend_id))
 
-        # Shuffle the friendship array
-        # [(1, 2), (0, 1), (0, 2)]
+        # Shuffle the entire array of possible friendships
         random.shuffle(possible_friendships)
 
-        # Take the first num_users * avg_friendships / 2 and that will be the friendships for that graph
-        for i in range(math.floor(num_users * avg_friendships / 2)):
+        # Select the first num_users * avg_friendships / 2
+        # We / 2 because a friendship is a bidirectional edge (we're essentially adding two edges)
+        for i in range(0, math.floor(num_users * avg_friendships / 2)):
             friendship = possible_friendships[i]
             self.add_friendship(friendship[0], friendship[1])
-
-    def populate_graph_linear(self, num_users, avg_friendships):
-        # Keep randomly making friendships until we've made the right amount
-        # Randomly select two vertices to become friends
-        # if it's a success, then increment number of friendships made
-        # else try again
-        self.last_id = 0
-        self.users = {}
-        self.friendships = {}
-
-        for i in range(0, num_users):
-            self.add_user(f"User {i}")
-
-        target_friendships = num_users * avg_friendships
-        total_friendships = 0
-        collisions = 0
-        while total_friendships < target_friendships:
-            user_id = random.randint(1, self.last_id)
-            friend_id = random.randint(1, self.last_id)
-            if self.add_friendship_linear(user_id, friend_id):
-                total_friendships += 2
-            else:
-                collisions += 1
-        print(f"collisions: {collisions}")
-
-    def add_friendship_linear(self, user_id, friend_id):
-        if user_id == friend_id:
-            return False
-        elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
-            return False
-        else:
-            self.friendships[user_id].add(friend_id)
-            self.friendships[friend_id].add(user_id)
-            return True
 
     def get_all_social_paths(self, user_id):
         """
@@ -114,19 +73,20 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {}  # A dictionary mapping from nodeID -> [path from user_id]
         queue = deque()
         queue.append([user_id])
+
         while len(queue) > 0:
             currPath = queue.popleft()
             currNode = currPath[-1]
             visited[currNode] = currPath
             for friend in self.friendships[currNode]:
                 if friend not in visited:
-                    new_path = list(currPath)
-                    new_path.append(friend)
-                    queue.append(new_path)
+                    newPath = currPath.copy()
+                    newPath.append(friend)
+                    queue.append(newPath)
+
         return visited
     def count_direct_friends(self, friend_id):
         if friend_id not in self.friendships:
