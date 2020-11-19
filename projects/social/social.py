@@ -1,5 +1,6 @@
 import random
 import math
+from collections import deque
 
 class User:
     def __init__(self, name):
@@ -79,8 +80,8 @@ class SocialGraph:
         while len(queue) > 0:
             currPath = queue.popleft()
             currNode = currPath[-1] # the current node you're on is the last node in the path
-            if friend not in visited:
-                visited.add(currNode)
+            if currNode not in visited:
+                visited[currNode] = currPath
                 for friend in self.friendships[currNode]:
                     newPath = list(currPath)
                     newPath.append(friend)
@@ -92,5 +93,5 @@ if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
     print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
