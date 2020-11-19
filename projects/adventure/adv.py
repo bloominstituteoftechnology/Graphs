@@ -109,7 +109,6 @@ def dft(unexplored_dir):
                 new_dir.append(direction)
                 stack.push(new_dir)
     unexplored_dir = bfs(player.current_room.id)
-    print('unexplored_dir',unexplored_dir)
     if unexplored_dir !=None:
         for direction in unexplored_dir[0]:
             player.travel(direction)
