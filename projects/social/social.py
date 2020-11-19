@@ -53,10 +53,10 @@ class SocialGraph:
         # result = {}
 
         while len(q) > 0:
-            print("queue", q)
+            # print("queue", q)
             new_path = q.pop(0)
             vertex = new_path[-1]
-            print("vertex", vertex)
+            # print("vertex", vertex)
 
             if vertex not in visited:
                 visited[vertex] = new_path
@@ -104,6 +104,7 @@ class SocialGraph:
         # shuffle the list,
         self.fisher_yates_shuffle(friendship_combos)
         # then grab first n elements from the list
+        # print("frinedshipt combos", friendship_combos)
         friendships_to_make = friendship_combos[:(total_friendships // 2)]
         # only create friendships where user1< user2
         for friendship in friendships_to_make:
@@ -149,9 +150,25 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(sg.friendships)
+    num_users = 1000
+    avg_friendships = 5
+    sg.populate_graph(num_users, avg_friendships)
+    # print(sg.friendships)
     # print("get friends", sg.get_friends(1))
     # print(sg.bft_path(1))
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    # print(connections)
+
+# percentage of other users in extended social network
+    # NUMBER OF  people we visited/ total number of peope
+    print(len(connections)/num_users)
+
+# average degree of separation --> average steps we took to visit someone
+# average length of the path
+    total_path_lenghths = 0
+
+    for key, value in connections.items():
+        total_path_lenghths += len(value)
+
+    average_path_length = total_path_lenghths/len(connections)
+    print(average_path_length)
