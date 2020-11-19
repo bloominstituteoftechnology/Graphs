@@ -80,22 +80,18 @@ class SocialGraph:
         visited = {}  # Note that this is a dictionary, not a set
         
         queue = deque()
-        queue.append(user_id)
+        queue.append([user_id])
         visited[user_id] = [user_id]
         while len(queue) > 0:
-            curr = queue.popleft()
-            friends = self.friendships[curr]
+            currPath = queue.popleft()
+            currNode = currPath[-1]
+            visited[currNode] = currPath
+            friends = self.friendships[currNode]
             for friend in friends:
-                path = visited.get(friend, [])
-                if len(path) == 0:
-                    path.append(curr)
-                if friend not in path:
-                    path.append(friend)
-                visited[friend] = path
-                
-                if friend not in queue:
-                    queue.append(friend)
-
+                if friend not in visited:
+                    newPath = currPath.copy()
+                    newPath.append(friend)
+                    queue.append(newPath)
         return visited
 
 
