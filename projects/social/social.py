@@ -93,13 +93,50 @@ class SocialGraph:
 
         return visited
 
+    # Returns True if user_id and friend_id have successfully been added ad friends
+    def add_friendship_linear(self, user_id, friend_id):
+        if user_id == friend_id:
+            return False
+        # Check if friend_id and user_id are not already friends with each other
+        elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
+            return False
+        else:
+            self.friendships[user_id].add(friend_id)
+            self.friendships[friend_id].add(user_id)
+            return True
+
+    def populate_graph_linear(self, num_users, avg_friendships):
+        # Return graph
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+
+        # Add users into the graph
+        for i in range(num_users):
+            self.add_users(f"User {i}")
+
+        # Create random friendships until we've hit target number of friendships
+        target_friendships = num_users * avg_friendships
+        total_friendships = 0
+        collisions = 0
+
+        while total_friendships < target_friendships:
+            # keep adding friendships
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1, self.last_id)
+            if self.add_friendship_linear(user_id, friend_id):
+                total_friendships += 2
+            else:
+                collisions += 1
+            print(f"Collisions: {collisions}")
+
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(8, 4)
     print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
 
 """
 Questions:
