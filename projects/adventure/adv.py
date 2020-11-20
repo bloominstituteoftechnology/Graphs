@@ -29,6 +29,61 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+# Create an empty dictionary to save all the visited rooms
+visited = {}
+# Create an empty list that will save your reverse path, allowing you to backtrack when neccesary
+backtrackPath = []
+# Save all possible movement options as keys, with their opposite directions as values
+movementOptions = {'n': 's', 's': 'n', 'w': 'e', 'e': 'w'}
+# Saves the current room (Room Number) in visited as a key, with each possible exit DIRECTION as values
+visited[player.current_room.id] = player.current_room.get_exits()
+
+# While not every room has been explored...
+while len(visited) < len(room_graph):
+
+    # If the current room has not been visited...
+    # Save it as visited, check off where you came from, and see where you can go now
+    if player.current_room.id not in visited:
+        # Saves the current room in visited as a key (ROOM NUMBER), with each possible exit as values (DIRECTIONS)
+        visited[player.current_room.id] = player.current_room.get_exits()
+        # Saves the last direction in backtrackPath as the previousRoom
+        previousRoom = backtrackPath[-1]
+        print("previousRoom(Checking Rooms Case): ", previousRoom)
+        print("backtrackPath: ", backtrackPath)
+        print("Currently in: ", player.current_room.id)
+        # Remove the direction you just came from as a possible exit
+        visited[player.current_room.id].remove(previousRoom)
+    
+    elif len(visited[player.current_room.id]) > 0:
+        # Save the last of the current rooms exits as a variable
+        nextRoom = visited[player.current_room.id][-1]
+        print("nextRoom: ", nextRoom)
+        print("backtrackPath: ", backtrackPath)
+        print("Currently in: ", player.current_room.id)
+        # Remove that nextRoom from the current rooms exits
+        visited[player.current_room.id].pop()
+        # Add that to the answer path
+        traversal_path.append(nextRoom)
+        # Add the reverse movement to backtrackPath to keep track of where you're going!
+        backtrackPath.append(movementOptions[nextRoom])
+        # Go into that next room
+        player.travel(nextRoom)
+        print("Walking to:", nextRoom)
+
+    elif len(visited[player.current_room.id]) == 0:
+        # Save the direction you just came from as the previous room
+        previousRoom = backtrackPath[-1]
+        print("previousRoom(Backtracking Case): ", previousRoom)
+        print("backtrackPath: ", backtrackPath)
+        print("Currently in: ", player.current_room.id)
+        # Remove that direction from the backtrackPath
+        backtrackPath.pop()
+        # Add that to the answer path
+        traversal_path.append(previousRoom)
+        # Go back to the previous room
+        player.travel(previousRoom)
+        print("Walking BACK to:", previousRoom)
+
 
 
 # TRAVERSAL TEST
@@ -51,12 +106,12 @@ else:
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+#player.current_room.print_room_description(player)
+#while True:
+#    cmds = input("-> ").lower().split(" ")
+#    if cmds[0] in ["n", "s", "e", "w"]:
+#        player.travel(cmds[0], True)
+#    elif cmds[0] == "q":
+#        break
+#    else:
+#      print("I did not understand that command.")
