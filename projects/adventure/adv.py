@@ -13,8 +13,8 @@ world = World()
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph = literal_eval(open(map_file, "r").read())
@@ -31,7 +31,7 @@ player = Player(world.starting_room)
 
 def bfs(starting_vertex):
     q = []
-    visit = set()
+    visit = []
     path = [starting_vertex]
     travel = []
     q.append(path)
@@ -41,32 +41,28 @@ def bfs(starting_vertex):
         # dequeue the node at the front of the line
         current_path = q.pop(0)
         current_node = current_path[-1]
+        print(current_node, "starting node")
         # print("current_node bfs", current_node)
     # if this node is a target node, return true
         if has_exits(current_node):
-            # print("has exits", has_exits(current_node))
-            # print("travel", travel)
-            # print("traversal p before", traversal_path)
             traversal_path.extend(travel)
-            # print("traversal p after", traversal_path)
             return current_path
 
             # return current_path
         if current_node not in visit:
-            visit.add(current_node)
+            visit.append(current_node)
             neighbors = player.current_room.get_exits()
-
+            print("neighbors", neighbors, current_node)
             for i in neighbors:
-                # print("visited nodes", visit)
-                # print("ALL THE STUFFS", i, graph[player.current_room.id],
-                #   current_node)
-                if graph[current_node][i] == "?":
-                travel.append(i)
-                player.travel(i)
-                q.append(current_path + [player.current_room.id])
-                
+
+                if graph[current_node][i]< current_node:
+                    travel.append(i)
+                    player.travel(i)
+                    q.append(current_path + [player.current_room.id])
+                else:
+                    continue
         else:
-            print("whoopsie,", current_node)
+            print(has_exits(current_node))
 
 
 def has_exits(vertex):
@@ -75,15 +71,16 @@ def has_exits(vertex):
     # print("get room id", player.current_room.id)
     # print("get room exits", player.current_room.get_exits())
     for key, value in graph[vertex].items():
+        print(key, value, "vertex", vertex)
         if value == "?":
             free.append(key)
-            print("free", free)
+    
     # for i in player.current_room.get_exits():
     #     if graph[vertex][i] == "?":
     #         free.append(i)
         # print("free in the appaned", free)
     if len(free) > 0:
-        # print("free", free)
+        # print("free done", free)
         return free
     # print("false on has exits")
     return False
@@ -113,12 +110,12 @@ while len(visited) != len(world.rooms):
     if vertex not in visited:
         graph[vertex] = {}
         visited.append(vertex)
-        # print("visited", visited)
+        print("visited", visited)
         for i in exits:
             graph[vertex][i] = "?"
         if len(traversal_path) > 0:
             last = traversal_path[-1]
-            # print("traversal path", traversal_path)
+            print("traversal path", traversal_path)
             # print("Nodes", nodes)
             if last == "n":
                 if graph[vertex]['s'] == "?":
@@ -153,9 +150,9 @@ while len(visited) != len(world.rooms):
                 break
 
             new_vertex = bfs(player.current_room.id)
-            print(graph)
+            # print(graph)
             print("new vertex", new_vertex)
-            print("traversal length", len(traversal_path))
+            # print("traversal length", len(traversal_path))
             s.append(new_vertex[-1])
     else:
         if len(traversal_path) > 0:
@@ -186,20 +183,14 @@ while len(visited) != len(world.rooms):
             # find an open exit vertex and travel there.
             if len(visited) == len(world.rooms):
                 break
-            # print("not visited vertex", vertex)
-            # print("not visited current room", player.current_room.id)
-            # print("bfs not visited", bfs(player.current_room.id))
             new_vertex = bfs(player.current_room.id)
-            # print("new vertex to be added", new_vertex[-1])
             s.append(new_vertex[-1])
-        # print(vertex)
-        # print(free_exits)
 
 
 print("final graph", graph)
 print("final len visited", len(visited))
 print("final len rooms", len(world.rooms))
-print(has_exits(graph[0])
+# print(has_exits(graph[0])
 
 # TRAVERSAL TEST
 visited_rooms = set()
