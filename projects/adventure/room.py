@@ -57,3 +57,61 @@ class Room:
             return None
     def get_coords(self):
         return [self.x, self.y]
+
+    def next_available_direction_to_the_right(self, direction):
+        """
+        Returns the exit to the right, i.e. following the right wall.
+        If we entered from the east, will try north. If north doesn't
+        exist, contine around counter-clockwise. If no other exits,
+        return inverse direction (turn around).
+
+        direction -- the direction we were going when entering this room
+        """
+
+        def invertDirection(dir):
+            if dir == "n":
+                return "s"
+            if dir == "s":
+                return "n"
+            if dir == "e":
+                return "w"
+            if dir == "w":
+                return "e"
+
+        camefrom = invertDirection(direction)
+        if camefrom == "e":
+            if self.n_to:
+                return "n"
+            elif self.w_to:
+                return "w"
+            elif self.s_to:
+                return "s"
+            else:
+                return "e"
+        elif camefrom == "n":
+            if self.w_to:
+                return "w"
+            elif self.s_to:
+                return "s"
+            elif self.e_to:
+                return "e"
+            else:
+                return "n"
+        elif camefrom == "w":
+            if self.s_to:
+                return "s"
+            elif self.e_to:
+                return "e"
+            elif self.n_to:
+                return "n"
+            else:
+                return "w"
+        elif camefrom == "s":
+            if self.e_to:
+                return "e"
+            elif self.n_to:
+                return "n"
+            elif self.w_to:
+                return "w"
+            else:
+                return "s"

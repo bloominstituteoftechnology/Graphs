@@ -31,6 +31,36 @@ traversal_path = []
 
 
 
+graph = {}
+visited = set()
+direction = None
+
+# starting room
+current = world.starting_room
+visited.add(current)
+# print(f"current: {current.name}")
+
+# make the first move, to get a starting direction
+exits = current.get_exits()
+direction = random.choice(exits)
+traversal_path.append(direction)
+current = current.get_room_in_direction(direction)
+visited.add(current)
+# print(f"current: {current.name}")
+
+while len(visited) < len(room_graph):
+    direction = current.next_available_direction_to_the_right(direction)
+    traversal_path.append(direction)
+    # print(f"direction: {direction}")
+    current = current.get_room_in_direction(direction)
+    visited.add(current)
+    # print(f"current: {current.name}")
+
+    OKAY: I got through the smaller test maps fine, but on the larger one I'm getting into an infinite loop.
+    I need to create a graph, like they told us to! Study the README again, and write down in comments
+    what the requirements are. Should be easy.
+
+
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
@@ -44,6 +74,7 @@ if len(visited_rooms) == len(room_graph):
     print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+    print(f"{len(visited_rooms)} visited rooms")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
 
@@ -51,12 +82,12 @@ else:
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+# player.current_room.print_room_description(player)
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")
