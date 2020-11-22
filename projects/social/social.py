@@ -23,12 +23,14 @@ class SocialGraph:
         """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
-
+            return True
     def get_friends(self, user_id):
         return self.friendships[user_id]
 
@@ -165,10 +167,38 @@ if __name__ == '__main__':
 
 # average degree of separation --> average steps we took to visit someone
 # average length of the path
-    total_path_lenghths = 0
+    # total_path_lenghths = 0
 
-    for key, value in connections.items():
-        total_path_lenghths += len(value)
+    # for key, value in connections.items():
+    #     total_path_lenghths += len(value)
 
-    average_path_length = total_path_lenghths/len(connections)
-    print(average_path_length)
+    # average_path_length = total_path_lenghths/len(connections)
+    # print(average_path_length)
+
+
+
+    #New populate graph
+
+    def populate_graph2(self, num_users, avg_friendships):
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+
+        # add users
+        for user in range(num_users):
+            self.add_user(user)
+
+        #create friendships
+        #if 1 is a friend of 2, and 2 is a friend of 1, count
+        total_friendships = avg_friendships * num_users
+        friendships_made = 0
+
+        #do this until we have as many as we want
+        while friendships_made < total_friendships:
+            #choose two random user ids
+            first_user = random.randint(1, num_users)
+            second_user = random.randint(1, num_users)
+            #try and make a friendship
+            is_new_friendship = self.add_friendship(first_user, second_user)
+                 if is_new_friendship:
+                    friendships_made += 2

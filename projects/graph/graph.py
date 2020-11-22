@@ -161,7 +161,7 @@ class Graph:
             if final not in visited:
                 if final == destination_vertex:
                     return path
-                    print(final)
+                    # print(final)
                 visited.add(final)
 
             for i in self.get_neighbors(final):
@@ -177,23 +177,41 @@ class Graph:
 
         This should be done using recursion.
         """
+        # visited.add(starting_vertex)
+        # if starting_vertex == destination_vertex:
+        #     return path
 
-        visited.add(starting_vertex)
+        # if len(path) == 0:
+        #     path.append(starting_vertex)
 
+        # neighbors = self.get_neighbors(starting_vertex)
+
+        # for neighbor in neighbors:
+        #     if neighbor not in visited:
+        #         result = self.dfs_recursive(
+        #             neighbor, destination_vertex, path + [neighbor], visited)
+        #         if result is not None:
+        #             return result
+        if len(path) == 0:
+            path.append(starting_vertex)
         if starting_vertex == destination_vertex:
             return path
 
-        if len(path) == 0:
-            path.append(starting_vertex)
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
 
-        neighbors = self.get_neighbors(starting_vertex)
+            neighbors = self.get_neighbors(starting_vertex)
 
-        for neighbor in neighbors:
-            if neighbor not in visited:
+            for neighbor in neighbors:
+                new_path = path + [neighbor]
+
+                # only return if we have found the destination vertex
                 result = self.dfs_recursive(
-                    neighbor, destination_vertex, path + [neighbor], visited)
+                    neighbor, destination_vertex, new_path, visited)
                 if result is not None:
                     return result
+        else:
+            return None
 
 
 if __name__ == '__main__':

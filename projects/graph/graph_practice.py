@@ -81,6 +81,28 @@ class Graph:
                 pathy = new_path + [neighbor]
                 s.push(pathy)
 
+    def dfs_recurse(self, start_vertex, target_vertex, visited=None, path=None):
+        if visited is None:
+            visited = set()
+        if path == None:
+            path = []
+        visited.add(start_vertex)
+
+        path = path + [start_vertex]
+
+        if start_vertex == target_vertex:
+            return path
+
+        for neighbor in self.find_neighbors(start_vertex):
+            if neighbor not in visited:
+                new_path = self.dfs_recurse(
+                    neighbor, target_vertex, visited, path)
+
+                if new_path is not None:
+                    return new_path
+
+        return None
+
 
 graph = Graph()
 graph.add_vertex(1)
@@ -106,7 +128,7 @@ print(graph.vertices)
 # graph.dft(1)
 
 # print(graph.bfs(1, 6))
-print(graph.dfs(1, 6))
+print(graph.dfs_recurse(1, 6))
 
 # graph.dft(1)
 

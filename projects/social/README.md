@@ -60,5 +60,10 @@ total_friendships = 100 * 10
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
 
+Yeah, there are like 6 degrees of separation. Number of friendships are not super random. There are probably clusters. 
+
 2. If you followed the hints for part 1, your `populate_graph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
 
+#choose two random user_ids
+#try to make the friendship
+#do this until we have as many as we want
