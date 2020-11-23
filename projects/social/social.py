@@ -1,5 +1,21 @@
 import random
 from itertools import combinations
+from collections import deque
+
+
+# Note: This Queue class is sub-optimal. Why?
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 
 class User:
     def __init__(self, name):
@@ -70,11 +86,36 @@ class SocialGraph:
 
         # shuffle the list, 
         self.fisher_yates_shuffle(friendship_combos)
-    # then grab the first N elements from the list
+        # then grab the first N elements from the list
         friendships_to_make = friendship_combos[:(total_friendships // 2)]
 
         for friendship in friendships_to_make:
             self.add_friendship(friendship[0], friendship[1])
+        
+    def populate_graph_linear(self, num_users, avg_friendships):
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+        # add users
+        for user in range(num_users):
+            self.add_user(user)
+        # create friendships
+        # if 1 is a friend of 2, and 2 is a friend of 1, 
+        total_friendships = avg_friendships * num_users
+        friendships_made = 0
+        # do this until we have as many as we want
+        while friendships_made < total_friendships:
+        # choose two random user ids
+            first_user = random.randint(1, num_users + 1)
+            second_user = random.randint(1, num_users + 1)
+        # try to make the friendship
+            new_friendship = self.add_friendship(first_user, second_user)
+            if new_friendship:
+                friendships_made += 2
+
+    def get_friends(self, current_friend):
+        return self.friendships[current_friend]
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -84,32 +125,31 @@ class SocialGraph:
         extended network with the shortest friendship path between them.
 
         The key is the friend's ID and the value is the path.
+
+        Choose your fighter: BFT
         """
+        q = Queue()
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
         # create a queue
-        queue = []
-        # add our user_id to the queue
-        queue.append(user_id)
-        # add user_id to dict
-        visited[user_id] = [user_id]
-        # while items in our queue
-        while queue:
-            # pop off the user at the front of the queue
-            current = queue.pop(0)
-            # get user's friends
-            friends = self.friendships[current]
-            # for each friend
-            for friend in friends:
-                # if we haven't added friend to dictionary
-                if friend not in visited:
-                    # add friend to dict with its value being the path
-                    # so far plus this latest node
-                    visited[friend] = visited[current] + [friend]
-                    # add the friend to the queue
-                    queue.append(friend)
-        # return the dict
-        return visited, len(visited)
+        q.enqueue([user_id])
+        while q.size() > 0:
+            # get the next person in line
+            current_path = q.dequeue()
+            current_person = current_path[-1]
+            # check if we've visited them yet
+            if current_person not in visited:
+            ## if not, mark as visited
+                # key: user_id, value: path
+                visited[current_person] = current_path
+                ## get their friends (visited their edges)
+                friends = self.get_friends(current_person)
+            ## enqueue them
+                for friend in friends:
+                    friend_path = list(current_path)
+                    # friend_path = [*current_path]
+                    friend_path.append(friend)
+                    q.enqueue(friend_path)
 
 
 if __name__ == '__main__':
