@@ -104,9 +104,6 @@ class SocialGraph:
             self.friendships[friend_id].add(user_id)
             return True
 
-
-
-
     def populate_graph_linear(self, num_users, avg_friendships):
         # Reset Graph
         self.last_id = 0
@@ -129,8 +126,6 @@ class SocialGraph:
             else:
                 collisions +=1
         print(f"Collisions: {collisions}")
-
-
 
 
 if __name__ == '__main__':

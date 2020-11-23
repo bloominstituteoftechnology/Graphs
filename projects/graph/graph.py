@@ -89,7 +89,6 @@ class Graph:
 
         This should be done using recursion.
         """
-
         if starting_vertex not in visited:
             visited.add(starting_vertex)
             print(starting_vertex)
