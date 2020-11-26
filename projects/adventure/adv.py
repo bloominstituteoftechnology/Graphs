@@ -14,8 +14,8 @@ world = World()
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -40,8 +40,12 @@ while len(visited_graph) < len(room_graph):
     if newdir is not None:
         path_back_home.append(visited_graph.invertDirection(newdir))
     else:
-        # walk back up to home
-        newdir = path_back_home.pop()
+        if len(path_back_home) > 0:
+            # walk back up to home
+            newdir = path_back_home.pop()
+        else:
+            # this needs improvement
+            newdir = random.choice(current.get_exits())
     prev = current
     current = current.get_room_in_direction(newdir)
     visited_graph.add_room(current.id, current.get_exits())
