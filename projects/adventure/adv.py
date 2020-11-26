@@ -36,23 +36,21 @@ current = world.starting_room
 visited_graph.add_room(current.id, current.get_exits())
 
 while len(visited_graph) < len(room_graph):
+    # get new direction
     newdir = visited_graph.get_unexplored_exit_for_room(current.id)
     if newdir is not None:
+        # going out, so record path back
         path_back_home.append(visited_graph.invertDirection(newdir))
     else:
-        if len(path_back_home) > 0:
-            # walk back up to home
-            newdir = path_back_home.pop()
-        else:
-            # this needs improvement
-            newdir = random.choice(current.get_exits())
+        # walk back up
+        newdir = path_back_home.pop()
+    # get the new room and connect with previous
     prev = current
     current = current.get_room_in_direction(newdir)
     visited_graph.add_room(current.id, current.get_exits())
     visited_graph.connect_rooms(prev.id, newdir, current.id)
+    # record what we did
     traversal_path.append(newdir)
-    if current == world.starting_room:
-        path_back_home.clear()
 
 
 # TRAVERSAL TEST
