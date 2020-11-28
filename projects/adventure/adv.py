@@ -5,6 +5,8 @@ from world import World
 import random
 from ast import literal_eval
 
+from collections import deque
+
 # Load world
 world = World()
 
@@ -28,6 +30,59 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+
+graph = {}
+opp = {'n': 's', 'e': 'w', 's': 'n', 'w': 'e'}
+
+current_room = player.current_room.id
+
+exits = player.current_room.get_exits()
+
+graph[current_room] = {e: '?' for e in exits}
+
+while '?' in graph[current_room].values():
+    d = random.choice([k for k,v in graph[current_room].items() if v == '?'])
+
+    prev_room = current_room
+    player.travel(d)
+    traversal_path.append(d)
+    current_room = player.current_room.id
+
+    if current_room not in graph:
+        graph[current_room] = {e: '?' for e in player.current_room.get_exits()}
+
+    graph[prev_room][d] = current_room
+    graph[current_room][opp[d]] = prev_room
+
+    if '?' not in graph[current_room].values():
+        if len(graph) == 500:
+            break
+
+        queue = deque()
+        visited = set()
+
+        queue.append([current_room])
+
+        while len(queue) > 0:
+            curr_path = queue.popleft()
+            curr_room = curr_path[-1]
+
+            if '?' in graph[curr_room].values():
+                break
+            
+            if curr_room not in visited:
+                visited.add(curr_room)
+
+                for e in graph[curr_room]:
+                    new_path  = list(curr_path)
+                    new_path.append(graph[curr_room][e])
+                    queue.append(new_path)
+
+        for i in range(1, len(curr_path)):
+            d = [k for k,v in graph[current_room].items() if v == curr_path[i]][0]
+            player.travel(d)
+            traversal_path.append(d)
+            current_room = player.current_room.id
 
 
 
