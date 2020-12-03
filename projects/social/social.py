@@ -84,70 +84,70 @@ class SocialGraph:
         neighbors = []
         return self.friendships[vertex]
 
-    def bft(self, starting_vertex, looking_for):
-        # Create an empty queue an enqueue the starting vertex
-        path_dict = {}
-        queue = Queue()
-        queue.enqueue(starting_vertex)
-        # Create an empty set to track visitied verticies
-        visited_set = set()
-        first = True
-        neighbor_count = 0
-        path = []
+    # def bft(self, starting_vertex, looking_for):
+    #     # Create an empty queue an enqueue the starting vertex
+    #     path_dict = {}
+    #     queue = Queue()
+    #     queue.enqueue(starting_vertex)
+    #     # Create an empty set to track visitied verticies
+    #     visited_set = set()
+    #     first = True
+    #     neighbor_count = 0
+    #     path = []
 
 
-        # while the queue is not empty
-        while queue.size() > 0:
-            # get the current vertex (deque from queue)
-            current_vertex = queue.dequeue()
-            print(current_vertex)
-            # Check if the current vertex has been visited:
-            if first:
-                first = False
-                path.append(current_vertex)
-                visited_set.add(current_vertex)
-                path_dict[current_vertex] = path
-                for neighbor in self.get_neighbors(current_vertex):
-                    queue.enqueue(neighbor)
-                    print(" -- ")
-                    print(f"Neighbor {neighbor} queue {queue.queue}") 
-                    print(" -- ")
-                    neighbor_count += 1
-                    path.append(neighbor)
-                    path_dict[neighbor] = path
+    #     # while the queue is not empty
+    #     while queue.size() > 0:
+    #         # get the current vertex (deque from queue)
+    #         current_vertex = queue.dequeue()
+    #         print(current_vertex)
+    #         # Check if the current vertex has been visited:
+    #         if first:
+    #             first = False
+    #             path.append(current_vertex)
+    #             visited_set.add(current_vertex)
+    #             path_dict[current_vertex] = path
+    #             for neighbor in self.get_neighbors(current_vertex):
+    #                 queue.enqueue(neighbor)
+    #                 print(" -- ")
+    #                 print(f"Neighbor {neighbor} queue {queue.queue}") 
+    #                 print(" -- ")
+    #                 neighbor_count += 1
+    #                 path.append(neighbor)
+    #                 path_dict[neighbor] = path
 
-            else:
-                if current_vertex not in visited_set:
-                    visited_set.add(current_vertex)
-                    # check to see if it's in the dict
-                    if current_vertex in path_dict:
-                        # check to see if all neighbors are in path dict
-                        for neighbor in self.get_neighbors(current_vertex):
-                            if neighbor in path and visited_set:
-                                print("")
-                                # queue.enqueue(neighbor)
-                                # if neighbor in path_dict:
-                                #     queue.enqueue(neighbor)
+    #         else:
+    #             if current_vertex not in visited_set:
+    #                 visited_set.add(current_vertex)
+    #                 # check to see if it's in the dict
+    #                 if current_vertex in path_dict:
+    #                     # check to see if all neighbors are in path dict
+    #                     for neighbor in self.get_neighbors(current_vertex):
+    #                         if neighbor in path and visited_set:
+    #                             print("")
+    #                             # queue.enqueue(neighbor)
+    #                             # if neighbor in path_dict:
+    #                             #     queue.enqueue(neighbor)
 
-                                # else:
-                                #     path.append(neighbor)
-                                #     path_dict[neighbor] = path
-                                #     queue.enqueue(neighbor)
-                            elif neighbor in path and neighbor not in visited_set:
-                                    queue.enqueue(neighbor)
+    #                             # else:
+    #                             #     path.append(neighbor)
+    #                             #     path_dict[neighbor] = path
+    #                             #     queue.enqueue(neighbor)
+    #                         elif neighbor in path and neighbor not in visited_set:
+    #                                 queue.enqueue(neighbor)
                             
-                            else:
-                                path.append(neighbor)
-                                path_dict[neighbor] = path
-                                queue.enqueue(neighbor)
-                    else:
-                        for neighbor in self.get_neighbors(current_vertex):
-                            if neighbor in path_dict:
-                                print("")
-                            else:
-                                path.append(neighbor)
-                                path_dict[neighbor] = path
-                                queue.enqueue(neighbor)
+    #                         else:
+    #                             path.append(neighbor)
+    #                             path_dict[neighbor] = path
+    #                             queue.enqueue(neighbor)
+    #                 else:
+    #                     for neighbor in self.get_neighbors(current_vertex):
+    #                         if neighbor in path_dict:
+    #                             print("")
+    #                         else:
+    #                             path.append(neighbor)
+    #                             path_dict[neighbor] = path
+    #                             queue.enqueue(neighbor)
 
 
                     # print(current_vertex)
@@ -177,33 +177,23 @@ class SocialGraph:
         # return path
 
     def get_all_social_paths(self, user_id):
-        """
-        Takes a user's user_id as an argument
+        queue = Queue()
+        visited = {}
+        queue.enqueue([user_id])
 
-        Returns a dictionary containing every user in that user's
-        extended network with the shortest friendship path between them.
+        while queue.size() > 0:
+            current_path = queue.dequeue()
 
-        The key is the friend's ID and the value is the path.
-        """
-        need_to_visit = []
-        visited = {
-            # store the user as the key and the path to the user as the value
+            current_vertex = current_path[-1]
 
-        }  # Note that this is a dictionary, not a set
-        # append the user_id and path like (1: [1])
-        # need_to_visit.append(user_id)
-        # # find all connections (friends)
-        # for friend in sg.friendships:
-        #     if user_id in sg.friendships[friend]:
-        #         need_to_visit.append(friend)
-                
-        self.bft(user_id, sg.friendships[user_id])
-        # for friend in need_to_visit:
-        #     path = self.bft(friend)
-            
+            if current_vertex not in visited:
 
-        # bfs to return all the paths to friends
-        print(need_to_visit)
+                visited[current_vertex] = current_path
+
+                for neighbor in self.friendships[current_vertex]:
+                    new_path = current_path.copy()
+                    new_path.append(neighbor)
+                    queue.enqueue(new_path)
 
         return visited
 
