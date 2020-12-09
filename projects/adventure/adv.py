@@ -48,7 +48,7 @@ world = World()
 # map_file = "projects/adventure/maps/test_line.txt"
 # map_file = "projects/adventure/maps/test_cross.txt"
 # map_file = "projects/adventure/maps/test_loop.txt"
-# map_file = "maps/test_loop.txt"
+# map_file = "projects/adventure/maps/test_loop.txt"
 # map_file = "projects/adventure/maps/test_loop_fork.txt"
 map_file = "projects/adventure/maps/main_maze.txt"
 
@@ -67,10 +67,11 @@ stack = Stack()
 queue = Queue()
 queue_two = Queue()
 visited = {}
-bfs_visited = {}
+# bfs_visited = {}
 path_taken = []
 opposite_dir_dict = {'n': 's', 'e': 'w', 'w': 'e', 's': 'n'}
 first = True
+# key_count = len(bfs_visited.keys())
 
 def get_random_course(room):
     # get random direction to start traversing
@@ -194,7 +195,9 @@ def traverse_path(room):
             find_unexplored_room(player.current_room)
 
         else:
-            find_unexplored_room(current_room)
+            ok = find_unexplored_room(current_room)
+            if ok == 'ho':
+                return path_taken
 
             
     return path_taken
@@ -205,18 +208,23 @@ def find_unexplored_room(room):
     queue_two.queue = []
     queue.enqueue([room])
     path = []
-    previous_num = room
-    previous_num_count = 0
+    bfs_visited = {}
+
+    if room.id == 188:
+        print("")
 
 
     if room.id not in bfs_visited:
         bfs_visited[room.id] = []
 
+
     while queue.size() > 0:
+        if len(bfs_visited) == 400:
+            return
+
         path = queue.dequeue()
-        ids = []
-        deqeue = queue_two.dequeue()
         current_location = path[-1]
+        
         # CHECK IF THE CURRENT LOCATION IS ALREADY in our visited list
         if current_location.id not in bfs_visited:
             bfs_visited[current_location.id] = []
@@ -239,21 +247,15 @@ def find_unexplored_room(room):
                 if visited[current_location.id][xit] == '?':
                     bfs_visited[current_location.id].append(room_for_exit.id)
                     deal_with_newly_found_unexplored_after_bfs(path)
+                    return
                     # print(f"PATH: {ids} ---- CURRENT_LOCATION: {current_location.id} ---- EXITS: {exits} ---- BFS_VISITED: {bfs_visited} ------ EXIT :) {xit}")
 
-                    return
-
-
-            previous_num = current_location
-            for exxit in exits:
-                room_for_exit = current_location.get_room_in_direction(exxit)
-                if room_for_exit.id not in bfs_visited[current_location.id]:
-                    new_path = list(path)
-                    new_path.append(room_for_exit)
-                    queue.enqueue(new_path)
-                    queue_two.enqueue(room_for_exit)
-                    previous_num_count += 1
-                    
+                else:
+                    room_for_exit = current_location.get_room_in_direction(xit)
+                    if room_for_exit.id not in bfs_visited: 
+                        new_path = list(path)
+                        new_path.append(room_for_exit)
+                        queue.enqueue(new_path)
 
 
         # IF THE EXIT LENGTH IS ONLY ONE THEN WE need to modify accordingly
@@ -263,13 +265,16 @@ def find_unexplored_room(room):
                 new_path = list(path)
                 new_path.append(room_in_direction)
                 queue.enqueue(new_path)
-                queue_two.enqueue(room_in_direction)
                 bfs_visited[current_location.id].append(room_in_direction.id)
             
 
 
 
         print("\n")
+    ok = []
+    for x in path: 
+        ok.append(x.id)
+    print(f"PATH --- {ok}")
 
     return False
 
