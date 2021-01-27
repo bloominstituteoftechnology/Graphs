@@ -17,7 +17,7 @@ class Graph:
 
     def add_edge(self, v1, v2):
         """
-        Add a directed edge to the graph.
+        Add a directed edges to the graph.
         """
         pass  # TODO
 
