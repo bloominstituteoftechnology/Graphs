@@ -7,9 +7,12 @@ def earliest_ancestor(ancestors, starting_node):
     for parent in ancestors:
         if parent[0] not in lineage:
             lineage.add_vertex(parent[0])
+
         if parent[1] not in lineage:
             lineage.add_vertex(parent[1])
+
         lineage.add_edge(parent[0], parent[1])
+
     paths = lineage.dft_recursive(starting_node)
     # take the largest length of any sub-array within paths if len(paths) > 0
     max_length_path = max([len(path) for path in paths]) if len(paths) > 0 else 0
