@@ -70,7 +70,7 @@ def pre_order(n):
 """
 
 
-def dft_dag_only(n):  # Only works on an acyclic graph
+def dft_dag_only(n):  # Only works on an acyclic xgraph
     # visit Node
     print(n.value)
 
@@ -91,12 +91,12 @@ def dft_beej(n):
         # visit the node
         print(n.value)
 
-    # add to the visited set
-    visited.add(n)
+        # add to the visited set
+        visited.add(n)
 
-    # visit all the neighbors
-    for e in n.edge:
-        inner(e)
+        # visit all the neighbors
+        for e in n.edge:
+            inner(e)
 
     inner(n)
 

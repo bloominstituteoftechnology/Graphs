@@ -38,7 +38,7 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
-        # Reset graph
+        # Reset xgraph
         self.last_id = 0
         self.users = {}
         self.friendships = {}

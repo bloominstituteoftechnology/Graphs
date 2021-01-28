@@ -12,7 +12,7 @@
 ## Projects
 
 ### Day 1
-* [Graph Traversal and Search](projects/graph)
+* [Graph Traversal and Search](projects/xgraph)
 
 ### Day 2
 * [Earliest Ancestor](projects/ancestor)

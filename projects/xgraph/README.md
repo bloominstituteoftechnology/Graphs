@@ -25,7 +25,7 @@ specified entities to the graph. To test your implementation, instantiate an
 empty graph and then try to run the following:
 
 ```python
-graph = Graph()  # Instantiate your graph
+graph = Graph()  # Instantiate your xgraph
 graph.add_vertex('0')
 graph.add_vertex('1')
 graph.add_vertex('2')
