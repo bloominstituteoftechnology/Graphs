@@ -2,12 +2,14 @@ from room import Room
 import random
 import math
 
+
 class World:
     def __init__(self):
         self.starting_room = None
         self.rooms = {}
         self.room_grid = []
         self.grid_size = 0
+
     def load_graph(self, room_graph):
         num_rooms = len(room_graph)
         rooms = [None] * num_rooms
@@ -15,7 +17,8 @@ class World:
         for i in range(0, num_rooms):
             x = room_graph[i][0][0]
             grid_size = max(grid_size, room_graph[i][0][0], room_graph[i][0][1])
-            self.rooms[i] = Room(f"Room {i}", f"({room_graph[i][0][0]},{room_graph[i][0][1]})",i, room_graph[i][0][0], room_graph[i][0][1])
+            self.rooms[i] = Room(f"Room {i}", f"({room_graph[i][0][0]},{room_graph[i][0][1]})", i, room_graph[i][0][0],
+                                 room_graph[i][0][1])
         self.room_grid = []
         grid_size += 1
         self.grid_size = grid_size
@@ -85,5 +88,3 @@ class World:
             str += "#\n"
         print(str)
         print("#####")
-
-

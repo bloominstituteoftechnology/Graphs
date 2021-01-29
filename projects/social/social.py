@@ -1,6 +1,27 @@
+import random
+
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
+
+
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -38,15 +59,28 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
-        # Reset xgraph
+        # Reset graph
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(num_users):
+            # generates "test_user1", "test_user2", "test_user3"
+            self.add_user(f"test_user{i}")
 
-        # Create friendships
+            # Create friendships
+        potential_friendships = []
+        for user_id in self.users:
+            # start with friend after user_id, end with last_id
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                potential_friendships.append((user_id, friend_id))
+
+        random.shuffle(potential_friendships)  # shuffle up friendships!
+
+        for i in range(0, (num_users * avg_friendships) // 2):
+            friendship = potential_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
 
     def get_all_social_paths(self, user_id):
         """
@@ -58,7 +92,26 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        stack = Stack()
+
+        def get_neighbors(node_id):
+            return self.friendships[node_id]
+
+        stack.push(user_id)  # put user_id at top of stack
+
+        while stack.size() > 0:
+            user = stack.pop()  # take top user off of stack
+            if user not in visited:  # if we have not visited node
+                visited[user] = set()  # initialize node in dictionary
+                # assign new key a value of empty set
+
+                # for each neighbor next to user
+                for neighbor in get_neighbors(user):
+                    # add neighbor to the stack
+                    stack.push(neighbor)
+                    # and add said neighbor to the visited dict
+                    visited[user].add(neighbor)
+
         return visited
 
 
