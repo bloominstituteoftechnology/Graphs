@@ -2,6 +2,23 @@ import string
 import random
 
 
+class Queue:
+    def __init__(self):
+        self.storage = []
+
+    def enqueue(self, value):
+        self.storage.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.storage.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.storage)
+
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -50,20 +67,22 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-        names = list(string.ascii_uppercase)
         for i in range(num_users):
-            self.add_user(names[i])
+            self.add_user((f"User {i+1}"))
 
         # Create friendships
-        for user in self.users:
-            potential_friends = list(range(1, num_users + 1))
-            potential_friends.remove(user)
-            random.shuffle(potential_friends)
-            # Need to modify the randomization of length
-            length = random.randint(0, 2)
-            for n in potential_friends[0:length+1]:
-                if user < n:
-                    self.add_friendship(user, n)
+        possible_friendships = []
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+
+        random.shuffle(possible_friendships)
+
+        for i in range(num_users * avg_friendships // 2):
+            friendship = possible_friendships[i]
+            user_id = friendship[0]
+            friend_id = friendship[1]
+            self.add_friendship(user_id, friend_id)
 
     def get_all_social_paths(self, user_id):
         """
@@ -88,45 +107,26 @@ class SocialGraph:
         # append the friend_id to the new_path.
         # enqueue the new path.
         # return the populated visited dict to the caller
-        q = []
-        q.append(user_id)
-        length = len(self.friendships[user_id]) + 1
-        # counter = 1
+        q = Queue()
+        q.enqueue([user_id])
 
-        prevPath = set([user_id])
+        while q.size() > 0:
+            path = q.dequeue()
 
-        # TODO should remove checking the length. it's here to keep the loop short
-        while len(q) > 0 and length > 0:
-            print("----")
-            current = q.pop(0)
-            # print(prevPath)
-            # if current == user_id:
-            #     print(list(self.friendships[current]))
-            #     q.append(list(self.friendships[current]))
-            # else:
-            for i in self.friendships[current]:
-                print(i)
-                print(prevPath)
-                if i in visited:
-                    prevPath = prevPath.union(visited[i])
-                    # print(visited[i])
-                else:
-                    prevPath.add(i)
-                    q.append(i)
+            newuser_id = path[-1]
+            if newuser_id not in visited:
+                visited[newuser_id] = path
 
-            if current not in visited:
-                visited[current] = prevPath
-            # else:
-                # combine paths of the prev nodes
-            # counter = counter + 1
-            length = length - 1
-
+                for friend_id in self.friendships[newuser_id]:
+                    new_path = path.copy()
+                    new_path.append(friend_id)
+                    q.enqueue(new_path)
         return visited
 
 
-# if __name__ == '__main__':
-sg = SocialGraph()
-sg.populate_graph(10, 2)
-print(sg.friendships)
-connections = sg.get_all_social_paths(1)
-print(connections)
+if __name__ == '__main__':
+    sg = SocialGraph()
+    sg.populate_graph(10, 2)
+    print(sg.friendships)
+    connections = sg.get_all_social_paths(1)
+    print(connections)
