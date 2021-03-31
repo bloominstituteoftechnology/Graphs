@@ -9,7 +9,7 @@ In the file `graph.py`, implement a `Graph` class that supports the API in the e
 contains a dictionary mapping vertex labels to edges. For example:
 
 ```python
-{
+graph = {
     '0': {'1', '3'},
     '1': {'0'},
     '2': set(),

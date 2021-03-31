@@ -34,14 +34,20 @@ world.print_rooms()
 ####################################
 player = Player(world.starting_room)
 traversal_path = []
-opposite_directions = {
-    "n": "s",
-    "e": "w",
-    "s": "n",
-    "w": "e"
-}
-traversal_graph = {}
 
+NORTH = "n"
+EAST = "e"
+SOUTH = "s"
+WEST = "w"
+
+opposite_directions = {
+    NORTH: SOUTH,
+    EAST: WEST,
+    SOUTH: NORTH,
+    WEST: EAST,
+}
+
+traversal_graph = {}
 
 # Start by writing an algorithm that
 #  - picks a random, unexplored direction from the players current room,
@@ -52,21 +58,20 @@ traversal_graph = {}
 # When you reach a dead-end, walk back to the nearest room
 # that does contain an unexplored path
 count = 1
+
 current_room = 0
+
 print(room_graph)
+
+
 def dft_explore(last_room=None):
-    # if not last_room:
-    #     last_room = ['n', '?']
     exits = player.current_room.get_exits()
-    # exits = room_graph[current_room].get_exits()
-    # viable = False
     viable_exits = []
+
     for exit in exits:
         if exit == "?":
             # viable = True
             viable_exits.append(exit)
-    print(exits)
-    print(viable_exits)
 
     if not viable_exits:
         print("no unexplored exits")
