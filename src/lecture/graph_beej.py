@@ -70,7 +70,7 @@ def pre_order(n):
 """
 
 
-def dft_dag_only(n):  # Only works on an acyclic xgraph
+def dft_dag_only(n):  # Only works on an acyclic graph
     # visit Node
     print(n.value)
 

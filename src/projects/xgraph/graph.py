@@ -136,7 +136,7 @@ class Graph:
 
 
 if __name__ == '__main__':
-    graph = Graph()  # Instantiate your xgraph
+    graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
     graph.add_vertex(2)
