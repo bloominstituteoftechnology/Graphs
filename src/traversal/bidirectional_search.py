@@ -11,13 +11,59 @@ from collections import deque
 #
 #
 # https://www.cs.princeton.edu/courses/archive/spr06/cos423/Handouts/EPP%20shortest%20path%20algorithms.pdf
+def bidi_search(graph, start, destination):
+    if start == destination:
+        return [start]
+
+    # Get dictionary of currently active vertices with their corresponding paths.
+    active_vert_paths = {
+        start: [start],
+        destination: [destination]
+    }
+
+    inactive_vert = set()
+
+    while len(active_vert_paths) > 0:
+
+        active_verts = list(active_vert_paths.keys())
+
+        for vert in active_verts:
+            current_path = active_vert_paths[vert]
+            origin = current_path[0]
+            current_neighbours = set(graph[vert]) - inactive_vert
+            breakpoint()
+            # Check if our neighbours hit an active vertex
+            hits = current_neighbours.intersection(active_verts)
+
+            if len(hits) > 0:
+                for meeting_vertex in current_neighbours.intersection(active_verts):
+                    # Check the two paths didn't start at same place. If not, then we've got a path from start to goal.
+                    if origin != active_vert_paths[meeting_vertex][0]:
+                        # Reverse one of the paths.
+                        active_vert_paths[meeting_vertex].reverse()
+                        # return the combined results
+                        return active_vert_paths[vert] + active_vert_paths[meeting_vertex]
+
+            # No hits, so check for new neighbours to extend our paths.
+            new_neighbors = set(current_neighbours) - inactive_vert - set(active_verts)
+            if len(new_neighbors) == 0:
+                # If none, then remove the current path and record the endpoint as inactive.
+                active_vert_paths.pop(vert, None)
+                inactive_vert.add(vert)
+            else:
+                # Otherwise extend the paths, remove the previous one and update the inactive vertices.
+                neighbors = current_neighbours - inactive_vert - set(active_verts)
+                for neighbour_vertex in neighbors:
+                    active_vert_paths[neighbour_vertex] = current_path + [neighbour_vertex]
+                    active_verts.append(neighbour_vertex)
+                popped = active_vert_paths.pop(vert, None)
+                inactive_vert.add(vert)
+
+    return None
 
 
 def bidirectional_search(graph, start, destination):
     # print(f"\n\n--------------------\nRUNNING FUNCTION---args: start={start}, dest={destination}")
-
-    if start == destination:
-        return [start]
 
     q1 = deque()
     q2 = deque()
@@ -56,7 +102,7 @@ ITER ---
         f_is_b = step_f == step_b
 
         tie_f = step_f in v2
-        tie_b =  step_b in v1
+        tie_b = step_b in v1
 
         if f_is_b:
             if f_is_last_b and b_is_last_f:
@@ -71,6 +117,7 @@ ITER ---
             q1.clear()
             q2.clear()
             return list(path_forward + path_backward)
+
         if not f_is_last_b and not b_is_last_f:
             if tie_f:
                 path_forward.append(step_f)
@@ -81,8 +128,10 @@ ITER ---
 
             path_forward.append(step_f)
             path_backward.appendleft(step_b)
+
         elif not b_is_last_f:
             return list(path_forward + path_backward)
+
         elif not f_is_last_b:
             return list(path_forward + path_backward)
 

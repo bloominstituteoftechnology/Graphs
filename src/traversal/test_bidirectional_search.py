@@ -1,5 +1,5 @@
 import unittest
-from bidirectional_search import *
+from bidirectional_search import bidi_search as bidirectional_search
 
 
 class TestCaseOne(unittest.TestCase):
