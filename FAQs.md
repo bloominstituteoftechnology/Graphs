@@ -24,4 +24,4 @@ Graphs can be directed or undirected, cyclic or acyclic, weighted or unweighted.
 
 <a name="q103"></a>
 ### What is the time complexity (big-O) to add/remove/get a vertex/edge for a graph?
-It depends on the implementation. ([Graph Representations](https://github.com/LambdaSchool/Graphs/tree/master/objectives/graph-representations)). Before choosing an implementation, it is wise to consider the tradeoffs and complexities of the most commonly used operations.
+It depends on the implementation. ([Graph Representations](https://github.com/BloomInstituteOfTechnology/Graphs/tree/master/objectives/graph-representations)). Before choosing an implementation, it is wise to consider the tradeoffs and complexities of the most commonly used operations.
