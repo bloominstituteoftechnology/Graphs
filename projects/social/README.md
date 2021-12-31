@@ -24,7 +24,16 @@ It will be easier to build your extended social network if you have users to tes
 Note that in the above example, the average number of friendships is exactly 2 but the actual number of friends per user ranges anywhere from 0 to 4.
 
 * Hint 1: To create N random friendships, you could create a list with all possible friendship combinations, shuffle the list, then grab the first N elements from the list. You will need to `import random` to get shuffle.
+
+* import random
+* friendships = list(something)
+* random.shuffle(friendships)
+* N = x
+* new_list = friendships[:N]
+
 * Hint 2: `add_friendship(1, 2)` is the same as `add_friendship(2, 1)`. You should avoid calling one after the other since it will do nothing but print a warning. You can avoid this by only creating friendships where user1 < user2.
+
+* if num_users > avg_friendships
 
 ## 2. Degrees of Separation
 
@@ -42,11 +51,40 @@ Now that you have a graph full of users and friendships, you can crawl through t
 Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social network.
 
 * Hint 1: What kind of graph search guarantees you a shortest path?
+
+* BFS should find the shortest path with dictionaries
+
 * Hint 2: Instead of using a `set` to mark users as visited, you could use a `dictionary`. Similar to sets, checking if something is in a dictionary runs in O(1) time. If the visited user is the key, what would the value be?
+
+def BFS_(sg, start, key):
+    visited = []
+    queue = [[start]]
+    if start == key:
+        print("Found It")
+        return 
+
+    while queue:
+        path = queue.pop(0)
+        node = path[-1]
+
+        if node not in visited:
+            neighbors = graph[node]
+
+            for neighbor in neighbors:
+                new_path = list(path)
+                new_path.append(neighbor)
+                queue.append(new_path)
+
+                if neighbor == goal:
+                    print("The shortest path is ", *new_path)
+                    return
+            visited.append(node)
 
 ## 3. Questions
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
+
+
 
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
