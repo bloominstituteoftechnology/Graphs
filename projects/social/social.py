@@ -1,3 +1,5 @@
+from collections import deque
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -57,8 +59,19 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {}
+        queue = deque()
+        queue.append([user_id])
+
+        while len(queue) > 0:
+            curr_Path = queue.popleft()
+            currNode = curr_Path[-1]
+            visited[currNode] = curr_Path
+            for friend in self.friendships[currNode]:
+                if friend not in visited:
+                    new_path = curr_Path.copy()
+                    new_path.append(friend)
+                    queue.append(new_path)
         return visited
 
 
