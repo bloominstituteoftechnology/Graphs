@@ -9,17 +9,22 @@ class Graph:
     def __init__(self):
         self.vertices = {}
 
-    def add_vertex(self, vertex_id):
+    def add_vertex(self, vertex_id: int):
         """
-        Add a vertex to the graph.
+        Mutates vertices dictionary by adding a new key with an empty value
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
+        Note that assignment adds, it does not replace
         """
-        pass  # TODO
+        self.vertices[v1].add(v2) #, self.vertices[v2].add(v1)
+
+    def add_undirected_edge(self, v1, v2):
+        self.vertices[v1].add(v2), self.vertices[v2].add(v1)
+
 
     def get_neighbors(self, vertex_id):
         """
