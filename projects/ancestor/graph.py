@@ -24,6 +24,9 @@ class Graph:
     def bft(self, starting_vertex):
         q = Queue()
         visited = set()
+        # ancestor problem:
+        # need list of earlier nodes
+        ancestors = []
         # initialize
         q.enqueue(starting_vertex)
 
@@ -31,11 +34,14 @@ class Graph:
             v= q.dequeue()
 
             if v not in visited:
-                print(v)
+                # print(v) # original purpose
+                ancestors.append(v) # ancestor purpose
                 visited.add(v)
 
                 for neighbor in self.get_neighbors(v):
                     q.enqueue(neighbor)
+        # print(ancestors)
+        return ancestors
 
     def dft(self, starting_vertex):
         s = Stack()
@@ -172,7 +178,7 @@ class Graph:
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
-    # https://github.com/BloomInstituteOfTechnology/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
+    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
     graph.add_vertex(2)
     graph.add_vertex(3)
