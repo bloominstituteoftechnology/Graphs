@@ -42,11 +42,27 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
-        # Add users
+        # Let's set up our error messages
+        err_stmt = ['Number of Users must be Greater than Avg Number of friendships']
+        if num_users < avg_friendships:
+            return err_stmt
 
-        # Create friendships
+        # We will need names for our users
+        people = []
+        for i in range(1, num_users+1):
+            people.append(str(i))
+        
+        # Now we can add the users
+        for person in people:
+            self.add_user(person)
+
+        # Now let's add the friendships
+        # Let's get all the possible friendship pairs
+        friend_pairs = [(x, y) for x in range(1, num_users+1) for y in range(1, num_users+1) if x != y]
+
+        # Now we can figure out how many friendships we need
+        pairs_needed = 
 
     def get_all_social_paths(self, user_id):
         """
