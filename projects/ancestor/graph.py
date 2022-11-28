@@ -84,6 +84,11 @@ class Graph:
         for neighbor in self.vertices[starting_vertex]:
             if neighbor not in visited:
                 self.dft_recursive(neighbor, visited)
+            else:
+                # this looks at the starting vertex. 
+                # if it has already been added to the visited list, it ignores it
+                # else it adds to the list in order for the check in the if statement
+                self.dft(starting_vertex)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -170,7 +175,7 @@ class Graph:
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
-    # https://github.com/BloomInstituteOfTechnology/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
+    # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
     graph.add_vertex(2)
     graph.add_vertex(3)
