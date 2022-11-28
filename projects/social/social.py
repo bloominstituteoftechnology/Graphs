@@ -1,3 +1,17 @@
+import random
+
+
+'''
+3. Questions
+
+1. 5000 times, because the friendships are bi-directional, one call of
+add_friendship() gives friends to two people.
+
+2. I wouldn't know exactly- there's probably some math formula to
+figure it out, but from a couple runs, the average number of people
+in the person's extended list was 960, so about 96% I would guess.
+'''
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -42,11 +56,48 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(num_users):
+            self.add_user(i + 1)
 
         # Create friendships
+        num_friends = {} # number of friends each person will have
+        for i in range(1, num_users + 1):
+            # add number of friends equal to num between .5n to 1.5n
+            # where n is average friendships
+            # normally distributed
+            n = round(random.normalvariate(avg_friendships, avg_friendships * 0.5))
+            num_friends[i] = n
+        
+        # friendship creation loop
+        # print(f'User list: {[x for x in self.users]}')
+        for i in range(1, num_users + 1):
+            n = num_friends[i]
+            # get list of everyone
+            other_people = list(range(1, num_users + 1))
+            # remove yourself
+            other_people.remove(i)
+            # remove anyone who's already got enough friends
+            r = []
+            for person in other_people:
+                if num_friends[person] <= 0:
+                    r.append(person)
+            for person in r:
+                other_people.remove(person)
+            # check if other_people is empty
+            if not other_people:
+                num_friends[i] = 0
+                n = 0
+            # add friendships
+            # print(f'Person {i} adding friends from {other_people}')
+            # print(f'Friends left in each: {[num_friends[n] for n in other_people]}')
+            while n > 0:
+                other_person = random.choice(other_people)
+                self.add_friendship(i, other_person)
+                n -= 1
+                num_friends[i] -= 1
+                num_friends[other_person] -= 1
 
     def get_all_social_paths(self, user_id):
         """
@@ -58,9 +109,30 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
 
+        queue = []
+        queue.append(user_id)
+        while len(queue) > 0:
+            cur_user = queue.pop(0)
+            # print(cur_user, queue)
+            # get all connections
+            for friend in self.friendships[cur_user]:
+                # don't add people we're already looking to add
+                # or that we've already added
+                if friend not in queue and friend not in visited:
+                    queue.append(friend)
+            
+            # create links backward
+            # first visited catch
+            if cur_user == user_id:
+                visited[cur_user] = [cur_user]
+            else:
+                # this should only run once
+                for conn in [x for x in self.friendships[cur_user] if x in visited]:
+                    visited[cur_user] = visited[conn][:] # copy connection
+                    visited[cur_user].append(cur_user) # add current node
+
+        return visited
 
 if __name__ == '__main__':
     sg = SocialGraph()
