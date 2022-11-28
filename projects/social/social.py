@@ -1,3 +1,7 @@
+from itertools import permutations
+from collections import deque
+import random
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -42,11 +46,26 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
-
-        # Add users
-
         # Create friendships
+        for x in range(0,num_users):
+            self.add_user(name=x)
+
+        random.seed(0)
+
+        all_possible_combos = list(permutations(self.users, 2))
+        random.shuffle(all_possible_combos)
+
+        counter = 0
+        friend_counter = 0
+
+        while friend_counter < num_users*avg_friendships:
+            pair = all_possible_combos[counter]
+            if pair[1] > pair[0]:
+                pass
+            else:
+                self.add_friendship(pair[0], pair[1])
+                friend_counter += 2
+            counter += 1
 
     def get_all_social_paths(self, user_id):
         """
@@ -58,7 +77,30 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        
+        q = deque()
+
+        q.append([user_id])
+        # While the queue is not empty...
+        while len(q) > 0:
+            # Dequeue the first PATH
+            path = q.pop()
+            # Grab the last vertex from the PATH
+            last_vertex = path[-1]
+            # if the last vertex is not in visited
+            # we need to check its neighbors
+            if last_vertex not in visited:
+                # If the last vertex is the destination, return the path
+                visited[last_vertex] = path
+                # else, we create new paths with each neighbor
+                # of the last vertex and enqueue them to be searched
+                for x in self.friendships[last_vertex]:
+                    q.appendleft(path + [x])
+            elif len(visited[last_vertex]) > len(path):
+                visited[last_vertex] = path
+
+        #visited = {key:set(value) for key,value in visited.items()}
+
         return visited
 
 
