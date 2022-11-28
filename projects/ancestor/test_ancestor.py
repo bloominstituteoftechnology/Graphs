@@ -1,5 +1,7 @@
 import unittest
-from ancestor import earliest_ancestor
+
+from projects.ancestor.ancestor import earliest_ancestor
+
 
 class Test(unittest.TestCase):
 
