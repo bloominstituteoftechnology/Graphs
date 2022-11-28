@@ -9,6 +9,23 @@ from ast import literal_eval
 world = World()
 
 
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
+
+
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
@@ -17,7 +34,7 @@ world = World()
 map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
-room_graph=literal_eval(open(map_file, "r").read())
+room_graph = literal_eval(open(map_file, "r").read())
 world.load_graph(room_graph)
 
 # Print an ASCII map
@@ -30,8 +47,49 @@ player = Player(world.starting_room)
 traversal_path = []
 
 
+def travelers_path(direction):
+    # save our route back to unvisited exits
+    if direction == 'n':
+        return 's'
+    elif direction == 's':
+        return 'n'
+    elif direction == 'e':
+        return 'w'
+    elif direction == 'w':
+        return 'e'
 
-# TRAVERSAL TEST
+
+paths = Stack()
+visited = set()
+# comparing visited to len of rooms to ensure a complete traversal
+while len(visited) < len(world.rooms):
+    exits = player.current_room.get_exits()
+    #print('Room:', player.current_room)
+    #print('exits are', exits)
+    path = []
+    for ext in exits:
+        # if exit exists and we haven't visited
+        if ext is not None and player.current_room.get_room_in_direction(ext) not in visited:
+            path.append(ext)
+            # print(path, '<~ path')
+    visited.add(player.current_room)
+    if len(path) > 0:
+        # pick index of move (1 of up to 4)
+        move = random.randint(0, len(path) - 1)
+        paths.push(path[move])
+        player.travel(path[move])
+        traversal_path.append(path[move])
+        #print('more rooms to explore')
+    else:
+        end = paths.pop()
+        player.travel(travelers_path(end))
+        traversal_path.append(travelers_path(end))
+        #print('this is the end of this path')
+    # if len(traversal_path) < 990:
+    #     travelers_path()
+
+
+# TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
 player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
@@ -41,22 +99,22 @@ for move in traversal_path:
     visited_rooms.add(player.current_room)
 
 if len(visited_rooms) == len(room_graph):
-    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
+    print(
+        f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
-
 
 
 #######
 # UNCOMMENT TO WALK AROUND
 #######
 player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")
