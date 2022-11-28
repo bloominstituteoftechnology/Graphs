@@ -26,9 +26,46 @@ world.print_rooms()
 player = Player(world.starting_room)
 
 # Fill this out with directions to walk
-# traversal_path = ['n', 'n']
-traversal_path = []
+# traversal_path = ['n', 'n', 's', 's', 's', 's', 'n', 'n', 'e', 'e', 'w', 'w', 'w', 'w']
+traversal_path = [] 
 
+#to reverse directions 
+inverse_directions = {"n": "s", "s": "n", "e": "w", "w": "e"}
+
+#PLAN:
+# set up direction for player
+# loop thru all the exits 
+# set up if player has visited the current room to turn around 
+# else if the room hasnt been visited to add the new path 
+# and update the status to the new one using recursion 
+# return the path 
+#fill in the traversal path with the traverse func
+
+def traverse(starting_room, visited=set()):
+    #tracking the new path in a list
+    path = []
+    # looping thru the get_exits to find all exits
+    for direction in player.current_room.get_exits(): #using get exits from room py
+        player.travel(direction)
+        
+        if player.current_room in visited: 
+            #if a player is in a room that is visited, then turn to another direction by using inverse_direct
+            player.travel(inverse_directions[direction]) 
+
+        else: 
+            #if the room has not been visited add the new path
+            visited.add(player.current_room)
+            path.append(direction)
+
+            #recurse to update current status
+            path = path + traverse(player.current_room,visited)
+            player.travel(inverse_directions[direction])
+            path.append(inverse_directions[direction])
+
+    return path
+
+#fills in the list w the traverse func
+traversal_path = traverse(player.current_room)
 
 
 # TRAVERSAL TEST
