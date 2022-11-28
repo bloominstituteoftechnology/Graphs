@@ -1,3 +1,34 @@
+import sys
+sys.path.append("../graph")
+from graph import Graph
+import random 
+
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
 class User:
     def __init__(self, name):
         self.name = name
@@ -43,10 +74,27 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
+        # add users
+        #generate all friend combinations
+        # avoid duplicates by making sure num1 < num2
+        
+        # create friendships 
 
-        # Add users
+        for i in range(0, num_users):
+            self.add_user(f'Fred {i+1}')
+        possible_friends=[]
+        for user_id in self.users:
+            for friend_id in range(user_id +1 , self.last_id +1):
+                 possible_friends.append((user_id, friend_id))
+        # shuffle the list and get N from the list 
 
-        # Create friendships
+        random.shuffle(possible_friends)
+        # create for X pairs (tatal // 2)
+        for i in range(num_users*avg_friendships //2):
+            friendship =possible_friends[i]
+            self.add_friendship(friendship[0], friendship[1])        
+        
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,9 +107,37 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        for friend_id in self.users:
+            connection = self.bfs(user_id, friend_id)
+            if connection:
+                visited[friend_id] = connection
         return visited
+# Note: This Queue class is sub-optimal. Why?
 
 
+    def bfs(self, starting_vertex, destination_vertex):
+        """
+        Return a list containing the shortest path from
+        starting_vertex to destination_vertex in
+        breath-first order.
+        """
+        #create a queue
+        q = Queue()
+        # enqueue the path to starting vertex
+        q.enqueue([starting_vertex])
+        # set for visited
+        visited = set()
+        # as long as not empty dequeue the first path
+        while q.size() > 0:
+            path = q.dequeue()
+            if path[-1] not in visited:
+                visited.add(path[-1])
+                if path[-1] == destination_vertex:
+                    return path
+                for n in self.friendships[path[-1]]:
+                    new_path = list(path)
+                    new_path.append(n)
+                    q.enqueue(new_path)
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
