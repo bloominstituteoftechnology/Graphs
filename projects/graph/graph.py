@@ -13,42 +13,81 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # set up queue
+        q = Queue()
+        traversed = []
+        q.enqueue(starting_vertex)
+        # while the queue still has values in it
+        while q.size() > 0:
+            cur_val = q.dequeue()
+            traversed.append(cur_val)
+            for val in self.vertices[cur_val]:
+                # make sure we've not gone that way
+                if val not in traversed:
+                    q.enqueue(val)
+            print(cur_val)
+
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # set up stack
+        s = Stack()
+        traversed = [starting_vertex]
+        s.push(starting_vertex)
+        # while the stack still has values in it
+        while s.size() > 0:
+            cur_val = s.pop()
+            print(cur_val)
+            for val in self.vertices[cur_val]:
+                # make sure we've not gone that way
+                if val not in traversed:
+                    traversed.append(val)
+                    s.push(val)
 
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
-
         This should be done using recursion.
         """
-        pass  # TODO
+        # recusive function
+        def recurse(graph, traversed, vertex):
+            # endpoints: already been there
+            if vertex in traversed:
+                return
+            # work: print the vertex,
+            #       mark where we've been
+            print(vertex)
+            if vertex not in traversed:
+                traversed.append(vertex)
+            # recurse
+            for val in graph[vertex]:
+                recurse(graph, traversed, val)
+        
+        recurse(self.vertices, [], starting_vertex)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -56,7 +95,29 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # set up queue
+        q = Queue()
+        # reverse lookup table
+        traversed = {1: None}
+        cur_val = None
+        q.enqueue(starting_vertex)
+        # while the queue still has values in it
+        while cur_val != destination_vertex:
+            cur_val = q.dequeue()
+            for val in self.vertices[cur_val]:
+                # make sure we've not gone that way
+                if val not in traversed:
+                    traversed[val] = cur_val
+                    q.enqueue(val)
+        # map our way back
+        returnlist = []
+        while cur_val is not None:
+            returnlist.append(cur_val)
+            cur_val = traversed[cur_val]
+        # reverse the list and return it
+        returnlist.reverse()
+        return returnlist
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -64,17 +125,62 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # set up stack
+        s = Stack()
+        # reverse lookup table
+        traversed = {1: None}
+        cur_val = None
+        s.push(starting_vertex)
+        # while the queue still has values in it
+        while cur_val != destination_vertex:
+            cur_val = s.pop()
+            for val in self.vertices[cur_val]:
+                # make sure we've not gone that way
+                if val not in traversed:
+                    traversed[val] = cur_val
+                    s.push(val)
+        # map our way back
+        returnlist = []
+        while cur_val is not None:
+            returnlist.append(cur_val)
+            cur_val = traversed[cur_val]
+        # reverse the list and return it
+        returnlist.reverse()
+        return returnlist
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
-
         This should be done using recursion.
         """
-        pass  # TODO
+        # recursive function
+        def recurse(graph, traversed, goal, vertex):
+            # endpoints: already been there or goal found
+            if vertex in traversed:
+                # return none to show dead end
+                return None
+            if vertex == goal:
+                # return list to append onto to map way back
+                return [vertex]
+            # work: mark where we've been
+            if vertex not in traversed:
+                traversed.append(vertex)
+            # recurse: return the string if found
+            for val in graph[vertex]:
+                result = recurse(graph, traversed, goal, val)
+                if result is not None:
+                    result.append(vertex)
+                    return result
+            # catch, return nothing if all dead ends
+            return None
+        
+        # get result from recursion and reverse
+        result = recurse(self.vertices, [], destination_vertex, starting_vertex)
+        result.reverse()
+        return result
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
