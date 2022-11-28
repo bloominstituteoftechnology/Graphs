@@ -1,3 +1,6 @@
+import random
+from collections import deque
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -32,7 +35,7 @@ class SocialGraph:
         """
         Takes a number of users and an average number of friendships
         as arguments
-
+lenth += 1
         Creates that number of users and a randomly distributed friendships
         between those users.
 
@@ -45,8 +48,20 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(num_users):
+            self.add_user(f'User: {i + 1}')
 
+        rand_comb = []
+        for i in self.users:
+            for a in range(i +1, self.last_id + 1):
+                rand_comb.append((i, a))
+        random.shuffle(rand_comb)
         # Create friendships
+
+        for i in range(num_users * avg_friendships // 2):
+            friendship = rand_comb[i]
+            self.add_friendship(friendship[0], friendship[1])
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,6 +74,39 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        changin_arr = [user_id]
+        depth = 0
+        while changin_arr != []:
+            new_arr = []
+            for i in changin_arr:
+                if i not in visited:
+                    visited[i] = depth
+                    next_friends = self.friendships[i]
+                    for a in next_friends:
+                        new_arr.append(a)
+            depth += 1
+            changin_arr = new_arr
+
+        
+
+        # q = deque()
+        # q.append([user_id])
+        # curs = q.__len__()
+        # while curs > 0:
+
+        #     end_of_q = q.pop()
+        #     index = end_of_q[-1]
+        #     lenth_of_q = len(end_of_q) - 1
+        #     #print(index)
+        #     if index not in visited:
+        #         visited[index] = lenth_of_q
+        #     for i in self.friendships[user_id]:
+                
+        #         temp_arr = end_of_q.copy()
+        #         temp_arr.append(i)
+        #         q.append(temp_arr)
+        #     curs = q.__len__()
+
         return visited
 
 
