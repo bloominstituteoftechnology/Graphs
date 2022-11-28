@@ -14,7 +14,9 @@ world = World()
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
+import os.path
 map_file = "maps/main_maze.txt"
+map_file = os.path.join(os.path.dirname(__file__), map_file) #reads all words in one execution
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -27,8 +29,67 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = []
+# traversal_path = []
 
+from collections import deque
+
+def find_path(player, world):
+    graph =[]
+    path = []
+    backtrackStack = deque()
+    while len(graph) < len(world.rooms):
+        currRoom = player.current_room
+        if currRoom.id not in graph:
+            add_room_to_graph(currRoom, graph)
+        unexploredDirections = unexplored_directions(currRoom, graph)
+
+        if len(unexploredDirections) > 0:
+            newDirection = random.choice(unexploredDirections)
+            backtrackStack.append(opposite(newDirection))
+            path.append(newDirection)
+            player.travel(newDirection)
+        
+        else:
+            if len(backtrackStack) <= 0:
+                return path
+            backtrackDirection = backtrackStack.pop()
+            path.append(backtrackDirection)
+            player.travel(backtrackDirection)
+
+    return path
+
+def add_room_to_graph(room, graph):
+    if room.id in graph:
+        return
+    exits = {}
+    for exit_direction in room.get_exits():
+        exits[exit_direction] = '?'
+    graph[room.id] = exits
+
+def opposite(direction):
+    if direction == "n":
+        return "s"
+    
+    elif direction == "s":
+        return "n"
+
+    elif direction == "e":
+        return "w"
+
+    elif direction == "w":
+        return "e"
+
+    else:
+        return None
+
+def unexplored_directions(room, graph):
+    unexploredDirections = []
+    for (direction, roomID) in graph[room.id].items():
+        if roomID == '?':
+            unexploredDirections.append(direction)
+        return unexploredDirections
+
+traversal_path = find_path(player, world)
 
 
 # TRAVERSAL TEST
@@ -36,7 +97,7 @@ visited_rooms = set()
 player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
 
-for move in traversal_path:
+for move in traversal_path[:-1]:
     player.travel(move)
     visited_rooms.add(player.current_room)
 
