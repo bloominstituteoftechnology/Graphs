@@ -1,6 +1,7 @@
 """
 Simple graph implementation
 """
+
 from util import Stack, Queue  # These may come in handy
 
 class Graph:
@@ -10,71 +11,123 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
-        """
-        Add a vertex to the graph.
-        """
-        pass  # TODO
+        self.vertices[vertex_id] = []
 
     def add_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph.
-        """
-        pass  # TODO
+        self.vertices[v1].append(v2)
 
     def get_neighbors(self, vertex_id):
-        """
-        Get all neighbors (edges) of a vertex.
-        """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
+        
+    def bft_recursive(self, explored, prospects = set()):
+        # These first two lines are just here to mutate the argument formating
+        # If the method was called like this.. dft_recursive(1)
+        # It would reformat to... dft_recursive(set([1]), set([**insert neighbors of 1 here**]))
+        # The explored arg serves as a set of "seen" verts
+        # The prospects arg serves as a set of neighboring vertices that have the potential to be "explored"
+        if type(explored) != set: 
+            return self.dft_recursive( set([explored]), set(self.get_neighbors(explored)) )
+
+        # Uncomment these if you want a visual representation of the recursion inside the console
+        #print(f'explored:{explored}')
+        #print(f'exploring:{prospects}')
+
+        # This is our base case, if there are no prospects every vert has been explored
+        if prospects != set():
+            # Filter out verts we have already explored
+            last_explored_verts = prospects.difference(explored)
+            # Add unexplored prospects to our explored set 
+            explored = explored.union(prospects)
+            # Clear our prospects set
+            prospects.clear()
+            
+            # For each of our most recently explored verts
+            for vert in last_explored_verts:
+                # Add each of their neighbor verts as prospects
+                for prospect in self.get_neighbors(vert):
+                    prospects.add(prospect)
+            
+            # Recurse until our prospects set is empty
+            return self.dft_recursive(explored, prospects)
+        else: 
+            return explored
+        
     def bft(self, starting_vertex):
-        """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        # Create an empty que and add the starting_vertex 
+        q = []
+        q.append([starting_vertex])
+        # Create an empty set to track visited verticies
+        seen = set()
+        # while the que is not empty: 
+        while len(q):
+            verts = q.pop(0)
+            for vert in verts:
+                if vert not in seen:
+                    seen.add(vert)
+                    q.append(self.get_neighbors(vert))
+        print(seen)
+        
+    def dft_recursive(self, current_vert, seen_verts=set() ):
+            seen_verts.add(current_vert)                                # add current vert to seen verts
+            if seen_verts == self.vertices.keys(): print(seen_verts)    # [BASE CASE!] if seen verts == self.vertices print
+            for vert in self.get_neighbors(current_vert):               # for vert in current vert's neighbors
+                if vert in seen_verts: return                           # if vert has been seen return
+                else: self.dft_recursive(vert, seen_verts)              # else recurse with that vert as new current_vert
 
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        # Create a stack with the starting vert
+        s = []
+        s.append([starting_vertex])
+        # Create an empty set to track visited verticies
+        seen = set()
+        # while the que is not empty: 
+        while len(seen) != len(self.vertices):
+            verts = s.pop()
+            for vert in verts:
+                if vert not in seen:
+                    seen.add(vert)
+                    s.append(self.get_neighbors(vert))
+        print(seen)
 
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
+    def bfs(self, starting_vert, target_vert):
+        #create queue to hold array of paths (array of arrays or verts)
+        q = []
+        it = 0
+        # push the first path into the queue
+        q.append([starting_vert])
+        while q:
+            # get the first path from the queue
+            path = q.pop(0)
+            # get the last_vert from the path
+            last_vert = path[-1]
+            it += 1
+            print(f'\nCurrent Itteration: {it}\nCurrent Queue: {q}\nCurrent Path: {path}')
+            # Last vert of path is target?
+            if last_vert == target_vert: return path
+            # enumerate all adjacent vert, construct a new path and push it into the queue
+            for neighbor in self.get_neighbors(last_vert):
+                new_path = list(path)
+                new_path.append(neighbor)
+                q.append(new_path)
+                print(f'Appending {neighbor}, neighbor of {last_vert} to current path.\nAdding updated path: {new_path} to the back of the queue.')
 
-        This should be done using recursion.
-        """
-        pass  # TODO
+    def dfs(self, starting_vert, target_vert):
+        #create stack to hold array of verts
+        s = [starting_vert]
+        seen = set()
+        while len(seen) != len(self.vertices):
+            if s[-1] in seen: s.pop()                       # top of the stack has been seen? -> pop from stack
+            elif s[-1] == target_vert: return s             # top of the stack is the target? -> return stack
+            else: seen.add(s[-1])                           # else add top of the stack to seen
+            prospect = False                                # we have not discovered a prospect for next generation
+            for neighbor in self.get_neighbors(s[-1]):      # for neighbor of top of the stack
+                if neighbor not in seen:                    # if neighbor has not been seen
+                    prospect = neighbor                     # neighbor is a prospect
+            if (prospect): s.append(prospect)               # if we found a prospect add it to the top of the stack
 
-    def bfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing the shortest path from
-        starting_vertex to destination_vertex in
-        breath-first order.
-        """
-        pass  # TODO
+    #def dfs_recursive(self, stack, target_vert, seen_verts=set() ):
 
-    def dfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
-        pass  # TODO
-
-    def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-
-        This should be done using recursion.
-        """
-        pass  # TODO
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -128,7 +181,7 @@ if __name__ == '__main__':
         1, 2, 4, 6, 3, 5, 7
     '''
     graph.dft(1)
-    graph.dft_recursive(1)
+    print(graph.dft_recursive(1))
 
     '''
     Valid BFS path:
