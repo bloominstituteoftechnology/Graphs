@@ -2,7 +2,6 @@
 
 This is a multi-stage project to implement a basic graph class and traversals.
 
-
 ## Part 1: Graph Class
 
 In the file `graph.py`, implement a `Graph` class that supports the API in the example below. In particular, this means there should be a field `vertices` that
@@ -65,9 +64,6 @@ Write a function within your Graph class that takes takes a starting node and a 
 
 Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs DFS. Your function should return a valid path (not necessarily the shortest) from the start node to the destination node. Note that there are multiple valid paths.
 
-
 ## Part 7: Implement Depth-First Search using Recursion
 
 Write a function within your Graph class that takes takes a starting node and a destination node as an argument, then performs DFS using recursion. Your function should return a valid path (not necessarily the shortest) from the start node to the destination node. Note that there are multiple valid paths.
-
-
