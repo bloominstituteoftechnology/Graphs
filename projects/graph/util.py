@@ -1,5 +1,6 @@
 
 # Note: This Queue class is sub-optimal. Why?
+# pop(0) requires that all other values be shifted over
 class Queue():
     def __init__(self):
         self.queue = []
