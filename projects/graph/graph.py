@@ -13,42 +13,96 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            
+            self.vertices[v1].add(v2)
+        
+        else:
+
+            raise IndexError("non-existent vert(s)")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        to_visit = Queue()
+
+        visited = set()
+
+        to_visit.enqueue(starting_vertex)
+
+        while to_visit.size() > 0:
+
+            v = to_visit.dequeue()
+
+            if v not in visited:
+
+                print(v)
+
+                visited.add(v)
+
+                for n in self.get_neighbors(v):
+
+                    to_visit.enqueue(n)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        to_visit = Stack()
 
-    def dft_recursive(self, starting_vertex):
+        visited = set()
+
+        to_visit.push(starting_vertex)
+
+        while to_visit.size() > 0:
+
+            v = to_visit.pop()
+
+            if v not in visited:
+
+                print(v)
+
+                visited.add(v)
+
+                for n in self.get_neighbors(v):
+
+                    to_visit.push(n)
+
+    def dft_recursive(self, starting_vertex, visited = None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+
+            visited = []
+
+        visited.append(starting_vertex)
+
+        for v in self.vertices[starting_vertex]:
+
+            if v not in visited:
+
+                self.dft_recursive(v, visited)
+
+        return visited
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -102,6 +156,8 @@ if __name__ == '__main__':
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
     print(graph.vertices)
+    
+    # print(f"Neighbours(1): ", graph.get_neighbors(1))
 
     '''
     Valid BFT paths:

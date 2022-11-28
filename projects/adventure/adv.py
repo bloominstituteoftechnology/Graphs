@@ -3,6 +3,7 @@ from player import Player
 from world import World
 
 import random
+from random import choice
 from ast import literal_eval
 
 # Load world
@@ -29,7 +30,133 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+visited = set()
 
+player.current_room = world.starting_room
+
+visited.add(player.current_room.id)
+
+prv = ""
+
+nxt = ""
+
+exits = dict()
+
+nxt = "e"
+
+traversal_path.append(nxt)
+
+while len(visited) < 500:
+
+    player.travel(nxt)
+
+    visited.add(player.current_room.id)
+
+    prv = nxt
+
+    if prv == "e":
+
+        if "s" in player.current_room.get_exits():
+
+            nxt = "s"
+
+        elif "e" in player.current_room.get_exits():
+
+            nxt = "e"
+
+        elif "n" in player.current_room.get_exits():
+
+            nxt = "n"
+
+        else:
+
+            nxt = "w"
+
+    elif prv == "w":
+
+        if "n" in player.current_room.get_exits():
+
+            nxt = "n"
+
+        elif "w" in player.current_room.get_exits():
+
+            nxt = "w"
+
+        elif "s" in player.current_room.get_exits():
+
+            nxt = "s"
+
+        else:
+
+            nxt = "e"
+
+    elif prv == "n":
+
+        if "e" in player.current_room.get_exits():
+
+            nxt = "e"
+
+        elif "n" in player.current_room.get_exits():
+
+            nxt = "n"
+
+        elif "w" in player.current_room.get_exits():
+
+            nxt = "w"
+
+        else: 
+
+            nxt = "s"
+
+    elif prv == "s":
+
+        if "w" in player.current_room.get_exits():
+
+            nxt = "w"
+
+        elif "s" in player.current_room.get_exits():
+
+            nxt = "s"
+
+        elif "e" in player.current_room.get_exits():
+
+            nxt = "e"
+
+        else: 
+
+            nxt = "n"
+
+    if len(player.current_room.get_exits()) == 4:
+
+        curr = player.current_room.id
+
+        if curr not in exits:
+
+            exits[curr] = []
+
+        if nxt not in exits[curr]:
+
+            exits[curr].append(nxt)
+
+        elif len(exits[curr]) < 4:
+
+            nxt = choice([i for i in ["n", "s", "e", "w"] if i not in exits[curr]])
+
+            exits[curr].append(nxt)
+
+        else:
+
+            nxt = exits[curr][len(exits[curr]) % 4]
+
+            exits[curr].append(nxt)
+
+    traversal_path.append(nxt)
+
+    if len(traversal_path) > 2000:
+
+        break
+
+# print("Rooms visited: ", len(visited))
 
 # TRAVERSAL TEST
 visited_rooms = set()
