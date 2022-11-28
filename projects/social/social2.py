@@ -30,12 +30,14 @@ class SocialGraph:
         """
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
-
+            return True
     def add_user(self, name):
         """
         Create a new user with a sequential integer ID
@@ -43,7 +45,20 @@ class SocialGraph:
         self.last_id += 1  # automatically increment the ID to assign the new user
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
-
+        
+        
+    def fisheryates(self, arr):
+        copy_arr = list(arr)
+        #iterate overthe arr
+        for idx in range(len(arr)):
+        #choose a random index
+             rand_index = random.randint(0, len(arr) -1)
+        #swap current index with random index   
+             copy_arr[idx], copy_arr[rand_index] = copy_arr [rand_index], copy_arr[idx]
+        
+        return copy_arr     
+             
+             
     def populate_graph(self, num_users, avg_friendships):
         """
         Takes a number of users and an average number of friendships
@@ -63,21 +78,24 @@ class SocialGraph:
         # Add users
         for i in range(num_users):
             self.add_user(i)
-            
-            
-        # Create friendships
-        # total_friendships = num_users * avg_friendships
-             # Create friendships
-        # create a list with all possible friendships
-        possible_friendships = []
-        for user in range(1, self.last_id + 1):
-            for friend in range(user + 1, self.last_id + 1):
-                possible_friendship = (user, friend)
-                possible_friendships.append(possible_friendship)
-        random.shuffle(possible_friendships)
-        total_friendships = num_users * avg_friendships // 2
-        random_friendships = possible_friendships[:total_friendships]
-        for friendship in random_friendships:
+        
+        all_friend_combos = []
+        for person in range(1, num_users):
+            for friend in range(person +1, num_users+1) :
+                all_friend_combos.append( (person, friend))
+             
+         
+        #Shuffle the List
+        shuffled_combos = self.fisheryates(all_friend_combos)
+        
+        total_friendships = num_users * avg_friendships
+        
+        elements_needed = total_friendships //2
+        
+        combos_to_make = shuffled_combos[:elements_needed]
+        
+        #then loop over the list and call add_friendship
+        for friendship in combos_to_make:
             self.add_friendship(friendship[0], friendship[1])
         
     def get_neighbors(self, user_id):
@@ -105,8 +123,27 @@ class SocialGraph:
             
                if result is not None:
                   return result
-           
+    
+    
+    def linear_populate_graph(self, num_users, avg_friendships):
+        total_friendships_made = 0
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
         
+        for i in range(num_users):
+            self.add_user(i)
+            
+            
+    #pick 2 random user_ids
+        friend_1 = random.randint(1, num_users )
+        friend_2 = random.randint(1, num_users)
+    #try to make them friends
+    ##  track # of friends made        
+        freindship_made = self.add_friendship(friend_1, friend_2)
+        
+        if freindship_made:
+            total_friendships_made +=1
            
     def get_all_social_paths(self, user_id):
         """
@@ -119,47 +156,44 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        q = Queue()
+        q= Queue() 
         
-        q.enqueue(user_id)
-        stack = [[user_id]]
+        q.enqueue([user_id])
         
-        while len(stack)>0:
-            path = stack.pop(0)
-            cur_user = path[-1]
+        while q.size()> 0:
+            current_path = q.dequeue()
             
-            if cur_user not in visited:
-                visited[cur_user]=path
-                
-                for user in self.friendships[cur_user]:
-                    new_path = list(path)
-                    new_path.append(user)
-                    stack.append(new_path)
-                
-        # while q.size()>0:
+            current_user = current_path[-1]
             
-        #     v = q.dequeue()
-        #     neighbors = self.get_neighbors(v)
+            
+            if current_user not in visited:
+                visited[current_user]= current_path
+                
+                friends = self.friendships[current_user]
+                
+                for friend in friends:
+                    path_copy = list(current_path)
+                    path_copy.append(friend)
+                    q.enqueue(path_copy)
+                    
+        return visited            
+        
              
-        #     for n in neighbors:
-                 
-        #         if n not in visited:
-        #            q.enqueue(n) 
-        #            visited[n]= self.search(v,n)
-                   
                    
                 
         
         
          
         
-        return visited
+         
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(1000,2)
     print( sg.friendships)
     connections = sg.get_all_social_paths(1)
     print("C",connections)
+    
+    print(f'Percent of users in extended network {len(connections)/1000 * 100}%')
  

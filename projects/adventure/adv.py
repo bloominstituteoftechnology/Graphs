@@ -1,7 +1,9 @@
 from room import Room
 from player import Player
 from world import World
-
+from util import Stack
+from util import Queue
+from util import Graph
 import random
 from ast import literal_eval
 
@@ -26,16 +28,44 @@ world.print_rooms()
 player = Player(world.starting_room)
 
 # Fill this out with directions to walk
-# traversal_path = ['n', 'n']
-traversal_path = []
+# traversal_path = ['n', 'n','s','s' , 's', 's','n', 'n','w']
+traversal_path = [ ]
 
+backtrack = []
+reversed_directions = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 
+# instantiate a set to keep track of visited rooms
+visited = set()
 
-# TRAVERSAL TEST
+while len(visited)<len(room_graph):
+     
+      next_room = None
+      
+      
+      for ex in player.current_room.get_exits():
+             
+          if  player.current_room.get_room_in_direction(ex) not in visited:
+              next_room = ex
+          break
+      
+      
+      if next_room is not None:
+          traversal_path.append(next_room)
+          backtrack.append(reversed_directions [next_room])
+          print("V" ,visited)
+          player.travel(next_room)
+          visited.add(player.current_room)
+          print(backtrack)
+
+      else:
+           next_room = backtrack.pop() 
+           traversal_path.append(next_room)  
+            
+           player.travel(next_room)    
+ 
 visited_rooms = set()
 player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
-
 for move in traversal_path:
     player.travel(move)
     visited_rooms.add(player.current_room)
