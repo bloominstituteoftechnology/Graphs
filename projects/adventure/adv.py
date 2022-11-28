@@ -14,7 +14,9 @@ world = World()
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
+import os.path
 map_file = "maps/main_maze.txt"
+map_file = os.path.join(os.path.dirname(__file__), map_file)
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -27,10 +29,24 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
+
 traversal_path = []
+visited = set()
+opposite_dir = { 'w': 'e', 'e': 'w', 'n': 's', 's': 'n' }
 
+def dfs(visited, room, traversal_path, direction):
+    if room.name not in visited:
+        if direction:
+            traversal_path.append(direction)
+        visited.add(room.name)
+        for exit in room.get_exits():
+            room_in_dir = room.get_room_in_direction(exit)
+            if room_in_dir.name not in visited:
+                dfs(visited, room_in_dir, traversal_path, exit)
+                traversal_path.append(opposite_dir[exit])
 
-
+dfs(visited, player.current_room, traversal_path, "")
+ 
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
@@ -51,12 +67,12 @@ else:
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+# player.current_room.print_room_description(player)
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")
