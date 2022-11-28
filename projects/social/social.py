@@ -2,7 +2,10 @@ class User:
     def __init__(self, name):
         self.name = name
 
+
 class SocialGraph:
+    # users = verticies
+    # friendships = edges
     def __init__(self):
         self.last_id = 0
         self.users = {}
